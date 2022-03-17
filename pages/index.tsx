@@ -5,7 +5,9 @@ import Header from "../components/Header";
 const Home: NextPage = () => {
   return (
     <>
-      <Head>Synthetix | Governance V3</Head>
+      <Head>
+        <title>Synthetix | Governance V3</title>
+      </Head>
       <Header />
     </>
   );

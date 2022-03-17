@@ -1,0 +1,11 @@
+{
+	"header": {
+		"routes": {
+			"home": "Home",
+			"elections": "Elections",
+			"sips": "Sips",
+			"discuss": "Discuss",
+			"vote": "Vote"
+		}
+	}
+}
