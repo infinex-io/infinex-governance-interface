@@ -23,7 +23,8 @@ const StyledSpotlightButton = styled.button`
 `;
 
 const StyledText = styled.span<{ active: SpotlightButtonProps['active'] }>`
-	font-family: 'GT America Extended Bold';
+	// TODO @MF ask Darda for font family
+	font-family: 'GT America';
 	font-style: normal;
 	font-weight: 400;
 	font-size: 1.16rem;

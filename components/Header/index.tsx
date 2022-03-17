@@ -8,6 +8,7 @@ import SpotlightButton from '../SpotlightButton';
 export default function Header() {
 	// TODO @MF refactor once you got the routes active, fetch information from url
 	const [activeIndex, setActiveIndex] = useState(0);
+
 	const { t } = useTranslation('header.routes');
 
 	const routes = [t('home'), t('elections'), t('sips'), t('discuss'), t('vote')];
