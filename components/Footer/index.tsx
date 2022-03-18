@@ -1,3 +1,6 @@
+import DiscordIcon from '@synthetixio/ui/dist/esm/components/Icons/DiscordIcon';
+import GitHubIcon from '@synthetixio/ui/dist/esm/components/Icons/GitHubIcon';
+import TwitterIcon from '@synthetixio/ui/dist/esm/components/Icons/TwitterIcon';
 import ExternalLink from '@synthetixio/ui/dist/esm/components/ExternalLink';
 import SNXIcon from '@synthetixio/ui/dist/esm/components/Icons/SNXIcon';
 import { theme } from '@synthetixio/ui/dist/esm/styles';
@@ -60,6 +63,9 @@ export default function Footer() {
 					/>
 				);
 			})}
+			<StyledDiscordIcon />
+			<StyledTwitterIcon />
+			<StyledGitHubIcon />
 		</StyledFooter>
 	);
 }
@@ -97,3 +103,7 @@ const StyledLinks = styled(ExternalLink)`
 	text-transform: uppercase;
 	margin-right: ${theme.spacings.margin.medium};
 `;
+
+const StyledDiscordIcon = styled(DiscordIcon)``;
+const StyledTwitterIcon = styled(TwitterIcon)``;
+const StyledGitHubIcon = styled(GitHubIcon)``;
