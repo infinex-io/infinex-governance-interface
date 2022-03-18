@@ -6,6 +6,10 @@
 			"sips": "Sips",
 			"discuss": "Discuss",
 			"vote": "Vote"
-		}
+		},
+		"connect-wallet": "Connect Wallet"
+	},
+	"footer": {
+		"copyright": "Copyright © Synthetix 2022"
 	}
 }

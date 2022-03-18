@@ -1,32 +1,57 @@
 import styled from 'styled-components';
 import { theme } from '@synthetixio/ui/dist/esm/styles/';
-import SNXIcon from '@synthetixio/ui/dist/esm/components/Icons/SynthetixIcon';
+import IconButton from '@synthetixio/ui/dist/esm/components/IconButton';
+import SettingsIcon from '@synthetixio/ui/dist/esm/components/Icons/SettingsIcon';
+import SNXIcon from '@synthetixio/ui/dist/esm/components/Icons/SNXIcon';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import SpotlightButton from '../SpotlightButton';
+import { useRouter } from 'next/router';
+import Button from '@synthetixio/ui/dist/esm/components/Button';
 
 export default function Header() {
-	// TODO @MF refactor once you got the routes active, fetch information from url
-	const [activeIndex, setActiveIndex] = useState(0);
+	const { push, route } = useRouter();
+	const { t } = useTranslation();
 
-	const { t } = useTranslation('header.routes');
+	const routes = [
+		t('header.routes.home'),
+		t('header.routes.elections'),
+		t('header.routes.sips'),
+		t('header.routes.discuss'),
+		t('header.routes.vote'),
+	];
 
-	const routes = [t('home'), t('elections'), t('sips'), t('discuss'), t('vote')];
+	const handleIndexAndRouteChange = (index: number) => {
+		push(index === 0 ? '' : routes[index].toLowerCase());
+	};
 
+	const isActiveRoute = (index: number) => {
+		if (!index) return true;
+		const splitRoute = route.split('/');
+		return routes[index].toLowerCase() === splitRoute[0].toLowerCase();
+	};
 	return (
 		<StyledHeader>
 			<SNXIcon />
 			<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
 			{routes.map((translation, index) => {
+				const isActive = isActiveRoute(index);
 				return (
 					<StyledSpotlightButton
 						text={translation}
-						onClick={() => setActiveIndex(index)}
-						active={activeIndex === index}
+						onClick={() => handleIndexAndRouteChange(index)}
+						active={isActive}
 						key={translation}
 					/>
 				);
 			})}
+			<ButtonContainer>
+				<IconButton icon={<SettingsIcon />} size="tiny" active={true} />
+				<Button
+					text={t('header.connect-wallet')}
+					variant="secondary"
+					secondaryBackgroundColor={theme.colors.backgroundColor}
+				/>
+			</ButtonContainer>
 		</StyledHeader>
 	);
 }
@@ -38,6 +63,7 @@ const StyledHeader = styled.header`
 	padding-left: ${theme.spacings.margin.biggest};
 	display: flex;
 	align-items: center;
+	border-bottom: 1px solid rgba(130, 130, 149, 0.3);
 `;
 
 const StyledHeaderHeadline = styled.h1`
@@ -54,4 +80,14 @@ const StyledHeaderHeadline = styled.h1`
 
 const StyledSpotlightButton = styled(SpotlightButton)`
 	margin-right: ${theme.spacings.margin.medium};
+	:last-of-type {
+		margin-right: auto;
+	}
+`;
+
+const ButtonContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	min-width: 200px;
+	margin-right: ${theme.spacings.margin.superBig};
 `;

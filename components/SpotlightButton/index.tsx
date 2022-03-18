@@ -17,9 +17,12 @@ export default function SpotlightButton({ text, active, onClick, ...rest }: Spot
 }
 
 const StyledSpotlightButton = styled.button`
+	position: relative;
 	height: 32px;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
 `;
 
 const StyledText = styled.span<{ active: SpotlightButtonProps['active'] }>`
@@ -33,6 +36,8 @@ const StyledText = styled.span<{ active: SpotlightButtonProps['active'] }>`
 `;
 
 const StyledSpotlight = styled.div`
+	position: absolute;
+	bottom: 0px;
 	width: 100%;
 	border-radius: 2px;
 	height: 2px;
