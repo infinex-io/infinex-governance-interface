@@ -97,3 +97,21 @@ button {
 		url('../assets/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
 		url('../assets/fonts/GT-America-Extended-Bold.woff') format('woff');
 }
+
+@font-face {
+	font-family: 'Lustra Text';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: local('Lustra Text'), url('../assets/fonts/Lustra Text Regular.woff2') format('woff2'),
+		url('../assets/fonts/Lustra Text Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'GT America';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: local('GT America'), url('../assets/fonts/GT-America-Regular.woff2') format('woff2'),
+		url('../assets/fonts/GT-America-Regular.woff') format('woff');
+}
