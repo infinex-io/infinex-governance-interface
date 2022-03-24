@@ -7,27 +7,35 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"add:ui": "rm -rf .next/ && rm -rf node_modules && yalc add @synthetixio/ui && yarn"
+		"commit": "cz"
 	},
 	"dependencies": {
-		"@synthetixio/contracts-interface": "^2.64.1",
-		"@synthetixio/providers": "^2.64.1",
-		"@synthetixio/ui": "file:.yalc/@synthetixio/ui",
-		"bnc-onboard": "^1.38.2",
-		"ethers": "^5.6.1",
-		"i18next": "^21.6.14",
+		"@metamask/providers": "^8.1.1",
+		"@synthetixio/contracts-interface": "2.64.1",
+		"@synthetixio/providers": "2.64.1",
+		"@synthetixio/transaction-notifier": "^2.63.1",
+		"@synthetixio/ui": "@synthetixio/ui",
+		"bnc-onboard": "1.38.2",
+		"ethers": "5.6.1",
+		"i18next": "21.6.14",
 		"next": "12.1.0",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
-		"react-i18next": "^11.16.1",
-		"styled-components": "^5.3.3"
+		"react-i18next": "11.16.1",
+		"styled-components": "5.3.3"
 	},
 	"devDependencies": {
 		"@types/node": "17.0.21",
 		"@types/react": "17.0.40",
-		"@types/styled-components": "^5.1.24",
+		"@types/styled-components": "5.1.24",
+		"cz-conventional-changelog": "3.3.0",
 		"eslint": "8.11.0",
 		"eslint-config-next": "12.1.0",
 		"typescript": "4.6.2"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
 	}
 }
