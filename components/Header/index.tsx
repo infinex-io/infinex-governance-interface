@@ -8,6 +8,7 @@ import SpotlightButton from '../SpotlightButton';
 import { useRouter } from 'next/router';
 import Button from '@synthetixio/ui/dist/esm/components/Button';
 import { useConnector } from '../../hooks/useConnector';
+import Image from 'next/image';
 
 export default function Header() {
 	const { push, route } = useRouter();
@@ -31,7 +32,8 @@ export default function Header() {
 		const splitRoute = route.split('/');
 		return routes[index].toLowerCase() === splitRoute[0].toLowerCase();
 	};
-	console.log(ensAvatar, ensName, walletAddress);
+	// TODO @MF add ensAvatar
+	console.log(ensAvatar);
 	return (
 		<StyledHeader>
 			<SNXIcon />

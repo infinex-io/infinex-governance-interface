@@ -34,68 +34,8 @@ button {
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: local('Inter'), url('../assets/fonts/Inter-Regular.woff2') format('woff2'),
-		url('../assets/fonts/Inter-Regular.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'Inter Semi Bold';
-	font-style: normal;
-	font-weight: 600;
-	font-display: swap;
-	src: local('Inter Semi Bold'), url('../assets/fonts/Inter-SemiBold.woff2') format('woff2'),
-		url('../assets/fonts/Inter-SemiBold.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'Inter Bold';
-	font-style: normal;
-	font-weight: 700;
-	font-display: swap;
-	src: local('Inter Bold'), url('../assets/fonts/Inter-Bold.woff2') format('woff2'),
-		url('../assets/fonts/Inter-Bold.woff') format('woff');
-}
-
-/* GT America */
-
-@font-face {
-	font-family: 'GT America Mono';
-	font-style: normal;
-	font-display: swap;
-	font-weight: 700;
-	src: local('GT America Mono'), url('../assets/fonts/GT-America-Mono-Bold.woff') format('woff'),
-		url('../assets/fonts/GT-America-Mono-Bold.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'GT America Condensed-Medium';
-	font-style: normal;
-	font-display: swap;
-	font-weight: 500;
-	src: local('GT America Condensed-Medium'),
-		url('../assets/fonts/GT-America-Condensed-Medium.woff2') format('woff2'),
-		url('../assets/fonts/GT-America-Condensed-Medium.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'GT America Condensed-Bold';
-	font-display: swap;
-	font-style: normal;
-	font-weight: 700;
-	font-stretch: condensed;
-	src: local('GT America Condensed-Bold'),
-		url('../assets/fonts/GT-America-Condensed-Bold.woff2') format('woff2'),
-		url('../assets/fonts/GT-America-Condensed-Bold.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'GT America Extended Bold';
-	font-style: normal;
-	font-display: swap;
-	font-weight: 700;
-	src: local('GT America Extended Bold'),
-		url('../assets/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
-		url('../assets/fonts/GT-America-Extended-Bold.woff') format('woff');
+	src: local('Inter'), url('/fonts/Inter-Regular.woff2') format('woff2'),
+		url('/fonts/Inter-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -103,8 +43,8 @@ button {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 400;
-	src: local('Lustra Text'), url('../assets/fonts/Lustra Text Regular.woff2') format('woff2'),
-		url('../assets/fonts/Lustra Text Regular.woff') format('woff');
+	src: local('Lustra Text'), url('/fonts/Lustra Text Regular.woff2') format('woff2'),
+		url('/fonts/Lustra Text Regular.woff') format('woff');
 }
 
 @font-face {
@@ -112,6 +52,6 @@ button {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 400;
-	src: local('GT America'), url('../assets/fonts/GT-America-Regular.woff2') format('woff2'),
-		url('../assets/fonts/GT-America-Regular.woff') format('woff');
+	src: local('GT America'), url('/fonts/GT-America-Regular.woff2') format('woff2'),
+		url('/fonts/GT-America-Regular.woff') format('woff');
 }

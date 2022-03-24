@@ -156,7 +156,7 @@ const initOnboard = (networkId: NetworkId, subscriptions: Subscriptions) => {
 			wallets: [
 				{
 					name: 'Browser Wallet',
-					iconSrc: '/images/browserWallet.svg',
+					iconSrc: '/browserWallet.svg',
 					type: 'injected' as WalletType,
 					link: 'https://metamask.io',
 					wallet: async (helpers) => {
