@@ -8,7 +8,6 @@ import SpotlightButton from '../SpotlightButton';
 import { useRouter } from 'next/router';
 import Button from '@synthetixio/ui/dist/esm/components/Button';
 import { useConnector } from '../../hooks/useConnector';
-import Image from 'next/image';
 
 export default function Header() {
 	const { push, route } = useRouter();
@@ -32,8 +31,6 @@ export default function Header() {
 		const splitRoute = route.split('/');
 		return routes[index].toLowerCase() === splitRoute[0].toLowerCase();
 	};
-	// TODO @MF add ensAvatar
-	console.log(ensAvatar);
 	return (
 		<StyledHeader>
 			<SNXIcon />
@@ -70,7 +67,9 @@ export default function Header() {
 					variant="secondary"
 					secondaryBackgroundColor={theme.colors.backgroundColor}
 					onClick={connectWallet}
-				/>
+				>
+					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
+				</StyledConnectWalletButton>
 			</ButtonContainer>
 		</StyledHeader>
 	);
@@ -112,4 +111,11 @@ const ButtonContainer = styled.div`
 
 const StyledConnectWalletButton = styled(Button)`
 	min-width: 138px;
+`;
+
+const StyledENSAvatar = styled.img`
+	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+	margin-right: ${theme.spacings.margin.tiny};
 `;

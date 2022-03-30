@@ -40,6 +40,6 @@ const StyledSpotlight = styled.div`
 	width: 100%;
 	border-radius: 2px;
 	height: 2px;
-	background-color: ${theme.colors.lightBlue.primary};
+	background-color: ${theme.colors.lightBlue};
 	transition: background-color 200ms ease-in;
 `;

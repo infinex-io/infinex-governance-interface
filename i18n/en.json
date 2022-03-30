@@ -11,5 +11,8 @@
 	},
 	"footer": {
 		"copyright": "Copyright © Synthetix 2022"
+	},
+	"dashboard": {
+		"headline": "Vote for each Council"
 	}
 }

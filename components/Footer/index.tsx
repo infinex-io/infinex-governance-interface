@@ -1,9 +1,11 @@
-import DiscordIcon from '@synthetixio/ui/dist/esm/components/Icons/DiscordIcon';
-import GitHubIcon from '@synthetixio/ui/dist/esm/components/Icons/GitHubIcon';
-import TwitterIcon from '@synthetixio/ui/dist/esm/components/Icons/TwitterIcon';
-import ExternalLink from '@synthetixio/ui/dist/esm/components/ExternalLink';
-import SNXIcon from '@synthetixio/ui/dist/esm/components/Icons/SNXIcon';
-import { theme } from '@synthetixio/ui/dist/esm/styles';
+import {
+	DiscordIcon,
+	GitHubIcon,
+	TwitterIcon,
+	ExternalLink,
+	SNXIcon,
+	theme,
+} from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 

@@ -1,15 +1,19 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { theme } from '@synthetixio/ui/dist/esm/styles';
+import { theme } from '@synthetixio/ui';
+import Dashboard from '../sections/dashboard';
 
 const Home: NextPage = () => {
+	if (typeof document !== 'undefined') {
+		console.log(document);
+	}
 	return (
 		<>
 			<Head>
 				<title>Synthetix | Governance V3</title>
 			</Head>
-			<StyledMain>test</StyledMain>
+			<StyledMain>{typeof document !== 'undefined' && <Dashboard />}</StyledMain>
 		</>
 	);
 };

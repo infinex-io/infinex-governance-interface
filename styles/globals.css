@@ -55,3 +55,12 @@ button {
 	src: local('GT America'), url('/fonts/GT-America-Regular.woff2') format('woff2'),
 		url('/fonts/GT-America-Regular.woff') format('woff');
 }
+
+@font-face {
+	font-family: 'Inter Bold';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 700;
+	src: local('Inter Bold'), url('/fonts/Inter-Bold.woff2') format('woff2'),
+		url('/fonts/Inter-Bold.woff') format('woff');
+}
