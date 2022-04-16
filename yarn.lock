@@ -1591,10 +1591,10 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@@synthetixio/ui":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.3.0.tgz#ac144ee134babdb33180f0c198b58f9d399f39bc"
-  integrity sha512-rqKfnkpfgr2FZeLEy9bJuQLHbPkbs/fJbHc2IBsJSrrdwVrg/mCSABcoyi+bX4S8iKLek0vsIMfM9NPpXQbDFA==
+"@synthetixio/ui@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.9.2.tgz#b83e563285aba6edf55d084ddb5e2cb601ff337f"
+  integrity sha512-Qf7VxAZaIpbAUc9EOpL+1CMFXIfLYTtPblBe1IH1356uMuDtzft3+LmXBUeeN1HAUg/ItopV26wVQ8BGTRDoCQ==
 
 "@toruslabs/eccrypto@^1.1.8":
   version "1.1.8"
