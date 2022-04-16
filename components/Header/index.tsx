@@ -43,12 +43,9 @@ export default function Header() {
 				);
 			})}
 			<ButtonContainer>
-				<IconButton
-					icon={<SettingsIcon />}
-					size="tiny"
-					active={true}
-					onClick={() => console.info('implement me')}
-				/>
+				<IconButton size="tiny" active={true}>
+					<SettingsIcon onClick={() => console.info('implement me')} />
+				</IconButton>
 				<StyledConnectWalletButton
 					text={
 						!walletAddress
