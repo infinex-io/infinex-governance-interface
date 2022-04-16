@@ -6,17 +6,34 @@ import Footer from '../components/Footer';
 
 import '../styles/globals.css';
 import '../i18n';
+import { createQueryContext, ElectionModuleContextProvider } from 'context/ElectionModuleContext';
 
-// Create a client
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+	// @TODO implement setting up the provider and signers
+	const { provider, signer, network, L1DefaultProvider }: any = {};
 	return (
-		<QueryClientProvider client={queryClient} {...pageProps}>
-			<Header />
-			<Component />
-			<Footer />
-		</QueryClientProvider>
+		<ElectionModuleContextProvider
+			value={
+				provider && network?.id
+					? createQueryContext({
+							provider: provider,
+							signer: signer || undefined,
+							networkId: network.id,
+					  })
+					: createQueryContext({
+							networkId: 1,
+							provider: L1DefaultProvider,
+					  })
+			}
+		>
+			<QueryClientProvider client={queryClient}>
+				<Header />
+				<Component {...pageProps} />
+				<Footer />
+			</QueryClientProvider>
+		</ElectionModuleContextProvider>
 	);
 }
 
