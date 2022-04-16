@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '@synthetixio/ui/dist/esm/styles';
+import { theme } from '@synthetixio/ui';
 
 interface SpotlightButtonProps {
 	text: string;

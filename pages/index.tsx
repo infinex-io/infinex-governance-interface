@@ -5,9 +5,6 @@ import { theme } from '@synthetixio/ui';
 import Dashboard from '../sections/dashboard';
 
 const Home: NextPage = () => {
-	if (typeof document !== 'undefined') {
-		console.log(document);
-	}
 	return (
 		<>
 			<Head>

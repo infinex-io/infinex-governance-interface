@@ -1,11 +1,9 @@
-import {
-	DiscordIcon,
-	GitHubIcon,
-	TwitterIcon,
-	ExternalLink,
-	SNXIcon,
-	theme,
-} from '@synthetixio/ui';
+import { DiscordIcon } from '@synthetixio/ui';
+import { GitHubIcon } from '@synthetixio/ui';
+import { TwitterIcon } from '@synthetixio/ui';
+import { ExternalLink } from '@synthetixio/ui';
+import { SNXIcon } from '@synthetixio/ui';
+import { theme } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 

@@ -1591,10 +1591,8 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.5.1.tgz#5384afa2059b46faf342d75296e7119a3199055d"
-  integrity sha512-7qClp9K9GYHMDtUn8ujIua8xML5BYD/hXbcfvRd4RazOeOT87230JgXce7TpEG3Aepl2A6uVqTErc9jRpIq/0A==
+"@synthetixio/ui@file:.yalc/@synthetixio/ui":
+  version "1.0.0"
 
 "@toruslabs/eccrypto@^1.1.8":
   version "1.1.8"

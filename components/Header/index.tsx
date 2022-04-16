@@ -1,12 +1,8 @@
 import styled from 'styled-components';
-import { theme } from '@synthetixio/ui/dist/esm/styles/';
-import IconButton from '@synthetixio/ui/dist/esm/components/IconButton';
-import SettingsIcon from '@synthetixio/ui/dist/esm/components/Icons/SettingsIcon';
-import SNXIcon from '@synthetixio/ui/dist/esm/components/Icons/SNXIcon';
+import { theme, IconButton, SettingsIcon, SNXIcon, Button } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import SpotlightButton from '../SpotlightButton';
 import { useRouter } from 'next/router';
-import Button from '@synthetixio/ui/dist/esm/components/Button';
 import { useConnector } from '../../hooks/useConnector';
 
 export default function Header() {
