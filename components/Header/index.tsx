@@ -3,12 +3,14 @@ import { theme, IconButton, SettingsIcon, SNXIcon, Button } from '@synthetixio/u
 import { useTranslation } from 'react-i18next';
 import SpotlightButton from '../SpotlightButton';
 import { useRouter } from 'next/router';
-import { useConnector } from '../../hooks/useConnector';
+import Connector from 'containers/Connector';
 
 export default function Header() {
 	const { push, route } = useRouter();
 	const { t } = useTranslation();
-	const { connectWallet, ensName, ensAvatar, walletAddress } = useConnector();
+
+	const { connectWallet, disconnectWallet, walletAddress, ensAvatar, ensName } =
+		Connector.useContainer();
 
 	const routes = [
 		t('header.routes.home'),
@@ -59,7 +61,7 @@ export default function Header() {
 					}
 					variant="secondary"
 					secondaryBackgroundColor={theme.colors.backgroundColor}
-					onClick={connectWallet}
+					onClick={walletAddress ? disconnectWallet : connectWallet}
 				>
 					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
 				</StyledConnectWalletButton>
