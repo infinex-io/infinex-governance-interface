@@ -9,17 +9,47 @@ export function createQueryContext({
 	provider,
 	signer,
 }: {
-	networkId: NetworkId | null;
+	networkId: number;
 	provider?: ethers.providers.Provider;
 	signer?: ethers.Signer;
 }): any {
-	const SpartanCouncilModule = new ethers.Contract(
-		ElectionModuleAddress,
-		ElectionModuleABI.abi,
-		signer
-	);
+	let contracts: ethers.Contract[] = [];
 
-	return { contracts: [SpartanCouncilModule] };
+	if (networkId) {
+		const SpartanCouncilModule = new ethers.Contract(
+			ElectionModuleAddress,
+			ElectionModuleABI.abi,
+			signer ?? provider
+		);
+
+		contracts.push(SpartanCouncilModule);
+
+		// const AmbassadorCouncilModule = new ethers.Contract(
+		// 	ElectionModuleAddress,
+		// 	ElectionModuleABI.abi,
+		// signer ?? provider
+		// );
+
+		// contracts.push(AmbassadorCouncilModule);
+
+		// const GrantsCouncilModule = new ethers.Contract(
+		// 	ElectionModuleAddress,
+		// 	ElectionModuleABI.abi,
+		// signer ?? provider
+		// );
+
+		// contracts.push(GrantsCouncilModule);
+
+		// const TreasuryCouncilModule = new ethers.Contract(
+		// 	ElectionModuleAddress,
+		// 	ElectionModuleABI.abi,
+		// signer ?? provider
+		// );
+
+		// contracts.push(TreasuryCouncilModule);
+	}
+
+	return { contracts };
 }
 
 export const ElectionModuleContext = React.createContext<any | null>(null);
