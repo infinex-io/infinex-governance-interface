@@ -16,12 +16,12 @@ import { ethers } from 'ethers';
 
 const queryClient = new QueryClient();
 
-const DEFAULT_NETWORK = 31337;
 const LOCAL_HOST_URL = 'http://127.0.0.1:8545';
+const HARDHAT_LOCALHOST_CHAIN_ID = 31337;
 
 // @TODO: change to main-net ovm when prod
 export const config: Config = {
-	readOnlyChainId: Localhost.chainId,
+	readOnlyChainId: HARDHAT_LOCALHOST_CHAIN_ID,
 	readOnlyUrls: {
 		[Localhost.chainId]: LOCAL_HOST_URL,
 	},
@@ -29,6 +29,7 @@ export const config: Config = {
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { provider, signer, chainId } = Connector.useContainer();
+
 	return (
 		<ElectionModuleContextProvider
 			value={
@@ -39,7 +40,7 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 							networkId: chainId,
 					  })
 					: createQueryContext({
-							networkId: DEFAULT_NETWORK,
+							networkId: HARDHAT_LOCALHOST_CHAIN_ID,
 							provider: new ethers.providers.JsonRpcProvider(LOCAL_HOST_URL),
 					  })
 			}
@@ -54,9 +55,11 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 const App: FC<AppProps> = (props) => {
 	return (
 		<DAppProvider config={config}>
-			<QueryClientProvider client={queryClient}>
-				<InnerApp {...props} />
-			</QueryClientProvider>
+			<Connector.Provider>
+				<QueryClientProvider client={queryClient}>
+					<InnerApp {...props} />
+				</QueryClientProvider>
+			</Connector.Provider>
 		</DAppProvider>
 	);
 };

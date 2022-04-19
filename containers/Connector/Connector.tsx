@@ -11,7 +11,6 @@ const useConnector = () => {
 
 	useEffect(() => {
 		if (library) {
-			console.log(library);
 			setProvider(library);
 			setSigner(library.getSigner());
 		}
