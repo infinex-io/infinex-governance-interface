@@ -43,9 +43,7 @@ export function useConnector() {
 	const setUserAddress = async (address: string) => {
 		setWalletAddress(address);
 		if (address) {
-			const ensName: string | null = await L1DefaultProvider.lookupAddress(
-				'0x01d79bceaeaadfb8fd2f2f53005289cfcf483464'
-			);
+			const ensName: string | null = await L1DefaultProvider.lookupAddress(address);
 			let avatar = ensName ? await L1DefaultProvider.getAvatar(ensName) : null;
 			setEnsName(ensName);
 			setEnsAvatar(avatar);
@@ -142,7 +140,23 @@ export function useConnector() {
 		}
 	};
 
-	return { connectWallet, ensAvatar, ensName, provider, walletAddress };
+	useEffect(() => {
+		setProvider(loadProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }));
+	}, [watchWallet]);
+
+	return {
+		connectWallet,
+		ensAvatar,
+		ensName,
+		provider,
+		walletAddress,
+		L2DefaultProvider,
+		signer,
+		network,
+		synthetixjs,
+		watchWallet,
+		setWatchWallet,
+	};
 }
 
 const initOnboard = (networkId: NetworkId, subscriptions: Subscriptions) => {
