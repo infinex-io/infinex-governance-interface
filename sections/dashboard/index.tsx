@@ -1,13 +1,19 @@
 import { Carousel } from '@synthetixio/ui';
+import useEpochIndexQuery from 'queries/useEpochIndexQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
 
+	const epochIndex = useEpochIndexQuery();
+
 	return (
 		<StyledDashboard>
 			<StyledHeadline>{t('dashboard.headline')}</StyledHeadline>
+
+			<StyledHeadline>Current EPOCH: {epochIndex.data}</StyledHeadline>
+
 			<StyledSubline>
 				{/* TODO @DEV */}
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id

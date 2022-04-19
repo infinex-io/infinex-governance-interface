@@ -1,21 +1,15 @@
-import React from 'react';
-import { ElectionModuleAddress } from 'constants/addresses';
 import { ethers } from 'ethers';
-import { NetworkId } from '@synthetixio/contracts-interface';
-import ElectionModuleABI from 'contracts/ElectionModule.json';
+import { createContainer } from 'unstated-next';
 
-export function createQueryContext({
-	networkId,
-	provider,
-	signer,
-}: {
-	networkId: number;
-	provider?: ethers.providers.Provider;
-	signer?: ethers.Signer;
-}): any {
+import ElectionModuleABI from 'contracts/ElectionModule.json';
+import { ElectionModuleAddress } from 'constants/addresses';
+import Connector from 'containers/Connector';
+
+const useModules = () => {
+	const { chainId, provider, signer } = Connector.useContainer();
 	let contracts: ethers.Contract[] = [];
 
-	if (networkId) {
+	if (chainId && provider) {
 		const SpartanCouncilModule = new ethers.Contract(
 			ElectionModuleAddress,
 			ElectionModuleABI.abi,
@@ -50,7 +44,8 @@ export function createQueryContext({
 	}
 
 	return { contracts };
-}
+};
 
-export const ElectionModuleContext = React.createContext<any | null>(null);
-export const ElectionModuleContextProvider = ElectionModuleContext.Provider;
+const Modules = createContainer(useModules);
+
+export default Modules;

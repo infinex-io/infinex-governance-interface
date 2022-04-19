@@ -9,7 +9,8 @@ export default function Header() {
 	const { push, route } = useRouter();
 	const { t } = useTranslation();
 
-	const { connectWallet, walletAddress, ensAvatar, ensName } = Connector.useContainer();
+	const { connectWallet, disconnectWallet, walletAddress, ensAvatar, ensName } =
+		Connector.useContainer();
 
 	const routes = [
 		t('header.routes.home'),
@@ -60,7 +61,7 @@ export default function Header() {
 					}
 					variant="secondary"
 					secondaryBackgroundColor={theme.colors.backgroundColor}
-					onClick={connectWallet}
+					onClick={walletAddress ? disconnectWallet : connectWallet}
 				>
 					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
 				</StyledConnectWalletButton>

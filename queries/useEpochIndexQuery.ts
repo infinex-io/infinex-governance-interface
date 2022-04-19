@@ -1,12 +1,11 @@
-import { ethers } from 'ethers';
 import { useQuery } from 'react-query';
-import { ElectionModuleAddress } from '../constants/addresses';
-import ElectionModuleABI from 'contracts/ElectionModule.json';
+import Modules from 'containers/Modules/Modules';
 
-function useEpochIndexQuery(provider: ethers.providers.JsonRpcProvider) {
+function useEpochIndexQuery() {
+	const { contracts } = Modules.useContainer();
 	return useQuery<number>('epochIndex', async () => {
 		// @TODO make contract fetching dynamic for different council/addresses
-		const contract = new ethers.Contract(ElectionModuleAddress, ElectionModuleABI.abi, provider);
+		const contract = contracts[0];
 		let epochIndex = Number(await contract.getEpochIndex());
 		return epochIndex;
 	});

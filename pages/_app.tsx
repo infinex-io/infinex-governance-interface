@@ -10,9 +10,8 @@ import Footer from '../components/Footer';
 import '../styles/globals.css';
 import '../i18n';
 
-import { createQueryContext, ElectionModuleContextProvider } from 'context/ElectionModuleContext';
 import Connector from 'containers/Connector';
-import { ethers } from 'ethers';
+import Modules from 'containers/Modules';
 
 const queryClient = new QueryClient();
 
@@ -28,27 +27,12 @@ export const config: Config = {
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
-	const { provider, signer, chainId } = Connector.useContainer();
-
 	return (
-		<ElectionModuleContextProvider
-			value={
-				provider && signer && typeof chainId === 'number'
-					? createQueryContext({
-							provider: provider,
-							signer: signer || undefined,
-							networkId: chainId,
-					  })
-					: createQueryContext({
-							networkId: HARDHAT_LOCALHOST_CHAIN_ID,
-							provider: new ethers.providers.JsonRpcProvider(LOCAL_HOST_URL),
-					  })
-			}
-		>
+		<Modules.Provider>
 			<Header />
 			<Component {...pageProps} />
 			<Footer />
-		</ElectionModuleContextProvider>
+		</Modules.Provider>
 	);
 };
 
