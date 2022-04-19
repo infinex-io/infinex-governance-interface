@@ -1,21 +1,53 @@
 import { Carousel } from '@synthetixio/ui';
-import useEpochIndexQuery from 'queries/useEpochIndexQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+
+import { DeployedModules } from 'containers/Modules/Modules';
+
+import useEpochIndexQuery from 'queries/useEpochIndexQuery';
+import useNextEpochSeatCountQuery from 'queries/useNextEpochSeatCountQuery';
+import useCurrentEpochDatesQuery from 'queries/useCurrentEpochDatesQuery';
+import useNominationPeriodDatesQuery from 'queries/useNominationPeriodDatesQuery';
+import useVotingPeriodDatesQuery from 'queries/useVotingPeriodDatesQuery';
+import useCurrentPeriod from 'queries/useCurrentPeriodQuery';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
 
-	const epochIndex = useEpochIndexQuery();
+	const epochIndexQuery = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
+	const nextEpochSeatCountQuery = useNextEpochSeatCountQuery(DeployedModules.SPARTAN_COUNCIL);
+	const currentEpochDatesQuery = useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const nominationPeriodDatesQuery = useNominationPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const votingPeriodDatesQuery = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const currentPeriodQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 
 	return (
 		<StyledDashboard>
 			<StyledHeadline>{t('dashboard.headline')}</StyledHeadline>
 
-			<StyledHeadline>Current EPOCH: {epochIndex.data}</StyledHeadline>
+			<StyledHeadline>Current EPOCH Index: {epochIndexQuery.data}</StyledHeadline>
+			<StyledSubline>Current EPOCH Period: {currentPeriodQuery.data?.currentPeriod}</StyledSubline>
+			<StyledSubline>
+				Current EPOCH Start Date:{' '}
+				{new Date(currentEpochDatesQuery.data?.epochStartDate ?? 0).toLocaleDateString()}
+			</StyledSubline>
+			<StyledSubline>
+				Current EPOCH End Date:{' '}
+				{new Date(currentEpochDatesQuery.data?.epochEndDate ?? 0).toLocaleDateString()}
+			</StyledSubline>
+			<StyledSubline>
+				Nomination Start Date:{' '}
+				{new Date(
+					nominationPeriodDatesQuery.data?.nominationPeriodStartDate ?? 0
+				).toLocaleDateString()}
+			</StyledSubline>
+			<StyledSubline>
+				Voting Start Date:{' '}
+				{new Date(votingPeriodDatesQuery.data?.votingPeriodStartDate ?? 0).toLocaleDateString()}
+			</StyledSubline>
+			<StyledSubline>Next EPOCH Seat Count: {nextEpochSeatCountQuery.data}</StyledSubline>
 
 			<StyledSubline>
-				{/* TODO @DEV */}
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id
 				morbi viverra.
 			</StyledSubline>
@@ -38,7 +70,9 @@ const StyledHeadline = styled.h1`
 	font-size: 40px;
 `;
 
-const StyledSubline = styled.span``;
+const StyledSubline = styled.p`
+	font-size: 18px;
+`;
 
 const StyledCarouselItem = styled.div`
 	min-width: 600px;

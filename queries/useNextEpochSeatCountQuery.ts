@@ -1,15 +1,21 @@
-import { ethers } from 'ethers';
 import { useQuery } from 'react-query';
-import { ElectionModuleAddress } from '../constants/addresses';
-import ElectionModuleABI from 'contracts/ElectionModule.json';
+import Modules from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 
-function useNextEpochSeatCountQuery(provider: ethers.providers.JsonRpcProvider) {
-	return useQuery<number>('nextEpochSeatCount', async () => {
-		// @TODO make contract fetching dynamic for different council/addresses
-		const contract = new ethers.Contract(ElectionModuleAddress, ElectionModuleABI.abi, provider);
-		let nextEpochSeatCount = Number(await contract.getNextEpochSeatCount());
-		return nextEpochSeatCount;
-	});
+function useNextEpochSeatCountQuery(moduleInstance: DeployedModules) {
+	const { governanceModules } = Modules.useContainer();
+
+	return useQuery<number>(
+		['nextEpochSeatCount', moduleInstance],
+		async () => {
+			const contract = governanceModules[moduleInstance]?.contract;
+			let nextEpochSeatCount = Number(await contract?.getNextEpochSeatCount());
+			return nextEpochSeatCount;
+		},
+		{
+			enabled: governanceModules !== null && moduleInstance !== null,
+		}
+	);
 }
 
 export default useNextEpochSeatCountQuery;
