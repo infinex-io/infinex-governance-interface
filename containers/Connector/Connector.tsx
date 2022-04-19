@@ -8,6 +8,8 @@ const useConnector = () => {
 
 	const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider | null>(null);
 	const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(null);
+	const [ensName, setEnsName] = useState<string | null>(null);
+	const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (library) {
@@ -15,6 +17,18 @@ const useConnector = () => {
 			setSigner(library.getSigner());
 		}
 	}, [library]);
+
+	useEffect(() => {
+		if (account && provider) {
+			const setUserAddress = async (address: string) => {
+				const ensName: string | null = await provider.lookupAddress(address);
+				let avatar = ensName ? await provider.getAvatar(ensName) : null;
+				setEnsName(ensName);
+				setEnsAvatar(avatar);
+			};
+			setUserAddress(account);
+		}
+	}, [account]);
 
 	const connectWallet = async () => {
 		try {
@@ -33,7 +47,9 @@ const useConnector = () => {
 	};
 
 	return {
-		account,
+		walletAddress: account,
+		ensName,
+		ensAvatar,
 		provider,
 		signer,
 		chainId,
