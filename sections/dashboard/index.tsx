@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 import { DeployedModules } from 'containers/Modules/Modules';
 
-import useEpochIndexQuery from 'queries/useEpochIndexQuery';
-import useNextEpochSeatCountQuery from 'queries/useNextEpochSeatCountQuery';
-import useCurrentEpochDatesQuery from 'queries/useCurrentEpochDatesQuery';
-import useNominationPeriodDatesQuery from 'queries/useNominationPeriodDatesQuery';
-import useVotingPeriodDatesQuery from 'queries/useVotingPeriodDatesQuery';
-import useCurrentPeriod from 'queries/useCurrentPeriodQuery';
+import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
+import useNextEpochSeatCountQuery from 'queries/epochs/useNextEpochSeatCountQuery';
+import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
+import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
