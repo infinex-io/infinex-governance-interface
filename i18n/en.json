@@ -13,6 +13,11 @@
 		"copyright": "Copyright © Synthetix 2022"
 	},
 	"dashboard": {
-		"headline": "Vote for each Council"
+		"next-election": "NEXT ELECTION IN",
+		"view-council-members": "VIEW ALL COUNCIL MEMBERS",
+		"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
+		"banner": {
+			"nominate": "NOMINATE YOURSELF"
+		}
 	}
 }

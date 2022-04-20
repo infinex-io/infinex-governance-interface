@@ -6,6 +6,10 @@ import { createContainer } from 'unstated-next';
 const useConnector = () => {
 	const { activateBrowserWallet, account, deactivate, library, chainId } = useEthers();
 
+	const L1DefaultProvider = new ethers.providers.InfuraProvider(
+		'mainnet',
+		process.env.NEXT_INFURA_PROJECT_ID
+	);
 	const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider | null>(null);
 	const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(null);
 	const [ensName, setEnsName] = useState<string | null>(null);
@@ -19,12 +23,20 @@ const useConnector = () => {
 	}, [library]);
 
 	useEffect(() => {
-		if (account && provider) {
+		if (account) {
 			const setUserAddress = async (address: string) => {
-				const ensName: string | null = await provider.lookupAddress(address);
-				let avatar = ensName ? await provider.getAvatar(ensName) : null;
-				setEnsName(ensName);
-				setEnsAvatar(avatar);
+				try {
+					const ensName: string | null =
+						chainId === 1 && provider
+							? await provider.lookupAddress(address)
+							: await L1DefaultProvider.lookupAddress(address);
+					let avatar = ensName ? await L1DefaultProvider.getAvatar(ensName) : null;
+					setEnsName(ensName);
+					setEnsAvatar(avatar);
+				} catch (error) {
+					console.log('No ENS found for address: ', address);
+					console.error(error);
+				}
 			};
 			setUserAddress(account);
 		}
@@ -55,6 +67,7 @@ const useConnector = () => {
 		chainId,
 		connectWallet,
 		disconnectWallet,
+		L1DefaultProvider,
 	};
 };
 

@@ -14,6 +14,7 @@ function useCurrentEpochDatesQuery(moduleInstance: DeployedModules) {
 		['currentEpochDates', moduleInstance],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
+			console.log(contract?.address);
 			let epochStartDate = Number(await contract?.getEpochStartDate()) * 1000;
 			let epochEndDate = Number(await contract?.getEpochEndDate()) * 1000;
 			return { epochStartDate, epochEndDate };
