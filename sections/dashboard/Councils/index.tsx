@@ -1,4 +1,4 @@
-import { Button, Card, Carousel, Tabs } from '@synthetixio/ui';
+import { Button, Card, Carousel, Tabs, theme } from '@synthetixio/ui';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -42,16 +42,16 @@ export default function Councils() {
 				]}
 			/>
 			<Carousel
-				/* startIndex={1} */
+				startIndex={1}
 				widthOfItems={300}
 				carouselItems={[
-					<StyledCarouselCard withBackgroundGradientColor="darkBlue">
+					<StyledCarouselCard withBackgroundColor="darkBlue">
 						Test Test Test Test Test Test
 					</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundGradientColor="darkBlue">Test</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundGradientColor="darkBlue">Test</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundGradientColor="darkBlue">Test</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundGradientColor="darkBlue">Test</StyledCarouselCard>,
+					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
 				]}
 				maxWidth="95vw"
 			/>
@@ -61,6 +61,12 @@ export default function Councils() {
 				variant="primary"
 				size="medium"
 			/>
+			<StyledCardTimeWrapper>
+				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
+				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
+				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
+				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
+			</StyledCardTimeWrapper>
 		</StyledCouncilsWrapper>
 	);
 }
@@ -88,5 +94,10 @@ const StyledTabIcon = styled.span<{ active?: boolean }>`
 
 const StyledCarouselCard = styled(Card)`
 	min-width: 300px;
-	margin: 20px;
+	margin: 40px;
+`;
+
+const StyledCardTimeWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
 `;
