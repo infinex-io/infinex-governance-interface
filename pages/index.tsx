@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { theme } from '@synthetixio/ui';
 import Dashboard from '../sections/dashboard';
 
 const Home: NextPage = () => {
@@ -10,14 +9,16 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Synthetix | Governance V3</title>
 			</Head>
-			<StyledMain>{typeof document !== 'undefined' && <Dashboard />}</StyledMain>
+			<StyledMain>
+				<Dashboard />
+			</StyledMain>
 		</>
 	);
 };
 
 const StyledMain = styled.main`
 	background-image: url('/images/landing-page-background.svg');
-	background-color: ${theme.colors.backgroundColor};
+	background-color: ${({ theme }) => theme.colors.backgroundColor};
 	color: white;
 `;
 

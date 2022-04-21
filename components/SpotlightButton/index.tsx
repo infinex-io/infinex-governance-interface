@@ -23,6 +23,9 @@ const StyledSpotlightButton = styled.button`
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-end;
+	outline: 0;
+	border: 0;
+	background-color: transparent;
 `;
 
 const StyledText = styled.span<{ active: SpotlightButtonProps['active'] }>`

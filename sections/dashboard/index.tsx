@@ -1,4 +1,4 @@
-import { ArrowLinkOffIcon, Button, Carousel, Spotlight, theme } from '@synthetixio/ui';
+import { ArrowLinkOffIcon, Button, Spotlight, theme } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -10,21 +10,22 @@ import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery'
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import Councils from './Councils';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
-	const epochIndexQuery = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
+	/* 	const epochIndexQuery = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
 	const nextEpochSeatCountQuery = useNextEpochSeatCountQuery(DeployedModules.SPARTAN_COUNCIL);
 	const currentEpochDatesQuery = useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
-	const nominationPeriodDatesQuery = useNominationPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const nominationPeriodDatesQuery = useNominationPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL); */
 	const votingPeriodDatesQuery = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
 	const currentPeriodQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+
 	return (
 		<SpotlightSection>
 			{currentPeriodQuery.data?.currentPeriod === '1' && (
 				<StyledBanner>{t('dashboard.banner.nominate')}</StyledBanner>
 			)}
-
 			<StyledDashboard>
 				<StyledSNXStar>
 					<StyledNumber>
@@ -86,8 +87,8 @@ export default function Dashboard() {
 						</StyledRow>
 					</StyledButtonsWrapper>
 				</StyledSNXStar>
-
-				<div>Current EPOCH Index: {epochIndexQuery.data}</div>
+				<Councils />
+				{/* 			<div>Current EPOCH Index: {epochIndexQuery.data}</div>
 				<StyledSubline>
 					Current EPOCH Period: {currentPeriodQuery.data?.currentPeriod}
 				</StyledSubline>
@@ -109,13 +110,7 @@ export default function Dashboard() {
 					Voting Start Date:{' '}
 					{new Date(votingPeriodDatesQuery.data?.votingPeriodStartDate ?? 0).toLocaleDateString()}
 				</StyledSubline>
-				<StyledSubline>Next EPOCH Seat Count: {nextEpochSeatCountQuery.data}</StyledSubline>
-
-				<StyledSubline>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id
-					morbi viverra.
-					<Carousel carouselItems={carouselItems} maxWidth="95vw"></Carousel>
-				</StyledSubline>
+				<StyledSubline>Next EPOCH Seat Count: {nextEpochSeatCountQuery.data}</StyledSubline> */}
 			</StyledDashboard>
 		</SpotlightSection>
 	);
@@ -202,25 +197,4 @@ const StyledButtonSubline = styled.div`
 
 const StyledButton = styled(Button)`
 	max-width: 460px;
-	width: 100%;
 `;
-
-const StyledSubline = styled.p`
-	font-size: 18px;
-`;
-
-const StyledCarouselItem = styled.div`
-	min-width: 600px;
-	height: 500px;
-	display: flex;
-	justify-content: center;
-`;
-
-const carouselItems = [
-	<StyledCarouselItem>1</StyledCarouselItem>,
-	<StyledCarouselItem>2</StyledCarouselItem>,
-	<StyledCarouselItem>3</StyledCarouselItem>,
-	<StyledCarouselItem>4</StyledCarouselItem>,
-	<StyledCarouselItem>5</StyledCarouselItem>,
-	<StyledCarouselItem>6</StyledCarouselItem>,
-];
