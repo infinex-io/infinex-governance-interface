@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import { FC } from 'react';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DAppProvider, Config, Localhost } from '@usedapp/core';
+import { DAppProvider, Config, Localhost, Hardhat, ChainId } from '@usedapp/core';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -16,14 +16,17 @@ import Modules from 'containers/Modules';
 const queryClient = new QueryClient();
 
 const LOCAL_HOST_URL = 'http://127.0.0.1:8545';
-const HARDHAT_LOCALHOST_CHAIN_ID = 31337;
 
 // @TODO: change to main-net ovm when prod
 export const config: Config = {
-	readOnlyChainId: HARDHAT_LOCALHOST_CHAIN_ID,
+	readOnlyChainId: Hardhat.chainId,
 	readOnlyUrls: {
-		[Localhost.chainId]: LOCAL_HOST_URL,
+		[Hardhat.chainId]: LOCAL_HOST_URL,
 	},
+	multicallAddresses: {
+		[Hardhat.chainId]: '0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
+	},
+	supportedChains: [ChainId.Hardhat],
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {

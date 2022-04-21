@@ -1,21 +1,33 @@
-import { ethers } from 'ethers';
-import { useMutation } from 'react-query';
-import { ElectionModuleAddress } from '../constants/addresses';
-import ElectionModuleABI from 'contracts/ElectionModule.json';
+import { useMutation, useQueryClient } from 'react-query';
+import Modules from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 
 type Address = string;
 
-function useCastMutation(signer: ethers.providers.JsonRpcSigner) {
-	return useMutation('cast', async (addresses: Address[]) => {
-		const contract = new ethers.Contract(ElectionModuleAddress, ElectionModuleABI.abi, signer);
-		let tx;
-		try {
-			tx = await contract.cast(addresses);
-		} catch (error) {
-			console.log(error);
+function useCastMutation(moduleInstance: DeployedModules) {
+	const queryClient = useQueryClient();
+	const { governanceModules } = Modules.useContainer();
+
+	return useMutation(
+		'cast',
+		async (addresses: Address[]) => {
+			const contract = governanceModules[moduleInstance]?.contract;
+
+			if (contract) {
+				const gasLimit = await contract.estimateGas.cast(addresses);
+				let tx = await contract.cast(addresses, { gasLimit });
+				const receipt = tx.wait();
+				return receipt;
+			} else {
+				return new Error();
+			}
+		},
+		{
+			onSuccess: async () => {
+				queryClient.refetchQueries();
+			},
 		}
-		return tx;
-	});
+	);
 }
 
 export default useCastMutation;

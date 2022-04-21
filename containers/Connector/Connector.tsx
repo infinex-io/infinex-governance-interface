@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useEthers } from '@usedapp/core';
+import { Hardhat, useEthers } from '@usedapp/core';
 import { ethers } from 'ethers';
 import { createContainer } from 'unstated-next';
 
@@ -21,14 +21,19 @@ const useConnector = () => {
 	useEffect(() => {
 		if (account && provider) {
 			const setUserAddress = async (address: string) => {
-				const ensName: string | null = await provider.lookupAddress(address);
-				let avatar = ensName ? await provider.getAvatar(ensName) : null;
+				let ensAvatar: string | null = '';
+				let ensName: string | null = '';
+				if (chainId !== Hardhat.chainId) {
+					ensName = await provider.lookupAddress(address);
+					ensAvatar = ensName ? await provider.getAvatar(ensName) : null;
+				}
+
 				setEnsName(ensName);
-				setEnsAvatar(avatar);
+				setEnsAvatar(ensAvatar);
 			};
 			setUserAddress(account);
 		}
-	}, [account]);
+	}, [account, provider]);
 
 	const connectWallet = async () => {
 		try {

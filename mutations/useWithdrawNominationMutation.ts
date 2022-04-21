@@ -1,19 +1,31 @@
-import { ethers } from 'ethers';
-import { useMutation } from 'react-query';
-import { ElectionModuleAddress } from '../constants/addresses';
-import ElectionModuleABI from 'contracts/ElectionModule.json';
+import { useMutation, useQueryClient } from 'react-query';
+import Modules from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 
-function useWithdrawNominationMutation(signer: ethers.providers.JsonRpcSigner) {
-	return useMutation('withdrawNomination', async () => {
-		const contract = new ethers.Contract(ElectionModuleAddress, ElectionModuleABI.abi, signer);
-		let tx;
-		try {
-			tx = await contract.withdrawNomination();
-		} catch (error) {
-			console.log(error);
+function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
+	const queryClient = useQueryClient();
+	const { governanceModules } = Modules.useContainer();
+
+	return useMutation(
+		'withdrawNomination',
+		async () => {
+			const contract = governanceModules[moduleInstance]?.contract;
+
+			if (contract) {
+				const gasLimit = await contract.estimateGas.withdrawNomination();
+				let tx = await contract.withdrawNomination({ gasLimit });
+				const receipt = tx.wait();
+				return receipt;
+			} else {
+				return new Error();
+			}
+		},
+		{
+			onSuccess: async () => {
+				queryClient.refetchQueries();
+			},
 		}
-		return tx;
-	});
+	);
 }
 
 export default useWithdrawNominationMutation;

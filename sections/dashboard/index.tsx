@@ -1,4 +1,4 @@
-import { Carousel } from '@synthetixio/ui';
+import { Button, Carousel } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -10,6 +10,10 @@ import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery'
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCallback } from 'react';
+import useNominateMutation from 'mutations/useNominateMutation';
+import useNomineesQuery from 'queries/nomination/useNomineesQuery';
+import useWithdrawNominationMutation from 'mutations/useWithdrawNominationMutation';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
@@ -20,6 +24,20 @@ export default function Dashboard() {
 	const nominationPeriodDatesQuery = useNominationPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
 	const votingPeriodDatesQuery = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
 	const currentPeriodQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+
+	const nominateMutation = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
+	const withdrawNominationMutation = useWithdrawNominationMutation(DeployedModules.SPARTAN_COUNCIL);
+
+	const nomineesQuery = useNomineesQuery(DeployedModules.SPARTAN_COUNCIL);
+
+	// @TODO refactor into a hooks file
+	const handleNomination = useCallback(async () => {
+		nominateMutation.mutate();
+	}, [nominateMutation]);
+
+	const handleWithdrawNomination = useCallback(async () => {
+		withdrawNominationMutation.mutate();
+	}, [withdrawNominationMutation]);
 
 	return (
 		<StyledDashboard>
@@ -47,10 +65,39 @@ export default function Dashboard() {
 			</StyledSubline>
 			<StyledSubline>Next EPOCH Seat Count: {nextEpochSeatCountQuery.data}</StyledSubline>
 
+			<StyledSubline>Nominees: </StyledSubline>
+
+			{nomineesQuery &&
+				nomineesQuery.data &&
+				nomineesQuery.data.map((e) => {
+					return <StyledSubline key={e}>{e}</StyledSubline>;
+				})}
+
+			{/* @TODO RUN npx hardhat run --network localhost scripts/cannon/set-period-nomination.js on hardhat server */}
+			<Button text="nominate self" onClick={handleNomination} />
+
+			<StyledSubline>Nomination Status: </StyledSubline>
+			<StyledSubline>{nominateMutation.isLoading && 'Nominating'}</StyledSubline>
 			<StyledSubline>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id
-				morbi viverra.
+				{nominateMutation.isSuccess && nominateMutation.data.transactionHash}
 			</StyledSubline>
+			<StyledSubline>
+				{nominateMutation.isError && `${nominateMutation.error.message}`}
+			</StyledSubline>
+			{/* <StyledSubline>{`${nominateMutation.context}`}</StyledSubline> */}
+
+			<Button text="withdraw nomination" onClick={handleWithdrawNomination} />
+
+			<StyledSubline>Withdrawal Status: </StyledSubline>
+			<StyledSubline>{withdrawNominationMutation.isLoading && 'Withdrawing'}</StyledSubline>
+			<StyledSubline>
+				{withdrawNominationMutation.isSuccess && withdrawNominationMutation.data.transactionHash}
+			</StyledSubline>
+			<StyledSubline>
+				{withdrawNominationMutation.isError && `${withdrawNominationMutation.error.message}`}
+			</StyledSubline>
+			{/* <StyledSubline>{`${withdrawNominationMutation.context}`}</StyledSubline> */}
+
 			<Carousel carouselItems={carouselItems} maxWidth="100%"></Carousel>
 		</StyledDashboard>
 	);
