@@ -82,7 +82,7 @@ export default function Dashboard() {
 				{nominateMutation.isSuccess && nominateMutation.data.transactionHash}
 			</StyledSubline>
 			<StyledSubline>
-				{nominateMutation.isError && `${nominateMutation.error.message}`}
+				{/* {nominateMutation.isError && `${nominateMutation.error.message}`} */}
 			</StyledSubline>
 			{/* <StyledSubline>{`${nominateMutation.context}`}</StyledSubline> */}
 
@@ -94,11 +94,11 @@ export default function Dashboard() {
 				{withdrawNominationMutation.isSuccess && withdrawNominationMutation.data.transactionHash}
 			</StyledSubline>
 			<StyledSubline>
-				{withdrawNominationMutation.isError && `${withdrawNominationMutation.error.message}`}
+				{/* {withdrawNominationMutation.isError && `${withdrawNominationMutation.error.message}`} */}
 			</StyledSubline>
 			{/* <StyledSubline>{`${withdrawNominationMutation.context}`}</StyledSubline> */}
 
-			<Carousel carouselItems={carouselItems} maxWidth="100%"></Carousel>
+			{/* <Carousel carouselItems={carouselItems} maxWidth="100%"></Carousel> */}
 		</StyledDashboard>
 	);
 }
@@ -128,11 +128,11 @@ const StyledCarouselItem = styled.div`
 	justify-content: center;
 `;
 
-const carouselItems = [
-	<StyledCarouselItem>1</StyledCarouselItem>,
-	<StyledCarouselItem>2</StyledCarouselItem>,
-	<StyledCarouselItem>3</StyledCarouselItem>,
-	<StyledCarouselItem>4</StyledCarouselItem>,
-	<StyledCarouselItem>5</StyledCarouselItem>,
-	<StyledCarouselItem>6</StyledCarouselItem>,
-];
+// const carouselItems = [
+// 	<StyledCarouselItem>1</StyledCarouselItem>,
+// 	<StyledCarouselItem>2</StyledCarouselItem>,
+// 	<StyledCarouselItem>3</StyledCarouselItem>,
+// 	<StyledCarouselItem>4</StyledCarouselItem>,
+// 	<StyledCarouselItem>5</StyledCarouselItem>,
+// 	<StyledCarouselItem>6</StyledCarouselItem>,
+// ];
