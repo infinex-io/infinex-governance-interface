@@ -1,19 +1,19 @@
-import Main from 'components/Main';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Dashboard from '../sections/dashboard';
+import ElectionsSections from 'sections/Elections/index';
+import Main from 'components/Main';
 
-const Home: NextPage = () => {
+const Elections: NextPage = () => {
 	return (
 		<>
 			<Head>
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				<Dashboard />
+				<ElectionsSections />
 			</Main>
 		</>
 	);
 };
 
-export default Home;
+export default Elections;

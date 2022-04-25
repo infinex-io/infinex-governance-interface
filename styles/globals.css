@@ -6,6 +6,7 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
 		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	font-size: 12px;
+	background-color: black;
 }
 
 a {
@@ -21,11 +22,36 @@ li {
 	list-style-type: none;
 }
 
-button {
-	outline: 0;
-	background-color: transparent;
-	border: 0;
-	cursor: pointer;
+.darker-20 {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.darker-40 {
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.darker-60 {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.darker-80 {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.lighter-20 {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.lighter-40 {
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+.lighter-60 {
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+.lighter-80 {
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
 /* Inter */
@@ -35,8 +61,9 @@ button {
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: local('Inter'), url('/fonts/Inter-Regular.woff2') format('woff2'),
-		url('/fonts/Inter-Regular.woff') format('woff');
+	src: local('Inter'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Regular.woff2') format('woff2'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -44,8 +71,9 @@ button {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 400;
-	src: local('Lustra Text'), url('/fonts/Lustra Text Regular.woff2') format('woff2'),
-		url('/fonts/Lustra Text Regular.woff') format('woff');
+	src: local('Lustra Text'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/Lustra-Text-Regular.woff2') format('woff2'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/Lustra-Text-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -53,8 +81,29 @@ button {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 400;
-	src: local('GT America'), url('/fonts/GT-America-Regular.woff2') format('woff2'),
-		url('/fonts/GT-America-Regular.woff') format('woff');
+	src: local('GT America'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Regular.woff2') format('woff2'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'GT America Extended';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 700;
+	src: local('GT America Extended'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Extended-Bold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'GT America Mono';
+	font-style: normal;
+	font-display: swap;
+	font-weight: bold;
+	src: local('GT America Extended'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Mono-Bold.woff2') format('woff2'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Mono-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -62,6 +111,7 @@ button {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 700;
-	src: local('Inter Bold'), url('/fonts/Inter-Bold.woff2') format('woff2'),
-		url('/fonts/Inter-Bold.woff') format('woff');
+	src: local('Inter Bold'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Bold.woff2') format('woff2'),
+		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Bold.woff') format('woff');
 }

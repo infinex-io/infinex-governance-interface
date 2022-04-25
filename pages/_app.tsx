@@ -12,6 +12,8 @@ import '../i18n';
 
 import Connector from 'containers/Connector';
 import Modules from 'containers/Modules';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '@synthetixio/ui';
 
 const queryClient = new QueryClient();
 
@@ -44,7 +46,9 @@ const App: FC<AppProps> = (props) => {
 		<DAppProvider config={config}>
 			<Connector.Provider>
 				<QueryClientProvider client={queryClient}>
-					<InnerApp {...props} />
+					<ThemeProvider theme={theme}>
+						<InnerApp {...props} />
+					</ThemeProvider>
 				</QueryClientProvider>
 			</Connector.Provider>
 		</DAppProvider>

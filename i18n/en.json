@@ -13,6 +13,26 @@
 		"copyright": "Copyright © Synthetix 2022"
 	},
 	"dashboard": {
-		"headline": "Vote for each Council"
+		"next-election": "NEXT ELECTION IN",
+		"view-council-members": "VIEW ALL COUNCIL MEMBERS",
+		"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
+		"elected-members": "Our Current Elected Members",
+		"view-all-members": "View all members",
+		"banner": {
+			"nominate": "NOMINATE YOURSELF"
+		},
+		"council-tabs": {
+			"all": "All Council Members",
+			"spartan": "Spartan Council",
+			"grants": "Grants Council",
+			"ambassador": "Ambassador Council",
+			"treasury": "Treasury Council"
+		}
+	},
+	"elections": {
+		"headline": "Current Elections"
+	},
+	"council-members": {
+		"headline": "{{ council }} Council Nominees"
 	}
 }
