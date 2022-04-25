@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useEthers } from '@usedapp/core';
+import { Hardhat, useEthers } from '@usedapp/core';
 import { ethers } from 'ethers';
 import { createContainer } from 'unstated-next';
 
@@ -40,7 +40,7 @@ const useConnector = () => {
 			};
 			setUserAddress(account);
 		}
-	}, [account]);
+	}, [account, provider]);
 
 	const connectWallet = async () => {
 		try {

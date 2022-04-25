@@ -13,23 +13,15 @@ export default function Dashboard() {
 	const currentPeriodQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 
 	return (
-		<StyledDashboard>
+		<>
 			{currentPeriodQuery.data?.currentPeriod === '1' && (
 				<StyledBanner>{t('dashboard.banner.nominate')}</StyledBanner>
 			)}
 			<Election />
 			<Councils />
-		</StyledDashboard>
+		</>
 	);
 }
-
-const StyledDashboard = styled(Spotlight)`
-	width: 100%;
-	min-width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
 
 const StyledBanner = styled.div`
 	background: ${({ theme }) => theme.colors.gradients.orange};

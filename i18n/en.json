@@ -28,5 +28,11 @@
 			"ambassador": "Ambassador Council",
 			"treasury": "Treasury Council"
 		}
+	},
+	"elections": {
+		"headline": "Current Elections"
+	},
+	"council-members": {
+		"headline": "{{ council }} Council Nominees"
 	}
 }

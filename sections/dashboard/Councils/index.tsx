@@ -1,4 +1,5 @@
 import { Button, Card, Carousel, Tabs, theme } from '@synthetixio/ui';
+import Flex from 'components/Flex';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -15,7 +16,7 @@ export default function Councils() {
 	];
 
 	return (
-		<StyledCouncilsWrapper>
+		<Flex direction="column" alignItems="center">
 			<StyledCouncilHeader>{t('dashboard.elected-members')}</StyledCouncilHeader>
 			<Tabs
 				titles={councilTabs}
@@ -53,7 +54,7 @@ export default function Councils() {
 					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
 					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
 				]}
-				maxWidth="95vw"
+				maxWidth="90vw"
 			/>
 			<Button
 				text={t('dashboard.view-all-members')}
@@ -67,15 +68,9 @@ export default function Councils() {
 				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
 				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
 			</StyledCardTimeWrapper>
-		</StyledCouncilsWrapper>
+		</Flex>
 	);
 }
-
-const StyledCouncilsWrapper = styled.section`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
 
 const StyledCouncilHeader = styled.h1`
 	font-family: 'Inter Bold';

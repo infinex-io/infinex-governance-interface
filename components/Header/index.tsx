@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import { theme, IconButton, SettingsIcon, SNXIcon, Button } from '@synthetixio/ui';
+import { theme, IconButton, SettingsIcon, SNXIcon, Button, SpotlightButton } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
-import SpotlightButton from '../SpotlightButton';
 import { useRouter } from 'next/router';
 import Connector from 'containers/Connector';
+import { useState } from 'react';
 
 export default function Header() {
-	const { push, route } = useRouter();
+	const { push } = useRouter();
 	const { t } = useTranslation();
+	const [activeRoute, setActiveRoute] = useState('home');
 
 	const { connectWallet, disconnectWallet, walletAddress, ensAvatar, ensName } =
 		Connector.useContainer();
@@ -21,25 +22,20 @@ export default function Header() {
 	];
 
 	const handleIndexAndRouteChange = (index: number) => {
-		push(index === 0 ? '' : routes[index].toLowerCase());
+		push(index === 0 ? '/' : routes[index].toLowerCase());
+		setActiveRoute(routes[index].toLowerCase());
 	};
 
-	const isActiveRoute = (index: number) => {
-		if (!index) return true;
-		const splitRoute = route.split('/');
-		return routes[index].toLowerCase() === splitRoute[0].toLowerCase();
-	};
 	return (
 		<StyledHeader>
 			<SNXIcon />
 			<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
 			{routes.map((translation, index) => {
-				const isActive = isActiveRoute(index);
 				return (
 					<StyledSpotlightButton
 						text={translation}
 						onClick={() => handleIndexAndRouteChange(index)}
-						active={isActive}
+						active={activeRoute === translation.toLowerCase()}
 						key={translation}
 					/>
 				);
