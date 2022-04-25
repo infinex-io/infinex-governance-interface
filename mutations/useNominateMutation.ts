@@ -1,21 +1,24 @@
-import { ethers } from 'ethers';
 import { useMutation, useQueryClient } from 'react-query';
-import { ElectionModuleAddress } from '../constants/addresses';
-import ElectionModuleABI from 'contracts/ElectionModule.json';
+import Modules from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 
-function useNominateMutation(signer: ethers.providers.JsonRpcSigner) {
+function useNominateMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
+	const { governanceModules } = Modules.useContainer();
+
 	return useMutation(
 		'nominate',
 		async () => {
-			const contract = new ethers.Contract(ElectionModuleAddress, ElectionModuleABI.abi, signer);
-			let tx;
-			try {
-				tx = await contract.nominate();
-			} catch (error) {
-				console.log(error);
+			const contract = governanceModules[moduleInstance]?.contract;
+
+			if (contract) {
+				const gasLimit = await contract.estimateGas.nominate();
+				let tx = await contract.nominate({ gasLimit });
+				const receipt = tx.wait();
+				return receipt;
+			} else {
+				return new Error();
 			}
-			return tx;
 		},
 		{
 			onSuccess: async () => {
