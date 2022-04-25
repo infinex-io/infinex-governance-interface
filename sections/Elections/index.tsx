@@ -8,43 +8,53 @@ export default function Elections() {
 	return (
 		<Flex direction="column" alignItems="center">
 			<StyledElectionsHeadline>{t('elections.headline')}</StyledElectionsHeadline>
-			<Carousel
-				maxWidth="90vw"
-				widthOfItems={300}
-				carouselItems={[
-					<StyledCarouselCardsWrapper>
+			<Flex justifyContent="center">
+				<StyledCard withBackgroundColor="darkBlue">
+					<StyledCardContentWrapper>
 						<StyledCouncilCircleOuter>
 							<StyledCouncilCircleInner></StyledCouncilCircleInner>
 						</StyledCouncilCircleOuter>
-						<StyledCarouselCards withBackgroundColor="darkBlue">test</StyledCarouselCards>
-					</StyledCarouselCardsWrapper>,
-					<StyledCarouselCardsWrapper>
+						test
+					</StyledCardContentWrapper>
+				</StyledCard>
+
+				<StyledCard withBackgroundColor="darkBlue">
+					<StyledCardContentWrapper>
 						<StyledCouncilCircleOuter>
 							<StyledCouncilCircleInner></StyledCouncilCircleInner>
 						</StyledCouncilCircleOuter>
-						<StyledCarouselCards withBackgroundColor="darkBlue">test</StyledCarouselCards>
-					</StyledCarouselCardsWrapper>,
-					<StyledCarouselCardsWrapper>
+						test
+					</StyledCardContentWrapper>
+				</StyledCard>
+
+				<StyledCard withBackgroundColor="darkBlue">
+					<StyledCardContentWrapper>
 						<StyledCouncilCircleOuter>
 							<StyledCouncilCircleInner></StyledCouncilCircleInner>
 						</StyledCouncilCircleOuter>
-						<StyledCarouselCards withBackgroundColor="darkBlue">test</StyledCarouselCards>
-					</StyledCarouselCardsWrapper>,
-					<StyledCarouselCardsWrapper>
+						test
+					</StyledCardContentWrapper>
+					test
+				</StyledCard>
+
+				<StyledCard withBackgroundColor="darkBlue">
+					<StyledCardContentWrapper>
 						<StyledCouncilCircleOuter>
 							<StyledCouncilCircleInner></StyledCouncilCircleInner>
 						</StyledCouncilCircleOuter>
-						<StyledCarouselCards withBackgroundColor="darkBlue">test</StyledCarouselCards>
-					</StyledCarouselCardsWrapper>,
-					<StyledCarouselCardsWrapper>
+						test
+					</StyledCardContentWrapper>
+				</StyledCard>
+
+				<StyledCard withBackgroundColor="darkBlue">
+					<StyledCardContentWrapper>
 						<StyledCouncilCircleOuter>
 							<StyledCouncilCircleInner></StyledCouncilCircleInner>
 						</StyledCouncilCircleOuter>
-						<StyledCarouselCards withBackgroundColor="darkBlue">test</StyledCarouselCards>
-					</StyledCarouselCardsWrapper>,
-				]}
-				withFade
-			/>
+						test
+					</StyledCardContentWrapper>
+				</StyledCard>
+			</Flex>
 		</Flex>
 	);
 }
@@ -56,27 +66,25 @@ const StyledElectionsHeadline = styled.h1`
 	font-size: 3.33rem;
 `;
 
-const StyledCarouselCardsWrapper = styled.div`
-	min-width: 330px;
-	min-height: 420px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-end;
+const StyledCard = styled(Card)`
+	margin: ${({ theme }) => theme.spacings.margin.medium};
 `;
 
-const StyledCarouselCards = styled(Card)`
-	height: 100%;
-	width: 100%;
+const StyledCardContentWrapper = styled.div`
+	height: 335px;
+	width: 210px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin: ${({ theme }) => theme.spacings.margin.medium};
 `;
 
 const StyledCouncilCircleOuter = styled.div`
 	border-radius: 50%;
-	min-width: 112px;
-	min-height: 112px;
+	max-width: 72px;
+	min-width: 72px;
+	max-height: 72px;
+	min-height: 72px;
 	background: ${({ theme }) => theme.colors.gradients.rainbow};
 	display: flex;
 	justify-content: center;
@@ -84,8 +92,8 @@ const StyledCouncilCircleOuter = styled.div`
 `;
 
 const StyledCouncilCircleInner = styled.div`
-	background-color: ${({ theme }) => theme.colors.darkBlue};
-	width: 99%;
-	height: 99%;
+	background-color: ${({ theme }) => theme.colors.black};
+	width: 70px;
+	height: 70px;
 	border-radius: 50%;
 `;
