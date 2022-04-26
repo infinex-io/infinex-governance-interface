@@ -1,20 +1,18 @@
 import Connector from 'containers/Connector';
-import { ethers } from 'ethers';
-// import useUserNonceQuery from 'queries/boardroom/useUserNonceQuery';
 import { useMutation } from 'react-query';
+import { SiweMessage } from 'siwe';
 
 type SIWEMessage = {
 	message: {
 		domain: string;
 		address: string;
-		chainId: string;
+		chainId: number;
 		uri: string;
 		version: string;
 		statement: string;
-		type: string;
 		nonce: string;
 		issuedAt: string;
-		signature?: string;
+		signature: string;
 	};
 };
 
@@ -24,58 +22,65 @@ type NonceResponse = {
 	};
 };
 
+type UUIDResponse = {
+	data: {
+		ens: string;
+		address: string;
+		uuid: string;
+	};
+};
+
 // @TODO: change to real domain on prod
-const domain = 'localhost:4361';
-const chainId = '1';
-const BOARDROOM_SIGNIN_API_URL =
-	'https://xis287baki.execute-api.us-east-1.amazonaws.com/v1/siwe/signIn';
-const NONCE_API_URL = 'https://xis287baki.execute-api.us-east-1.amazonaws.com/v1/siwe/nonce';
+const isMainnet = false;
+const TEST_NET_URL = `https://xis287baki.execute-api.us-east-1.amazonaws.com`;
+const MAIN_NET_URL = `https://api.boardroom.info`;
+const domain = 'localhost:3000';
+const chainId = 31337;
+const BOARDROOM_SIGNIN_API_URL = `${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/siwe/signIn`;
+const NONCE_API_URL = `${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/siwe/nonce`;
 
 function useSignMessageMutation() {
-	const { signer, walletAddress } = Connector.useContainer();
+	const { signer, walletAddress, provider } = Connector.useContainer();
 	return useMutation('signMessageMutation', async () => {
-		if (signer) {
-			const body = {
-				address: walletAddress,
-			};
-			let response = await fetch(NONCE_API_URL, {
-				method: 'POST',
-				body: JSON.stringify(body),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-			const { data }: NonceResponse = await response.json();
+		if (signer && provider && walletAddress) {
+			try {
+				const body = {
+					address: walletAddress,
+				};
+				let response = await fetch(NONCE_API_URL, {
+					method: 'POST',
+					body: JSON.stringify(body),
+				});
+				const nonceResponse: NonceResponse = await response.json();
 
-			const message = {
-				message: {
+				let signedMessage = new SiweMessage({
 					domain: domain,
 					address: walletAddress,
 					chainId: chainId,
 					uri: `http://${domain}`,
 					version: '1',
 					statement: 'Sign into Boardroom with this wallet',
-					type: 'Personal signature',
-					nonce: data.nonce,
+					nonce: nonceResponse.data.nonce,
 					issuedAt: new Date().toISOString(),
-				},
-			} as SIWEMessage;
+				});
 
-			const signature = await signer.signMessage(JSON.stringify(message));
+				const signature = await provider.getSigner().signMessage(signedMessage.prepareMessage());
 
-			message.message.signature = signature;
+				const message = {
+					message: { ...signedMessage, signature },
+				} as SIWEMessage;
 
-			response = await fetch(BOARDROOM_SIGNIN_API_URL, {
-				method: 'POST',
-				body: JSON.stringify(message),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
+				response = await fetch(BOARDROOM_SIGNIN_API_URL, {
+					method: 'POST',
+					body: JSON.stringify(message),
+				});
 
-			console.log(response);
+				const uuidResponse: UUIDResponse = await response.json();
 
-			return response;
+				return uuidResponse.data;
+			} catch (error) {
+				console.log(error);
+			}
 		} else {
 			return new Error();
 		}
