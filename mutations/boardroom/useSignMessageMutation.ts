@@ -61,13 +61,13 @@ function useSignMessageMutation() {
 				},
 			} as SIWEMessage;
 
-			const signature = await signer.signMessage(JSON.stringify(message.message));
+			const signature = await signer.signMessage(JSON.stringify(message));
 
 			message.message.signature = signature;
 
 			response = await fetch(BOARDROOM_SIGNIN_API_URL, {
 				method: 'POST',
-				body: JSON.stringify(message.message),
+				body: JSON.stringify(message),
 				headers: {
 					'Content-Type': 'application/json',
 				},
