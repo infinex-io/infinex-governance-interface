@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { Button, Spotlight } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -9,22 +11,27 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import Election from './Election';
 
 // @ANDY TESTING SPACE
-import Connector from 'containers/Connector';
-import useUserNonceQuery from 'queries/boardroom/useUserNonceQuery';
-import useSignMessageMutation from 'mutations/boardroom/useSignMessageMutation';
-import { useCallback } from 'react';
+import useSignInMutation from 'mutations/boardroom/useSignInMutation';
+import useSignOutMutation from 'mutations/boardroom/useSignOutMutation';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
 	const currentPeriodQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 
-	// const { walletAddress } = Connector.useContainer();
+	// @ANDY TESTING SPACE
 
-	const signMessageMutation = useSignMessageMutation();
+	const signInMutation = useSignInMutation();
+	const signOutMutation = useSignOutMutation();
 
 	const handleSignIn = useCallback(async () => {
-		signMessageMutation.mutate();
-	}, [signMessageMutation]);
+		signInMutation.mutate();
+	}, [signInMutation]);
+
+	const handleSignOut = useCallback(async () => {
+		signOutMutation.mutate();
+	}, [signOutMutation]);
+
+	///
 
 	return (
 		<>
@@ -34,6 +41,7 @@ export default function Dashboard() {
 			<Election />
 			<Councils />
 			<Button onClick={handleSignIn} text="sign in" />
+			<Button onClick={handleSignOut} text="sign out" />
 		</>
 	);
 }

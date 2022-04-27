@@ -14,6 +14,12 @@ const useConnector = () => {
 	const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(null);
 	const [ensName, setEnsName] = useState<string | null>(null);
 	const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
+	const [uuid, setUuid] = useState<string | null>(null);
+
+	// check if user has a stored uuid and if it is valid
+	useEffect(() => {
+		setUuid(null);
+	}, []);
 
 	useEffect(() => {
 		if (library) {
@@ -60,6 +66,7 @@ const useConnector = () => {
 
 	return {
 		walletAddress: account,
+		uuid,
 		ensName,
 		ensAvatar,
 		provider,
