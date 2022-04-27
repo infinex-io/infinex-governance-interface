@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 import { Button, Spotlight } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -11,8 +9,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import Election from './Election';
 
 // @ANDY TESTING SPACE
-import useSignInMutation from 'mutations/boardroom/useSignInMutation';
-import useSignOutMutation from 'mutations/boardroom/useSignOutMutation';
+import Connector from 'containers/Connector';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
@@ -20,16 +17,7 @@ export default function Dashboard() {
 
 	// @ANDY TESTING SPACE
 
-	const signInMutation = useSignInMutation();
-	const signOutMutation = useSignOutMutation();
-
-	const handleSignIn = useCallback(async () => {
-		signInMutation.mutate();
-	}, [signInMutation]);
-
-	const handleSignOut = useCallback(async () => {
-		signOutMutation.mutate();
-	}, [signOutMutation]);
+	const { boardroomSignIn, boardroomSignOut, uuid } = Connector.useContainer();
 
 	///
 
@@ -40,8 +28,13 @@ export default function Dashboard() {
 			)}
 			<Election />
 			<Councils />
-			<Button onClick={handleSignIn} text="sign in" />
-			<Button onClick={handleSignOut} text="sign out" />
+
+			<StyledParagraph>--------</StyledParagraph>
+			<StyledParagraph>{uuid}</StyledParagraph>
+			<StyledParagraph>--------</StyledParagraph>
+
+			<Button onClick={boardroomSignIn} text="sign in" />
+			<Button onClick={boardroomSignOut} text="sign out" />
 		</>
 	);
 }
@@ -54,3 +47,13 @@ const StyledBanner = styled.div`
 	font-weight: 700;
 	color: ${({ theme }) => theme.colors.black}; ;
 `;
+
+// @ANDY TESTING SPACE
+
+const StyledParagraph = styled.div`
+	font-size: 32px;
+	color: white;
+	text-align: center;
+	margin: 24px 0px;
+`;
+//
