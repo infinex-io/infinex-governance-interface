@@ -11,4 +11,4 @@ export const VALID_UUID_API_URL = `${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1
 export const GET_USER_DETAILS_API_URL = (address: string) =>
 	`${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/userDetails/${address}`;
 export const UPDATE_USER_DETAILS_API_URL = (address: string) =>
-	`${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/userDetails/${address}`;
+	`${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/updateUserDetails/${address}`;

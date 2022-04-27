@@ -3,32 +3,30 @@ import Connector from 'containers/Connector';
 import { useQuery } from 'react-query';
 
 type UserDetails = {
-	data: {
-		pfpUrl: string;
-		website: string;
-		pfpImageId: string;
-		bannerThumbnailUrl: string;
-		ens: string;
-		address: string;
-		twitter: string;
-		bannerImageId: string;
-		pfpThumbnailUrl: string;
-		bannerUrl: string;
-		username: string;
-		type: string;
-	};
+	pfpUrl: string;
+	website: string;
+	pfpImageId: string;
+	bannerThumbnailUrl: string;
+	ens: string;
+	address: string;
+	twitter: string;
+	bannerImageId: string;
+	pfpThumbnailUrl: string;
+	bannerUrl: string;
+	username: string;
+	type: string;
 };
 
 function useUserDetailsQuery() {
 	const { walletAddress } = Connector.useContainer();
-	return useQuery<any>(
+	return useQuery<UserDetails>(
 		['userDetails'],
 		async () => {
 			if (walletAddress) {
 				let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
 					method: 'POST',
 				});
-				const { data } = (await response.json()) as UserDetails;
+				const { data } = await response.json();
 				return data;
 			}
 		},

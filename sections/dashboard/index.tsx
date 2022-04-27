@@ -10,6 +10,9 @@ import Election from './Election';
 
 // @ANDY TESTING SPACE
 import Connector from 'containers/Connector';
+import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
+import { useState } from 'react';
+import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
@@ -17,7 +20,19 @@ export default function Dashboard() {
 
 	// @ANDY TESTING SPACE
 
+	const [username, setUsername] = useState<string>('');
+
 	const { boardroomSignIn, boardroomSignOut, uuid } = Connector.useContainer();
+
+	const userDetailsQuery = useUserDetailsQuery();
+
+	const updateUserDetailsMutation = useUpdateUserDetailsMutation();
+
+	const handleUpdateProfileUrl = async () => {
+		if (userDetailsQuery.data) {
+			updateUserDetailsMutation.mutate({ ...userDetailsQuery.data });
+		}
+	};
 
 	///
 
@@ -31,6 +46,18 @@ export default function Dashboard() {
 
 			<StyledParagraph>--------</StyledParagraph>
 			<StyledParagraph>{uuid}</StyledParagraph>
+
+			<StyledParagraph>{userDetailsQuery.data?.username}</StyledParagraph>
+
+			<input
+				value={username}
+				onChange={(e) => {
+					setUsername(e.target.value);
+				}}
+			/>
+
+			<Button onClick={handleUpdateProfileUrl} text="submit username" />
+
 			<StyledParagraph>--------</StyledParagraph>
 
 			<Button onClick={boardroomSignIn} text="sign in" />
