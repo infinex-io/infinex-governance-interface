@@ -10,5 +10,5 @@ export const NONCE_API_URL = `${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/siwe
 export const VALID_UUID_API_URL = `${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/siwe/me`;
 export const GET_USER_DETAILS_API_URL = (address: string) =>
 	`${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/userDetails/${address}`;
-export const UPADTE_USER_DETAILS_API_URL = (address: string) =>
+export const UPDATE_USER_DETAILS_API_URL = (address: string) =>
 	`${isMainnet ? MAIN_NET_URL : TEST_NET_URL}/v1/userDetails/${address}`;
