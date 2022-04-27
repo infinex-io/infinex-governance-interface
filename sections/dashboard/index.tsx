@@ -1,4 +1,3 @@
-import { Spotlight } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 

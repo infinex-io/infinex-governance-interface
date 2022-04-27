@@ -1,9 +1,12 @@
-import { DiscordIcon } from '@synthetixio/ui';
-import { GitHubIcon } from '@synthetixio/ui';
-import { TwitterIcon } from '@synthetixio/ui';
-import { ExternalLink } from '@synthetixio/ui';
-import { SNXIcon } from '@synthetixio/ui';
-import { theme } from '@synthetixio/ui';
+import {
+	DiscordIcon,
+	GitHubIcon,
+	TwitterIcon,
+	ExternalLink,
+	SNXIcon,
+	theme,
+} from '@synthetixio/ui';
+
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -76,7 +79,7 @@ const StyledFooter = styled.footer`
 	height: 150px;
 	display: flex;
 	align-items: center;
-	padding: ${theme.spacings.margin.biggest};
+	padding: ${theme.spacings.biggest};
 `;
 
 const StyledSNXIcon = styled(SNXIcon)`
@@ -91,7 +94,7 @@ const StyledCopyRightText = styled.span`
 	font-size: 1.16rem;
 	color: white;
 	opacity: 0.7;
-	margin-left: ${theme.spacings.margin.biggest};
+	margin-left: ${theme.spacings.biggest};
 	margin-right: auto;
 `;
 
@@ -101,7 +104,7 @@ const StyledLinks = styled(ExternalLink)`
 	font-weight: 700;
 	font-size: 1.16rem;
 	text-transform: uppercase;
-	margin-right: ${theme.spacings.margin.medium};
+	margin-right: ${theme.spacings.medium};
 `;
 
 const StyledDiscordIcon = styled(DiscordIcon)``;

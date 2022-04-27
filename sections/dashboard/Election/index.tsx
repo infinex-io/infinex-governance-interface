@@ -1,4 +1,4 @@
-import { ArrowLinkOffIcon, Button, theme } from '@synthetixio/ui';
+import { ArrowLinkOffIcon, Card, Flex } from '@synthetixio/ui';
 import styled from 'styled-components';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import { DeployedModules } from 'containers/Modules/Modules';
@@ -15,48 +15,48 @@ export default function Election() {
 			<StyledStarHeadline>{t('dashboard.next-election')}</StyledStarHeadline>
 			<StyledButtonsWrapper>
 				<StyledRow>
-					<StyledButton
-						variant="gradient"
-						secondaryBackgroundColor={theme.colors.backgroundColor}
-						onClick={() => {}}
-					>
-						<StyledButtonHeadline>
-							{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
-						</StyledButtonHeadline>
-						<StyledButtonSubline>{t('dashboard.view-council-members-subline')}</StyledButtonSubline>
-					</StyledButton>
-					<StyledButton
-						variant="gradient"
-						secondaryBackgroundColor={theme.colors.backgroundColor}
-						onClick={() => {}}
-					>
-						<StyledButtonHeadline>
-							{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
-						</StyledButtonHeadline>
-						<StyledButtonSubline>{t('dashboard.view-council-members-subline')}</StyledButtonSubline>
-					</StyledButton>
+					<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
+						<StyledCardContent direction="column">
+							<StyledButtonHeadline>
+								{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
+							</StyledButtonHeadline>
+							<StyledButtonSubline>
+								{t('dashboard.view-council-members-subline')}
+							</StyledButtonSubline>
+						</StyledCardContent>
+					</StyledCard>
+					<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
+						<StyledCardContent direction="column">
+							<StyledButtonHeadline>
+								{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
+							</StyledButtonHeadline>
+							<StyledButtonSubline>
+								{t('dashboard.view-council-members-subline')}
+							</StyledButtonSubline>
+						</StyledCardContent>
+					</StyledCard>
 				</StyledRow>
 				<StyledRow>
-					<StyledButton
-						variant="gradient"
-						secondaryBackgroundColor={theme.colors.backgroundColor}
-						onClick={() => {}}
-					>
-						<StyledButtonHeadline>
-							{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
-						</StyledButtonHeadline>
-						<StyledButtonSubline>{t('dashboard.view-council-members-subline')}</StyledButtonSubline>
-					</StyledButton>
-					<StyledButton
-						variant="gradient"
-						secondaryBackgroundColor={theme.colors.backgroundColor}
-						onClick={() => {}}
-					>
-						<StyledButtonHeadline>
-							{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
-						</StyledButtonHeadline>
-						<StyledButtonSubline>{t('dashboard.view-council-members-subline')}</StyledButtonSubline>
-					</StyledButton>
+					<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
+						<StyledCardContent direction="column">
+							<StyledButtonHeadline>
+								{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
+							</StyledButtonHeadline>
+							<StyledButtonSubline>
+								{t('dashboard.view-council-members-subline')}
+							</StyledButtonSubline>
+						</StyledCardContent>
+					</StyledCard>
+					<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
+						<StyledCardContent direction="column">
+							<StyledButtonHeadline>
+								{t('dashboard.view-council-members')} <ArrowLinkOffIcon active={true} />
+							</StyledButtonHeadline>
+							<StyledButtonSubline>
+								{t('dashboard.view-council-members-subline')}
+							</StyledButtonSubline>
+						</StyledCardContent>
+					</StyledCard>
 				</StyledRow>
 			</StyledButtonsWrapper>
 		</StyledSNXStar>
@@ -108,7 +108,7 @@ const StyledRow = styled.div`
 	display: flex;
 	justify-content: space-around;
 	width: 100%;
-	margin-bottom: ${({ theme }) => theme.spacings.margin.medium};
+	margin-bottom: ${({ theme }) => theme.spacings.medium};
 `;
 
 const StyledButtonHeadline = styled.h3`
@@ -129,6 +129,10 @@ const StyledButtonSubline = styled.div`
 	max-width: 350px;
 `;
 
-const StyledButton = styled(Button)`
+const StyledCard = styled(Card)`
 	max-width: 460px;
+`;
+
+const StyledCardContent = styled(Flex)`
+	padding: 24px;
 `;

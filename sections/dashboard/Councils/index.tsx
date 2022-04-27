@@ -1,5 +1,4 @@
-import { Button, Card, Carousel, Tabs, theme } from '@synthetixio/ui';
-import Flex from 'components/Flex';
+import { Button, Card, Carousel, Tabs, Flex } from '@synthetixio/ui';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
