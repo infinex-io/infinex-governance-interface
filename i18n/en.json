@@ -30,9 +30,17 @@
 		}
 	},
 	"elections": {
-		"headline": "Current Elections"
+		"headline": "Current Elections",
+		"view-council": "View Council",
+		"councils": {
+			"ccc": "Core Contributor Committee",
+			"ac": "Ambassador Council",
+			"sc": "Spartan Council",
+			"gc": "Grants Council",
+			"tc": "Treasury Council"
+		}
 	},
 	"council-members": {
-		"headline": "{{ council }} Council Nominees"
+		"headline": "{{ council }} Nominees"
 	}
 }

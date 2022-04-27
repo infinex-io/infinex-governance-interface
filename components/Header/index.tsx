@@ -70,7 +70,7 @@ const StyledHeader = styled.header`
 	background-color: ${theme.colors.backgroundColor};
 	width: 100%;
 	min-height: 66px;
-	padding-left: ${theme.spacings.margin.biggest};
+	padding-left: ${theme.spacings.biggest};
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid rgba(130, 130, 149, 0.3);
@@ -82,12 +82,12 @@ const StyledHeaderHeadline = styled.h1`
 	font-weight: 400;
 	font-size: 1.16rem;
 	color: white;
-	margin-left: ${theme.spacings.margin.tiny};
-	margin-right: ${theme.spacings.margin.biggest};
+	margin-left: ${theme.spacings.tiny};
+	margin-right: ${theme.spacings.biggest};
 `;
 
 const StyledSpotlightButton = styled(SpotlightButton)`
-	margin-right: ${theme.spacings.margin.medium};
+	margin-right: ${theme.spacings.medium};
 	:last-of-type {
 		margin-right: auto;
 	}
@@ -97,7 +97,7 @@ const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	min-width: 200px;
-	margin-right: ${theme.spacings.margin.superBig};
+	margin-right: ${theme.spacings.superBig};
 `;
 
 const StyledConnectWalletButton = styled(Button)`
@@ -108,5 +108,5 @@ const StyledENSAvatar = styled.img`
 	border-radius: 50%;
 	width: 16px;
 	height: 16px;
-	margin-right: ${theme.spacings.margin.tiny};
+	margin-right: ${theme.spacings.tiny};
 `;
