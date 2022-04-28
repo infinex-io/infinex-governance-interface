@@ -1,9 +1,10 @@
-import styled from 'styled-components';
-import { theme, IconButton, SettingsIcon, SNXIcon, Button, SpotlightButton } from '@synthetixio/ui';
-import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
 import Connector from 'containers/Connector';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+
+import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
 
 export default function Header() {
 	const { push } = useRouter();
@@ -41,8 +42,8 @@ export default function Header() {
 				);
 			})}
 			<ButtonContainer>
-				<IconButton size="tiny" active={true}>
-					<SettingsIcon onClick={() => console.info('implement me')} />
+				<IconButton size="tiny" active={true} onClick={() => console.info('implement me')}>
+					<SettingsIcon />
 				</IconButton>
 				<StyledConnectWalletButton
 					text={
