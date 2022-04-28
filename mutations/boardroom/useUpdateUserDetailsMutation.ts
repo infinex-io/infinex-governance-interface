@@ -1,69 +1,55 @@
 import { UPDATE_USER_DETAILS_API_URL } from 'constants/boardroom';
 import Connector from 'containers/Connector';
 import useIsUUIDValidQuery from 'queries/boardroom/useIsUUIDValidQuery';
-import { useMutation } from 'react-query';
-
-type UserDetails = {
-	email: string;
-	ens: string;
-	username: string;
-	twitter: string;
-	about: string;
-	website: string;
-	notificationPreferences: string;
-	associatedAddresses: string;
-	pfpUrl: string;
-	pfpImageId: string;
-	pfpThumbnailUrl: string;
-	bannerImageId: string;
-	bannerUrl: string;
-	bannerThumbnailUrl: string;
-	type: string;
-	uuid: string;
-};
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { useMutation, useQueryClient } from 'react-query';
 
 type UpdateUserDetailsResponse = {
-	data: UserDetails;
+	data: GetUserDetails & {
+		uuid: string;
+	};
 };
 
 function useUpdateUserDetailsMutation() {
 	const { walletAddress, uuid, boardroomSignIn } = Connector.useContainer();
 	const isUuidValidQuery = useIsUUIDValidQuery();
+	const queryClient = useQueryClient();
 
-	return useMutation('updateUserDetails', async (userProfile: UserDetails) => {
-		if (isUuidValidQuery.isSuccess && !isUuidValidQuery.data) {
-			return await boardroomSignIn();
-		} else {
-			if (walletAddress) {
-				const body = {
-					email: '',
-					ens: 'carlg.eth',
-					username: 'Carl',
-					twitter: '',
-					about: 'Back end Developer',
-					website: '',
-					notificationPreferences: '',
-					associatedAddresses: '',
-					pfpUrl: '',
-					pfpImageId: '',
-					pfpThumbnailUrl: '',
-					bannerImageId: '',
-					bannerUrl: '',
-					bannerThumbnailUrl: '',
-					type: '',
-					uuid: uuid,
-				};
-				let response = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
-					method: 'POST',
-					body: JSON.stringify(body),
-				});
-				const { data } = (await response.json()) as UpdateUserDetailsResponse;
-				return data;
+	return useMutation(
+		'updateUserDetails',
+		async (userProfile: GetUserDetails) => {
+			if (isUuidValidQuery.isSuccess && !isUuidValidQuery.data) {
+				return await boardroomSignIn();
 			} else {
-				return new Error();
+				if (walletAddress) {
+					delete userProfile.address;
+
+					//@TODO: add this
+					userProfile.notificationPreferences = '';
+					// @TODO: will be remove
+					userProfile.email = '';
+
+					const body = {
+						...userProfile,
+						uuid: uuid,
+					};
+					let response = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
+						method: 'POST',
+						body: JSON.stringify(body),
+					});
+					const { data } = (await response.json()) as UpdateUserDetailsResponse;
+					return data;
+				} else {
+					return new Error();
+				}
 			}
+		},
+		{
+			onSuccess: async () => {
+				await queryClient.refetchQueries(['userDetails']);
+			},
 		}
-	});
+	);
 }
 
 export default useUpdateUserDetailsMutation;

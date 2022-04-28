@@ -22,7 +22,7 @@ function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				queryClient.refetchQueries();
+				await queryClient.refetchQueries();
 			},
 		}
 	);

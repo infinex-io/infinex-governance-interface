@@ -24,7 +24,7 @@ function useCastMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				queryClient.refetchQueries();
+				await queryClient.refetchQueries();
 			},
 		}
 	);

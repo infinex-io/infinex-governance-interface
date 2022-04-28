@@ -127,8 +127,8 @@ const useConnector = () => {
 				const signInResponse: SignInResponse = await response.json();
 
 				setUuid(signInResponse.data.uuid);
-			} catch (error) {
-				console.log(error);
+			} catch (e) {
+				console.log(e);
 			}
 		}
 	};
@@ -150,8 +150,8 @@ const useConnector = () => {
 				if (data.success) {
 					setUuid(null);
 				}
-			} catch (error) {
-				console.log(error);
+			} catch (e) {
+				console.log(e);
 			}
 		}
 	};
