@@ -1483,10 +1483,10 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@1.18.4":
-  version "1.18.4"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.18.4.tgz#c633a13d31697de8f0e1f958acc4b3d643365c0e"
-  integrity sha512-Wo+/in4aJn2CEWZpz19XXygfhlDBx96mYOtM9INiisJEtEHM4gb7v4paUX3XHfBPRwPnCgTxegH9IuN/jo0olA==
+"@synthetixio/ui@1.19.1":
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.19.1.tgz#e60f4021bc16289b962e98c94007b9a6f03dc71b"
+  integrity sha512-5pglz27NFNIn7pGdT2WxzPMbae+dsUZCbvtjOzJPsQ7exVl+2GrMbQYhF8wAFE0Swgb1vEyTnoYqNadKZPCgzw==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
