@@ -1,0 +1,23 @@
+const set = (key: string, value: any) => {
+	if (typeof window !== 'undefined') {
+		window.localStorage.setItem(key, JSON.stringify(value));
+	}
+};
+
+const get = <T>(key: string): T | null => {
+	if (typeof window !== 'undefined') {
+		const item = window.localStorage.getItem(key);
+		try {
+			if (item != null) {
+				return JSON.parse(item);
+			}
+		} catch (e) {
+			console.error(e);
+		}
+	}
+	return null;
+};
+
+const localStorage = { set, get };
+
+export default localStorage;
