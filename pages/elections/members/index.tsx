@@ -1,10 +1,10 @@
 import Main from 'components/Main';
-import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import CouncilNominees from 'sections/nominations/CouncilNominees';
 import { capitalizeString } from 'utils/capitalize';
 
+import type { NextPage } from 'next';
 const CouncilMembers: NextPage = () => {
 	const { query } = useRouter();
 	return (
