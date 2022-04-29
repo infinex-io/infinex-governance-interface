@@ -77,8 +77,6 @@
 			"headline": "Our Current Elected Members"
 		}
 	},
-<<<<<<< HEAD
-=======
 	"council-members": {
 		"headline": "{{ council }} Nominees"
 	},
@@ -91,7 +89,6 @@
 		"wallet": "Wallet Address",
 		"pitch": "Governance Pitch"
 	},
->>>>>>> a7bcc1b (start working on edit profile)
 	"modals": {
 		"nomination": {
 			"headline": "Nominate Self",
