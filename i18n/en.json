@@ -48,7 +48,14 @@
 	"modals": {
 		"nomination": {
 			"headline": "Nominate Self",
-			"nominationAddress": "Nomination Wallet Address"
+			"nominationAddress": "Nomination Wallet Address",
+			"checkboxes": {
+				"spartan": "Spartan Council",
+				"grants": "Grants Council",
+				"ambassador": "Ambassador Council",
+				"treasury": "Treasury Council",
+				"connect-wallet": "Connect Wallet"
+			}
 		}
 	}
 }
