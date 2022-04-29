@@ -12,8 +12,9 @@ import '../i18n';
 
 import Connector from 'containers/Connector';
 import Modules from 'containers/Modules';
+import Modal from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
-import { theme } from '@synthetixio/ui';
+import { theme, Modal as UIModal } from '@synthetixio/ui';
 
 const queryClient = new QueryClient();
 
@@ -34,11 +35,15 @@ export const config: Config = {
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
+	const { isOpen, content } = Modal.useContainer();
 	return (
 		<Modules.Provider>
 			<Header />
-			<Component {...pageProps} />
-			<Footer />
+			{/* TODO @MF remove terniery operator when new version of UI is out */}
+			<UIModal open={isOpen} modalContent={content ? content : <span>nothing</span>}>
+				<Component {...pageProps} />
+				<Footer />
+			</UIModal>
 		</Modules.Provider>
 	);
 };
@@ -49,7 +54,9 @@ const App: FC<AppProps> = (props) => {
 			<Connector.Provider>
 				<QueryClientProvider client={queryClient}>
 					<ThemeProvider theme={theme}>
-						<InnerApp {...props} />
+						<Modal.Provider>
+							<InnerApp {...props} />
+						</Modal.Provider>
 					</ThemeProvider>
 				</QueryClientProvider>
 			</Connector.Provider>

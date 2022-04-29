@@ -3,15 +3,19 @@ import styled from 'styled-components';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import { DeployedModules } from 'containers/Modules/Modules';
 import { useTranslation } from 'react-i18next';
+import RemainingTime from 'components/RemainingTime';
+import { parseRemainingTime } from 'utils/time';
 
 export default function Election() {
 	const { t } = useTranslation();
-	const votingPeriodDatesQuery = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data } = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const remainingTime =
+		data?.votingPeriodStartDate &&
+		parseRemainingTime(new Date(data.votingPeriodStartDate).getTime());
+
 	return (
 		<StyledSNXStar>
-			<StyledNumber>
-				{new Date(votingPeriodDatesQuery.data?.votingPeriodStartDate ?? 0).toLocaleDateString()}
-			</StyledNumber>
+			<StyledNumber glow>{remainingTime}</StyledNumber>
 			<StyledStarHeadline>{t('dashboard.next-election')}</StyledStarHeadline>
 			<StyledButtonsWrapper>
 				<StyledRow>
@@ -76,12 +80,10 @@ const StyledSNXStar = styled.div`
 	position: relative;
 `;
 
-const StyledNumber = styled.span`
-	font-family: 'GT America Mono';
-	font-size: 2.33rem;
-	color: ${({ theme }) => theme.colors.green};
+const StyledNumber = styled(RemainingTime)`
 	position: absolute;
 	top: 45%;
+	font-size: 2.33rem;
 `;
 
 const StyledStarHeadline = styled.h1`

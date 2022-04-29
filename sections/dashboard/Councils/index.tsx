@@ -19,7 +19,7 @@ export default function Councils() {
 			<StyledCouncilHeader>{t('dashboard.elected-members')}</StyledCouncilHeader>
 			<Tabs
 				titles={councilTabs}
-				onClick={(index) => setActiveIndex(index)}
+				clicked={(index) => index && setActiveIndex(index)}
 				justifyContent="center"
 				activeIndex={activeIndex}
 				icons={[

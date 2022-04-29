@@ -19,7 +19,9 @@
 		"elected-members": "Our Current Elected Members",
 		"view-all-members": "View all members",
 		"banner": {
-			"nominate": "NOMINATE YOURSELF"
+			"nominate": "NOMINATE YOURSELF",
+			"self": "NOMINATE SELF",
+			"closes": "Nominations Closes in"
 		},
 		"council-tabs": {
 			"all": "All Council Members",
@@ -42,5 +44,18 @@
 	},
 	"council-members": {
 		"headline": "{{ council }} Nominees"
+	},
+	"modals": {
+		"nomination": {
+			"headline": "Nominate Self",
+			"nominationAddress": "Nomination Wallet Address",
+			"checkboxes": {
+				"spartan": "Spartan Council",
+				"grants": "Grants Council",
+				"ambassador": "Ambassador Council",
+				"treasury": "Treasury Council",
+				"connect-wallet": "Connect Wallet"
+			}
+		}
 	}
 }

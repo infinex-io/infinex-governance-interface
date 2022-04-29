@@ -1,13 +1,12 @@
+import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
-
 export default function Header() {
-	const { push } = useRouter();
+	const { push, pathname } = useRouter();
 	const { t } = useTranslation();
 	const [activeRoute, setActiveRoute] = useState('home');
 
@@ -27,6 +26,11 @@ export default function Header() {
 		setActiveRoute(routes[index].toLowerCase());
 	};
 
+	useEffect(() => {
+		const splitRoute = pathname.split('/')[1];
+		setActiveRoute(splitRoute ? splitRoute : 'home');
+	}, []);
+
 	return (
 		<StyledHeader>
 			<SNXIcon />
@@ -42,7 +46,7 @@ export default function Header() {
 				);
 			})}
 			<ButtonContainer>
-				<IconButton size="tiny" active={true} onClick={() => console.info('implement me')}>
+				<IconButton onClick={() => console.info('implement me')} size="tiny" active={true}>
 					<SettingsIcon />
 				</IconButton>
 				<StyledConnectWalletButton
