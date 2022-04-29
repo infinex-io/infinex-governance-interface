@@ -3,15 +3,15 @@ import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-export default function Councils() {
+export default function ElectedCouncil() {
 	const { t } = useTranslation();
 
 	return (
 		<Flex direction="column" alignItems="center">
-			<StyledCouncilHeader>{t('dashboard.elected-members')}</StyledCouncilHeader>
+			<StyledCouncilHeader>{t('landing-pages.nomination.elected-members')}</StyledCouncilHeader>
 			<CouncilsCarousel />
 			<StyledButton
-				text={t('dashboard.view-all-members')}
+				text={t('landing-pages.nomination.view-all-members')}
 				onClick={() => {}}
 				variant="primary"
 				size="medium"

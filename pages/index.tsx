@@ -1,10 +1,10 @@
 import Main from 'components/Main';
-import NominateSelfBanner from 'components/NominateSelfBanner';
 import { DeployedModules } from 'containers/Modules/Modules';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import AdministrationLandingPage from 'sections/administration';
+import VotingLandingPage from 'sections/voting';
 import NominationsLandingPage from '../sections/nominations';
 
 const Home: NextPage = () => {
@@ -21,6 +21,7 @@ const Home: NextPage = () => {
 };
 
 const determineSection = (period: string) => {
+	return <VotingLandingPage />;
 	switch (period) {
 		case 'ADMINISTRATION':
 			return (
@@ -29,14 +30,9 @@ const determineSection = (period: string) => {
 				</>
 			);
 		case 'NOMINATION':
-			return (
-				<>
-					<NominateSelfBanner />
-					<NominationsLandingPage />
-				</>
-			);
+			return <NominationsLandingPage />;
 		case 'VOTING':
-			return;
+			return <></>;
 		case 'EVALUATION':
 			return;
 		default:

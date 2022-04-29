@@ -1,11 +1,11 @@
-import Councils from 'sections/nominations/Councils';
-import Election from 'sections/nominations/Election';
+import ElectedCouncil from 'components/ElectedCouncil';
+import LandingPage from 'components/LandingPage';
 
 export default function AdministrationLandingPage() {
 	return (
 		<>
-			<Election />
-			<Councils />
+			<LandingPage />
+			<ElectedCouncil />
 		</>
 	);
 }

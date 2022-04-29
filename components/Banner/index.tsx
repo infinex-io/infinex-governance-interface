@@ -1,11 +1,36 @@
+import { Flex, theme } from '@synthetixio/ui';
+import { Colors } from '@synthetixio/ui/dist/esm/types';
 import styled from 'styled-components';
 
-export const StyledBanner = styled.div`
-	background: ${({ theme }) => theme.colors.gradients.orange};
+export const Banner = styled(Flex)<{
+	gradientColor?: keyof typeof theme.colors.gradients;
+	color?: Colors;
+}>`
+	background: ${({ theme, gradientColor, color }) => {
+		if (gradientColor) return theme.colors.gradients[gradientColor];
+		if (color) return theme.colors[color];
+	}};
 	width: 100%;
 	font-family: 'GT America';
 	font-size: 1.14rem;
 	font-weight: 700;
 	padding: ${({ theme }) => theme.spacings.tiny};
 	color: ${({ theme }) => theme.colors.black}; ;
+`;
+
+export const BannerText = styled.h3`
+	font-family: 'GT America Mono';
+	font-size: 1.16rem;
+	font-weight: 700;
+	margin-right: 10px;
+`;
+
+export const TimeWrapper = styled(Flex)`
+	border-radius: 5px;
+	color: white;
+	padding: 10px 20px;
+	margin-right: 10px;
+	> * {
+		margin: 0px ${({ theme }) => theme.spacings.tiny};
+	}
 `;

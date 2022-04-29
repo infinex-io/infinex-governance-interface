@@ -12,16 +12,19 @@
 	"footer": {
 		"copyright": "Copyright © Synthetix 2022"
 	},
-	"dashboard": {
-		"next-election": "NEXT ELECTION IN",
-		"view-council-members": "VIEW ALL COUNCIL MEMBERS",
-		"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
-		"elected-members": "Our Current Elected Members",
-		"view-all-members": "View all members",
-		"banner": {
-			"nominate": "NOMINATE YOURSELF",
-			"self": "NOMINATE SELF",
-			"closes": "Nominations Closes in"
+	"landing-pages": {
+		"nomination": {
+			"next-election": "NEXT ELECTION IN",
+			"view-council-members": "VIEW ALL COUNCIL MEMBERS",
+			"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
+			"elected-members": "Our Current Elected Members",
+			"view-all-members": "View all members",
+
+			"nominate": {
+				"headline": "NOMINATE YOURSELF",
+				"self": "NOMINATE SELF",
+				"closes": "Nominations Closes in"
+			}
 		},
 		"council-tabs": {
 			"all": "All Council Members",
@@ -29,17 +32,21 @@
 			"grants": "Grants Council",
 			"ambassador": "Ambassador Council",
 			"treasury": "Treasury Council"
-		}
-	},
-	"elections": {
-		"headline": "Current Elections",
-		"view-council": "View Council",
-		"councils": {
-			"ccc": "Core Contributor Committee",
-			"ac": "Ambassador Council",
-			"sc": "Spartan Council",
-			"gc": "Grants Council",
-			"tc": "Treasury Council"
+		},
+		"elections": {
+			"headline": "Current Elections",
+			"view-council": "View Council",
+			"councils": {
+				"ccc": "Core Contributor Committee",
+				"ac": "Ambassador Council",
+				"sc": "Spartan Council",
+				"gc": "Grants Council",
+				"tc": "Treasury Council"
+			}
+		},
+		"voting": {
+			"headline": "VOTING OPEN",
+			"button": "Vote Now"
 		}
 	},
 	"council-members": {
@@ -61,6 +68,13 @@
 			"headline": "Withdraw Nomination",
 			"nomination-for": "Nomination for {{council}}",
 			"nomination": "Withdraw Nomination"
+		}
+	},
+	"banner": {
+		"vote": {
+			"headline": "VOTING IS LIVE - VOTE NOW!",
+			"closes": "Closes in",
+			"button": "VOTE NOW"
 		}
 	}
 }
