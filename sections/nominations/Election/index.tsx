@@ -18,7 +18,7 @@ export default function Election() {
 			<StyledNumber glow>{remainingTime}</StyledNumber>
 			<StyledStarHeadline>{t('dashboard.next-election')}</StyledStarHeadline>
 			<StyledButtonsWrapper>
-				<StyledRow>
+				<StyledRow justifyContent="center">
 					<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
 						<StyledCardContent direction="column">
 							<StyledButtonHeadline>
@@ -40,7 +40,7 @@ export default function Election() {
 						</StyledCardContent>
 					</StyledCard>
 				</StyledRow>
-				<StyledRow>
+				<StyledRow justifyContent="center">
 					<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
 						<StyledCardContent direction="column">
 							<StyledButtonHeadline>
@@ -106,11 +106,9 @@ const StyledButtonsWrapper = styled.div`
 	top: 60%;
 `;
 
-const StyledRow = styled.div`
-	display: flex;
-	justify-content: space-around;
+const StyledRow = styled(Flex)`
 	width: 100%;
-	margin-bottom: ${({ theme }) => theme.spacings.medium};
+	margin: 0px ${({ theme }) => theme.spacings.medium};
 `;
 
 const StyledButtonHeadline = styled.h3`
@@ -133,6 +131,7 @@ const StyledButtonSubline = styled.div`
 
 const StyledCard = styled(Card)`
 	max-width: 460px;
+	margin: ${({ theme }) => theme.spacings.tiny};
 `;
 
 const StyledCardContent = styled(Flex)`

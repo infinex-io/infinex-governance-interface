@@ -1,9 +1,14 @@
-import { Button, Card, Carousel, Tabs, Flex } from '@synthetixio/ui';
+import { Button, Card, Carousel, Flex, Tabs } from '@synthetixio/ui';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-export default function Councils() {
+interface CouncilsCarouselProps {
+	maxWidth?: string;
+	startIndex?: number;
+}
+
+export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarouselProps) {
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
 	const councilTabs = [
@@ -16,7 +21,6 @@ export default function Councils() {
 
 	return (
 		<Flex direction="column" alignItems="center">
-			<StyledCouncilHeader>{t('dashboard.elected-members')}</StyledCouncilHeader>
 			<Tabs
 				titles={councilTabs}
 				clicked={(index) => index && setActiveIndex(index)}
@@ -42,7 +46,7 @@ export default function Councils() {
 				]}
 			/>
 			<Carousel
-				startIndex={1}
+				startIndex={startIndex ? startIndex : 1}
 				widthOfItems={300}
 				carouselItems={[
 					<StyledCarouselCard withBackgroundColor="darkBlue">
@@ -53,28 +57,14 @@ export default function Councils() {
 					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
 					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
 				]}
-				maxWidth="90vw"
+				maxWidth={maxWidth ? maxWidth : '90vw'}
+				arrowsPosition="outside"
+				withDots="secondary"
+				dotsPosition="outside"
 			/>
-			<Button
-				text={t('dashboard.view-all-members')}
-				onClick={() => {}}
-				variant="primary"
-				size="medium"
-			/>
-			<StyledCardTimeWrapper>
-				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
-				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
-				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
-				<Card withBorderColor={{ color: 'green', withGlow: true }}>Council</Card>
-			</StyledCardTimeWrapper>
 		</Flex>
 	);
 }
-
-const StyledCouncilHeader = styled.h1`
-	font-family: 'Inter Bold';
-	font-size: 3.66rem;
-`;
 
 const StyledTabIcon = styled.span<{ active?: boolean }>`
 	background-color: ${({ theme, active }) =>
@@ -89,9 +79,4 @@ const StyledTabIcon = styled.span<{ active?: boolean }>`
 const StyledCarouselCard = styled(Card)`
 	min-width: 300px;
 	margin: 40px;
-`;
-
-const StyledCardTimeWrapper = styled.div`
-	display: flex;
-	justify-content: space-between;
 `;

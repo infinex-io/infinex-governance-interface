@@ -56,6 +56,11 @@
 				"treasury": "Treasury Council",
 				"connect-wallet": "Connect Wallet"
 			}
+		},
+		"withdraw": {
+			"headline": "Withdraw Nomination",
+			"nomination-for": "Nomination for {{council}}",
+			"nomination": "Withdraw Nomination"
 		}
 	}
 }
