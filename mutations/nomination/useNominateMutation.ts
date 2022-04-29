@@ -22,7 +22,7 @@ function useNominateMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				queryClient.refetchQueries();
+				await queryClient.refetchQueries();
 			},
 		}
 	);

@@ -2,20 +2,18 @@ import { useMutation, useQueryClient } from 'react-query';
 import Modules from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules/Modules';
 
-type Address = string;
-
-function useCastMutation(moduleInstance: DeployedModules) {
+function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
 	const { governanceModules } = Modules.useContainer();
 
 	return useMutation(
-		'cast',
-		async (addresses: Address[]) => {
+		'withdrawNomination',
+		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 
 			if (contract) {
-				const gasLimit = await contract.estimateGas.cast(addresses);
-				let tx = await contract.cast(addresses, { gasLimit });
+				const gasLimit = await contract.estimateGas.withdrawNomination();
+				let tx = await contract.withdrawNomination({ gasLimit });
 				const receipt = tx.wait();
 				return receipt;
 			} else {
@@ -24,10 +22,10 @@ function useCastMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				queryClient.refetchQueries();
+				await queryClient.refetchQueries();
 			},
 		}
 	);
 }
 
-export default useCastMutation;
+export default useWithdrawNominationMutation;

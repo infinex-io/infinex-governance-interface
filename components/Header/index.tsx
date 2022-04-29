@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { theme, IconButton, SettingsIcon, SNXIcon, Button, SpotlightButton } from '@synthetixio/ui';
-import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
+import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 export default function Header() {
 	const { push, pathname } = useRouter();
