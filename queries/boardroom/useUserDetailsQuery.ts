@@ -1,5 +1,4 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
-import Connector from 'containers/Connector';
 import { useQuery } from 'react-query';
 
 export type GetUserDetails = {
@@ -23,18 +22,15 @@ export type GetUserDetails = {
 	bannerUrl: string;
 };
 
-function useUserDetailsQuery() {
-	const { walletAddress } = Connector.useContainer();
+function useUserDetailsQuery(walletAddress: string) {
 	return useQuery<GetUserDetails>(
-		['userDetails'],
+		['userDetails', walletAddress],
 		async () => {
-			if (walletAddress) {
-				let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
-					method: 'POST',
-				});
-				const { data } = await response.json();
-				return data;
-			}
+			let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
+				method: 'POST',
+			});
+			const { data } = await response.json();
+			return data;
 		},
 		{
 			enabled: walletAddress !== null,

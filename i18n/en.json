@@ -77,6 +77,21 @@
 			"headline": "Our Current Elected Members"
 		}
 	},
+<<<<<<< HEAD
+=======
+	"council-members": {
+		"headline": "{{ council }} Nominees"
+	},
+	"profiles": {
+		"subheadline": "Profile",
+		"twitter": "Twitter",
+		"discord": "Discord",
+		"currentVotingWeight": "Current Voting Weight",
+		"participatedVotes": "Total Votes Contributed",
+		"wallet": "Wallet Address",
+		"pitch": "Governance Pitch"
+	},
+>>>>>>> a7bcc1b (start working on edit profile)
 	"modals": {
 		"nomination": {
 			"headline": "Nominate Self",
