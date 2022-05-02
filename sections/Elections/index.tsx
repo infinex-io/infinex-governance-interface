@@ -3,19 +3,19 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-export default function Elections() {
+export default function ElectionsSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const councilNames = [
-		t('elections.councils.ccc'),
-		t('elections.councils.ac'),
-		t('elections.councils.sc'),
-		t('elections.councils.gc'),
-		t('elections.councils.tc'),
+		t('landing-pages.elections.councils.ccc'),
+		t('landing-pages.elections.councils.ac'),
+		t('landing-pages.elections.councils.sc'),
+		t('landing-pages.elections.councils.gc'),
+		t('landing-pages.elections.councils.tc'),
 	];
 	return (
 		<Flex direction="column" alignItems="center">
-			<StyledElectionsHeadline>{t('elections.headline')}</StyledElectionsHeadline>
+			<StyledElectionsHeadline>{t('landing-pages.elections.headline')}</StyledElectionsHeadline>
 			<Flex justifyContent="space-between">
 				{councilNames.map((name, index) => (
 					<StyledCard withBackgroundColor="darkBlue" key={name.concat(index.toString())}>
@@ -26,7 +26,7 @@ export default function Elections() {
 							<CouncilCard name={name} />
 							<Button
 								onClick={() => push({ pathname: '/elections/members/', query: { council: name } })}
-								text={t('elections.view-council')}
+								text={t('landing-pages.elections.vote-council')}
 							></Button>
 						</StyledCardContentWrapper>
 					</StyledCard>

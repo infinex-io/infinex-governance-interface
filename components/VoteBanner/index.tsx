@@ -1,14 +1,14 @@
 import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
 import { Banner, BannerText, TimeWrapper } from 'components/Banner';
 import RemainingTime from 'components/RemainingTime';
-import Modal from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';
+import { useRouter } from 'next/router';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
-export default function VoteBanner() {
-	const { setIsOpen, setContent } = Modal.useContainer();
+export default function VoteBanner({ hideButton }: BannerProps) {
+	const { push } = useRouter();
 	const { t } = useTranslation();
 	const { data } = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
 	const remainingTime = data?.votingPeriodEndDate && parseRemainingTime(data.votingPeriodEndDate);
@@ -20,18 +20,19 @@ export default function VoteBanner() {
 				{t('banner.vote.closes')}
 				{remainingTime && <RemainingTime>{remainingTime}</RemainingTime>}
 			</TimeWrapper>
-			<IconButton
-				onClick={() => {
-					setContent(<div>todo</div>);
-					setIsOpen(true);
-				}}
-				size="tiny"
-				active
-				rounded
-			>
-				{t('banner.vote.button')}
-				<ArrowRightIcon />
-			</IconButton>
+			{!hideButton && (
+				<IconButton
+					onClick={() => {
+						push({ pathname: 'elections' });
+					}}
+					size="tiny"
+					active
+					rounded
+				>
+					{t('banner.vote.button')}
+					<ArrowRightIcon />
+				</IconButton>
+			)}
 		</Banner>
 	);
 }

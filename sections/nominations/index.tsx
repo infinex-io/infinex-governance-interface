@@ -5,7 +5,7 @@ import Election from './Election';
 export default function NominationsLandingPage() {
 	return (
 		<>
-			<NominateSelfBanner />
+			<NominateSelfBanner hideButton />
 			<Election />
 			<ElectedCouncil />
 		</>

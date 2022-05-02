@@ -4,8 +4,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import AdministrationLandingPage from 'sections/administration';
-import VotingLandingPage from 'sections/voting';
-import NominationsLandingPage from '../sections/nominations';
+import VoteLandingPage from 'sections/vote';
+import NominationsLandingPage from 'sections/nominations';
 
 const Home: NextPage = () => {
 	const { data } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 };
 
 const determineSection = (period: string) => {
-	return <VotingLandingPage />;
+	return <VoteLandingPage />;
 	switch (period) {
 		case 'ADMINISTRATION':
 			return (

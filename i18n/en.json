@@ -35,7 +35,7 @@
 		},
 		"elections": {
 			"headline": "Current Elections",
-			"view-council": "View Council",
+			"vote-council": "Vote Council",
 			"councils": {
 				"ccc": "Core Contributor Committee",
 				"ac": "Ambassador Council",
@@ -68,6 +68,11 @@
 			"headline": "Withdraw Nomination",
 			"nomination-for": "Nomination for {{council}}",
 			"nomination": "Withdraw Nomination"
+		},
+		"vote": {
+			"headline": "Spartan Council",
+			"submit": "Submit Vote",
+			"profile": "See full profile"
 		}
 	},
 	"banner": {

@@ -1,21 +1,16 @@
-import { Button, Checkbox, CloseIcon, Flex, IconButton } from '@synthetixio/ui';
+import { Button, Checkbox, Flex } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
-import Modal from 'containers/Modal';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import BaseModal from '../BaseModal';
 
 export default function NominateModal() {
 	const { t } = useTranslation();
-	const { setIsOpen } = Modal.useContainer();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const { walletAddress, ensName, connectWallet } = Connector.useContainer();
 	return (
-		<StyledNominateModalWrapper direction="column" alignItems="center">
-			<StyledIconButton onClick={() => setIsOpen(false)} active rounded>
-				<CloseIcon active />
-			</StyledIconButton>
-			<StyledModalHeadline>{t('modals.nomination.headline')}</StyledModalHeadline>
+		<BaseModal headline={t('modals.nomination.headline')}>
 			<StyledBlackBox direction="column" alignItems="center">
 				<StyledBlackBoxSubline>{t('modals.nomination.nominationAddress')}</StyledBlackBoxSubline>
 				<StyledWalletAddress>
@@ -81,37 +76,15 @@ export default function NominateModal() {
 				}}
 				text="Nominate Self"
 			/>
-		</StyledNominateModalWrapper>
+		</BaseModal>
 	);
 }
-
-const StyledNominateModalWrapper = styled(Flex)`
-	background: url('/images/modal-background.svg');
-	height: 100%;
-	width: 100%;
-	background-repeat: no-repeat;
-	background-size: contain;
-	position: relative;
-	padding-top: 10%;
-`;
-
-const StyledModalHeadline = styled.h1`
-	font-family: 'Inter Bold';
-	font-size: 3.33rem;
-	color: ${({ theme }) => theme.colors.white};
-`;
 
 const StyledBlackBox = styled(Flex)`
 	background-color: ${({ theme }) => theme.colors.black};
 	max-width: 314px;
 	height: 80px;
 	padding: 16px 50px;
-`;
-
-const StyledIconButton = styled(IconButton)`
-	position: absolute;
-	top: 40px;
-	right: 40px;
 `;
 
 const StyledBlackBoxSubline = styled.h6`

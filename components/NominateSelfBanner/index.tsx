@@ -1,16 +1,15 @@
-import { ArrowRightIcon, Flex, IconButton } from '@synthetixio/ui';
+import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
 import { BannerText, Banner, TimeWrapper } from 'components/Banner';
-import NominateModal from 'components/Modals/Nominate';
 import RemainingTime from 'components/RemainingTime';
-import Modal from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';
+import { useRouter } from 'next/router';
 import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
-export default function NominateSelfBanner() {
-	const { setIsOpen, setContent } = Modal.useContainer();
+export default function NominateSelfBanner({ hideButton }: BannerProps) {
 	const { t } = useTranslation();
+	const { push } = useRouter();
 	const { data } = useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
 	const remainingTime = data?.epochStartDate && parseRemainingTime(data.epochStartDate);
 	return (
@@ -20,18 +19,19 @@ export default function NominateSelfBanner() {
 				{t('banner.nominate.closes')}
 				{remainingTime && <RemainingTime>{remainingTime}</RemainingTime>}
 			</TimeWrapper>
-			<IconButton
-				onClick={() => {
-					setContent(<NominateModal />);
-					setIsOpen(true);
-				}}
-				size="tiny"
-				active
-				rounded
-			>
-				{t('banner.nominate.self')}
-				<ArrowRightIcon />
-			</IconButton>
+			{hideButton && (
+				<IconButton
+					onClick={() => {
+						push({ pathname: 'elections' });
+					}}
+					size="tiny"
+					active
+					rounded
+				>
+					{t('banner.nominate.self')}
+					<ArrowRightIcon />
+				</IconButton>
+			)}
 		</Banner>
 	);
 }

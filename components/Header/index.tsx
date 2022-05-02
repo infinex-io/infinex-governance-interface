@@ -1,4 +1,4 @@
-import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
+import { Card, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -50,21 +50,20 @@ export default function Header() {
 					<SettingsIcon />
 				</IconButton>
 				<StyledConnectWalletButton
-					text={
-						!walletAddress
+					withBorderColor={{ gradient: 'lightBlue' }}
+					onClick={walletAddress ? disconnectWallet : connectWallet}
+				>
+					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
+					<StyledWalletAddress>
+						{!walletAddress
 							? t('header.connect-wallet')
 							: ensName
 							? ensName
 							: walletAddress!
 									.slice(0, 5)
 									.concat('...')
-									.concat(walletAddress.slice(walletAddress.length - 3))
-					}
-					variant="secondary"
-					secondaryBackgroundColor={theme.colors.backgroundColor}
-					onClick={walletAddress ? disconnectWallet : connectWallet}
-				>
-					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
+									.concat(walletAddress.slice(walletAddress.length - 3))}
+					</StyledWalletAddress>
 				</StyledConnectWalletButton>
 			</ButtonContainer>
 		</StyledHeader>
@@ -105,8 +104,19 @@ const ButtonContainer = styled.div`
 	margin-right: ${theme.spacings.superBig};
 `;
 
-const StyledConnectWalletButton = styled(Button)`
+const StyledConnectWalletButton = styled(Card)`
 	min-width: 138px;
+	padding: ${({ theme }) => theme.spacings.tiniest};
+	cursor: pointer;
+`;
+
+const StyledWalletAddress = styled.span`
+	color: ${({ theme }) => theme.colors.white};
+	font-family: 'Inter Bold';
+	font-size: 1rem;
+	text-align: center;
+	display: block;
+	padding: 10px;
 `;
 
 const StyledENSAvatar = styled.img`

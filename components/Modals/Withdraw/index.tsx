@@ -1,9 +1,8 @@
-import { Button, CloseIcon, Flex, IconButton } from '@synthetixio/ui';
+import { Button, Flex } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
-import Modal from 'containers/Modal';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import BaseModal from '../BaseModal';
 
 interface WithdrawModalProps {
 	council: string;
@@ -11,15 +10,9 @@ interface WithdrawModalProps {
 
 export default function WithdrawModal({ council }: WithdrawModalProps) {
 	const { t } = useTranslation();
-	const { setIsOpen } = Modal.useContainer();
-	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const { walletAddress, ensName, connectWallet } = Connector.useContainer();
 	return (
-		<StyledNominateModalWrapper direction="column" alignItems="center">
-			<StyledIconButton onClick={() => setIsOpen(false)} active rounded>
-				<CloseIcon active />
-			</StyledIconButton>
-			<StyledModalHeadline>{t('modals.withdraw.headline')}</StyledModalHeadline>
+		<BaseModal headline={t('modals.withdraw.headline')}>
 			<StyledBlackBox direction="column" alignItems="center">
 				<StyledBlackBoxSubline>
 					{t('modals.withdraw.nomination-for', { council })}
@@ -43,31 +36,9 @@ export default function WithdrawModal({ council }: WithdrawModalProps) {
 				</StyledWalletAddress>
 			</StyledBlackBox>
 			<Button onClick={() => {}} text={t('modals.withdraw.nomination')} />
-		</StyledNominateModalWrapper>
+		</BaseModal>
 	);
 }
-
-const StyledNominateModalWrapper = styled(Flex)`
-	background: url('/images/modal-background.svg');
-	height: 100%;
-	width: 100%;
-	background-repeat: no-repeat;
-	background-size: contain;
-	position: relative;
-	padding-top: 10%;
-`;
-
-const StyledModalHeadline = styled.h1`
-	font-family: 'Inter Bold';
-	font-size: 3.33rem;
-	color: ${({ theme }) => theme.colors.white};
-`;
-
-const StyledIconButton = styled(IconButton)`
-	position: absolute;
-	top: 40px;
-	right: 40px;
-`;
 
 const StyledBlackBox = styled(Flex)`
 	background-color: ${({ theme }) => theme.colors.black};
