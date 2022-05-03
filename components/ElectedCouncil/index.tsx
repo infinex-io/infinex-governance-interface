@@ -1,4 +1,4 @@
-import { Button, Card, Flex } from '@synthetixio/ui';
+import { Button, Flex } from '@synthetixio/ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';

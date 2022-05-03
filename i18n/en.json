@@ -18,7 +18,11 @@
 			"view-council-members": "VIEW ALL COUNCIL MEMBERS",
 			"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
 			"elected-members": "Our Current Elected Members",
-			"view-all-members": "View all members"
+			"view-all-members": "View all members",
+			"sc-opens": "SPARTAN COUNCIL OPENS IN",
+			"gc-opens": "GRANTS COUNCIL OPENS IN",
+			"ac-opens": "AMBASSADOR COUNCIL OPENS IN",
+			"tc-opens": "TREASURY COUNCIL OPENS IN"
 		},
 		"council-tabs": {
 			"all": "All Council Members",
@@ -44,7 +48,24 @@
 		}
 	},
 	"elections": {
-		"nominations": {
+		"nomination": {
+			"headline": "Current Elections",
+			"cards": {
+				"sc": "Spartan Council",
+				"gc": "Grants Council",
+				"ac": "Ambassador Council",
+				"tc": "Treasury Council",
+				"cta": {
+					"closed": "CLOSED- COUNCIL ELECTED",
+					"nomination": "NOMINATIONS OPEN",
+					"vote": "VOTING OPEN"
+				},
+				"button": {
+					"closed": "View Council",
+					"nomination": "Nominate Yourself",
+					"vote": "Vote Candidates"
+				}
+			},
 			"council-members": {
 				"headline": "{{ council }} Nominees"
 			}

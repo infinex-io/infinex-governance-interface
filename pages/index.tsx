@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 };
 
 const determineSection = (period: string) => {
-	period = 'ADMINISTRATION';
+	period = 'NOMINATION';
 	switch (period) {
 		case 'ADMINISTRATION':
 			return <AdministrationLandingPage />;
