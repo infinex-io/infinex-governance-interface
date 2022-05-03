@@ -10,7 +10,6 @@ export default function Main({ children }: PropsWithChildren<{}>) {
 	);
 }
 const StyledMain = styled.main`
-	background-image: url('/images/landing-page-background.svg');
 	background-color: ${({ theme }) => theme.colors.backgroundColor};
 	color: ${({ theme }) => theme.colors.white};
 `;

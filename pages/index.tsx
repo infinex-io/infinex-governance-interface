@@ -21,18 +21,14 @@ const Home: NextPage = () => {
 };
 
 const determineSection = (period: string) => {
-	return <VoteLandingPage />;
+	period = 'ADMINISTRATION';
 	switch (period) {
 		case 'ADMINISTRATION':
-			return (
-				<>
-					<AdministrationLandingPage />
-				</>
-			);
+			return <AdministrationLandingPage />;
 		case 'NOMINATION':
 			return <NominationsLandingPage />;
 		case 'VOTING':
-			return <></>;
+			return <VoteLandingPage />;
 		case 'EVALUATION':
 			return;
 		default:

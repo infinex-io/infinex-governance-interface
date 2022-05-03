@@ -1,23 +1,22 @@
 import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
-import { Banner, BannerText, TimeWrapper } from 'components/Banner';
+import { BannerText, Banner, TimeWrapper } from 'components/Banners';
 import RemainingTime from 'components/RemainingTime';
 import { DeployedModules } from 'containers/Modules/Modules';
 import { useRouter } from 'next/router';
-import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
+import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
-export default function VoteBanner({ hideButton }: BannerProps) {
-	const { push } = useRouter();
+export default function NominateSelfBanner({ hideButton }: BannerProps) {
 	const { t } = useTranslation();
-	const { data } = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
-	const remainingTime = data?.votingPeriodEndDate && parseRemainingTime(data.votingPeriodEndDate);
-
+	const { push } = useRouter();
+	const { data } = useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const remainingTime = data?.epochStartDate && parseRemainingTime(data.epochStartDate);
 	return (
-		<Banner color="green" justifyContent="center">
-			<BannerText>{t('banner.vote.headline')}</BannerText>
-			<TimeWrapper className="darker-60" alignItems="center">
-				{t('banner.vote.closes')}
+		<Banner gradientColor="orange" justifyContent="center">
+			<BannerText>{t('banner.nominate.headline')}</BannerText>
+			<TimeWrapper alignItems="center" className="darker-60">
+				{t('banner.nominate.closes')}
 				{remainingTime && <RemainingTime>{remainingTime}</RemainingTime>}
 			</TimeWrapper>
 			{!hideButton && (
@@ -29,7 +28,7 @@ export default function VoteBanner({ hideButton }: BannerProps) {
 					active
 					rounded
 				>
-					{t('banner.vote.button')}
+					{t('banner.nominate.self')}
 					<ArrowRightIcon />
 				</IconButton>
 			)}

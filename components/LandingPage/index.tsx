@@ -3,6 +3,7 @@ import RemainingTime from 'components/RemainingTime';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { parseRemainingTime } from 'utils/time';
 
 interface LandingPageProps {
 	remainingTime?: number;
@@ -18,7 +19,7 @@ export default function LandingPage({
 	return (
 		<>
 			<SNXStar direction="column" justifyContent="center" alignItems="center">
-				{remainingTime && <StyledNumber glow>{remainingTime}</StyledNumber>}
+				{remainingTime && <StyledNumber glow>{parseRemainingTime(remainingTime)}</StyledNumber>}
 				<StyledStarHeadline>
 					{headline ? headline : t('landing-pages.nomination.next-election')}
 				</StyledStarHeadline>

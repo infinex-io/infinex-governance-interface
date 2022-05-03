@@ -18,13 +18,7 @@
 			"view-council-members": "VIEW ALL COUNCIL MEMBERS",
 			"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
 			"elected-members": "Our Current Elected Members",
-			"view-all-members": "View all members",
-
-			"nominate": {
-				"headline": "NOMINATE YOURSELF",
-				"self": "NOMINATE SELF",
-				"closes": "Nominations Closes in"
-			}
+			"view-all-members": "View all members"
 		},
 		"council-tabs": {
 			"all": "All Council Members",
@@ -49,8 +43,15 @@
 			"button": "Vote Now"
 		}
 	},
-	"council-members": {
-		"headline": "{{ council }} Nominees"
+	"elections": {
+		"nominations": {
+			"council-members": {
+				"headline": "{{ council }} Nominees"
+			}
+		},
+		"elected": {
+			"headline": "Our Current Elected Members"
+		}
 	},
 	"modals": {
 		"nomination": {
@@ -80,6 +81,11 @@
 			"headline": "VOTING IS LIVE - VOTE NOW!",
 			"closes": "Closes in",
 			"button": "VOTE NOW"
+		},
+		"nominate": {
+			"headline": "NOMINATE YOURSELF",
+			"self": "NOMINATE SELF",
+			"closes": "Nominations Closes in"
 		}
 	}
 }
