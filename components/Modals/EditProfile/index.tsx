@@ -30,13 +30,20 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 
 	const handleProfileEdit = () => {
 		if (userDetailsQuery.data) {
-			updateUserMutation.mutate({
-				...userDetailsQuery.data,
-				username,
-				about,
-				twitter,
-				pfpThumbnailUrl,
-			});
+			const status = updateUserMutation.mutate(
+				{
+					...userDetailsQuery.data,
+					username,
+					about,
+					twitter,
+					pfpThumbnailUrl,
+				},
+				{
+					onSuccess: () => {
+						setIsOpen(false);
+					},
+				}
+			);
 		}
 	};
 
