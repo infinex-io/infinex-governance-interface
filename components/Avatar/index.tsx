@@ -9,10 +9,17 @@ type AvatarProps = {
 };
 
 const Avatar: React.FC<AvatarProps> = ({ walletAddress, url }) => {
+	const parsedUrl = url?.includes('ipfs') ? url.replace('ipfs://', 'https://ipfs.io/ipfs/') : url;
+
 	return (
 		<ImageContainer>
-			{url ? (
-				<Image src={url} alt={`${walletAddress} avatar url`} />
+			{parsedUrl ? (
+				<RoundedImage
+					src={parsedUrl}
+					alt={`${walletAddress} avatar url`}
+					height={120}
+					width={120}
+				/>
 			) : (
 				<Blockies seed={walletAddress} />
 			)}
@@ -21,8 +28,8 @@ const Avatar: React.FC<AvatarProps> = ({ walletAddress, url }) => {
 };
 export default Avatar;
 
-const ImageContainer = styled.div`
-	width: 40px;
-	height: 40px;
-	border-radius: 20px;
+const ImageContainer = styled.div``;
+
+const RoundedImage = styled(Image)`
+	border-radius: 60px;
 `;

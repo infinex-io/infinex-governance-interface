@@ -116,6 +116,26 @@
 			"headline": "Spartan Council",
 			"submit": "Submit Vote",
 			"profile": "See full profile"
+		},
+		"editProfile": {
+			"headline": "Edit Profile",
+			"subheadline": "Update your profile with more information about yourself",
+			"inputs": {
+				"headline": {
+					"username": "Username",
+					"profileImageUrl": "Profile Image URL",
+					"about": "Pitch",
+					"discord": "Discord",
+					"twitter": "Twitter"
+				},
+				"placeholder": {
+					"username": "e.g John Smith",
+					"profileImageUrl": "e.g ipfs://QmQx9x2ioChpipfHGeGEQXYSRwAW",
+					"about": "e.g I am a OG Synthetix Community Member",
+					"discord": "@john_smith#2131",
+					"twitter": "@john_smith"
+				}
+			}
 		}
 	},
 	"banner": {
