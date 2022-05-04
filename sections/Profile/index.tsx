@@ -28,7 +28,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			synthetix: '',
 		};
 
-		if (delegationPitches !== '') {
+		if (delegationPitches) {
 			parsedDelegationPitch = JSON.parse(delegationPitches);
 		}
 
