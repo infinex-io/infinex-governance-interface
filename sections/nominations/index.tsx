@@ -1,6 +1,4 @@
 import ElectedCouncil from 'components/ElectedCouncil';
-import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
-import Election from './CurrentElections';
 import styled from 'styled-components';
 import { H3 } from 'components/Headlines/H3';
 import { Flex } from '@synthetixio/ui';
@@ -32,7 +30,6 @@ export default function NominationsLandingPage() {
 
 	return (
 		<>
-			<NominateSelfBanner hideButton />
 			<LandingPage remainingTime={Number(remainingTime)} />
 			<ElectedCouncil />
 			<Flex wrap justifyContent="center">

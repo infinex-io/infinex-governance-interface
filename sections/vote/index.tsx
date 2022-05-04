@@ -20,12 +20,9 @@ export default function VotingLandingPage() {
 				remainingTime={Number(remainingTime)}
 			>
 				<Flex justifyContent="center">
-					<StyledButton
-						text={t('landing-pages.voting.button')}
-						variant="primary"
-						onClick={() => {}}
-						size="large"
-					/>
+					<StyledButton variant="primary" onClick={() => {}} size="large">
+						{t('landing-pages.voting.button')}
+					</StyledButton>
 				</Flex>
 			</LandingPage>
 			<ElectedCouncil />

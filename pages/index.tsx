@@ -6,9 +6,31 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import AdministrationLandingPage from 'sections/administration';
 import VoteLandingPage from 'sections/vote';
 import NominationsLandingPage from 'sections/nominations';
+import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 
 const Home: NextPage = () => {
 	const { data } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const determineSection = (period: string) => {
+		period = 'NOMINATION';
+		switch (period) {
+			case 'ADMINISTRATION':
+				return <AdministrationLandingPage />;
+			case 'NOMINATION':
+				return (
+					<>
+						{/* TODO @DEV hide when user nominated him already */}
+						<NominateSelfBanner />
+						<NominationsLandingPage />
+					</>
+				);
+			case 'VOTING':
+				return <VoteLandingPage />;
+			case 'EVALUATION':
+				return;
+			default:
+				return;
+		}
+	};
 
 	return (
 		<>
@@ -18,22 +40,6 @@ const Home: NextPage = () => {
 			<Main>{data?.currentPeriod && determineSection(data.currentPeriod)}</Main>
 		</>
 	);
-};
-
-const determineSection = (period: string) => {
-	period = 'NOMINATION';
-	switch (period) {
-		case 'ADMINISTRATION':
-			return <AdministrationLandingPage />;
-		case 'NOMINATION':
-			return <NominationsLandingPage />;
-		case 'VOTING':
-			return <VoteLandingPage />;
-		case 'EVALUATION':
-			return;
-		default:
-			return;
-	}
 };
 
 export default Home;

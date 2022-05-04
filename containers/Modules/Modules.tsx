@@ -2,8 +2,13 @@ import { ethers } from 'ethers';
 import { createContainer } from 'unstated-next';
 
 import ElectionModuleABI from 'contracts/ElectionModule.json';
-import { ElectionModuleAddress } from 'constants/addresses';
 import Connector from 'containers/Connector';
+import {
+	ambassadorCouncil,
+	grantsCouncil,
+	spartanCouncil,
+	treasuryCouncil,
+} from 'constants/addresses';
 
 export enum DeployedModules {
 	SPARTAN_COUNCIL = 'spartan council',
@@ -23,39 +28,48 @@ const useModules = () => {
 
 	if (chainId && provider) {
 		const SpartanCouncilModule = new ethers.Contract(
-			ElectionModuleAddress,
+			spartanCouncil,
 			ElectionModuleABI.abi,
 			signer ?? provider
 		);
 
 		governanceModules[DeployedModules.SPARTAN_COUNCIL] = {
-			address: ElectionModuleAddress,
+			address: spartanCouncil,
 			contract: SpartanCouncilModule,
 		};
 
-		// const AmbassadorCouncilModule = new ethers.Contract(
-		// 	ElectionModuleAddress,
-		// 	ElectionModuleABI.abi,
-		// signer ?? provider
-		// );
+		const AmbassadorCouncilModule = new ethers.Contract(
+			ambassadorCouncil,
+			ElectionModuleABI.abi,
+			signer ?? provider
+		);
 
-		// contracts.push(AmbassadorCouncilModule);
+		governanceModules[DeployedModules.AMBASSADOR_COUNCIL] = {
+			address: ambassadorCouncil,
+			contract: AmbassadorCouncilModule,
+		};
 
-		// const GrantsCouncilModule = new ethers.Contract(
-		// 	ElectionModuleAddress,
-		// 	ElectionModuleABI.abi,
-		// signer ?? provider
-		// );
+		const GrantsCouncilModule = new ethers.Contract(
+			grantsCouncil,
+			ElectionModuleABI.abi,
+			signer ?? provider
+		);
 
-		// contracts.push(GrantsCouncilModule);
+		governanceModules[DeployedModules.GRANTS_COUNCIL] = {
+			address: grantsCouncil,
+			contract: GrantsCouncilModule,
+		};
 
-		// const TreasuryCouncilModule = new ethers.Contract(
-		// 	ElectionModuleAddress,
-		// 	ElectionModuleABI.abi,
-		// signer ?? provider
-		// );
+		const TreasuryCouncilModule = new ethers.Contract(
+			treasuryCouncil,
+			ElectionModuleABI.abi,
+			signer ?? provider
+		);
 
-		// contracts.push(TreasuryCouncilModule);
+		governanceModules[DeployedModules.TREASURY_COUNCIL] = {
+			address: treasuryCouncil,
+			contract: TreasuryCouncilModule,
+		};
 	}
 
 	return { governanceModules };

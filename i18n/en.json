@@ -56,7 +56,7 @@
 				"ac": "Ambassador Council",
 				"tc": "Treasury Council",
 				"cta": {
-					"closed": "CLOSED- COUNCIL ELECTED",
+					"closed": "CLOSED - COUNCIL ELECTED",
 					"nomination": "NOMINATIONS OPEN",
 					"vote": "VOTING OPEN"
 				},
@@ -64,10 +64,13 @@
 					"closed": "View Council",
 					"nomination": "Nominate Yourself",
 					"vote": "Vote Candidates"
-				}
+				},
+				"nominees": "View Nominees"
 			},
-			"council-members": {
-				"headline": "{{ council }} Nominees"
+			"members": {
+				"back": "Go Back",
+				"headline": "{{ council }} Council Nominees",
+				"view-nominee": "View nominee"
 			}
 		},
 		"elected": {
@@ -78,6 +81,7 @@
 		"nomination": {
 			"headline": "Nominate Self",
 			"nominationAddress": "Nomination Wallet Address",
+			"button": "Nominate Self",
 			"checkboxes": {
 				"spartan": "Spartan Council",
 				"grants": "Grants Council",
@@ -90,6 +94,11 @@
 			"headline": "Withdraw Nomination",
 			"nomination-for": "Nomination for {{council}}",
 			"nomination": "Withdraw Nomination"
+		},
+		"edit": {
+			"headline": "Edit Your Nomination",
+			"subline": "Current Nomination",
+			"save": "Save Nomination"
 		},
 		"vote": {
 			"headline": "Spartan Council",
