@@ -2,9 +2,7 @@ import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
 import { useQuery } from 'react-query';
 
 export type GetUserDetails = {
-	// API currently returns address
-	address?: string;
-	//
+	address: string;
 	email: string;
 	ens: string;
 	username: string;
@@ -20,6 +18,9 @@ export type GetUserDetails = {
 	bannerImageId: string;
 	pfpThumbnailUrl: string;
 	bannerUrl: string;
+	discord: string;
+	delegationPitches: string;
+	github: string;
 };
 
 function useUserDetailsQuery(walletAddress: string) {

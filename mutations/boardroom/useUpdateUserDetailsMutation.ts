@@ -22,13 +22,6 @@ function useUpdateUserDetailsMutation() {
 				return await boardroomSignIn();
 			} else {
 				if (walletAddress) {
-					delete userProfile.address;
-
-					//@TODO: add this
-					userProfile.notificationPreferences = '';
-					// @TODO: will be remove
-					userProfile.email = '';
-
 					const body = {
 						...userProfile,
 						uuid: uuid,

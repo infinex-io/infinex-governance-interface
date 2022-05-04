@@ -84,6 +84,7 @@
 		"subheadline": "Profile",
 		"twitter": "Twitter",
 		"discord": "Discord",
+		"github": "Github",
 		"currentVotingWeight": "Current Voting Weight",
 		"participatedVotes": "Total Votes Contributed",
 		"wallet": "Wallet Address",
@@ -124,16 +125,20 @@
 				"headline": {
 					"username": "Username",
 					"profileImageUrl": "Profile Image URL",
-					"about": "Pitch",
 					"discord": "Discord",
-					"twitter": "Twitter"
+					"twitter": "Twitter",
+					"about": "About",
+					"github": "Github",
+					"pitch": "Governance Pitch"
 				},
 				"placeholder": {
 					"username": "e.g John Smith",
 					"profileImageUrl": "e.g ipfs://QmQx9x2ioChpipfHGeGEQXYSRwAW",
-					"about": "e.g I am a OG Synthetix Community Member",
 					"discord": "@john_smith#2131",
-					"twitter": "@john_smith"
+					"twitter": "@john_smith",
+					"github": "@john_smith",
+					"pitch": "e.g I am a OG Synthetix Community Member.",
+					"about": "e.g OG DeFi Member"
 				}
 			}
 		}

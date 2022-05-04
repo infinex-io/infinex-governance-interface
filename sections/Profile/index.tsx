@@ -12,7 +12,26 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { setIsOpen, setContent } = Modal.useContainer();
 
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data) {
-		const { pfpThumbnailUrl, username, ens, about, twitter } = userDetailsQuery.data;
+		const {
+			address,
+			pfpThumbnailUrl,
+			username,
+			ens,
+			about,
+			twitter,
+			discord,
+			delegationPitches,
+			github,
+		} = userDetailsQuery.data;
+
+		let parsedDelegationPitch = {
+			synthetix: '',
+		};
+
+		if (delegationPitches !== '') {
+			parsedDelegationPitch = JSON.parse(delegationPitches);
+		}
+
 		return (
 			<Page>
 				<FlexCol>
@@ -26,14 +45,18 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</button>
 					<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					<StyledHeadline>{username ? username : ens ? ens : walletAddress}</StyledHeadline>
-					<StyledHeadline>{about}</StyledHeadline>
+					<StyledSubline>{about}</StyledSubline>
 					<StyledHeadline>{t('profiles.subheadline')}</StyledHeadline>
 					<ProfileBox>
 						<FlexRow>
 							<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
 							<FlexCol>
 								<InfoHeader>{t('profiles.discord')}</InfoHeader>
-								<InfoData>{twitter}</InfoData>
+								<InfoData>{discord}</InfoData>
+							</FlexCol>
+							<FlexCol>
+								<InfoHeader>{t('profiles.github')}</InfoHeader>
+								<InfoData>{github}</InfoData>
 							</FlexCol>
 							<FlexCol>
 								<InfoHeader>{t('profiles.twitter')}</InfoHeader>
@@ -51,13 +74,13 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 						<FlexRow>
 							<FlexCol>
 								<InfoHeader>{t('profiles.wallet')}</InfoHeader>
-								<InfoData>{walletAddress}</InfoData>
+								<InfoData>{address}</InfoData>
 							</FlexCol>
 						</FlexRow>
 						<FlexRow>
 							<FlexCol>
 								<InfoHeader>{t('profiles.pitch')}</InfoHeader>
-								<InfoData>{about}</InfoData>
+								<InfoData>{parsedDelegationPitch.synthetix}</InfoData>
 							</FlexCol>
 						</FlexRow>
 					</ProfileBox>
@@ -87,6 +110,10 @@ const FlexRow = styled.div`
 `;
 
 const StyledHeadline = styled.h1``;
+const StyledSubline = styled.h2`
+	color: ${(props) => props.theme.colors.grey};
+	font-size: 14px;
+`;
 
 const ProfileBox = styled(FlexCol)`
 	display: flex;

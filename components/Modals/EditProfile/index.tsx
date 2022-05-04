@@ -24,12 +24,18 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 	const [username, setUsername] = useState<string>(userProfile.username);
 	const [pfpThumbnailUrl, setPfpThumbnailUrl] = useState<string>(userProfile.pfpThumbnailUrl);
 	const [about, setAbout] = useState<string>(userProfile.about);
-	// @TODO: add discord to schema
-	const [discord, setDiscord] = useState<string>(userProfile.twitter);
+	const [discord, setDiscord] = useState<string>(userProfile.discord);
 	const [twitter, setTwitter] = useState<string>(userProfile.twitter);
+	const [github, setGithub] = useState<string>(userProfile.github);
+
+	const [pitch, setPitch] = useState<string>(JSON.parse(userProfile.delegationPitches).synthetix);
 
 	const handleProfileEdit = () => {
 		if (userDetailsQuery.data) {
+			const delegationPitches = {
+				synthetix: pitch,
+			};
+			const jsonFormatted = JSON.stringify(delegationPitches);
 			const status = updateUserMutation.mutate(
 				{
 					...userDetailsQuery.data,
@@ -37,6 +43,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					about,
 					twitter,
 					pfpThumbnailUrl,
+					discord,
+					github,
+					delegationPitches: jsonFormatted,
 				},
 				{
 					onSuccess: () => {
@@ -83,6 +92,19 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 				<InputRow>
 					<InputCol direction="column">
 						<StyledBlackBoxSubline>
+							{t('modals.editProfile.inputs.headline.pitch')}
+						</StyledBlackBoxSubline>
+						<StyledInput
+							placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
+							value={pitch}
+							onInput={(e) => setPitch(e.target.value)}
+							id="about"
+						></StyledInput>
+					</InputCol>
+				</InputRow>
+				<InputRow>
+					<InputCol direction="column">
+						<StyledBlackBoxSubline>
 							{t('modals.editProfile.inputs.headline.about')}
 						</StyledBlackBoxSubline>
 						<StyledInput
@@ -90,6 +112,18 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 							value={about}
 							onInput={(e) => setAbout(e.target.value)}
 							id="about"
+						></StyledInput>
+					</InputCol>
+
+					<InputCol direction="column">
+						<StyledBlackBoxSubline>
+							{t('modals.editProfile.inputs.headline.github')}
+						</StyledBlackBoxSubline>
+						<StyledInput
+							placeholder={t('modals.editProfile.inputs.placeholder.github')}
+							value={github}
+							onInput={(e) => setGithub(e.target.value)}
+							id="github"
 						></StyledInput>
 					</InputCol>
 				</InputRow>
