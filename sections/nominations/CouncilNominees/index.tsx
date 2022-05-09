@@ -40,7 +40,7 @@ export default function CouncilNominees() {
 				<Flex wrap={true}>
 					{/* TODO @DEV uncomment once we got some data */}
 					{/* 				{data?.map((member) => ( */}
-					<StyledMemberCard withBackgroundColor="purple" onClick={() => {}}>
+					<StyledMemberCard color="purple" onClick={() => {}}>
 						<StyledMemberCardContent className="darker-60">
 							0x0000...0000
 							<Flex alignItems="center">
@@ -53,11 +53,13 @@ export default function CouncilNominees() {
 									{t('elections.nomination.members.view-nominee')}
 								</Button>
 								<StyledOptionsCard
-									withBackgroundColor="lightBlue"
+									color="lightBlue"
 									onClick={() => setDropDownIsOpen(!dropDownIsOpen)}
 								>
 									<ThreeDotsKebabIcon active />
-									{dropDownIsOpen && <StyledDropdown elements={[<div>test</div>]} />}
+									{dropDownIsOpen && (
+										<StyledDropdown color="lightBlue" elements={[<div>test</div>]} />
+									)}
 								</StyledOptionsCard>
 							</Flex>
 						</StyledMemberCardContent>

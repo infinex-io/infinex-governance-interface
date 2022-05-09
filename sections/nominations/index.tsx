@@ -26,14 +26,13 @@ export default function NominationsLandingPage() {
 	);
 
 	const { data } = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
-	const remainingTime = data?.votingPeriodEndDate && parseRemainingTime(data.votingPeriodEndDate);
-
+	const remainingTime = data?.votingPeriodEndDate && data.votingPeriodEndDate;
 	return (
 		<>
 			<LandingPage remainingTime={Number(remainingTime)} />
 			<ElectedCouncil />
 			<Flex wrap justifyContent="center">
-				<StyledCountdownCard direction="column" alignItems="center">
+				<StyledCountdownCard direction="column" alignItems="center" justifyContent="center">
 					<H3>{t('landing-pages.nomination.sc-opens')}</H3>
 					{spartanNominationTime?.nominationPeriodStartDate && (
 						<RemainingTime glow>
@@ -41,15 +40,15 @@ export default function NominationsLandingPage() {
 						</RemainingTime>
 					)}
 				</StyledCountdownCard>
-				<StyledCountdownCard direction="column" alignItems="center">
-					<H3>{t('landing-pages.nomination.gd-opens')}</H3>
+				<StyledCountdownCard direction="column" alignItems="center" justifyContent="center">
+					<H3>{t('landing-pages.nomination.gc-opens')}</H3>
 					{grantsNominationTime?.nominationPeriodStartDate && (
 						<RemainingTime glow>
 							{parseRemainingTime(grantsNominationTime.nominationPeriodStartDate)}
 						</RemainingTime>
 					)}
 				</StyledCountdownCard>
-				<StyledCountdownCard direction="column" alignItems="center">
+				<StyledCountdownCard direction="column" alignItems="center" justifyContent="center">
 					<H3>{t('landing-pages.nomination.ac-opens')}</H3>
 					{ambassadorNominationTime?.nominationPeriodStartDate && (
 						<RemainingTime glow>
@@ -57,7 +56,7 @@ export default function NominationsLandingPage() {
 						</RemainingTime>
 					)}
 				</StyledCountdownCard>
-				<StyledCountdownCard direction="column" alignItems="center">
+				<StyledCountdownCard direction="column" alignItems="center" justifyContent="center">
 					<H3>{t('landing-pages.nomination.tc-opens')}</H3>
 					{treasuryNominationTime?.nominationPeriodStartDate && (
 						<RemainingTime glow>

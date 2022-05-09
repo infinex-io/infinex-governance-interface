@@ -4,7 +4,6 @@ import { DeployedModules } from 'containers/Modules/Modules';
 
 type NominationPeriodDates = {
 	nominationPeriodStartDate: number;
-	nominationPeriodEndDate?: number;
 };
 
 function useNominationPeriodDatesQuery(moduleInstance: DeployedModules) {
@@ -14,7 +13,8 @@ function useNominationPeriodDatesQuery(moduleInstance: DeployedModules) {
 		['nominationPeriodDates', moduleInstance],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
-			let nominationPeriodStartDate = Number(await contract?.getNominationPeriodStartDate()) * 1000;
+			const nominationPeriodStartDate =
+				Number(await contract?.getNominationPeriodStartDate()) * 1000;
 			return { nominationPeriodStartDate };
 		},
 		{

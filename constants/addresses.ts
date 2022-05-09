@@ -1,4 +1,4 @@
-export const spartanCouncil = '0xaaba656c2790dd17be1ec00fbe6a862f707e7cd5';
-export const ambassadorCouncil = '0xe52f21abd97b8c827f9b620e8d3cb74473ed7d0f';
-export const grantsCouncil = '0xe7296b87fc703966a93c30c8420cfee0b44fdc3d';
-export const treasuryCouncil = '0xb27c17aaedff3af69ee9a33d0338ec2afbaa6e64';
+export const spartanCouncil = '0x4ccd016d68481D5717026056d6a97af944820b70';
+export const ambassadorCouncil = '0x8c0e12CAAd4586911411c54920065964c3e6403A';
+export const grantsCouncil = '0x4faeD72B4593fDeAadDeC524782B3A475d6cc0dB';
+export const treasuryCouncil = '0x9593cDE63ca59923C61727B7e701befB248dCb77';

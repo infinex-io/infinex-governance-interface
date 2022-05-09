@@ -1,5 +1,4 @@
 import { DeployedModules } from 'containers/Modules/Modules';
-import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 import { H1 } from 'components/Headlines/H1';
 import { useTranslation } from 'react-i18next';
 import { Button, Card, Colors, Flex } from '@synthetixio/ui';
@@ -8,26 +7,45 @@ import Image from 'next/image';
 import { H4 } from 'components/Headlines/H4';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import Link from 'next/link';
+import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
+import RemainingTime from 'components/RemainingTime';
+import { parseRemainingTime } from 'utils/time';
+import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useNomineesQuery from 'queries/nomination/useNomineesQuery';
+import Modal from 'containers/Modal';
+import NominateModal from 'components/Modals/Nominate';
+import { useRouter } from 'next/router';
 
 export default function CurrentElections() {
 	const { t } = useTranslation();
-	const { data: spartanNominationTime } = useNominationPeriodDatesQuery(
-		DeployedModules.SPARTAN_COUNCIL
-	);
-	const { data: grantsNominationTime } = useNominationPeriodDatesQuery(
-		DeployedModules.GRANTS_COUNCIL
-	);
-	const { data: ambassadorNominationTime } = useNominationPeriodDatesQuery(
-		DeployedModules.AMBASSADOR_COUNCIL
-	);
-	const { data: treasuryNominationTime } = useNominationPeriodDatesQuery(
-		DeployedModules.TREASURY_COUNCIL
-	);
+	const { setIsOpen, setContent } = Modal.useContainer();
+	const { push } = useRouter();
 
 	const { data: spartanEpochIndex } = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
 	const { data: grantsEpochIndex } = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
 	const { data: ambassadorEpochIndex } = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
 	const { data: treasuryEpochIndex } = useEpochIndexQuery(DeployedModules.TREASURY_COUNCIL);
+
+	const [spartanEpoch, spartanNominees, spartanMembers] = [
+		useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL),
+		useNomineesQuery(DeployedModules.SPARTAN_COUNCIL),
+		useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL),
+	];
+	const [grantsEpoch, grantsNominees, grantsMembers] = [
+		useCurrentEpochDatesQuery(DeployedModules.GRANTS_COUNCIL),
+		useNomineesQuery(DeployedModules.GRANTS_COUNCIL),
+		useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL),
+	];
+	const [ambassadorEpoch, ambassadorNominees, ambassadorMembers] = [
+		useCurrentEpochDatesQuery(DeployedModules.AMBASSADOR_COUNCIL),
+		useNomineesQuery(DeployedModules.AMBASSADOR_COUNCIL),
+		useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL),
+	];
+	const [treasuryEpoch, treasuryNominees, treasuryMembers] = [
+		useCurrentEpochDatesQuery(DeployedModules.TREASURY_COUNCIL),
+		useNomineesQuery(DeployedModules.TREASURY_COUNCIL),
+		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
+	];
 
 	const spartanCouncilInfo = spartanEpochIndex && parseIndex(spartanEpochIndex);
 	const grantsCouncilInfo = grantsEpochIndex && parseIndex(grantsEpochIndex);
@@ -38,7 +56,7 @@ export default function CurrentElections() {
 		<CurrentElectionsWrapper direction="column">
 			<StyledHeadline>{t('elections.nomination.headline')}</StyledHeadline>
 			<Flex wrap justifyContent="center">
-				<StyledCard withBackgroundColor="purple">
+				<StyledCard color="purple">
 					<StyledCardContent direction="column" alignItems="center" className="darker-60">
 						<Image src="/logos/spartan-council.svg" width={70} height={80} />
 						<H4>{t('elections.nomination.cards.sc')}</H4>
@@ -47,19 +65,46 @@ export default function CurrentElections() {
 								<StyledCardBanner color={spartanCouncilInfo.color}>
 									{t(spartanCouncilInfo.cta)}
 								</StyledCardBanner>
-								{spartanEpochIndex === 1 && (
-									<Link href={`/elections/members?council=spartan`}>
-										{t('elections.nomination.cards.nominees')}
-									</Link>
+								{(spartanEpochIndex === 1 || spartanEpochIndex === 2) && (
+									<RemainingTime color={spartanEpochIndex === 1 ? 'orange' : 'green'}>
+										{!Array.isArray(spartanEpoch.data) &&
+											spartanEpoch.data?.epochEndDate &&
+											parseRemainingTime(spartanEpoch.data.epochEndDate)}
+									</RemainingTime>
 								)}
-								<Button onClick={() => {}} variant={spartanCouncilInfo.variant}>
+								{spartanEpochIndex === 1 && (
+									<>
+										{Array.isArray(spartanNominees.data) && spartanNominees.data.length} - nominees
+										<Link href={'/elections/members?council=spartan'}>
+											{t('elections.nomination.cards.nominees')}
+										</Link>
+									</>
+								)}
+								{spartanEpochIndex === 0 && (
+									<>{spartanMembers.data?.length && spartanMembers.data?.length} - Members</>
+								)}
+								<Button
+									onClick={() => {
+										if (spartanEpochIndex === 1) {
+											setContent(<NominateModal />);
+											setIsOpen(true);
+										} else if (spartanEpochIndex === 2) {
+											// TODO @MF figure out route
+											push({ pathname: '/vote/nominees?council=spartan' });
+										} else {
+											// TODO @MF figure out route
+											push({ pathname: '/elected/nominees?council=spartan' });
+										}
+									}}
+									variant={spartanCouncilInfo.variant}
+								>
 									{t(spartanCouncilInfo.button)}
 								</Button>
 							</>
 						)}
 					</StyledCardContent>
 				</StyledCard>
-				<StyledCard withBackgroundColor="purple">
+				<StyledCard color="purple">
 					<StyledCardContent direction="column" alignItems="center" className="darker-60">
 						<Image src="/logos/grants-council.svg" width={70} height={80} />
 						<H4>{t('elections.nomination.cards.gc')}</H4>
@@ -68,19 +113,46 @@ export default function CurrentElections() {
 								<StyledCardBanner color={grantsCouncilInfo.color}>
 									{t(grantsCouncilInfo.cta)}
 								</StyledCardBanner>
-								{grantsEpochIndex === 1 && (
-									<Link href={`/elections/members?council=grants`}>
-										text={t('elections.nomination.cards.nominees')}
-									</Link>
+								{(grantsEpochIndex === 1 || grantsEpochIndex === 2) && (
+									<RemainingTime color={grantsEpochIndex === 1 ? 'orange' : 'green'}>
+										{!Array.isArray(grantsEpoch.data) &&
+											grantsEpoch.data?.epochEndDate &&
+											parseRemainingTime(grantsEpoch.data.epochEndDate)}
+									</RemainingTime>
 								)}
-								<Button onClick={() => {}} variant={grantsCouncilInfo.variant}>
+								{grantsEpochIndex === 1 && (
+									<>
+										{Array.isArray(grantsNominees.data) && grantsNominees.data.length} - nominees
+										<Link href={`/elections/members?council=grants`}>
+											{t('elections.nomination.cards.nominees')}
+										</Link>
+									</>
+								)}
+								{grantsEpochIndex === 0 && (
+									<>{grantsMembers.data?.length && grantsMembers.data?.length} - Members</>
+								)}
+								<Button
+									onClick={() => {
+										if (grantsEpochIndex === 1) {
+											setContent(<NominateModal />);
+											setIsOpen(true);
+										} else if (grantsEpochIndex === 2) {
+											// TODO @MF figure out route
+											push({ pathname: '/vote/nominees?council=spartan' });
+										} else {
+											// TODO @MF figure out route
+											push({ pathname: '/elected/nominees?council=spartan' });
+										}
+									}}
+									variant={grantsCouncilInfo.variant}
+								>
 									{t(grantsCouncilInfo.button)}
 								</Button>
 							</>
 						)}
 					</StyledCardContent>
 				</StyledCard>
-				<StyledCard withBackgroundColor="purple">
+				<StyledCard color="purple">
 					<StyledCardContent direction="column" alignItems="center" className="darker-60">
 						<Image src="/logos/ambassador-council.svg" width={70} height={80} />
 						<H4>{t('elections.nomination.cards.ac')}</H4>
@@ -89,19 +161,47 @@ export default function CurrentElections() {
 								<StyledCardBanner color={ambassadorCouncilInfo.color}>
 									{t(ambassadorCouncilInfo.cta)}
 								</StyledCardBanner>
-								{ambassadorEpochIndex === 1 && (
-									<Link href={`/elections/members?council=ambassador`}>
-										{t('elections.nomination.cards.nominees')}
-									</Link>
+								{(ambassadorEpochIndex === 1 || ambassadorEpochIndex === 2) && (
+									<RemainingTime color={ambassadorEpochIndex === 1 ? 'orange' : 'green'}>
+										{!Array.isArray(ambassadorEpoch.data) &&
+											ambassadorEpoch.data?.epochEndDate &&
+											parseRemainingTime(ambassadorEpoch.data.epochEndDate)}
+									</RemainingTime>
 								)}
-								<Button onClick={() => {}} variant={ambassadorCouncilInfo.variant}>
+								{ambassadorEpochIndex === 1 && (
+									<>
+										{Array.isArray(ambassadorNominees.data) && ambassadorNominees.data.length} -
+										nominees
+										<Link href={`/elections/members?council=ambassador`}>
+											{t('elections.nomination.cards.nominees')}
+										</Link>
+									</>
+								)}
+								{ambassadorEpochIndex === 0 && (
+									<>{ambassadorMembers.data?.length && ambassadorMembers.data?.length} - Members</>
+								)}
+								<Button
+									onClick={() => {
+										if (ambassadorEpochIndex === 1) {
+											setContent(<NominateModal />);
+											setIsOpen(true);
+										} else if (ambassadorEpochIndex === 2) {
+											// TODO @MF figure out route
+											push({ pathname: '/vote/nominees?council=spartan' });
+										} else {
+											// TODO @MF figure out route
+											push({ pathname: '/elected/nominees?council=spartan' });
+										}
+									}}
+									variant={ambassadorCouncilInfo.variant}
+								>
 									{t(ambassadorCouncilInfo.button)}
 								</Button>
 							</>
 						)}
 					</StyledCardContent>
 				</StyledCard>
-				<StyledCard withBackgroundColor="purple">
+				<StyledCard color="purple">
 					<StyledCardContent direction="column" alignItems="center" className="darker-60">
 						<Image src="/logos/treasury-council.svg" width={70} height={80} />
 						<H4>{t('elections.nomination.cards.tc')}</H4>
@@ -110,12 +210,40 @@ export default function CurrentElections() {
 								<StyledCardBanner color={treasuryCouncilInfo.color}>
 									{t(treasuryCouncilInfo.cta)}
 								</StyledCardBanner>
-								{treasuryEpochIndex === 1 && (
-									<Link href={`/elections/members?council=treasury`}>
-										{t('elections.nomination.cards.nominees')}
-									</Link>
+								{(treasuryEpochIndex === 1 || treasuryEpochIndex === 2) && (
+									<RemainingTime color={treasuryEpochIndex === 1 ? 'orange' : 'green'}>
+										{!Array.isArray(treasuryEpoch.data) &&
+											treasuryEpoch.data?.epochEndDate &&
+											parseRemainingTime(treasuryEpoch.data.epochEndDate)}
+									</RemainingTime>
 								)}
-								<Button onClick={() => {}} variant={treasuryCouncilInfo.variant}>
+								{treasuryEpochIndex === 1 && (
+									<>
+										{Array.isArray(treasuryNominees.data) && treasuryNominees.data.length} -
+										nominees
+										<Link href={`/elections/members?council=treasury`}>
+											{t('elections.nomination.cards.nominees')}
+										</Link>
+									</>
+								)}
+								{treasuryEpochIndex === 0 && (
+									<>{treasuryMembers.data?.length && treasuryMembers.data?.length} - Members</>
+								)}
+								<Button
+									onClick={() => {
+										if (treasuryEpochIndex === 1) {
+											setContent(<NominateModal />);
+											setIsOpen(true);
+										} else if (treasuryEpochIndex === 2) {
+											// TODO @MF figure out route
+											push({ pathname: '/vote/nominees?council=spartan' });
+										} else {
+											// TODO @MF figure out route
+											push({ pathname: '/elected/nominees?council=spartan' });
+										}
+									}}
+									variant={treasuryCouncilInfo.variant}
+								>
 									{t(treasuryCouncilInfo.button)}
 								</Button>
 							</>

@@ -51,7 +51,7 @@ export default function ElectedMembers() {
 				]}
 			/>
 			<Flex wrap>
-				<StyledMemberCard withBackgroundColor="darkBlue"></StyledMemberCard>
+				<StyledMemberCard withBackgroundColor="backgroundColor"></StyledMemberCard>
 			</Flex>
 		</StyledElectedMembersWrapper>
 	);

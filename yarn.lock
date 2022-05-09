@@ -1515,10 +1515,10 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@1.22.1":
-  version "1.22.1"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.22.1.tgz#99bb6ecfce9a385ddbfec948f72a0b708ebe2b29"
-  integrity sha512-1SyOxZWKjaFQWHIZ5/DVa/YG3pTTRDnHrwa95sfTKjyLhxvyZSm2s+FpXMmJqQTEKwR2F/QlHYBcWNC/RuecHQ==
+"@synthetixio/ui@1.22.4":
+  version "1.22.4"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-1.22.4.tgz#003d8c89dc1e1a9e3a1357dac11efdba848a7634"
+  integrity sha512-MGOD3Ur9wt6U4gRULoU42dhK3ptrHD3yUmklVMA87S6Zzle1xTBLAxlUBsSoNA746smmy/U0xM7nJlsL1dRZeg==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
