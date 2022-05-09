@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Button, CloseIcon, Flex, IconButton, TextInput } from '@synthetixio/ui';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-
 import Connector from 'containers/Connector';
 import Modal from 'containers/Modal';
 import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
 import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+
+import { Button, CloseIcon, Flex, IconButton, TextInput } from '@synthetixio/ui';
 
 type EditProfileModalProps = {
 	userProfile: GetUserDetails;

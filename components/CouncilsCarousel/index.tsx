@@ -1,9 +1,10 @@
-import { Button, Card, Carousel, Flex, Tabs } from '@synthetixio/ui';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+
+import { Button, Card, Carousel, Flex, Tabs } from '@synthetixio/ui';
 
 interface CouncilsCarouselProps {
 	maxWidth?: string;
@@ -60,15 +61,17 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 			<Carousel
 				startIndex={startIndex ? startIndex : 1}
 				widthOfItems={300}
-				carouselItems={[
-					<StyledCarouselCard withBackgroundColor="darkBlue">
-						Test Test Test Test Test Test
-					</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
-					<StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
-				]}
+				carouselItems={
+					[
+						// <StyledCarouselCard withBackgroundColor="darkBlue">
+						// 	Test Test Test Test Test Test
+						// </StyledCarouselCard>,
+						// <StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+						// <StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+						// <StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+						// <StyledCarouselCard withBackgroundColor="darkBlue">Test</StyledCarouselCard>,
+					]
+				}
 				maxWidth={maxWidth ? maxWidth : '90vw'}
 				arrowsPosition="outside"
 				withDots="secondary"
