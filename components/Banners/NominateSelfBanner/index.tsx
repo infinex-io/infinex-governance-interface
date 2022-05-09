@@ -1,4 +1,3 @@
-import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
 import { Banner, TimeWrapper } from 'components/Banners';
 import NominateModal from 'components/Modals/Nominate';
 import RemainingTime from 'components/RemainingTime';
@@ -7,6 +6,10 @@ import { DeployedModules } from 'containers/Modules/Modules';
 import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
+
+import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
+
+import { BannerProps } from '../types';
 
 export default function NominateSelfBanner({ hideButton }: BannerProps) {
 	const { t } = useTranslation();

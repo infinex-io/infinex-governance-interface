@@ -1,10 +1,12 @@
-import { Button, Checkbox, Flex } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+
+import { Button, Checkbox, Flex } from '@synthetixio/ui';
+
 import BaseModal from '../BaseModal';
 
 export default function EditModal() {
@@ -65,7 +67,7 @@ export default function EditModal() {
 					checked={activeCheckbox === 'treasury'}
 				/>
 			</StyledCheckboxWrapper>
-			<StyledEditButton>{t('modals.edit.save')}</StyledEditButton>
+			<StyledEditButton onClick={() => {}}>{t('modals.edit.save')}</StyledEditButton>
 		</BaseModal>
 	);
 }

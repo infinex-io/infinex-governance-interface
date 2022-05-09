@@ -1,3 +1,3 @@
-interface BannerProps {
+export interface BannerProps {
 	hideButton?: boolean;
 }
