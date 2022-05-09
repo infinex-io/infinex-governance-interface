@@ -1,5 +1,5 @@
 import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
-import { Banner, BannerText, TimeWrapper } from 'components/Banner';
+import { Banner, BannerText, TimeWrapper } from 'components/Banners';
 import RemainingTime from 'components/RemainingTime';
 import { DeployedModules } from 'containers/Modules/Modules';
 import { useRouter } from 'next/router';

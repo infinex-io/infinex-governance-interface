@@ -1,4 +1,5 @@
 import { Button, Card, Flex } from '@synthetixio/ui';
+import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -14,25 +15,31 @@ export default function ElectionsSection() {
 		t('landing-pages.elections.councils.tc'),
 	];
 	return (
-		<Flex direction="column" alignItems="center">
-			<StyledElectionsHeadline>{t('landing-pages.elections.headline')}</StyledElectionsHeadline>
-			<Flex justifyContent="space-between">
-				{councilNames.map((name, index) => (
-					<StyledCard withBackgroundColor="darkBlue" key={name.concat(index.toString())}>
-						<StyledCardContentWrapper>
-							<StyledCouncilCircleOuter>
-								<StyledCouncilCircleInner></StyledCouncilCircleInner>
-							</StyledCouncilCircleOuter>
-							<CouncilCard name={name} />
-							<Button
-								onClick={() => push({ pathname: '/elections/members/', query: { council: name } })}
-								text={t('landing-pages.elections.vote-council')}
-							></Button>
-						</StyledCardContentWrapper>
-					</StyledCard>
-				))}
+		<>
+			<NominateSelfBanner hideButton />
+			<Flex direction="column" alignItems="center">
+				<StyledElectionsHeadline>{t('landing-pages.elections.headline')}</StyledElectionsHeadline>
+				<Flex justifyContent="space-between">
+					{councilNames.map((name, index) => (
+						<StyledCard withBackgroundColor="darkBlue" key={name.concat(index.toString())}>
+							<StyledCardContentWrapper>
+								<StyledCouncilCircleOuter>
+									<StyledCouncilCircleInner></StyledCouncilCircleInner>
+								</StyledCouncilCircleOuter>
+								<CouncilCard name={name} />
+								<Button
+									onClick={() =>
+										push({ pathname: '/elections/members/', query: { council: name } })
+									}
+								>
+									{t('landing-pages.elections.vote-council')}
+								</Button>
+							</StyledCardContentWrapper>
+						</StyledCard>
+					))}
+				</Flex>
 			</Flex>
-		</Flex>
+		</>
 	);
 }
 

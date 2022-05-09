@@ -26,9 +26,12 @@ export default function VoteModal({ candidateInformation }: VoteModalProps) {
 					push({ pathname: 'elections/members/...' });
 				}}
 				variant="primary"
-				text={t('modals.vote.submit')}
-			/>
-			<StyledProfileButton text={t('modals.vote.profile')} variant="secondary" onClick={() => {}} />
+			>
+				{t('modals.vote.submit')}
+			</StyledSubmitButton>
+			<StyledProfileButton variant="secondary" onClick={() => {}}>
+				{t('modals.vote.profile')}
+			</StyledProfileButton>
 		</BaseModal>
 	);
 }

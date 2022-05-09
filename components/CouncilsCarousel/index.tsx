@@ -1,4 +1,6 @@
 import { Button, Card, Carousel, Flex, Tabs } from '@synthetixio/ui';
+import { DeployedModules } from 'containers/Modules/Modules';
+import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -12,36 +14,46 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
 	const councilTabs = [
-		t('dashboard.council-tabs.all'),
-		t('dashboard.council-tabs.spartan'),
-		t('dashboard.council-tabs.grants'),
-		t('dashboard.council-tabs.ambassador'),
-		t('dashboard.council-tabs.treasury'),
+		t('landing-pages.council-tabs.all'),
+		t('landing-pages.council-tabs.spartan'),
+		t('landing-pages.council-tabs.grants'),
+		t('landing-pages.council-tabs.ambassador'),
+		t('landing-pages.council-tabs.treasury'),
 	];
+
+	const { data: spartanMembers } = useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data: ambassadorMembers } = useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL);
+	const { data: grantsMembers } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
+	const { data: treasuryMembers } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
+	const allMembers =
+		spartanMembers?.length &&
+		ambassadorMembers?.length &&
+		grantsMembers?.length &&
+		treasuryMembers?.length &&
+		spartanMembers?.concat(ambassadorMembers, grantsMembers, treasuryMembers);
 
 	return (
 		<Flex direction="column" alignItems="center">
 			<Tabs
 				titles={councilTabs}
-				clicked={(index) => index && setActiveIndex(index)}
+				clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
 				justifyContent="center"
 				activeIndex={activeIndex}
 				icons={[
-					// TODO @DEV get the numbers of members of each council
-					<StyledTabIcon key={1} active={activeIndex === 0}>
-						1
+					<StyledTabIcon key="all-council-members" active={activeIndex === 0}>
+						{Array.isArray(allMembers) && allMembers.length}
 					</StyledTabIcon>,
-					<StyledTabIcon key={2} active={false}>
-						1
+					<StyledTabIcon key="spartan-council-tab" active={activeIndex === 1}>
+						{spartanMembers?.length}
 					</StyledTabIcon>,
-					<StyledTabIcon key={3} active={false}>
-						1
+					<StyledTabIcon key="ambassador-council-tab" active={activeIndex === 2}>
+						{ambassadorMembers?.length}
 					</StyledTabIcon>,
-					<StyledTabIcon key={4} active={false}>
-						1
+					<StyledTabIcon key="grants-council-tab" active={activeIndex === 3}>
+						{grantsMembers?.length}
 					</StyledTabIcon>,
-					<StyledTabIcon key={5} active={false}>
-						112
+					<StyledTabIcon key="treasury-council-tab" active={activeIndex === 4}>
+						{treasuryMembers?.length}
 					</StyledTabIcon>,
 				]}
 			/>

@@ -3,7 +3,7 @@ import { createContainer } from 'unstated-next';
 
 function useModal() {
 	const [isOpen, setIsOpen] = useState(false);
-	const [content, setContent] = useState<null | JSX.Element>(null);
+	const [content, setContent] = useState<undefined | JSX.Element>(undefined);
 
 	return {
 		isOpen,

@@ -26,16 +26,13 @@ export default function WithdrawModal({ council }: WithdrawModalProps) {
 							.concat('...')
 							.concat(walletAddress.substring(walletAddress.length - 4))
 					) : (
-						<Button
-							onClick={() => connectWallet()}
-							variant="primary"
-							size="small"
-							text={t('modals.nomination.checkboxes.connect-wallet')}
-						/>
+						<Button onClick={() => connectWallet()} variant="primary" size="small">
+							{t('modals.nomination.checkboxes.connect-wallet')}
+						</Button>
 					)}
 				</StyledWalletAddress>
 			</StyledBlackBox>
-			<Button onClick={() => {}} text={t('modals.withdraw.nomination')} />
+			<StyledButton onClick={() => {}}>{t('modals.withdraw.nomination')} </StyledButton>
 		</BaseModal>
 	);
 }
@@ -60,4 +57,8 @@ const StyledWalletAddress = styled.h3`
 	font-size: 2rem;
 	margin: ${({ theme }) => theme.spacings.tiniest};
 	color: ${({ theme }) => theme.colors.white};
+`;
+
+const StyledButton = styled(Button)`
+	max-width: 312px;
 `;

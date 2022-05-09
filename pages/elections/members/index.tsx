@@ -1,16 +1,25 @@
 import Main from 'components/Main';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import CouncilMembersSection from 'sections/nominations/CouncilMembers';
+import CouncilNominees from 'sections/nominations/CouncilNominees';
+import { capitalizeString } from 'utils/capitalize';
 
-export default function CouncilMembers() {
+const CouncilMembers: NextPage = () => {
 	const { query } = useRouter();
 	return (
 		<>
-			<Head>Synthetix | {query?.council && query.council.toString()}</Head>
+			<Head>
+				<title>
+					Synthetix | &nbsp;
+					{query?.council && capitalizeString(query.council.toString())} - Council
+				</title>
+			</Head>
 			<Main>
-				<CouncilMembersSection />
+				<CouncilNominees />
 			</Main>
 		</>
 	);
-}
+};
+
+export default CouncilMembers;

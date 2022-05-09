@@ -21,7 +21,7 @@ const StyledNominateModalWrapper = styled(Flex)`
 	height: 100%;
 	width: 100%;
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: contain;
 	position: relative;
 	padding-top: 10%;
 `;

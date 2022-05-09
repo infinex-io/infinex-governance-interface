@@ -1,7 +1,7 @@
 import { Button, Flex } from '@synthetixio/ui';
 import ElectedCouncil from 'components/ElectedCouncil';
 import LandingPage from 'components/LandingPage';
-import VoteBanner from 'components/VoteBanner';
+import VoteBanner from 'components/Banners/VoteBanner';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import { useTranslation } from 'react-i18next';
@@ -20,12 +20,9 @@ export default function VotingLandingPage() {
 				remainingTime={Number(remainingTime)}
 			>
 				<Flex justifyContent="center">
-					<StyledButton
-						text={t('landing-pages.voting.button')}
-						variant="primary"
-						onClick={() => {}}
-						size="large"
-					/>
+					<StyledButton variant="primary" onClick={() => {}} size="large">
+						{t('landing-pages.voting.button')}
+					</StyledButton>
 				</Flex>
 			</LandingPage>
 			<ElectedCouncil />

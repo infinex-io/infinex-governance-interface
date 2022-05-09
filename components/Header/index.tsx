@@ -1,4 +1,4 @@
-import { Card, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
+import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -29,7 +29,7 @@ export default function Header() {
 	useEffect(() => {
 		const splitRoute = pathname.split('/')[1];
 		setActiveRoute(splitRoute ? splitRoute : 'home');
-	}, []);
+	}, [pathname]);
 
 	return (
 		<StyledHeader>
@@ -46,11 +46,11 @@ export default function Header() {
 				);
 			})}
 			<ButtonContainer>
-				<IconButton onClick={() => console.info('implement me')} size="tiny" active={true}>
+				<IconButton onClick={() => console.info('implement me')} size="tiny">
 					<SettingsIcon />
 				</IconButton>
 				<StyledConnectWalletButton
-					withBorderColor={{ gradient: 'lightBlue' }}
+					variant="quaternary"
 					onClick={walletAddress ? disconnectWallet : connectWallet}
 				>
 					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
@@ -104,7 +104,7 @@ const ButtonContainer = styled.div`
 	margin-right: ${theme.spacings.superBig};
 `;
 
-const StyledConnectWalletButton = styled(Card)`
+const StyledConnectWalletButton = styled(Button)`
 	min-width: 138px;
 	padding: ${({ theme }) => theme.spacings.tiniest};
 	cursor: pointer;

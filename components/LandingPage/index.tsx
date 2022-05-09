@@ -1,8 +1,10 @@
-import { ArrowLinkOffIcon, Card, Flex } from '@synthetixio/ui';
+import { Flex } from '@synthetixio/ui';
+import ButtonCards from '@synthetixio/ui/dist/esm/components/ButtonCard';
 import RemainingTime from 'components/RemainingTime';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { parseRemainingTime } from 'utils/time';
 
 interface LandingPageProps {
 	remainingTime?: number;
@@ -18,58 +20,38 @@ export default function LandingPage({
 	return (
 		<>
 			<SNXStar direction="column" justifyContent="center" alignItems="center">
-				{remainingTime && <StyledNumber glow>{remainingTime}</StyledNumber>}
+				{remainingTime && <StyledNumber glow>{parseRemainingTime(remainingTime)}</StyledNumber>}
 				<StyledStarHeadline>
 					{headline ? headline : t('landing-pages.nomination.next-election')}
 				</StyledStarHeadline>
 				<StyledButtonsWrapper>
 					<StyledRow justifyContent="center">
-						<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
-							<StyledCardContent direction="column">
-								<StyledButtonHeadline>
-									{t('landing-pages.nomination.view-council-members')}{' '}
-									<ArrowLinkOffIcon active={true} />
-								</StyledButtonHeadline>
-								<StyledButtonSubline>
-									{t('landing-pages.nomination.view-council-members-subline')}
-								</StyledButtonSubline>
-							</StyledCardContent>
-						</StyledCard>
-						<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
-							<StyledCardContent direction="column">
-								<StyledButtonHeadline>
-									{t('landing-pages.nomination.view-council-members')}{' '}
-									<ArrowLinkOffIcon active={true} />
-								</StyledButtonHeadline>
-								<StyledButtonSubline>
-									{t('landing-pages.nomination.view-council-members-subline')}
-								</StyledButtonSubline>
-							</StyledCardContent>
-						</StyledCard>
+						<ButtonCards
+							onClick={() => {}}
+							arrowDirection="right"
+							headline={t('landing-pages.nomination.view-council-members')}
+							subline={t('landing-pages.nomination.view-council-members-subline')}
+						/>
+						<ButtonCards
+							onClick={() => {}}
+							arrowDirection="right"
+							headline={t('landing-pages.nomination.view-council-members')}
+							subline={t('landing-pages.nomination.view-council-members-subline')}
+						/>
 					</StyledRow>
 					<StyledRow justifyContent="center">
-						<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
-							<StyledCardContent direction="column">
-								<StyledButtonHeadline>
-									{t('landing-pages.nomination.view-council-members')}{' '}
-									<ArrowLinkOffIcon active={true} />
-								</StyledButtonHeadline>
-								<StyledButtonSubline>
-									{t('landing-pages.nomination.view-council-members-subline')}
-								</StyledButtonSubline>
-							</StyledCardContent>
-						</StyledCard>
-						<StyledCard onClick={() => {}} withBorderColor={{ gradient: 'rainbow' }}>
-							<StyledCardContent direction="column">
-								<StyledButtonHeadline>
-									{t('landing-pages.nomination.view-council-members')}{' '}
-									<ArrowLinkOffIcon active={true} />
-								</StyledButtonHeadline>
-								<StyledButtonSubline>
-									{t('landing-pages.nomination.view-council-members-subline')}
-								</StyledButtonSubline>
-							</StyledCardContent>
-						</StyledCard>
+						<ButtonCards
+							onClick={() => {}}
+							arrowDirection="right"
+							headline={t('landing-pages.nomination.view-council-members')}
+							subline={t('landing-pages.nomination.view-council-members-subline')}
+						/>
+						<ButtonCards
+							onClick={() => {}}
+							arrowDirection="right"
+							headline={t('landing-pages.nomination.view-council-members')}
+							subline={t('landing-pages.nomination.view-council-members-subline')}
+						/>
 					</StyledRow>
 				</StyledButtonsWrapper>
 			</SNXStar>
@@ -116,31 +98,7 @@ const StyledButtonsWrapper = styled.div`
 const StyledRow = styled(Flex)`
 	width: 100%;
 	margin: 0px ${({ theme }) => theme.spacings.medium};
-`;
-
-const StyledButtonHeadline = styled.h3`
-	font-family: 'GT America';
-	font-weight: 700;
-	margin: 0;
-	color: ${({ theme }) => theme.colors.white};
-	font-size: 1.13rem;
-	display: flex;
-	justify-content: space-between;
-`;
-
-const StyledButtonSubline = styled.div`
-	font-family: 'Inter';
-	font-size: 1.13rem;
-	line-height: 21px;
-	color: ${({ theme }) => theme.colors.grey};
-	max-width: 350px;
-`;
-
-const StyledCard = styled(Card)`
-	max-width: 460px;
-	margin: ${({ theme }) => theme.spacings.tiny};
-`;
-
-const StyledCardContent = styled(Flex)`
-	padding: 24px;
+	> * {
+		margin: ${({ theme }) => theme.spacings.big};
+	}
 `;

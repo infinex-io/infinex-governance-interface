@@ -19,12 +19,10 @@
 			"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
 			"elected-members": "Our Current Elected Members",
 			"view-all-members": "View all members",
-
-			"nominate": {
-				"headline": "NOMINATE YOURSELF",
-				"self": "NOMINATE SELF",
-				"closes": "Nominations Closes in"
-			}
+			"sc-opens": "SPARTAN COUNCIL OPENS IN",
+			"gc-opens": "GRANTS COUNCIL OPENS IN",
+			"ac-opens": "AMBASSADOR COUNCIL OPENS IN",
+			"tc-opens": "TREASURY COUNCIL OPENS IN"
 		},
 		"council-tabs": {
 			"all": "All Council Members",
@@ -49,13 +47,41 @@
 			"button": "Vote Now"
 		}
 	},
-	"council-members": {
-		"headline": "{{ council }} Nominees"
+	"elections": {
+		"nomination": {
+			"headline": "Current Elections",
+			"cards": {
+				"sc": "Spartan Council",
+				"gc": "Grants Council",
+				"ac": "Ambassador Council",
+				"tc": "Treasury Council",
+				"cta": {
+					"closed": "CLOSED - COUNCIL ELECTED",
+					"nomination": "NOMINATIONS OPEN",
+					"vote": "VOTING OPEN"
+				},
+				"button": {
+					"closed": "View Council",
+					"nomination": "Nominate Yourself",
+					"vote": "Vote Candidates"
+				},
+				"nominees": "View Nominees"
+			},
+			"members": {
+				"back": "Go Back",
+				"headline": "{{ council }} Council Nominees",
+				"view-nominee": "View nominee"
+			}
+		},
+		"elected": {
+			"headline": "Our Current Elected Members"
+		}
 	},
 	"modals": {
 		"nomination": {
 			"headline": "Nominate Self",
 			"nominationAddress": "Nomination Wallet Address",
+			"button": "Nominate Self",
 			"checkboxes": {
 				"spartan": "Spartan Council",
 				"grants": "Grants Council",
@@ -69,6 +95,11 @@
 			"nomination-for": "Nomination for {{council}}",
 			"nomination": "Withdraw Nomination"
 		},
+		"edit": {
+			"headline": "Edit Your Nomination",
+			"subline": "Current Nomination",
+			"save": "Save Nomination"
+		},
 		"vote": {
 			"headline": "Spartan Council",
 			"submit": "Submit Vote",
@@ -80,6 +111,11 @@
 			"headline": "VOTING IS LIVE - VOTE NOW!",
 			"closes": "Closes in",
 			"button": "VOTE NOW"
+		},
+		"nominate": {
+			"headline": "NOMINATE YOURSELF",
+			"self": "NOMINATE SELF",
+			"closes": "Nominations Closes in"
 		}
 	}
 }

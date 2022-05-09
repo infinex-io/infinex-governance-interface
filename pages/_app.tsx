@@ -39,8 +39,7 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<Modules.Provider>
 			<Header />
-			{/* TODO @MF remove terniery operator when new version of UI is out */}
-			<UIModal open={isOpen} modalContent={content ? content : <span>nothing</span>}>
+			<UIModal open={isOpen} modalContent={content}>
 				<Component {...pageProps} />
 				<Footer />
 			</UIModal>
