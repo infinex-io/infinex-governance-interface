@@ -26,7 +26,7 @@ export default function LandingPage({
 				</StyledStarHeadline>
 				<StyledButtonsWrapper>
 					<StyledRow justifyContent="center">
-						<ButtonCards
+						{/* 					<ButtonCards
 							onClick={() => {}}
 							arrowDirection="right"
 							headline={t('landing-pages.nomination.view-council-members')}
@@ -51,7 +51,7 @@ export default function LandingPage({
 							arrowDirection="right"
 							headline={t('landing-pages.nomination.view-council-members')}
 							subline={t('landing-pages.nomination.view-council-members-subline')}
-						/>
+						/> */}
 					</StyledRow>
 				</StyledButtonsWrapper>
 			</SNXStar>

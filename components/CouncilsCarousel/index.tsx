@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { Button, Card, Carousel, Flex, Tabs } from '@synthetixio/ui';
+import { Card, Carousel, Flex, Tabs } from '@synthetixio/ui';
 
 interface CouncilsCarouselProps {
 	maxWidth?: string;
@@ -26,13 +26,17 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 	const { data: ambassadorMembers } = useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL);
 	const { data: grantsMembers } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
 	const { data: treasuryMembers } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
-	const allMembers =
+	const allCouncils = [
 		spartanMembers?.length &&
-		ambassadorMembers?.length &&
-		grantsMembers?.length &&
-		treasuryMembers?.length &&
-		spartanMembers?.concat(ambassadorMembers, grantsMembers, treasuryMembers);
-
+			ambassadorMembers?.length &&
+			grantsMembers?.length &&
+			treasuryMembers?.length &&
+			spartanMembers?.concat(ambassadorMembers, grantsMembers, treasuryMembers),
+		spartanMembers,
+		grantsMembers,
+		ambassadorMembers,
+		treasuryMembers,
+	];
 	return (
 		<Flex direction="column" alignItems="center">
 			<Tabs
@@ -42,16 +46,16 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 				activeIndex={activeIndex}
 				icons={[
 					<StyledTabIcon key="all-council-members" active={activeIndex === 0}>
-						{Array.isArray(allMembers) && allMembers.length}
+						{Array.isArray(allCouncils) && allCouncils.length}
 					</StyledTabIcon>,
 					<StyledTabIcon key="spartan-council-tab" active={activeIndex === 1}>
 						{spartanMembers?.length}
 					</StyledTabIcon>,
-					<StyledTabIcon key="ambassador-council-tab" active={activeIndex === 2}>
-						{ambassadorMembers?.length}
-					</StyledTabIcon>,
 					<StyledTabIcon key="grants-council-tab" active={activeIndex === 3}>
 						{grantsMembers?.length}
+					</StyledTabIcon>,
+					<StyledTabIcon key="ambassador-council-tab" active={activeIndex === 2}>
+						{ambassadorMembers?.length}
 					</StyledTabIcon>,
 					<StyledTabIcon key="treasury-council-tab" active={activeIndex === 4}>
 						{treasuryMembers?.length}

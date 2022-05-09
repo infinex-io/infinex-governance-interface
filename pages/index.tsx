@@ -28,7 +28,7 @@ const Home: NextPage = () => {
 			case 'EVALUATION':
 				return;
 			default:
-				return;
+				return <AdministrationLandingPage />;
 		}
 	};
 
