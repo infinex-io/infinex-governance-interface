@@ -21,7 +21,7 @@ export default function ElectionsSection() {
 				<StyledElectionsHeadline>{t('landing-pages.elections.headline')}</StyledElectionsHeadline>
 				<Flex justifyContent="space-between">
 					{councilNames.map((name, index) => (
-						<StyledCard withBackgroundColor="darkBlue" key={name.concat(index.toString())}>
+						<StyledCard color="purple" key={name.concat(index.toString())}>
 							<StyledCardContentWrapper>
 								<StyledCouncilCircleOuter>
 									<StyledCouncilCircleInner></StyledCouncilCircleInner>

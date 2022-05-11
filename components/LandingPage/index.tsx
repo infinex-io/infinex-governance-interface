@@ -1,5 +1,5 @@
 import { Flex } from '@synthetixio/ui';
-import ButtonCards from '@synthetixio/ui/dist/esm/components/ButtonCard';
+import { ButtonCard } from '@synthetixio/ui';
 import RemainingTime from 'components/RemainingTime';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,13 +26,13 @@ export default function LandingPage({
 				</StyledStarHeadline>
 				<StyledButtonsWrapper>
 					<StyledRow justifyContent="center">
-						<ButtonCards
+						<ButtonCard
 							onClick={() => {}}
 							arrowDirection="right"
 							headline={t('landing-pages.nomination.view-council-members')}
 							subline={t('landing-pages.nomination.view-council-members-subline')}
 						/>
-						<ButtonCards
+						<ButtonCard
 							onClick={() => {}}
 							arrowDirection="right"
 							headline={t('landing-pages.nomination.view-council-members')}
@@ -40,13 +40,13 @@ export default function LandingPage({
 						/>
 					</StyledRow>
 					<StyledRow justifyContent="center">
-						<ButtonCards
+						<ButtonCard
 							onClick={() => {}}
 							arrowDirection="right"
 							headline={t('landing-pages.nomination.view-council-members')}
 							subline={t('landing-pages.nomination.view-council-members-subline')}
 						/>
-						<ButtonCards
+						<ButtonCard
 							onClick={() => {}}
 							arrowDirection="right"
 							headline={t('landing-pages.nomination.view-council-members')}
