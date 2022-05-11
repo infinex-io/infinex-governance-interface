@@ -23,18 +23,31 @@ export type GetUserDetails = {
 	github: string;
 };
 
-function useUserDetailsQuery(walletAddress: string) {
-	return useQuery<GetUserDetails>(
+function useUserDetailsQuery(walletAddress: string | string[]) {
+	return useQuery<GetUserDetails | GetUserDetails[]>(
 		['userDetails', walletAddress],
 		async () => {
-			let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
-				method: 'POST',
-			});
-			const { data } = await response.json();
-			return data;
+			if (Array.isArray(walletAddress)) {
+				const promises = walletAddress.map((address) =>
+					fetch(GET_USER_DETAILS_API_URL(address), {
+						method: 'POST',
+					})
+				);
+				const responses = await Promise.all(promises);
+				const result = await Promise.all(responses.map((response) => response.json()));
+				return result.map((r) => r.data);
+			} else {
+				let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
+					method: 'POST',
+				});
+				const { data } = await response.json();
+				return data;
+			}
 		},
 		{
 			enabled: walletAddress !== null,
+			// 15 minutes
+			cacheTime: 900000,
 		}
 	);
 }
