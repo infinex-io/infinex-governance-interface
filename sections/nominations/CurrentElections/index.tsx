@@ -21,37 +21,6 @@ export default function CurrentElections() {
 	const { setIsOpen, setContent } = Modal.useContainer();
 	const { push } = useRouter();
 
-	const { data: spartanEpochIndex } = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
-	const { data: grantsEpochIndex } = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
-	const { data: ambassadorEpochIndex } = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
-	const { data: treasuryEpochIndex } = useEpochIndexQuery(DeployedModules.TREASURY_COUNCIL);
-
-	const [spartanEpoch, spartanNominees, spartanMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL),
-		useNomineesQuery(DeployedModules.SPARTAN_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL),
-	];
-	const [grantsEpoch, grantsNominees, grantsMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.GRANTS_COUNCIL),
-		useNomineesQuery(DeployedModules.GRANTS_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL),
-	];
-	const [ambassadorEpoch, ambassadorNominees, ambassadorMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.AMBASSADOR_COUNCIL),
-		useNomineesQuery(DeployedModules.AMBASSADOR_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL),
-	];
-	const [treasuryEpoch, treasuryNominees, treasuryMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.TREASURY_COUNCIL),
-		useNomineesQuery(DeployedModules.TREASURY_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
-	];
-
-	const spartanCouncilInfo = spartanEpochIndex && parseIndex(spartanEpochIndex);
-	const grantsCouncilInfo = grantsEpochIndex && parseIndex(grantsEpochIndex);
-	const ambassadorCouncilInfo = ambassadorEpochIndex && parseIndex(ambassadorEpochIndex);
-	const treasuryCouncilInfo = treasuryEpochIndex && parseIndex(treasuryEpochIndex);
-
 	return (
 		<CurrentElectionsWrapper direction="column">
 			<StyledHeadline>{t('elections.nomination.headline')}</StyledHeadline>
@@ -253,37 +222,6 @@ export default function CurrentElections() {
 			</Flex>
 		</CurrentElectionsWrapper>
 	);
-}
-
-function parseIndex(index: number): {
-	cta: string;
-	button: string;
-	variant: 'primary' | 'secondary';
-	color: Colors;
-} {
-	switch (index) {
-		case 1:
-			return {
-				cta: 'elections.nomination.cards.cta.nomination',
-				button: 'elections.nomination.cards.button.nomination',
-				color: 'orange',
-				variant: 'primary',
-			};
-		case 2:
-			return {
-				cta: 'elections.nomination.cards.cta.vote',
-				button: 'elections.nomination.cards.button.vote',
-				color: 'green',
-				variant: 'primary',
-			};
-		default:
-			return {
-				cta: 'elections.nomination.cards.cta.closed',
-				button: 'elections.nomination.cards.button.closed',
-				color: 'purple',
-				variant: 'secondary',
-			};
-	}
 }
 
 const CurrentElectionsWrapper = styled(Flex)`

@@ -17,7 +17,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 }
 
 const StyledNominateModalWrapper = styled(Flex)`
-	background: url('/images/modal-background.svg');
+	background: ${({ theme }) => theme.colors.purple};
 	height: 100%;
 	width: 100%;
 	background-repeat: no-repeat;

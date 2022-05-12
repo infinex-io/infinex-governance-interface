@@ -16,4 +16,5 @@ const StyledMain = styled.main`
 
 const StyledSpotlight = styled(Spotlight)`
 	min-width: 100%;
+	padding-top: ${({ theme }) => theme.spacings.biggest};
 `;

@@ -1,70 +1,49 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from '@synthetixio/ui';
-import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { Button, Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from '@synthetixio/ui';
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { parseURL } from 'utils/ipfs';
 import { H5 } from 'components/Headlines/H5';
-import { Text } from 'components/Text';
+import { Text } from 'components/Text/text';
+import { useRouter } from 'next/router';
+import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 
 interface CouncilsCarouselProps {
 	maxWidth?: string;
 	startIndex?: number;
-	members: {
-		spartanMembers: string[];
-		grantsMembers: string[];
-		ambassadorMembers: string[];
-		treasuryMembers: string[];
-	};
 }
 
-export default function CouncilsCarousel({
-	maxWidth,
-	startIndex,
-	members,
-	...rest
-}: CouncilsCarouselProps) {
+export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: CouncilsCarouselProps) {
+	const { push } = useRouter();
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
 	const councilTabs = [
-		t('landing-pages.council-tabs.all'),
-		t('landing-pages.council-tabs.spartan'),
-		t('landing-pages.council-tabs.grants'),
-		t('landing-pages.council-tabs.ambassador'),
-		t('landing-pages.council-tabs.treasury'),
+		t('landing-page.tabs.all'),
+		t('landing-page.tabs.sc'),
+		t('landing-page.tabs.gc'),
+		t('landing-page.tabs.ac'),
+		t('landing-page.tabs.tc'),
 	];
 
-	const spartanMembersWithInfoQuery = useUserDetailsQuery(members.spartanMembers);
-	const grantsMembersWithInfoQuery = useUserDetailsQuery(members.grantsMembers);
-	const ambassadorMembersWithInfoQuery = useUserDetailsQuery(members.ambassadorMembers);
-	const treasuryMembersWithInfoQuery = useUserDetailsQuery(members.treasuryMembers);
-
-	const spartanMembersWithInfo =
-		spartanMembersWithInfoQuery.isSuccess && spartanMembersWithInfoQuery.data;
-	const grantsMembersWithInfo =
-		grantsMembersWithInfoQuery.isSuccess && grantsMembersWithInfoQuery.data;
-	const ambassadorMembersWithInfo =
-		ambassadorMembersWithInfoQuery.isSuccess && ambassadorMembersWithInfoQuery.data;
-	const treasuryMembersWithInfo =
-		treasuryMembersWithInfoQuery.isSuccess && treasuryMembersWithInfoQuery.data;
+	const members = useAllCouncilMembersQuery();
 
 	const allMembers = [
-		Array.isArray(spartanMembersWithInfo) &&
-		Array.isArray(grantsMembersWithInfo) &&
-		Array.isArray(ambassadorMembersWithInfo) &&
-		Array.isArray(treasuryMembersWithInfo)
-			? spartanMembersWithInfo.concat(
-					grantsMembersWithInfo,
-					ambassadorMembersWithInfo,
-					treasuryMembersWithInfo
+		members.data?.spartan.length &&
+		members.data.grants.length &&
+		members.data.ambassador.length &&
+		members.data.treasury.length
+			? members.data?.spartan.concat(
+					members.data?.grants,
+					members.data?.ambassador,
+					members.data?.treasury
 			  )
 			: [],
-		spartanMembersWithInfo,
-		grantsMembersWithInfo,
-		ambassadorMembersWithInfo,
-		treasuryMembersWithInfo,
+		members.data?.spartan,
+		members.data?.grants,
+		members.data?.ambassador,
+		members.data?.treasury,
 	];
-	console.log(spartanMembersWithInfo);
 	return (
 		<Flex direction="column" alignItems="center" {...rest}>
 			<Tabs
@@ -74,26 +53,23 @@ export default function CouncilsCarousel({
 				activeIndex={activeIndex}
 				icons={[
 					<StyledTabIcon key="all-council-members" active={activeIndex === 0}>
-						{members.ambassadorMembers.length +
-							members.spartanMembers.length +
-							members.grantsMembers.length +
-							members.treasuryMembers.length}
+						{allMembers[0]?.length}
 					</StyledTabIcon>,
 					<StyledTabIcon key="spartan-council-tab" active={activeIndex === 1}>
-						{members.spartanMembers.length}
+						{members.data?.spartan.length}
 					</StyledTabIcon>,
 					<StyledTabIcon key="grants-council-tab" active={activeIndex === 2}>
-						{members.grantsMembers.length}
+						{members.data?.grants.length}
 					</StyledTabIcon>,
 					<StyledTabIcon key="ambassador-council-tab" active={activeIndex === 3}>
-						{members.ambassadorMembers.length}
+						{members.data?.ambassador.length}
 					</StyledTabIcon>,
 					<StyledTabIcon key="treasury-council-tab" active={activeIndex === 4}>
-						{members.treasuryMembers.length}
+						{members.data?.treasury.length}
 					</StyledTabIcon>,
 				]}
 			/>
-			{Array.isArray(allMembers[activeIndex]) && (
+			{allMembers[activeIndex] && (
 				<Carousel
 					startIndex={startIndex ? startIndex : 1}
 					widthOfItems={300}
@@ -110,6 +86,19 @@ export default function CouncilsCarousel({
 									<Text>{member.about}</Text>
 									{member.discord && <DiscordIcon />}
 									{member.twitter && <TwitterIcon />}
+									<StyledButton
+										variant="secondary"
+										onClick={() => {
+											push({
+												pathname: 'councils',
+												query: {
+													member: member.address,
+												},
+											});
+										}}
+									>
+										{t('landing-page.tabs.view-member')}
+									</StyledButton>
 								</StyledCarouselCardContent>
 							</StyledCarouselCard>
 						);
@@ -135,18 +124,21 @@ const StyledTabIcon = styled.span<{ active?: boolean }>`
 `;
 
 const StyledCarouselCard = styled(Card)`
-	min-width: 300px;
+	width: 200px;
 	margin: 40px;
-	padding: 0px;
 `;
 
 const StyledCarouselCardContent = styled(Flex)`
 	width: 100%;
 	height: 100%;
+	padding: ${({ theme }) => theme.spacings.tiny};
 `;
 
 const StyledCarouselCardImage = styled.img`
 	width: 56px;
 	height: 56px;
 	border-radius: 50%;
+`;
+const StyledButton = styled(Button)`
+	width: 100px;
 `;
