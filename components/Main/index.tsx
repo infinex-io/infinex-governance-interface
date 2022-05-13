@@ -12,9 +12,11 @@ export default function Main({ children }: PropsWithChildren<{}>) {
 const StyledMain = styled.main`
 	background-color: ${({ theme }) => theme.colors.backgroundColor};
 	color: ${({ theme }) => theme.colors.white};
+	min-height: 99vh;
 `;
 
 const StyledSpotlight = styled(Spotlight)`
 	min-width: 100%;
-	padding-top: ${({ theme }) => theme.spacings.biggest};
+	padding-top: 50px;
+	min-height: 100vh;
 `;

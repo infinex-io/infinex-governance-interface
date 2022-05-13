@@ -7,7 +7,7 @@ import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery'
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
-export default function VoteBanner({ hideButton }: BannerProps) {
+export default function VoteBanner() {
 	const { push } = useRouter();
 	const { t } = useTranslation();
 	const { data } = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
@@ -20,19 +20,17 @@ export default function VoteBanner({ hideButton }: BannerProps) {
 				{t('banner.vote.closes')}
 				{remainingTime && <RemainingTime>{remainingTime}</RemainingTime>}
 			</TimeWrapper>
-			{!hideButton && (
-				<IconButton
-					onClick={() => {
-						push({ pathname: 'elections' });
-					}}
-					size="tiny"
-					active
-					rounded
-				>
-					{t('banner.vote.button')}
-					<ArrowRightIcon />
-				</IconButton>
-			)}
+			<IconButton
+				onClick={() => {
+					push({ pathname: 'elections' });
+				}}
+				size="tiny"
+				active
+				rounded
+			>
+				{t('banner.vote.button')}
+				<ArrowRightIcon />
+			</IconButton>
 		</Banner>
 	);
 }

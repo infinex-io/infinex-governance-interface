@@ -25,6 +25,9 @@ import { capitalizeString } from 'utils/capitalize';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import Connector from 'containers/Connector';
+import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 
 const Councils: NextPage = () => {
 	const { query, push } = useRouter();
@@ -43,6 +46,11 @@ const Councils: NextPage = () => {
 		}
 	};
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).index);
+	const { walletAddress } = Connector.useContainer();
+	const isNominated = useIsNominated(
+		parseQuery(query?.council?.toString()).module,
+		walletAddress ? walletAddress : ''
+	);
 	const { t } = useTranslation();
 	const members = useAllCouncilMembersQuery();
 	const { data } = useNomineesQuery(parseQuery(query?.council?.toString()).module);
@@ -60,8 +68,11 @@ const Councils: NextPage = () => {
 			| 'grants'
 			| 'ambassador'
 			| 'treasury';
-		return (isNominees ? members.data![council] : nomineesInfo.data!).map((member) => (
-			<StyledCard color="purple" key={member.address}>
+		return (isNominees ? nomineesInfo.data! : members.data![council]).map((member) => (
+			<StyledCard
+				color={walletAddress === member.address ? 'orange' : 'purple'}
+				key={member.address}
+			>
 				<StyledCardContent className="darker-60" direction="column" alignItems="center">
 					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
 					<H5>{member.ens || member.username}</H5>
@@ -100,12 +111,11 @@ const Councils: NextPage = () => {
 					</StyledBackIconWrapper>
 					{query?.nominees && query.council ? (
 						<>
+							{!isNominated.data && <NominateSelfBanner />}
 							<H1>
 								{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
 							</H1>
-							<Flex wrap>
-								{nomineesInfo.data?.map((nominee) => getMembers(activeCouncil, true))}
-							</Flex>
+							{!!nomineesInfo.data?.length && <Flex wrap>{getMembers(activeCouncil, true)}</Flex>}
 						</>
 					) : (
 						<>
@@ -182,7 +192,7 @@ const StyledButton = styled(Button)`
 
 const StyledBackIconWrapper = styled(Flex)`
 	position: absolute;
-	top: ${({ theme }) => theme.spacings.biggest};
+	top: 110px;
 	left: ${({ theme }) => theme.spacings.biggest};
 	> * {
 		margin-right: ${({ theme }) => theme.spacings.medium};
