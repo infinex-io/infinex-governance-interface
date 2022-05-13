@@ -6,5 +6,5 @@ export const H3 = styled.h3`
 	line-height: 1.25rem;
 	text-align: center;
 	color: ${({ theme }) => theme.colors.white};
-	margin: 0;
+	margin: ${({ theme }) => theme.spacings.tiny};
 `;

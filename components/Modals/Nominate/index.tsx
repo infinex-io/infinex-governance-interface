@@ -3,6 +3,7 @@ import Connector from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -18,30 +19,71 @@ export default function NominateModal() {
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 
+	const isAlreadyNominatedForSpartan = useIsNominated(
+		DeployedModules.SPARTAN_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForGrants = useIsNominated(
+		DeployedModules.GRANTS_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForAmbassador = useIsNominated(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		walletAddress || ''
+	);
+
 	const handleNomination = async () => {
 		switch (activeCheckbox) {
 			case 'spartan':
 				const spartanTx = await nominateForSpartanCouncil.mutateAsync();
 				if (spartanTx) {
-					push({ pathname: `/elections/members?council=spartan` });
+					push({
+						pathname: '/councils',
+						query: {
+							council: 'spartan',
+							nominees: true,
+						},
+					});
 				}
 				break;
 			case 'grants':
 				const grantsTx = await nominateForGrantsCouncil.mutateAsync();
 				if (grantsTx) {
-					push({ pathname: `/elections/members?council=grants` });
+					push({
+						pathname: '/councils',
+						query: {
+							council: 'grants',
+							nominees: true,
+						},
+					});
 				}
 				break;
 			case 'ambassador':
 				const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
 				if (ambassadorTx) {
-					push({ pathname: `/elections/members?council=ambassador` });
+					push({
+						pathname: '/councils',
+						query: {
+							council: 'ambassador',
+							nominees: true,
+						},
+					});
 				}
 				break;
 			case 'treasury':
 				const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
 				if (treasuryTx) {
-					push({ pathname: `/elections/members?council=treasury` });
+					push({
+						pathname: '/councils',
+						query: {
+							council: 'treasury',
+							nominees: true,
+						},
+					});
 				}
 				break;
 			default:
@@ -77,6 +119,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.spartan')}
 					color="lightBlue"
 					checked={activeCheckbox === 'spartan'}
+					disabled={isAlreadyNominatedForSpartan.data}
 				/>
 				<Checkbox
 					id="grants-council-checkbox"
@@ -86,6 +129,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.grants')}
 					color="lightBlue"
 					checked={activeCheckbox === 'grants'}
+					disabled={isAlreadyNominatedForGrants.data}
 				/>
 				<Checkbox
 					id="ambassador-council-checkbox"
@@ -95,6 +139,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.ambassador')}
 					color="lightBlue"
 					checked={activeCheckbox === 'ambassador'}
+					disabled={isAlreadyNominatedForAmbassador.data}
 				/>
 				<Checkbox
 					id="treasury-council-checkbox"
@@ -104,6 +149,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.treasury')}
 					color="lightBlue"
 					checked={activeCheckbox === 'treasury'}
+					disabled={isAlreadyNominatedForTreasury.data}
 				/>
 			</StyledCheckboxWrapper>
 			<StyledNominateButton variant="primary" onClick={() => handleNomination()}>

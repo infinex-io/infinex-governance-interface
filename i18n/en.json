@@ -2,9 +2,7 @@
 	"header": {
 		"routes": {
 			"home": "Home",
-			"elections": "Elections",
-			"sips": "Sips",
-			"discuss": "Discuss",
+			"councils": "Councils",
 			"vote": "Vote"
 		},
 		"connect-wallet": "Connect Wallet"
@@ -12,73 +10,57 @@
 	"footer": {
 		"copyright": "Copyright © Synthetix 2022"
 	},
-	"landing-pages": {
-		"nomination": {
-			"next-election": "NEXT ELECTION IN",
-			"view-council-members": "VIEW ALL COUNCIL MEMBERS",
-			"view-council-members-subline": "View the history of past council elections and vote in any currently open elections.",
-			"elected-members": "Our Current Elected Members",
-			"view-all-members": "View all members",
-			"sc-opens": "SPARTAN COUNCIL OPENS IN",
-			"gc-opens": "GRANTS COUNCIL OPENS IN",
-			"ac-opens": "AMBASSADOR COUNCIL OPENS IN",
-			"tc-opens": "TREASURY COUNCIL OPENS IN"
+	"landing-page": {
+		"headline": "Governing Bodies",
+		"subline": "The Synthetix Protocol is governed by four bodies, each responsible for a core aspect of a DAO.",
+		"second-headline": "Synthetix Governance",
+		"second-subline": "Find links to each core component of the Synthetix Governance System",
+		"tabs-headline": "Current Members",
+		"tabs-subline": "The current members of each Synthetix Governing Body",
+		"carousel-btn": "View all members",
+		"button-cards": {
+			"all-members": "VIEW ALL COUNCIL MEMBERS",
+			"all-members-subline": "View the history of past council elections and vote in any currently open elections.",
+			"sccp": "SYNTHETIX SCCP/SIP",
+			"sccp-subline": "View the current status of all SCCPs and SIPs.",
+			"forum": "SYNTHETIX FORUM",
+			"forum-subline": "Join the community governance discussion in realtime.",
+			"records": "SCCP / SIP VOTING RECORDS",
+			"records-subline": "View the voting history of all governance proposals. "
 		},
-		"council-tabs": {
-			"all": "All Council Members",
-			"spartan": "Spartan Council",
-			"grants": "Grants Council",
-			"ambassador": "Ambassador Council",
-			"treasury": "Treasury Council"
-		},
-		"elections": {
-			"headline": "Current Elections",
-			"vote-council": "Vote Council",
-			"councils": {
-				"ccc": "Core Contributor Committee",
-				"ac": "Ambassador Council",
-				"sc": "Spartan Council",
-				"gc": "Grants Council",
-				"tc": "Treasury Council"
-			}
-		},
-		"voting": {
-			"headline": "VOTING OPEN",
-			"button": "Vote Now"
-		}
-	},
-	"elections": {
-		"nomination": {
-			"headline": "Current Elections",
-			"cards": {
-				"sc": "Spartan Council",
-				"gc": "Grants Council",
-				"ac": "Ambassador Council",
-				"tc": "Treasury Council",
-				"cta": {
-					"closed": "CLOSED - COUNCIL ELECTED",
-					"nomination": "NOMINATIONS OPEN",
-					"vote": "VOTING OPEN"
-				},
-				"button": {
-					"closed": "View Council",
-					"nomination": "Nominate Yourself",
-					"vote": "Vote Candidates"
-				},
-				"nominees": "View Nominees"
+		"cards": {
+			"sc": "Spartan Council",
+			"gc": "Grants Council",
+			"ac": "Ambassador Council",
+			"tc": "Treasury Council",
+			"cta": {
+				"closed": "CLOSED - COUNCIL ELECTED",
+				"nomination": "NOMINATIONS OPEN",
+				"vote": "VOTING OPEN"
 			},
-			"members": {
-				"back": "Go Back",
-				"headline": "{{ council }} Council Nominees",
-				"view-nominee": "View nominee"
-			}
+			"button": {
+				"closed": "View Council",
+				"nomination": "Nominate Yourself",
+				"vote": "Vote Candidates"
+			},
+			"nominees": "View Nominees",
+			"members": "Members",
+			"received": "Votes Received",
+			"candidates": "Candidates"
 		},
-		"elected": {
-			"headline": "Our Current Elected Members"
+		"tabs": {
+			"all": "All Council Members",
+			"sc": "Spartan Council",
+			"gc": "Grants Council",
+			"ac": "Ambassador Council",
+			"tc": "Treasury Council",
+			"view-member": "View Member"
 		}
 	},
-	"council-members": {
-		"headline": "{{ council }} Nominees"
+	"councils": {
+		"headline": "Our Current Elected Members",
+		"back-btn": "Back",
+		"nominees": "{{ council }} Council Nominees"
 	},
 	"profiles": {
 		"subheadline": "Profile",

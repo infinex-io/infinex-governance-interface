@@ -23,22 +23,25 @@ export type GetUserDetails = {
 	github: string;
 };
 
-function useUserDetailsQuery(walletAddress: string) {
-	return useQuery<GetUserDetails>(
-		['userDetails', walletAddress],
+function useUsersDetailsQuery(walletAddresses: string[]) {
+	return useQuery<GetUserDetails[]>(
+		['userDetails', walletAddresses],
 		async () => {
-			let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
-				method: 'POST',
-			});
-			const { data } = await response.json();
-			return data;
+			const promises = walletAddresses.map((address) =>
+				fetch(GET_USER_DETAILS_API_URL(address), {
+					method: 'POST',
+				})
+			);
+			const responses = await Promise.all(promises);
+			const result = await Promise.all(responses.map((response) => response.json()));
+			return result.map((r) => r.data);
 		},
 		{
-			enabled: walletAddress !== null,
+			enabled: walletAddresses !== null,
 			// 15 minutes
 			cacheTime: 900000,
 		}
 	);
 }
 
-export default useUserDetailsQuery;
+export default useUsersDetailsQuery;
