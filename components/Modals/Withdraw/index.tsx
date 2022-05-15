@@ -1,22 +1,44 @@
-import { Button, Flex } from '@synthetixio/ui';
+import { Button, Checkbox, Flex } from '@synthetixio/ui';
 import Connector from 'containers/Connector';
+import { DeployedModules } from 'containers/Modules/Modules';
+import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import BaseModal from '../BaseModal';
 
-interface WithdrawModalProps {
-	council: string;
-}
-
-export default function WithdrawModal({ council }: WithdrawModalProps) {
+export default function WithdrawModal() {
 	const { t } = useTranslation();
 	const { walletAddress, ensName, connectWallet } = Connector.useContainer();
+	const [activeCouncil, setActiveCouncil] = useState('spartan council');
+	const withdrawNomination = useWithdrawNominationMutation(DeployedModules.SPARTAN_COUNCIL);
+	const isInNominationPeriodSpartan = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const isInNominationPeriodGrants = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
+	const isInNominationPeriodAmbassador = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
+	const isInNominationPeriodTreasury = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+
+	const isAlreadyNominatedForSpartan = useIsNominated(
+		DeployedModules.SPARTAN_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForGrants = useIsNominated(
+		DeployedModules.GRANTS_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForAmbassador = useIsNominated(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		walletAddress || ''
+	);
 	return (
-		<BaseModal headline={t('modals.withdraw.headline')}>
+		<BaseModal headline={t('modals.withdraw.edit')}>
 			<StyledBlackBox direction="column" alignItems="center">
-				<StyledBlackBoxSubline>
-					{t('modals.withdraw.nomination-for', { council })}
-				</StyledBlackBoxSubline>
+				<StyledBlackBoxSubline>...</StyledBlackBoxSubline>
 				<StyledWalletAddress>
 					{ensName ? (
 						ensName
@@ -32,7 +54,61 @@ export default function WithdrawModal({ council }: WithdrawModalProps) {
 					)}
 				</StyledWalletAddress>
 			</StyledBlackBox>
-			<StyledButton onClick={() => {}}>{t('modals.withdraw.nomination')} </StyledButton>
+			<StyledCheckboxWrapper justifyContent="center">
+				<Checkbox
+					id="spartan-council-checkbox"
+					onChange={() => {
+						setActiveCouncil('spartan');
+					}}
+					label={t('modals.nomination.checkboxes.spartan')}
+					color="lightBlue"
+					checked={activeCouncil === 'spartan'}
+					disabled={
+						isAlreadyNominatedForSpartan.data ||
+						Number(isInNominationPeriodSpartan.data?.currentPeriod) === 1
+					}
+				/>
+				<Checkbox
+					id="grants-council-checkbox"
+					onChange={() => {
+						setActiveCouncil('grants');
+					}}
+					label={t('modals.nomination.checkboxes.grants')}
+					color="lightBlue"
+					checked={activeCouncil === 'grants'}
+					disabled={
+						isAlreadyNominatedForGrants.data ||
+						Number(isInNominationPeriodGrants.data?.currentPeriod) === 1
+					}
+				/>
+				<Checkbox
+					id="ambassador-council-checkbox"
+					onChange={() => {
+						setActiveCouncil('ambassador');
+					}}
+					label={t('modals.nomination.checkboxes.ambassador')}
+					color="lightBlue"
+					checked={activeCouncil === 'ambassador'}
+					disabled={
+						isAlreadyNominatedForAmbassador.data ||
+						Number(isInNominationPeriodAmbassador.data?.currentPeriod) === 1
+					}
+				/>
+				<Checkbox
+					id="treasury-council-checkbox"
+					onChange={() => {
+						setActiveCouncil('treasury');
+					}}
+					label={t('modals.nomination.checkboxes.treasury')}
+					color="lightBlue"
+					checked={activeCouncil === 'treasury'}
+					disabled={
+						isAlreadyNominatedForTreasury.data ||
+						Number(isInNominationPeriodTreasury.data?.currentPeriod) === 1
+					}
+				/>
+			</StyledCheckboxWrapper>
+			<StyledButton onClick={() => {}}>{t('modals.withdraw.button')} </StyledButton>
 		</BaseModal>
 	);
 }
@@ -59,6 +135,13 @@ const StyledWalletAddress = styled.h3`
 	color: ${({ theme }) => theme.colors.white};
 `;
 
+const StyledCheckboxWrapper = styled(Flex)`
+	margin: ${({ theme }) => theme.spacings.superBig} 0px;
+	width: 100%;
+	> * {
+		margin: ${({ theme }) => theme.spacings.medium};
+	}
+`;
 const StyledButton = styled(Button)`
 	max-width: 312px;
 `;

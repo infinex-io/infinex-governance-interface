@@ -53,14 +53,20 @@
 			"sc": "Spartan Council",
 			"gc": "Grants Council",
 			"ac": "Ambassador Council",
-			"tc": "Treasury Council",
-			"view-member": "View Member"
+			"tc": "Treasury Council"
 		}
 	},
 	"councils": {
 		"headline": "Our Current Elected Members",
 		"back-btn": "Back",
-		"nominees": "{{ council }} Council Nominees"
+		"nominees": "{{ council }} Council Nominees",
+		"view-member": "View Member",
+		"edit-nomination": "Edit Nomination",
+		"dropdown": {
+			"withdraw": "Withdraw Nomination",
+			"edit": "Edit Profile",
+			"etherscan": "Etherscan"
+		}
 	},
 	"profiles": {
 		"subheadline": "Profile",
@@ -86,9 +92,8 @@
 			}
 		},
 		"withdraw": {
-			"headline": "Withdraw Nomination",
-			"nomination-for": "Nomination for {{council}}",
-			"nomination": "Withdraw Nomination"
+			"edit": "Edit Your Nomination",
+			"button": "Save Nomination"
 		},
 		"edit": {
 			"headline": "Edit Your Nomination",

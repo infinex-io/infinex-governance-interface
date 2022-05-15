@@ -3,6 +3,7 @@ import Connector from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,10 @@ export default function NominateModal() {
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
+	const isInNominationPeriodSpartan = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const isInNominationPeriodGrants = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
+	const isInNominationPeriodAmbassador = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
+	const isInNominationPeriodTreasury = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
@@ -119,7 +124,10 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.spartan')}
 					color="lightBlue"
 					checked={activeCheckbox === 'spartan'}
-					disabled={isAlreadyNominatedForSpartan.data}
+					disabled={
+						isAlreadyNominatedForSpartan.data ||
+						Number(isInNominationPeriodSpartan.data?.currentPeriod) === 1
+					}
 				/>
 				<Checkbox
 					id="grants-council-checkbox"
@@ -129,7 +137,10 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.grants')}
 					color="lightBlue"
 					checked={activeCheckbox === 'grants'}
-					disabled={isAlreadyNominatedForGrants.data}
+					disabled={
+						isAlreadyNominatedForGrants.data ||
+						Number(isInNominationPeriodGrants.data?.currentPeriod) === 1
+					}
 				/>
 				<Checkbox
 					id="ambassador-council-checkbox"
@@ -139,7 +150,10 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.ambassador')}
 					color="lightBlue"
 					checked={activeCheckbox === 'ambassador'}
-					disabled={isAlreadyNominatedForAmbassador.data}
+					disabled={
+						isAlreadyNominatedForAmbassador.data ||
+						Number(isInNominationPeriodAmbassador.data?.currentPeriod) === 1
+					}
 				/>
 				<Checkbox
 					id="treasury-council-checkbox"
@@ -149,7 +163,10 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.treasury')}
 					color="lightBlue"
 					checked={activeCheckbox === 'treasury'}
-					disabled={isAlreadyNominatedForTreasury.data}
+					disabled={
+						isAlreadyNominatedForTreasury.data ||
+						Number(isInNominationPeriodTreasury.data?.currentPeriod) === 1
+					}
 				/>
 			</StyledCheckboxWrapper>
 			<StyledNominateButton variant="primary" onClick={() => handleNomination()}>

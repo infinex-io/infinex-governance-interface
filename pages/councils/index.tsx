@@ -12,6 +12,8 @@ import {
 	IconButton,
 	Tabs,
 	TwitterIcon,
+	ThreeDotsKebabIcon,
+	Dropdown,
 } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import { H1 } from 'components/Headlines/H1';
@@ -28,9 +30,13 @@ import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import Connector from 'containers/Connector';
 import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
+import Modal from 'containers/Modal';
+import WithdrawModal from 'components/Modals/Withdraw';
 
 const Councils: NextPage = () => {
 	const { query, push } = useRouter();
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const { setContent, setIsOpen } = Modal.useContainer();
 	const parseQuery = (council?: string) => {
 		switch (council) {
 			case 'spartan':
@@ -79,19 +85,50 @@ const Councils: NextPage = () => {
 					<Text>{member.about}</Text>
 					{member.discord && <DiscordIcon />}
 					{member.twitter && <TwitterIcon />}
-					<StyledButton
-						variant="secondary"
-						onClick={() => {
-							push({
-								pathname: 'councils',
-								query: {
-									member: member.address,
-								},
-							});
-						}}
-					>
-						{t('landing-page.tabs.view-member')}
-					</StyledButton>
+					<Flex justifyContent="center">
+						<StyledButton
+							variant="secondary"
+							onClick={() => {
+								push({
+									pathname: 'councils',
+									query: {
+										member: member.address,
+									},
+								});
+							}}
+						>
+							{walletAddress === member.address
+								? t('councils.edit-nomination')
+								: t('councils.tabs.view-member')}
+						</StyledButton>
+						{walletAddress === member.address && (
+							<IconButton onClick={() => setIsDropdownOpen(!isDropdownOpen)} size="tiniest" active>
+								<ThreeDotsKebabIcon active={isDropdownOpen} />
+							</IconButton>
+						)}
+						{isDropdownOpen && (
+							<StyledDropdown
+								color="purple"
+								elements={[
+									<StyledDropdownText
+										color="lightBlue"
+										onClick={() => {
+											setContent(<WithdrawModal />);
+											setIsOpen(true);
+										}}
+									>
+										{t('councils.dropdown.withdraw')}
+									</StyledDropdownText>,
+									<StyledDropdownText color="lightBlue">
+										{t('councils.dropdown.edit')}
+									</StyledDropdownText>,
+									<StyledDropdownText color="lightBlue">
+										{t('councils.dropdown.etherscan')}
+									</StyledDropdownText>,
+								]}
+							/>
+						)}
+					</Flex>
 				</StyledCardContent>
 			</StyledCard>
 		));
@@ -179,6 +216,7 @@ const StyledCardContent = styled(Flex)`
 	width: 100%;
 	height: 100%;
 	padding: ${({ theme }) => theme.spacings.tiny};
+	position: relative;
 `;
 
 const StyledCardImage = styled.img`
@@ -197,6 +235,18 @@ const StyledBackIconWrapper = styled(Flex)`
 	> * {
 		margin-right: ${({ theme }) => theme.spacings.medium};
 	}
+`;
+
+const StyledDropdown = styled(Dropdown)`
+	position: absolute;
+	bottom: -50px;
+	width: 200px;
+`;
+
+const StyledDropdownText = styled(Text)`
+	padding: ${({ theme }) => theme.spacings.tiniest};
+	cursor: pointer;
+	width: 100%;
 `;
 
 export default Councils;

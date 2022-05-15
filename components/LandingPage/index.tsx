@@ -48,7 +48,6 @@ export default function LandingPage() {
 		useNomineesQuery(DeployedModules.TREASURY_COUNCIL),
 		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
 	];
-
 	const spartanCouncilInfo = spartanEpochIndex && parseIndex(spartanEpochIndex);
 	const grantsCouncilInfo = grantsEpochIndex && parseIndex(grantsEpochIndex);
 	const ambassadorCouncilInfo = ambassadorEpochIndex && parseIndex(ambassadorEpochIndex);
