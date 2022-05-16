@@ -7,7 +7,7 @@ import { DAppProvider, Config, Hardhat, ChainId, Mainnet } from '@usedapp/core';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-import '../styles/globals.css';
+import '../styles/index.scss';
 import '../i18n';
 
 import Connector from 'containers/Connector';
