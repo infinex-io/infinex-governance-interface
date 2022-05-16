@@ -344,10 +344,10 @@ export default function LandingPage() {
 								<Button
 									variant={treasuryCouncilInfo.variant}
 									onClick={() => {
-										if (spartanEpochIndex === 1) {
+										if (treasuryEpochIndex === 1) {
 											setContent(<NominateModal />);
 											setIsOpen(true);
-										} else if (spartanEpochIndex === 2) {
+										} else if (treasuryEpochIndex === 2) {
 											push({
 												pathname: '/vote',
 												query: {

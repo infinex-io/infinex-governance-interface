@@ -81,6 +81,9 @@
 		"view-all-members": "View all members",
 		"council": "{{council}} COUNCIL"
 	},
+	"vote": {
+		"headline": "{{council}} Council Nominees"
+	},
 	"modals": {
 		"nomination": {
 			"headline": "Nominate Self",

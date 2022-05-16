@@ -3,24 +3,11 @@ import Head from 'next/head';
 import Main from 'components/Main';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import {
-	ArrowLeftIcon,
-	Button,
-	Card,
-	DiscordIcon,
-	Flex,
-	IconButton,
-	Tabs,
-	TwitterIcon,
-	ThreeDotsKebabIcon,
-	Dropdown,
-} from '@synthetixio/ui';
+import { ArrowLeftIcon, Button, Card, Flex, IconButton, Tabs, Dropdown } from '@synthetixio/ui';
 import { useTranslation } from 'react-i18next';
 import { H1 } from 'components/Headlines/H1';
 import { useState } from 'react';
-import { parseURL } from 'utils/ipfs';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
-import { H5 } from 'components/Headlines/H5';
 import { Text } from 'components/Text/text';
 import { TextBold } from 'components/Text/bold';
 import { capitalizeString } from 'utils/capitalize';
@@ -30,28 +17,12 @@ import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import Connector from 'containers/Connector';
 import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
-import Modal from 'containers/Modal';
-import WithdrawModal from 'components/Modals/WithdrawNomination';
+import MemberCard from 'components/MemberCard/Index';
+import { parseQuery } from 'utils/parse';
 
 const Councils: NextPage = () => {
 	const { query, push } = useRouter();
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { setContent, setIsOpen } = Modal.useContainer();
-	const parseQuery = (council?: string) => {
-		switch (council) {
-			case 'spartan':
-				return { index: 0, module: DeployedModules.SPARTAN_COUNCIL };
-			case 'grants':
-				return { index: 1, module: DeployedModules.GRANTS_COUNCIL };
-			case 'ambassador':
-				return { index: 2, module: DeployedModules.AMBASSADOR_COUNCIL };
-			case 'treasury':
-				return { index: 3, module: DeployedModules.TREASURY_COUNCIL };
-			default:
-				return { index: 0, module: DeployedModules.SPARTAN_COUNCIL };
-		}
-	};
-	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).index);
+	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()));
 	const { walletAddress } = Connector.useContainer();
 	const isNominated = useIsNominated(
 		parseQuery(query?.council?.toString()).module,
@@ -67,77 +38,6 @@ const Councils: NextPage = () => {
 		t('landing-page.tabs.ac'),
 		t('landing-page.tabs.tc'),
 	];
-
-	const getMembers = (index: number, isNominees?: boolean) => {
-		const council = Object.keys(members.data!)[index] as
-			| 'spartan'
-			| 'grants'
-			| 'ambassador'
-			| 'treasury';
-		return (isNominees ? nomineesInfo.data! : members.data![council]).map((member) => (
-			<StyledCard
-				color={walletAddress === member.address ? 'orange' : 'purple'}
-				key={member.address}
-			>
-				<StyledCardContent className="darker-60" direction="column" alignItems="center">
-					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
-					<H5>{member.ens || member.username}</H5>
-					<Text>{member.about}</Text>
-					{member.discord && <DiscordIcon />}
-					{member.twitter && <TwitterIcon />}
-					<Flex justifyContent="center">
-						<StyledButton
-							variant="secondary"
-							onClick={() => {
-								push({
-									pathname: 'profile',
-									query: {
-										address: member.address,
-									},
-								});
-							}}
-						>
-							{walletAddress === member.address
-								? t('councils.edit-nomination')
-								: t('councils.view-member')}
-						</StyledButton>
-						{walletAddress === member.address && (
-							<IconButton onClick={() => setIsDropdownOpen(!isDropdownOpen)} size="tiniest" active>
-								<ThreeDotsKebabIcon active={isDropdownOpen} />
-							</IconButton>
-						)}
-						{isDropdownOpen && (
-							<StyledDropdown
-								color="purple"
-								elements={[
-									<StyledDropdownText
-										color="lightBlue"
-										onClick={() => {
-											setContent(<WithdrawModal />);
-											setIsOpen(true);
-										}}
-									>
-										{t('councils.dropdown.withdraw')}
-									</StyledDropdownText>,
-									<StyledDropdownText
-										color="lightBlue"
-										onClick={() => {
-											push({ pathname: '/profile', query: { address: walletAddress } });
-										}}
-									>
-										{t('councils.dropdown.edit')}
-									</StyledDropdownText>,
-									<StyledDropdownText color="lightBlue">
-										{t('councils.dropdown.etherscan')}
-									</StyledDropdownText>,
-								]}
-							/>
-						)}
-					</Flex>
-				</StyledCardContent>
-			</StyledCard>
-		));
-	};
 	return (
 		<>
 			<Head>
@@ -157,39 +57,47 @@ const Councils: NextPage = () => {
 							<H1>
 								{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
 							</H1>
-							{!!nomineesInfo.data?.length && <Flex wrap>{getMembers(activeCouncil, true)}</Flex>}
+							{!!nomineesInfo.data?.length && (
+								<Flex wrap>
+									{nomineesInfo.data.map((member) => (
+										<MemberCard member={member} />
+									))}
+								</Flex>
+							)}
 						</>
 					) : (
 						<>
 							<H1>{t('councils.headline')}</H1>
 							<Tabs
 								titles={councilTabs}
-								activeIndex={activeCouncil}
+								activeIndex={activeCouncil.index}
 								clicked={(index) => {
-									if (typeof index === 'number') setActiveCouncil(index);
+									if (typeof index === 'number') setActiveCouncil((state) => ({ ...state, index }));
 								}}
 								justifyContent="center"
 								icons={[
-									<StyledTabIcon key="spartan-council-tab" active={activeCouncil === 0}>
+									<StyledTabIcon key="spartan-council-tab" active={activeCouncil.index === 0}>
 										{members.data?.spartan?.length}
 									</StyledTabIcon>,
-									<StyledTabIcon key="grants-council-tab" active={activeCouncil === 1}>
+									<StyledTabIcon key="grants-council-tab" active={activeCouncil.index === 1}>
 										{members.data?.grants?.length}
 									</StyledTabIcon>,
-									<StyledTabIcon key="ambassador-council-tab" active={activeCouncil === 2}>
+									<StyledTabIcon key="ambassador-council-tab" active={activeCouncil.index === 2}>
 										{members.data?.ambassador?.length}
 									</StyledTabIcon>,
-									<StyledTabIcon key="treasury-council-tab" active={activeCouncil === 3}>
+									<StyledTabIcon key="treasury-council-tab" active={activeCouncil.index === 3}>
 										{members.data?.treasury?.length}
 									</StyledTabIcon>,
 								]}
 							/>
 							{members.data?.spartan &&
-							members.data.grants &&
-							members.data.ambassador &&
-							members.data.treasury ? (
+							members.data?.grants &&
+							members.data?.ambassador &&
+							members.data?.treasury ? (
 								<Flex wrap justifyContent="center">
-									{getMembers(activeCouncil)}
+									{members.data[activeCouncil.name].map((member) => (
+										<MemberCard member={member} />
+									))}
 								</Flex>
 							) : (
 								<span>loading...</span>
