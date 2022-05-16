@@ -1,6 +1,5 @@
 export function parseRemainingTime(dateInSec: number) {
-	// TODO @DEV update when correct data is available
-	const difference = dateInSec - new Date('April 4, 2022').getTime();
+	const difference = dateInSec - new Date().getTime();
 	const oneDay = 1000 * 60 * 60 * 24;
 	const oneHour = 1000 * 60 * 60;
 	const days = Math.floor(difference / oneDay);

@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon, Button } from '@synthetixio/ui';
+import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon, Button, Card } from '@synthetixio/ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
@@ -12,8 +12,11 @@ import Connector from 'containers/Connector';
 import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
+import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { truncateAddress } from 'utils/truncate-address';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -21,8 +24,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const { setIsOpen, setContent } = Modal.useContainer();
 	const { walletAddress: ownAddress } = Connector.useContainer();
+	const allMembers = useAllCouncilMembersQuery();
 
-	if (userDetailsQuery.isSuccess && userDetailsQuery.data) {
+	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,
 			pfpThumbnailUrl,
@@ -43,6 +47,18 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			parsedDelegationPitch = JSON.parse(delegationPitches);
 		}
 
+		const isPartOf = useMemo(() => {
+			if (allMembers.data.spartan.filter((member) => member.address === walletAddress).length)
+				return 'Spartan';
+			if (allMembers.data.grants.filter((member) => member.address === walletAddress).length)
+				return 'Grants';
+			if (allMembers.data.ambassador.filter((member) => member.address === walletAddress).length)
+				return 'Ambassador';
+			if (allMembers.data.treasury.filter((member) => member.address === walletAddress).length)
+				return 'Treasury';
+			return;
+		}, [walletAddress]);
+
 		return (
 			<StyledProfileWrapper direction="column" alignItems="center">
 				<StyledBackIconWrapper alignItems="center">
@@ -57,8 +73,13 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					alignItems="center"
 				>
 					<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
+					{isPartOf && (
+						<Card color="green">
+							<div>{t('profiles.council', isPartOf)}</div>
+						</Card>
+					)}
 					<Flex justifyContent="space-between" alignItems="center">
-						<H1>{username ? username : ens ? ens : walletAddress}</H1>
+						<H1>{username ? username : ens ? ens : truncateAddress(walletAddress)}</H1>
 						{ownAddress === walletAddress && (
 							<IconButton
 								style={{ height: '100%' }}

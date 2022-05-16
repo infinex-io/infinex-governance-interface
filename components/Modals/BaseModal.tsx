@@ -1,4 +1,5 @@
 import { Card, CloseIcon, Flex, IconButton } from '@synthetixio/ui';
+import { H1 } from 'components/Headlines/H1';
 import Modal from 'containers/Modal';
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
@@ -6,19 +7,19 @@ import styled from 'styled-components';
 export default function BaseModal({ children, headline }: PropsWithChildren<{ headline: string }>) {
 	const { setIsOpen } = Modal.useContainer();
 	return (
-		<StyledNominateModalWrapper color="purple">
+		<StyledBaseModalWrapper color="purple">
 			<StyledFlex direction="column" alignItems="center" className="darker-60">
 				<StyledIconButton onClick={() => setIsOpen(false)} active rounded>
 					<CloseIcon active />
 				</StyledIconButton>
-				<StyledModalHeadline>{headline}</StyledModalHeadline>
+				<H1>{headline}</H1>
 				{children}
 			</StyledFlex>
-		</StyledNominateModalWrapper>
+		</StyledBaseModalWrapper>
 	);
 }
 
-const StyledNominateModalWrapper = styled(Card)`
+const StyledBaseModalWrapper = styled(Card)`
 	background-repeat: no-repeat;
 	background-size: contain;
 	position: relative;
@@ -28,12 +29,6 @@ const StyledFlex = styled(Flex)`
 	height: 100%;
 	width: 100%;
 	padding-top: 10%;
-`;
-
-const StyledModalHeadline = styled.h1`
-	font-family: 'Inter Bold';
-	font-size: 3.33rem;
-	color: ${({ theme }) => theme.colors.white};
 `;
 
 const StyledIconButton = styled(IconButton)`

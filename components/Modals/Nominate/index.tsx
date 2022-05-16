@@ -8,6 +8,7 @@ import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { truncateAddress } from 'utils/truncate-address';
 import BaseModal from '../BaseModal';
 
 export default function NominateModal() {
@@ -104,10 +105,7 @@ export default function NominateModal() {
 					{ensName ? (
 						ensName
 					) : walletAddress ? (
-						walletAddress
-							.substring(0, 5)
-							.concat('...')
-							.concat(walletAddress.substring(walletAddress.length - 4))
+						truncateAddress(walletAddress)
 					) : (
 						<Button onClick={() => connectWallet()} variant="primary" size="small">
 							{t('modals.nomination.checkboxes.connect-wallet')}

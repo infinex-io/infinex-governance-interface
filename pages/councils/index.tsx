@@ -90,16 +90,16 @@ const Councils: NextPage = () => {
 							variant="secondary"
 							onClick={() => {
 								push({
-									pathname: 'councils',
+									pathname: 'profile',
 									query: {
-										member: member.address,
+										address: member.address,
 									},
 								});
 							}}
 						>
 							{walletAddress === member.address
 								? t('councils.edit-nomination')
-								: t('councils.tabs.view-member')}
+								: t('councils.view-member')}
 						</StyledButton>
 						{walletAddress === member.address && (
 							<IconButton onClick={() => setIsDropdownOpen(!isDropdownOpen)} size="tiniest" active>

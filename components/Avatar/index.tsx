@@ -10,7 +10,7 @@ type AvatarProps = {
 };
 
 const Avatar: React.FC<AvatarProps> = ({ walletAddress, url }) => {
-	const parsedUrl = parseURL(url);
+	const parsedUrl = url && parseURL(url);
 
 	return (
 		<ImageContainer>

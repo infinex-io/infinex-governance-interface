@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { Button, Checkbox, Flex } from '@synthetixio/ui';
 
 import BaseModal from '../BaseModal';
+import { truncateAddress } from 'utils/truncate-address';
 
 export default function EditModal() {
 	const { t } = useTranslation();
@@ -21,13 +22,7 @@ export default function EditModal() {
 		<BaseModal headline={t('modals.edit.headline')}>
 			<StyledBlackBox>
 				<StyledBlackBoxSubline>{t('modals.edit.subline')}</StyledBlackBoxSubline>
-				{ensName
-					? ensName
-					: walletAddress &&
-					  walletAddress
-							.substring(0, 5)
-							.concat('...')
-							.concat(walletAddress.substring(walletAddress.length - 4))}
+				{ensName ? ensName : walletAddress && truncateAddress(walletAddress)}
 			</StyledBlackBox>
 			<StyledCheckboxWrapper justifyContent="center">
 				<Checkbox

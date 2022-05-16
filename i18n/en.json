@@ -78,7 +78,8 @@
 		"participatedVotes": "Total Votes Contributed",
 		"wallet": "Wallet Address",
 		"pitch": "Governance Pitch",
-		"view-all-members": "View all members"
+		"view-all-members": "View all members",
+		"council": "{{council}} COUNCIL"
 	},
 	"modals": {
 		"nomination": {
