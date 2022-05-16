@@ -31,7 +31,7 @@ import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import Connector from 'containers/Connector';
 import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import Modal from 'containers/Modal';
-import WithdrawModal from 'components/Modals/Withdraw';
+import WithdrawModal from 'components/Modals/WithdrawNomination';
 
 const Councils: NextPage = () => {
 	const { query, push } = useRouter();
@@ -119,7 +119,12 @@ const Councils: NextPage = () => {
 									>
 										{t('councils.dropdown.withdraw')}
 									</StyledDropdownText>,
-									<StyledDropdownText color="lightBlue">
+									<StyledDropdownText
+										color="lightBlue"
+										onClick={() => {
+											push({ pathname: '/profile', query: { address: walletAddress } });
+										}}
+									>
 										{t('councils.dropdown.edit')}
 									</StyledDropdownText>,
 									<StyledDropdownText color="lightBlue">

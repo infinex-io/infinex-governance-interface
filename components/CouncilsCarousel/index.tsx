@@ -90,14 +90,14 @@ export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: Coun
 										variant="secondary"
 										onClick={() => {
 											push({
-												pathname: 'councils',
+												pathname: 'profile',
 												query: {
-													member: member.address,
+													address: member.address,
 												},
 											});
 										}}
 									>
-										{t('landing-page.tabs.view-member')}
+										{t('landing-page.view-member')}
 									</StyledButton>
 								</StyledCarouselCardContent>
 							</StyledCarouselCard>

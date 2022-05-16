@@ -1,11 +1,12 @@
+import { Colors } from '@synthetixio/ui';
 import styled from 'styled-components';
 
-export const H5 = styled.h5`
+export const H5 = styled.h5<{ color?: Colors }>`
 	font-family: 'Inter Bold';
 	font-weight: 700;
 	font-size: 1.16rem;
 	line-height: 21px;
 	text-align: center;
-	color: ${({ theme }) => theme.colors.white};
+	color: ${({ theme, color }) => color && theme.colors[color]};
 	margin: 0;
 `;

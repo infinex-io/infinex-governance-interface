@@ -18,6 +18,7 @@
 		"tabs-headline": "Current Members",
 		"tabs-subline": "The current members of each Synthetix Governing Body",
 		"carousel-btn": "View all members",
+		"view-member": "View Member",
 		"button-cards": {
 			"all-members": "VIEW ALL COUNCIL MEMBERS",
 			"all-members-subline": "View the history of past council elections and vote in any currently open elections.",
@@ -26,7 +27,7 @@
 			"forum": "SYNTHETIX FORUM",
 			"forum-subline": "Join the community governance discussion in realtime.",
 			"records": "SCCP / SIP VOTING RECORDS",
-			"records-subline": "View the voting history of all governance proposals. "
+			"records-subline": "View the voting history of all governance proposals."
 		},
 		"cards": {
 			"sc": "Spartan Council",
@@ -76,7 +77,8 @@
 		"currentVotingWeight": "Current Voting Weight",
 		"participatedVotes": "Total Votes Contributed",
 		"wallet": "Wallet Address",
-		"pitch": "Governance Pitch"
+		"pitch": "Governance Pitch",
+		"view-all-members": "View all members"
 	},
 	"modals": {
 		"nomination": {
