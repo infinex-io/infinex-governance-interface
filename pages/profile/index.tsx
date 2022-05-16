@@ -2,13 +2,12 @@ import Main from 'components/Main';
 import Error from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import ProfileSection from 'sections/profile';
+import ProfileSection from 'sections/Profile';
 import { isWalletAddress } from 'utils/validate';
 
-export default function CouncilMembers() {
+export default function Profile() {
 	const { query } = useRouter();
 	const { address } = query;
-
 	if (typeof address !== 'string' || !isWalletAddress(address)) {
 		return <Error statusCode={404} />;
 	}

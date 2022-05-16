@@ -5,8 +5,8 @@ import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDe
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-
 import { Button, CloseIcon, Flex, IconButton, TextInput } from '@synthetixio/ui';
+import BaseModal from '../BaseModal';
 
 type EditProfileModalProps = {
 	userProfile: GetUserDetails;
@@ -57,11 +57,11 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 	};
 
 	return (
-		<StyledNominateModalWrapper direction="column" alignItems="center">
+		<BaseModal headline={t('modals.editProfile.headline')}>
 			<StyledIconButton onClick={() => setIsOpen(false)} active rounded>
 				<CloseIcon active />
 			</StyledIconButton>
-			<StyledModalHeadline>{t('modals.editProfile.headline')}</StyledModalHeadline>
+			<StyledModalHeadline></StyledModalHeadline>
 			<StyledModalSubheadline>{t('modals.editProfile.subheadline')}</StyledModalSubheadline>
 			<StyledBlackBox direction="column" alignItems="center">
 				<InputRow alignItems="center">
@@ -158,22 +158,13 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 				onClick={() => {
 					handleProfileEdit();
 				}}
-				text="Save Profile"
-			/>
-		</StyledNominateModalWrapper>
+			>
+				Save Profile
+			</Button>
+		</BaseModal>
 	);
 };
 export default EditProfileModal;
-
-const StyledNominateModalWrapper = styled(Flex)`
-	background: black;
-	height: 100%;
-	width: 100%;
-	background-repeat: no-repeat;
-	background-size: contain;
-	position: relative;
-	padding-top: 10%;
-`;
 
 const StyledModalHeadline = styled.h1`
 	font-family: 'Inter Bold';
