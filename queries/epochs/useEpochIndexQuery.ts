@@ -9,7 +9,7 @@ function useEpochIndexQuery(moduleInstance: DeployedModules) {
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let epochIndex = Number(await contract?.getEpochIndex());
-			return epochIndex % 4;
+			return epochIndex;
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,

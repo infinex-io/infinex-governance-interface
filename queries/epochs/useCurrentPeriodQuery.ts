@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import Modules from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules/Modules';
 
-enum EpochPeriods {
+export enum EpochPeriods {
 	ADMINISTRATION = 0,
 	NOMINATION = 1,
 	VOTING = 2,
@@ -10,7 +10,7 @@ enum EpochPeriods {
 }
 
 type CurrentPeriod = {
-	currentPeriod: number;
+	currentPeriod: keyof typeof EpochPeriods;
 };
 
 function useCurrentPeriod(moduleInstance: DeployedModules) {
@@ -21,7 +21,7 @@ function useCurrentPeriod(moduleInstance: DeployedModules) {
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let currentPeriod = Number(await contract?.getCurrentPeriod());
-			return { currentPeriod: Number(EpochPeriods[currentPeriod]) };
+			return { currentPeriod: EpochPeriods[currentPeriod] as keyof typeof EpochPeriods };
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
