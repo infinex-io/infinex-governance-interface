@@ -1,4 +1,4 @@
-import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from '@synthetixio/ui';
+import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from 'components/old-ui';
 import Connector from 'containers/Connector';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';

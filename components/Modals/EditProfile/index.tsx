@@ -5,7 +5,7 @@ import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDe
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, CloseIcon, Flex, IconButton, TextInput } from '@synthetixio/ui';
+import { Button, CloseIcon, Flex, IconButton, TextInput } from 'components/old-ui';
 import SecondaryModal from '../SecondaryModal';
 
 type EditProfileModalProps = {

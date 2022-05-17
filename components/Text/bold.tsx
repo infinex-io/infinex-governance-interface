@@ -1,4 +1,4 @@
-import { Colors } from '@synthetixio/ui';
+import { Colors } from 'components/old-ui';
 import styled from 'styled-components';
 
 export const TextBold = styled.span<{ color?: Colors }>`

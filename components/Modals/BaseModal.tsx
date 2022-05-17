@@ -1,4 +1,4 @@
-import { Card, CloseIcon, Flex, IconButton } from '@synthetixio/ui';
+import { Card, CloseIcon, Flex, IconButton } from 'components/old-ui';
 import { H1 } from 'components/Headlines/H1';
 import Modal from 'containers/Modal';
 import { PropsWithChildren } from 'react';

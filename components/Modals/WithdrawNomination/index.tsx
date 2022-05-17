@@ -1,4 +1,4 @@
-import { Button, Flex } from '@synthetixio/ui';
+import { Button, Flex } from 'components/old-ui';
 import Connector from 'containers/Connector';
 import Modal from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';

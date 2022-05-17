@@ -1,4 +1,4 @@
-import { Spotlight } from '@synthetixio/ui';
+import { Spotlight } from 'components/old-ui';
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 

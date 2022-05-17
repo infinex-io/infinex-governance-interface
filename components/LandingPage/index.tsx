@@ -1,4 +1,5 @@
-import { ArrowLinkOffIcon, Button, ButtonCard, Card, Colors, Flex } from '@synthetixio/ui';
+import { Button } from '@synthetixio/ui';
+import { ArrowLinkOffIcon, ButtonCard, Card, Colors } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
 import { H2 } from 'components/Headlines/H2';
@@ -59,18 +60,13 @@ export default function LandingPage() {
 		treasuryCurrentPeriod && parseIndex(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
 
 	return (
-		<Flex direction="column" alignItems="center">
+		<div className="flex flex-col align-center">
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
-			<Flex justifyContent="center" wrap>
+			<div className="flex justify-center flex-wrap">
 				<StyledCard color="purple">
-					<StyledCardContent
-						direction="column"
-						alignItems="center"
-						justifyContent="space-around"
-						className="darker-60"
-					>
-						<Image src="/logos/spartan-council.svg" width={50} height={72} />
+					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
+						<Image alt="spartan-council" src="/logos/spartan-council.svg" width={50} height={72} />
 						<H4>{t('landing-page.cards.sc')}</H4>
 						{spartanCouncilInfo && (
 							<>
@@ -78,11 +74,11 @@ export default function LandingPage() {
 									{t(spartanCouncilInfo.cta)}
 								</StyledCTALabel>
 								<StyledSpacer />
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								<div className="flex justify-around">
 									<Text>{t(spartanCouncilInfo.headlineLeft)}</Text>
 									<Text>{t(spartanCouncilInfo.headlineRight)}</Text>
-								</StyledSecondHeadlineCard>
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								</div>
+								<div className="flex justify-around">
 									<H2>
 										{spartanCurrentPeriod.currentPeriod === 'NOMINATION' ||
 										spartanCurrentPeriod.currentPeriod === 'VOTING'
@@ -95,7 +91,7 @@ export default function LandingPage() {
 											? spartanNominees.data?.length
 											: spartanMembers.data?.length}
 									</H2>
-								</StyledSecondHeadlineCard>
+								</div>
 								{spartanCouncilInfo.secondButton && (
 									<TransparentText
 										gradient="lightBlue"
@@ -115,6 +111,9 @@ export default function LandingPage() {
 								)}
 								<Button
 									variant={spartanCouncilInfo.variant}
+									className="w-full"
+									size="lg"
+									// variant={spartanCouncilInfo.variant}
 									onClick={() => {
 										if (spartanCurrentPeriod.currentPeriod === 'NOMINATION') {
 											setContent(<NominateModal />);
@@ -143,12 +142,7 @@ export default function LandingPage() {
 					</StyledCardContent>
 				</StyledCard>
 				<StyledCard color="purple">
-					<StyledCardContent
-						direction="column"
-						alignItems="center"
-						justifyContent="space-around"
-						className="darker-60"
-					>
+					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
 						<Image src="/logos/grants-council.svg" width={64} height={64} />
 						<H4>{t('landing-page.cards.gc')}</H4>
 						{grantsCouncilInfo && (
@@ -157,11 +151,11 @@ export default function LandingPage() {
 									{t(grantsCouncilInfo.cta)}
 								</StyledCTALabel>
 								<StyledSpacer />
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								<div className="flex justify-around">
 									<Text>{t(grantsCouncilInfo.headlineLeft)}</Text>
 									<Text>{t(grantsCouncilInfo.headlineRight)}</Text>
-								</StyledSecondHeadlineCard>
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								</div>
+								<div className="flex justify-around">
 									<H2>
 										{grantsCurrentPeriod.currentPeriod === 'NOMINATION' ||
 										grantsCurrentPeriod.currentPeriod === 'VOTING'
@@ -174,7 +168,7 @@ export default function LandingPage() {
 											? grantsNominees.data?.length
 											: grantsMembers.data?.length}
 									</H2>
-								</StyledSecondHeadlineCard>
+								</div>
 								{grantsCouncilInfo.secondButton && (
 									<TransparentText
 										gradient="lightBlue"
@@ -194,6 +188,8 @@ export default function LandingPage() {
 								)}
 								<Button
 									variant={grantsCouncilInfo.variant}
+									className="w-full"
+									size="lg"
 									onClick={() => {
 										if (spartanCurrentPeriod?.currentPeriod === 'NOMINATION') {
 											setContent(<NominateModal />);
@@ -222,12 +218,7 @@ export default function LandingPage() {
 					</StyledCardContent>
 				</StyledCard>
 				<StyledCard color="purple">
-					<StyledCardContent
-						direction="column"
-						alignItems="center"
-						justifyContent="space-around"
-						className="darker-60"
-					>
+					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
 						<Image src="/logos/ambassador-council.svg" width={69} height={61} />
 						<H4>{t('landing-page.cards.ac')}</H4>
 						{ambassadorCouncilInfo && (
@@ -236,11 +227,11 @@ export default function LandingPage() {
 									{t(ambassadorCouncilInfo.cta)}
 								</StyledCTALabel>
 								<StyledSpacer />
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								<div className="flex justify-around">
 									<Text>{t(ambassadorCouncilInfo.headlineLeft)}</Text>
 									<Text>{t(ambassadorCouncilInfo.headlineRight)}</Text>
-								</StyledSecondHeadlineCard>
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								</div>
+								<div className="flex justify-around">
 									<H2>
 										{ambassadorCurrentPeriod.currentPeriod === 'NOMINATION' ||
 										ambassadorCurrentPeriod.currentPeriod === 'VOTING'
@@ -253,7 +244,7 @@ export default function LandingPage() {
 											? ambassadorNominees.data?.length
 											: grantsMembers.data?.length}
 									</H2>
-								</StyledSecondHeadlineCard>
+								</div>
 								{ambassadorCouncilInfo.secondButton && (
 									<TransparentText
 										gradient="lightBlue"
@@ -273,6 +264,8 @@ export default function LandingPage() {
 								)}
 								<Button
 									variant={ambassadorCouncilInfo.variant}
+									className="w-full"
+									size="lg"
 									onClick={() => {
 										if (ambassadorCurrentPeriod.currentPeriod === 'NOMINATION') {
 											setContent(<NominateModal />);
@@ -301,12 +294,7 @@ export default function LandingPage() {
 					</StyledCardContent>
 				</StyledCard>
 				<StyledCard color="purple">
-					<StyledCardContent
-						direction="column"
-						alignItems="center"
-						justifyContent="space-around"
-						className="darker-60"
-					>
+					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
 						<Image src="/logos/treasury-council.svg" width={84} height={84} />
 						<H4>{t('landing-page.cards.tc')}</H4>
 						{treasuryCouncilInfo && (
@@ -315,11 +303,11 @@ export default function LandingPage() {
 									{t(treasuryCouncilInfo.cta)}
 								</StyledCTALabel>
 								<StyledSpacer />
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								<div className="flex justify-around">
 									<Text>{t(treasuryCouncilInfo.headlineLeft)}</Text>
 									<Text>{t(treasuryCouncilInfo.headlineRight)}</Text>
-								</StyledSecondHeadlineCard>
-								<StyledSecondHeadlineCard justifyContent="space-around">
+								</div>
+								<div className="flex justify-around">
 									<H2>
 										{treasuryCurrentPeriod.currentPeriod === 'NOMINATION' ||
 										treasuryCurrentPeriod.currentPeriod === 'VOTING'
@@ -332,7 +320,7 @@ export default function LandingPage() {
 											? treasuryNominees.data?.length
 											: treasuryMembers.data?.length}
 									</H2>
-								</StyledSecondHeadlineCard>
+								</div>
 								{treasuryCouncilInfo.secondButton && (
 									<TransparentText
 										gradient="lightBlue"
@@ -352,6 +340,8 @@ export default function LandingPage() {
 								)}
 								<Button
 									variant={treasuryCouncilInfo.variant}
+									className="w-full"
+									size="lg"
 									onClick={() => {
 										if (treasuryCurrentPeriod.currentPeriod === 'NOMINATION') {
 											setContent(<NominateModal />);
@@ -379,10 +369,10 @@ export default function LandingPage() {
 						)}
 					</StyledCardContent>
 				</StyledCard>
-			</Flex>
+			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
-			<Flex wrap>
+			<div className="flex flex-wrap justify-center">
 				<Link href="/councils">
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}
@@ -399,8 +389,8 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-			</Flex>
-			<Flex wrap>
+			</div>
+			<div className="flex flex-wrap justify-center">
 				<Link href="https://discord.com/invite/HQSTqXH84t">
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.forum')}
@@ -417,26 +407,27 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-			</Flex>
+			</div>
 			<H1>{t('landing-page.tabs-headline')}</H1>
 			<Text>{t('landing-page.tabs-subline')}</Text>
 			<CouncilsCarousel />
-			<StyledCarouselButton
+			<Button
 				onClick={() => {
 					push({ pathname: '/councils' });
 				}}
-				size="small"
+				size="md"
+				className="mx-auto my-10 min-w-[140px]"
 			>
 				{t('landing-page.carousel-btn')}
-			</StyledCarouselButton>
-		</Flex>
+			</Button>
+		</div>
 	);
 }
 
 function parseIndex(index: number): {
 	cta: string;
 	button: string;
-	variant: 'primary' | 'secondary';
+	variant: 'default' | 'outline';
 	color: Colors;
 	headlineLeft: string;
 	headlineRight: string;
@@ -448,7 +439,7 @@ function parseIndex(index: number): {
 				cta: 'landing-page.cards.cta.nomination',
 				button: 'landing-page.cards.button.nomination',
 				color: 'orange',
-				variant: 'primary',
+				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
 				secondButton: 'landing-page.cards.nominees',
@@ -458,7 +449,7 @@ function parseIndex(index: number): {
 				cta: 'landing-page.cards.cta.vote',
 				button: 'landing-page.cards.button.vote',
 				color: 'green',
-				variant: 'primary',
+				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
 			};
@@ -467,7 +458,7 @@ function parseIndex(index: number): {
 				cta: 'landing-page.cards.cta.closed',
 				button: 'landing-page.cards.button.closed',
 				color: 'purple',
-				variant: 'secondary',
+				variant: 'outline',
 				headlineLeft: 'landing-page.cards.members',
 				headlineRight: 'landing-page.cards.received',
 			};
@@ -480,8 +471,7 @@ const StyledCard = styled(Card)`
 	margin: ${({ theme }) => theme.spacings.medium};
 `;
 
-const StyledCardContent = styled(Flex)`
-	height: 100%;
+const StyledCardContent = styled.div`
 	padding: ${({ theme }) => theme.spacings.medium};
 `;
 
@@ -498,17 +488,8 @@ const StyledSpacer = styled.span`
 	background: linear-gradient(73.6deg, #8e2de2 2.11%, #4b01e0 90.45%);
 `;
 
-const StyledSecondHeadlineCard = styled(Flex)`
-	width: 100%;
-`;
-
 const StyledButtonCards = styled(ButtonCard)`
 	width: 350px;
 	height: 112px;
 	margin: ${({ theme }) => theme.spacings.small};
-`;
-
-const StyledCarouselButton = styled(Button)`
-	width: 132px;
-	margin: ${({ theme }) => theme.spacings.biggest};
 `;

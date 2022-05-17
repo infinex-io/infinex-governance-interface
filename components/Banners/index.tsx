@@ -1,5 +1,5 @@
-import { Flex, theme } from '@synthetixio/ui';
-import { Colors } from '@synthetixio/ui/dist/esm/types';
+import { Flex, theme } from 'components/old-ui';
+import { Colors } from 'components/old-ui/dist/esm/types';
 import styled from 'styled-components';
 
 export const Banner = styled(Flex)<{

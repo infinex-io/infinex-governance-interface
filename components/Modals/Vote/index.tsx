@@ -1,4 +1,4 @@
-import { Button } from '@synthetixio/ui';
+import { Button } from 'components/old-ui';
 import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';

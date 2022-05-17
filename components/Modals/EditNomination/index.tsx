@@ -2,7 +2,9 @@ import Connector from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, Card, Checkbox, Flex } from '@synthetixio/ui';
+
+import { Button, Checkbox, Flex, Card } from 'components/old-ui';
+
 import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';

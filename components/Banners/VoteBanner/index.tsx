@@ -1,4 +1,4 @@
-import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
+import { ArrowRightIcon, IconButton } from 'components/old-ui';
 import { Banner, BannerText, TimeWrapper } from 'components/Banners';
 import RemainingTime from 'components/RemainingTime';
 import { DeployedModules } from 'containers/Modules/Modules';

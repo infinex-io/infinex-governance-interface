@@ -1,77 +1,8 @@
-html {
-	scroll-behavior: smooth;
-}
-
-body {
-	font-family: $font-family;
-	color: var(--color-black-700);
-	html.ui-dark & {
-		color: var(--color-black-100);
-		background-color: var(--color-black-600);
-	}
-}
-
 html,
 body {
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
-}
-
-/* Change Autocomplete styles in Chrome */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-textarea:-webkit-autofill:active,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus,
-select:-webkit-autofill:active {
-	-webkit-box-shadow: 0 0 0 5rem white inset;
-	html.ui-dark & {
-		caret-color: white;
-		-webkit-text-fill-color: white;
-		-webkit-box-shadow: 0 0 0 5rem var(--color-black-600) inset;
-	}
-}
-
-/* Remove arrows from number input */
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-/* Firefox */
-input[type='number'] {
-	-moz-appearance: textfield;
-}
-
-/* scrollbar style */
-/* width */
-::-webkit-scrollbar {
-	height: 5px;
-	width: 5px;
-}
-/* Track */
-::-webkit-scrollbar-track {
-	background: var(--color-black-100);
-	html.ui-dark & {
-		background: var(--color-black-400);
-	}
-}
-/* Handle */
-::-webkit-scrollbar-thumb {
-	background: var(--color-yellow-700);
-}
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-	background: var(--color-yellow-600);
 }
 
 a {
@@ -119,14 +50,18 @@ li {
 	background-color: rgba(255, 255, 255, 0.8);
 }
 
+.ui-bg-clip-text {
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+
 @font-face {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: local('Inter'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Regular.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Regular.woff') format('woff');
+	src: local('Inter'), url('../components/old-ui/fonts/Inter-Regular.woff2') format('woff2'),
+		url('../components/old-ui/fonts/Inter-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -135,8 +70,8 @@ li {
 	font-display: swap;
 	font-weight: 400;
 	src: local('Lustra Text'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Lustra-Text-Regular.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Lustra-Text-Regular.woff') format('woff');
+		url('../components/old-ui/fonts/Lustra-Text-Regular.woff2') format('woff2'),
+		url('../components/old-ui/fonts/Lustra-Text-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -145,8 +80,8 @@ li {
 	font-display: swap;
 	font-weight: 400;
 	src: local('GT America'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Regular.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Regular.woff') format('woff');
+		url('../components/old-ui/fonts/GT-America-Regular.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -155,8 +90,8 @@ li {
 	font-display: swap;
 	font-weight: 700;
 	src: local('GT America Extended'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Extended-Bold.woff') format('woff');
+		url('../components/old-ui/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Extended-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -165,8 +100,8 @@ li {
 	font-display: swap;
 	font-weight: bold;
 	src: local('GT America Extended'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Mono-Bold.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Mono-Bold.woff') format('woff');
+		url('../components/old-ui/fonts/GT-America-Mono-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Mono-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -174,7 +109,6 @@ li {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 700;
-	src: local('Inter Bold'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Bold.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Bold.woff') format('woff');
+	src: local('Inter Bold'), url('../components/old-ui/fonts/Inter-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/Inter-Bold.woff') format('woff');
 }

@@ -7,6 +7,7 @@ import { DAppProvider, Config, Hardhat, ChainId, Mainnet } from '@usedapp/core';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+import '@synthetixio/ui/dist/default.css';
 import '../styles/index.scss';
 import '../i18n';
 
@@ -14,7 +15,7 @@ import Connector from 'containers/Connector';
 import Modules from 'containers/Modules';
 import Modal from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
-import { theme, Modal as UIModal } from '@synthetixio/ui';
+import { theme, Modal as UIModal } from 'components/old-ui';
 
 const queryClient = new QueryClient();
 

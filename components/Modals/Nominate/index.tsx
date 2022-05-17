@@ -1,4 +1,4 @@
-import { Button, Checkbox, Flex } from '@synthetixio/ui';
+import { Button, Checkbox, Flex } from 'components/old-ui';
 import { H3 } from 'components/Headlines/H3';
 import Connector from 'containers/Connector';
 import Modal from 'containers/Modal';

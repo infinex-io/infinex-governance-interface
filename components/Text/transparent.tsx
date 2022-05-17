@@ -1,4 +1,4 @@
-import { theme } from '@synthetixio/ui';
+import { theme } from 'components/old-ui';
 import styled from 'styled-components';
 
 export const TransparentText = styled.span<{

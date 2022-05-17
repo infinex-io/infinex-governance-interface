@@ -7,7 +7,7 @@ import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery'
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
-import { ArrowRightIcon, IconButton } from '@synthetixio/ui';
+import { ArrowRightIcon, IconButton } from 'components/old-ui';
 
 import { BannerProps } from '../types';
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from '@synthetixio/ui';
+import { Button, Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { parseURL } from 'utils/ipfs';
 import { H5 } from 'components/Headlines/H5';
