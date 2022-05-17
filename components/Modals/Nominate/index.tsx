@@ -3,7 +3,7 @@ import Connector from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +20,10 @@ export default function NominateModal() {
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const isInNominationPeriodSpartan = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const isInNominationPeriodGrants = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const isInNominationPeriodAmbassador = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const isInNominationPeriodTreasury = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const isInNominationPeriodSpartan = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
+	const isInNominationPeriodGrants = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
+	const isInNominationPeriodAmbassador = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
+	const isInNominationPeriodTreasury = useEpochIndexQuery(DeployedModules.TREASURY_COUNCIL);
 
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
@@ -41,6 +41,14 @@ export default function NominateModal() {
 		DeployedModules.TREASURY_COUNCIL,
 		walletAddress || ''
 	);
+
+	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
+	we should block all the councils radio button */
+	const isAlreadyNominated =
+		isAlreadyNominatedForSpartan.data ||
+		isAlreadyNominatedForGrants.data ||
+		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTreasury.data;
 
 	const handleNomination = async () => {
 		switch (activeCheckbox) {
@@ -122,10 +130,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.spartan')}
 					color="lightBlue"
 					checked={activeCheckbox === 'spartan'}
-					disabled={
-						isAlreadyNominatedForSpartan.data ||
-						Number(isInNominationPeriodSpartan.data?.currentPeriod) === 1
-					}
+					disabled={isAlreadyNominated || isInNominationPeriodSpartan.data !== 1}
 				/>
 				<Checkbox
 					id="grants-council-checkbox"
@@ -135,10 +140,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.grants')}
 					color="lightBlue"
 					checked={activeCheckbox === 'grants'}
-					disabled={
-						isAlreadyNominatedForGrants.data ||
-						Number(isInNominationPeriodGrants.data?.currentPeriod) === 1
-					}
+					disabled={isAlreadyNominated || isInNominationPeriodGrants.data !== 1}
 				/>
 				<Checkbox
 					id="ambassador-council-checkbox"
@@ -148,10 +150,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.ambassador')}
 					color="lightBlue"
 					checked={activeCheckbox === 'ambassador'}
-					disabled={
-						isAlreadyNominatedForAmbassador.data ||
-						Number(isInNominationPeriodAmbassador.data?.currentPeriod) === 1
-					}
+					disabled={isAlreadyNominated || isInNominationPeriodAmbassador.data !== 1}
 				/>
 				<Checkbox
 					id="treasury-council-checkbox"
@@ -161,10 +160,7 @@ export default function NominateModal() {
 					label={t('modals.nomination.checkboxes.treasury')}
 					color="lightBlue"
 					checked={activeCheckbox === 'treasury'}
-					disabled={
-						isAlreadyNominatedForTreasury.data ||
-						Number(isInNominationPeriodTreasury.data?.currentPeriod) === 1
-					}
+					disabled={isAlreadyNominated || isInNominationPeriodTreasury.data !== 1}
 				/>
 			</StyledCheckboxWrapper>
 			<StyledNominateButton variant="primary" onClick={() => handleNomination()}>

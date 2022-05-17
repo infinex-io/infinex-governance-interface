@@ -12,6 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
@@ -23,10 +24,10 @@ export default function LandingPage() {
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = Modal.useContainer();
 
-	const { data: spartanEpochIndex } = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
-	const { data: grantsEpochIndex } = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
-	const { data: ambassadorEpochIndex } = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
-	const { data: treasuryEpochIndex } = useEpochIndexQuery(DeployedModules.TREASURY_COUNCIL);
+	const { data: spartanCurrentPeriod } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const { data: grantsCurrentPeriod } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
+	const { data: ambassadorCurrentPeriod } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
+	const { data: treasuryCurrentPeriod } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 	// TODO @MF calculate next epoch and display the number in the card
 	const [spartanEpoch, spartanNominees, spartanMembers] = [
 		useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL),
@@ -48,11 +49,12 @@ export default function LandingPage() {
 		useNomineesQuery(DeployedModules.TREASURY_COUNCIL),
 		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
 	];
-	const spartanCouncilInfo = spartanEpochIndex && parseIndex(spartanEpochIndex);
-	const grantsCouncilInfo = grantsEpochIndex && parseIndex(grantsEpochIndex);
-	const ambassadorCouncilInfo = ambassadorEpochIndex && parseIndex(ambassadorEpochIndex);
-	const treasuryCouncilInfo = treasuryEpochIndex && parseIndex(treasuryEpochIndex);
-
+	const spartanCouncilInfo = spartanCurrentPeriod && parseIndex(spartanCurrentPeriod.currentPeriod);
+	const grantsCouncilInfo = grantsCurrentPeriod && parseIndex(grantsCurrentPeriod.currentPeriod);
+	const ambassadorCouncilInfo =
+		ambassadorCurrentPeriod && parseIndex(ambassadorCurrentPeriod.currentPeriod);
+	const treasuryCouncilInfo =
+		treasuryCurrentPeriod && parseIndex(treasuryCurrentPeriod.currentPeriod);
 	return (
 		<Flex direction="column" alignItems="center">
 			<H1>{t('landing-page.headline')}</H1>
@@ -79,13 +81,14 @@ export default function LandingPage() {
 								</StyledSecondHeadlineCard>
 								<StyledSecondHeadlineCard justifyContent="space-around">
 									<H2>
-										{spartanEpochIndex === 1
+										{spartanCurrentPeriod.currentPeriod === 1 ||
+										spartanCurrentPeriod.currentPeriod === 2
 											? spartanNominees.data?.length
 											: spartanMembers.data?.length}
 									</H2>
 									{/* TODO @DEV implement votes received or live votes when available */}
 									<H2>
-										{spartanEpochIndex === 1
+										{spartanCurrentPeriod.currentPeriod === 1
 											? spartanNominees.data?.length
 											: spartanMembers.data?.length}
 									</H2>
@@ -110,10 +113,10 @@ export default function LandingPage() {
 								<Button
 									variant={spartanCouncilInfo.variant}
 									onClick={() => {
-										if (spartanEpochIndex === 1) {
+										if (spartanCurrentPeriod.currentPeriod === 1) {
 											setContent(<NominateModal />);
 											setIsOpen(true);
-										} else if (spartanEpochIndex === 2) {
+										} else if (spartanCurrentPeriod.currentPeriod === 2) {
 											push({
 												pathname: '/vote',
 												query: {
@@ -157,13 +160,14 @@ export default function LandingPage() {
 								</StyledSecondHeadlineCard>
 								<StyledSecondHeadlineCard justifyContent="space-around">
 									<H2>
-										{grantsEpochIndex === 1
+										{grantsCurrentPeriod.currentPeriod === 1 ||
+										grantsCurrentPeriod.currentPeriod === 2
 											? grantsNominees.data?.length
 											: grantsMembers.data?.length}
 									</H2>
 									{/* TODO @DEV implement votes received or live votes when available */}
 									<H2>
-										{grantsEpochIndex === 1
+										{grantsCurrentPeriod.currentPeriod === 1
 											? grantsNominees.data?.length
 											: grantsMembers.data?.length}
 									</H2>
@@ -188,10 +192,10 @@ export default function LandingPage() {
 								<Button
 									variant={grantsCouncilInfo.variant}
 									onClick={() => {
-										if (spartanEpochIndex === 1) {
+										if (spartanCurrentPeriod?.currentPeriod === 1) {
 											setContent(<NominateModal />);
 											setIsOpen(true);
-										} else if (spartanEpochIndex === 2) {
+										} else if (spartanCurrentPeriod?.currentPeriod === 2) {
 											push({
 												pathname: '/vote',
 												query: {
@@ -235,13 +239,14 @@ export default function LandingPage() {
 								</StyledSecondHeadlineCard>
 								<StyledSecondHeadlineCard justifyContent="space-around">
 									<H2>
-										{ambassadorEpochIndex === 1
+										{ambassadorCurrentPeriod.currentPeriod === 1 ||
+										ambassadorCurrentPeriod.currentPeriod === 2
 											? ambassadorNominees.data?.length
 											: ambassadorMembers.data?.length}
 									</H2>
 									{/* TODO @DEV implement votes received or live votes when available */}
 									<H2>
-										{ambassadorEpochIndex === 1
+										{ambassadorCurrentPeriod.currentPeriod === 1
 											? ambassadorNominees.data?.length
 											: grantsMembers.data?.length}
 									</H2>
@@ -266,10 +271,10 @@ export default function LandingPage() {
 								<Button
 									variant={ambassadorCouncilInfo.variant}
 									onClick={() => {
-										if (spartanEpochIndex === 1) {
+										if (ambassadorCurrentPeriod.currentPeriod === 1) {
 											setContent(<NominateModal />);
 											setIsOpen(true);
-										} else if (spartanEpochIndex === 2) {
+										} else if (ambassadorCurrentPeriod.currentPeriod === 2) {
 											push({
 												pathname: '/vote',
 												query: {
@@ -313,13 +318,14 @@ export default function LandingPage() {
 								</StyledSecondHeadlineCard>
 								<StyledSecondHeadlineCard justifyContent="space-around">
 									<H2>
-										{treasuryEpochIndex === 1
+										{treasuryCurrentPeriod.currentPeriod === 1 ||
+										treasuryCurrentPeriod.currentPeriod === 2
 											? treasuryNominees.data?.length
 											: treasuryMembers.data?.length}
 									</H2>
 									{/* TODO @DEV implement votes received or live votes when available */}
 									<H2>
-										{treasuryEpochIndex === 1
+										{treasuryCurrentPeriod.currentPeriod === 1
 											? treasuryNominees.data?.length
 											: treasuryMembers.data?.length}
 									</H2>
@@ -344,10 +350,10 @@ export default function LandingPage() {
 								<Button
 									variant={treasuryCouncilInfo.variant}
 									onClick={() => {
-										if (treasuryEpochIndex === 1) {
+										if (treasuryCurrentPeriod.currentPeriod === 1) {
 											setContent(<NominateModal />);
 											setIsOpen(true);
-										} else if (treasuryEpochIndex === 2) {
+										} else if (treasuryCurrentPeriod.currentPeriod === 2) {
 											push({
 												pathname: '/vote',
 												query: {

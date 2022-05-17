@@ -10,7 +10,7 @@ enum EpochPeriods {
 }
 
 type CurrentPeriod = {
-	currentPeriod: string;
+	currentPeriod: number;
 };
 
 function useCurrentPeriod(moduleInstance: DeployedModules) {
@@ -21,7 +21,7 @@ function useCurrentPeriod(moduleInstance: DeployedModules) {
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let currentPeriod = Number(await contract?.getCurrentPeriod());
-			return { currentPeriod: EpochPeriods[currentPeriod] };
+			return { currentPeriod: Number(EpochPeriods[currentPeriod]) };
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
