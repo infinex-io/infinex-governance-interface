@@ -11,7 +11,6 @@ import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery
 import { Text } from 'components/Text/text';
 import { TextBold } from 'components/Text/bold';
 import { capitalizeString } from 'utils/capitalize';
-import { DeployedModules } from 'containers/Modules/Modules';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
@@ -32,6 +31,7 @@ const Councils: NextPage = () => {
 	const members = useAllCouncilMembersQuery();
 	const { data } = useNomineesQuery(parseQuery(query?.council?.toString()).module);
 	const nomineesInfo = useUsersDetailsQuery(data ? data : []);
+
 	const councilTabs = [
 		t('landing-page.tabs.sc'),
 		t('landing-page.tabs.gc'),
@@ -60,7 +60,7 @@ const Councils: NextPage = () => {
 							{!!nomineesInfo.data?.length && (
 								<Flex wrap>
 									{nomineesInfo.data.map((member) => (
-										<MemberCard member={member} />
+										<MemberCard member={member} key={member.address} />
 									))}
 								</Flex>
 							)}

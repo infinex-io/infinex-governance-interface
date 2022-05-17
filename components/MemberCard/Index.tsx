@@ -9,12 +9,14 @@ import {
 	TwitterIcon,
 } from 'components/old-ui';
 import { H5 } from 'components/Headlines/H5';
+import EditModal from 'components/Modals/EditNomination';
 import WithdrawModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
 import Connector from 'containers/Connector';
 import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import useGetMemberBelongingQuery from 'queries/nomination/useGetMemberBelongingQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -30,8 +32,10 @@ export default function MemberCard({ member }: MemberCardProps) {
 	const { walletAddress } = Connector.useContainer();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const { setContent, setIsOpen } = Modal.useContainer();
+	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
+	const { data } = useGetMemberBelongingQuery(member.address);
 	return (
-		<StyledCard color={walletAddress === member.address ? 'orange' : 'purple'} key={member.address}>
+		<StyledCard color={isOwnCard ? 'orange' : 'purple'} key={member.address}>
 			<StyledCardContent className="darker-60" direction="column" alignItems="center">
 				<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
 				<H5>{member.ens || member.username}</H5>
@@ -42,19 +46,22 @@ export default function MemberCard({ member }: MemberCardProps) {
 					<StyledButton
 						variant="secondary"
 						onClick={() => {
-							push({
-								pathname: 'profile',
-								query: {
-									address: member.address,
-								},
-							});
+							if (isOwnCard && data) {
+								setContent(<EditModal council={data.name} deployedModule={data.module} />);
+								setIsOpen(true);
+							} else {
+								push({
+									pathname: 'profile',
+									query: {
+										address: member.address,
+									},
+								});
+							}
 						}}
 					>
-						{walletAddress === member.address
-							? t('councils.edit-nomination')
-							: t('councils.view-member')}
+						{isOwnCard ? t('councils.edit-nomination') : t('councils.view-member')}
 					</StyledButton>
-					{walletAddress === member.address && (
+					{isOwnCard && (
 						<IconButton onClick={() => setIsDropdownOpen(!isDropdownOpen)} size="tiniest" active>
 							<ThreeDotsKebabIcon active={isDropdownOpen} />
 						</IconButton>
@@ -66,8 +73,12 @@ export default function MemberCard({ member }: MemberCardProps) {
 								<StyledDropdownText
 									color="lightBlue"
 									onClick={() => {
-										setContent(<WithdrawModal />);
-										setIsOpen(true);
+										if (data) {
+											setContent(
+												<WithdrawModal council={data.name} deployedModule={data.module} />
+											);
+											setIsOpen(true);
+										}
 									}}
 								>
 									{t('councils.dropdown.withdraw')}
