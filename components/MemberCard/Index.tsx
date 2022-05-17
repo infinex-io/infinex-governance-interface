@@ -7,7 +7,7 @@ import {
 	IconButton,
 	ThreeDotsKebabIcon,
 	TwitterIcon,
-} from '@synthetixio/ui';
+} from 'components/old-ui';
 import { H5 } from 'components/Headlines/H5';
 import WithdrawModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';

@@ -1,6 +1,6 @@
 import { NetworkId } from '@synthetixio/contracts-interface';
 import type { MetaMaskInpageProvider } from '@metamask/providers';
-import { theme } from '@synthetixio/ui';
+import { theme } from 'components/old-ui';
 
 declare global {
 	interface Window {

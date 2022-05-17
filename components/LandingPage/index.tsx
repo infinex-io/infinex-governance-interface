@@ -1,4 +1,4 @@
-import { ArrowLinkOffIcon, Button, ButtonCard, Card, Colors, Flex } from '@synthetixio/ui';
+import { ArrowLinkOffIcon, Button, ButtonCard, Card, Colors, Flex } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
 import { H2 } from 'components/Headlines/H2';

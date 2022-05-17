@@ -5,7 +5,7 @@ import {
 	ExternalLink,
 	SNXIcon,
 	theme,
-} from '@synthetixio/ui';
+} from 'components/old-ui';
 
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';

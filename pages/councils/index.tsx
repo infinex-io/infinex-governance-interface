@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Main from 'components/Main';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { ArrowLeftIcon, Button, Card, Flex, IconButton, Tabs, Dropdown } from '@synthetixio/ui';
+import { ArrowLeftIcon, Button, Card, Flex, IconButton, Tabs, Dropdown } from 'components/old-ui';
 import { useTranslation } from 'react-i18next';
 import { H1 } from 'components/Headlines/H1';
 import { useState } from 'react';

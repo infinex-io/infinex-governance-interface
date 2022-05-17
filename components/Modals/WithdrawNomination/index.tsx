@@ -1,4 +1,4 @@
-import { Button, Checkbox, Flex } from '@synthetixio/ui';
+import { Button, Checkbox, Flex } from 'components/old-ui';
 import Connector from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';

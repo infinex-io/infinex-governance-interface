@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { Button, Checkbox, Flex } from '@synthetixio/ui';
+import { Button, Checkbox, Flex } from 'components/old-ui';
 
 import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';

@@ -124,9 +124,8 @@ li {
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: local('Inter'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Regular.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Regular.woff') format('woff');
+	src: local('Inter'), url('../components/old-ui/fonts/Inter-Regular.woff2') format('woff2'),
+		url('../components/old-ui/fonts/Inter-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -135,8 +134,8 @@ li {
 	font-display: swap;
 	font-weight: 400;
 	src: local('Lustra Text'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Lustra-Text-Regular.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Lustra-Text-Regular.woff') format('woff');
+		url('../components/old-ui/fonts/Lustra-Text-Regular.woff2') format('woff2'),
+		url('../components/old-ui/fonts/Lustra-Text-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -145,8 +144,8 @@ li {
 	font-display: swap;
 	font-weight: 400;
 	src: local('GT America'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Regular.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Regular.woff') format('woff');
+		url('../components/old-ui/fonts/GT-America-Regular.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -155,8 +154,8 @@ li {
 	font-display: swap;
 	font-weight: 700;
 	src: local('GT America Extended'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Extended-Bold.woff') format('woff');
+		url('../components/old-ui/fonts/GT-America-Extended-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Extended-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -165,8 +164,8 @@ li {
 	font-display: swap;
 	font-weight: bold;
 	src: local('GT America Extended'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Mono-Bold.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/GT-America-Mono-Bold.woff') format('woff');
+		url('../components/old-ui/fonts/GT-America-Mono-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Mono-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -174,7 +173,6 @@ li {
 	font-style: normal;
 	font-display: swap;
 	font-weight: 700;
-	src: local('Inter Bold'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Bold.woff2') format('woff2'),
-		url('../node_modules/@synthetixio/ui/dist/fonts/Inter-Bold.woff') format('woff');
+	src: local('Inter Bold'), url('../components/old-ui/fonts/Inter-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/Inter-Bold.woff') format('woff');
 }

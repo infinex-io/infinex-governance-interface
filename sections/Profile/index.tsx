@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon, Button, Card } from '@synthetixio/ui';
+import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon, Button, Card } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';

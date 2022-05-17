@@ -14,7 +14,7 @@ import Connector from 'containers/Connector';
 import Modules from 'containers/Modules';
 import Modal from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
-import { theme, Modal as UIModal } from '@synthetixio/ui';
+import { theme, Modal as UIModal } from 'components/old-ui';
 
 const queryClient = new QueryClient();
 

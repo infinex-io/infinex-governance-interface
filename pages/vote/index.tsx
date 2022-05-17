@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, Flex, IconButton } from '@synthetixio/ui';
+import { ArrowLeftIcon, Flex, IconButton } from 'components/old-ui';
 import { H1 } from 'components/Headlines/H1';
 import Main from 'components/Main';
 import { TextBold } from 'components/Text/bold';
