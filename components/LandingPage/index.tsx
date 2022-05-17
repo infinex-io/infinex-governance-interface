@@ -1,4 +1,11 @@
-import { ArrowLinkOffIcon, Button, ButtonCard, Card, Colors, Flex } from 'components/old-ui';
+import {
+	ArrowLinkOffIcon,
+	ButtonCard,
+	Card,
+	Colors,
+	Flex,
+	Button as OldButton,
+} from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
 import { H2 } from 'components/Headlines/H2';
@@ -17,6 +24,7 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { Button } from '@synthetixio/ui';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -114,7 +122,10 @@ export default function LandingPage() {
 									</TransparentText>
 								)}
 								<Button
-									variant={spartanCouncilInfo.variant}
+									className="w-full"
+									variant="outline"
+									size="lg"
+									// variant={spartanCouncilInfo.variant}
 									onClick={() => {
 										if (spartanCurrentPeriod.currentPeriod === 'NOMINATION') {
 											setContent(<NominateModal />);
@@ -192,7 +203,7 @@ export default function LandingPage() {
 										{t(grantsCouncilInfo.secondButton)}
 									</TransparentText>
 								)}
-								<Button
+								<OldButton
 									variant={grantsCouncilInfo.variant}
 									onClick={() => {
 										if (spartanCurrentPeriod?.currentPeriod === 'NOMINATION') {
@@ -216,7 +227,7 @@ export default function LandingPage() {
 									}}
 								>
 									{t(grantsCouncilInfo.button)}
-								</Button>
+								</OldButton>
 							</>
 						)}
 					</StyledCardContent>
@@ -271,7 +282,7 @@ export default function LandingPage() {
 										{t(ambassadorCouncilInfo.secondButton)}
 									</TransparentText>
 								)}
-								<Button
+								<OldButton
 									variant={ambassadorCouncilInfo.variant}
 									onClick={() => {
 										if (ambassadorCurrentPeriod.currentPeriod === 'NOMINATION') {
@@ -295,7 +306,7 @@ export default function LandingPage() {
 									}}
 								>
 									{t(ambassadorCouncilInfo.button)}
-								</Button>
+								</OldButton>
 							</>
 						)}
 					</StyledCardContent>
@@ -350,7 +361,7 @@ export default function LandingPage() {
 										{t(treasuryCouncilInfo.secondButton)}
 									</TransparentText>
 								)}
-								<Button
+								<OldButton
 									variant={treasuryCouncilInfo.variant}
 									onClick={() => {
 										if (treasuryCurrentPeriod.currentPeriod === 'NOMINATION') {
@@ -374,7 +385,7 @@ export default function LandingPage() {
 									}}
 								>
 									{t(treasuryCouncilInfo.button)}
-								</Button>
+								</OldButton>
 							</>
 						)}
 					</StyledCardContent>
@@ -508,7 +519,7 @@ const StyledButtonCards = styled(ButtonCard)`
 	margin: ${({ theme }) => theme.spacings.small};
 `;
 
-const StyledCarouselButton = styled(Button)`
+const StyledCarouselButton = styled(OldButton)`
 	width: 132px;
 	margin: ${({ theme }) => theme.spacings.biggest};
 `;
