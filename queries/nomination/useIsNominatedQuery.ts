@@ -14,6 +14,7 @@ function useIsNominated(moduleInstance: DeployedModules, walletAddress: string) 
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null && walletAddress !== null,
+			cacheTime: 60 * 60 * 15,
 		}
 	);
 }

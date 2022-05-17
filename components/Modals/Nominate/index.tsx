@@ -1,5 +1,7 @@
 import { Button, Checkbox, Flex } from '@synthetixio/ui';
+import { H3 } from 'components/Headlines/H3';
 import Connector from 'containers/Connector';
+import Modal from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
@@ -14,6 +16,7 @@ import BaseModal from '../BaseModal';
 export default function NominateModal() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
+	const { setIsOpen } = Modal.useContainer();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const { walletAddress, ensName, connectWallet } = Connector.useContainer();
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
@@ -55,6 +58,7 @@ export default function NominateModal() {
 			case 'spartan':
 				const spartanTx = await nominateForSpartanCouncil.mutateAsync();
 				if (spartanTx) {
+					setIsOpen(false);
 					push({
 						pathname: '/councils',
 						query: {
@@ -67,6 +71,7 @@ export default function NominateModal() {
 			case 'grants':
 				const grantsTx = await nominateForGrantsCouncil.mutateAsync();
 				if (grantsTx) {
+					setIsOpen(false);
 					push({
 						pathname: '/councils',
 						query: {
@@ -79,6 +84,7 @@ export default function NominateModal() {
 			case 'ambassador':
 				const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
 				if (ambassadorTx) {
+					setIsOpen(false);
 					push({
 						pathname: '/councils',
 						query: {
@@ -91,6 +97,7 @@ export default function NominateModal() {
 			case 'treasury':
 				const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
 				if (treasuryTx) {
+					setIsOpen(false);
 					push({
 						pathname: '/councils',
 						query: {
@@ -193,7 +200,7 @@ const StyledBlackBoxSubline = styled.h6`
 	margin: 0;
 `;
 
-const StyledWalletAddress = styled.h3`
+const StyledWalletAddress = styled(H3)`
 	font-family: 'Inter Bold';
 	font-size: 2rem;
 	margin: ${({ theme }) => theme.spacings.tiniest};

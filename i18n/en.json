@@ -98,13 +98,17 @@
 			}
 		},
 		"withdraw": {
-			"edit": "Edit Your Nomination",
-			"button": "Save Nomination"
+			"headline": "Withdraw Nomination",
+			"nomination-for": "Nomination for {{ council }} Council",
+			"button": "Withdraw Nomination"
 		},
 		"edit": {
 			"headline": "Edit Your Nomination",
-			"subline": "Current Nomination",
-			"save": "Save Nomination"
+			"current": "Current Nomination",
+			"council": "{{council}} Council",
+			"step-one": "Step 1 -  Unominate yourself",
+			"step-two": "Step 2 - Chose New Council Nomination",
+			"button": "Next"
 		},
 		"vote": {
 			"headline": "Spartan Council",
