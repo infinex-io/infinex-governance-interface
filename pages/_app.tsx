@@ -1,8 +1,9 @@
 import { AppProps } from 'next/app';
 import { FC } from 'react';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DAppProvider, Config, Hardhat, ChainId, Mainnet } from '@usedapp/core';
+import { DAppProvider, Config, Hardhat, Mainnet } from '@usedapp/core';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -32,7 +33,6 @@ export const config: Config = {
 	multicallAddresses: {
 		[Hardhat.chainId]: '0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
 	},
-	supportedChains: [ChainId.Hardhat, ChainId.Mainnet],
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
@@ -61,6 +61,7 @@ const App: FC<AppProps> = (props) => {
 		<DAppProvider config={config}>
 			<ConnectorProvider>
 				<QueryClientProvider client={queryClient}>
+					<ReactQueryDevtools initialIsOpen={false} />
 					<ThemeProvider theme={theme}>
 						<ModalProvider>
 							<InnerApp {...props} />
