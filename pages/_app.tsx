@@ -37,29 +37,37 @@ export const config: Config = {
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = Modal.useContainer();
+
+	//TODO: remove next-unstated
+	const Provider = Modules.Provider as any;
+	const TheComponent = Component as any;
+
 	return (
-		<Modules.Provider>
+		<Provider>
 			<Header />
 			<UIModal open={isOpen} modalContent={content}>
-				<Component {...pageProps} />
+				<TheComponent {...pageProps} />
 				<Footer />
 			</UIModal>
-		</Modules.Provider>
+		</Provider>
 	);
 };
 
 const App: FC<AppProps> = (props) => {
+	const ConnectorProvider = Connector.Provider as any;
+	const ModalProvider = Modal.Provider as any;
+
 	return (
 		<DAppProvider config={config}>
-			<Connector.Provider>
+			<ConnectorProvider>
 				<QueryClientProvider client={queryClient}>
 					<ThemeProvider theme={theme}>
-						<Modal.Provider>
+						<ModalProvider>
 							<InnerApp {...props} />
-						</Modal.Provider>
+						</ModalProvider>
 					</ThemeProvider>
 				</QueryClientProvider>
-			</Connector.Provider>
+			</ConnectorProvider>
 		</DAppProvider>
 	);
 };

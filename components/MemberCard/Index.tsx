@@ -71,6 +71,7 @@ export default function MemberCard({ member }: MemberCardProps) {
 							color="purple"
 							elements={[
 								<StyledDropdownText
+									key={`${walletAddress}-modal`}
 									color="lightBlue"
 									onClick={() => {
 										if (data) {
@@ -84,6 +85,7 @@ export default function MemberCard({ member }: MemberCardProps) {
 									{t('councils.dropdown.withdraw')}
 								</StyledDropdownText>,
 								<StyledDropdownText
+									key={`${walletAddress}-text`}
 									color="lightBlue"
 									onClick={() => {
 										push({ pathname: '/profile', query: { address: walletAddress } });
@@ -91,7 +93,7 @@ export default function MemberCard({ member }: MemberCardProps) {
 								>
 									{t('councils.dropdown.edit')}
 								</StyledDropdownText>,
-								<StyledDropdownText color="lightBlue">
+								<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
 									{t('councils.dropdown.etherscan')}
 								</StyledDropdownText>,
 							]}

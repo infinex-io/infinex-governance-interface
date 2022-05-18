@@ -33,7 +33,7 @@ export default function Vote() {
 						<TextBold color="lightBlue">{t('councils.back-btn')}</TextBold>
 					</StyledBackIconWrapper>
 					<H1>{t('vote.headline', { council: capitalizeString(activeCouncil.name) })}</H1>
-					<Flex wrap>{data?.length && data.map((member) => <div>{member}</div>)}</Flex>
+					<Flex wrap>{data?.length && data.map((member) => <div key={member}>{member}</div>)}</Flex>
 				</Flex>
 			</Main>
 		</>
