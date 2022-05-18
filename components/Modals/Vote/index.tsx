@@ -1,28 +1,27 @@
 import { Button } from 'components/old-ui';
 import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
+import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import BaseModal from '../BaseModal';
 
 interface VoteModalProps {
-	candidateInformation: {
-		name?: string;
-		address: string;
-	};
+	address: string;
+	council: string;
 }
 
-export default function VoteModal({ candidateInformation }: VoteModalProps) {
+export default function VoteModal({ address, council }: VoteModalProps) {
+	const { data } = useUserDetailsQuery(address);
 	const { t } = useTranslation();
 	const { setIsOpen } = Modal.useContainer();
 	const { push } = useRouter();
 	return (
-		<BaseModal headline={t('modals.vote.headline')}>
-			{candidateInformation.address}
+		<BaseModal headline={t('modals.vote.headline', { council })}>
+			{data && data.ens}
+			<div className="bg-primary">test</div>
 			<StyledSubmitButton
 				onClick={() => {
-					setIsOpen(false);
-					// TODO @DEV decide the route
 					push({ pathname: 'elections/members/...' });
 				}}
 				variant="primary"

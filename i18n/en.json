@@ -111,7 +111,7 @@
 			"button": "Next"
 		},
 		"vote": {
-			"headline": "Spartan Council",
+			"headline": "Voting For {{council}} Council",
 			"submit": "Submit Vote",
 			"profile": "See full profile"
 		},
