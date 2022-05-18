@@ -18,6 +18,7 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import VoteModal from 'components/Modals/Vote';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -61,6 +62,16 @@ export default function LandingPage() {
 
 	return (
 		<div className="flex flex-col align-center">
+			<button
+				onClick={() => {
+					setContent(
+						<VoteModal address="0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097" council="döner" />
+					);
+					setIsOpen(true);
+				}}
+			>
+				click
+			</button>
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
 			<div className="flex justify-center flex-wrap">
