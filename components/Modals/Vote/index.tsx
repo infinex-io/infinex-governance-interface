@@ -5,17 +5,20 @@ import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import BaseModal from '../BaseModal';
-
+import useCastMutation from 'mutations/voting/useCastMutation';
+import { DeployedModules } from 'containers/Modules/Modules';
 interface VoteModalProps {
 	address: string;
 	council: string;
+	deployedModule: DeployedModules;
 }
 
-export default function VoteModal({ address, council }: VoteModalProps) {
+export default function VoteModal({ address, council, deployedModule }: VoteModalProps) {
 	const { data } = useUserDetailsQuery(address);
 	const { t } = useTranslation();
 	const { setIsOpen } = Modal.useContainer();
 	const { push } = useRouter();
+	const castVoteMutation = useCastMutation(deployedModule);
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council })}>
 			{data && data.ens}
@@ -28,7 +31,12 @@ export default function VoteModal({ address, council }: VoteModalProps) {
 			>
 				{t('modals.vote.submit')}
 			</StyledSubmitButton>
-			<StyledProfileButton variant="secondary" onClick={() => {}}>
+			<StyledProfileButton
+				variant="secondary"
+				onClick={() => {
+					push({ pathname: 'profile', query: { address: address } });
+				}}
+			>
 				{t('modals.vote.profile')}
 			</StyledProfileButton>
 		</BaseModal>
