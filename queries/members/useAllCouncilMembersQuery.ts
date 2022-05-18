@@ -38,7 +38,6 @@ function useAllCouncilMembersQuery() {
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
 		async () => {
-			console.log(governanceModules);
 			const spartanMembers = await governanceModules[
 				'spartan council'
 			]?.contract.getCouncilMembers();
@@ -103,7 +102,7 @@ function useAllCouncilMembersQuery() {
 			}
 		},
 		{
-			enabled: true,
+			enabled: governanceModules !== null,
 			// 15 minutes
 			cacheTime: 900000,
 		}

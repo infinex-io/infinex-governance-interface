@@ -24,9 +24,10 @@ import { parseURL } from 'utils/ipfs';
 
 interface MemberCardProps {
 	member: GetUserDetails;
+	isVoting?: boolean;
 }
 
-export default function MemberCard({ member }: MemberCardProps) {
+export default function MemberCard({ member, isVoting }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { walletAddress } = Connector.useContainer();

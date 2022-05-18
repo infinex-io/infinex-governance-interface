@@ -191,10 +191,10 @@ export default function LandingPage() {
 									className="w-full"
 									size="lg"
 									onClick={() => {
-										if (spartanCurrentPeriod?.currentPeriod === 'NOMINATION') {
+										if (grantsCurrentPeriod?.currentPeriod === 'NOMINATION') {
 											setContent(<NominateModal />);
 											setIsOpen(true);
-										} else if (spartanCurrentPeriod?.currentPeriod === 'VOTING') {
+										} else if (grantsCurrentPeriod?.currentPeriod === 'VOTING') {
 											push({
 												pathname: '/vote',
 												query: {

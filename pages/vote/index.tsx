@@ -40,7 +40,7 @@ export default function Vote() {
 					<div className="flex flex-wrap">
 						{usersDetailsQuery.data?.length &&
 							usersDetailsQuery.data.map((member) => (
-								<MemberCard key={member.about.concat(member.address)} member={member} />
+								<MemberCard key={member.about.concat(member.address)} member={member} isVoting />
 							))}
 					</div>
 				</div>
