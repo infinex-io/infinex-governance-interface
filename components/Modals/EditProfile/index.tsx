@@ -1,3 +1,4 @@
+import { Button, Flex, IconButton, TextInput } from 'components/old-ui';
 import Connector from 'containers/Connector';
 import Modal from 'containers/Modal';
 import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
@@ -5,7 +6,7 @@ import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDe
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, CloseIcon, Flex, IconButton, TextInput } from 'components/old-ui';
+
 import SecondaryModal from '../SecondaryModal';
 
 type EditProfileModalProps = {
@@ -68,9 +69,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.username')}
 						value={username}
-						onInput={(e) => setUsername(e.target.value)}
+						onInput={setUsername}
 						id="username"
-					></StyledInput>
+					/>
 				</InputCol>
 
 				<InputCol direction="column">
@@ -80,9 +81,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.profileImageUrl')}
 						value={pfpThumbnailUrl}
-						onInput={(e) => setPfpThumbnailUrl(e.target.value)}
+						onInput={setPfpThumbnailUrl}
 						id="profileImageURL"
-					></StyledInput>
+					/>
 				</InputCol>
 			</InputRow>
 			<InputRow>
@@ -93,9 +94,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
 						value={pitch}
-						onInput={(e) => setPitch(e.target.value)}
+						onInput={setPitch}
 						id="about"
-					></StyledInput>
+					/>
 				</InputCol>
 			</InputRow>
 			<InputRow>
@@ -106,9 +107,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.about')}
 						value={about}
-						onInput={(e) => setAbout(e.target.value)}
+						onInput={setAbout}
 						id="about"
-					></StyledInput>
+					/>
 				</InputCol>
 
 				<InputCol direction="column">
@@ -118,9 +119,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.github')}
 						value={github}
-						onInput={(e) => setGithub(e.target.value)}
+						onInput={setGithub}
 						id="github"
-					></StyledInput>
+					/>
 				</InputCol>
 			</InputRow>
 			<InputRow>
@@ -131,9 +132,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.discord')}
 						value={discord}
-						onInput={(e) => setDiscord(e.target.value)}
+						onInput={setDiscord}
 						id="discord"
-					></StyledInput>
+					/>
 				</InputCol>
 
 				<InputCol direction="column">
@@ -143,9 +144,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					<StyledInput
 						placeholder={t('modals.editProfile.inputs.placeholder.twitter')}
 						value={twitter}
-						onInput={(e) => setTwitter(e.target.value)}
+						onInput={setTwitter}
 						id="twitter"
-					></StyledInput>
+					/>
 				</InputCol>
 			</InputRow>
 			<Button
@@ -168,7 +169,7 @@ const StyledModalHeadline = styled.h1`
 `;
 
 const StyledModalSubheadline = styled.h2`
-	font-family: ${(props) => props.theme.fonts.regular};
+	font-family: ${(props) => props.theme.fonts.inter};
 	color: ${(props) => props.theme.colors.white};
 	font-size: 14px;
 `;

@@ -9,6 +9,7 @@ import {
 	spartanCouncil,
 	treasuryCouncil,
 } from 'constants/addresses';
+import { useEffect, useState } from 'react';
 
 export enum DeployedModules {
 	SPARTAN_COUNCIL = 'spartan council',
@@ -23,54 +24,59 @@ export type GovernanceModule = {
 
 const useModules = () => {
 	const { chainId, provider, signer } = Connector.useContainer();
+	const [governanceModules, setGovernanceModules] = useState<any>(null);
 
-	let governanceModules: Partial<Record<DeployedModules, GovernanceModule>> = {};
+	useEffect(() => {
+		if (chainId && provider) {
+			const SpartanCouncilModule = new ethers.Contract(
+				spartanCouncil,
+				ElectionModuleABI.abi,
+				signer ?? provider
+			);
 
-	if (chainId && provider) {
-		const SpartanCouncilModule = new ethers.Contract(
-			spartanCouncil,
-			ElectionModuleABI.abi,
-			signer ?? provider
-		);
+			let modules: Partial<Record<DeployedModules, GovernanceModule>> = {};
 
-		governanceModules[DeployedModules.SPARTAN_COUNCIL] = {
-			address: spartanCouncil,
-			contract: SpartanCouncilModule,
-		};
+			modules[DeployedModules.SPARTAN_COUNCIL] = {
+				address: spartanCouncil,
+				contract: SpartanCouncilModule,
+			};
 
-		const AmbassadorCouncilModule = new ethers.Contract(
-			ambassadorCouncil,
-			ElectionModuleABI.abi,
-			signer ?? provider
-		);
+			const AmbassadorCouncilModule = new ethers.Contract(
+				ambassadorCouncil,
+				ElectionModuleABI.abi,
+				signer ?? provider
+			);
 
-		governanceModules[DeployedModules.AMBASSADOR_COUNCIL] = {
-			address: ambassadorCouncil,
-			contract: AmbassadorCouncilModule,
-		};
+			modules[DeployedModules.AMBASSADOR_COUNCIL] = {
+				address: ambassadorCouncil,
+				contract: AmbassadorCouncilModule,
+			};
 
-		const GrantsCouncilModule = new ethers.Contract(
-			grantsCouncil,
-			ElectionModuleABI.abi,
-			signer ?? provider
-		);
+			const GrantsCouncilModule = new ethers.Contract(
+				grantsCouncil,
+				ElectionModuleABI.abi,
+				signer ?? provider
+			);
 
-		governanceModules[DeployedModules.GRANTS_COUNCIL] = {
-			address: grantsCouncil,
-			contract: GrantsCouncilModule,
-		};
+			modules[DeployedModules.GRANTS_COUNCIL] = {
+				address: grantsCouncil,
+				contract: GrantsCouncilModule,
+			};
 
-		const TreasuryCouncilModule = new ethers.Contract(
-			treasuryCouncil,
-			ElectionModuleABI.abi,
-			signer ?? provider
-		);
+			const TreasuryCouncilModule = new ethers.Contract(
+				treasuryCouncil,
+				ElectionModuleABI.abi,
+				signer ?? provider
+			);
 
-		governanceModules[DeployedModules.TREASURY_COUNCIL] = {
-			address: treasuryCouncil,
-			contract: TreasuryCouncilModule,
-		};
-	}
+			modules[DeployedModules.TREASURY_COUNCIL] = {
+				address: treasuryCouncil,
+				contract: TreasuryCouncilModule,
+			};
+
+			setGovernanceModules(modules);
+		}
+	}, [chainId, provider, signer]);
 
 	return { governanceModules };
 };

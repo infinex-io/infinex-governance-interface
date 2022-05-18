@@ -1,8 +1,9 @@
 import { AppProps } from 'next/app';
 import { FC } from 'react';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DAppProvider, Config, Hardhat, ChainId, Mainnet } from '@usedapp/core';
+import { DAppProvider, Config, Hardhat, Mainnet } from '@usedapp/core';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -32,34 +33,42 @@ export const config: Config = {
 	multicallAddresses: {
 		[Hardhat.chainId]: '0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
 	},
-	supportedChains: [ChainId.Hardhat, ChainId.Mainnet],
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = Modal.useContainer();
+
+	//TODO: remove next-unstated
+	const Provider = Modules.Provider as any;
+	const TheComponent = Component as any;
+
 	return (
-		<Modules.Provider>
+		<Provider>
 			<Header />
 			<UIModal open={isOpen} modalContent={content}>
-				<Component {...pageProps} />
+				<TheComponent {...pageProps} />
 				<Footer />
 			</UIModal>
-		</Modules.Provider>
+		</Provider>
 	);
 };
 
 const App: FC<AppProps> = (props) => {
+	const ConnectorProvider = Connector.Provider as any;
+	const ModalProvider = Modal.Provider as any;
+
 	return (
 		<DAppProvider config={config}>
-			<Connector.Provider>
+			<ConnectorProvider>
 				<QueryClientProvider client={queryClient}>
+					<ReactQueryDevtools initialIsOpen={false} />
 					<ThemeProvider theme={theme}>
-						<Modal.Provider>
+						<ModalProvider>
 							<InnerApp {...props} />
-						</Modal.Provider>
+						</ModalProvider>
 					</ThemeProvider>
 				</QueryClientProvider>
-			</Connector.Provider>
+			</ConnectorProvider>
 		</DAppProvider>
 	);
 };
