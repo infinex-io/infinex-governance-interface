@@ -2,7 +2,7 @@ import Main from 'components/Main';
 import Error from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import ProfileSection from 'sections/Profile';
+import ProfileSection from 'components/Profile';
 import { isWalletAddress } from 'utils/validate';
 
 export default function Profile() {

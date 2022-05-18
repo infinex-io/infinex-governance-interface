@@ -20,16 +20,18 @@ import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
+import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
+import { Dialog } from '@synthetixio/ui';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
-	const { setIsOpen, setContent } = Modal.useContainer();
+	const [isOpen, setIsOpen] = useState(false);
 	const { walletAddress: ownAddress } = Connector.useContainer();
 	const allMembers = useAllCouncilMembersQuery();
 
@@ -88,17 +90,19 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					<Flex justifyContent="space-between" alignItems="center">
 						<H1>{username ? username : ens ? ens : truncateAddress(walletAddress)}</H1>
 						{ownAddress === walletAddress && (
-							<IconButton
-								style={{ height: '100%' }}
-								active
-								size="tiniest"
-								onClick={() => {
-									setContent(<EditProfileModal userProfile={userDetailsQuery.data} />);
-									setIsOpen(true);
-								}}
-							>
-								<ThreeDotsKebabIcon />
-							</IconButton>
+							<>
+								<IconButton
+									style={{ height: '100%' }}
+									active
+									size="tiniest"
+									onClick={() => setIsOpen(true)}
+								>
+									<ThreeDotsKebabIcon />
+								</IconButton>
+								<Dialog wrapperClass='max-w-[500px]' onClose={() => setIsOpen(false)} open={isOpen}>
+									<ProfileForm userProfile={userDetailsQuery.data} />
+								</Dialog>
+							</>
 						)}
 					</Flex>
 					<Text>{about}</Text>

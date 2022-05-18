@@ -112,3 +112,7 @@ li {
 	src: local('Inter Bold'), url('../components/old-ui/fonts/Inter-Bold.woff2') format('woff2'),
 		url('../components/old-ui/fonts/Inter-Bold.woff') format('woff');
 }
+
+html.stop-scrolling body {
+	overflow: hidden;
+}
