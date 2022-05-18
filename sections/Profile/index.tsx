@@ -1,4 +1,11 @@
-import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon, Button, Card } from 'components/old-ui';
+import {
+	ArrowLeftIcon,
+	Flex,
+	IconButton,
+	ThreeDotsKebabIcon,
+	Button,
+	Card,
+} from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
@@ -26,6 +33,17 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { walletAddress: ownAddress } = Connector.useContainer();
 	const allMembers = useAllCouncilMembersQuery();
 
+	const isPartOf = useMemo(() => {
+		if (allMembers.data?.spartan.filter((member) => member.address === walletAddress).length)
+			return 'Spartan';
+		if (allMembers.data?.grants.filter((member) => member.address === walletAddress).length)
+			return 'Grants';
+		if (allMembers.data?.ambassador.filter((member) => member.address === walletAddress).length)
+			return 'Ambassador';
+		if (allMembers.data?.treasury.filter((member) => member.address === walletAddress).length)
+			return 'Treasury';
+		return;
+	}, [walletAddress]);
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,
@@ -46,18 +64,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		if (delegationPitches) {
 			parsedDelegationPitch = JSON.parse(delegationPitches);
 		}
-
-		const isPartOf = useMemo(() => {
-			if (allMembers.data.spartan.filter((member) => member.address === walletAddress).length)
-				return 'Spartan';
-			if (allMembers.data.grants.filter((member) => member.address === walletAddress).length)
-				return 'Grants';
-			if (allMembers.data.ambassador.filter((member) => member.address === walletAddress).length)
-				return 'Ambassador';
-			if (allMembers.data.treasury.filter((member) => member.address === walletAddress).length)
-				return 'Treasury';
-			return;
-		}, [walletAddress]);
 
 		return (
 			<StyledProfileWrapper direction="column" alignItems="center">

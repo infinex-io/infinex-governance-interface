@@ -38,6 +38,7 @@ function useAllCouncilMembersQuery() {
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
 		async () => {
+			console.log(governanceModules);
 			const spartanMembers = await governanceModules[
 				'spartan council'
 			]?.contract.getCouncilMembers();

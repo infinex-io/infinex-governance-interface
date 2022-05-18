@@ -54,6 +54,7 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 const App: FC<AppProps> = (props) => {
+	// TODO @DEV when stored in a const, these providers can be undefined and need to wait for another render cycle
 	const ConnectorProvider = Connector.Provider as any;
 	const ModalProvider = Modal.Provider as any;
 
