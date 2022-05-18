@@ -1,5 +1,4 @@
-import { Flex, theme } from 'components/old-ui';
-import { Colors } from 'components/old-ui/dist/esm/types';
+import { Colors, Flex, theme } from 'components/old-ui';
 import styled from 'styled-components';
 
 export const Banner = styled(Flex)<{
