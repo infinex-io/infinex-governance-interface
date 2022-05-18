@@ -96,7 +96,7 @@ const Councils: NextPage = () => {
 							members.data?.treasury ? (
 								<Flex wrap justifyContent="center">
 									{members.data[activeCouncil.name].map((member) => (
-										<MemberCard member={member} />
+										<MemberCard key={member.address} member={member} />
 									))}
 								</Flex>
 							) : (

@@ -1,9 +1,9 @@
-import React, { FormEventHandler, HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 import colors from '../styles/colors';
 
-interface TextInputProps extends HTMLAttributes<HTMLDivElement> {
+interface TextInputProps {
 	id: string;
 	disabled?: boolean;
 	label?: string;
@@ -11,9 +11,10 @@ interface TextInputProps extends HTMLAttributes<HTMLDivElement> {
 	placeholder?: string;
 	size?: 'medium' | 'small';
 	value: string;
-	onInput: FormEventHandler<HTMLInputElement>;
+	onInput: (value: string) => void;
 	icon?: JSX.Element;
 	autocomplete?: string;
+	attrs?: HTMLAttributes<HTMLDivElement>;
 }
 
 export default function TextInput({
@@ -27,14 +28,14 @@ export default function TextInput({
 	name,
 	icon,
 	autocomplete = 'off',
-	...rest
+	attrs = {},
 }: TextInputProps) {
 	return (
-		<StyledInputWrapper {...rest}>
+		<StyledInputWrapper {...attrs}>
 			<StyledTextInput
 				id={id}
 				disabled={disabled}
-				onInput={onInput}
+				onInput={(evt: React.ChangeEvent<HTMLInputElement>) => onInput(evt.target.value)}
 				placeholder={placeholder}
 				inputSize={size}
 				value={value}

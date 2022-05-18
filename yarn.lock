@@ -1517,7 +1517,7 @@
 
 "@synthetixio/ui@2.0.0":
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/components/old-ui/-/ui-2.0.0.tgz#d406524646a795058062e4a372b5de7d9fdbc71f"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.0.0.tgz#d406524646a795058062e4a372b5de7d9fdbc71f"
   integrity sha512-KrrIZ3KvGSOYOlWyxqiffj0Q8SgWwT4pmPPSXqo31DhsboHAMNumyjSEUbqQ6GJ5dH2+RIXg/OIyW0VCHq9aEQ==
   dependencies:
     clsx "^1.1.1"
