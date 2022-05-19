@@ -3,12 +3,10 @@ import {
 	Card,
 	DiscordIcon,
 	Dropdown,
-	Flex,
 	IconButton,
 	ThreeDotsKebabIcon,
 	TwitterIcon,
 } from 'components/old-ui';
-import { H5 } from 'components/Headlines/H5';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
@@ -99,15 +97,15 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 			}}
 			color={isOwnCard ? 'orange' : 'purple'}
 			key={member.address.concat(member.about)}
-			className="cursor-pointer p-1"
+			className="cursor-pointer b-[1px] max-w-[200px]"
 		>
-			<StyledCardContent className="darker-60" direction="column" alignItems="center">
+			<div className="darker-60 relative flex flex-col items-center">
 				<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
-				<H5>{member.ens || member.username}</H5>
+				<h5 className="tg-title-h5">{member.ens || member.username}</h5>
 				<Text>{member.about}</Text>
 				{member.discord && <DiscordIcon />}
 				{member.twitter && <TwitterIcon />}
-				<Flex justifyContent="center">
+				<div className="flex justify-center">
 					<StyledButton
 						variant="secondary"
 						onClick={() => {
@@ -149,10 +147,10 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 						</IconButton>
 					)}
 					{isDropdownOpen && <StyledDropdown color="purple" elements={dropdownItems} />}
-				</Flex>
-			</StyledCardContent>
+				</div>
+			</div>
 			<Dialog
-				className="bg-purple min-h-full min-h-full"
+				className=" w-bg-purple min-h-full min-w-full"
 				wrapperClass="min-w-[90%]  min-h-[90%] p-0"
 				onClose={() => setIsOpen(false)}
 				open={isWithdrawVoteOpen}
@@ -163,13 +161,6 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 	);
 }
 
-const StyledCardContent = styled(Flex)`
-	width: 100%;
-	height: 100%;
-	padding: ${({ theme }) => theme.spacings.tiny};
-	position: relative;
-`;
-
 const StyledCardImage = styled.img`
 	width: 56px;
 	height: 56px;
@@ -177,15 +168,6 @@ const StyledCardImage = styled.img`
 `;
 const StyledButton = styled(Button)`
 	width: 100px;
-`;
-
-const StyledBackIconWrapper = styled(Flex)`
-	position: absolute;
-	top: 110px;
-	left: ${({ theme }) => theme.spacings.biggest};
-	> * {
-		margin-right: ${({ theme }) => theme.spacings.medium};
-	}
 `;
 
 const StyledDropdown = styled(Dropdown)`

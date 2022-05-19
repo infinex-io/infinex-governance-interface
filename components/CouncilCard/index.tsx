@@ -1,6 +1,4 @@
-import { Button } from '@synthetixio/ui';
-import { H2 } from 'components/Headlines/H2';
-import { H4 } from 'components/Headlines/H4';
+import { Button, Card } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
@@ -53,10 +51,10 @@ export default function CouncilCard({
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	return (
-		<div className="bg-purple p-1">
-			<div className="h-full flex flex-col justify-around align-center darker-60">
+		<Card variant="purple" className="p-1">
+			<div className="h-full flex flex-col justify-around align-center darker-60 p-5">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
-				<H4>{t(`landing-page.cards.${council}`)}</H4>
+				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
 				<span className={`bg-${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
 				<StyledSpacer />
 				<div className="flex justify-around">
@@ -64,18 +62,19 @@ export default function CouncilCard({
 					<Text>{t(headlineRight)}</Text>
 				</div>
 				<div className="flex justify-around">
-					<H2>{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}</H2>
+					<h2 className="tg-title-h2">
+						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
+					</h2>
 					{/* TODO @DEV implement votes received or live votes when available */}
-					<H2>{period === 'NOMINATION' ? nomineesCount : membersCount}</H2>
+					<h2 className="tg-title-h2">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
 				</div>
 				{secondButton && (
 					<TransparentText
 						gradient="lightBlue"
 						onClick={() => {
 							push({
-								pathname: '/councils',
+								pathname: '/councils/'.concat(council),
 								query: {
-									council: council,
 									nominees: true,
 								},
 							});
@@ -107,7 +106,7 @@ export default function CouncilCard({
 					{t(button)}
 				</Button>
 			</div>
-		</div>
+		</Card>
 	);
 }
 
