@@ -57,12 +57,7 @@ export default function MemberCard({ member, isVoting }: MemberCardProps) {
 								setContent(<EditModal council={data.name} deployedModule={data.module} />);
 								setIsOpen(true);
 							} else {
-								push({
-									pathname: 'profile',
-									query: {
-										address: member.address,
-									},
-								});
+								push('/profile/' + member.address);
 							}
 						}}
 						disabled={!data}
@@ -99,9 +94,7 @@ export default function MemberCard({ member, isVoting }: MemberCardProps) {
 								<StyledDropdownText
 									key={`${walletAddress}-text`}
 									color="lightBlue"
-									onClick={() => {
-										push({ pathname: '/profile', query: { address: walletAddress } });
-									}}
+									onClick={() => push('/profile/' + walletAddress)}
 								>
 									{t('councils.dropdown.edit')}
 								</StyledDropdownText>,
