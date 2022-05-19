@@ -31,6 +31,7 @@ interface CouncilCardProps {
 	period: 'ADMINISTRATION' | 'VOTING' | 'NOMINATION' | 'EVALUATION';
 	nomineesCount?: number;
 	membersCount?: number;
+	image: string;
 }
 
 export default function CouncilCard({
@@ -44,6 +45,7 @@ export default function CouncilCard({
 	period,
 	nomineesCount,
 	membersCount,
+	image,
 }: CouncilCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
@@ -51,7 +53,7 @@ export default function CouncilCard({
 	return (
 		<div className="bg-purple p-1">
 			<div className="h-full flex flex-col justify-around align-center darker-60">
-				<Image alt="spartan-council" src="/logos/spartan-council.svg" width={50} height={72} />
+				<Image alt="spartan-council" src={image} width={50} height={72} />
 				<H4>{t('landing-page.cards.sc')}</H4>
 				<span className={`bg-${color} p-1`}>{t(cta)}</span>
 				<StyledSpacer />
