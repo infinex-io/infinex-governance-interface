@@ -74,9 +74,6 @@ export default function CouncilCard({
 						onClick={() => {
 							push({
 								pathname: '/councils/'.concat(council),
-								query: {
-									nominees: true,
-								},
 							});
 						}}
 						clickable

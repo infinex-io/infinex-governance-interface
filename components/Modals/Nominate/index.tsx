@@ -60,11 +60,7 @@ export default function NominateModal() {
 				if (spartanTx) {
 					setIsOpen(false);
 					push({
-						pathname: '/councils',
-						query: {
-							council: 'spartan',
-							nominees: true,
-						},
+						pathname: '/councils/'.concat('spartan'),
 					});
 				}
 				break;
@@ -73,11 +69,7 @@ export default function NominateModal() {
 				if (grantsTx) {
 					setIsOpen(false);
 					push({
-						pathname: '/councils',
-						query: {
-							council: 'grants',
-							nominees: true,
-						},
+						pathname: '/councils/'.concat('grants'),
 					});
 				}
 				break;
@@ -86,11 +78,7 @@ export default function NominateModal() {
 				if (ambassadorTx) {
 					setIsOpen(false);
 					push({
-						pathname: '/councils',
-						query: {
-							council: 'ambassador',
-							nominees: true,
-						},
+						pathname: '/councils/'.concat('ambassador'),
 					});
 				}
 				break;
@@ -99,11 +87,7 @@ export default function NominateModal() {
 				if (treasuryTx) {
 					setIsOpen(false);
 					push({
-						pathname: '/councils',
-						query: {
-							council: 'treasury',
-							nominees: true,
-						},
+						pathname: '/councils/'.concat('treasury'),
 					});
 				}
 				break;
