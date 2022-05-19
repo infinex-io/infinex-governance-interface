@@ -63,7 +63,7 @@ export default function LandingPage() {
 						{...spartanCouncilInfo}
 						membersCount={spartanMembers.data?.length}
 						nomineesCount={spartanNominees.data?.length}
-						period={spartanCurrentPeriod?.currentPeriod || 'ADMINISTRATION'}
+						period={spartanCurrentPeriod?.currentPeriod}
 						image="/logos/spartan-council.svg"
 					/>
 				)}
@@ -72,7 +72,7 @@ export default function LandingPage() {
 						{...grantsCouncilInfo}
 						membersCount={grantsMembers.data?.length}
 						nomineesCount={grantsNominees.data?.length}
-						period={grantsCurrentPeriod?.currentPeriod || 'ADMINISTRATION'}
+						period={grantsCurrentPeriod?.currentPeriod}
 						image="/logos/grants-council.svg"
 					/>
 				)}
@@ -81,7 +81,7 @@ export default function LandingPage() {
 						{...ambassadorCouncilInfo}
 						membersCount={ambassadorMembers.data?.length}
 						nomineesCount={ambassadorNominees.data?.length}
-						period={ambassadorCurrentPeriod?.currentPeriod || 'ADMINISTRATION'}
+						period={ambassadorCurrentPeriod?.currentPeriod}
 						image="/logos/ambassador-council.svg"
 					/>
 				)}
@@ -90,7 +90,7 @@ export default function LandingPage() {
 						{...treasuryCouncilInfo}
 						membersCount={treasuryMembers.data?.length}
 						nomineesCount={treasuryNominees.data?.length}
-						period={treasuryCurrentPeriod.currentPeriod || 'ADMINISTRATION'}
+						period={treasuryCurrentPeriod.currentPeriod}
 						image="/logos/treasury-council.svg"
 					/>
 				)}

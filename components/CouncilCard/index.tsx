@@ -42,7 +42,7 @@ export default function CouncilCard({
 	headlineLeft,
 	headlineRight,
 	secondButton,
-	period,
+	period = 'ADMINISTRATION',
 	nomineesCount,
 	membersCount,
 	image,
