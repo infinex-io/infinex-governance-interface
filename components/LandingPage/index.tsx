@@ -13,6 +13,7 @@ import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import CouncilCard from 'components/CouncilCard';
+import { parseIndex } from 'utils/parse';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -57,7 +58,7 @@ export default function LandingPage() {
 		<div className="flex flex-col align-center">
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
-			<div className="flex justify-center flex-wrap">
+			<div className="flex justify-center flex-wrap space-x-8">
 				{spartanCouncilInfo && (
 					<CouncilCard
 						{...spartanCouncilInfo}
@@ -65,6 +66,7 @@ export default function LandingPage() {
 						nomineesCount={spartanNominees.data?.length}
 						period={spartanCurrentPeriod?.currentPeriod}
 						image="/logos/spartan-council.svg"
+						council="spartan"
 					/>
 				)}
 				{grantsCouncilInfo && (
@@ -74,6 +76,7 @@ export default function LandingPage() {
 						nomineesCount={grantsNominees.data?.length}
 						period={grantsCurrentPeriod?.currentPeriod}
 						image="/logos/grants-council.svg"
+						council="grants"
 					/>
 				)}
 				{ambassadorCouncilInfo && (
@@ -83,6 +86,7 @@ export default function LandingPage() {
 						nomineesCount={ambassadorNominees.data?.length}
 						period={ambassadorCurrentPeriod?.currentPeriod}
 						image="/logos/ambassador-council.svg"
+						council="ambassador"
 					/>
 				)}
 				{treasuryCouncilInfo && (
@@ -92,13 +96,14 @@ export default function LandingPage() {
 						nomineesCount={treasuryNominees.data?.length}
 						period={treasuryCurrentPeriod.currentPeriod}
 						image="/logos/treasury-council.svg"
+						council="treasury"
 					/>
 				)}
 			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
 			<div className="flex flex-wrap justify-center">
-				<Link href="/councils">
+				<Link href="/councils" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
@@ -106,7 +111,7 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-				<Link href="https://sips.synthetix.io/all-sip/">
+				<Link href="https://sips.synthetix.io/all-sip/" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
@@ -116,7 +121,7 @@ export default function LandingPage() {
 				</Link>
 			</div>
 			<div className="flex flex-wrap justify-center">
-				<Link href="https://discord.com/invite/HQSTqXH84t">
+				<Link href="https://discord.com/invite/HQSTqXH84t" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
@@ -124,7 +129,7 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-				<Link href="https://gov.synthetix.io/#/">
+				<Link href="https://gov.synthetix.io/#/" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}
@@ -148,53 +153,6 @@ export default function LandingPage() {
 		</div>
 	);
 }
-
-function parseIndex(index: number): {
-	cta: string;
-	button: string;
-	variant: 'default' | 'outline';
-	color: Colors;
-	headlineLeft: string;
-	headlineRight: string;
-	secondButton?: string;
-} {
-	switch (index) {
-		case 1:
-			return {
-				cta: 'landing-page.cards.cta.nomination',
-				button: 'landing-page.cards.button.nomination',
-				color: 'orange',
-				variant: 'default',
-				headlineLeft: 'landing-page.cards.candidates',
-				headlineRight: 'landing-page.cards.received',
-				secondButton: 'landing-page.cards.nominees',
-			};
-		case 2:
-			return {
-				cta: 'landing-page.cards.cta.vote',
-				button: 'landing-page.cards.button.vote',
-				color: 'green',
-				variant: 'default',
-				headlineLeft: 'landing-page.cards.candidates',
-				headlineRight: 'landing-page.cards.received',
-			};
-		default:
-			return {
-				cta: 'landing-page.cards.cta.closed',
-				button: 'landing-page.cards.button.closed',
-				color: 'purple',
-				variant: 'outline',
-				headlineLeft: 'landing-page.cards.members',
-				headlineRight: 'landing-page.cards.received',
-			};
-	}
-}
-
-const StyledSpacer = styled.span`
-	height: 1px;
-	width: 203px;
-	background: linear-gradient(73.6deg, #8e2de2 2.11%, #4b01e0 90.45%);
-`;
 
 const StyledButtonCards = styled(ButtonCard)`
 	width: 350px;

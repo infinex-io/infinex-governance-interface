@@ -1,6 +1,4 @@
 import { Button } from '@synthetixio/ui';
-import { H2 } from 'components/Headlines/H2';
-import { H4 } from 'components/Headlines/H4';
 import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
@@ -32,6 +30,7 @@ interface CouncilCardProps {
 	nomineesCount?: number;
 	membersCount?: number;
 	image: string;
+	council: 'spartan' | 'grants' | 'ambassador' | 'treasury';
 }
 
 export default function CouncilCard({
@@ -46,36 +45,35 @@ export default function CouncilCard({
 	nomineesCount,
 	membersCount,
 	image,
+	council,
 }: CouncilCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	return (
-		<div className="bg-purple p-1">
-			<div className="h-full flex flex-col justify-around align-center darker-60">
+		<div className="p-1 bg-purple">
+			<div className="h-full flex flex-col justify-around align-center darker-60 p-5">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
-				<H4>{t('landing-page.cards.sc')}</H4>
-				<span className={`bg-${color} p-1`}>{t(cta)}</span>
+				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
+				<span className={`bg-${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
 				<StyledSpacer />
 				<div className="flex justify-around">
 					<Text>{t(headlineLeft)}</Text>
 					<Text>{t(headlineRight)}</Text>
 				</div>
 				<div className="flex justify-around">
-					<H2>{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}</H2>
+					<h2 className="tg-title-h2">
+						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
+					</h2>
 					{/* TODO @DEV implement votes received or live votes when available */}
-					<H2>{period === 'NOMINATION' ? nomineesCount : membersCount}</H2>
+					<h2 className="tg-title-h2">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
 				</div>
 				{secondButton && (
 					<TransparentText
 						gradient="lightBlue"
 						onClick={() => {
 							push({
-								pathname: '/councils',
-								query: {
-									council: 'spartan',
-									nominees: true,
-								},
+								pathname: '/councils/'.concat(council),
 							});
 						}}
 						clickable
@@ -93,17 +91,11 @@ export default function CouncilCard({
 							setIsOpen(true);
 						} else if (period === 'VOTING') {
 							push({
-								pathname: '/vote',
-								query: {
-									council: 'spartan',
-								},
+								pathname: '/vote/'.concat(council),
 							});
 						} else {
 							push({
 								pathname: '/councils',
-								query: {
-									council: 'spartan',
-								},
 							});
 						}
 					}}

@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, PropsWithChildren } from 'react';
+import React, { HTMLAttributes, MouseEvent, MouseEventHandler, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import colors from '../styles/colors';
@@ -8,7 +8,7 @@ interface IconButton extends HTMLAttributes<HTMLButtonElement> {
 	rounded?: boolean;
 	size?: keyof typeof spacings;
 	active?: boolean;
-	onClick: () => void;
+	onClick: (e: any) => void;
 }
 
 export default function IconWrapper({
