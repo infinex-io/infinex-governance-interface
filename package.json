@@ -28,7 +28,6 @@
 		"react-query": "^3.34.20",
 		"siwe": "1.1.6",
 		"styled-components": "5.3.3",
-		"unstated-next": "^1.1.0",
 		"yup": "0.32.11"
 	},
 	"devDependencies": {
