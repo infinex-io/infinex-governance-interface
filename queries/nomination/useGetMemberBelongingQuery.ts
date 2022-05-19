@@ -1,4 +1,4 @@
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { useQuery } from 'react-query';
 import useIsNominated from './useIsNominatedQuery';
 

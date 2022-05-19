@@ -12,8 +12,8 @@ import { H5 } from 'components/Headlines/H5';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
-import Connector from 'containers/Connector';
-import Modal from 'containers/Modal';
+import { useConnectorContext } from 'containers/Connector';
+import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useGetMemberBelongingQuery from 'queries/nomination/useGetMemberBelongingQuery';
@@ -21,17 +21,19 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseURL } from 'utils/ipfs';
+import VoteModal from 'components/Modals/Vote';
 
 interface MemberCardProps {
 	member: GetUserDetails;
+	isVoting?: boolean;
 }
 
-export default function MemberCard({ member }: MemberCardProps) {
+export default function MemberCard({ member, isVoting }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { walletAddress } = Connector.useContainer();
+	const { walletAddress } = useConnectorContext();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { setContent, setIsOpen } = Modal.useContainer();
+	const { setContent, setIsOpen } = useModalContext();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	const { data } = useGetMemberBelongingQuery(member.address);
 	return (
@@ -46,7 +48,12 @@ export default function MemberCard({ member }: MemberCardProps) {
 					<StyledButton
 						variant="secondary"
 						onClick={() => {
-							if (isOwnCard && data) {
+							if (isVoting && data) {
+								setContent(
+									<VoteModal member={member} deployedModule={data.module} council={data.name} />
+								);
+								setIsOpen(true);
+							} else if (isOwnCard && data && !isVoting) {
 								setContent(<EditModal council={data.name} deployedModule={data.module} />);
 								setIsOpen(true);
 							} else {
@@ -58,8 +65,13 @@ export default function MemberCard({ member }: MemberCardProps) {
 								});
 							}
 						}}
+						disabled={!data}
 					>
-						{isOwnCard ? t('councils.edit-nomination') : t('councils.view-member')}
+						{isOwnCard && isVoting
+							? t('vote.card-title')
+							: isOwnCard
+							? t('councils.edit-nomination')
+							: t('councils.view-member')}
 					</StyledButton>
 					{isOwnCard && (
 						<IconButton onClick={() => setIsDropdownOpen(!isDropdownOpen)} size="tiniest" active>

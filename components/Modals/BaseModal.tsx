@@ -1,11 +1,11 @@
 import { Card, CloseIcon, Flex, IconButton } from 'components/old-ui';
 import { H1 } from 'components/Headlines/H1';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 export default function BaseModal({ children, headline }: PropsWithChildren<{ headline: string }>) {
-	const { setIsOpen } = Modal.useContainer();
+	const { setIsOpen } = useModalContext();
 	return (
 		<StyledBaseModalWrapper color="purple">
 			<StyledFlex direction="column" alignItems="center" className="darker-60">

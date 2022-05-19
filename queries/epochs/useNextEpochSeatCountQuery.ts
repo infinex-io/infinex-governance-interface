@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 
 function useNextEpochSeatCountQuery(moduleInstance: DeployedModules) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<number>(
 		['nextEpochSeatCount', moduleInstance],

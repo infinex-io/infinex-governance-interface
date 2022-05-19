@@ -12,11 +12,9 @@ import { H1 } from 'components/Headlines/H1';
 import { H3 } from 'components/Headlines/H3';
 import { H4 } from 'components/Headlines/H4';
 import { H5 } from 'components/Headlines/H5';
-import EditProfileModal from 'components/Modals/EditProfile';
 import { TextBold } from 'components/Text/bold';
 import { Text } from 'components/Text/text';
-import Connector from 'containers/Connector';
-import Modal from 'containers/Modal';
+import { useConnectorContext } from 'containers/Connector';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
@@ -32,21 +30,20 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { push } = useRouter();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const { walletAddress: ownAddress } = Connector.useContainer();
+	const { walletAddress: ownAddress } = useConnectorContext();
 	const allMembers = useAllCouncilMembersQuery();
 
 	const isPartOf = useMemo(() => {
-		if (allMembers?.data?.spartan.filter((member) => member.address === walletAddress).length)
+		if (allMembers.data?.spartan.filter((member) => member.address === walletAddress).length)
 			return 'Spartan';
-		if (allMembers?.data?.grants.filter((member) => member.address === walletAddress).length)
+		if (allMembers.data?.grants.filter((member) => member.address === walletAddress).length)
 			return 'Grants';
-		if (allMembers?.data?.ambassador.filter((member) => member.address === walletAddress).length)
+		if (allMembers.data?.ambassador.filter((member) => member.address === walletAddress).length)
 			return 'Ambassador';
-		if (allMembers?.data?.treasury.filter((member) => member.address === walletAddress).length)
+		if (allMembers.data?.treasury.filter((member) => member.address === walletAddress).length)
 			return 'Treasury';
 		return;
-	}, [allMembers, walletAddress]);
-
+	}, [walletAddress]);
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,
@@ -99,7 +96,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								>
 									<ThreeDotsKebabIcon />
 								</IconButton>
-								<Dialog wrapperClass='max-w-[700px]' onClose={() => setIsOpen(false)} open={isOpen}>
+								<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
 									<ProfileForm userProfile={userDetailsQuery.data} />
 								</Dialog>
 							</>

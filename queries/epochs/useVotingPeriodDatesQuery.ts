@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 
 type VotingPeriodDates = {
 	votingPeriodStartDate: number;
@@ -8,7 +8,7 @@ type VotingPeriodDates = {
 };
 
 function useVotingPeriodDatesQuery(moduleInstance: DeployedModules) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<VotingPeriodDates>(
 		['votingPeriodDates', moduleInstance],

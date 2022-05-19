@@ -1,15 +1,9 @@
 import { Button } from '@synthetixio/ui';
-import { ArrowLinkOffIcon, ButtonCard, Card, Colors } from 'components/old-ui';
+import { ArrowLinkOffIcon, ButtonCard, Colors } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
-import { H2 } from 'components/Headlines/H2';
-import { H4 } from 'components/Headlines/H4';
-import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
-import { TransparentText } from 'components/Text/transparent';
-import Modal from 'containers/Modal';
-import { DeployedModules } from 'containers/Modules/Modules';
-import Image from 'next/image';
+import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
@@ -18,11 +12,11 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import CouncilCard from 'components/CouncilCard';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { setContent, setIsOpen } = Modal.useContainer();
 
 	const { data: spartanCurrentPeriod } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const { data: grantsCurrentPeriod } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
@@ -64,311 +58,42 @@ export default function LandingPage() {
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
 			<div className="flex justify-center flex-wrap">
-				<StyledCard color="purple">
-					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
-						<Image alt="spartan-council" src="/logos/spartan-council.svg" width={50} height={72} />
-						<H4>{t('landing-page.cards.sc')}</H4>
-						{spartanCouncilInfo && (
-							<>
-								<StyledCTALabel color={spartanCouncilInfo.color}>
-									{t(spartanCouncilInfo.cta)}
-								</StyledCTALabel>
-								<StyledSpacer />
-								<div className="flex justify-around">
-									<Text>{t(spartanCouncilInfo.headlineLeft)}</Text>
-									<Text>{t(spartanCouncilInfo.headlineRight)}</Text>
-								</div>
-								<div className="flex justify-around">
-									<H2>
-										{spartanCurrentPeriod.currentPeriod === 'NOMINATION' ||
-										spartanCurrentPeriod.currentPeriod === 'VOTING'
-											? spartanNominees.data?.length
-											: spartanMembers.data?.length}
-									</H2>
-									{/* TODO @DEV implement votes received or live votes when available */}
-									<H2>
-										{spartanCurrentPeriod.currentPeriod === 'NOMINATION'
-											? spartanNominees.data?.length
-											: spartanMembers.data?.length}
-									</H2>
-								</div>
-								{spartanCouncilInfo.secondButton && (
-									<TransparentText
-										gradient="lightBlue"
-										onClick={() => {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'spartan',
-													nominees: true,
-												},
-											});
-										}}
-										clickable
-									>
-										{t(spartanCouncilInfo.secondButton)}
-									</TransparentText>
-								)}
-								<Button
-									variant={spartanCouncilInfo.variant}
-									className="w-full"
-									size="lg"
-									// variant={spartanCouncilInfo.variant}
-									onClick={() => {
-										if (spartanCurrentPeriod.currentPeriod === 'NOMINATION') {
-											setContent(<NominateModal />);
-											setIsOpen(true);
-										} else if (spartanCurrentPeriod.currentPeriod === 'VOTING') {
-											push({
-												pathname: '/vote',
-												query: {
-													council: 'spartan',
-												},
-											});
-										} else {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'spartan',
-												},
-											});
-										}
-									}}
-								>
-									{t(spartanCouncilInfo.button)}
-								</Button>
-							</>
-						)}
-					</StyledCardContent>
-				</StyledCard>
-				<StyledCard color="purple">
-					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
-						<Image src="/logos/grants-council.svg" width={64} height={64} />
-						<H4>{t('landing-page.cards.gc')}</H4>
-						{grantsCouncilInfo && (
-							<>
-								<StyledCTALabel color={grantsCouncilInfo.color}>
-									{t(grantsCouncilInfo.cta)}
-								</StyledCTALabel>
-								<StyledSpacer />
-								<div className="flex justify-around">
-									<Text>{t(grantsCouncilInfo.headlineLeft)}</Text>
-									<Text>{t(grantsCouncilInfo.headlineRight)}</Text>
-								</div>
-								<div className="flex justify-around">
-									<H2>
-										{grantsCurrentPeriod.currentPeriod === 'NOMINATION' ||
-										grantsCurrentPeriod.currentPeriod === 'VOTING'
-											? grantsNominees.data?.length
-											: grantsMembers.data?.length}
-									</H2>
-									{/* TODO @DEV implement votes received or live votes when available */}
-									<H2>
-										{grantsCurrentPeriod.currentPeriod === 'NOMINATION'
-											? grantsNominees.data?.length
-											: grantsMembers.data?.length}
-									</H2>
-								</div>
-								{grantsCouncilInfo.secondButton && (
-									<TransparentText
-										gradient="lightBlue"
-										onClick={() => {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'grants',
-													nominees: true,
-												},
-											});
-										}}
-										clickable
-									>
-										{t(grantsCouncilInfo.secondButton)}
-									</TransparentText>
-								)}
-								<Button
-									variant={grantsCouncilInfo.variant}
-									className="w-full"
-									size="lg"
-									onClick={() => {
-										if (spartanCurrentPeriod?.currentPeriod === 'NOMINATION') {
-											setContent(<NominateModal />);
-											setIsOpen(true);
-										} else if (spartanCurrentPeriod?.currentPeriod === 'VOTING') {
-											push({
-												pathname: '/vote',
-												query: {
-													council: 'grants',
-												},
-											});
-										} else {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'grants',
-												},
-											});
-										}
-									}}
-								>
-									{t(grantsCouncilInfo.button)}
-								</Button>
-							</>
-						)}
-					</StyledCardContent>
-				</StyledCard>
-				<StyledCard color="purple">
-					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
-						<Image src="/logos/ambassador-council.svg" width={69} height={61} />
-						<H4>{t('landing-page.cards.ac')}</H4>
-						{ambassadorCouncilInfo && (
-							<>
-								<StyledCTALabel color={ambassadorCouncilInfo.color}>
-									{t(ambassadorCouncilInfo.cta)}
-								</StyledCTALabel>
-								<StyledSpacer />
-								<div className="flex justify-around">
-									<Text>{t(ambassadorCouncilInfo.headlineLeft)}</Text>
-									<Text>{t(ambassadorCouncilInfo.headlineRight)}</Text>
-								</div>
-								<div className="flex justify-around">
-									<H2>
-										{ambassadorCurrentPeriod.currentPeriod === 'NOMINATION' ||
-										ambassadorCurrentPeriod.currentPeriod === 'VOTING'
-											? ambassadorNominees.data?.length
-											: ambassadorMembers.data?.length}
-									</H2>
-									{/* TODO @DEV implement votes received or live votes when available */}
-									<H2>
-										{ambassadorCurrentPeriod.currentPeriod === 'NOMINATION'
-											? ambassadorNominees.data?.length
-											: grantsMembers.data?.length}
-									</H2>
-								</div>
-								{ambassadorCouncilInfo.secondButton && (
-									<TransparentText
-										gradient="lightBlue"
-										onClick={() => {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'ambassador',
-													nominees: true,
-												},
-											});
-										}}
-										clickable
-									>
-										{t(ambassadorCouncilInfo.secondButton)}
-									</TransparentText>
-								)}
-								<Button
-									variant={ambassadorCouncilInfo.variant}
-									className="w-full"
-									size="lg"
-									onClick={() => {
-										if (ambassadorCurrentPeriod.currentPeriod === 'NOMINATION') {
-											setContent(<NominateModal />);
-											setIsOpen(true);
-										} else if (ambassadorCurrentPeriod.currentPeriod === 'VOTING') {
-											push({
-												pathname: '/vote',
-												query: {
-													council: 'ambassador',
-												},
-											});
-										} else {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'ambassador',
-												},
-											});
-										}
-									}}
-								>
-									{t(ambassadorCouncilInfo.button)}
-								</Button>
-							</>
-						)}
-					</StyledCardContent>
-				</StyledCard>
-				<StyledCard color="purple">
-					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
-						<Image src="/logos/treasury-council.svg" width={84} height={84} />
-						<H4>{t('landing-page.cards.tc')}</H4>
-						{treasuryCouncilInfo && (
-							<>
-								<StyledCTALabel color={treasuryCouncilInfo.color}>
-									{t(treasuryCouncilInfo.cta)}
-								</StyledCTALabel>
-								<StyledSpacer />
-								<div className="flex justify-around">
-									<Text>{t(treasuryCouncilInfo.headlineLeft)}</Text>
-									<Text>{t(treasuryCouncilInfo.headlineRight)}</Text>
-								</div>
-								<div className="flex justify-around">
-									<H2>
-										{treasuryCurrentPeriod.currentPeriod === 'NOMINATION' ||
-										treasuryCurrentPeriod.currentPeriod === 'VOTING'
-											? treasuryNominees.data?.length
-											: treasuryMembers.data?.length}
-									</H2>
-									{/* TODO @DEV implement votes received or live votes when available */}
-									<H2>
-										{treasuryCurrentPeriod.currentPeriod === 'NOMINATION'
-											? treasuryNominees.data?.length
-											: treasuryMembers.data?.length}
-									</H2>
-								</div>
-								{treasuryCouncilInfo.secondButton && (
-									<TransparentText
-										gradient="lightBlue"
-										onClick={() => {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'treasury',
-													nominees: true,
-												},
-											});
-										}}
-										clickable
-									>
-										{t(treasuryCouncilInfo.secondButton)}
-									</TransparentText>
-								)}
-								<Button
-									variant={treasuryCouncilInfo.variant}
-									className="w-full"
-									size="lg"
-									onClick={() => {
-										if (treasuryCurrentPeriod.currentPeriod === 'NOMINATION') {
-											setContent(<NominateModal />);
-											setIsOpen(true);
-										} else if (treasuryCurrentPeriod.currentPeriod === 'VOTING') {
-											push({
-												pathname: '/vote',
-												query: {
-													council: 'treasury',
-												},
-											});
-										} else {
-											push({
-												pathname: '/councils',
-												query: {
-													council: 'treasury',
-												},
-											});
-										}
-									}}
-								>
-									{t(treasuryCouncilInfo.button)}
-								</Button>
-							</>
-						)}
-					</StyledCardContent>
-				</StyledCard>
+				{spartanCouncilInfo && (
+					<CouncilCard
+						{...spartanCouncilInfo}
+						membersCount={spartanMembers.data?.length}
+						nomineesCount={spartanNominees.data?.length}
+						period={spartanCurrentPeriod?.currentPeriod}
+						image="/logos/spartan-council.svg"
+					/>
+				)}
+				{grantsCouncilInfo && (
+					<CouncilCard
+						{...grantsCouncilInfo}
+						membersCount={grantsMembers.data?.length}
+						nomineesCount={grantsNominees.data?.length}
+						period={grantsCurrentPeriod?.currentPeriod}
+						image="/logos/grants-council.svg"
+					/>
+				)}
+				{ambassadorCouncilInfo && (
+					<CouncilCard
+						{...ambassadorCouncilInfo}
+						membersCount={ambassadorMembers.data?.length}
+						nomineesCount={ambassadorNominees.data?.length}
+						period={ambassadorCurrentPeriod?.currentPeriod}
+						image="/logos/ambassador-council.svg"
+					/>
+				)}
+				{treasuryCouncilInfo && (
+					<CouncilCard
+						{...treasuryCouncilInfo}
+						membersCount={treasuryMembers.data?.length}
+						nomineesCount={treasuryNominees.data?.length}
+						period={treasuryCurrentPeriod.currentPeriod}
+						image="/logos/treasury-council.svg"
+					/>
+				)}
 			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
@@ -464,23 +189,6 @@ function parseIndex(index: number): {
 			};
 	}
 }
-
-const StyledCard = styled(Card)`
-	width: 264px;
-	height: 358px;
-	margin: ${({ theme }) => theme.spacings.medium};
-`;
-
-const StyledCardContent = styled.div`
-	padding: ${({ theme }) => theme.spacings.medium};
-`;
-
-const StyledCTALabel = styled(H4)<{ color: Colors }>`
-	background-color: ${({ theme, color }) => theme.colors[color]};
-	border-radius: 32px;
-	padding: ${({ theme }) => theme.spacings.tiniest};
-	font-size: 1rem;
-`;
 
 const StyledSpacer = styled.span`
 	height: 1px;

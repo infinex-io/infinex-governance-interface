@@ -1,5 +1,5 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
-import Modules from 'containers/Modules';
+import { useModulesContext } from 'containers/Modules';
 
 import { useQuery } from 'react-query';
 
@@ -33,7 +33,7 @@ export type GetUserDetails = {
 };
 
 function useAllCouncilMembersQuery() {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
@@ -102,7 +102,7 @@ function useAllCouncilMembersQuery() {
 			}
 		},
 		{
-			enabled: true,
+			enabled: governanceModules !== null,
 			// 15 minutes
 			cacheTime: 900000,
 		}

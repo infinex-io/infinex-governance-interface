@@ -1,5 +1,5 @@
-import { Button, IconButton, SettingsIcon, SNXIcon, SpotlightButton, theme } from 'components/old-ui';
-import Connector from 'containers/Connector';
+import { Button, SNXIcon, SpotlightButton, theme } from 'components/old-ui';
+import { useConnectorContext } from 'containers/Connector';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ export default function Header() {
 	const [activeRoute, setActiveRoute] = useState('home');
 
 	const { connectWallet, disconnectWallet, walletAddress, ensAvatar, ensName } =
-		Connector.useContainer();
+		useConnectorContext();
 
 	const routes = [t('header.routes.home'), t('header.routes.councils'), t('header.routes.vote')];
 
@@ -40,9 +40,6 @@ export default function Header() {
 				);
 			})}
 			<ButtonContainer>
-				<IconButton onClick={() => console.info('implement me')} size="tiny">
-					<SettingsIcon />
-				</IconButton>
 				<StyledConnectWalletButton
 					variant="quaternary"
 					onClick={walletAddress ? disconnectWallet : connectWallet}

@@ -82,7 +82,9 @@
 		"council": "{{council}} COUNCIL"
 	},
 	"vote": {
-		"headline": "{{council}} Council Nominees"
+		"headline": "Live Voting",
+		"nominees": "{{council}} Council Nominees",
+		"card-title": "Vote Nominee"
 	},
 	"modals": {
 		"nomination": {
@@ -111,7 +113,7 @@
 			"button": "Next"
 		},
 		"vote": {
-			"headline": "Spartan Council",
+			"headline": "Voting For {{council}} Council",
 			"submit": "Submit Vote",
 			"profile": "See full profile"
 		},

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 
 export enum EpochPeriods {
 	ADMINISTRATION = 0,
@@ -14,7 +14,7 @@ type CurrentPeriod = {
 };
 
 function useCurrentPeriod(moduleInstance: DeployedModules) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<CurrentPeriod>(
 		['currentPeriod', moduleInstance],

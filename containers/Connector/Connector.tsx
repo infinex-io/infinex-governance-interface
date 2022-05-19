@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useContext, createContext } from 'react';
 import { useEthers } from '@usedapp/core';
 import { ethers } from 'ethers';
-import { createContainer } from 'unstated-next';
 import useLocalStorage from 'hooks/useLocalStorage';
 import {
 	BOARDROOM_SIGNIN_API_URL,
@@ -44,7 +43,29 @@ type SignInResponse = {
 	};
 };
 
-const useConnector = () => {
+type ConnectorContextType = {
+	walletAddress: string | null | undefined;
+	uuid: string | null;
+	setUuid: (value: string | null) => void;
+	ensName: string | null;
+	ensAvatar: string | null;
+	provider: ethers.providers.JsonRpcProvider | null;
+	signer: ethers.providers.JsonRpcSigner | null;
+	chainId: number | undefined;
+	connectWallet: () => void;
+	disconnectWallet: () => void;
+	boardroomSignIn: () => void;
+	boardroomSignOut: () => void;
+	L1DefaultProvider: ethers.providers.InfuraProvider;
+};
+
+const ConnectorContext = createContext<unknown>(null);
+
+export const useConnectorContext = () => {
+	return useContext(ConnectorContext) as ConnectorContextType;
+};
+
+export const ConnectorContextProvider: React.FC = ({ children }) => {
 	const { activateBrowserWallet, account, deactivate, library, chainId } = useEthers();
 
 	const L1DefaultProvider = useMemo(
@@ -172,23 +193,25 @@ const useConnector = () => {
 		}
 	};
 
-	return {
-		walletAddress: account,
-		uuid,
-		setUuid,
-		ensName,
-		ensAvatar,
-		provider,
-		signer,
-		chainId,
-		connectWallet,
-		disconnectWallet,
-		boardroomSignIn,
-		boardroomSignOut,
-		L1DefaultProvider,
-	};
+	return (
+		<ConnectorContext.Provider
+			value={{
+				walletAddress: account,
+				uuid,
+				setUuid,
+				ensName,
+				ensAvatar,
+				provider,
+				signer,
+				chainId,
+				connectWallet,
+				disconnectWallet,
+				boardroomSignIn,
+				boardroomSignOut,
+				L1DefaultProvider,
+			}}
+		>
+			{children}
+		</ConnectorContext.Provider>
+	);
 };
-
-const Connector = createContainer(useConnector);
-
-export default Connector;
