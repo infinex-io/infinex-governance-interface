@@ -16,7 +16,6 @@ import EditProfileModal from 'components/Modals/EditProfile';
 import { TextBold } from 'components/Text/bold';
 import { Text } from 'components/Text/text';
 import { useConnectorContext } from 'containers/Connector';
-import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
