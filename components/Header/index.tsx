@@ -90,6 +90,7 @@ const StyledSpotlightButton = styled(SpotlightButton)`
 
 const ButtonContainer = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	min-width: 200px;
 	margin-right: ${theme.spacings.superBig};
@@ -106,8 +107,9 @@ const StyledWalletAddress = styled.span`
 	font-family: 'Inter Bold';
 	font-size: 0.75rem;
 	text-align: center;
-	display: block;
-	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 const StyledENSAvatar = styled.img`
