@@ -1,4 +1,4 @@
-import { Button, Card } from '@synthetixio/ui';
+import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
@@ -51,7 +51,7 @@ export default function CouncilCard({
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	return (
-		<Card variant="purple" className="p-1">
+		<div className="p-1 bg-purple">
 			<div className="h-full flex flex-col justify-around align-center darker-60 p-5">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
@@ -103,7 +103,7 @@ export default function CouncilCard({
 					{t(button)}
 				</Button>
 			</div>
-		</Card>
+		</div>
 	);
 }
 
