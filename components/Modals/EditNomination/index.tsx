@@ -1,4 +1,4 @@
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules/Modules';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -24,7 +24,7 @@ interface EditModalProps {
 
 export default function EditModal({ deployedModule, council }: EditModalProps) {
 	const { t } = useTranslation();
-	const { walletAddress, ensName } = Connector.useContainer();
+	const { walletAddress, ensName } = useConnectorContext();
 	const { setIsOpen } = Modal.useContainer();
 	const { push } = useRouter();
 	const withdrawMutation = useWithdrawNominationMutation(deployedModule);

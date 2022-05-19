@@ -1,5 +1,5 @@
 import { Button, Flex, IconButton, TextInput } from 'components/old-ui';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import Modal from 'containers/Modal';
 import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
 import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -17,7 +17,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 	const { t } = useTranslation();
 	const { setIsOpen } = Modal.useContainer();
 
-	const { walletAddress } = Connector.useContainer();
+	const { walletAddress } = useConnectorContext();
 
 	const updateUserMutation = useUpdateUserDetailsMutation();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress ?? '');

@@ -1,6 +1,6 @@
 import { Button, Checkbox, Flex } from 'components/old-ui';
 import { H3 } from 'components/Headlines/H3';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import Modal from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
@@ -18,7 +18,7 @@ export default function NominateModal() {
 	const { push } = useRouter();
 	const { setIsOpen } = Modal.useContainer();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
-	const { walletAddress, ensName, connectWallet } = Connector.useContainer();
+	const { walletAddress, ensName, connectWallet } = useConnectorContext();
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);

@@ -1,1 +1,1 @@
-export { default } from './Connector';
+export { ConnectorContextProvider, useConnectorContext } from './Connector';

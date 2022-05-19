@@ -12,7 +12,7 @@ import '@synthetixio/ui/dist/default.css';
 import '../styles/index.scss';
 import '../i18n';
 
-import Connector from 'containers/Connector';
+import { ConnectorContextProvider } from 'containers/Connector';
 import Modules from 'containers/Modules';
 import Modal from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
@@ -54,12 +54,11 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 const App: FC<AppProps> = (props) => {
-	const ConnectorProvider = Connector.Provider as any;
 	const ModalProvider = Modal.Provider as any;
 
 	return (
 		<DAppProvider config={config}>
-			<ConnectorProvider>
+			<ConnectorContextProvider>
 				<QueryClientProvider client={queryClient}>
 					<ReactQueryDevtools initialIsOpen={false} />
 					<ThemeProvider theme={theme}>
@@ -68,7 +67,7 @@ const App: FC<AppProps> = (props) => {
 						</ModalProvider>
 					</ThemeProvider>
 				</QueryClientProvider>
-			</ConnectorProvider>
+			</ConnectorContextProvider>
 		</DAppProvider>
 	);
 };

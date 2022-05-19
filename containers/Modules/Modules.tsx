@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { createContainer } from 'unstated-next';
 
 import ElectionModuleABI from 'contracts/ElectionModule.json';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import {
 	ambassadorCouncil,
 	grantsCouncil,
@@ -23,7 +23,7 @@ export type GovernanceModule = {
 };
 
 const useModules = () => {
-	const { chainId, provider, signer } = Connector.useContainer();
+	const { chainId, provider, signer } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<any>(null);
 
 	useEffect(() => {

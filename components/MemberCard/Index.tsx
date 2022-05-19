@@ -12,7 +12,7 @@ import { H5 } from 'components/Headlines/H5';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -29,7 +29,7 @@ interface MemberCardProps {
 export default function MemberCard({ member }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { walletAddress } = Connector.useContainer();
+	const { walletAddress } = useConnectorContext();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const { setContent, setIsOpen } = Modal.useContainer();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
