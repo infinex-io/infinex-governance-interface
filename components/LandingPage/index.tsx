@@ -65,12 +65,14 @@ export default function LandingPage() {
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
 			<div className="flex justify-center flex-wrap">
-				<CouncilCard
-					{...spartanCouncilInfo}
-					membersCount={spartanMembers.data?.length}
-					nomineesCount={spartanNominees.data?.length}
-					period={spartanCurrentPeriod?.currentPeriod || 'ADMINISTRATION'}
-				/>
+				{spartanCouncilInfo && (
+					<CouncilCard
+						{...spartanCouncilInfo}
+						membersCount={spartanMembers.data?.length}
+						nomineesCount={spartanNominees.data?.length}
+						period={spartanCurrentPeriod?.currentPeriod || 'ADMINISTRATION'}
+					/>
+				)}
 				<StyledCard color="purple">
 					<StyledCardContent className="h-full flex flex-col justify-around align-center darker-60">
 						<Image src="/logos/grants-council.svg" width={64} height={64} />
