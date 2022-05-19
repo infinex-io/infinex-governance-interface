@@ -96,7 +96,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								>
 									<ThreeDotsKebabIcon />
 								</IconButton>
-								<Dialog wrapperClass="max-w-[500px]" onClose={() => setIsOpen(false)} open={isOpen}>
+								<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
 									<ProfileForm userProfile={userDetailsQuery.data} />
 								</Dialog>
 							</>

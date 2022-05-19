@@ -50,7 +50,7 @@ const StyledTabsWrapper = styled.ul<{
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 600;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 `;
 
 const StyledTab = styled.li<{ active?: boolean; size: TabsProps['size'] }>`
@@ -66,7 +66,7 @@ const StyledTab = styled.li<{ active?: boolean; size: TabsProps['size'] }>`
 	font-family: Inter;
 	font-style: normal;
 	font-weight: bold;
-	font-size: ${({ size }) => (size === 'medium' ? '1.16rem' : '1rem')};
+	font-size: ${({ size }) => (size === 'medium' ? '0.87rem' : '0.75rem')};
 	line-height: 20px;
 	border: 1px solid transparent;
 	:hover {

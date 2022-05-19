@@ -116,7 +116,7 @@ const StyledTabIcon = styled.span<{ active?: boolean }>`
 	border-radius: 15px;
 	color: ${({ theme, active }) => (active ? theme.colors.white : theme.colors.black)};
 	padding: 0px 8px;
-	font-size: 0.66rem;
+	font-size: 0.5rem;
 	font-family: 'Inter Bold';
 `;
 

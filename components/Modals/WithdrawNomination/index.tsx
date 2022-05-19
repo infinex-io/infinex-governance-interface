@@ -61,14 +61,14 @@ const StyledBlackBox = styled(Flex)`
 
 const StyledBlackBoxSubline = styled.h6`
 	font-family: 'Inter Bold';
-	font-size: 1rem;
+	font-size: 0.75rem;
 	color: ${({ theme }) => theme.colors.grey};
 	margin: 0;
 `;
 
 const StyledWalletAddress = styled.h3`
 	font-family: 'Inter Bold';
-	font-size: 2rem;
+	font-size: 1.5rem;
 	margin: ${({ theme }) => theme.spacings.tiniest};
 	color: ${({ theme }) => theme.colors.white};
 `;

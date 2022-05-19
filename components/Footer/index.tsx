@@ -91,7 +91,7 @@ const StyledCopyRightText = styled.span`
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	color: white;
 	opacity: 0.7;
 	margin-left: ${theme.spacings.biggest};
@@ -102,7 +102,7 @@ const StyledLinks = styled(ExternalLink)`
 	font-family: 'GT America';
 	font-style: normal;
 	font-weight: 700;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	text-transform: uppercase;
 	margin-right: ${theme.spacings.medium};
 `;

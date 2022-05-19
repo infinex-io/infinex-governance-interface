@@ -75,7 +75,7 @@ const StyledHeaderHeadline = styled.h1`
 	font-family: 'Lustra Text';
 	font-style: normal;
 	font-weight: 400;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	color: white;
 	margin-left: ${theme.spacings.tiny};
 	margin-right: ${theme.spacings.biggest};
@@ -90,6 +90,7 @@ const StyledSpotlightButton = styled(SpotlightButton)`
 
 const ButtonContainer = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	min-width: 200px;
 	margin-right: ${theme.spacings.superBig};
@@ -104,10 +105,11 @@ const StyledConnectWalletButton = styled(Button)`
 const StyledWalletAddress = styled.span`
 	color: ${({ theme }) => theme.colors.white};
 	font-family: 'Inter Bold';
-	font-size: 1rem;
+	font-size: 0.75rem;
 	text-align: center;
-	display: block;
-	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 const StyledENSAvatar = styled.img`

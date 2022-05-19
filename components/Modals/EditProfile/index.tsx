@@ -164,7 +164,7 @@ export default EditProfileModal;
 
 const StyledModalHeadline = styled.h1`
 	font-family: 'Inter Bold';
-	font-size: 3.33rem;
+	font-size: 2.5rem;
 	color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -190,13 +190,13 @@ const StyledIconButton = styled(IconButton)`
 
 const StyledBlackBoxSubline = styled.h6`
 	font-family: 'Inter Bold';
-	font-size: 1rem;
+	font-size: 0.75rem;
 	color: ${({ theme }) => theme.colors.grey};
 	margin: 0;
 `;
 
 const StyledInput = styled(TextInput)`
 	font-family: 'Inter Bold';
-	font-size: 2rem;
+	font-size: 1.5rem;
 	color: ${(props) => props.theme.colors.white};
 `;
