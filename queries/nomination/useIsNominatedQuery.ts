@@ -1,15 +1,27 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
+import { ethers } from 'ethers';
 
-function useIsNominated(moduleInstance: DeployedModules, walletAddress: string) {
+function useIsNominated(
+	moduleInstance: DeployedModules,
+	walletAddress: string,
+	epochIndex?: string
+) {
 	const governanceModules = useModulesContext();
-
 	return useQuery<boolean>(
-		['isNominated', moduleInstance, walletAddress],
+		['isNominated', moduleInstance, walletAddress, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
-			let isNominated = await contract?.isNominated(walletAddress);
+			let isNominated: boolean;
+			if (epochIndex) {
+				isNominated = await contract?.wasNominated(
+					walletAddress,
+					ethers.BigNumber.from(epochIndex).toHexString()
+				);
+			} else {
+				isNominated = await contract?.isNominated(walletAddress);
+			}
 			return isNominated;
 		},
 		{
