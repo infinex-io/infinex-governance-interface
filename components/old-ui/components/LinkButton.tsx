@@ -60,7 +60,7 @@ const StyledButtonText = styled.span`
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 500;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	color: ${colors.white};
 	margin-right: ${spacings.tiny};
 	margin-left: ${spacings.tiniest};

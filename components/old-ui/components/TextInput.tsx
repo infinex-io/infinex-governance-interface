@@ -59,7 +59,7 @@ const StyledLabel = styled.label`
 	display: inline-block;
 	padding-bottom: 6px;
 	line-height: 1;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	color: ${colors.grey};
 	cursor: pointer;
 `;
@@ -84,8 +84,8 @@ const StyledTextInput = styled.input.attrs(() => ({
 	border: ${({ inputSize }) => sizes[inputSize].borderSize} solid ${colors.grey}4C;
 	border-radius: 4px;
 	color: ${colors.white};
-	font-size: 1.17rem;
-	line-height: 2rem;
+	font-size: 0.87rem;
+	line-height: 1.5rem;
 	outline: none;
 	background-color: ${colors.backgroundColor};
 

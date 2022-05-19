@@ -18,7 +18,7 @@ export const Banner = styled(Flex)<{
 
 export const BannerText = styled.h3`
 	font-family: 'GT America Mono';
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	font-weight: 700;
 	margin-right: 10px;
 `;

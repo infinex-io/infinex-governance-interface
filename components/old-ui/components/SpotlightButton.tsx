@@ -35,7 +35,7 @@ const StyledText = styled.span<{ active: SpotlightButtonProps['active'] }>`
 	font-family: 'GT America';
 	font-style: normal;
 	font-weight: 400;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	margin-bottom: ${spacings.tiny};
 	color: ${({ active }) => (active ? 'white' : colors.grey)};
 `;

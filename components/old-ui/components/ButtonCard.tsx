@@ -82,7 +82,7 @@ const StyledWrapper = styled(Flex)`
 
 const StyledHeadline = styled.h3<{ direction: ButtonCardsProps['arrowDirection'] }>`
 	font-family: 'Inter Bold';
-	font-size: 1.5rem;
+	font-size: 0.75rem;
 	color: ${colors.white};
 	text-align: ${({ direction }) => (direction === 'left' ? 'right' : 'left')};
 	width: 100%;
@@ -91,7 +91,7 @@ const StyledHeadline = styled.h3<{ direction: ButtonCardsProps['arrowDirection']
 
 const StyledSubline = styled.span<{ direction: ButtonCardsProps['arrowDirection'] }>`
 	font-family: 'Inter';
-	font-size: 1rem;
+	font-size: 0.75rem;
 	color: ${colors.grey};
 	text-align: ${({ direction }) => (direction === 'left' ? 'right' : 'left')};
 	width: 100%;

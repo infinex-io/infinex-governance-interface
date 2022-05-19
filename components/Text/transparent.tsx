@@ -8,7 +8,7 @@ export const TransparentText = styled.span<{
 	${({ clickable }) => clickable && 'cursor: pointer'};
 	font-family: 'Inter';
 	font-weight: 400;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	line-height: 18px;
 	text-align: center;
 	background: ${({ gradient }) => gradient};

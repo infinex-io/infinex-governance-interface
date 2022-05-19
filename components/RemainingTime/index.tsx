@@ -18,6 +18,6 @@ export default function RemainingTime({
 const StyledTime = styled.span<{ glow?: boolean; color?: Colors }>`
 	color: ${({ theme, color }) => (color ? theme.colors[color] : theme.colors.green)};
 	font-family: 'GT America Mono';
-	font-size: 1.33rem;
+	font-size: 1rem;
 	text-shadow: ${({ glow }) => glow && '0px 0px 15px rgba(0, 209, 255, 0.6)'};
 `;
