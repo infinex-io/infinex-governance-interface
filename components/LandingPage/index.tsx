@@ -8,7 +8,7 @@ import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

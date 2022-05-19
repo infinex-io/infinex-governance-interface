@@ -1,5 +1,5 @@
 import { useConnectorContext } from 'containers/Connector';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 

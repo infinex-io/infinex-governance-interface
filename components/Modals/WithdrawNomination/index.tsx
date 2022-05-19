@@ -1,7 +1,7 @@
 import { Button, Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';

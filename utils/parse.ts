@@ -1,4 +1,4 @@
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 
 export const parseQuery = (
 	council?: string

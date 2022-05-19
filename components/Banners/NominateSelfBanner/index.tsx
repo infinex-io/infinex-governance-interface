@@ -1,7 +1,7 @@
 import { Banner, TimeWrapper } from 'components/Banners';
 import NominateModal from 'components/Modals/Nominate';
 import RemainingTime from 'components/RemainingTime';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { useModalContext } from 'containers/Modal';
 import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
 import { useTranslation } from 'react-i18next';

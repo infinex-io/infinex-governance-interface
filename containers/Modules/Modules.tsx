@@ -1,6 +1,4 @@
 import { ethers } from 'ethers';
-import { createContainer } from 'unstated-next';
-
 import ElectionModuleABI from 'contracts/ElectionModule.json';
 import { useConnectorContext } from 'containers/Connector';
 import {
@@ -9,7 +7,7 @@ import {
 	spartanCouncil,
 	treasuryCouncil,
 } from 'constants/addresses';
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, FC } from 'react';
 
 export enum DeployedModules {
 	SPARTAN_COUNCIL = 'spartan council',
@@ -17,14 +15,21 @@ export enum DeployedModules {
 	GRANTS_COUNCIL = 'grants council',
 	TREASURY_COUNCIL = 'treasury council',
 }
-export type GovernanceModule = {
-	address: string;
-	contract: ethers.Contract;
+type GovernanceModule = Partial<
+	Record<DeployedModules, { address: string; contract: ethers.Contract }>
+>;
+
+type ModulesContextType = GovernanceModule;
+
+const ModulesContext = createContext<ModulesContextType | null>(null);
+
+export const useModulesContext = () => {
+	return useContext(ModulesContext) as ModulesContextType;
 };
 
-const useModules = () => {
+export const ModulesProvider: FC = ({ children }) => {
 	const { chainId, provider, signer } = useConnectorContext();
-	const [governanceModules, setGovernanceModules] = useState<any>(null);
+	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 
 	useEffect(() => {
 		if (chainId && provider) {
@@ -34,7 +39,7 @@ const useModules = () => {
 				signer ?? provider
 			);
 
-			let modules: Partial<Record<DeployedModules, GovernanceModule>> = {};
+			let modules = {} as GovernanceModule;
 
 			modules[DeployedModules.SPARTAN_COUNCIL] = {
 				address: spartanCouncil,
@@ -78,9 +83,5 @@ const useModules = () => {
 		}
 	}, [chainId, provider, signer]);
 
-	return { governanceModules };
+	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
 };
-
-const Modules = createContainer(useModules);
-
-export default Modules;

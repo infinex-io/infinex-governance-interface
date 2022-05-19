@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { ethers } from 'ethers';
 
 type EmergencyElectionEvent = {
@@ -20,7 +20,7 @@ function useEmergencyElectionHistoryQuery(
 	moduleInstance: DeployedModules,
 	epochIndex: string | null
 ) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 	return useQuery<EmergencyElectionEvent[]>(
 		['dismissalHistory', moduleInstance, epochIndex],
 		async () => {

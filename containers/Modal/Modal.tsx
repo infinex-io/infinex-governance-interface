@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 type ModalContextType = {
 	isOpen: boolean;
 	setIsOpen: (value: boolean) => void;
-	content: JSX.Element | null;
+	content?: JSX.Element;
 	setContent: (value: JSX.Element) => void;
 };
 
@@ -15,7 +15,7 @@ export const useModalContext = () => {
 
 export const ModalContextProvider: React.FC = ({ children }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [content, setContent] = useState<JSX.Element | null>(null);
+	const [content, setContent] = useState<JSX.Element | undefined>(undefined);
 
 	return (
 		<ModalContext.Provider

@@ -13,7 +13,7 @@ import '../styles/index.scss';
 import '../i18n';
 
 import { ConnectorContextProvider } from 'containers/Connector';
-import Modules from 'containers/Modules';
+import { ModulesProvider } from 'containers/Modules';
 import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
@@ -38,18 +38,16 @@ export const config: Config = {
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
 
-	//TODO: remove next-unstated
-	const Provider = Modules.Provider as any;
 	const TheComponent = Component as any;
 
 	return (
-		<Provider>
+		<ModulesProvider>
 			<Header />
 			<UIModal open={isOpen} modalContent={content}>
 				<TheComponent {...pageProps} />
 				<Footer />
 			</UIModal>
-		</Provider>
+		</ModulesProvider>
 	);
 };
 

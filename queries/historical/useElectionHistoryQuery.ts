@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { ethers } from 'ethers';
 
 type ElectionEvaluatedEvent = {
@@ -18,7 +18,7 @@ type ElectionEvaluatedEvent = {
  * @return {ElectionEvaluatedEvent[]} A list of ElectionEvaluatedEvent
  */
 function useElectionHistoryQuery(moduleInstance: DeployedModules, epochIndex: string | null) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 	return useQuery<ElectionEvaluatedEvent[]>(
 		['dismissalHistory', moduleInstance, epochIndex],
 		async () => {

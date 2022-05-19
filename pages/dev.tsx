@@ -1,4 +1,4 @@
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import useCouncilMemberHistoryQuery from 'queries/historical/useCouncilMemberHistoryQuery';
 import useNominationHistoryQuery from 'queries/historical/useNominationHistoryQuery';
 import useVoteHistoryQuery from 'queries/historical/useVoteHistoryQuery';
@@ -37,6 +37,8 @@ export default function Dev() {
 			<button
 				onClick={() => {
 					members.refetch();
+					votes.refetch();
+					nomination.refetch();
 				}}
 			>
 				refetch

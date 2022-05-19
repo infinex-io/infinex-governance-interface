@@ -2,7 +2,7 @@ import { Button, Checkbox, Flex } from 'components/old-ui';
 import { H3 } from 'components/Headlines/H3';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
