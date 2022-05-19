@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
-import Modules, { DeployedModules } from 'containers/Modules/Modules';
+import Modules, { DeployedModules } from 'containers/Modules';
 
 function useEpochIndexQuery(moduleInstance: DeployedModules) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<number>(
 		['epochIndex', moduleInstance],

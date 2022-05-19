@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 
 type EpochDates = {
 	epochStartDate: number;
@@ -8,7 +8,7 @@ type EpochDates = {
 };
 
 function useCurrentEpochDatesQuery(moduleInstance: DeployedModules) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<EpochDates>(
 		['currentEpochDates', moduleInstance],

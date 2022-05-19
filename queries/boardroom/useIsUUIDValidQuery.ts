@@ -1,5 +1,5 @@
 import { VALID_UUID_API_URL } from 'constants/boardroom';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import { useQuery } from 'react-query';
 
 type UUIDResponse = {
@@ -9,7 +9,7 @@ type UUIDResponse = {
 };
 
 function useIsUUIDValidQuery() {
-	const { walletAddress, uuid } = Connector.useContainer();
+	const { walletAddress, uuid } = useConnectorContext();
 	return useQuery<boolean>(
 		['isUUIDValid'],
 		async () => {

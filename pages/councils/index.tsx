@@ -14,7 +14,7 @@ import { capitalizeString } from 'utils/capitalize';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import MemberCard from 'components/MemberCard/Index';
 import { parseQuery } from 'utils/parse';
@@ -22,7 +22,7 @@ import { parseQuery } from 'utils/parse';
 const Councils: NextPage = () => {
 	const { query, push } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()));
-	const { walletAddress } = Connector.useContainer();
+	const { walletAddress } = useConnectorContext();
 	const isNominated = useIsNominated(
 		parseQuery(query?.council?.toString()).module,
 		walletAddress ? walletAddress : ''

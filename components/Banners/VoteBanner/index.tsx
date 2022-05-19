@@ -1,7 +1,7 @@
 import { ArrowRightIcon, IconButton } from 'components/old-ui';
 import { Banner, BannerText, TimeWrapper } from 'components/Banners';
 import RemainingTime from 'components/RemainingTime';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import { useTranslation } from 'react-i18next';

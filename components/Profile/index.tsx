@@ -15,7 +15,7 @@ import { H5 } from 'components/Headlines/H5';
 import EditProfileModal from 'components/Modals/EditProfile';
 import { TextBold } from 'components/Text/bold';
 import { Text } from 'components/Text/text';
-import Connector from 'containers/Connector';
+import { useConnectorContext } from 'containers/Connector';
 import Modal from 'containers/Modal';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
@@ -32,7 +32,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { push } = useRouter();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const { walletAddress: ownAddress } = Connector.useContainer();
+	const { walletAddress: ownAddress } = useConnectorContext();
 	const allMembers = useAllCouncilMembersQuery();
 
 	const isPartOf = useMemo(() => {
@@ -99,7 +99,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								>
 									<ThreeDotsKebabIcon />
 								</IconButton>
-								<Dialog wrapperClass='max-w-[500px]' onClose={() => setIsOpen(false)} open={isOpen}>
+								<Dialog wrapperClass="max-w-[500px]" onClose={() => setIsOpen(false)} open={isOpen}>
 									<ProfileForm userProfile={userDetailsQuery.data} />
 								</Dialog>
 							</>

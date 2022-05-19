@@ -12,8 +12,8 @@ import { H5 } from 'components/Headlines/H5';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
-import Connector from 'containers/Connector';
-import Modal from 'containers/Modal';
+import { useConnectorContext } from 'containers/Connector';
+import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useGetMemberBelongingQuery from 'queries/nomination/useGetMemberBelongingQuery';
@@ -29,9 +29,9 @@ interface MemberCardProps {
 export default function MemberCard({ member }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { walletAddress } = Connector.useContainer();
+	const { walletAddress } = useConnectorContext();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { setContent, setIsOpen } = Modal.useContainer();
+	const { setContent, setIsOpen } = useModalContext();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	const { data } = useGetMemberBelongingQuery(member.address);
 	return (

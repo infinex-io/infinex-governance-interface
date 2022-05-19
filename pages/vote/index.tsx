@@ -2,7 +2,7 @@ import { ArrowLeftIcon, Flex, IconButton } from 'components/old-ui';
 import { H1 } from 'components/Headlines/H1';
 import Main from 'components/Main';
 import { TextBold } from 'components/Text/bold';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { DeployedModules } from 'containers/Modules';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
