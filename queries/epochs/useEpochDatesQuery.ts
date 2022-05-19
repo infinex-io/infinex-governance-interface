@@ -12,7 +12,7 @@ function useEpochDatesQuery(moduleInstance: DeployedModules, epochIndex?: string
 	const governanceModules = useModulesContext();
 
 	return useQuery<EpochDates>(
-		['epochDates', moduleInstance],
+		['epochDates', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let epochStartDate;

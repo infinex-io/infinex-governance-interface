@@ -12,7 +12,7 @@ function useNominationPeriodDatesQuery(moduleInstance: DeployedModules, epochInd
 	const governanceModules = useModulesContext();
 
 	return useQuery<NominationPeriodDates>(
-		['nominationPeriodDates', moduleInstance],
+		['nominationPeriodDates', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let nominationPeriodStartDate;
