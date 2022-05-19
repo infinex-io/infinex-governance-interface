@@ -28,7 +28,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	const handleVote = async () => {
 		const tx = await castVoteMutation.mutateAsync([member.address]);
 		if (tx) {
-			push({ pathname: 'profile', query: { address: member.address } });
+			push({ pathname: '/profile', query: { address: member.address } });
 			setIsOpen(false);
 		}
 	};

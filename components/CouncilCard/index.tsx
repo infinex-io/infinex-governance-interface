@@ -32,6 +32,7 @@ interface CouncilCardProps {
 	nomineesCount?: number;
 	membersCount?: number;
 	image: string;
+	council: 'spartan' | 'grants' | 'ambassador' | 'treasury';
 }
 
 export default function CouncilCard({
@@ -46,6 +47,7 @@ export default function CouncilCard({
 	nomineesCount,
 	membersCount,
 	image,
+	council,
 }: CouncilCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
@@ -54,8 +56,8 @@ export default function CouncilCard({
 		<div className="bg-purple p-1">
 			<div className="h-full flex flex-col justify-around align-center darker-60">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
-				<H4>{t('landing-page.cards.sc')}</H4>
-				<span className={`bg-${color} p-1`}>{t(cta)}</span>
+				<H4>{t(`landing-page.cards.${council}`)}</H4>
+				<span className={`bg-${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
 				<StyledSpacer />
 				<div className="flex justify-around">
 					<Text>{t(headlineLeft)}</Text>
@@ -73,7 +75,7 @@ export default function CouncilCard({
 							push({
 								pathname: '/councils',
 								query: {
-									council: 'spartan',
+									council: council,
 									nominees: true,
 								},
 							});
@@ -93,17 +95,11 @@ export default function CouncilCard({
 							setIsOpen(true);
 						} else if (period === 'VOTING') {
 							push({
-								pathname: '/vote',
-								query: {
-									council: 'spartan',
-								},
+								pathname: '/vote/'.concat(council),
 							});
 						} else {
 							push({
 								pathname: '/councils',
-								query: {
-									council: 'spartan',
-								},
 							});
 						}
 					}}

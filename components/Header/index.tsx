@@ -16,7 +16,7 @@ export default function Header() {
 	const routes = [t('header.routes.home'), t('header.routes.councils'), t('header.routes.vote')];
 
 	const handleIndexAndRouteChange = (index: number) => {
-		push(index === 0 ? '/' : routes[index].toLowerCase());
+		push(index === 0 ? '/' : '/'.concat(routes[index].toLowerCase()));
 		setActiveRoute(routes[index].toLowerCase());
 	};
 

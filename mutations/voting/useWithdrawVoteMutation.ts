@@ -2,15 +2,13 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 
-type Address = string;
-
 function useWithdrawVoteMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
 	const governanceModules = useModulesContext();
 
 	return useMutation(
 		'withdrawVote',
-		async (addresses: Address[]) => {
+		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 
 			if (contract) {

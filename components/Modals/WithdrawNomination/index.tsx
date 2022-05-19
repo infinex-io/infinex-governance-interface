@@ -8,12 +8,15 @@ import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import BaseModal from '../BaseModal';
 
-interface WithdrawModalProps {
+interface WithdrawNominationModalProps {
 	deployedModule: DeployedModules;
 	council: string;
 }
 
-export default function WithdrawModal({ deployedModule, council }: WithdrawModalProps) {
+export default function WithdrawNominationModal({
+	deployedModule,
+	council,
+}: WithdrawNominationModalProps) {
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
