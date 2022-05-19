@@ -12,7 +12,7 @@ import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
@@ -31,22 +31,22 @@ export default function LandingPage() {
 
 	// TODO @MF calculate next epoch and display the number in the card
 	const [spartanEpoch, spartanNominees, spartanMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL),
+		useEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL),
 		useNomineesQuery(DeployedModules.SPARTAN_COUNCIL),
 		useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL),
 	];
 	const [grantsEpoch, grantsNominees, grantsMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.GRANTS_COUNCIL),
+		useEpochDatesQuery(DeployedModules.GRANTS_COUNCIL),
 		useNomineesQuery(DeployedModules.GRANTS_COUNCIL),
 		useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL),
 	];
 	const [ambassadorEpoch, ambassadorNominees, ambassadorMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.AMBASSADOR_COUNCIL),
+		useEpochDatesQuery(DeployedModules.AMBASSADOR_COUNCIL),
 		useNomineesQuery(DeployedModules.AMBASSADOR_COUNCIL),
 		useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL),
 	];
 	const [treasuryEpoch, treasuryNominees, treasuryMembers] = [
-		useCurrentEpochDatesQuery(DeployedModules.TREASURY_COUNCIL),
+		useEpochDatesQuery(DeployedModules.TREASURY_COUNCIL),
 		useNomineesQuery(DeployedModules.TREASURY_COUNCIL),
 		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
 	];
