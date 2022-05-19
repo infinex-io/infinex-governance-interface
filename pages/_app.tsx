@@ -12,9 +12,9 @@ import '@synthetixio/ui/dist/default.css';
 import '../styles/index.scss';
 import '../i18n';
 
-import Connector from 'containers/Connector';
-import Modules from 'containers/Modules';
-import Modal from 'containers/Modal';
+import { ConnectorContextProvider } from 'containers/Connector';
+import { ModulesProvider } from 'containers/Modules';
+import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
 
@@ -36,39 +36,34 @@ export const config: Config = {
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
-	const { isOpen, content } = Modal.useContainer();
+	const { isOpen, content } = useModalContext();
 
-	//TODO: remove next-unstated
-	const Provider = Modules.Provider as any;
 	const TheComponent = Component as any;
 
 	return (
-		<Provider>
+		<ModulesProvider>
 			<Header />
 			<UIModal open={isOpen} modalContent={content}>
 				<TheComponent {...pageProps} />
 				<Footer />
 			</UIModal>
-		</Provider>
+		</ModulesProvider>
 	);
 };
 
 const App: FC<AppProps> = (props) => {
-	const ConnectorProvider = Connector.Provider as any;
-	const ModalProvider = Modal.Provider as any;
-
 	return (
 		<DAppProvider config={config}>
-			<ConnectorProvider>
+			<ConnectorContextProvider>
 				<QueryClientProvider client={queryClient}>
 					<ReactQueryDevtools initialIsOpen={false} />
 					<ThemeProvider theme={theme}>
-						<ModalProvider>
+						<ModalContextProvider>
 							<InnerApp {...props} />
-						</ModalProvider>
+						</ModalContextProvider>
 					</ThemeProvider>
 				</QueryClientProvider>
-			</ConnectorProvider>
+			</ConnectorContextProvider>
 		</DAppProvider>
 	);
 };

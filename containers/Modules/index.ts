@@ -1,1 +1,1 @@
-export { default } from './Modules';
+export { ModulesProvider, useModulesContext, DeployedModules } from './Modules';

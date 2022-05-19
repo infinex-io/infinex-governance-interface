@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 
 function useHasVotedQuery(moduleInstance: DeployedModules, walletAddress: string) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 
 	return useQuery<boolean>(
 		['hasVoted', moduleInstance],

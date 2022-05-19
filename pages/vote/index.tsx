@@ -12,7 +12,7 @@ import { parseQuery } from 'utils/parse';
 import VoteBanner from 'components/Banners/VoteBanner';
 import MemberCard from 'components/MemberCard/Index';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
-import VoteSection from 'sections/Vote';
+import VoteSection from 'components/Vote';
 
 export default function Vote() {
 	const { query } = useRouter();

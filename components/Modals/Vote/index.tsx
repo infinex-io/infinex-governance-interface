@@ -1,5 +1,5 @@
 import { Button } from 'components/old-ui';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ interface VoteModalProps {
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
 	const { data } = useUserDetailsQuery(member.address);
 	const { t } = useTranslation();
-	const { setIsOpen } = Modal.useContainer();
+	const { setIsOpen } = useModalContext();
 	const { push } = useRouter();
 	const castVoteMutation = useCastMutation(deployedModule);
 	const handleVote = async () => {

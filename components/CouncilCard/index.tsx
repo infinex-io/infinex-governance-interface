@@ -4,7 +4,7 @@ import { H4 } from 'components/Headlines/H4';
 import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +47,7 @@ export default function CouncilCard({
 }: CouncilCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { setContent, setIsOpen } = Modal.useContainer();
+	const { setContent, setIsOpen } = useModalContext();
 	return (
 		<div className="bg-purple p-1">
 			<div className="h-full flex flex-col justify-around align-center darker-60">

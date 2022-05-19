@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import Modules from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 import { BigNumber, ethers } from 'ethers';
 
 type VoteEvent = {
@@ -28,7 +28,7 @@ function useVoteHistoryQuery(
 	ballotId: string | null,
 	epochIndex: string | null
 ) {
-	const { governanceModules } = Modules.useContainer();
+	const governanceModules = useModulesContext();
 	return useQuery<VoteEvent[]>(
 		['voteHistory', moduleInstance, voter, ballotId, epochIndex],
 		async () => {

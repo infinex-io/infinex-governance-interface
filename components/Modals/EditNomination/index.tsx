@@ -1,5 +1,5 @@
-import Connector from 'containers/Connector';
-import { DeployedModules } from 'containers/Modules/Modules';
+import { useConnectorContext } from 'containers/Connector';
+import { DeployedModules } from 'containers/Modules';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -14,8 +14,9 @@ import { useState } from 'react';
 import { H4 } from 'components/Headlines/H4';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
-import Modal from 'containers/Modal';
+
 import { useRouter } from 'next/router';
+import { useModalContext } from 'containers/Modal';
 
 interface EditModalProps {
 	council: string;
@@ -24,8 +25,8 @@ interface EditModalProps {
 
 export default function EditModal({ deployedModule, council }: EditModalProps) {
 	const { t } = useTranslation();
-	const { walletAddress, ensName } = Connector.useContainer();
-	const { setIsOpen } = Modal.useContainer();
+	const { walletAddress, ensName } = useConnectorContext();
+	const { setIsOpen } = useModalContext();
 	const { push } = useRouter();
 	const withdrawMutation = useWithdrawNominationMutation(deployedModule);
 	const [step, setStep] = useState(1);
