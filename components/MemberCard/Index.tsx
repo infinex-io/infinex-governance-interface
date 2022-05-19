@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseURL } from 'utils/ipfs';
+import VoteModal from 'components/Modals/Vote';
 
 interface MemberCardProps {
 	member: GetUserDetails;
@@ -47,7 +48,12 @@ export default function MemberCard({ member, isVoting }: MemberCardProps) {
 					<StyledButton
 						variant="secondary"
 						onClick={() => {
-							if (isOwnCard && data) {
+							if (isVoting && data) {
+								setContent(
+									<VoteModal member={member} deployedModule={data.module} council={data.name} />
+								);
+								setIsOpen(true);
+							} else if (isOwnCard && data && !isVoting) {
 								setContent(<EditModal council={data.name} deployedModule={data.module} />);
 								setIsOpen(true);
 							} else {
@@ -59,8 +65,13 @@ export default function MemberCard({ member, isVoting }: MemberCardProps) {
 								});
 							}
 						}}
+						disabled={!data}
 					>
-						{isOwnCard ? t('councils.edit-nomination') : t('councils.view-member')}
+						{isOwnCard && isVoting
+							? t('vote.card-title')
+							: isOwnCard
+							? t('councils.edit-nomination')
+							: t('councils.view-member')}
 					</StyledButton>
 					{isOwnCard && (
 						<IconButton onClick={() => setIsDropdownOpen(!isDropdownOpen)} size="tiniest" active>

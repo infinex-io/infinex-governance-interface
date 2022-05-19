@@ -5,14 +5,14 @@ import { TextBold } from 'components/Text/bold';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
-import { useEffect, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import VoteBanner from 'components/Banners/VoteBanner';
 import MemberCard from 'components/MemberCard/Index';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
+import VoteSection from 'sections/Vote';
 
 export default function Vote() {
 	const { query } = useRouter();
@@ -36,13 +36,23 @@ export default function Vote() {
 						</IconButton>
 						<TextBold color="lightBlue">{t('councils.back-btn')}</TextBold>
 					</div>
-					<H1>{t('vote.headline', { council: capitalizeString(activeCouncil.name) })}</H1>
-					<div className="flex flex-wrap">
-						{usersDetailsQuery.data?.length &&
-							usersDetailsQuery.data.map((member) => (
-								<MemberCard key={member.about.concat(member.address)} member={member} isVoting />
-							))}
-					</div>
+					{!query?.council?.toString() ? (
+						<VoteSection />
+					) : (
+						<>
+							<H1>{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}</H1>
+							<div className="flex flex-wrap">
+								{usersDetailsQuery.data?.length &&
+									usersDetailsQuery.data.map((member) => (
+										<MemberCard
+											key={member.about.concat(member.address)}
+											member={member}
+											isVoting
+										/>
+									))}
+							</div>
+						</>
+					)}
 				</div>
 			</Main>
 		</>
