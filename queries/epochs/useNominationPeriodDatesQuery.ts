@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { ethers } from 'ethers';
+import { hexStringBN } from 'utils/hexString';
 
 type NominationPeriodDates = {
 	nominationPeriodStartDate: number;
@@ -19,17 +19,10 @@ function useNominationPeriodDatesQuery(moduleInstance: DeployedModules, epochInd
 			let nominationPeriodEndDate;
 			if (epochIndex) {
 				nominationPeriodStartDate =
-					Number(
-						await contract?.getNominationPeriodStartDateForIndex(
-							ethers.BigNumber.from(epochIndex).toHexString()
-						)
-					) * 1000;
+					Number(await contract?.getNominationPeriodStartDateForIndex(hexStringBN(epochIndex))) *
+					1000;
 				nominationPeriodEndDate =
-					Number(
-						await contract?.getVotingPeriodStartDateForIndex(
-							ethers.BigNumber.from(epochIndex).toHexString()
-						)
-					) * 1000;
+					Number(await contract?.getVotingPeriodStartDateForIndex(hexStringBN(epochIndex))) * 1000;
 			} else {
 				nominationPeriodStartDate = Number(await contract?.getNominationPeriodStartDate()) * 1000;
 				nominationPeriodEndDate = Number(await contract?.getVotingPeriodStartDate()) * 1000;

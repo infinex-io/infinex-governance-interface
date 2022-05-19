@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { ethers } from 'ethers';
+import { hexStringBN } from 'utils/hexString';
 
 type EpochDates = {
 	epochStartDate: number;
@@ -19,15 +19,9 @@ function useEpochDatesQuery(moduleInstance: DeployedModules, epochIndex?: string
 			let epochEndDate;
 			if (epochIndex) {
 				epochStartDate =
-					Number(
-						await contract?.getEpochStartDateForIndex(
-							ethers.BigNumber.from(epochIndex).toHexString()
-						)
-					) * 1000;
+					Number(await contract?.getEpochStartDateForIndex(hexStringBN(epochIndex))) * 1000;
 				epochEndDate =
-					Number(
-						await contract?.getEpochEndDateForIndex(ethers.BigNumber.from(epochIndex).toHexString())
-					) * 1000;
+					Number(await contract?.getEpochEndDateForIndex(hexStringBN(epochIndex))) * 1000;
 			} else {
 				epochStartDate = Number(await contract?.getEpochStartDate()) * 1000;
 				epochEndDate = Number(await contract?.getEpochEndDate()) * 1000;
