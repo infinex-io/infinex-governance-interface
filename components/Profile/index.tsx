@@ -43,7 +43,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		if (allMembers.data?.treasury.filter((member) => member.address === walletAddress).length)
 			return 'Treasury';
 		return;
-	}, [walletAddress]);
+	}, [walletAddress, allMembers.data]);
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,

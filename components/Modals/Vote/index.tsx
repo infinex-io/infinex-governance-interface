@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { parseURL } from 'utils/ipfs';
 import { H4 } from 'components/Headlines/H4';
 import { truncateAddress } from 'utils/truncate-address';
+import Image from 'next/image';
 
 interface VoteModalProps {
 	member: GetUserDetails;
@@ -35,7 +36,13 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council })}>
 			{data && data.pfpThumbnailUrl && (
-				<img className="rounded-full w-40 h-40" src={parseURL(member.pfpThumbnailUrl)} />
+				<Image
+					className="rounded-full"
+					width={90}
+					height={90}
+					src={parseURL(member.pfpThumbnailUrl)}
+					alt="ens avatar"
+				/>
 			)}
 			{data?.ens ? <H4>{data.ens}</H4> : <H4>{truncateAddress(data?.address || '')}</H4>}
 			<StyledSubmitButton onClick={() => handleVote()} variant="primary">

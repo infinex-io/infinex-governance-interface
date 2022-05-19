@@ -22,24 +22,28 @@ export default function LandingPage() {
 				<CouncilCard
 					image="/logos/spartan-council.svg"
 					deployedModule={DeployedModules.SPARTAN_COUNCIL}
+					council="spartan"
 				/>
 				<CouncilCard
 					image="/logos/grants-council.svg"
 					deployedModule={DeployedModules.GRANTS_COUNCIL}
+					council="grants"
 				/>
 				<CouncilCard
 					image="/logos/ambassador-council.svg"
 					deployedModule={DeployedModules.AMBASSADOR_COUNCIL}
+					council="ambassador"
 				/>
 				<CouncilCard
 					image="/logos/treasury-council.svg"
 					deployedModule={DeployedModules.TREASURY_COUNCIL}
+					council="treasury"
 				/>
 			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
 			<div className="flex flex-wrap justify-center">
-				<Link passHref href="/councils">
+				<Link href="/councils" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
@@ -47,7 +51,7 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-				<Link passHref href="https://sips.synthetix.io/all-sip/">
+				<Link href="https://sips.synthetix.io/all-sip/" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
@@ -57,7 +61,7 @@ export default function LandingPage() {
 				</Link>
 			</div>
 			<div className="flex flex-wrap justify-center">
-				<Link passHref href="https://discord.com/invite/HQSTqXH84t">
+				<Link href="https://discord.com/invite/HQSTqXH84t" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
@@ -65,7 +69,7 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-				<Link passHref href="https://gov.synthetix.io/#/">
+				<Link href="https://gov.synthetix.io/#/" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}
@@ -89,12 +93,6 @@ export default function LandingPage() {
 		</div>
 	);
 }
-
-const StyledSpacer = styled.span`
-	height: 1px;
-	width: 203px;
-	background: linear-gradient(73.6deg, #8e2de2 2.11%, #4b01e0 90.45%);
-`;
 
 const StyledButtonCards = styled(ButtonCard)`
 	width: 350px;
