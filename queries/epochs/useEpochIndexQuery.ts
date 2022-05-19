@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import Modules, { DeployedModules } from 'containers/Modules';
+import { DeployedModules, useModulesContext } from 'containers/Modules';
 
 function useEpochIndexQuery(moduleInstance: DeployedModules) {
 	const governanceModules = useModulesContext();
