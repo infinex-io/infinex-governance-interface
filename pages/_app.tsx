@@ -14,7 +14,7 @@ import '../i18n';
 
 import { ConnectorContextProvider } from 'containers/Connector';
 import Modules from 'containers/Modules';
-import Modal from 'containers/Modal';
+import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
 
@@ -36,7 +36,7 @@ export const config: Config = {
 };
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
-	const { isOpen, content } = Modal.useContainer();
+	const { isOpen, content } = useModalContext();
 
 	//TODO: remove next-unstated
 	const Provider = Modules.Provider as any;
@@ -54,17 +54,15 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 const App: FC<AppProps> = (props) => {
-	const ModalProvider = Modal.Provider as any;
-
 	return (
 		<DAppProvider config={config}>
 			<ConnectorContextProvider>
 				<QueryClientProvider client={queryClient}>
 					<ReactQueryDevtools initialIsOpen={false} />
 					<ThemeProvider theme={theme}>
-						<ModalProvider>
+						<ModalContextProvider>
 							<InnerApp {...props} />
-						</ModalProvider>
+						</ModalContextProvider>
 					</ThemeProvider>
 				</QueryClientProvider>
 			</ConnectorContextProvider>

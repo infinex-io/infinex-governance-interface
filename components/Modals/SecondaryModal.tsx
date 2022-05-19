@@ -1,6 +1,6 @@
 import { CloseIcon, Flex } from 'components/old-ui';
 import { H1 } from 'components/Headlines/H1';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
@@ -8,7 +8,7 @@ export default function SecondaryModal({
 	children,
 	maxWidth,
 }: PropsWithChildren<{ maxWidth?: string }>) {
-	const { setIsOpen } = Modal.useContainer();
+	const { setIsOpen } = useModalContext();
 	return (
 		<StyledSecondaryModalWrapper direction="column" alignItems="center" maxWidth={maxWidth}>
 			<StyledCloseIcon onClick={() => setIsOpen(false)} />

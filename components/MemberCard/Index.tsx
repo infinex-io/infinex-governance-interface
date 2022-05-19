@@ -13,7 +13,7 @@ import EditModal from 'components/Modals/EditNomination';
 import WithdrawModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
 import { useConnectorContext } from 'containers/Connector';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useGetMemberBelongingQuery from 'queries/nomination/useGetMemberBelongingQuery';
@@ -31,7 +31,7 @@ export default function MemberCard({ member }: MemberCardProps) {
 	const { push } = useRouter();
 	const { walletAddress } = useConnectorContext();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { setContent, setIsOpen } = Modal.useContainer();
+	const { setContent, setIsOpen } = useModalContext();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	const { data } = useGetMemberBelongingQuery(member.address);
 	return (

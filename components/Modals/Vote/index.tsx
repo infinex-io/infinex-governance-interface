@@ -1,5 +1,5 @@
 import { Button } from 'components/old-ui';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -14,7 +14,7 @@ interface VoteModalProps {
 
 export default function VoteModal({ candidateInformation }: VoteModalProps) {
 	const { t } = useTranslation();
-	const { setIsOpen } = Modal.useContainer();
+	const { setIsOpen } = useModalContext();
 	const { push } = useRouter();
 	return (
 		<BaseModal headline={t('modals.vote.headline')}>

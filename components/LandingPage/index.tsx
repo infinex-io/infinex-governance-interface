@@ -7,7 +7,7 @@ import { H4 } from 'components/Headlines/H4';
 import NominateModal from 'components/Modals/Nominate';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ import styled from 'styled-components';
 export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { setContent, setIsOpen } = Modal.useContainer();
+	const { setContent, setIsOpen } = useModalContext();
 
 	const { data: spartanCurrentPeriod } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const { data: grantsCurrentPeriod } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);

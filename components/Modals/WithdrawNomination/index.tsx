@@ -1,6 +1,6 @@
 import { Button, Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
-import Modal from 'containers/Modal';
+import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ interface WithdrawModalProps {
 
 export default function WithdrawModal({ deployedModule, council }: WithdrawModalProps) {
 	const { t } = useTranslation();
-	const { setIsOpen } = Modal.useContainer();
+	const { setIsOpen } = useModalContext();
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
 
