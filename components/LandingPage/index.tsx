@@ -103,7 +103,7 @@ export default function LandingPage() {
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
 			<div className="flex flex-wrap justify-center">
-				<Link href="/councils">
+				<Link href="/councils" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
@@ -111,7 +111,7 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-				<Link href="https://sips.synthetix.io/all-sip/">
+				<Link href="https://sips.synthetix.io/all-sip/" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
@@ -121,7 +121,7 @@ export default function LandingPage() {
 				</Link>
 			</div>
 			<div className="flex flex-wrap justify-center">
-				<Link href="https://discord.com/invite/HQSTqXH84t">
+				<Link href="https://discord.com/invite/HQSTqXH84t" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
@@ -129,7 +129,7 @@ export default function LandingPage() {
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
-				<Link href="https://gov.synthetix.io/#/">
+				<Link href="https://gov.synthetix.io/#/" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}

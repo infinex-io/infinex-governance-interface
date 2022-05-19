@@ -80,7 +80,11 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 		>
 			{t('councils.dropdown.edit')}
 		</StyledDropdownText>,
-		<Link href={`https://optimistic.etherscan.io/address/${member.address}`} passHref>
+		<Link
+			href={`https://optimistic.etherscan.io/address/${member.address}`}
+			passHref
+			key="etherscan-link"
+		>
 			<a target="_blank" rel="noreferrer">
 				<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
 					{t('councils.dropdown.etherscan')}
