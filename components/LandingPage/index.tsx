@@ -13,6 +13,7 @@ import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { CouncilCard } from 'components/CouncilCard';
+import { parseCouncil } from 'utils/parse';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -45,13 +46,13 @@ export default function LandingPage() {
 		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
 	];
 	const spartanCouncilInfo =
-		spartanCurrentPeriod && parseIndex(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
+		spartanCurrentPeriod && parseCouncil(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
 	const grantsCouncilInfo =
-		grantsCurrentPeriod && parseIndex(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
+		grantsCurrentPeriod && parseCouncil(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
 	const ambassadorCouncilInfo =
-		ambassadorCurrentPeriod && parseIndex(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
+		ambassadorCurrentPeriod && parseCouncil(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
 	const treasuryCouncilInfo =
-		treasuryCurrentPeriod && parseIndex(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
+		treasuryCurrentPeriod && parseCouncil(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
 
 	return (
 		<div className="flex flex-col align-center gap-4">
