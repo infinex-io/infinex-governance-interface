@@ -12,7 +12,6 @@ function useCastMutation(moduleInstance: DeployedModules) {
 		'cast',
 		async (addresses: Address[]) => {
 			const contract = governanceModules[moduleInstance]?.contract;
-
 			if (contract) {
 				const gasLimit = await contract.estimateGas.cast(addresses);
 				let tx = await contract.cast(addresses, { gasLimit });

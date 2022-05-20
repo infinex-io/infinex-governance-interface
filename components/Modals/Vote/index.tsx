@@ -13,6 +13,7 @@ import { parseURL } from 'utils/ipfs';
 import { H4 } from 'components/Headlines/H4';
 import { truncateAddress } from 'utils/truncate-address';
 import Image from 'next/image';
+import { capitalizeString } from 'utils/capitalize';
 
 interface VoteModalProps {
 	member: GetUserDetails;
@@ -27,14 +28,18 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	const { push } = useRouter();
 	const castVoteMutation = useCastMutation(deployedModule);
 	const handleVote = async () => {
-		const tx = await castVoteMutation.mutateAsync([member.address]);
-		if (tx) {
-			push('/profile/' + member.address);
-			setIsOpen(false);
+		try {
+			const tx = await castVoteMutation.mutateAsync([member.address]);
+			if (tx) {
+				push('/profile/' + member.address);
+				setIsOpen(false);
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 	return (
-		<BaseModal headline={t('modals.vote.headline', { council })}>
+		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
 			{data && data.pfpThumbnailUrl && (
 				<Image
 					className="rounded-full"
@@ -48,7 +53,13 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			<StyledSubmitButton onClick={() => handleVote()} variant="primary">
 				{t('modals.vote.submit')}
 			</StyledSubmitButton>
-			<StyledProfileButton variant="secondary" onClick={() => push('/profile/' + member.address)}>
+			<StyledProfileButton
+				variant="secondary"
+				onClick={() => {
+					setIsOpen(false);
+					push('/profile/' + member.address);
+				}}
+			>
 				{t('modals.vote.profile')}
 			</StyledProfileButton>
 		</BaseModal>

@@ -13,14 +13,12 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 
 export default function CouncilNominees() {
-	const { query, push } = useRouter();
+	const { query } = useRouter();
 	const { t } = useTranslation();
 	const { walletAddress } = useConnectorContext();
-	const { data } = useNomineesQuery(parseQuery(query?.council?.toString()).module);
-	const isNominated = useIsNominated(
-		parseQuery(query?.council?.toString()).module,
-		walletAddress ? walletAddress : ''
-	);
+	const activeCouncil = parseQuery(query?.council?.toString());
+	const { data } = useNomineesQuery(activeCouncil.module);
+	const isNominated = useIsNominated(activeCouncil.module, walletAddress ? walletAddress : '');
 	const nomineesInfo = useUsersDetailsQuery(data ? data : []);
 	return (
 		<>
@@ -34,12 +32,14 @@ export default function CouncilNominees() {
 					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
 				</h1>
 				{!!nomineesInfo.data?.length ? (
-					<div className="flex justify-center flex-wrap">
+					<div className="flex flex-wrap justify-center">
 						{nomineesInfo.data.map((member) => (
 							<MemberCard
 								member={member}
 								key={member.address}
-								onClick={() => push('/profile/' + member.address)}
+								state="NOMINATION"
+								deployedModule={activeCouncil.module}
+								council={activeCouncil.name}
 							/>
 						))}
 					</div>

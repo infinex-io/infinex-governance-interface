@@ -1,12 +1,4 @@
-import {
-	Button,
-	DiscordIcon,
-	Dropdown,
-	Card,
-	IconButton,
-	ThreeDotsKebabIcon,
-	TwitterIcon,
-} from 'components/old-ui';
+import { DiscordIcon, Card as OldCard, ThreeDotsKebabIcon, TwitterIcon } from 'components/old-ui';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
@@ -20,236 +12,264 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseURL } from 'utils/ipfs';
 import VoteModal from 'components/Modals/Vote';
-import { Dialog } from '@synthetixio/ui';
-import WithdrawVote from 'components/Modals/WithdrawVote';
+import { Button, Card, IconButton } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
+import { DeployedModules } from 'containers/Modules';
 
 interface MemberCardProps {
 	member: GetUserDetails;
 	state: keyof typeof EpochPeriods;
-	onClick?: (address: string) => void;
-	isAdminOrEval: boolean;
+	deployedModule?: DeployedModules;
+	council?: string;
 }
 
-export default function MemberCard({ member, state, onClick, isAdminOrEval }: MemberCardProps) {
+export default function MemberCard({ member, state, deployedModule, council }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const [isWithdrawVoteOpen, setIsWithdrawVoteOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const { walletAddress } = useConnectorContext();
 	const { setContent, setIsOpen } = useModalContext();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	const { data } = useGetMemberBelongingQuery(member.address);
 
-	if (state === 'ADMINISTRATION') {
+	if (state === 'ADMINISTRATION' && data) {
 		return (
-			<Card
-				onClick={(e) => {
-					e.stopPropagation();
-					onClick && onClick(member.address);
-				}}
+			<OldCard
 				color={isOwnCard ? 'orange' : 'purple'}
 				key={member.address.concat(member.about)}
-				className="cursor-pointer b-[1px] max-w-[200px]"
+				className="b-[1px] max-w-[210px] max-h-[290px]"
 			>
-				<div className="darker-60 relative flex flex-col items-center">
+				<div className="darker-60 relative flex flex-col items-center justify-between p-4 min-w-[200px] min-h-[280px]">
 					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
 					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
 					<Text>{member.about}</Text>
 					{member.discord && <DiscordIcon />}
 					{member.twitter && <TwitterIcon />}
-					<div className="flex justify-center">
-						<StyledButton
-							variant="secondary"
+					<div className="flex justify-around w-full relative">
+						<Button
+							variant="outline"
 							onClick={(e) => {
 								e.stopPropagation();
-								if (isVoting && data) {
-									setContent(
-										<VoteModal member={member} deployedModule={data.module} council={data.name} />
-									);
-									setIsOpen(true);
-								} else if (isOwnCard && data && !isVoting) {
-									setContent(<EditModal council={data.name} deployedModule={data.module} />);
-									setIsOpen(true);
-								} else {
-									push('/profile/' + member.address);
-								}
+								push('/profile/' + member.address);
 							}}
 						>
-							{isOwnCard || isVoting
-								? t('vote.card-title')
-								: isOwnCard && !isAdminOrEval
-								? t('councils.edit-nomination')
-								: t('councils.view-member')}
-						</StyledButton>
+							{t('councils.view-member')}
+						</Button>
 						{isOwnCard && (
 							<IconButton
 								onClick={(e) => {
 									e.stopPropagation();
 									setIsDropdownOpen(!isDropdownOpen);
 								}}
-								size="tiniest"
-								active
+								size="sm"
 							>
 								<ThreeDotsKebabIcon active={isDropdownOpen} />
 							</IconButton>
 						)}
-						{isDropdownOpen && <StyledDropdown color="purple" elements={getDropdownItems()} />}
+						{isDropdownOpen && (
+							<Card variant="primary" className="absolute flex flex-col p-1 top-[30px] right-[0px]">
+								{isOwnCard && (
+									<Link href={`/profile/${member.address}`} passHref>
+										<a
+											className="darker-60 w-full p-2 cursor-pointer hover:bg-primary"
+											onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+										>
+											{t('councils.dropdown.edit')}
+										</a>
+									</Link>
+								)}
+								<Link
+									href={`https://optimistic.etherscan.io/address/${member.address}`}
+									passHref
+									key="etherscan-link"
+								>
+									<a
+										target="_blank"
+										rel="noreferrer"
+										className="darker-60 hover:bg-primary p-2"
+										key={`${walletAddress}-title`}
+										onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+									>
+										{t('councils.dropdown.etherscan')}
+									</a>
+								</Link>
+							</Card>
+						)}
 					</div>
 				</div>
-				<Dialog
-					className=" bg-purple min-h-full min-w-full"
-					wrapperClass="min-w-[90%]  min-h-[90%] p-0"
-					onClose={() => setIsOpen(false)}
-					open={isWithdrawVoteOpen}
-				>
-					<WithdrawVote address={member.address} />
-				</Dialog>
-			</Card>
+			</OldCard>
 		);
 	}
 
-	const getDropdownItems = () => {
-		const dropdownItems = [
-			<StyledDropdownText
-				key={`${walletAddress}-text`}
-				color="lightBlue"
-				onClick={() => push('/profile/' + walletAddress)}
+	if (state === 'NOMINATION' && data) {
+		return (
+			<OldCard
+				color={isOwnCard ? 'orange' : 'purple'}
+				key={member.address.concat(member.about)}
+				className="b-[1px] max-w-[210px] max-h-[290px]"
 			>
-				{t('councils.dropdown.edit')}
-			</StyledDropdownText>,
-			<Link
-				href={`https://optimistic.etherscan.io/address/${member.address}`}
-				passHref
-				key="etherscan-link"
-			>
-				<a target="_blank" rel="noreferrer">
-					<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
-						{t('councils.dropdown.etherscan')}
-					</StyledDropdownText>
-				</a>
-			</Link>,
-		];
-		if (!isAdminOrEval)
-			dropdownItems.unshift(
-				<StyledDropdownText
-					key={`${walletAddress}-modal`}
-					color="lightBlue"
-					onClick={(e) => {
-						e.stopPropagation();
-						if (data) {
-							setContent(
-								<WithdrawNominationModal council={data.name} deployedModule={data.module} />
-							);
-							setIsOpen(true);
-						}
-					}}
-				>
-					{t('councils.dropdown.withdraw')}
-				</StyledDropdownText>
-			);
-		if (isVoting && !isAdminOrEval)
-			dropdownItems.unshift(
-				<StyledDropdownText
-					key={`${walletAddress}-modal`}
-					color="lightBlue"
-					onClick={(e) => {
-						e.stopPropagation();
-						if (data) {
-							setIsWithdrawVoteOpen(true);
-						}
-					}}
-				>
-					{t('councils.dropdown.withdraw-vote')}
-				</StyledDropdownText>
-			);
-		return dropdownItems;
-	};
-	return (
-		<Card
-			onClick={(e) => {
-				e.stopPropagation();
-				onClick && onClick(member.address);
-			}}
-			color={isOwnCard ? 'orange' : 'purple'}
-			key={member.address.concat(member.about)}
-			className="cursor-pointer b-[1px] max-w-[200px]"
-		>
-			<div className="darker-60 relative flex flex-col items-center">
-				<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
-				<h5 className="tg-title-h5">{member.ens || member.username}</h5>
-				<Text>{member.about}</Text>
-				{member.discord && <DiscordIcon />}
-				{member.twitter && <TwitterIcon />}
-				<div className="flex justify-center">
-					<StyledButton
-						variant="secondary"
-						onClick={(e) => {
-							e.stopPropagation();
-							if (isVoting && data) {
-								setContent(
-									<VoteModal member={member} deployedModule={data.module} council={data.name} />
-								);
-								setIsOpen(true);
-							} else if (isOwnCard && data && !isVoting) {
-								setContent(<EditModal council={data.name} deployedModule={data.module} />);
-								setIsOpen(true);
-							} else {
-								push('/profile/' + member.address);
-							}
-						}}
-					>
-						{isOwnCard || isVoting
-							? t('vote.card-title')
-							: isOwnCard && !isAdminOrEval
-							? t('councils.edit-nomination')
-							: t('councils.view-member')}
-					</StyledButton>
-					{isOwnCard && (
-						<IconButton
+				<div className="darker-60 relative flex flex-col items-center justify-between p-4 min-w-[200px] min-h-[280px]">
+					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
+					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
+					<Text>{member.about}</Text>
+					{member.discord && <DiscordIcon />}
+					{member.twitter && <TwitterIcon />}
+					<div className="flex justify-around w-full relative">
+						<Button
+							variant="outline"
 							onClick={(e) => {
 								e.stopPropagation();
-								setIsDropdownOpen(!isDropdownOpen);
+								if (isOwnCard) {
+									setContent(<EditModal deployedModule={deployedModule!} council={council!} />);
+									setIsOpen(true);
+								} else {
+									push('/profile/' + member.address);
+								}
 							}}
-							size="tiniest"
-							active
 						>
-							<ThreeDotsKebabIcon active={isDropdownOpen} />
-						</IconButton>
-					)}
-					{isDropdownOpen && <StyledDropdown color="purple" elements={getDropdownItems()} />}
+							{isOwnCard ? t('councils.edit-nomination') : t('councils.view-nominee')}
+						</Button>
+						{isOwnCard && (
+							<IconButton
+								onClick={(e) => {
+									e.stopPropagation();
+									setIsDropdownOpen(!isDropdownOpen);
+								}}
+								size="sm"
+							>
+								<ThreeDotsKebabIcon active={isDropdownOpen} />
+							</IconButton>
+						)}
+						{isDropdownOpen && (
+							<Card variant="primary" className="absolute flex flex-col p-1 top-[30px] right-[0px]">
+								{isOwnCard && (
+									<span
+										className="darker-60 w-full p-2 cursor-pointer hover:bg-primary"
+										onClick={() => {
+											setContent(
+												<WithdrawNominationModal
+													deployedModule={deployedModule!}
+													council={council!}
+												/>
+											);
+											setIsOpen(true);
+											setIsDropdownOpen(!isDropdownOpen);
+										}}
+									>
+										{t('councils.dropdown.withdraw')}
+									</span>
+								)}
+								{isOwnCard && (
+									<Link href={`/profile/${member.address}`} passHref>
+										<a
+											className="darker-60 w-full p-2 cursor-pointer hover:bg-primary"
+											onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+										>
+											{t('councils.dropdown.edit')}
+										</a>
+									</Link>
+								)}
+								<Link
+									href={`https://optimistic.etherscan.io/address/${member.address}`}
+									passHref
+									key="etherscan-link"
+								>
+									<a
+										target="_blank"
+										rel="noreferrer"
+										className="darker-60 hover:bg-primary p-2"
+										onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+									>
+										<span key={`${walletAddress}-title`} color="lightBlue">
+											{t('councils.dropdown.etherscan')}
+										</span>
+									</a>
+								</Link>
+							</Card>
+						)}
+					</div>
 				</div>
-			</div>
-			<Dialog
-				className=" bg-purple min-h-full min-w-full"
-				wrapperClass="min-w-[90%]  min-h-[90%] p-0"
-				onClose={() => setIsOpen(false)}
-				open={isWithdrawVoteOpen}
+			</OldCard>
+		);
+	}
+	if (state === 'VOTING' && data) {
+		return (
+			<OldCard
+				color={isOwnCard ? 'orange' : 'purple'}
+				key={member.address.concat(member.about)}
+				className="b-[1px] max-w-[210px] max-h-[290px]"
 			>
-				<WithdrawVote address={member.address} />
-			</Dialog>
-		</Card>
-	);
+				<div className="darker-60 relative flex flex-col items-center justify-between p-4 min-w-[200px] min-h-[280px]">
+					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
+					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
+					<Text>{member.about}</Text>
+					{member.discord && <DiscordIcon />}
+					{member.twitter && <TwitterIcon />}
+					<div className="flex justify-around w-full relative">
+						<Button
+							variant="outline"
+							onClick={(e) => {
+								e.stopPropagation();
+								setContent(
+									<VoteModal member={member} deployedModule={deployedModule!} council={council!} />
+								);
+								setIsOpen(true);
+							}}
+						>
+							{t('vote.vote-nominee')}
+						</Button>
+						{isOwnCard && (
+							<IconButton
+								onClick={(e) => {
+									e.stopPropagation();
+									setIsDropdownOpen(!isDropdownOpen);
+								}}
+								size="sm"
+							>
+								<ThreeDotsKebabIcon active={isDropdownOpen} />
+							</IconButton>
+						)}
+						{isDropdownOpen && (
+							<Card variant="primary" className="absolute flex flex-col p-1 top-[30px] right-[0px]">
+								{isOwnCard && (
+									<Link href={`/profile/${member.address}`} passHref>
+										<a
+											className="darker-60 w-full p-2 cursor-pointer hover:bg-primary"
+											onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+										>
+											{t('councils.dropdown.edit')}
+										</a>
+									</Link>
+								)}
+								<Link
+									href={`https://optimistic.etherscan.io/address/${member.address}`}
+									passHref
+									key="etherscan-link"
+								>
+									<a
+										target="_blank"
+										rel="noreferrer"
+										className="darker-60 hover:bg-primary p-2"
+										onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+									>
+										<span key={`${walletAddress}-title`} color="lightBlue">
+											{t('councils.dropdown.etherscan')}
+										</span>
+									</a>
+								</Link>
+							</Card>
+						)}
+					</div>
+				</div>
+			</OldCard>
+		);
+	}
+	return <>...</>;
 }
 
 const StyledCardImage = styled.img`
 	width: 56px;
 	height: 56px;
 	border-radius: 50%;
-`;
-const StyledButton = styled(Button)`
-	width: 100px;
-`;
-
-const StyledDropdown = styled(Dropdown)`
-	position: absolute;
-	bottom: -50px;
-	width: 200px;
-`;
-
-const StyledDropdownText = styled(Text)`
-	padding: ${({ theme }) => theme.spacings.tiniest};
-	cursor: pointer;
-	width: 100%;
 `;
