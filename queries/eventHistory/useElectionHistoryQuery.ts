@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { ethers } from 'ethers';
+import { hexStringBN } from 'utils/hexString';
 
 type ElectionEvaluatedEvent = {
 	epochIndex: string;
@@ -25,7 +26,7 @@ function useElectionHistoryQuery(moduleInstance: DeployedModules, epochIndex: st
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
 			const electionFilter = contract.filters.ElectionEvaluated(
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 			const electionEvents = await contract.queryFilter(electionFilter);
 

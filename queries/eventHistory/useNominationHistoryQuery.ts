@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { ethers } from 'ethers';
+import { hexStringBN } from 'utils/hexString';
 
 /**
  * 	Query Nomination and Withdraw Nomination Events from Solidity Contracts
@@ -27,11 +28,11 @@ function useNominationHistoryQuery(
 
 			const nominationFilter = contract.filters.CandidateNominated(
 				candidate ?? null,
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 			const withdrawNominationFilter = contract.filters.NominationWithdrawn(
 				candidate ?? null,
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 
 			const nominationEvents = await contract.queryFilter(nominationFilter);

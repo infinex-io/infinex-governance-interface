@@ -7,7 +7,7 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useCurrentEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';

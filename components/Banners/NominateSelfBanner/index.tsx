@@ -3,7 +3,7 @@ import NominateModal from 'components/Modals/Nominate';
 import RemainingTime from 'components/RemainingTime';
 import { DeployedModules } from 'containers/Modules';
 import { useModalContext } from 'containers/Modal';
-import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
@@ -13,7 +13,7 @@ import { BannerProps } from '../types';
 
 export default function NominateSelfBanner({ hideButton }: BannerProps) {
 	const { t } = useTranslation();
-	const { data } = useCurrentEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data } = useEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
 	const remainingTime = data?.epochStartDate && parseRemainingTime(data.epochStartDate);
 	const { setContent, setIsOpen } = useModalContext();
 
