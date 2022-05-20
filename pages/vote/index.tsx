@@ -8,20 +8,50 @@ import VoteBanner from 'components/Banners/VoteBanner';
 import VoteSection from 'components/Vote';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
+import { Card } from '@synthetixio/ui';
+import { useEffect, useState } from 'react';
+import { useConnectorContext } from 'containers/Connector';
+import useHasVotedQuery from 'queries/voting/useHasVotedQuery';
 
 export default function Vote() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
+	const { walletAddress } = useConnectorContext();
+	const [userVoteHistory, setUserVoteHistory] = useState({
+		spartan: false,
+		grants: false,
+		ambassador: false,
+		treasury: false,
+	});
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const hasVotedSpartan = useHasVotedQuery(DeployedModules.SPARTAN_COUNCIL, walletAddress || '');
+	const hasVotedGrants = useHasVotedQuery(DeployedModules.GRANTS_COUNCIL, walletAddress || '');
+	const hasVotedAmbassador = useHasVotedQuery(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		walletAddress || ''
+	);
 
+	const hasVotedTreasury = useHasVotedQuery(DeployedModules.TREASURY_COUNCIL, walletAddress || '');
+	// use that for getting the voted user
+	// useBallotCandidatesQuery
 	const oneCouncilIsInVotingPeriod =
 		spartanQuery.data?.currentPeriod === 'VOTING' ||
 		grantsQuery.data?.currentPeriod === 'VOTING' ||
 		ambassadorQuery.data?.currentPeriod === 'VOTING' ||
 		treasuryQuery.data?.currentPeriod === 'VOTING';
+
+	useEffect(() => {
+		setUserVoteHistory({
+			spartan: !!hasVotedSpartan.data,
+			grants: !!hasVotedGrants.data,
+			ambassador: !!hasVotedAmbassador.data,
+			treasury: !!hasVotedTreasury.data,
+		});
+	}, [hasVotedSpartan.data, hasVotedGrants.data, hasVotedAmbassador.data, hasVotedTreasury.data]);
+
 	return (
 		<>
 			<Head>
@@ -30,6 +60,40 @@ export default function Vote() {
 			<Main>
 				{oneCouncilIsInVotingPeriod && <VoteBanner />}
 				<div className="flex flex-col items-center">
+					{!!oneCouncilIsInVotingPeriod && (
+						<Card variant="gray" className="flex flex-col">
+							<h3 className="tg-title-h3">
+								{t(
+									`vote.vote-status-${
+										userVoteHistory.spartan &&
+										userVoteHistory.grants &&
+										userVoteHistory.ambassador &&
+										userVoteHistory.treasury
+											? 'complete'
+											: 'incomplete'
+									}`,
+									{
+										// TODO MF
+										progress: 1,
+									}
+								)}
+							</h3>
+							<div className="flex justify-between">
+								<div className="bg-black">
+									<h5 className="tg-title-h5">Spartan Councils</h5>
+								</div>
+								<div className="bg-black">
+									<h5 className="tg-title-h5">Grants Councils</h5>
+								</div>
+								<div className="bg-black">
+									<h5 className="tg-title-h5">Ambassador Councils</h5>
+								</div>
+								<div className="bg-black">
+									<h5 className="tg-title-h5">Treasury Councils</h5>
+								</div>
+							</div>
+						</Card>
+					)}
 					<div className="flex items-center absolute top-[100px] left-[100px]">
 						<IconButton active onClick={() => push({ pathname: '/' })} rounded size="tiniest">
 							<ArrowLeftIcon active />

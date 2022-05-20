@@ -25,7 +25,7 @@ export type GetUserDetails = {
 
 function useUsersDetailsQuery(walletAddresses: string[]) {
 	return useQuery<GetUserDetails[]>(
-		['userDetails', walletAddresses],
+		['userDetails', walletAddresses.toString()],
 		async () => {
 			const promises = walletAddresses.map((address) =>
 				fetch(GET_USER_DETAILS_API_URL(address), {

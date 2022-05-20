@@ -7,8 +7,6 @@ import styled from 'styled-components';
 import BaseModal from '../BaseModal';
 import useCastMutation from 'mutations/voting/useCastMutation';
 import { DeployedModules } from 'containers/Modules/Modules';
-import useIsNominated from 'queries/nomination/useIsNominatedQuery';
-import { useEffect, useState } from 'react';
 import { parseURL } from 'utils/ipfs';
 import { H4 } from 'components/Headlines/H4';
 import { truncateAddress } from 'utils/truncate-address';
