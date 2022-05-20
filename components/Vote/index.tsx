@@ -1,13 +1,13 @@
-import CouncilCard from 'components/CouncilCard';
+import { CouncilCard } from 'components/CouncilCard';
 import { H1 } from 'components/Headlines/H1';
 import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
-import useVoteHistoryQuery from 'queries/historical/useVoteHistoryQuery';
+import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
-import { parseIndex } from 'utils/parse';
+import { parseCouncil } from 'utils/parse';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
@@ -23,16 +23,16 @@ export default function VoteSection() {
 
 	const spartanCouncilInfo =
 		spartanCurrentPeriod?.currentPeriod === 'VOTING' &&
-		parseIndex(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
+		parseCouncil(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
 	const grantsCouncilInfo =
 		grantsCurrentPeriod?.currentPeriod === 'VOTING' &&
-		parseIndex(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
+		parseCouncil(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
 	const ambassadorCouncilInfo =
 		ambassadorCurrentPeriod?.currentPeriod === 'VOTING' &&
-		parseIndex(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
+		parseCouncil(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
 	const treasuryCouncilInfo =
 		treasuryCurrentPeriod?.currentPeriod === 'VOTING' &&
-		parseIndex(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
+		parseCouncil(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
 	const { data: grantsEpochIndex } = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
 	const voteQuery = useVoteHistoryQuery(
 		DeployedModules.GRANTS_COUNCIL,
