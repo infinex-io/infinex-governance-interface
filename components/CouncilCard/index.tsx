@@ -1,6 +1,5 @@
 import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
-import { Colors } from 'components/old-ui';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
