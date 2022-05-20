@@ -29,9 +29,10 @@ interface MemberCardProps {
 	member: GetUserDetails;
 	state: keyof typeof EpochPeriods;
 	onClick?: (address: string) => void;
+	isAdminOrEval: boolean;
 }
 
-export default function MemberCard({ member, state, onClick }: MemberCardProps) {
+export default function MemberCard({ member, state, onClick, isAdminOrEval }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const [isWithdrawVoteOpen, setIsWithdrawVoteOpen] = useState(false);

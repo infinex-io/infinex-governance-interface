@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from 'components/old-ui';
+import { Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { parseURL } from 'utils/ipfs';
 import { H5 } from 'components/Headlines/H5';
 import { Text } from 'components/Text/text';
 import { useRouter } from 'next/router';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
+import { Button } from '@synthetixio/ui';
+import Image from 'next/image';
 
 interface CouncilsCarouselProps {
 	maxWidth?: string;
 	startIndex?: number;
 }
 
-export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: CouncilsCarouselProps) {
+export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarouselProps) {
 	const { push } = useRouter();
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -45,11 +47,12 @@ export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: Coun
 		members.data?.treasury,
 	];
 	return (
-		<Flex direction="column" alignItems="center" {...rest}>
+		<div className="flex flex-col items-center">
 			<Tabs
 				titles={councilTabs}
 				clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
 				justifyContent="center"
+				className="mb-6"
 				activeIndex={activeIndex}
 				icons={[
 					<StyledTabIcon key="all-council-members" active={activeIndex === 0}>
@@ -75,25 +78,27 @@ export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: Coun
 					widthOfItems={300}
 					carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => {
 						return (
-							<StyledCarouselCard key={member.address.concat(String(index))} color="purple">
-								<StyledCarouselCardContent
-									className="darker-60"
-									direction="column"
-									alignItems="center"
-								>
-									<StyledCarouselCardImage src={parseURL(member.pfpThumbnailUrl)} />
-									<H5>{member.ens || member.username}</H5>
+							<div
+								className="bg-purple p-1 rounded w-[210px] mx-5"
+								key={member.address.concat(String(index))}
+							>
+								<div className="h-full py-7 px-4 rounded gap-1 flex flex-col items-center justify-center darker-60">
+									<Image
+										className="rounded-full"
+										width={56}
+										height={56}
+										alt={member.ens || member.username}
+										src={parseURL(member.pfpThumbnailUrl)}
+									/>
+									<h5 className="tg-content-bold mt-2 capitalize">{member.ens || member.username}</h5>
 									<Text>{member.about}</Text>
 									{member.discord && <DiscordIcon />}
 									{member.twitter && <TwitterIcon />}
-									<StyledButton
-										variant="secondary"
-										onClick={() => push('/profile/' + member.address)}
-									>
+									<Button variant="outline" onClick={() => push('/profile/' + member.address)}>
 										{t('landing-page.view-member')}
-									</StyledButton>
-								</StyledCarouselCardContent>
-							</StyledCarouselCard>
+									</Button>
+								</div>
+							</div>
 						);
 					})}
 					maxWidth={maxWidth ? maxWidth : '90vw'}
@@ -102,7 +107,7 @@ export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: Coun
 					dotsPosition="outside"
 				/>
 			)}
-		</Flex>
+		</div>
 	);
 }
 
@@ -114,24 +119,4 @@ const StyledTabIcon = styled.span<{ active?: boolean }>`
 	padding: 0px 8px;
 	font-size: 0.5rem;
 	font-family: 'Inter Bold';
-`;
-
-const StyledCarouselCard = styled(Card)`
-	width: 200px;
-	margin: 40px;
-`;
-
-const StyledCarouselCardContent = styled(Flex)`
-	width: 100%;
-	height: 100%;
-	padding: ${({ theme }) => theme.spacings.tiny};
-`;
-
-const StyledCarouselCardImage = styled.img`
-	width: 56px;
-	height: 56px;
-	border-radius: 50%;
-`;
-const StyledButton = styled(Button)`
-	width: 100px;
 `;

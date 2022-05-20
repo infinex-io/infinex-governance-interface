@@ -46,22 +46,24 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 		spartanCouncilInfo;
 
 	return (
-		<div className="bg-purple p-1">
-			<div className="h-full p-4 gap-1 flex flex-col justify-around align-center darker-60">
+		<div className="bg-purple p-1 rounded">
+			<div className="h-full p-8 rounded gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
-				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
-				<span className={`${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
-				<StyledSpacer />
-				<div className="flex justify-around">
+				<h4 className="tg-headline text-center">{t(`landing-page.cards.${council}`)}</h4>
+				<span className={`${color} px-2.5 py-1 rounded-xl tg-content-bold text-center m-4`}>
+					{t(cta)}
+				</span>
+				<StyledSpacer className="mb-1" />
+				<div className="flex justify-between">
 					<Text>{t(headlineLeft)}</Text>
 					<Text>{t(headlineRight)}</Text>
 				</div>
-				<div className="flex justify-around">
-					<h2 className="tg-title-h2">
+				<div className="flex justify-between">
+					<h2 className="tg-title-h5">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h2>
 					{/* TODO @DEV implement votes received or live votes when available */}
-					<h2 className="tg-title-h2">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
+					<h2 className="tg-title-h5">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
 				</div>
 				{secondButton && (
 					<TransparentText
@@ -78,7 +80,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				)}
 				<Button
 					variant={variant}
-					className="w-full"
+					className="w-full mt-4"
 					size="lg"
 					onClick={() => {
 						if (period === 'NOMINATION') {
@@ -104,6 +106,6 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 
 const StyledSpacer = styled.span`
 	height: 1px;
-	width: 203px;
+	width: 100%;
 	background: linear-gradient(73.6deg, #8e2de2 2.11%, #4b01e0 90.45%);
 `;

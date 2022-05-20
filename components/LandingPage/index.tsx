@@ -6,59 +6,19 @@ import { Text } from 'components/Text/text';
 import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
-import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
-import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
-import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { CouncilCard } from 'components/CouncilCard';
-import { parseCouncil } from 'utils/parse';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 
-	const { data: spartanCurrentPeriod } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const { data: grantsCurrentPeriod } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const { data: ambassadorCurrentPeriod } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const { data: treasuryCurrentPeriod } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-
-	// TODO @MF calculate next epoch and display the number in the card
-	const [spartanEpoch, spartanNominees, spartanMembers] = [
-		useEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL),
-		useNomineesQuery(DeployedModules.SPARTAN_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL),
-	];
-	const [grantsEpoch, grantsNominees, grantsMembers] = [
-		useEpochDatesQuery(DeployedModules.GRANTS_COUNCIL),
-		useNomineesQuery(DeployedModules.GRANTS_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL),
-	];
-	const [ambassadorEpoch, ambassadorNominees, ambassadorMembers] = [
-		useEpochDatesQuery(DeployedModules.AMBASSADOR_COUNCIL),
-		useNomineesQuery(DeployedModules.AMBASSADOR_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL),
-	];
-	const [treasuryEpoch, treasuryNominees, treasuryMembers] = [
-		useEpochDatesQuery(DeployedModules.TREASURY_COUNCIL),
-		useNomineesQuery(DeployedModules.TREASURY_COUNCIL),
-		useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL),
-	];
-	const spartanCouncilInfo =
-		spartanCurrentPeriod && parseCouncil(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
-	const grantsCouncilInfo =
-		grantsCurrentPeriod && parseCouncil(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
-	const ambassadorCouncilInfo =
-		ambassadorCurrentPeriod && parseCouncil(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
-	const treasuryCouncilInfo =
-		treasuryCurrentPeriod && parseCouncil(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
-
 	return (
 		<div className="flex flex-col align-center gap-4">
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
-			<div className="flex justify-center flex-wrap gap-4">
+			<div className="flex justify-center flex-wrap gap-4 my-8">
 				<CouncilCard
 					image="/logos/spartan-council.svg"
 					deployedModule={DeployedModules.SPARTAN_COUNCIL}
@@ -82,7 +42,7 @@ export default function LandingPage() {
 			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
-			<div className="flex flex-wrap justify-center">
+			<div className="flex flex-wrap justify-center mt-8">
 				<Link href="/councils" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}
