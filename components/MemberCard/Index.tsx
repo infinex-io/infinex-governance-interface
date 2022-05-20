@@ -1,8 +1,8 @@
 import {
 	Button,
-	Card,
 	DiscordIcon,
 	Dropdown,
+	Card,
 	IconButton,
 	ThreeDotsKebabIcon,
 	TwitterIcon,
@@ -23,74 +23,148 @@ import VoteModal from 'components/Modals/Vote';
 import { Dialog } from '@synthetixio/ui';
 import WithdrawVote from 'components/Modals/WithdrawVote';
 import Link from 'next/link';
+import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 
 interface MemberCardProps {
 	member: GetUserDetails;
-	isVoting?: boolean;
+	state: keyof typeof EpochPeriods;
 	onClick?: (address: string) => void;
 }
 
-export default function MemberCard({ member, isVoting, onClick }: MemberCardProps) {
+export default function MemberCard({ member, state, onClick }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const [isWithdrawVoteOpen, setIsWithdrawVoteOpen] = useState(false);
-	const { walletAddress } = useConnectorContext();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const { walletAddress } = useConnectorContext();
 	const { setContent, setIsOpen } = useModalContext();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	const { data } = useGetMemberBelongingQuery(member.address);
 
-	const dropdownItems = [
-		isVoting ? (
-			<StyledDropdownText
-				key={`${walletAddress}-modal`}
-				color="lightBlue"
+	if (state === 'ADMINISTRATION') {
+		return (
+			<Card
 				onClick={(e) => {
 					e.stopPropagation();
-					if (data) {
-						setIsWithdrawVoteOpen(true);
-					}
+					onClick && onClick(member.address);
 				}}
+				color={isOwnCard ? 'orange' : 'purple'}
+				key={member.address.concat(member.about)}
+				className="cursor-pointer b-[1px] max-w-[200px]"
 			>
-				{t('councils.dropdown.withdraw-vote')}
-			</StyledDropdownText>
-		) : (
-			<StyledDropdownText
-				key={`${walletAddress}-modal`}
-				color="lightBlue"
-				onClick={(e) => {
-					e.stopPropagation();
-					if (data) {
-						setContent(
-							<WithdrawNominationModal council={data.name} deployedModule={data.module} />
-						);
-						setIsOpen(true);
-					}
-				}}
-			>
-				{t('councils.dropdown.withdraw')}
-			</StyledDropdownText>
-		),
-		<StyledDropdownText
-			key={`${walletAddress}-text`}
-			color="lightBlue"
-			onClick={() => push('/profile/' + walletAddress)}
-		>
-			{t('councils.dropdown.edit')}
-		</StyledDropdownText>,
-		<Link
-			href={`https://optimistic.etherscan.io/address/${member.address}`}
-			passHref
-			key="etherscan-link"
-		>
-			<a target="_blank" rel="noreferrer">
-				<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
-					{t('councils.dropdown.etherscan')}
-				</StyledDropdownText>
-			</a>
-		</Link>,
-	];
+				<div className="darker-60 relative flex flex-col items-center">
+					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
+					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
+					<Text>{member.about}</Text>
+					{member.discord && <DiscordIcon />}
+					{member.twitter && <TwitterIcon />}
+					<div className="flex justify-center">
+						<StyledButton
+							variant="secondary"
+							onClick={(e) => {
+								e.stopPropagation();
+								if (isVoting && data) {
+									setContent(
+										<VoteModal member={member} deployedModule={data.module} council={data.name} />
+									);
+									setIsOpen(true);
+								} else if (isOwnCard && data && !isVoting) {
+									setContent(<EditModal council={data.name} deployedModule={data.module} />);
+									setIsOpen(true);
+								} else {
+									push('/profile/' + member.address);
+								}
+							}}
+						>
+							{isOwnCard || isVoting
+								? t('vote.card-title')
+								: isOwnCard && !isAdminOrEval
+								? t('councils.edit-nomination')
+								: t('councils.view-member')}
+						</StyledButton>
+						{isOwnCard && (
+							<IconButton
+								onClick={(e) => {
+									e.stopPropagation();
+									setIsDropdownOpen(!isDropdownOpen);
+								}}
+								size="tiniest"
+								active
+							>
+								<ThreeDotsKebabIcon active={isDropdownOpen} />
+							</IconButton>
+						)}
+						{isDropdownOpen && <StyledDropdown color="purple" elements={getDropdownItems()} />}
+					</div>
+				</div>
+				<Dialog
+					className=" bg-purple min-h-full min-w-full"
+					wrapperClass="min-w-[90%]  min-h-[90%] p-0"
+					onClose={() => setIsOpen(false)}
+					open={isWithdrawVoteOpen}
+				>
+					<WithdrawVote address={member.address} />
+				</Dialog>
+			</Card>
+		);
+	}
 
+	const getDropdownItems = () => {
+		const dropdownItems = [
+			<StyledDropdownText
+				key={`${walletAddress}-text`}
+				color="lightBlue"
+				onClick={() => push('/profile/' + walletAddress)}
+			>
+				{t('councils.dropdown.edit')}
+			</StyledDropdownText>,
+			<Link
+				href={`https://optimistic.etherscan.io/address/${member.address}`}
+				passHref
+				key="etherscan-link"
+			>
+				<a target="_blank" rel="noreferrer">
+					<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
+						{t('councils.dropdown.etherscan')}
+					</StyledDropdownText>
+				</a>
+			</Link>,
+		];
+		if (!isAdminOrEval)
+			dropdownItems.unshift(
+				<StyledDropdownText
+					key={`${walletAddress}-modal`}
+					color="lightBlue"
+					onClick={(e) => {
+						e.stopPropagation();
+						if (data) {
+							setContent(
+								<WithdrawNominationModal council={data.name} deployedModule={data.module} />
+							);
+							setIsOpen(true);
+						}
+					}}
+				>
+					{t('councils.dropdown.withdraw')}
+				</StyledDropdownText>
+			);
+		if (isVoting && !isAdminOrEval)
+			dropdownItems.unshift(
+				<StyledDropdownText
+					key={`${walletAddress}-modal`}
+					color="lightBlue"
+					onClick={(e) => {
+						e.stopPropagation();
+						if (data) {
+							setIsWithdrawVoteOpen(true);
+						}
+					}}
+				>
+					{t('councils.dropdown.withdraw-vote')}
+				</StyledDropdownText>
+			);
+		return dropdownItems;
+	};
 	return (
 		<Card
 			onClick={(e) => {
@@ -110,7 +184,8 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 				<div className="flex justify-center">
 					<StyledButton
 						variant="secondary"
-						onClick={() => {
+						onClick={(e) => {
+							e.stopPropagation();
 							if (isVoting && data) {
 								setContent(
 									<VoteModal member={member} deployedModule={data.module} council={data.name} />
@@ -123,11 +198,10 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 								push('/profile/' + member.address);
 							}
 						}}
-						disabled={!data}
 					>
-						{isOwnCard && isVoting
+						{isOwnCard || isVoting
 							? t('vote.card-title')
-							: isOwnCard
+							: isOwnCard && !isAdminOrEval
 							? t('councils.edit-nomination')
 							: t('councils.view-member')}
 					</StyledButton>
@@ -143,11 +217,11 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 							<ThreeDotsKebabIcon active={isDropdownOpen} />
 						</IconButton>
 					)}
-					{isDropdownOpen && <StyledDropdown color="purple" elements={dropdownItems} />}
+					{isDropdownOpen && <StyledDropdown color="purple" elements={getDropdownItems()} />}
 				</div>
 			</div>
 			<Dialog
-				className="min-h-full min-w-full"
+				className=" bg-purple min-h-full min-w-full"
 				wrapperClass="min-w-[90%]  min-h-[90%] p-0"
 				onClose={() => setIsOpen(false)}
 				open={isWithdrawVoteOpen}

@@ -1,6 +1,5 @@
 import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
-import { Colors } from 'components/old-ui';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
@@ -51,7 +50,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<div className="h-full p-4 gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
-				<span className={`bg-${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
+				<span className={`${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
 				<StyledSpacer />
 				<div className="flex justify-around">
 					<Text>{t(headlineLeft)}</Text>

@@ -10,6 +10,7 @@ import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery
 import MemberCard from 'components/MemberCard/Index';
 import { parseQuery } from 'utils/parse';
 import BackButton from 'components/BackButton';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
@@ -22,6 +23,8 @@ const Councils: NextPage = () => {
 		t('landing-page.tabs.ac'),
 		t('landing-page.tabs.tc'),
 	];
+	const period = useCurrentPeriod(activeCouncil.module);
+
 	return (
 		<>
 			<Head>
@@ -59,7 +62,14 @@ const Councils: NextPage = () => {
 					members.data?.treasury ? (
 						<div className="flex flex-wrap justify-center">
 							{members.data[activeCouncil.name].map((member) => (
-								<MemberCard key={member.address} member={member} />
+								<MemberCard
+									key={member.address}
+									member={member}
+									isAdminOrEval={
+										period.data?.currentPeriod === 'ADMINISTRATION' ||
+										period.data?.currentPeriod === 'EVALUATION'
+									}
+								/>
 							))}
 						</div>
 					) : (

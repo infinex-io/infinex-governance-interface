@@ -22,7 +22,7 @@ function useNominateMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries();
+				await queryClient.refetchQueries({ queryKey: ['nominees', moduleInstance] });
 			},
 		}
 	);

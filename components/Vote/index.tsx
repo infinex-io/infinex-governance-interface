@@ -1,11 +1,9 @@
 import { CouncilCard } from 'components/CouncilCard';
 import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
-import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
-import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
-import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
-import { parseCouncil } from 'utils/parse';
+import { parseQuery } from 'utils/parse';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
@@ -16,26 +14,13 @@ export default function VoteSection() {
 	const { data: treasuryCurrentPeriod } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 
 	const spartanCouncilInfo =
-		spartanCurrentPeriod?.currentPeriod &&
-		parseCouncil(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
+		spartanCurrentPeriod?.currentPeriod && parseQuery(spartanCurrentPeriod.currentPeriod);
 	const grantsCouncilInfo =
-		grantsCurrentPeriod?.currentPeriod &&
-		parseCouncil(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
+		grantsCurrentPeriod?.currentPeriod && parseQuery(grantsCurrentPeriod.currentPeriod);
 	const ambassadorCouncilInfo =
-		ambassadorCurrentPeriod?.currentPeriod &&
-		parseCouncil(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
+		ambassadorCurrentPeriod?.currentPeriod && parseQuery(ambassadorCurrentPeriod.currentPeriod);
 	const treasuryCouncilInfo =
-		treasuryCurrentPeriod?.currentPeriod &&
-		parseCouncil(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
-
-	// Testing
-	const { data: grantsEpochIndex } = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
-	const voteQuery = useVoteHistoryQuery(
-		DeployedModules.GRANTS_COUNCIL,
-		walletAddress || '',
-		null,
-		String(grantsEpochIndex || 1)
-	);
+		treasuryCurrentPeriod?.currentPeriod && parseQuery(treasuryCurrentPeriod.currentPeriod);
 
 	return (
 		<div className="flex flex-col items-center">
