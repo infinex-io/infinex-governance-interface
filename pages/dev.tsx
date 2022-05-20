@@ -1,7 +1,7 @@
 import { DeployedModules } from 'containers/Modules';
-import useCouncilMemberHistoryQuery from 'queries/historical/useCouncilMemberHistoryQuery';
-import useNominationHistoryQuery from 'queries/historical/useNominationHistoryQuery';
-import useVoteHistoryQuery from 'queries/historical/useVoteHistoryQuery';
+import useCouncilMemberHistoryQuery from 'queries/eventHistory/useCouncilMemberHistoryQuery';
+import useNominationHistoryQuery from 'queries/eventHistory/useNominationHistoryQuery';
+import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import { useState } from 'react';
 
 export default function Dev() {

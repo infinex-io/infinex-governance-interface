@@ -3,7 +3,7 @@ import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
-import useVoteHistoryQuery from 'queries/historical/useVoteHistoryQuery';
+import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import { useTranslation } from 'react-i18next';
 import { parseCouncil } from 'utils/parse';
 
