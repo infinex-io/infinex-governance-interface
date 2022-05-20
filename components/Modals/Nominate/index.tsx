@@ -1,5 +1,5 @@
-import { Button, Checkbox, Flex } from 'components/old-ui';
-import { H3 } from 'components/Headlines/H3';
+import { Button } from '@synthetixio/ui';
+import { Checkbox, Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -98,20 +98,20 @@ export default function NominateModal() {
 
 	return (
 		<BaseModal headline={t('modals.nomination.headline')}>
-			<StyledBlackBox direction="column" alignItems="center">
+			<div className="flex flex-col items-center bg-black px-12 py-3 rounded">
 				<StyledBlackBoxSubline>{t('modals.nomination.nominationAddress')}</StyledBlackBoxSubline>
-				<StyledWalletAddress>
+				<div className="text-white tg-title-h5">
 					{ensName ? (
 						ensName
 					) : walletAddress ? (
 						truncateAddress(walletAddress)
 					) : (
-						<Button onClick={() => connectWallet()} variant="primary" size="small">
+						<Button variant="outline" className="mt-2" onClick={() => connectWallet()}>
 							{t('modals.nomination.checkboxes.connect-wallet')}
 						</Button>
 					)}
-				</StyledWalletAddress>
-			</StyledBlackBox>
+				</div>
+			</div>
 			<StyledCheckboxWrapper justifyContent="center">
 				<Checkbox
 					id="spartan-council-checkbox"
@@ -163,19 +163,12 @@ export default function NominateModal() {
 					}
 				/>
 			</StyledCheckboxWrapper>
-			<StyledNominateButton variant="primary" onClick={() => handleNomination()}>
+			<Button className="w-[313px]" onClick={() => handleNomination()}>
 				{t('modals.nomination.button')}
-			</StyledNominateButton>
+			</Button>
 		</BaseModal>
 	);
 }
-
-const StyledBlackBox = styled(Flex)`
-	background-color: ${({ theme }) => theme.colors.black};
-	max-width: 314px;
-	height: 80px;
-	padding: 16px 50px;
-`;
 
 const StyledBlackBoxSubline = styled.h6`
 	font-family: 'Inter Bold';
@@ -184,21 +177,10 @@ const StyledBlackBoxSubline = styled.h6`
 	margin: 0;
 `;
 
-const StyledWalletAddress = styled(H3)`
-	font-family: 'Inter Bold';
-	font-size: 1.5rem;
-	margin: ${({ theme }) => theme.spacings.tiniest};
-	color: ${({ theme }) => theme.colors.white};
-`;
-
 const StyledCheckboxWrapper = styled(Flex)`
 	margin: ${({ theme }) => theme.spacings.superBig} 0px;
 	width: 100%;
 	> * {
 		margin: ${({ theme }) => theme.spacings.medium};
 	}
-`;
-
-const StyledNominateButton = styled(Button)`
-	max-width: 312px;
 `;

@@ -23,10 +23,12 @@ const StyledBaseModalWrapper = styled(Card)`
 	background-repeat: no-repeat;
 	background-size: contain;
 	position: relative;
+	max-height: calc(100vh - 40px);
 `;
 
 const StyledFlex = styled(Flex)`
 	height: 100%;
+	max-height: calc(100vh - 40px);
 	width: 100%;
 	padding-top: 10%;
 `;
