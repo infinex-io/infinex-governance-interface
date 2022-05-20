@@ -13,7 +13,7 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 
 export default function CouncilNominees() {
-	const { query } = useRouter();
+	const { query, push } = useRouter();
 	const { t } = useTranslation();
 	const { walletAddress } = useConnectorContext();
 	const { data } = useNomineesQuery(parseQuery(query?.council?.toString()).module);
@@ -33,12 +33,18 @@ export default function CouncilNominees() {
 				<h1 className="tg-title-h1 text-center">
 					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
 				</h1>
-				{!!nomineesInfo.data?.length && (
+				{!!nomineesInfo.data?.length ? (
 					<div className="flex justify-center flex-wrap">
 						{nomineesInfo.data.map((member) => (
-							<MemberCard member={member} key={member.address} />
+							<MemberCard
+								member={member}
+								key={member.address}
+								onClick={() => push('/profile/' + member.address)}
+							/>
 						))}
 					</div>
+				) : (
+					<h4 className="tg-title-h4 text-center">{t('councils.no-nominations')}</h4>
 				)}
 			</Main>
 		</>

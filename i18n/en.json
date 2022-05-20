@@ -63,6 +63,7 @@
 		"nominees": "{{ council }} Council Nominees",
 		"view-member": "View Member",
 		"edit-nomination": "Edit Nomination",
+		"no-nominations": "No Nominations yet",
 		"dropdown": {
 			"withdraw": "Withdraw Nomination",
 			"edit": "Edit Profile",

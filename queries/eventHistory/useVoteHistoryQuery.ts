@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber, ethers } from 'ethers';
+import { hexStringBN } from 'utils/hexString';
 
 type VoteEvent = {
 	voter: string;
@@ -37,12 +38,12 @@ function useVoteHistoryQuery(
 			const voteFilter = contract.filters.VoteRecorded(
 				voter ?? null,
 				ballotId ?? null,
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 			const voteWithdrawnFilter = contract.filters.VoteWithdrawn(
 				voter ?? null,
 				ballotId ?? null,
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 			const voteEvents = await contract.queryFilter(voteFilter);
 			const voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);

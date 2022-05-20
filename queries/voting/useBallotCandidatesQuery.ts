@@ -1,15 +1,28 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
+import { hexStringBN } from 'utils/hexString';
 
-function useBallotCandidatesQuery(moduleInstance: DeployedModules, ballotId: string) {
+function useBallotCandidatesQuery(
+	moduleInstance: DeployedModules,
+	ballotId: string,
+	epochIndex?: string
+) {
 	const governanceModules = useModulesContext();
 
 	return useQuery<string[]>(
-		['ballotCandidates', moduleInstance],
+		['ballotCandidates', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
-			let ballotCandidates = await contract?.getBallotCandidates(ballotId);
+			let ballotCandidates: string[];
+			if (epochIndex) {
+				ballotCandidates = await contract?.getBallotCandidatesInEpoch(
+					ballotId,
+					hexStringBN(epochIndex)
+				);
+			} else {
+				ballotCandidates = await contract?.getBallotCandidates(ballotId);
+			}
 			return ballotCandidates;
 		},
 		{

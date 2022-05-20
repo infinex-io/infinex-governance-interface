@@ -1,4 +1,3 @@
-import { Colors } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
 
 export const parseQuery = (
@@ -26,7 +25,7 @@ export function parseCouncil(index: number): {
 	cta: string;
 	button: string;
 	variant: 'default' | 'outline';
-	color: Colors;
+	color: string;
 	headlineLeft: string;
 	headlineRight: string;
 	secondButton?: string;
@@ -36,7 +35,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.nomination',
 				button: 'landing-page.cards.button.nomination',
-				color: 'orange',
+				color: 'bg-orange',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
@@ -46,7 +45,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.vote',
 				button: 'landing-page.cards.button.vote',
-				color: 'green',
+				color: 'bg-green',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
@@ -55,7 +54,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.closed',
 				button: 'landing-page.cards.button.closed',
-				color: 'purple',
+				color: 'bg-purple',
 				variant: 'outline',
 				headlineLeft: 'landing-page.cards.members',
 				headlineRight: 'landing-page.cards.received',

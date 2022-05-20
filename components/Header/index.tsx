@@ -1,5 +1,6 @@
 import { Button, SNXIcon, SpotlightButton, theme } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,8 +28,12 @@ export default function Header() {
 
 	return (
 		<StyledHeader>
-			<SNXIcon />
-			<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
+			<Link href="/" passHref>
+				<div className="flex items-center cursor-pointer mr-8">
+					<SNXIcon />
+					<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
+				</div>
+			</Link>
 			{routes.map((translation, index) => {
 				return (
 					<StyledSpotlightButton
@@ -78,7 +83,6 @@ const StyledHeaderHeadline = styled.h1`
 	font-size: 0.87rem;
 	color: white;
 	margin-left: ${theme.spacings.tiny};
-	margin-right: ${theme.spacings.biggest};
 `;
 
 const StyledSpotlightButton = styled(SpotlightButton)`

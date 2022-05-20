@@ -3,7 +3,6 @@ import {
 	Flex,
 	IconButton,
 	ThreeDotsKebabIcon,
-	Button,
 	Card,
 	Dropdown,
 } from 'components/old-ui';
@@ -15,12 +14,12 @@ import { useConnectorContext } from 'containers/Connector';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog } from '@synthetixio/ui';
+import { Dialog, Button } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import Link from 'next/link';
 
@@ -147,9 +146,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</StyledProfileBox>
 				</div>
 				<CouncilsCarousel />
-				<StyledButton variant="primary" onClick={() => push({ pathname: '/councils' })}>
+				<Button className="max-w-[250px]" onClick={() => push({ pathname: '/councils' })}>
 					{t('profiles.view-all-members')}
-				</StyledButton>
+				</Button>
 			</StyledProfileWrapper>
 		);
 	} else {
@@ -193,8 +192,4 @@ const StyledSpacer = styled.div`
 	margin: ${({ theme }) => theme.spacings.medium};
 	width: 90%;
 	height: 1px;
-`;
-
-const StyledButton = styled(Button)`
-	max-width: 250px;
 `;

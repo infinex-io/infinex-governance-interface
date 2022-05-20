@@ -1,15 +1,21 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
+import { hexStringBN } from 'utils/hexString';
 
-function useNomineesQuery(moduleInstance: DeployedModules) {
+function useNomineesQuery(moduleInstance: DeployedModules, epochIndex?: string) {
 	const governanceModules = useModulesContext();
 
 	return useQuery<string[]>(
-		['nominees', moduleInstance],
+		['nominees', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
-			let nominees = await contract?.getNominees();
+			let nominees;
+			if (epochIndex) {
+				nominees = await contract?.getNomineesAtEpoch(hexStringBN(epochIndex));
+			} else {
+				nominees = await contract?.getNominees();
+			}
 			return nominees;
 		},
 		{

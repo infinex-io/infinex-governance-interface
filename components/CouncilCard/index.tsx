@@ -6,7 +6,7 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useCurrentEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
@@ -50,7 +50,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<div className="h-full p-4 gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
-				<span className={`bg-${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
+				<span className={`${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
 				<StyledSpacer />
 				<div className="flex justify-around">
 					<Text>{t(headlineLeft)}</Text>

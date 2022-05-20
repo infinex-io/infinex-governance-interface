@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { ethers } from 'ethers';
+import { hexStringBN } from 'utils/hexString';
 
 /**
  * 	Query Council Member Added and Council Member Removed Events from Solidity Contracts
@@ -27,11 +28,11 @@ function useCouncilMemberHistoryQuery(
 
 			const memberAddedFilter = contract.filters.CouncilMemberAdded(
 				member ?? null,
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 			const memberRemovedFilter = contract.filters.CouncilMemberRemoved(
 				member ?? null,
-				epochIndex ? ethers.BigNumber.from(epochIndex).toHexString() : null
+				epochIndex ? hexStringBN(epochIndex) : null
 			);
 
 			const addedEvents = await contract.queryFilter(memberAddedFilter);
