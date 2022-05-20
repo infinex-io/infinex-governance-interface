@@ -42,7 +42,12 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const councilInfo =
 		currentPeriodData && parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]);
 
-	if (!councilInfo) return null;
+	if (!councilInfo)
+		return (
+			<div className="p-1 bg-purple w-[295px] h-[347px] rounded">
+				<div className="h-full darker-60 animate-pulse"></div>
+			</div>
+		);
 
 	const { cta, button, variant, color, headlineLeft, headlineRight, secondButton } = councilInfo;
 
