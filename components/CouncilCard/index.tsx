@@ -14,7 +14,7 @@ import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { parseCouncel } from 'utils/parse';
+import { parseCouncil } from 'utils/parse';
 
 interface CouncilCardProps {
 	council: string;
@@ -27,19 +27,19 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 
-	const { data: spartanCurrentPeriod } = useCurrentPeriod(deployedModule);
-	const [, spartanNominees, spartanMembers] = [
+	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
+	const [, nominees, members] = [
 		useCurrentEpochDatesQuery(deployedModule),
 		useNomineesQuery(deployedModule),
 		useCouncilMembersQuery(deployedModule),
 	];
 
-	const membersCount = spartanMembers.data?.length;
-	const nomineesCount = spartanNominees.data?.length;
-	const period = spartanCurrentPeriod?.currentPeriod;
+	const membersCount = members.data?.length;
+	const nomineesCount = nominees.data?.length;
+	const period = currentPeriodData?.currentPeriod;
 
 	const spartanCouncilInfo =
-		spartanCurrentPeriod && parseCouncel(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
+		currentPeriodData && parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]);
 
 	if (!spartanCouncilInfo) return null;
 
