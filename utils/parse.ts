@@ -22,7 +22,7 @@ export const parseQuery = (
 	}
 };
 
-export function parseIndex(index: number): {
+export function parseCouncil(index: number): {
 	cta: string;
 	button: string;
 	variant: 'default' | 'outline';

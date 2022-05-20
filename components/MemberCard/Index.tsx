@@ -74,9 +74,7 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 		<StyledDropdownText
 			key={`${walletAddress}-text`}
 			color="lightBlue"
-			onClick={() => {
-				push({ pathname: '/profile', query: { address: walletAddress } });
-			}}
+			onClick={() => push('/profile/' + walletAddress)}
 		>
 			{t('councils.dropdown.edit')}
 		</StyledDropdownText>,
@@ -122,12 +120,7 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 								setContent(<EditModal council={data.name} deployedModule={data.module} />);
 								setIsOpen(true);
 							} else {
-								push({
-									pathname: 'profile',
-									query: {
-										address: member.address,
-									},
-								});
+								push('/profile/' + member.address);
 							}
 						}}
 						disabled={!data}

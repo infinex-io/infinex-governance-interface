@@ -1,5 +1,5 @@
 import { Button } from '@synthetixio/ui';
-import { ArrowLinkOffIcon, ButtonCard, Colors } from 'components/old-ui';
+import { ArrowLinkOffIcon, ButtonCard } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { H1 } from 'components/Headlines/H1';
 import { Text } from 'components/Text/text';
@@ -12,8 +12,7 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import CouncilCard from 'components/CouncilCard';
-import { parseIndex } from 'utils/parse';
+import { CouncilCard } from 'components/CouncilCard';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -55,50 +54,30 @@ export default function LandingPage() {
 		treasuryCurrentPeriod && parseIndex(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
 
 	return (
-		<div className="flex flex-col align-center">
+		<div className="flex flex-col align-center gap-4">
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
-			<div className="flex justify-center flex-wrap space-x-8">
-				{spartanCouncilInfo && (
-					<CouncilCard
-						{...spartanCouncilInfo}
-						membersCount={spartanMembers.data?.length}
-						nomineesCount={spartanNominees.data?.length}
-						period={spartanCurrentPeriod?.currentPeriod}
-						image="/logos/spartan-council.svg"
-						council="spartan"
-					/>
-				)}
-				{grantsCouncilInfo && (
-					<CouncilCard
-						{...grantsCouncilInfo}
-						membersCount={grantsMembers.data?.length}
-						nomineesCount={grantsNominees.data?.length}
-						period={grantsCurrentPeriod?.currentPeriod}
-						image="/logos/grants-council.svg"
-						council="grants"
-					/>
-				)}
-				{ambassadorCouncilInfo && (
-					<CouncilCard
-						{...ambassadorCouncilInfo}
-						membersCount={ambassadorMembers.data?.length}
-						nomineesCount={ambassadorNominees.data?.length}
-						period={ambassadorCurrentPeriod?.currentPeriod}
-						image="/logos/ambassador-council.svg"
-						council="ambassador"
-					/>
-				)}
-				{treasuryCouncilInfo && (
-					<CouncilCard
-						{...treasuryCouncilInfo}
-						membersCount={treasuryMembers.data?.length}
-						nomineesCount={treasuryNominees.data?.length}
-						period={treasuryCurrentPeriod.currentPeriod}
-						image="/logos/treasury-council.svg"
-						council="treasury"
-					/>
-				)}
+			<div className="flex justify-center flex-wrap gap-4">
+				<CouncilCard
+					image="/logos/spartan-council.svg"
+					deployedModule={DeployedModules.SPARTAN_COUNCIL}
+					council="spartan"
+				/>
+				<CouncilCard
+					image="/logos/grants-council.svg"
+					deployedModule={DeployedModules.GRANTS_COUNCIL}
+					council="grants"
+				/>
+				<CouncilCard
+					image="/logos/ambassador-council.svg"
+					deployedModule={DeployedModules.AMBASSADOR_COUNCIL}
+					council="ambassador"
+				/>
+				<CouncilCard
+					image="/logos/treasury-council.svg"
+					deployedModule={DeployedModules.TREASURY_COUNCIL}
+					council="treasury"
+				/>
 			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>

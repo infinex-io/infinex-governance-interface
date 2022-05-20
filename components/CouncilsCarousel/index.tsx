@@ -88,14 +88,7 @@ export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: Coun
 									{member.twitter && <TwitterIcon />}
 									<StyledButton
 										variant="secondary"
-										onClick={() => {
-											push({
-												pathname: 'profile',
-												query: {
-													address: member.address,
-												},
-											});
-										}}
+										onClick={() => push('/profile/' + member.address)}
 									>
 										{t('landing-page.view-member')}
 									</StyledButton>

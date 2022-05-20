@@ -1,58 +1,54 @@
 import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
+import { Colors } from 'components/old-ui';
 import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
+import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import useCurrentEpochDatesQuery from 'queries/epochs/useCurrentEpochDatesQuery';
+import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
+import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
+import useNomineesQuery from 'queries/nomination/useNomineesQuery';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { parseCouncil } from 'utils/parse';
 
 interface CouncilCardProps {
-	cta: string;
-	button: string;
-	variant: 'default' | 'outline';
-	color:
-		| 'backgroundColor'
-		| 'black'
-		| 'white'
-		| 'grey'
-		| 'disabled'
-		| 'orange'
-		| 'lightBlue'
-		| 'purple'
-		| 'pink'
-		| 'green';
-	headlineLeft: string;
-	headlineRight: string;
-	secondButton?: string | undefined;
-	period: 'ADMINISTRATION' | 'VOTING' | 'NOMINATION' | 'EVALUATION';
-	nomineesCount?: number;
-	membersCount?: number;
+	council: string;
 	image: string;
-	council: 'spartan' | 'grants' | 'ambassador' | 'treasury';
+	deployedModule: DeployedModules;
 }
 
-export default function CouncilCard({
-	cta,
-	button,
-	variant,
-	color,
-	headlineLeft,
-	headlineRight,
-	secondButton,
-	period = 'ADMINISTRATION',
-	nomineesCount,
-	membersCount,
-	image,
-	council,
-}: CouncilCardProps) {
+export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModule, image }) => {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
+
+	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
+	const [, nominees, members] = [
+		useCurrentEpochDatesQuery(deployedModule),
+		useNomineesQuery(deployedModule),
+		useCouncilMembersQuery(deployedModule),
+	];
+
+	const membersCount = members.data?.length;
+	const nomineesCount = nominees.data?.length;
+	const period = currentPeriodData?.currentPeriod;
+
+	const spartanCouncilInfo =
+		currentPeriodData && parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]);
+
+	if (!spartanCouncilInfo) return null;
+
+	const { cta, button, variant, color, headlineLeft, headlineRight, secondButton } =
+		spartanCouncilInfo;
+
 	return (
-		<div className="p-1 bg-purple">
-			<div className="h-full flex flex-col justify-around align-center darker-60 p-5">
+		<div className="bg-purple p-1">
+			<div className="h-full p-4 gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt="spartan-council" src={image} width={50} height={72} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
 				<span className={`bg-${color} p-1 rounded-md text-center m-4`}>{t(cta)}</span>
@@ -105,7 +101,7 @@ export default function CouncilCard({
 			</div>
 		</div>
 	);
-}
+};
 
 const StyledSpacer = styled.span`
 	height: 1px;

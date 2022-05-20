@@ -29,7 +29,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	const handleVote = async () => {
 		const tx = await castVoteMutation.mutateAsync([member.address]);
 		if (tx) {
-			push({ pathname: '/profile', query: { address: member.address } });
+			push('/profile/' + member.address);
 			setIsOpen(false);
 		}
 	};
@@ -48,12 +48,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			<StyledSubmitButton onClick={() => handleVote()} variant="primary">
 				{t('modals.vote.submit')}
 			</StyledSubmitButton>
-			<StyledProfileButton
-				variant="secondary"
-				onClick={() => {
-					push({ pathname: 'profile', query: { address: member.address } });
-				}}
-			>
+			<StyledProfileButton variant="secondary" onClick={() => push('/profile/' + member.address)}>
 				{t('modals.vote.profile')}
 			</StyledProfileButton>
 		</BaseModal>
