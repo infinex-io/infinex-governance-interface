@@ -27,10 +27,11 @@ import Link from 'next/link';
 interface MemberCardProps {
 	member: GetUserDetails;
 	isVoting?: boolean;
+	isAdminOrEval?: boolean;
 	onClick?: (address: string) => void;
 }
 
-export default function MemberCard({ member, isVoting, onClick }: MemberCardProps) {
+export default function MemberCard({ member, isAdminOrEval, isVoting, onClick }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const [isWithdrawVoteOpen, setIsWithdrawVoteOpen] = useState(false);
@@ -40,56 +41,62 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	const { data } = useGetMemberBelongingQuery(member.address);
 
-	const dropdownItems = [
-		isVoting ? (
+	const getDropdownItems = () => {
+		const dropdownItems = [
 			<StyledDropdownText
-				key={`${walletAddress}-modal`}
+				key={`${walletAddress}-text`}
 				color="lightBlue"
-				onClick={(e) => {
-					e.stopPropagation();
-					if (data) {
-						setIsWithdrawVoteOpen(true);
-					}
-				}}
+				onClick={() => push('/profile/' + walletAddress)}
 			>
-				{t('councils.dropdown.withdraw-vote')}
-			</StyledDropdownText>
-		) : (
-			<StyledDropdownText
-				key={`${walletAddress}-modal`}
-				color="lightBlue"
-				onClick={(e) => {
-					e.stopPropagation();
-					if (data) {
-						setContent(
-							<WithdrawNominationModal council={data.name} deployedModule={data.module} />
-						);
-						setIsOpen(true);
-					}
-				}}
+				{t('councils.dropdown.edit')}
+			</StyledDropdownText>,
+			<Link
+				href={`https://optimistic.etherscan.io/address/${member.address}`}
+				passHref
+				key="etherscan-link"
 			>
-				{t('councils.dropdown.withdraw')}
-			</StyledDropdownText>
-		),
-		<StyledDropdownText
-			key={`${walletAddress}-text`}
-			color="lightBlue"
-			onClick={() => push('/profile/' + walletAddress)}
-		>
-			{t('councils.dropdown.edit')}
-		</StyledDropdownText>,
-		<Link
-			href={`https://optimistic.etherscan.io/address/${member.address}`}
-			passHref
-			key="etherscan-link"
-		>
-			<a target="_blank" rel="noreferrer">
-				<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
-					{t('councils.dropdown.etherscan')}
+				<a target="_blank" rel="noreferrer">
+					<StyledDropdownText key={`${walletAddress}-title`} color="lightBlue">
+						{t('councils.dropdown.etherscan')}
+					</StyledDropdownText>
+				</a>
+			</Link>,
+		];
+		if (!isAdminOrEval)
+			dropdownItems.unshift(
+				<StyledDropdownText
+					key={`${walletAddress}-modal`}
+					color="lightBlue"
+					onClick={(e) => {
+						e.stopPropagation();
+						if (data) {
+							setContent(
+								<WithdrawNominationModal council={data.name} deployedModule={data.module} />
+							);
+							setIsOpen(true);
+						}
+					}}
+				>
+					{t('councils.dropdown.withdraw')}
 				</StyledDropdownText>
-			</a>
-		</Link>,
-	];
+			);
+		if (isVoting && !isAdminOrEval)
+			dropdownItems.unshift(
+				<StyledDropdownText
+					key={`${walletAddress}-modal`}
+					color="lightBlue"
+					onClick={(e) => {
+						e.stopPropagation();
+						if (data) {
+							setIsWithdrawVoteOpen(true);
+						}
+					}}
+				>
+					{t('councils.dropdown.withdraw-vote')}
+				</StyledDropdownText>
+			);
+		return dropdownItems;
+	};
 
 	return (
 		<Card
@@ -123,11 +130,10 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 								push('/profile/' + member.address);
 							}
 						}}
-						disabled={!data}
 					>
 						{isOwnCard && isVoting
 							? t('vote.card-title')
-							: isOwnCard
+							: isOwnCard && !isAdminOrEval
 							? t('councils.edit-nomination')
 							: t('councils.view-member')}
 					</StyledButton>
@@ -143,7 +149,7 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 							<ThreeDotsKebabIcon active={isDropdownOpen} />
 						</IconButton>
 					)}
-					{isDropdownOpen && <StyledDropdown color="purple" elements={dropdownItems} />}
+					{isDropdownOpen && <StyledDropdown color="purple" elements={getDropdownItems()} />}
 				</div>
 			</div>
 			<Dialog
