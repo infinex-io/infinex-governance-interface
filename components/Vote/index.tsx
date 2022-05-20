@@ -1,5 +1,4 @@
 import { CouncilCard } from 'components/CouncilCard';
-import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +6,7 @@ import { parseQuery } from 'utils/parse';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
-	const { walletAddress } = useConnectorContext();
+
 	const { data: spartanCurrentPeriod } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const { data: grantsCurrentPeriod } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const { data: ambassadorCurrentPeriod } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);

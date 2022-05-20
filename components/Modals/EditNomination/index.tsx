@@ -8,10 +8,8 @@ import { Button, Checkbox, Flex, Card } from 'components/old-ui';
 import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
-import { Text } from 'components/Text/text';
-import { H3 } from 'components/Headlines/H3';
+
 import { useState } from 'react';
-import { H4 } from 'components/Headlines/H4';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 
@@ -90,20 +88,20 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 	};
 	return (
 		<BaseModal headline={t('modals.edit.headline')}>
-			<Text color="grey">
+			<span className="max-w-[400px] tg-content text-white text-center">
 				You can only nominate for 1 coincil at any given time. In order to change your nomination
 				from one council to another you must first select your new coincil and click save. You will
 				be need to sign 2 transactions in order to change.
-			</Text>
-			<StyledBlackBox direction="column" alignItems="center">
+			</span>
+			<div className="flex flex-col justify-center items-center bg-black p-10">
 				{step === 1 ? (
 					<>
-						<H4>{t('modals.edit.step-one')}</H4>
+						<h4 className="tg-title-h4 text-white">{t('modals.edit.step-one')}</h4>
 						<StyledInformationBox direction="column" alignItems="center">
 							<StyledBlackBoxSubline>{t('modals.edit.current')}</StyledBlackBoxSubline>
-							<StyledWalletAddress>
+							<h3 className="tg-title-h3 text-white">
 								{ensName ? ensName : walletAddress && truncateAddress(walletAddress)}
-							</StyledWalletAddress>
+							</h3>
 							<Card color="lightBlue">
 								<StyledCardContent className="darker-60" justifyContent="center">
 									{t('modals.edit.council', { council })}
@@ -113,7 +111,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 					</>
 				) : (
 					<>
-						<H4>{t('modals.edit.step-two')}</H4>
+						<h4 className="tg-title-h4">{t('modals.edit.step-two')}</h4>
 						<StyledCheckboxWrapper justifyContent="center">
 							<Checkbox
 								id="spartan-council-checkbox"
@@ -158,20 +156,13 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 						</StyledCheckboxWrapper>
 					</>
 				)}
-			</StyledBlackBox>
+			</div>
 			<StyledEditButton onClick={() => handleBtnClick()}>
 				{t('modals.edit.button')}
 			</StyledEditButton>
 		</BaseModal>
 	);
 }
-
-const StyledBlackBox = styled(Flex)`
-	background-color: ${({ theme }) => theme.colors.black};
-	width: 100%;
-	height: 200px;
-	padding: 16px 50px;
-`;
 
 const StyledBlackBoxSubline = styled.h6`
 	font-family: 'Inter Bold';
@@ -187,12 +178,6 @@ const StyledEditButton = styled(Button)`
 const StyledCardContent = styled(Flex)`
 	width: 100%;
 	height: 100%;
-	color: ${({ theme }) => theme.colors.white};
-`;
-const StyledWalletAddress = styled(H3)`
-	font-family: 'Inter Bold';
-	font-size: 1.5rem;
-	margin: ${({ theme }) => theme.spacings.tiniest};
 	color: ${({ theme }) => theme.colors.white};
 `;
 

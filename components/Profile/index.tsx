@@ -56,10 +56,25 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 
 		const getDropdownElements = () => {
 			const elements = [
-				<Link href={`https://optimistic.etherscan.io/address/${address}`}>Etherscan</Link>,
+				<Link
+					href={`https://optimistic.etherscan.io/address/${address}`}
+					key="profile-etherscan-link"
+				>
+					Etherscan
+				</Link>,
 			];
-			if (discord) elements.unshift(<Link href={`https://discord.com/${discord}`}>Discord</Link>);
-			if (twitter) elements.unshift(<Link href={`https://twitter.com/${twitter}`}>Twitter</Link>);
+			if (discord)
+				elements.unshift(
+					<Link href={`https://discord.com/${discord}`} key="discord-link">
+						Discord
+					</Link>
+				);
+			if (twitter)
+				elements.unshift(
+					<Link href={`https://twitter.com/${twitter}`} key="twitter-link">
+						Twitter
+					</Link>
+				);
 			return elements;
 		};
 		return (
