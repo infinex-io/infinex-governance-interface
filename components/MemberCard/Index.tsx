@@ -1,10 +1,4 @@
-import {
-	DiscordIcon,
-	Dropdown,
-	Card as OldCard,
-	ThreeDotsKebabIcon,
-	TwitterIcon,
-} from 'components/old-ui';
+import { DiscordIcon, Card as OldCard, ThreeDotsKebabIcon, TwitterIcon } from 'components/old-ui';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { Text } from 'components/Text/text';
@@ -18,8 +12,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseURL } from 'utils/ipfs';
 import VoteModal from 'components/Modals/Vote';
-import { Dialog, Button, Card, IconButton } from '@synthetixio/ui';
-import WithdrawVote from 'components/Modals/WithdrawVote';
+import { Button, Card, IconButton } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
@@ -34,7 +27,6 @@ interface MemberCardProps {
 export default function MemberCard({ member, state, deployedModule, council }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const [isWithdrawVoteOpen, setIsWithdrawVoteOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const { walletAddress } = useConnectorContext();
 	const { setContent, setIsOpen } = useModalContext();

@@ -14,6 +14,7 @@ export default function VoteCouncil() {
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const { data } = useNomineesQuery(activeCouncil.module);
 	const usersDetailsQuery = useUsersDetailsQuery(data || []);
+
 	return (
 		<>
 			<Head>
