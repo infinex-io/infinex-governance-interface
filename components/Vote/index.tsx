@@ -22,17 +22,19 @@ export default function VoteSection() {
 	const treasuryNominees = useNomineesQuery(DeployedModules.TREASURY_COUNCIL);
 
 	const spartanCouncilInfo =
-		spartanCurrentPeriod?.currentPeriod === 'VOTING' &&
+		spartanCurrentPeriod?.currentPeriod &&
 		parseIndex(EpochPeriods[spartanCurrentPeriod.currentPeriod]);
 	const grantsCouncilInfo =
-		grantsCurrentPeriod?.currentPeriod === 'VOTING' &&
+		grantsCurrentPeriod?.currentPeriod &&
 		parseIndex(EpochPeriods[grantsCurrentPeriod.currentPeriod]);
 	const ambassadorCouncilInfo =
-		ambassadorCurrentPeriod?.currentPeriod === 'VOTING' &&
+		ambassadorCurrentPeriod?.currentPeriod &&
 		parseIndex(EpochPeriods[ambassadorCurrentPeriod.currentPeriod]);
 	const treasuryCouncilInfo =
-		treasuryCurrentPeriod?.currentPeriod === 'VOTING' &&
+		treasuryCurrentPeriod?.currentPeriod &&
 		parseIndex(EpochPeriods[treasuryCurrentPeriod.currentPeriod]);
+
+	// Testing
 	const { data: grantsEpochIndex } = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
 	const voteQuery = useVoteHistoryQuery(
 		DeployedModules.GRANTS_COUNCIL,
