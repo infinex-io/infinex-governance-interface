@@ -3,6 +3,7 @@ import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
@@ -18,6 +19,7 @@ export default function WithdrawNominationModal({
 	council,
 }: WithdrawNominationModalProps) {
 	const { t } = useTranslation();
+	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
@@ -26,6 +28,7 @@ export default function WithdrawNominationModal({
 		const tx = await withdrawNomination.mutateAsync();
 		if (tx) {
 			setIsOpen(false);
+			push('/profile/' + walletAddress);
 		}
 	};
 

@@ -13,7 +13,7 @@ import BackButton from 'components/BackButton';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 
 const Councils: NextPage = () => {
-	const { query } = useRouter();
+	const { query, push } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()));
 	const { t } = useTranslation();
 	const members = useAllCouncilMembersQuery();
@@ -62,14 +62,7 @@ const Councils: NextPage = () => {
 					members.data?.treasury ? (
 						<div className="flex flex-wrap justify-center">
 							{members.data[activeCouncil.name].map((member) => (
-								<MemberCard
-									key={member.address}
-									member={member}
-									isAdminOrEval={
-										period.data?.currentPeriod === 'ADMINISTRATION' ||
-										period.data?.currentPeriod === 'EVALUATION'
-									}
-								/>
+								<MemberCard key={member.address} member={member} state="ADMINISTRATION" />
 							))}
 						</div>
 					) : (
