@@ -73,9 +73,9 @@ export default function CouncilsCarousel({ maxWidth, startIndex, ...rest }: Coun
 				<Carousel
 					startIndex={startIndex ? startIndex : 1}
 					widthOfItems={300}
-					carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member) => {
+					carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => {
 						return (
-							<StyledCarouselCard key={member.address} color="purple">
+							<StyledCarouselCard key={member.address.concat(String(index))} color="purple">
 								<StyledCarouselCardContent
 									className="darker-60"
 									direction="column"

@@ -8,10 +8,6 @@ import {
 } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
-import { H1 } from 'components/Headlines/H1';
-import { H3 } from 'components/Headlines/H3';
-import { H4 } from 'components/Headlines/H4';
-import { H5 } from 'components/Headlines/H5';
 import { TextBold } from 'components/Text/bold';
 import { Text } from 'components/Text/text';
 import { useConnectorContext } from 'containers/Connector';
@@ -24,6 +20,7 @@ import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
 import { Dialog } from '@synthetixio/ui';
+import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -33,17 +30,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { walletAddress: ownAddress } = useConnectorContext();
 	const allMembers = useAllCouncilMembersQuery();
 
-	const isPartOf = useMemo(() => {
-		if (allMembers.data?.spartan.filter((member) => member.address === walletAddress).length)
-			return 'Spartan';
-		if (allMembers.data?.grants.filter((member) => member.address === walletAddress).length)
-			return 'Grants';
-		if (allMembers.data?.ambassador.filter((member) => member.address === walletAddress).length)
-			return 'Ambassador';
-		if (allMembers.data?.treasury.filter((member) => member.address === walletAddress).length)
-			return 'Treasury';
-		return;
-	}, [walletAddress, allMembers.data]);
+	const { data } = useGetMemberCouncilNameQuery(walletAddress);
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,
@@ -79,13 +66,17 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					alignItems="center"
 				>
 					<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
-					{isPartOf && (
-						<Card color="green">
-							<div>{t('profiles.council', isPartOf)}</div>
+					{data && (
+						<Card color="green" className="max-w-[150px]">
+							<div className="tg-subhead darker-60 text-center text-green">
+								{t('profiles.council', { council: data })}
+							</div>
 						</Card>
 					)}
-					<Flex justifyContent="space-between" alignItems="center">
-						<H1>{username ? username : ens ? ens : truncateAddress(walletAddress)}</H1>
+					<div className="flex justify-between items-center">
+						<h1 className="tg-title-h1">
+							{username ? username : ens ? ens : truncateAddress(walletAddress)}
+						</h1>
 						{ownAddress === walletAddress && (
 							<>
 								<IconButton
@@ -101,43 +92,43 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								</Dialog>
 							</>
 						)}
-					</Flex>
+					</div>
 					<Text>{about}</Text>
 				</StyledAvatarWrapper>
 				<Flex direction="column">
-					<H4 align="start">{t('profiles.subheadline')}</H4>
+					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
 					<StyledProfileBox direction="column">
 						<Flex justifyContent="space-between">
 							<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
 							<Flex direction="column">
-								<H5 color="grey">{t('profiles.discord')}</H5>
-								<H3>{discord}</H3>
+								<h5 className="tg-title-h5 text-grey">{t('profiles.discord')}</h5>
+								<h3 className="tg-title-h3">{discord}</h3>
 							</Flex>
 							<Flex direction="column">
-								<H5 color="grey">{t('profiles.github')}</H5>
-								<H3>{github}</H3>
+								<h5 className="tg-title-h5 text-grey">{t('profiles.github')}</h5>
+								<h3 className="tg-title-h3">{github}</h3>
 							</Flex>
 							<Flex direction="column">
-								<H5 color="grey">{t('profiles.twitter')}</H5>
-								<H3>{twitter}</H3>
+								<h5 className="tg-title-h5 text-grey">{t('profiles.twitter')}</h5>
+								<h3 className="tg-title-h3">{twitter}</h3>
 							</Flex>
 							<Flex direction="column">
-								<H5 color="grey">{t('profiles.currentVotingWeight')}</H5>
-								<H3>{12241}</H3>
+								<h5 className="tg-title-h5 text-grey">{t('profiles.currentVotingWeight')}</h5>
+								<h3 className="tg-title-h3">{12241}</h3>
 							</Flex>
 							<Flex direction="column">
-								<H5 color="grey">{t('profiles.participatedVotes')}</H5>
-								<H3>{1242112}</H3>
+								<h5 color="grey">{t('profiles.participatedVotes')}</h5>
+								<h3 className="tg-title-h3">{1242112}</h3>
 							</Flex>
 						</Flex>
 						<StyledSpacer />
 						<Flex direction="column" alignItems="flex-start">
-							<H5 color="grey">{t('profiles.wallet')}</H5>
+							<h5 className="tg-title-h5 text-grey">{t('profiles.wallet')}</h5>
 							<TextBold color="white">{address}</TextBold>
 						</Flex>
 						<StyledSpacer />
 						<Flex direction="column" alignItems="flex-start">
-							<H5 color="grey">{t('profiles.pitch')}</H5>
+							<h5 className="tg-title-h5 text-grey">{t('profiles.pitch')}</h5>
 							<Text color="white">{parsedDelegationPitch.synthetix}</Text>
 						</Flex>
 					</StyledProfileBox>
