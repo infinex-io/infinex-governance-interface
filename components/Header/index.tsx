@@ -29,7 +29,7 @@ export default function Header() {
 	return (
 		<StyledHeader>
 			<Link href="/" passHref>
-				<div className="flex items-center cursor-pointer mr-8 bg-orange">
+				<div className="flex items-center cursor-pointer mr-8">
 					<SNXIcon />
 					<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
 				</div>

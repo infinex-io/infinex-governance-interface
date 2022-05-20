@@ -147,7 +147,7 @@ export default function MemberCard({ member, isVoting, onClick }: MemberCardProp
 				</div>
 			</div>
 			<Dialog
-				className=" w-bg-purple min-h-full min-w-full"
+				className="min-h-full min-w-full"
 				wrapperClass="min-w-[90%]  min-h-[90%] p-0"
 				onClose={() => setIsOpen(false)}
 				open={isWithdrawVoteOpen}
