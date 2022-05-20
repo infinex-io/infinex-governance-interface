@@ -43,7 +43,7 @@ const SelectorText = styled.span<{ hasIcon: boolean }>`
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	line-height: 140%;
 	color: ${colors.lightBlue};
 	${({ hasIcon }) => {

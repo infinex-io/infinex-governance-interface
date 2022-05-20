@@ -102,7 +102,7 @@ function useAllCouncilMembersQuery() {
 			}
 		},
 		{
-			enabled: true,
+			enabled: governanceModules !== null,
 			// 15 minutes
 			cacheTime: 900000,
 		}

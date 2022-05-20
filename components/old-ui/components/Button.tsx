@@ -123,7 +123,7 @@ const StyledChildren = styled.span<{
 	variant?: ButtonProps['variant'];
 	size?: ButtonProps['size'];
 }>`
-	font-size: 1rem;
+	font-size: 0.75rem;
 	font-family: ${fonts.interBold};
 	line-height: 17px;
 	font-weight: bold;

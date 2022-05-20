@@ -13,17 +13,25 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 	const { t } = useTranslation();
 
 	return (
-		<form className="flex flex-col gap-2 text-left" onSubmit={formik.handleSubmit}>
+		<form className="flex flex-col gap-1 text-left" onSubmit={formik.handleSubmit}>
 			<h4 className="tg-title-h4 my-2 text-center">{t('modals.editProfile.headline')}</h4>
 			<h4 className="tg-body mb-4 text-left">{t('modals.editProfile.subheadline')}</h4>
 
-			<TextField
-				{...formik.getFieldProps('username')}
-				{...errors.username}
-				label={t('modals.editProfile.inputs.headline.username')}
-				placeholder={t('modals.editProfile.inputs.placeholder.username')}
-			/>
+			<div className="flex items-center gap-2">
+				<TextField
+					{...formik.getFieldProps('username')}
+					{...errors.username}
+					label={t('modals.editProfile.inputs.headline.username')}
+					placeholder={t('modals.editProfile.inputs.placeholder.username')}
+				/>
 
+				<TextField
+					{...formik.getFieldProps('website')}
+					{...errors.website}
+					label={t('modals.editProfile.inputs.headline.pitch')}
+					placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
+				/>
+			</div>
 			<TextField
 				{...formik.getFieldProps('about')}
 				{...errors.about}
@@ -38,7 +46,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				label={t('modals.editProfile.inputs.headline.pitch')}
 				placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
 			/>
-			<div className="flex items-center gap-4">
+			<div className="flex items-center gap-2">
 				<TextField
 					{...formik.getFieldProps('twitter')}
 					{...errors.twitter}
@@ -64,12 +72,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				{...errors.pfpThumbnailUrl}
 				label={t('modals.editProfile.inputs.headline.profileImageUrl')}
 				placeholder={t('modals.editProfile.inputs.placeholder.profileImageUrl')}
-			/>
-			<TextField
-				{...formik.getFieldProps('website')}
-				{...errors.website}
-				label={t('modals.editProfile.inputs.headline.pitch')}
-				placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
 			/>
 
 			<Button variant="purple" size="lg">

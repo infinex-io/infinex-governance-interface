@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const TextBold = styled.span<{ color?: Colors }>`
 	font-family: 'Inter Bold';
 	font-weight: 700;
-	font-size: 1.16rem;
+	font-size: 0.87rem;
 	line-height: 18px;
 	text-align: center;
 	${({ color, theme }) => {

@@ -65,8 +65,8 @@ const StyledLabelText = styled.span<{ disabled?: boolean }>`
 	display: inline-block;
 	cursor: pointer;
 	font-family: 'Inter Bold';
-	font-size: 1.2rem;
-	line-height: 2.2rem;
+	font-size: 0.9rem;
+	line-height: 1.65rem;
 	color: ${(attrs) => (attrs.disabled ? colors.disabled : colors.white)};
 `;
 
@@ -75,9 +75,9 @@ const StyledCheckbox = styled.div<{ checked?: boolean; disabled?: boolean; color
 	display: inline-block;
 	cursor: pointer;
 	overflow: hidden;
-	margin-right: 0.75rem;
-	width: 2.2rem;
-	height: 2.2rem;
+	margin-right: 0.56rem;
+	width: 1.65rem;
+	height: 1.65rem;
 	border-radius: 50%;
 	${({ color }) =>
 		color ? `background-color: ${colors.lightBlue}` : `background-image: ${colors.gradients.pink}`};

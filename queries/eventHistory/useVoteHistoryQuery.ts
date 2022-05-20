@@ -45,7 +45,6 @@ function useVoteHistoryQuery(
 				ballotId ?? null,
 				epochIndex ? hexStringBN(epochIndex) : null
 			);
-
 			const voteEvents = await contract.queryFilter(voteFilter);
 			const voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
 
