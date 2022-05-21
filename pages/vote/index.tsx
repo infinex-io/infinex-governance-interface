@@ -9,32 +9,25 @@ import VoteSection from 'components/Vote';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
 import { Card } from '@synthetixio/ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useConnectorContext } from 'containers/Connector';
-import useHasVotedQuery from 'queries/voting/useHasVotedQuery';
+import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 
 export default function Vote() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { walletAddress } = useConnectorContext();
 	const [userVoteHistory, setUserVoteHistory] = useState({
-		spartan: false,
-		grants: false,
-		ambassador: false,
-		treasury: false,
+		spartan: { voted: false, candidate: null },
+		grants: { voted: false, candidate: null },
+		ambassador: { voted: false, candidate: null },
+		treasury: { voted: false, candidate: null },
 	});
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-	const hasVotedSpartan = useHasVotedQuery(DeployedModules.SPARTAN_COUNCIL, walletAddress || '');
-	const hasVotedGrants = useHasVotedQuery(DeployedModules.GRANTS_COUNCIL, walletAddress || '');
-	const hasVotedAmbassador = useHasVotedQuery(
-		DeployedModules.AMBASSADOR_COUNCIL,
-		walletAddress || ''
-	);
-
-	const hasVotedTreasury = useHasVotedQuery(DeployedModules.TREASURY_COUNCIL, walletAddress || '');
+	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 	// use that for getting the voted user
 	// useBallotCandidatesQuery
 	const oneCouncilIsInVotingPeriod =
@@ -42,15 +35,6 @@ export default function Vote() {
 		grantsQuery.data?.currentPeriod === 'VOTING' ||
 		ambassadorQuery.data?.currentPeriod === 'VOTING' ||
 		treasuryQuery.data?.currentPeriod === 'VOTING';
-
-	useEffect(() => {
-		setUserVoteHistory({
-			spartan: !!hasVotedSpartan.data,
-			grants: !!hasVotedGrants.data,
-			ambassador: !!hasVotedAmbassador.data,
-			treasury: !!hasVotedTreasury.data,
-		});
-	}, [hasVotedSpartan.data, hasVotedGrants.data, hasVotedAmbassador.data, hasVotedTreasury.data]);
 
 	return (
 		<>
