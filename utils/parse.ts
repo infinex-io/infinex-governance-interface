@@ -35,7 +35,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.nomination',
 				button: 'landing-page.cards.button.nomination',
-				color: 'bg-orange',
+				color: 'ui-gradient-orange text-black',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
@@ -45,7 +45,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.vote',
 				button: 'landing-page.cards.button.vote',
-				color: 'bg-green',
+				color: 'bg-green text-black',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
