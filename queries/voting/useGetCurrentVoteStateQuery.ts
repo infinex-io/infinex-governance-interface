@@ -99,22 +99,26 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 			return {
 				spartan: {
 					voted: !!hasVotedSpartan,
-					candidate: spartanCandidate?.length ? spartanCandidate[spartanCandidate?.length - 1] : '',
+					candidate: spartanCandidate?.length
+						? (spartanCandidate[spartanCandidate?.length - 1] as string)
+						: '',
 				},
 				grants: {
 					voted: !!hasVotedGrants,
-					candidate: grantsCandidate?.length ? grantsCandidate[grantsCandidate?.length - 1] : '',
+					candidate: grantsCandidate?.length
+						? (grantsCandidate[grantsCandidate?.length - 1] as string)
+						: '',
 				},
 				ambassador: {
 					voted: !!hasVotedAmbassador,
 					candidate: ambassadorCandidate?.length
-						? ambassadorCandidate[ambassadorCandidate?.length - 1]
+						? (ambassadorCandidate[ambassadorCandidate?.length - 1] as string)
 						: '',
 				},
 				treasury: {
 					voted: !!hasVotedTreasury.data,
 					candidate: treasuryCandidate.data?.length
-						? treasuryCandidate.data[treasuryCandidate.data?.length - 1]
+						? (treasuryCandidate.data[treasuryCandidate.data?.length - 1] as string)
 						: '',
 				},
 			};

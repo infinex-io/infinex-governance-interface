@@ -9,7 +9,7 @@ import VoteSection from 'components/Vote';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
 import { Card } from '@synthetixio/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useConnectorContext } from 'containers/Connector';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 
@@ -18,10 +18,10 @@ export default function Vote() {
 	const { push } = useRouter();
 	const { walletAddress } = useConnectorContext();
 	const [userVoteHistory, setUserVoteHistory] = useState({
-		spartan: { voted: false, candidate: null },
-		grants: { voted: false, candidate: null },
-		ambassador: { voted: false, candidate: null },
-		treasury: { voted: false, candidate: null },
+		spartan: { voted: false, candidate: '' },
+		grants: { voted: false, candidate: '' },
+		ambassador: { voted: false, candidate: '' },
+		treasury: { voted: false, candidate: '' },
 	});
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
@@ -35,13 +35,16 @@ export default function Vote() {
 		grantsQuery.data?.currentPeriod === 'VOTING' ||
 		ambassadorQuery.data?.currentPeriod === 'VOTING' ||
 		treasuryQuery.data?.currentPeriod === 'VOTING';
-
+	useEffect(() => {
+		if (voteStatusQuery.data) setUserVoteHistory(voteStatusQuery.data);
+	}, [voteStatusQuery.data]);
 	return (
 		<>
 			<Head>
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
+				{voteStatusQuery.isLoading.toString()}
 				{oneCouncilIsInVotingPeriod && <VoteBanner />}
 				<div className="flex flex-col items-center">
 					{!!oneCouncilIsInVotingPeriod && (
@@ -49,10 +52,10 @@ export default function Vote() {
 							<h3 className="tg-title-h3">
 								{t(
 									`vote.vote-status-${
-										userVoteHistory.spartan &&
-										userVoteHistory.grants &&
-										userVoteHistory.ambassador &&
-										userVoteHistory.treasury
+										userVoteHistory.spartan.voted &&
+										userVoteHistory.grants.voted &&
+										userVoteHistory.ambassador.voted &&
+										userVoteHistory.treasury.voted
 											? 'complete'
 											: 'incomplete'
 									}`,
