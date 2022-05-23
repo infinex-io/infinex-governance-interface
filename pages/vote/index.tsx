@@ -15,9 +15,8 @@ import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteSta
 import Avatar from 'components/Avatar';
 import { GetUserDetails } from 'queries/members/useAllCouncilMembersQuery';
 import { truncateAddress } from 'utils/truncate-address';
-import { Councils } from 'utils/config';
+import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'utils/config';
 import { useModalContext } from 'containers/Modal';
-import VoteModal from 'components/Modals/Vote';
 import WithdrawVote from 'components/Modals/WithdrawVote';
 
 interface CouncilState {
@@ -48,8 +47,6 @@ export default function Vote() {
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
-	// use that for getting the voted user
-	// useBallotCandidatesQuery
 	const oneCouncilIsInVotingPeriod =
 		spartanQuery.data?.currentPeriod === 'VOTING' ||
 		grantsQuery.data?.currentPeriod === 'VOTING' ||
@@ -62,7 +59,7 @@ export default function Vote() {
 
 	const calculateProgress = () => {
 		let count = 0;
-		for (const council of Councils) {
+		for (const council of COUNCIL_SLUGS) {
 			if (userVoteHistory[council as keyof VoteState].voted) count += 1;
 		}
 		return count;
@@ -95,34 +92,30 @@ export default function Vote() {
 								)}
 							</h3>
 							<div className="flex justify-between flex-wrap">
-								{spartanQuery.data?.currentPeriod === 'VOTING' && (
-									<VoteCard
-										userDetail={userVoteHistory.spartan.candidate}
-										hasVoted={userVoteHistory.spartan.voted}
-										council="sc"
-									/>
-								)}
-								{grantsQuery.data?.currentPeriod === 'VOTING' && (
-									<VoteCard
-										userDetail={userVoteHistory.grants.candidate}
-										hasVoted={userVoteHistory.spartan.voted}
-										council="gc"
-									/>
-								)}
-								{ambassadorQuery.data?.currentPeriod === 'VOTING' && (
-									<VoteCard
-										userDetail={userVoteHistory.ambassador.candidate}
-										hasVoted={userVoteHistory.spartan.voted}
-										council="ac"
-									/>
-								)}
-								{treasuryQuery.data?.currentPeriod === 'VOTING' && (
-									<VoteCard
-										userDetail={userVoteHistory.treasury.candidate}
-										hasVoted={userVoteHistory.spartan.voted}
-										council="tc"
-									/>
-								)}
+								<VoteCard
+									userDetail={userVoteHistory.spartan.candidate}
+									hasVoted={userVoteHistory.spartan.voted}
+									periodIsVoting={spartanQuery.data?.currentPeriod === 'VOTING'}
+									council={DeployedModules.SPARTAN_COUNCIL}
+								/>
+								<VoteCard
+									userDetail={userVoteHistory.grants.candidate}
+									hasVoted={userVoteHistory.spartan.voted}
+									council={DeployedModules.GRANTS_COUNCIL}
+									periodIsVoting={grantsQuery.data?.currentPeriod === 'VOTING'}
+								/>
+								<VoteCard
+									userDetail={userVoteHistory.ambassador.candidate}
+									hasVoted={userVoteHistory.spartan.voted}
+									council={DeployedModules.AMBASSADOR_COUNCIL}
+									periodIsVoting={ambassadorQuery.data?.currentPeriod === 'VOTING'}
+								/>
+								<VoteCard
+									userDetail={userVoteHistory.treasury.candidate}
+									hasVoted={userVoteHistory.spartan.voted}
+									council={DeployedModules.TREASURY_COUNCIL}
+									periodIsVoting={treasuryQuery.data?.currentPeriod === 'VOTING'}
+								/>
 							</div>
 						</Card>
 					)}
@@ -143,38 +136,42 @@ const VoteCard = ({
 	userDetail,
 	hasVoted,
 	council,
+	periodIsVoting,
 }: {
 	userDetail?: Pick<GetUserDetails, 'address' | 'ens'>;
 	hasVoted: boolean;
-	council: 'sc' | 'gc' | 'ac' | 'tc';
+	council: DeployedModules;
+	periodIsVoting: boolean;
 }) => {
 	const { t } = useTranslation();
 	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 	const { setContent, setIsOpen } = useModalContext();
 	const { push } = useRouter();
-	const councilDic = {
-		sc: { council: 'Spartan', module: DeployedModules.SPARTAN_COUNCIL },
-		gc: { council: 'Grants', module: DeployedModules.GRANTS_COUNCIL },
-		ac: { council: 'Ambassador', module: DeployedModules.AMBASSADOR_COUNCIL },
-		tc: { council: 'Treasury', module: DeployedModules.TREASURY_COUNCIL },
-	};
+	if (!periodIsVoting)
+		return (
+			<h4 className="tg-title-h4">
+				{t('vote.not-in-voting', { council: COUNCILS_DICTIONARY[council].label })}
+			</h4>
+		);
+
 	return hasVoted && userDetail?.address ? (
 		<div className="bg-black max-w-[270px] p-2 m-1 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
 			<Avatar walletAddress={userDetail.address} width={33} height={33} />
 			<div className="flex flex-col">
-				<span className="tg-caption-bold text-primary">{t(`vote.councils.${council}`)}</span>
+				<span className="tg-caption-bold text-primary">
+					{t(`vote.councils.${COUNCILS_DICTIONARY[council].abbreviation}`)}
+				</span>
 				<span className="tg-content">{userDetail?.ens || truncateAddress(userDetail.address)}</span>
 			</div>
 			<IconButton rounded onClick={() => setIsDropDownOpen(!isDropDownOpen)} size="sm">
 				<ThreeDotsKebabIcon active={isDropDownOpen} />
 			</IconButton>
+			{/* TODO @DEV add this dropdown to the UI lib */}
 			{isDropDownOpen && (
 				<div className="absolute top-[50px] right-0 bg-gray-900 rounded max-w-sm w-full flex flex-col">
 					<span
 						className="tg-caption p-2 text-primary cursor-pointer"
-						onClick={() => {
-							push('/vote/' + councilDic[council].council.toLowerCase());
-						}}
+						onClick={() => push('/vote/' + COUNCILS_DICTIONARY[council].slug)}
 					>
 						{t('vote.dropdown.change')}
 					</span>
@@ -192,8 +189,8 @@ const VoteCard = ({
 							setContent(
 								<WithdrawVote
 									address={userDetail.address}
-									council={councilDic[council].council}
-									deployedModule={councilDic[council].module}
+									council={COUNCILS_DICTIONARY[council].label}
+									deployedModule={council}
 									ens={userDetail.ens}
 								/>
 							);
@@ -210,7 +207,9 @@ const VoteCard = ({
 			<div className="darker-60 w-full h-full p-1 flex justify-between items-center">
 				<div className="w-[33px] h-[33px] rounded-full border-primary border-2 border-solid bg-black"></div>
 				<div className="flex flex-col">
-					<span className="tg-caption-bold text-white">{t(`vote.councils.${council}`)}</span>
+					<span className="tg-caption-bold text-white">
+						{t(`vote.councils.${COUNCILS_DICTIONARY[council].abbreviation}`)}
+					</span>
 					<span className="border-2 border-solid border-primary rounded p-1 text-primary tg-content-bold">
 						{t('vote.not-voted')}
 					</span>
@@ -218,7 +217,7 @@ const VoteCard = ({
 				<IconButton
 					className="bg-black"
 					size="sm"
-					onClick={() => push('/vote/' + councilDic[council].council.toLowerCase())}
+					onClick={() => push('/vote/' + COUNCILS_DICTIONARY[council].slug)}
 					rounded
 				>
 					<PlusIcon active />

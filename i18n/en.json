@@ -91,6 +91,7 @@
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/4",
 		"vote-status-complete": "Vote Status: Complete",
 		"not-voted": "NOT VOTED YET",
+		"not-in-voting": "{{council}} Council is not in voting period.",
 		"councils": {
 			"sc": "Spartan Council",
 			"gc": "Grants Council",
