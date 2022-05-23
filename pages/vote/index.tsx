@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
+import { PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
 import Main from 'components/Main';
 import { TextBold } from 'components/Text/bold';
 import Head from 'next/head';
@@ -18,6 +18,7 @@ import { truncateAddress } from 'utils/truncate-address';
 import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'utils/config';
 import { useModalContext } from 'containers/Modal';
 import WithdrawVote from 'components/Modals/WithdrawVote';
+import BackButton from 'components/BackButton';
 
 interface CouncilState {
 	voted: boolean;
@@ -47,12 +48,18 @@ export default function Vote() {
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
-	const oneCouncilIsInVotingPeriod =
-		spartanQuery.data?.currentPeriod === 'VOTING' ||
-		grantsQuery.data?.currentPeriod === 'VOTING' ||
-		ambassadorQuery.data?.currentPeriod === 'VOTING' ||
-		treasuryQuery.data?.currentPeriod === 'VOTING';
+	const oneCouncilIsInVotingPeriod = !![
+		spartanQuery,
+		grantsQuery,
+		ambassadorQuery,
+		treasuryQuery,
+	].find((item) => item.data?.currentPeriod === 'VOTING');
 
+	const hasVotedAll =
+		userVoteHistory.spartan.voted &&
+		userVoteHistory.grants.voted &&
+		userVoteHistory.ambassador.voted &&
+		userVoteHistory.treasury.voted;
 	useEffect(() => {
 		if (voteStatusQuery.data) setUserVoteHistory(voteStatusQuery.data);
 	}, [voteStatusQuery.data]);
@@ -76,20 +83,9 @@ export default function Vote() {
 					{!!oneCouncilIsInVotingPeriod && (
 						<Card variant="gray" className="flex flex-col max-w-[1300px] w-full">
 							<h3 className="tg-title-h3">
-								{t(
-									`vote.vote-status-${
-										userVoteHistory.spartan.voted &&
-										userVoteHistory.grants.voted &&
-										userVoteHistory.ambassador.voted &&
-										userVoteHistory.treasury.voted
-											? 'complete'
-											: 'incomplete'
-									}`,
-									{
-										// TODO MF
-										progress: calculateProgress(),
-									}
-								)}
+								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
+									progress: calculateProgress(),
+								})}
 							</h3>
 							<div className="flex justify-between flex-wrap">
 								<VoteCard
@@ -119,12 +115,7 @@ export default function Vote() {
 							</div>
 						</Card>
 					)}
-					<div className="flex items-center absolute top-[100px] left-[100px]">
-						<IconButton onClick={() => push({ pathname: '/' })} rounded size="sm">
-							<ArrowLeftIcon active />
-						</IconButton>
-						<TextBold color="lightBlue">{t('councils.back-btn')}</TextBold>
-					</div>
+					<BackButton />
 					<VoteSection />
 				</div>
 			</Main>
