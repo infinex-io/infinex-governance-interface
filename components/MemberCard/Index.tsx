@@ -6,7 +6,6 @@ import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
-import useGetMemberBelongingQuery from 'queries/nomination/useGetMemberBelongingQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -31,9 +30,7 @@ export default function MemberCard({ member, state, deployedModule, council }: M
 	const { walletAddress } = useConnectorContext();
 	const { setContent, setIsOpen } = useModalContext();
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
-	const { data } = useGetMemberBelongingQuery(member.address);
-
-	if (state === 'ADMINISTRATION' && data) {
+	if (state === 'ADMINISTRATION') {
 		return (
 			<OldCard
 				color={isOwnCard ? 'orange' : 'purple'}
@@ -102,7 +99,7 @@ export default function MemberCard({ member, state, deployedModule, council }: M
 		);
 	}
 
-	if (state === 'NOMINATION' && data) {
+	if (state === 'NOMINATION') {
 		return (
 			<OldCard
 				color={isOwnCard ? 'orange' : 'purple'}
@@ -193,7 +190,7 @@ export default function MemberCard({ member, state, deployedModule, council }: M
 			</OldCard>
 		);
 	}
-	if (state === 'VOTING' && data) {
+	if (state === 'VOTING') {
 		return (
 			<OldCard
 				color={isOwnCard ? 'orange' : 'purple'}

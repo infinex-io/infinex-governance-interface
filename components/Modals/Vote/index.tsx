@@ -7,16 +7,13 @@ import styled from 'styled-components';
 import BaseModal from '../BaseModal';
 import useCastMutation from 'mutations/voting/useCastMutation';
 import { DeployedModules } from 'containers/Modules/Modules';
-import useIsNominated from 'queries/nomination/useIsNominatedQuery';
-import { useEffect, useState } from 'react';
-import { parseURL } from 'utils/ipfs';
 import { H4 } from 'components/Headlines/H4';
 import { truncateAddress } from 'utils/truncate-address';
-import Image from 'next/image';
 import { capitalizeString } from 'utils/capitalize';
+import Avatar from 'components/Avatar';
 
 interface VoteModalProps {
-	member: GetUserDetails;
+	member: Pick<GetUserDetails, 'address' | 'ens'>;
 	deployedModule: DeployedModules;
 	council: string;
 }
@@ -41,13 +38,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
 			{data && data.pfpThumbnailUrl && (
-				<Image
-					className="rounded-full"
-					width={90}
-					height={90}
-					src={parseURL(member.pfpThumbnailUrl)}
-					alt="ens avatar"
-				/>
+				<Avatar width={90} height={90} walletAddress={member.address} />
 			)}
 			{data?.ens ? <H4>{data.ens}</H4> : <H4>{truncateAddress(data?.address || '')}</H4>}
 			<StyledSubmitButton onClick={() => handleVote()} variant="primary">

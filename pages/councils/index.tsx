@@ -11,6 +11,7 @@ import MemberCard from 'components/MemberCard/Index';
 import { parseQuery } from 'utils/parse';
 import BackButton from 'components/BackButton';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { Loader } from 'components/Loader/Loader';
 
 const Councils: NextPage = () => {
 	const { query, push } = useRouter();
@@ -66,7 +67,7 @@ const Councils: NextPage = () => {
 							))}
 						</div>
 					) : (
-						<span>loading...</span>
+						<Loader className="mt-8" />
 					)}
 				</div>
 			</Main>

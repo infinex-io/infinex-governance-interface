@@ -21,6 +21,7 @@ function useCurrentPeriod(moduleInstance: DeployedModules) {
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let currentPeriod = Number(await contract?.getCurrentPeriod());
+
 			return { currentPeriod: EpochPeriods[currentPeriod] as keyof typeof EpochPeriods };
 		},
 		{

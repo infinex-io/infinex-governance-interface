@@ -19,9 +19,10 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button } from '@synthetixio/ui';
+import { Dialog, Button, Spinner } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import Link from 'next/link';
+import { Loader } from 'components/Loader/Loader';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -167,7 +168,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			</StyledProfileWrapper>
 		);
 	} else {
-		return <>loading...</>;
+		return <Loader fullScreen />;
 	}
 }
 

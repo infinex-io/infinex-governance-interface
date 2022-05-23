@@ -25,7 +25,7 @@ export type GetUserDetails = {
 
 function useUsersDetailsQuery(walletAddresses: string[]) {
 	return useQuery<GetUserDetails[]>(
-		['userDetails', walletAddresses],
+		['userDetails', walletAddresses.toString()],
 		async () => {
 			const promises = walletAddresses.map((address) =>
 				fetch(GET_USER_DETAILS_API_URL(address), {
@@ -37,7 +37,7 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 			return result.map((r) => r.data);
 		},
 		{
-			enabled: walletAddresses !== null,
+			enabled: walletAddresses !== null && walletAddresses.length > 0,
 			// 15 minutes
 			cacheTime: 900000,
 		}
