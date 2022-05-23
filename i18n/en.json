@@ -89,7 +89,19 @@
 		"nominees": "{{council}} Council Nominees",
 		"vote-nominee": "Vote Nominee",
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/4",
-		"vote-status-complete": "Vote Status: Complete"
+		"vote-status-complete": "Vote Status: Complete",
+		"not-voted": "NOT VOTED YET",
+		"councils": {
+			"sc": "Spartan Council",
+			"gc": "Grants Council",
+			"ac": "Ambassador Council",
+			"tc": "Treasury Council"
+		},
+		"dropdown": {
+			"change": "Change Vote",
+			"view": "View Profile",
+			"uncast": "Uncast Vote"
+		}
 	},
 	"modals": {
 		"nomination": {

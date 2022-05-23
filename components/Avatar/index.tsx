@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import Image from 'next/image';
 import Blockies from 'react-blockies';
 import { parseURL } from 'utils/ipfs';
@@ -7,30 +6,23 @@ import { parseURL } from 'utils/ipfs';
 type AvatarProps = {
 	url?: string;
 	walletAddress: string;
+	width?: number;
+	height?: number;
 };
 
-const Avatar: React.FC<AvatarProps> = ({ walletAddress, url }) => {
+const Avatar: React.FC<AvatarProps> = ({ walletAddress, url, width = 120, height = 120 }) => {
 	const parsedUrl = url && parseURL(url);
 
-	return (
-		<ImageContainer>
-			{parsedUrl ? (
-				<RoundedImage
-					src={parsedUrl}
-					alt={`${walletAddress} avatar url`}
-					height={120}
-					width={120}
-				/>
-			) : (
-				<Blockies seed={walletAddress} />
-			)}
-		</ImageContainer>
+	return parsedUrl ? (
+		<Image
+			className="rounded-full"
+			src={parsedUrl}
+			alt={`${walletAddress} avatar url`}
+			height={width}
+			width={height}
+		/>
+	) : (
+		<Blockies seed={walletAddress} />
 	);
 };
 export default Avatar;
-
-const ImageContainer = styled.div``;
-
-const RoundedImage = styled(Image)`
-	border-radius: 60px;
-`;

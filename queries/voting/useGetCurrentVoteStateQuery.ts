@@ -2,6 +2,7 @@ import { useModulesContext } from 'containers/Modules';
 import { useQuery } from 'react-query';
 import { hexStringBN } from 'utils/hexString';
 import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
+import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
 
 export function useGetCurrentVoteStateQuery(walletAddress: string) {
 	const governanceModules = useModulesContext();
@@ -96,30 +97,62 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 						: false,
 				]);
 
+			const spartanCandidateInfoResponse =
+				spartanCandidate &&
+				fetch(GET_USER_DETAILS_API_URL(spartanCandidate), {
+					method: 'POST',
+				});
+			const grantsCandidateInfoResponse =
+				grantsCandidate &&
+				fetch(GET_USER_DETAILS_API_URL(grantsCandidate), {
+					method: 'POST',
+				});
+
+			const ambassadorCandidateInfoResponse =
+				ambassadorCandidate &&
+				fetch(GET_USER_DETAILS_API_URL(ambassadorCandidate), {
+					method: 'POST',
+				});
+
+			const treasuryCandidateInfoResponse =
+				treasuryCandidate &&
+				fetch(GET_USER_DETAILS_API_URL(treasuryCandidate), {
+					method: 'POST',
+				});
+
+			const responses = await Promise.all([
+				spartanCandidateInfoResponse,
+				grantsCandidateInfoResponse,
+				ambassadorCandidateInfoResponse,
+				treasuryCandidateInfoResponse,
+			]);
+			const results = await Promise.all(
+				responses.map((response) => {
+					if (response) return response.json();
+					return;
+				})
+			);
+			const result = results.map((r) => {
+				if (r) return r.data;
+				return;
+			});
+
 			return {
 				spartan: {
 					voted: !!hasVotedSpartan,
-					candidate: spartanCandidate?.length
-						? (spartanCandidate[spartanCandidate?.length - 1] as string)
-						: '',
+					candidate: result[0],
 				},
 				grants: {
 					voted: !!hasVotedGrants,
-					candidate: grantsCandidate?.length
-						? (grantsCandidate[grantsCandidate?.length - 1] as string)
-						: '',
+					candidate: result[1],
 				},
 				ambassador: {
 					voted: !!hasVotedAmbassador,
-					candidate: ambassadorCandidate?.length
-						? (ambassadorCandidate[ambassadorCandidate?.length - 1] as string)
-						: '',
+					candidate: result[2],
 				},
 				treasury: {
 					voted: !!hasVotedTreasury.data,
-					candidate: treasuryCandidate.data?.length
-						? (treasuryCandidate.data[treasuryCandidate.data?.length - 1] as string)
-						: '',
+					candidate: result[3],
 				},
 			};
 		},

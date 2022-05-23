@@ -37,7 +37,7 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 			return result.map((r) => r.data);
 		},
 		{
-			enabled: walletAddresses !== null,
+			enabled: walletAddresses !== null && walletAddresses.length > 0,
 			// 15 minutes
 			cacheTime: 900000,
 		}

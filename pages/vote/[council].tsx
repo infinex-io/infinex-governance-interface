@@ -20,11 +20,11 @@ export default function VoteCouncil() {
 	const usersDetailsQuery = useUsersDetailsQuery(nominees);
 
 	useEffect(() => {
-		if (usersDetailsQuery.data) setUserDetails((state) => [...state, ...usersDetailsQuery.data]);
+		if (usersDetailsQuery.data?.length) setUserDetails((state) => [...usersDetailsQuery.data]);
 	}, [nomineesData?.toString(), usersDetailsQuery.data]);
 
 	useEffect(() => {
-		if (nomineesData) setNominees((state) => [...state, ...nomineesData]);
+		if (nomineesData?.length) setNominees((state) => [...nomineesData]);
 	}, [nomineesData?.toString()]);
 
 	return (
