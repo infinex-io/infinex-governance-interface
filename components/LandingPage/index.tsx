@@ -18,7 +18,7 @@ export default function LandingPage() {
 		<div className="flex flex-col align-center gap-4">
 			<H1>{t('landing-page.headline')}</H1>
 			<Text>{t('landing-page.subline')}</Text>
-			<div className="flex justify-center flex-wrap gap-4">
+			<div className="flex justify-center flex-wrap gap-4 my-8">
 				<CouncilCard
 					image="/logos/spartan-council.svg"
 					deployedModule={DeployedModules.SPARTAN_COUNCIL}
@@ -42,7 +42,7 @@ export default function LandingPage() {
 			</div>
 			<H1>{t('landing-page.second-headline')}</H1>
 			<Text>{t('landing-page.second-subline')}</Text>
-			<div className="flex flex-wrap justify-center">
+			<div className="flex flex-wrap justify-center mt-8">
 				<Link href="/councils" passHref>
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}

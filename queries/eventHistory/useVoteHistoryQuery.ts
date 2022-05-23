@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, Contract, ethers, Event } from 'ethers';
 import { hexStringBN } from 'utils/hexString';
 
 type VoteEvent = {
@@ -35,36 +35,7 @@ function useVoteHistoryQuery(
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
-			const voteFilter = contract.filters.VoteRecorded(
-				voter ?? null,
-				ballotId ?? null,
-				epochIndex ? hexStringBN(epochIndex) : null
-			);
-			const voteWithdrawnFilter = contract.filters.VoteWithdrawn(
-				voter ?? null,
-				ballotId ?? null,
-				epochIndex ? hexStringBN(epochIndex) : null
-			);
-			const voteEvents = await contract.queryFilter(voteFilter);
-			const voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
-
-			let listOfVoters = [] as string[];
-			let votes = [] as VoteEvent[];
-
-			voteEvents.forEach((event: ethers.Event) => {
-				listOfVoters.push(event.args?.voter);
-				votes.push({
-					voter: event.args?.voter,
-					voterPower: event.args?.votePower,
-					ballotId: event.args?.ballotId,
-				});
-			});
-
-			voteWithdrawnEvents.forEach((event: ethers.Event) => {
-				if (listOfVoters.includes(event.args?.voter)) {
-					votes.splice(listOfVoters.indexOf(event.args?.voter), 1);
-				}
-			});
+			const votes = await voteHistory(contract, voter, ballotId, epochIndex);
 
 			return votes;
 		},
@@ -75,3 +46,43 @@ function useVoteHistoryQuery(
 }
 
 export default useVoteHistoryQuery;
+
+export async function voteHistory(
+	contract: Contract,
+	voter: string | null,
+	ballotId: string | null,
+	epochIndex: string | null
+) {
+	const voteFilter = contract.filters.VoteRecorded(
+		voter ?? null,
+		ballotId ?? null,
+		epochIndex ? hexStringBN(epochIndex) : null
+	);
+	const voteWithdrawnFilter = contract.filters.VoteWithdrawn(
+		voter ?? null,
+		ballotId ?? null,
+		epochIndex ? hexStringBN(epochIndex) : null
+	);
+	const voteEvents = await contract.queryFilter(voteFilter);
+	const voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
+
+	let listOfVoters = [] as string[];
+	let votes = [] as VoteEvent[];
+
+	voteEvents.forEach((event: Event) => {
+		listOfVoters.push(event.args?.voter);
+		votes.push({
+			voter: event.args?.voter,
+			voterPower: event.args?.votePower,
+			ballotId: event.args?.ballotId,
+		});
+	});
+
+	voteWithdrawnEvents.forEach((event: Event) => {
+		if (listOfVoters.includes(event.args?.voter)) {
+			votes.splice(listOfVoters.indexOf(event.args?.voter), 1);
+		}
+	});
+
+	return votes;
+}
