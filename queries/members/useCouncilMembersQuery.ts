@@ -14,8 +14,7 @@ function useCouncilMembersQuery(moduleInstance: DeployedModules) {
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
-			// 15 minutes
-			cacheTime: 900000,
+			staleTime: 900000,
 		}
 	);
 }

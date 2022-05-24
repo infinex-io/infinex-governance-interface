@@ -1,13 +1,20 @@
 import { useFormik } from 'formik';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import * as yup from 'yup';
 
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { useConnectorContext } from 'containers/Connector';
+import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
 
 export const useForm = (userProfile: GetUserDetails | undefined) => {
+	const [isLoading, setIsLoading] = useState(false);
+	const { walletAddress } = useConnectorContext();
+	const updateUserMutation = useUpdateUserDetailsMutation();
+	const userDetailsQuery = useUserDetailsQuery(walletAddress ?? '');
+
 	const validationSchema = yup.object({
 		username: yup.string().required(),
-		delegationPitches: yup.string(),
+		pitch: yup.string(),
 		about: yup.string().required(),
 		twitter: yup.string(),
 		discord: yup.string(),
@@ -18,7 +25,7 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 
 	const formik = useFormik({
 		initialValues: {
-			delegationPitches: userProfile?.delegationPitches || '',
+			pitch: `${JSON.parse(userProfile?.delegationPitches || '').synthetix || ''}`,
 			about: userProfile?.about || '',
 			twitter: userProfile?.twitter || '',
 			discord: userProfile?.discord || '',
@@ -29,14 +36,39 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 		},
 		validationSchema,
 		onSubmit: async (form: any) => {
+			if (userDetailsQuery.data && !isLoading) {
+				const delegationPitches = {
+					synthetix: form.pitch,
+				};
+
+				delete form.pitch;
+				setIsLoading(true);
+				updateUserMutation.mutate(
+					{
+						...userDetailsQuery.data,
+						...form,
+						delegationPitches: JSON.stringify(delegationPitches),
+					},
+					{
+						onSuccess: () => {
+							setIsLoading(false);
+						},
+						onError: (error: any) => {
+							console.log(error);
+							setIsLoading(false);
+						},
+					}
+				);
+			}
+
 			console.log(form);
 		},
 	});
 
 	const errors = useMemo(
 		() => ({
-			delegationPitches: {
-				error: formik.touched.delegationPitches && formik.errors.delegationPitches,
+			pitch: {
+				error: formik.touched.pitch && formik.errors.pitch,
 			},
 			about: {
 				error: formik.touched.about && formik.errors.about,
@@ -64,5 +96,5 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 		[formik.touched, formik.errors]
 	);
 
-	return { formik, errors };
+	return { formik, isLoading, errors };
 };

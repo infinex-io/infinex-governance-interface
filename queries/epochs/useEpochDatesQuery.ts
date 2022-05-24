@@ -30,6 +30,7 @@ function useEpochDatesQuery(moduleInstance: DeployedModules, epochIndex?: string
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
+			staleTime: 900000,
 		}
 	);
 }
