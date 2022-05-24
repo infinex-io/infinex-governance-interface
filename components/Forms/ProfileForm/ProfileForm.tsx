@@ -9,7 +9,7 @@ type ProfileFormProps = {
 };
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
-	const { formik, errors } = useForm(userProfile);
+	const { formik, isLoading, errors } = useForm(userProfile);
 	const { t } = useTranslation();
 
 	return (
@@ -28,8 +28,8 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				<TextField
 					{...formik.getFieldProps('website')}
 					{...errors.website}
-					label={t('modals.editProfile.inputs.headline.pitch')}
-					placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
+					label={t('modals.editProfile.inputs.headline.website')}
+					placeholder={t('modals.editProfile.inputs.placeholder.website')}
 				/>
 			</div>
 			<TextField
@@ -40,8 +40,8 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				placeholder={t('modals.editProfile.inputs.placeholder.about')}
 			/>
 			<TextField
-				{...formik.getFieldProps('delegationPitches')}
-				{...errors.delegationPitches}
+				{...formik.getFieldProps('pitch')}
+				{...errors.pitch}
 				multiline
 				label={t('modals.editProfile.inputs.headline.pitch')}
 				placeholder={t('modals.editProfile.inputs.placeholder.pitch')}
@@ -74,7 +74,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				placeholder={t('modals.editProfile.inputs.placeholder.profileImageUrl')}
 			/>
 
-			<Button variant="purple" size="lg">
+			<Button loading={isLoading} variant="purple" size="lg">
 				Confirm
 			</Button>
 		</form>

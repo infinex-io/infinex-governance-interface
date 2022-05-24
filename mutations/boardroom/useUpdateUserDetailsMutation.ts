@@ -18,7 +18,7 @@ function useUpdateUserDetailsMutation() {
 	return useMutation(
 		'updateUserDetails',
 		async (userProfile: GetUserDetails) => {
-			if (isUuidValidQuery.isSuccess && !isUuidValidQuery.data) {
+			if (!isUuidValidQuery.data) {
 				return await boardroomSignIn();
 			} else {
 				if (walletAddress) {
