@@ -82,11 +82,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				{secondButton && (
 					<TransparentText
 						gradient="lightBlue"
-						onClick={() => {
-							push({
-								pathname: '/councils/'.concat(council),
-							});
-						}}
+						onClick={() => push({ pathname: `/councils/${council}` })}
 						clickable
 					>
 						{t(secondButton)}
@@ -101,13 +97,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 							setContent(<NominateModal />);
 							setIsOpen(true);
 						} else if (period === 'VOTING') {
-							push({
-								pathname: '/vote/'.concat(council),
-							});
+							push({ pathname: `/vote/${council}` });
 						} else {
-							push({
-								pathname: '/councils',
-							});
+							push({ pathname: '/councils' });
 						}
 					}}
 				>
