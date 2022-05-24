@@ -54,7 +54,7 @@ type ConnectorContextType = {
 	chainId: number | undefined;
 	connectWallet: () => void;
 	disconnectWallet: () => void;
-	boardroomSignIn: () => void;
+	boardroomSignIn: () => Promise<string | undefined>;
 	boardroomSignOut: () => void;
 	L1DefaultProvider: ethers.providers.InfuraProvider;
 };
@@ -148,6 +148,8 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 				const signInResponse: SignInResponse = await response.json();
 
 				setUuid(signInResponse.data.uuid);
+
+				return signInResponse.data.uuid;
 			} catch (e) {
 				console.log(e);
 			}

@@ -18,23 +18,23 @@ function useUpdateUserDetailsMutation() {
 	return useMutation(
 		'updateUserDetails',
 		async (userProfile: GetUserDetails) => {
+			let signedInUuid = '';
 			if (!isUuidValidQuery.data) {
-				return await boardroomSignIn();
+				signedInUuid = (await boardroomSignIn()) || '';
+			}
+			if (walletAddress) {
+				const body = {
+					...userProfile,
+					uuid: uuid || signedInUuid,
+				};
+				let response = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
+					method: 'POST',
+					body: JSON.stringify(body),
+				});
+				const { data } = (await response.json()) as UpdateUserDetailsResponse;
+				return data;
 			} else {
-				if (walletAddress) {
-					const body = {
-						...userProfile,
-						uuid: uuid,
-					};
-					let response = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
-						method: 'POST',
-						body: JSON.stringify(body),
-					});
-					const { data } = (await response.json()) as UpdateUserDetailsResponse;
-					return data;
-				} else {
-					return new Error();
-				}
+				return new Error();
 			}
 		},
 		{
