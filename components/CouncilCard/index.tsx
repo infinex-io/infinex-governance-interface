@@ -74,11 +74,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<Text>{t(headlineRight)}</Text>
 				</div>
 				<div className="flex justify-between">
+					{/* TODO @DEV implement votes received or live votes when available */}
 					<h2 className="tg-title-h5">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h2>
-					{/* TODO @DEV implement votes received or live votes when available */}
-					<h2 className="tg-title-h5">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
 				</div>
 				{secondButton && (
 					<TransparentText
