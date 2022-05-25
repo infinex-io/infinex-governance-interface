@@ -55,6 +55,10 @@ export default function Vote() {
 		treasuryQuery,
 	].find((item) => item.data?.currentPeriod === 'VOTING');
 
+	useEffect(() => {
+		if (!oneCouncilIsInVotingPeriod) push('/');
+	}, [oneCouncilIsInVotingPeriod, push]);
+
 	const hasVotedAll =
 		userVoteHistory.spartan.voted &&
 		userVoteHistory.grants.voted &&

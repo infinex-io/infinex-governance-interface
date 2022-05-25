@@ -69,7 +69,11 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	const { activateBrowserWallet, account, deactivate, library, chainId } = useEthers();
 
 	const L1DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider('mainnet', process.env.NEXT_INFURA_PROJECT_ID),
+		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
+		[]
+	);
+	const L2DefaultProvider = useMemo(
+		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
 		[]
 	);
 
