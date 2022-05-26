@@ -1,7 +1,9 @@
 import { Button, SNXIcon, SpotlightButton, theme } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
+import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -10,11 +12,31 @@ export default function Header() {
 	const { push, pathname } = useRouter();
 	const { t } = useTranslation();
 	const [activeRoute, setActiveRoute] = useState('home');
+	const [routes, setRoutes] = useState([
+		t('header.routes.home'),
+		t('header.routes.councils'),
+		t('header.routes.vote'),
+	]);
+	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
+	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
+	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+
+	const oneCouncilIsInVotingPeriod = !![
+		spartanQuery,
+		grantsQuery,
+		ambassadorQuery,
+		treasuryQuery,
+	].find((item) => item.data?.currentPeriod === 'VOTING');
 
 	const { connectWallet, disconnectWallet, walletAddress, ensAvatar, ensName } =
 		useConnectorContext();
 
-	const routes = [t('header.routes.home'), t('header.routes.councils'), t('header.routes.vote')];
+	useEffect(() => {
+		if (!oneCouncilIsInVotingPeriod)
+			setRoutes([t('header.routes.home'), t('header.routes.councils')]);
+		else setRoutes([t('header.routes.home'), t('header.routes.councils'), t('header.routes.vote')]);
+	}, [oneCouncilIsInVotingPeriod, t]);
 
 	const handleIndexAndRouteChange = (index: number) => {
 		push(index === 0 ? '/' : '/'.concat(routes[index].toLowerCase()));
@@ -34,16 +56,14 @@ export default function Header() {
 					<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
 				</div>
 			</Link>
-			{routes.map((translation, index) => {
-				return (
-					<StyledSpotlightButton
-						text={translation}
-						onClick={() => handleIndexAndRouteChange(index)}
-						active={activeRoute === translation.toLowerCase()}
-						key={translation}
-					/>
-				);
-			})}
+			{routes.map((translation, index) => (
+				<StyledSpotlightButton
+					text={translation}
+					onClick={() => handleIndexAndRouteChange(index)}
+					active={activeRoute === translation.toLowerCase()}
+					key={translation}
+				/>
+			))}
 			<ButtonContainer>
 				<StyledConnectWalletButton
 					variant="quaternary"

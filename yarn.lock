@@ -1515,11 +1515,20 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.0.0.tgz#d406524646a795058062e4a372b5de7d9fdbc71f"
-  integrity sha512-KrrIZ3KvGSOYOlWyxqiffj0Q8SgWwT4pmPPSXqo31DhsboHAMNumyjSEUbqQ6GJ5dH2+RIXg/OIyW0VCHq9aEQ==
+"@synthetixio/transaction-notifier@^2.70.1":
+  version "2.70.1"
+  resolved "https://registry.yarnpkg.com/@synthetixio/transaction-notifier/-/transaction-notifier-2.70.1.tgz#9bb4653e88d7a6eb7d7dd63308043b15227b54aa"
+  integrity sha512-fxZZXsixHStUT02AKO2njknXRDNcp0nu/SsM5WlWPB2lgIVyeHrftkRqJ/3BlwIRd6h8pnYBAI6rG75zMaNPYA==
   dependencies:
+    ethers "5.5.3"
+    lodash "4.17.19"
+
+"@synthetixio/ui@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.2.0.tgz#a0ccf3cdcfae19bd9afb76058495809a2979df94"
+  integrity sha512-/cyJBatJbLPTjisY19Qik8ZCkIHQgQ1uHajazmB9xUNzjyXOFKY4PDDRlC3xp6SF4S70IXAciKujsbTFpuqEUQ==
+  dependencies:
+    "@synthetixio/transaction-notifier" "^2.70.1"
     clsx "^1.1.1"
     lodash "^4.17.21"
     react-transition-group "^4.4.2"
@@ -6251,6 +6260,13 @@ react-timer-hook@3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/react-timer-hook/-/react-timer-hook-3.0.5.tgz#a8d930f99b180cd88da245965a26a17df3e7457b"
   integrity sha512-n+98SdmYvui2ne3KyWb3Ldu4k0NYQa3g/VzW6VEIfZJ8GAk/jJsIY700M8Nd2vNSTj05c7wKyQfJBqZ0x7zfiA==
+
+react-toastify@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.0.1.tgz#2f3abd26a75efd55a82cb9c0a897c865218ea420"
+  integrity sha512-c2zeZHkCX+WXuItS/JRqQ/8CH8Qm/je+M0rt09xe9fnu5YPJigtNOdD8zX4fwLA093V2am3abkGfOowwpkrwOQ==
+  dependencies:
+    clsx "^1.1.1"
 
 react-transition-group@^4.4.2:
   version "4.4.2"

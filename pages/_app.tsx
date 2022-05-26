@@ -12,11 +12,12 @@ import '@synthetixio/ui/dist/default.css';
 import '../styles/index.scss';
 import '../i18n';
 
-import { ConnectorContextProvider } from 'containers/Connector';
+import { ConnectorContextProvider, useConnectorContext } from 'containers/Connector';
 import { ModulesProvider } from 'containers/Modules';
 import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
+import { TransactionDialogContextProvider } from '@synthetixio/ui';
 
 const queryClient = new QueryClient();
 
@@ -37,16 +38,19 @@ export const config: Config = {
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
+	const { L2DefaultProvider, provider } = useConnectorContext();
 
 	const TheComponent = Component as any;
 
 	return (
 		<ModulesProvider>
-			<Header />
-			<UIModal open={isOpen} modalContent={content}>
-				<TheComponent {...pageProps} />
-				<Footer />
-			</UIModal>
+			<TransactionDialogContextProvider provider={provider ? provider : L2DefaultProvider}>
+				<Header />
+				<UIModal open={isOpen} modalContent={content}>
+					<TheComponent {...pageProps} />
+					<Footer />
+				</UIModal>
+			</TransactionDialogContextProvider>
 		</ModulesProvider>
 	);
 };
