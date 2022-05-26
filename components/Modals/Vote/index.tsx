@@ -10,6 +10,7 @@ import { capitalizeString } from 'utils/capitalize';
 import Avatar from 'components/Avatar';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -21,18 +22,24 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { push } = useRouter();
+	const queryClient = useQueryClient();
 	const castVoteMutation = useCastMutation(deployedModule);
 	const { setVisible, setContent, state, setTxHash, visible, setState } =
 		useTransactionModalContext();
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
+				queryClient.refetchQueries({
+					active: true,
+					stale: true,
+					queryKey: ['getCurrentVoteStateQuery'],
+				});
 				push('/profile/' + member.address);
 				setVisible(false);
 				setIsOpen(false);
 			}, 2000);
 		}
-	}, [state, setVisible, setIsOpen, push, member.address, visible]);
+	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient]);
 	const handleVote = async () => {
 		setState('signing');
 		setVisible(true);

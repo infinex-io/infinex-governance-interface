@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
 
@@ -21,18 +22,24 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
+	const queryClient = useQueryClient();
 	const { state, setContent, setTxHash, setVisible, setState, visible } =
 		useTransactionModalContext();
 	const withdrawVoteMutation = useWithdrawVoteMutation(deployedModule);
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
+				queryClient.refetchQueries({
+					active: true,
+					stale: true,
+					queryKey: ['getCurrentVoteStateQuery'],
+				});
 				push('/vote');
 				setIsOpen(false);
 				setVisible(false);
 			}, 2000);
 		}
-	}, [state, setIsOpen, setVisible, push, visible]);
+	}, [state, setIsOpen, setVisible, push, visible, queryClient]);
 	const handleWithdraw = async () => {
 		setState('signing');
 		setVisible(true);
