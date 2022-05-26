@@ -27,9 +27,9 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
+				push('/profile/' + member.address);
 				setVisible(false);
 				setIsOpen(false);
-				push('/profile/' + member.address);
 			}, 2000);
 		}
 	}, [state, setVisible, setIsOpen, push, member.address, visible]);

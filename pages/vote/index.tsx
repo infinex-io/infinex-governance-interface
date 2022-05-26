@@ -1,6 +1,5 @@
 import { PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
 import Main from 'components/Main';
-import { TextBold } from 'components/Text/bold';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
@@ -42,22 +41,34 @@ export default function Vote() {
 		ambassador: { voted: false, candidate: undefined },
 		treasury: { voted: false, candidate: undefined },
 	});
+	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
-	const oneCouncilIsInVotingPeriod = !![
-		spartanQuery,
-		grantsQuery,
-		ambassadorQuery,
-		treasuryQuery,
-	].find((item) => item.data?.currentPeriod === 'VOTING');
+	useEffect(() => {
+		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
+	}, [activeCouncilInVoting, push]);
 
 	useEffect(() => {
-		if (!oneCouncilIsInVotingPeriod) push('/');
-	}, [oneCouncilIsInVotingPeriod, push]);
+		if (
+			spartanQuery.data?.currentPeriod &&
+			grantsQuery.data?.currentPeriod &&
+			ambassadorQuery.data?.currentPeriod &&
+			treasuryQuery.data?.currentPeriod
+		) {
+			setActiveCouncilInVoting(
+				[
+					spartanQuery.data?.currentPeriod,
+					grantsQuery.data?.currentPeriod,
+					ambassadorQuery.data?.currentPeriod,
+					treasuryQuery.data?.currentPeriod,
+				].filter((period) => period === 'VOTING').length
+			);
+		}
+	}, [spartanQuery.data, grantsQuery.data, ambassadorQuery.data, treasuryQuery.data]);
 
 	const hasVotedAll =
 		userVoteHistory.spartan.voted &&
@@ -82,13 +93,14 @@ export default function Vote() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{oneCouncilIsInVotingPeriod && <VoteBanner />}
+				{activeCouncilInVoting && <VoteBanner />}
 				<div className="flex flex-col items-center">
-					{!!oneCouncilIsInVotingPeriod && (
+					{!!activeCouncilInVoting && (
 						<Card variant="gray" className="flex flex-col max-w-[1300px] w-full">
 							<h3 className="tg-title-h3">
 								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
 									progress: calculateProgress(),
+									max: activeCouncilInVoting,
 								})}
 							</h3>
 							<div className="flex justify-between flex-wrap">
@@ -133,7 +145,7 @@ const VoteCard = ({
 	council,
 	periodIsVoting,
 }: {
-	userDetail?: Pick<GetUserDetails, 'address' | 'ens'>;
+	userDetail?: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl'>;
 	hasVoted: boolean;
 	council: DeployedModules;
 	periodIsVoting: boolean;
@@ -183,10 +195,9 @@ const VoteCard = ({
 						onClick={() => {
 							setContent(
 								<WithdrawVote
-									address={userDetail.address}
 									council={COUNCILS_DICTIONARY[council].label}
 									deployedModule={council}
-									ens={userDetail.ens}
+									member={userDetail}
 								/>
 							);
 							setIsOpen(true);
