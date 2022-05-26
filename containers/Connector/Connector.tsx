@@ -57,6 +57,7 @@ type ConnectorContextType = {
 	boardroomSignIn: () => Promise<string | undefined>;
 	boardroomSignOut: () => void;
 	L1DefaultProvider: ethers.providers.InfuraProvider;
+	L2DefaultProvider: ethers.providers.InfuraProvider;
 };
 
 const ConnectorContext = createContext<unknown>(null);
@@ -215,6 +216,7 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 				boardroomSignIn,
 				boardroomSignOut,
 				L1DefaultProvider,
+				L2DefaultProvider,
 			}}
 		>
 			{children}

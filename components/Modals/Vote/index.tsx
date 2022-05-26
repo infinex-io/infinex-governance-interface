@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import BaseModal from '../BaseModal';
 import useCastMutation from 'mutations/voting/useCastMutation';
 import { DeployedModules } from 'containers/Modules/Modules';
-import { H4 } from 'components/Headlines/H4';
 import { truncateAddress } from 'utils/truncate-address';
 import { capitalizeString } from 'utils/capitalize';
 import Avatar from 'components/Avatar';
@@ -40,7 +39,11 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			{data && data.pfpThumbnailUrl && (
 				<Avatar width={90} height={90} walletAddress={member.address} />
 			)}
-			{data?.ens ? <H4>{data.ens}</H4> : <H4>{truncateAddress(data?.address || '')}</H4>}
+			{data?.ens ? (
+				<h4 className="tg-title-h4">{data.ens}</h4>
+			) : (
+				<h4 className="tg-title-h4">{truncateAddress(data?.address || '')}</h4>
+			)}
 			<StyledSubmitButton onClick={() => handleVote()} variant="primary">
 				{t('modals.vote.submit')}
 			</StyledSubmitButton>

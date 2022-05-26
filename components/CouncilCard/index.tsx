@@ -10,7 +10,7 @@ import useCurrentEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
@@ -27,8 +27,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
+	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
 
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
+	// TODO @DEV warp that into use state to trigger a rerender whenever the data is ready
 	const [dates, nominees, members] = [
 		useCurrentEpochDatesQuery(deployedModule),
 		useNomineesQuery(deployedModule),
@@ -39,8 +41,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const nomineesCount = nominees.data?.length;
 	const period = currentPeriodData?.currentPeriod;
 
-	const councilInfo =
-		currentPeriodData && parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]);
+	useEffect(() => {
+		if (currentPeriodData?.currentPeriod)
+			setCouncilInfo(parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]));
+	}, [currentPeriodData?.currentPeriod]);
 
 	if (!councilInfo)
 		return (

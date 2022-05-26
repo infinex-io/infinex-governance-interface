@@ -1,4 +1,4 @@
-import { Button } from '@synthetixio/ui';
+import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { Checkbox, Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
@@ -7,7 +7,7 @@ import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
@@ -19,6 +19,7 @@ export default function NominateModal() {
 	const { setIsOpen } = useModalContext();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
+	const { setVisible, setTxHash, setContent, state, visible } = useTransactionModalContext();
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
@@ -45,6 +46,18 @@ export default function NominateModal() {
 		walletAddress || ''
 	);
 
+	useEffect(() => {
+		if (state === 'confirmed' && visible) {
+			setTimeout(() => {
+				setIsOpen(false);
+				setVisible(false);
+				push({
+					pathname: '/councils/'.concat(activeCheckbox),
+				});
+			}, 3000);
+		}
+	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible]);
+
 	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
 	we should block all the councils radio button */
 	const isAlreadyNominated =
@@ -54,42 +67,47 @@ export default function NominateModal() {
 		isAlreadyNominatedForTreasury.data;
 
 	const handleNomination = async () => {
+		setVisible(true);
 		switch (activeCheckbox) {
 			case 'spartan':
+				setContent(
+					<>
+						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Spartan' })}</h6>
+						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+					</>
+				);
 				const spartanTx = await nominateForSpartanCouncil.mutateAsync();
-				if (spartanTx) {
-					setIsOpen(false);
-					push({
-						pathname: '/councils/'.concat('spartan'),
-					});
-				}
+				setTxHash(spartanTx.hash);
 				break;
 			case 'grants':
+				setContent(
+					<>
+						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Grants' })}</h6>
+						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+					</>
+				);
 				const grantsTx = await nominateForGrantsCouncil.mutateAsync();
-				if (grantsTx) {
-					setIsOpen(false);
-					push({
-						pathname: '/councils/'.concat('grants'),
-					});
-				}
+				setTxHash(grantsTx.hash);
 				break;
 			case 'ambassador':
+				setContent(
+					<>
+						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Ambassador' })}</h6>
+						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+					</>
+				);
 				const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
-				if (ambassadorTx) {
-					setIsOpen(false);
-					push({
-						pathname: '/councils/'.concat('ambassador'),
-					});
-				}
+				setTxHash(ambassadorTx.hash);
 				break;
 			case 'treasury':
+				setContent(
+					<>
+						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Treasury' })}</h6>
+						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+					</>
+				);
 				const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
-				if (treasuryTx) {
-					setIsOpen(false);
-					push({
-						pathname: '/councils/'.concat('treasury'),
-					});
-				}
+				setTxHash(treasuryTx.hash);
 				break;
 			default:
 				console.info('no matching entity found');

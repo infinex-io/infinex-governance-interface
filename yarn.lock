@@ -1515,11 +1515,20 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.0.0.tgz#d406524646a795058062e4a372b5de7d9fdbc71f"
-  integrity sha512-KrrIZ3KvGSOYOlWyxqiffj0Q8SgWwT4pmPPSXqo31DhsboHAMNumyjSEUbqQ6GJ5dH2+RIXg/OIyW0VCHq9aEQ==
+"@synthetixio/transaction-notifier@^2.70.1":
+  version "2.70.1"
+  resolved "https://registry.yarnpkg.com/@synthetixio/transaction-notifier/-/transaction-notifier-2.70.1.tgz#9bb4653e88d7a6eb7d7dd63308043b15227b54aa"
+  integrity sha512-fxZZXsixHStUT02AKO2njknXRDNcp0nu/SsM5WlWPB2lgIVyeHrftkRqJ/3BlwIRd6h8pnYBAI6rG75zMaNPYA==
   dependencies:
+    ethers "5.5.3"
+    lodash "4.17.19"
+
+"@synthetixio/ui@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.2.0.tgz#a0ccf3cdcfae19bd9afb76058495809a2979df94"
+  integrity sha512-/cyJBatJbLPTjisY19Qik8ZCkIHQgQ1uHajazmB9xUNzjyXOFKY4PDDRlC3xp6SF4S70IXAciKujsbTFpuqEUQ==
+  dependencies:
+    "@synthetixio/transaction-notifier" "^2.70.1"
     clsx "^1.1.1"
     lodash "^4.17.21"
     react-transition-group "^4.4.2"
