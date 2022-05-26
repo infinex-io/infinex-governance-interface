@@ -20,8 +20,8 @@ import WithdrawVoteModal from 'components/Modals/WithdrawVote';
 interface MemberCardProps {
 	member: GetUserDetails;
 	state: keyof typeof EpochPeriods;
-	deployedModule: DeployedModules;
-	council: string;
+	deployedModule?: DeployedModules;
+	council?: string;
 	votedFor?: GetUserDetails;
 }
 
@@ -221,8 +221,8 @@ export default function MemberCard({
 									setContent(
 										<WithdrawVoteModal
 											member={member}
-											council={council}
-											deployedModule={deployedModule}
+											council={council!}
+											deployedModule={deployedModule!}
 										/>
 									);
 								} else {
