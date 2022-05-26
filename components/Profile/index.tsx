@@ -8,8 +8,6 @@ import {
 } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
-import { TextBold } from 'components/Text/bold';
-import { Text } from 'components/Text/text';
 import { useConnectorContext } from 'containers/Connector';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
@@ -80,13 +78,19 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			return elements;
 		};
 		return (
-			<StyledProfileWrapper direction="column" alignItems="center">
-				<StyledBackIconWrapper alignItems="center">
-					<IconButton active onClick={() => push({ pathname: '/' })} rounded size="tiniest">
+			<div className="flex flex-col items-center pb-20">
+				<div className="flex items-center absolute left-10 top-10">
+					<IconButton
+						className="mr-2"
+						active
+						onClick={() => push({ pathname: '/' })}
+						rounded
+						size="tiniest"
+					>
 						<ArrowLeftIcon active />
 					</IconButton>
-					<TextBold color="lightBlue">{t('councils.back-btn')}</TextBold>
-				</StyledBackIconWrapper>
+					<span className="tg-content-bold text-blue">{t('councils.back-btn')}</span>
+				</div>
 				<StyledAvatarWrapper
 					isOwnAccount={ownAddress === walletAddress}
 					direction="column"
@@ -122,7 +126,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							<ProfileForm userProfile={userDetailsQuery.data} />
 						</Dialog>
 					</div>
-					<Text>{about}</Text>
+					<p className="tg-body">{about}</p>
 				</StyledAvatarWrapper>
 				<div className="flex flex-col mb-6">
 					<h4 className="tg-headline text-start">{t('profiles.subheadline')}</h4>
@@ -139,25 +143,12 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<Button className="max-w-[250px]" onClick={() => push({ pathname: '/councils' })}>
 					{t('profiles.view-all-members')}
 				</Button>
-			</StyledProfileWrapper>
+			</div>
 		);
 	} else {
 		return <Loader fullScreen />;
 	}
 }
-
-const StyledProfileWrapper = styled(Flex)`
-	padding-bottom: ${({ theme }) => theme.spacings.biggest};
-`;
-
-const StyledBackIconWrapper = styled(Flex)`
-	position: absolute;
-	top: 110px;
-	left: ${({ theme }) => theme.spacings.biggest};
-	> * {
-		margin-right: ${({ theme }) => theme.spacings.medium};
-	}
-`;
 
 const StyledAvatarWrapper = styled(Flex)<{ isOwnAccount?: boolean }>`
 	background-image: ${({ isOwnAccount }) =>
