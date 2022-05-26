@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { hexStringBN } from 'utils/hexString';
 import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 
 export function useGetCurrentVoteStateQuery(walletAddress: string) {
 	const governanceModules = useModulesContext();
@@ -140,19 +141,19 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 			return {
 				spartan: {
 					voted: !!hasVotedSpartan,
-					candidate: result[0],
+					candidate: result[0] as GetUserDetails,
 				},
 				grants: {
 					voted: !!hasVotedGrants,
-					candidate: result[1],
+					candidate: result[1] as GetUserDetails,
 				},
 				ambassador: {
 					voted: !!hasVotedAmbassador,
-					candidate: result[2],
+					candidate: result[2] as GetUserDetails,
 				},
 				treasury: {
 					voted: !!hasVotedTreasury.data,
-					candidate: result[3],
+					candidate: result[3] as GetUserDetails,
 				},
 			};
 		},

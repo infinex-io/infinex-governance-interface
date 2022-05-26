@@ -91,6 +91,7 @@
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/4",
 		"vote-status-complete": "Vote Status: Complete",
 		"not-voted": "NOT VOTED YET",
+		"withdraw": "Withdraw Vote",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"councils": {
 			"sc": "Spartan Council",
@@ -138,12 +139,14 @@
 		"vote": {
 			"headline": "Voting For {{council}} Council",
 			"submit": "Submit Vote",
-			"profile": "See full profile"
+			"profile": "See full profile",
+			"cta": "Voting for {{council}} Council"
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
 			"voted-for": "Voted for {{council}} Council",
-			"uncast-vote": "Uncast Vote"
+			"uncast-vote": "Uncast Vote",
+			"cta": "Withdraw Vote for {{council}} Council"
 		},
 		"editProfile": {
 			"headline": "Edit Profile",

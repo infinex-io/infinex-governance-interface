@@ -14,8 +14,7 @@ function useWithdrawVoteMutation(moduleInstance: DeployedModules) {
 			if (contract) {
 				const gasLimit = await contract.estimateGas.withdrawVote();
 				let tx = await contract.withdrawVote({ gasLimit });
-				const receipt = tx.wait();
-				return receipt;
+				return tx;
 			} else {
 				return new Error();
 			}

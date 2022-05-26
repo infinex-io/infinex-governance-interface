@@ -15,15 +15,23 @@ import { Button, Card, IconButton } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
+import WithdrawVoteModal from 'components/Modals/WithdrawVote';
 
 interface MemberCardProps {
 	member: GetUserDetails;
 	state: keyof typeof EpochPeriods;
-	deployedModule?: DeployedModules;
-	council?: string;
+	deployedModule: DeployedModules;
+	council: string;
+	votedFor?: GetUserDetails;
 }
 
-export default function MemberCard({ member, state, deployedModule, council }: MemberCardProps) {
+export default function MemberCard({
+	member,
+	state,
+	deployedModule,
+	council,
+	votedFor,
+}: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -191,6 +199,7 @@ export default function MemberCard({ member, state, deployedModule, council }: M
 		);
 	}
 	if (state === 'VOTING') {
+		const votedForAlready = votedFor?.address.toLowerCase() === member.address.toLowerCase();
 		return (
 			<OldCard
 				color={isOwnCard ? 'orange' : 'purple'}
@@ -208,13 +217,27 @@ export default function MemberCard({ member, state, deployedModule, council }: M
 							variant="outline"
 							onClick={(e) => {
 								e.stopPropagation();
-								setContent(
-									<VoteModal member={member} deployedModule={deployedModule!} council={council!} />
-								);
+								if (votedForAlready) {
+									setContent(
+										<WithdrawVoteModal
+											member={member}
+											council={council}
+											deployedModule={deployedModule}
+										/>
+									);
+								} else {
+									setContent(
+										<VoteModal
+											member={member}
+											deployedModule={deployedModule!}
+											council={council!}
+										/>
+									);
+								}
 								setIsOpen(true);
 							}}
 						>
-							{t('vote.vote-nominee')}
+							{votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
 						</Button>
 						{isOwnCard && (
 							<IconButton

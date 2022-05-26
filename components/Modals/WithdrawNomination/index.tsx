@@ -25,7 +25,8 @@ export default function WithdrawNominationModal({
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
-	const { setTxHash, setContent, setVisible, state, visible } = useTransactionModalContext();
+	const { setTxHash, setContent, setVisible, state, visible, setState } =
+		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
 
 	useEffect(() => {
@@ -34,11 +35,12 @@ export default function WithdrawNominationModal({
 				setIsOpen(false);
 				setVisible(false);
 				push('/profile/' + walletAddress);
-			}, 3000);
+			}, 2000);
 		}
 	}, [state, push, setIsOpen, walletAddress, setVisible, visible]);
 
 	const handleWithdrawNomination = async () => {
+		setState('signing');
 		setVisible(true);
 		setContent(
 			<>

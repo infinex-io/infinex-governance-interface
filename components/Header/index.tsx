@@ -33,9 +33,9 @@ export default function Header() {
 		useConnectorContext();
 
 	useEffect(() => {
-		console.log(oneCouncilIsInVotingPeriod);
 		if (!oneCouncilIsInVotingPeriod)
 			setRoutes([t('header.routes.home'), t('header.routes.councils')]);
+		else setRoutes([t('header.routes.home'), t('header.routes.councils'), t('header.routes.vote')]);
 	}, [oneCouncilIsInVotingPeriod, t]);
 
 	const handleIndexAndRouteChange = (index: number) => {

@@ -1,101 +1,83 @@
-import { Button } from 'components/old-ui';
 import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
-import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import BaseModal from '../BaseModal';
 import useCastMutation from 'mutations/voting/useCastMutation';
 import { DeployedModules } from 'containers/Modules/Modules';
 import { truncateAddress } from 'utils/truncate-address';
 import { capitalizeString } from 'utils/capitalize';
 import Avatar from 'components/Avatar';
+import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { useEffect } from 'react';
 
 interface VoteModalProps {
-	member: Pick<GetUserDetails, 'address' | 'ens'>;
+	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
 	deployedModule: DeployedModules;
 	council: string;
 }
 
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
-	const { data } = useUserDetailsQuery(member.address);
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { push } = useRouter();
 	const castVoteMutation = useCastMutation(deployedModule);
-	const handleVote = async () => {
-		try {
-			const tx = await castVoteMutation.mutateAsync([member.address]);
-			if (tx) {
-				push('/profile/' + member.address);
+	const { setVisible, setContent, state, setTxHash, visible, setState } =
+		useTransactionModalContext();
+	useEffect(() => {
+		if (state === 'confirmed' && visible) {
+			setTimeout(() => {
+				setVisible(false);
 				setIsOpen(false);
-			}
+				push('/profile/' + member.address);
+			}, 2000);
+		}
+	}, [state, setVisible, setIsOpen, push, member.address, visible]);
+	const handleVote = async () => {
+		setState('signing');
+		setVisible(true);
+		try {
+			setContent(
+				<>
+					<h6 className="tg-title-h6">{t('modals.vote.cta', { council: 'Spartan' })}</h6>
+					<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
+				</>
+			);
+			const tx = await castVoteMutation.mutateAsync([member.address]);
+			setTxHash(tx.hash);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
-			{data && data.pfpThumbnailUrl && (
-				<Avatar width={90} height={90} walletAddress={member.address} />
+			{member.pfpThumbnailUrl && (
+				<Avatar
+					width={160}
+					height={160}
+					walletAddress={member.address}
+					url={member.pfpThumbnailUrl}
+				/>
 			)}
-			{data?.ens ? (
-				<h4 className="tg-title-h4">{data.ens}</h4>
+			{member?.ens ? (
+				<h4 className="tg-title-h4 text-white">{member.ens}</h4>
 			) : (
-				<h4 className="tg-title-h4">{truncateAddress(data?.address || '')}</h4>
+				<h4 className="tg-title-h4 text-white">{truncateAddress(member.address)}</h4>
 			)}
-			<StyledSubmitButton onClick={() => handleVote()} variant="primary">
+			<span className="text-gray-500 max-w-[300px]">{member.about}</span>
+			<Button onClick={() => handleVote()} size="lg" className="m-6">
 				{t('modals.vote.submit')}
-			</StyledSubmitButton>
-			<StyledProfileButton
-				variant="secondary"
+			</Button>
+			<Button
+				size="lg"
+				variant="outline"
 				onClick={() => {
 					setIsOpen(false);
 					push('/profile/' + member.address);
 				}}
 			>
 				{t('modals.vote.profile')}
-			</StyledProfileButton>
+			</Button>
 		</BaseModal>
 	);
 }
-
-const councilDic = [
-	{
-		name: 'Spartan',
-		module: DeployedModules.SPARTAN_COUNCIL,
-	},
-	{
-		name: 'Grants',
-		module: DeployedModules.GRANTS_COUNCIL,
-	},
-	{
-		name: 'Ambassador',
-		module: DeployedModules.AMBASSADOR_COUNCIL,
-	},
-	{
-		name: 'Treasury',
-		module: DeployedModules.TREASURY_COUNCIL,
-	},
-];
-
-const parseNomination = (nominations: boolean[]) => {
-	const [nominationInfo] = nominations.map((nomination, index) => {
-		if (nomination) {
-			return councilDic[index];
-		}
-	});
-	console.log(nominationInfo);
-	return nominationInfo;
-};
-
-const StyledSubmitButton = styled(Button)`
-	min-width: 280px;
-	margin: ${({ theme }) => theme.spacings.medium};
-	max-width: 240px;
-`;
-
-const StyledProfileButton = styled(Button)`
-	min-width: 280px;
-	max-width: 240px;
-`;

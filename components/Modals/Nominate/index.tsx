@@ -19,7 +19,8 @@ export default function NominateModal() {
 	const { setIsOpen } = useModalContext();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
-	const { setVisible, setTxHash, setContent, state, visible } = useTransactionModalContext();
+	const { setVisible, setTxHash, setContent, state, visible, setState } =
+		useTransactionModalContext();
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
@@ -51,10 +52,8 @@ export default function NominateModal() {
 			setTimeout(() => {
 				setIsOpen(false);
 				setVisible(false);
-				push({
-					pathname: '/councils/'.concat(activeCheckbox),
-				});
-			}, 3000);
+				push('/councils/'.concat(activeCheckbox));
+			}, 2000);
 		}
 	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible]);
 
@@ -66,46 +65,36 @@ export default function NominateModal() {
 		isAlreadyNominatedForAmbassador.data ||
 		isAlreadyNominatedForTreasury.data;
 
+	const setCTA = (council: string) => {
+		return (
+			<>
+				<h6 className="tg-title-h6">{t('modals.nomination.cta', { council })}</h6>
+				<h3 className="tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
+			</>
+		);
+	};
+
 	const handleNomination = async () => {
+		setState('signing');
 		setVisible(true);
 		switch (activeCheckbox) {
 			case 'spartan':
-				setContent(
-					<>
-						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Spartan' })}</h6>
-						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
-					</>
-				);
+				setContent(setCTA('Spartan'));
 				const spartanTx = await nominateForSpartanCouncil.mutateAsync();
 				setTxHash(spartanTx.hash);
 				break;
 			case 'grants':
-				setContent(
-					<>
-						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Grants' })}</h6>
-						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
-					</>
-				);
+				setContent(setCTA('Grants'));
 				const grantsTx = await nominateForGrantsCouncil.mutateAsync();
 				setTxHash(grantsTx.hash);
 				break;
 			case 'ambassador':
-				setContent(
-					<>
-						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Ambassador' })}</h6>
-						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
-					</>
-				);
+				setContent(setCTA('Ambassador'));
 				const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
 				setTxHash(ambassadorTx.hash);
 				break;
 			case 'treasury':
-				setContent(
-					<>
-						<h6 className="tg-title-h6">{t('modals.nomination.cta', { council: 'Treasury' })}</h6>
-						<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
-					</>
-				);
+				setContent(setCTA('Treasury'));
 				const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
 				setTxHash(treasuryTx.hash);
 				break;

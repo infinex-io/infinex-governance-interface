@@ -15,6 +15,7 @@ import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { useModalContext } from 'containers/Modal';
 
 interface EditModalProps {
 	council: string;
@@ -28,6 +29,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 	const { setContent, setTxHash, setVisible, state, setState } = useTransactionModalContext();
 	const withdrawMutation = useWithdrawNominationMutation(deployedModule);
 	const [step, setStep] = useState(1);
+	const { setIsOpen } = useModalContext();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
@@ -40,15 +42,18 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 
 	useEffect(() => {
 		if (state === 'confirmed' && step === 1) {
-			setVisible(false);
 			setStep(2);
+			setVisible(false);
 			setState('signing');
 		}
 		if (state === 'confirmed' && step === 2) {
-			setVisible(false);
-			push('/councils/'.concat(council));
+			setTimeout(() => {
+				setVisible(false);
+				push('/councils/'.concat(council));
+				setIsOpen(false);
+			}, 2000);
 		}
-	}, [state, step, setVisible, push, council, setState]);
+	}, [state, step, setVisible, push, council, setState, setIsOpen]);
 
 	const handleBtnClick = async () => {
 		if (step === 1) {
