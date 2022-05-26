@@ -14,15 +14,17 @@ function useNominateMutation(moduleInstance: DeployedModules) {
 			if (contract) {
 				const gasLimit = await contract.estimateGas.nominate();
 				let tx = await contract.nominate({ gasLimit });
-				const receipt = tx.wait();
-				return receipt;
+				return tx;
 			} else {
 				return new Error();
 			}
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries({ queryKey: ['nominees', moduleInstance] });
+				await queryClient.refetchQueries({
+					active: true,
+					queryKey: ['nominees', moduleInstance],
+				});
 			},
 		}
 	);

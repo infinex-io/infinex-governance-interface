@@ -14,7 +14,7 @@
 		"@synthetixio/contracts-interface": "2.64.1",
 		"@synthetixio/providers": "2.64.1",
 		"@synthetixio/transaction-notifier": "^2.63.1",
-		"@synthetixio/ui": "2.0.0",
+		"@synthetixio/ui": "2.2.0",
 		"@types/react-blockies": "1.4.1",
 		"@usedapp/core": "^1.0.0",
 		"clsx": "1.1.1",
@@ -28,6 +28,7 @@
 		"react-i18next": "11.16.1",
 		"react-query": "^3.34.20",
 		"react-timer-hook": "3.0.5",
+		"react-toastify": "9.0.1",
 		"siwe": "1.1.6",
 		"styled-components": "5.3.3",
 		"yup": "0.32.11"

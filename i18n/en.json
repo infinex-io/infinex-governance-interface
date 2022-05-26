@@ -88,9 +88,10 @@
 		"headline": "Voting",
 		"nominees": "{{council}} Council Nominees",
 		"vote-nominee": "Vote Nominee",
-		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/4",
+		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/{{max}}",
 		"vote-status-complete": "Vote Status: Complete",
 		"not-voted": "NOT VOTED YET",
+		"withdraw": "Withdraw Vote",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"councils": {
 			"sc": "Spartan Council",
@@ -109,6 +110,7 @@
 			"headline": "Nominate Self",
 			"nominationAddress": "Nomination Wallet Address",
 			"button": "Nominate Self",
+			"cta": "Nomination for {{council}} Council",
 			"checkboxes": {
 				"spartan": "Spartan Council",
 				"grants": "Grants Council",
@@ -129,17 +131,22 @@
 			"council": "{{council}} Council",
 			"step-one": "Step 1 -  Unominate yourself",
 			"step-two": "Step 2 - Chose New Council Nomination",
-			"button": "Next"
+			"button": "Next",
+			"banner": "You will need to sign 2 transactions to change council.",
+			"cta-step-1-head": "Unominate self for {{council}} Council",
+			"cta-step-2-head": "Nominate for {{council}} Council"
 		},
 		"vote": {
 			"headline": "Voting For {{council}} Council",
 			"submit": "Submit Vote",
-			"profile": "See full profile"
+			"profile": "See full profile",
+			"cta": "Voting for {{council}} Council"
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
 			"voted-for": "Voted for {{council}} Council",
-			"uncast-vote": "Uncast Vote"
+			"uncast-vote": "Uncast Vote",
+			"cta": "Withdraw Vote for {{council}} Council"
 		},
 		"editProfile": {
 			"headline": "Edit Profile",

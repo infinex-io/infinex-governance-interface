@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Card, Carousel, DiscordIcon, Flex, Tabs, TwitterIcon } from 'components/old-ui';
+import { Carousel, DiscordIcon, Tabs, TwitterIcon } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { parseURL } from 'utils/ipfs';
-import { H5 } from 'components/Headlines/H5';
 import { Text } from 'components/Text/text';
 import { useRouter } from 'next/router';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
@@ -90,7 +89,9 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 										alt={member.ens || member.username}
 										src={parseURL(member.pfpThumbnailUrl)}
 									/>
-									<h5 className="tg-content-bold mt-2 capitalize">{member.ens || member.username}</h5>
+									<h5 className="tg-content-bold mt-2 capitalize">
+										{member.ens || member.username}
+									</h5>
 									<Text>{member.about}</Text>
 									{member.discord && <DiscordIcon />}
 									{member.twitter && <TwitterIcon />}

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { useConnectorContext } from 'containers/Connector';
+import { Contract } from 'ethers';
 
 type Address = string;
 
@@ -9,7 +10,6 @@ function useCastMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
 	const governanceModules = useModulesContext();
 	const { walletAddress } = useConnectorContext();
-
 	return useMutation(
 		'cast',
 		async (addresses: Address[]) => {
@@ -24,21 +24,15 @@ function useCastMutation(moduleInstance: DeployedModules) {
 				const crossChainDebt = await ElectionModule.getDeclaredCrossChainDebtShare(walletAddress);
 
 				if (Number(crossChainDebt) === 0) {
-					return await transact(
-						ElectionModule,
-						'declareAndCast',
-						claim.amount,
-						claim.proof,
-						addresses
-					);
+					return transact(ElectionModule, 'declareAndCast', claim.amount, claim.proof, addresses);
 				}
 			}
 
-			return await transact(ElectionModule, 'cast', addresses);
+			return transact(ElectionModule, 'cast', addresses);
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries();
+				await queryClient.refetchQueries({ active: true });
 			},
 		}
 	);
@@ -47,10 +41,10 @@ function useCastMutation(moduleInstance: DeployedModules) {
 async function transact(ElectionModule: any, methodName: string, ...args: any[]) {
 	const gasLimit = await ElectionModule.estimateGas[methodName](...args);
 	const tx = await ElectionModule[methodName](...args, { gasLimit });
-	return tx.wait();
+	return tx;
 }
 
-async function getCrossChainClaim(ElectionModule: any, walletAddress: string) {
+async function getCrossChainClaim(ElectionModule: Contract, walletAddress: string) {
 	try {
 		const blockNumber = await ElectionModule.getCrossChainDebtShareMerkleRootBlockNumber();
 		const tree = await fetch(`/data/${blockNumber}-l1-debts.json`).then((res) => res.json());

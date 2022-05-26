@@ -28,7 +28,7 @@ export const useModulesContext = () => {
 };
 
 export const ModulesProvider: FC = ({ children }) => {
-	const { chainId, provider, signer } = useConnectorContext();
+	const { chainId, provider, signer, L2DefaultProvider } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 
 	useEffect(() => {
@@ -37,6 +37,8 @@ export const ModulesProvider: FC = ({ children }) => {
 				spartanCouncil,
 				ElectionModuleABI.abi,
 				signer ?? provider
+				// uncomment when contracts are live on L2
+				//!provider || !signer ? L2DefaultProvider : signer
 			);
 
 			let modules = {} as GovernanceModule;
@@ -50,6 +52,8 @@ export const ModulesProvider: FC = ({ children }) => {
 				ambassadorCouncil,
 				ElectionModuleABI.abi,
 				signer ?? provider
+				// uncomment when contracts are live on L2
+				//!provider || !signer ? L2DefaultProvider : signer
 			);
 
 			modules[DeployedModules.AMBASSADOR_COUNCIL] = {
@@ -61,6 +65,8 @@ export const ModulesProvider: FC = ({ children }) => {
 				grantsCouncil,
 				ElectionModuleABI.abi,
 				signer ?? provider
+				// uncomment when contracts are live on L2
+				//!provider || !signer ? L2DefaultProvider : signer
 			);
 
 			modules[DeployedModules.GRANTS_COUNCIL] = {
@@ -72,6 +78,8 @@ export const ModulesProvider: FC = ({ children }) => {
 				treasuryCouncil,
 				ElectionModuleABI.abi,
 				signer ?? provider
+				// uncomment when contracts are live on L2
+				//!provider || !signer ? L2DefaultProvider : signer
 			);
 
 			modules[DeployedModules.TREASURY_COUNCIL] = {
@@ -81,7 +89,7 @@ export const ModulesProvider: FC = ({ children }) => {
 
 			setGovernanceModules(modules);
 		}
-	}, [chainId, provider, signer]);
+	}, [chainId, provider, signer, L2DefaultProvider]);
 
 	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
 };
