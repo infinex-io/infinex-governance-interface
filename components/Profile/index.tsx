@@ -3,8 +3,8 @@ import {
 	Flex,
 	IconButton,
 	ThreeDotsKebabIcon,
-	Card,
 	Dropdown,
+	Card as OldCard,
 } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
@@ -19,10 +19,11 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Spinner } from '@synthetixio/ui';
+import { Dialog, Button, Spinner, Card } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import Link from 'next/link';
 import { Loader } from 'components/Loader/Loader';
+import { ProfileCard } from './ProfileCard';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -91,30 +92,30 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					direction="column"
 					alignItems="center"
 				>
-					<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
+					<Avatar width={90} height={90} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{data && (
-						<Card color="green" className="max-w-[150px]">
+						<OldCard color="green" className="mt-3 max-w-[150px]">
 							<div className="tg-subhead darker-60 text-center text-green">
 								{t('profiles.council', { council: data })}
 							</div>
-						</Card>
+						</OldCard>
 					)}
 					<div className="flex flex-col justify-between items-center relative">
-						<h1 className="tg-title-h1">
-							{username ? username : ens ? ens : truncateAddress(walletAddress)}
+						<div className="flex items-center mt-3">
+							<h4 className="tg-title-h4 mr-3">
+								{username ? username : ens ? ens : truncateAddress(walletAddress)}
+							</h4>
 
-							<IconButton
-								style={{ height: '100%' }}
-								active
-								size="tiniest"
+							<div
+								className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]"
 								onClick={() => {
 									if (ownAddress === walletAddress) setIsOpen(true);
 									else setDropDownOpen(!dropDownOpen);
 								}}
 							>
 								<ThreeDotsKebabIcon />
-							</IconButton>
-						</h1>
+							</div>
+						</div>
 
 						{dropDownOpen && <Dropdown color="lightBlue" elements={getDropdownElements()} />}
 						<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
@@ -123,43 +124,16 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</div>
 					<Text>{about}</Text>
 				</StyledAvatarWrapper>
-				<div className="flex flex-col">
-					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
-					<StyledProfileBox direction="column">
-						<div className="flex justify-between">
-							<Avatar url={pfpThumbnailUrl} walletAddress={walletAddress} />
-							<div className="flex flex-col">
-								<h5 className="tg-title-h5 text-grey">{t('profiles.discord')}</h5>
-								<h3 className="tg-title-h3">{discord}</h3>
-							</div>
-							<div className="flex flex-col">
-								<h5 className="tg-title-h5 text-grey">{t('profiles.github')}</h5>
-								<h3 className="tg-title-h3">{github}</h3>
-							</div>
-							<div className="flex flex-col">
-								<h5 className="tg-title-h5 text-grey">{t('profiles.twitter')}</h5>
-								<h3 className="tg-title-h3">{twitter}</h3>
-							</div>
-							<div className="flex flex-col">
-								<h5 className="tg-title-h5 text-grey">{t('profiles.currentVotingWeight')}</h5>
-								<h3 className="tg-title-h3">{12241}</h3>
-							</div>
-							<div className="flex flex-col">
-								<h5 color="grey">{t('profiles.participatedVotes')}</h5>
-								<h3 className="tg-title-h3">{1242112}</h3>
-							</div>
-						</div>
-						<StyledSpacer />
-						<div className="flex flex-col">
-							<h5 className="tg-title-h5 text-grey">{t('profiles.wallet')}</h5>
-							<TextBold color="white">{address}</TextBold>
-						</div>
-						<StyledSpacer />
-						<div className="flex flex-col">
-							<h5 className="tg-title-h5 text-grey">{t('profiles.pitch')}</h5>
-							<Text color="white">{parsedDelegationPitch.synthetix}</Text>
-						</div>
-					</StyledProfileBox>
+				<div className="flex flex-col mb-6">
+					<h4 className="tg-headline text-start">{t('profiles.subheadline')}</h4>
+					<ProfileCard
+						pfpThumbnailUrl={pfpThumbnailUrl}
+						walletAddress={walletAddress}
+						discord={discord}
+						github={github}
+						twitter={twitter}
+						pitch={parsedDelegationPitch.synthetix}
+					/>
 				</div>
 				<CouncilsCarousel />
 				<Button className="max-w-[250px]" onClick={() => push({ pathname: '/councils' })}>
@@ -193,19 +167,4 @@ const StyledAvatarWrapper = styled(Flex)<{ isOwnAccount?: boolean }>`
 	height: 100%;
 	background-position: bottom center;
 	background-repeat: no-repeat;
-`;
-
-const StyledProfileBox = styled(Flex)`
-	background-color: ${({ theme }) => theme.colors.backgroundColor};
-	box-shadow: 0px 14px 14px rgba(0, 0, 0, 0.25);
-	border-radius: 10px;
-	padding: ${({ theme }) => theme.spacings.big};
-	min-width: 800px;
-`;
-
-const StyledSpacer = styled.div`
-	background: rgba(130, 130, 149, 0.3);
-	margin: ${({ theme }) => theme.spacings.medium};
-	width: 90%;
-	height: 1px;
 `;
