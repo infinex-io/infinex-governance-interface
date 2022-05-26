@@ -1523,10 +1523,10 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.2.0.tgz#a0ccf3cdcfae19bd9afb76058495809a2979df94"
-  integrity sha512-/cyJBatJbLPTjisY19Qik8ZCkIHQgQ1uHajazmB9xUNzjyXOFKY4PDDRlC3xp6SF4S70IXAciKujsbTFpuqEUQ==
+"@synthetixio/ui@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.4.0.tgz#350587869875241a9514234a24a69cac814d2a02"
+  integrity sha512-LoDfVhBhUw4/o8J0zrpUkoNfq0qS7AlmhK5/zlOhlhtlqQosMVu8kscXeUmQtaBWEMiaeuWgDGOVbbuOjA2Efg==
   dependencies:
     "@synthetixio/transaction-notifier" "^2.70.1"
     clsx "^1.1.1"

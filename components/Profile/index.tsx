@@ -3,7 +3,6 @@ import {
 	Flex,
 	IconButton,
 	ThreeDotsKebabIcon,
-	Dropdown,
 	Card as OldCard,
 } from 'components/old-ui';
 import Avatar from 'components/Avatar';
@@ -17,18 +16,18 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Spinner, Card } from '@synthetixio/ui';
+import { Dialog, Button, Dropdown, ExternalLink } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
-import Link from 'next/link';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
+import styles from './Profile.module.scss';
+import clsx from 'clsx';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const [dropDownOpen, setDropDownOpen] = useState(false);
 	const { walletAddress: ownAddress } = useConnectorContext();
 	const allMembers = useAllCouncilMembersQuery();
 
@@ -54,29 +53,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			parsedDelegationPitch = JSON.parse(delegationPitches);
 		}
 
-		const getDropdownElements = () => {
-			const elements = [
-				<Link
-					href={`https://optimistic.etherscan.io/address/${address}`}
-					key="profile-etherscan-link"
-				>
-					Etherscan
-				</Link>,
-			];
-			if (discord)
-				elements.unshift(
-					<Link href={`https://discord.com/${discord}`} key="discord-link">
-						Discord
-					</Link>
-				);
-			if (twitter)
-				elements.unshift(
-					<Link href={`https://twitter.com/${twitter}`} key="twitter-link">
-						Twitter
-					</Link>
-				);
-			return elements;
-		};
 		return (
 			<div className="flex flex-col items-center pb-20">
 				<div className="flex items-center absolute left-10 top-10">
@@ -110,34 +86,71 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								{username ? username : ens ? ens : truncateAddress(walletAddress)}
 							</h4>
 
-							<div
-								className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]"
-								onClick={() => {
-									if (ownAddress === walletAddress) setIsOpen(true);
-									else setDropDownOpen(!dropDownOpen);
-								}}
+							<Dropdown
+								triggerElement={
+									<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
+										<ThreeDotsKebabIcon />
+									</div>
+								}
+								contentClassName={clsx('bg-navy flex flex-col', styles.dropdown)}
+								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 							>
-								<ThreeDotsKebabIcon />
-							</div>
+								<>
+									{twitter && (
+										<ExternalLink
+											link={`https://twitter.com/${twitter}`}
+											className="hover:bg-navy-dark-1 rounded-none"
+											text="Twitter"
+											withoutIcon
+										/>
+									)}
+									{discord && (
+										<ExternalLink
+											link={`https://discord.com/${discord}`}
+											className="hover:bg-navy-dark-1 bg-navy-light-1 rounded-none"
+											text="Discord"
+											withoutIcon
+										/>
+									)}
+
+									{address && (
+										<ExternalLink
+											link={`https://optimistic.etherscan.io/address/${address}`}
+											className="hover:bg-navy-dark-1 rounded-none"
+											text="Etherscan"
+											withoutIcon
+										/>
+									)}
+								</>
+							</Dropdown>
 						</div>
 
-						{dropDownOpen && <Dropdown color="lightBlue" elements={getDropdownElements()} />}
 						<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
 							<ProfileForm userProfile={userDetailsQuery.data} />
 						</Dialog>
 					</div>
 					<p className="tg-body">{about}</p>
 				</StyledAvatarWrapper>
-				<div className="flex flex-col mb-6">
+				<div className="flex flex-col mb-6 max-w-[900px] w-full">
 					<h4 className="tg-headline text-start">{t('profiles.subheadline')}</h4>
-					<ProfileCard
-						pfpThumbnailUrl={pfpThumbnailUrl}
-						walletAddress={walletAddress}
-						discord={discord}
-						github={github}
-						twitter={twitter}
-						pitch={parsedDelegationPitch.synthetix}
-					/>
+					<div className='relative'>
+						{ownAddress === walletAddress && (
+							<div
+								className="absolute top-5 right-3 flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded w-[28px] h-[28px]"
+								onClick={() => setIsOpen(true)}
+							>
+								<ThreeDotsKebabIcon />
+							</div>
+						)}
+						<ProfileCard
+							pfpThumbnailUrl={pfpThumbnailUrl}
+							walletAddress={walletAddress}
+							discord={discord}
+							github={github}
+							twitter={twitter}
+							pitch={parsedDelegationPitch.synthetix}
+						/>
+					</div>
 				</div>
 				<CouncilsCarousel />
 				<Button className="max-w-[250px]" onClick={() => push({ pathname: '/councils' })}>
