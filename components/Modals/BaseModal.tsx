@@ -1,5 +1,4 @@
 import { Card, CloseIcon, Flex, IconButton } from 'components/old-ui';
-import { H1 } from 'components/Headlines/H1';
 import { useModalContext } from 'containers/Modal';
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
@@ -12,7 +11,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 				<StyledIconButton onClick={() => setIsOpen(false)} active rounded>
 					<CloseIcon active />
 				</StyledIconButton>
-				<H1>{headline}</H1>
+				<h1 className="tg-title-h1 text-white">{headline}</h1>
 				{children}
 			</StyledFlex>
 		</StyledBaseModalWrapper>

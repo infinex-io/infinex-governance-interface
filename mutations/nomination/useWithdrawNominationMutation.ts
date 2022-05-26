@@ -14,15 +14,17 @@ function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 			if (contract) {
 				const gasLimit = await contract.estimateGas.withdrawNomination();
 				let tx = await contract.withdrawNomination({ gasLimit });
-				const receipt = tx.wait();
-				return receipt;
+				return tx;
 			} else {
 				return new Error();
 			}
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries();
+				await queryClient.refetchQueries({
+					active: true,
+					queryKey: ['nominees', moduleInstance, null],
+				});
 			},
 		}
 	);

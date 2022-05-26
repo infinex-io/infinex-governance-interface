@@ -1,11 +1,14 @@
+import { useTransactionModalContext } from '@synthetixio/ui';
 import { Button, Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
 import BaseModal from '../BaseModal';
 
@@ -22,21 +25,40 @@ export default function WithdrawNominationModal({
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
+	const { setTxHash, setContent, setVisible, state, visible, setState } =
+		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
 
-	const handleWithdrawNomination = async () => {
-		const tx = await withdrawNomination.mutateAsync();
-		if (tx) {
-			setIsOpen(false);
-			push('/profile/' + walletAddress);
+	useEffect(() => {
+		if (state === 'confirmed' && visible) {
+			setTimeout(() => {
+				setIsOpen(false);
+				setVisible(false);
+				push('/profile/' + walletAddress);
+			}, 2000);
 		}
+	}, [state, push, setIsOpen, walletAddress, setVisible, visible]);
+
+	const handleWithdrawNomination = async () => {
+		setState('signing');
+		setVisible(true);
+		setContent(
+			<>
+				<h6 className="tg-tile-h6">
+					{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
+				</h6>
+				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+			</>
+		);
+		const tx = await withdrawNomination.mutateAsync();
+		setTxHash(tx.hash);
 	};
 
 	return (
 		<BaseModal headline={t('modals.withdraw.headline')}>
 			<StyledBlackBox direction="column" alignItems="center">
 				<StyledBlackBoxSubline>
-					{t('modals.withdraw.nomination-for', { council })}
+					{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
 				</StyledBlackBoxSubline>
 				<StyledWalletAddress>
 					{ensName ? (

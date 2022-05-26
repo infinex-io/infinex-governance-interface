@@ -28,7 +28,7 @@ const StyledModalWrapper = styled.div`
 
 const StyledModalContentWrapper = styled.div`
 	position: absolute;
-	z-index: 999;
+	z-index: 2;
 	top: 10px;
 	left: 10px;
 	width: calc(99% - 10px);
