@@ -1,14 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Carousel, DiscordIcon, Tabs, TwitterIcon } from 'components/old-ui';
+import { Carousel, Tabs } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
-import { parseURL } from 'utils/ipfs';
-import { Text } from 'components/Text/text';
-import { useRouter } from 'next/router';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
-import { Button } from '@synthetixio/ui';
-import Image from 'next/image';
 import MemberCard from 'components/MemberCard/Index';
 
 interface CouncilsCarouselProps {
@@ -17,7 +12,6 @@ interface CouncilsCarouselProps {
 }
 
 export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarouselProps) {
-	const { push } = useRouter();
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
 	const councilTabs = [
