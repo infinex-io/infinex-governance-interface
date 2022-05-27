@@ -55,8 +55,13 @@ export default function WithdrawNominationModal({
 				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
 			</>
 		);
-		const tx = await withdrawNomination.mutateAsync();
-		setTxHash(tx.hash);
+		try {
+			const tx = await withdrawNomination.mutateAsync();
+			setTxHash(tx.hash);
+		} catch (error) {
+			console.error(error);
+			setState('error');
+		}
 	};
 
 	return (

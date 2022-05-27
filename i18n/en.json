@@ -8,7 +8,9 @@
 		"connect-wallet": "Connect Wallet"
 	},
 	"footer": {
-		"copyright": "Copyright © Synthetix 2022"
+		"copyright": "Copyright © Synthetix 2022",
+		"home": "Home",
+		"councils": "Councils"
 	},
 	"landing-page": {
 		"headline": "Governing Bodies",
@@ -94,6 +96,7 @@
 		"not-voted": "NOT VOTED YET",
 		"withdraw": "Withdraw Vote",
 		"not-in-voting": "{{council}} Council is not in voting period.",
+		"no-nominations": "No Nominations yet",
 		"councils": {
 			"sc": "Spartan Council",
 			"gc": "Grants Council",
