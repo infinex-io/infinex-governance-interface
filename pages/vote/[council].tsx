@@ -35,18 +35,22 @@ export default function VoteCouncil() {
 				<h1 className="tg-title-h1 text-center">
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
-				<div className="flex flex-wrap justify-center space-x-4 space-y-4">
-					{usersDetailsQuery.data?.map((member, index) => (
-						<MemberCard
-							key={member.address.concat(String(index).concat('voting'))}
-							member={member}
-							council={activeCouncil.name}
-							deployedModule={activeCouncil.module}
-							state="VOTING"
-							votedFor={voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate}
-						/>
-					))}
-				</div>
+				{usersDetailsQuery && usersDetailsQuery.data && (
+					<div className="flex flex-wrap justify-center space-x-4 space-y-4">
+						{usersDetailsQuery?.data?.map((member, index) => (
+							<MemberCard
+								key={member.address.concat(String(index).concat('voting'))}
+								member={member}
+								council={activeCouncil.name}
+								deployedModule={activeCouncil.module}
+								state="VOTING"
+								votedFor={
+									voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
+								}
+							/>
+						))}
+					</div>
+				)}
 			</Main>
 		</>
 	);

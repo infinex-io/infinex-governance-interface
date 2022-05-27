@@ -28,7 +28,7 @@ export type GetUserDetails = {
 function useUsersDetailsQuery(walletAddresses: string[]) {
 	const { walletAddress } = useConnectorContext();
 	return useQuery<GetUserDetails[]>(
-		['userDetails', walletAddresses.toString()],
+		['usersDetails', walletAddresses],
 		async () => {
 			return await getUsersDetail(walletAddresses, walletAddress || '');
 		},

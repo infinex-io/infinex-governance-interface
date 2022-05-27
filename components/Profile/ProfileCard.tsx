@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Avatar from 'components/Avatar';
 import { useTranslation } from 'react-i18next';
 import { currency } from 'utils/currency';
+import { truncateAddress } from 'utils/truncate-address';
 
 export interface ProfileCardProps {
 	className?: string;
@@ -19,7 +20,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 	pfpThumbnailUrl,
 	walletAddress,
 	discord,
-	github,
 	twitter,
 	pitch,
 }) => {
@@ -67,11 +67,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
 			<div className="flex flex-col pl-[69px] ml-5">
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.wallet')}</h5>
-				{walletAddress}
+				{truncateAddress(walletAddress)}
 			</div>
 
 			<hr className="border-gray-700 my-4" />
-			<div className="flex flex-col pl-[69px] ml-5">
+			<div className="flex flex-col pl-[69px] ml-5 whitespace-pre">
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.pitch')}</h5>
 				{pitch}
 			</div>
