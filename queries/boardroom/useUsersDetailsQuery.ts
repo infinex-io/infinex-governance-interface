@@ -33,13 +33,13 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 				})
 			);
 			const responses = await Promise.all(promises);
+			console.log('responses', responses);
 			const result = await Promise.all(responses.map((response) => response.json()));
 			return result.map((r) => r.data);
 		},
 		{
 			enabled: walletAddresses !== null && walletAddresses.length > 0,
-			// 15 minutes
-			cacheTime: 900000,
+			staleTime: 900000,
 		}
 	);
 }
