@@ -22,7 +22,7 @@ const Avatar: React.FC<AvatarProps> = ({ walletAddress, url, width = 120, height
 			width={height}
 		/>
 	) : (
-		<Blockies seed={walletAddress} />
+		<Blockies seed={walletAddress} scale={6} className="rounded-full" />
 	);
 };
 export default Avatar;

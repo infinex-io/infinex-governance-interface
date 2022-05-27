@@ -85,11 +85,11 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	const [uuid, setUuid] = useLocalStorage<string | null>('uuid', null);
 
 	useEffect(() => {
-		if (library) {
+		if (library && account) {
 			setProvider(library);
-			setSigner(library.getSigner());
+			setSigner(library.getSigner(account));
 		}
-	}, [library]);
+	}, [library, account]);
 
 	useEffect(() => {
 		if (account) {
