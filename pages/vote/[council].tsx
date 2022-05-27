@@ -36,11 +36,11 @@ export default function VoteCouncil() {
 
 	useEffect(() => {
 		if (usersDetailsQuery.data?.length) setUserDetails(() => [...usersDetailsQuery.data]);
-	}, [nomineesData?.toString(), usersDetailsQuery.data]);
+	}, [nomineesData, usersDetailsQuery.data]);
 
 	useEffect(() => {
 		if (nomineesData?.length) setNominees(() => [...nomineesData]);
-	}, [nomineesData?.toString()]);
+	}, [nomineesData]);
 
 	return (
 		<>

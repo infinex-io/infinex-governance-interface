@@ -96,14 +96,14 @@ export default function Vote() {
 				{activeCouncilInVoting && <VoteBanner />}
 				<div className="flex flex-col items-center">
 					{!!activeCouncilInVoting && (
-						<Card variant="gray" className="flex flex-col max-w-[1300px] w-full">
-							<h3 className="tg-title-h3">
+						<Card variant="gray" wrapperClassName="flex flex-col max-w-[1300px] w-full">
+							<h3 className="tg-title-h3 mb-2">
 								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
 									progress: calculateProgress(),
 									max: activeCouncilInVoting,
 								})}
 							</h3>
-							<div className="flex justify-between flex-wrap">
+							<div className="flex justify-between flex-wrap w-full">
 								<VoteCard
 									userDetail={userVoteHistory.spartan.candidate}
 									hasVoted={userVoteHistory.spartan.voted}
@@ -156,13 +156,13 @@ const VoteCard = ({
 	const { push } = useRouter();
 	if (!periodIsVoting)
 		return (
-			<h4 className="tg-title-h4">
+			<h6 className="tg-title-h6">
 				{t('vote.not-in-voting', { council: COUNCILS_DICTIONARY[council].label })}
-			</h4>
+			</h6>
 		);
 
 	return hasVoted && userDetail?.address ? (
-		<div className="bg-black max-w-[270px] p-2 m-1 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
+		<div className="bg-black max-w-[250px] p-2 m-1 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
 			<Avatar walletAddress={userDetail.address} width={33} height={33} />
 			<div className="flex flex-col">
 				<span className="tg-caption-bold text-primary">
@@ -209,7 +209,7 @@ const VoteCard = ({
 			)}
 		</div>
 	) : (
-		<div className="max-w-[270px] w-full bg-primary border-2 border-solid rounded border-primary ">
+		<div className="max-w-[250px] w-full bg-primary border-2 border-solid rounded border-primary ">
 			<div className="darker-60 w-full h-full p-1 flex justify-between items-center">
 				<div className="w-[33px] h-[33px] rounded-full border-primary border-2 border-solid bg-black"></div>
 				<div className="flex flex-col">

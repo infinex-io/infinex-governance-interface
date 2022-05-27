@@ -1,5 +1,7 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
+import { useConnectorContext } from 'containers/Connector';
 import { useQuery } from 'react-query';
+import { sortToOwnCard } from 'utils/sort';
 
 export type GetUserDetails = {
 	address: string;
@@ -24,6 +26,7 @@ export type GetUserDetails = {
 };
 
 function useUsersDetailsQuery(walletAddresses: string[]) {
+	const { walletAddress } = useConnectorContext();
 	return useQuery<GetUserDetails[]>(
 		['userDetails', walletAddresses.toString()],
 		async () => {
@@ -34,6 +37,12 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 			);
 			const responses = await Promise.all(promises);
 			const result = await Promise.all(responses.map((response) => response.json()));
+			if (walletAddress) {
+				return sortToOwnCard(
+					result.map((r) => r.data),
+					walletAddress
+				);
+			}
 			return result.map((r) => r.data);
 		},
 		{

@@ -59,16 +59,14 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 			<IconButton className="absolute right-2 top-2" rounded onClick={() => setIsOpen(false)}>
 				<CloseIcon active />
 			</IconButton>
-			<div className="darker-60 min-w-full min-h-full flex flex-col items-center justify-center rounded">
+			<div className="darker-60 min-w-full min-h-full flex flex-col items-center rounded pt-40">
 				<h1 className="tg-title-h1 text-white">{t('modals.withdraw-vote.headline')}</h1>
-				{member.pfpThumbnailUrl && (
-					<Avatar
-						width={160}
-						height={160}
-						walletAddress={member.address}
-						url={member.pfpThumbnailUrl}
-					/>
-				)}
+				<Avatar
+					width={160}
+					height={160}
+					walletAddress={member.address}
+					url={member.pfpThumbnailUrl}
+				/>
 				<div className="bg-black max-w-[350px] p-8 text-white m-4">
 					<h6 className="tg-title-h6 text-center">
 						{t('modals.withdraw-vote.voted-for', {

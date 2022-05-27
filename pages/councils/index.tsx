@@ -10,11 +10,10 @@ import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery
 import MemberCard from 'components/MemberCard/Index';
 import { parseQuery } from 'utils/parse';
 import BackButton from 'components/BackButton';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { Loader } from 'components/Loader/Loader';
 
 const Councils: NextPage = () => {
-	const { query, push } = useRouter();
+	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()));
 	const { t } = useTranslation();
 	const members = useAllCouncilMembersQuery();
@@ -24,7 +23,6 @@ const Councils: NextPage = () => {
 		t('landing-page.tabs.ac'),
 		t('landing-page.tabs.tc'),
 	];
-	const period = useCurrentPeriod(activeCouncil.module);
 
 	return (
 		<>
@@ -63,7 +61,12 @@ const Councils: NextPage = () => {
 					members.data?.treasury ? (
 						<div className="flex flex-wrap justify-center">
 							{members.data[activeCouncil.name].map((member) => (
-								<MemberCard key={member.address} member={member} state="ADMINISTRATION" />
+								<MemberCard
+									className="m-2"
+									key={member.address}
+									member={member}
+									state="ADMINISTRATION"
+								/>
 							))}
 						</div>
 					) : (

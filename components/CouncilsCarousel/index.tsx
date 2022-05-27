@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import { Button } from '@synthetixio/ui';
 import Image from 'next/image';
+import MemberCard from 'components/MemberCard/Index';
 
 interface CouncilsCarouselProps {
 	maxWidth?: string;
@@ -75,33 +76,14 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 				<Carousel
 					startIndex={startIndex ? startIndex : 1}
 					widthOfItems={300}
-					carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => {
-						return (
-							<div
-								className="bg-purple p-1 rounded w-[210px] mx-5"
-								key={member.address.concat(String(index))}
-							>
-								<div className="h-full py-7 px-4 rounded gap-1 flex flex-col items-center justify-center darker-60">
-									<Image
-										className="rounded-full"
-										width={56}
-										height={56}
-										alt={member.ens || member.username}
-										src={parseURL(member.pfpThumbnailUrl)}
-									/>
-									<h5 className="tg-content-bold mt-2 capitalize">
-										{member.ens || member.username}
-									</h5>
-									<Text>{member.about}</Text>
-									{member.discord && <DiscordIcon />}
-									{member.twitter && <TwitterIcon />}
-									<Button variant="outline" onClick={() => push('/profile/' + member.address)}>
-										{t('landing-page.view-member')}
-									</Button>
-								</div>
-							</div>
-						);
-					})}
+					carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+						<MemberCard
+							member={member}
+							key={member.address.concat(String(index))}
+							state="ADMINISTRATION"
+							className="m-2"
+						/>
+					))}
 					maxWidth={maxWidth ? maxWidth : '90vw'}
 					arrowsPosition="outside"
 					withDots="secondary"
