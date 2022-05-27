@@ -3,19 +3,16 @@ import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { hexStringBN } from 'utils/hexString';
 
-function useNomineesQuery(moduleInstance: DeployedModules, epochIndex?: string) {
+function useNomineesQuery(moduleInstance: DeployedModules) {
 	const governanceModules = useModulesContext();
 
 	return useQuery<string[]>(
-		['nominees', moduleInstance, epochIndex],
+		['nominees', moduleInstance],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let nominees;
-			if (epochIndex) {
-				nominees = await contract?.getNomineesAtEpoch(hexStringBN(epochIndex));
-			} else {
-				nominees = await contract?.getNominees();
-			}
+			// nominees = await contract?.getNomineesAtEpoch(hexStringBN(epochIndex));
+			nominees = await contract?.getNominees();
 			return nominees;
 		},
 		{
