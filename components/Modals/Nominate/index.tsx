@@ -52,11 +52,7 @@ export default function NominateModal() {
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.refetchQueries({
-					active: true,
-					stale: true,
-					queryKey: ['nominees', `${activeCheckbox} council`],
-				});
+				queryClient.resetQueries({ queryKey: 'nominees' });
 				setIsOpen(false);
 				setVisible(false);
 				push('/councils/'.concat(activeCheckbox));
@@ -177,7 +173,7 @@ export default function NominateModal() {
 					}
 				/>
 			</StyledCheckboxWrapper>
-			<Button className="w-[313px]" onClick={() => handleNomination()}>
+			<Button className="w-[313px]" onClick={() => handleNomination()} disabled={!activeCheckbox}>
 				{t('modals.nomination.button')}
 			</Button>
 		</BaseModal>

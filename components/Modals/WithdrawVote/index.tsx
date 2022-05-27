@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
+import BaseModal from '../BaseModal';
 
 interface WithdrawVoteProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl'>;
@@ -55,12 +56,8 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 		setTxHash(tx.hash);
 	};
 	return (
-		<div className="p-1 h-full bg-purple relative rounded">
-			<IconButton className="absolute right-2 top-2" rounded onClick={() => setIsOpen(false)}>
-				<CloseIcon active />
-			</IconButton>
-			<div className="darker-60 min-w-full min-h-full flex flex-col items-center rounded pt-40">
-				<h1 className="tg-title-h1 text-white">{t('modals.withdraw-vote.headline')}</h1>
+		<BaseModal headline={t('modals.withdraw-vote.headline')}>
+			<div className="min-w-full min-h-full flex flex-col items-center rounded">
 				<Avatar
 					width={160}
 					height={160}
@@ -81,6 +78,6 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 					{t('modals.withdraw-vote.uncast-vote')}
 				</Button>
 			</div>
-		</div>
+		</BaseModal>
 	);
 }

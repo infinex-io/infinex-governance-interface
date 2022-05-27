@@ -34,11 +34,7 @@ export default function WithdrawNominationModal({
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.refetchQueries({
-					active: true,
-					stale: true,
-					queryKey: ['nominees', `${council} council`],
-				});
+				queryClient.resetQueries({ queryKey: 'nominees' });
 				setIsOpen(false);
 				setVisible(false);
 				push('/profile/' + walletAddress);
@@ -57,8 +53,13 @@ export default function WithdrawNominationModal({
 				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
 			</>
 		);
-		const tx = await withdrawNomination.mutateAsync();
-		setTxHash(tx.hash);
+		try {
+			const tx = await withdrawNomination.mutateAsync();
+			setTxHash(tx.hash);
+		} catch (error) {
+			console.error(error);
+			setState('error');
+		}
 	};
 
 	return (
