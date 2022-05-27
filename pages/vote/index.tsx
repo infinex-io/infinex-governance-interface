@@ -18,6 +18,7 @@ import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'utils/config';
 import { useModalContext } from 'containers/Modal';
 import WithdrawVote from 'components/Modals/WithdrawVote';
 import BackButton from 'components/BackButton';
+import { PreEvaluationSection } from 'components/Vote/PreEvaluationSection';
 
 interface CouncilState {
 	voted: boolean;
@@ -47,7 +48,6 @@ export default function Vote() {
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
-
 	useEffect(() => {
 		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
 	}, [activeCouncilInVoting, push]);
@@ -133,6 +133,7 @@ export default function Vote() {
 					)}
 					<BackButton />
 					<VoteSection />
+					<PreEvaluationSection />
 				</div>
 			</Main>
 		</>

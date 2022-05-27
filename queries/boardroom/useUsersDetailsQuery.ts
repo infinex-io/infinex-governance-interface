@@ -30,20 +30,7 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 	return useQuery<GetUserDetails[]>(
 		['userDetails', walletAddresses.toString()],
 		async () => {
-			const promises = walletAddresses.map((address) =>
-				fetch(GET_USER_DETAILS_API_URL(address), {
-					method: 'POST',
-				})
-			);
-			const responses = await Promise.all(promises);
-			const result = await Promise.all(responses.map((response) => response.json()));
-			if (walletAddress) {
-				return sortToOwnCard(
-					result.map((r) => r.data),
-					walletAddress
-				);
-			}
-			return result.map((r) => r.data);
+			return await getUsersDetail(walletAddresses, walletAddress || '');
 		},
 		{
 			enabled: walletAddresses !== null && walletAddresses.length > 0,
@@ -54,3 +41,20 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 }
 
 export default useUsersDetailsQuery;
+
+export async function getUsersDetail(walletAddresses: string[], ownAddress: string) {
+	const promises = walletAddresses.map((address) =>
+		fetch(GET_USER_DETAILS_API_URL(address), {
+			method: 'POST',
+		})
+	);
+	const responses = await Promise.all(promises);
+	const result = await Promise.all(responses.map((response) => response.json()));
+	if (ownAddress) {
+		return sortToOwnCard(
+			result.map((r) => r.data),
+			ownAddress
+		);
+	}
+	return result.map((r) => r.data);
+}
