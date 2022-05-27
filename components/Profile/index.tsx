@@ -1,10 +1,4 @@
-import {
-	ArrowLeftIcon,
-	Flex,
-	IconButton,
-	ThreeDotsKebabIcon,
-	Card as OldCard,
-} from 'components/old-ui';
+import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useConnectorContext } from 'containers/Connector';
@@ -16,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Dropdown, ExternalLink } from '@synthetixio/ui';
+import { Dialog, Button, Dropdown, ExternalLink, Badge } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
@@ -74,11 +68,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				>
 					<Avatar width={90} height={90} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{data && (
-						<OldCard color="green" className="mt-3 max-w-[150px]">
-							<div className="tg-subhead darker-60 text-center text-green">
-								{t('profiles.council', { council: data })}
-							</div>
-						</OldCard>
+						<Badge variant="success" className="mt-3 max-w-[150px]">
+							{t('profiles.council', { council: data })}
+						</Badge>
 					)}
 					<div className="flex flex-col justify-between items-center relative">
 						<div className="flex items-center mt-3">
@@ -133,7 +125,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				</StyledAvatarWrapper>
 				<div className="flex flex-col mb-6 max-w-[900px] w-full">
 					<h4 className="tg-headline text-start">{t('profiles.subheadline')}</h4>
-					<div className='relative'>
+					<div className="relative">
 						{ownAddress === walletAddress && (
 							<div
 								className="absolute top-5 right-3 flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded w-[28px] h-[28px]"
