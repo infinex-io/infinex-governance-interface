@@ -6,26 +6,17 @@ function useWithdrawVoteMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
 	const governanceModules = useModulesContext();
 
-	return useMutation(
-		'withdrawVote',
-		async () => {
-			const contract = governanceModules[moduleInstance]?.contract;
+	return useMutation('withdrawVote', async () => {
+		const contract = governanceModules[moduleInstance]?.contract;
 
-			if (contract) {
-				const gasLimit = await contract.estimateGas.withdrawVote();
-				let tx = await contract.withdrawVote({ gasLimit });
-				const receipt = tx.wait();
-				return receipt;
-			} else {
-				return new Error();
-			}
-		},
-		{
-			onSuccess: async () => {
-				await queryClient.refetchQueries();
-			},
+		if (contract) {
+			const gasLimit = await contract.estimateGas.withdrawVote();
+			let tx = await contract.withdrawVote({ gasLimit });
+			return tx;
+		} else {
+			return new Error();
 		}
-	);
+	});
 }
 
 export default useWithdrawVoteMutation;

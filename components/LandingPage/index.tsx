@@ -1,7 +1,6 @@
 import { Button } from '@synthetixio/ui';
 import { ArrowLinkOffIcon, ButtonCard } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
-import { H1 } from 'components/Headlines/H1';
 import { Text } from 'components/Text/text';
 import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
@@ -16,7 +15,7 @@ export default function LandingPage() {
 
 	return (
 		<div className="flex flex-col align-center gap-4">
-			<H1>{t('landing-page.headline')}</H1>
+			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
 			<Text>{t('landing-page.subline')}</Text>
 			<div className="flex justify-center flex-wrap gap-4 my-8">
 				<CouncilCard
@@ -40,7 +39,7 @@ export default function LandingPage() {
 					council="treasury"
 				/>
 			</div>
-			<H1>{t('landing-page.second-headline')}</H1>
+			<h1 className="tg-title-h1 text-center">{t('landing-page.second-headline')}</h1>
 			<Text>{t('landing-page.second-subline')}</Text>
 			<div className="flex flex-wrap justify-center mt-8">
 				<Link href="/councils" passHref>
@@ -78,7 +77,7 @@ export default function LandingPage() {
 					></StyledButtonCards>
 				</Link>
 			</div>
-			<H1>{t('landing-page.tabs-headline')}</H1>
+			<h1 className="tg-title-h1 text-center">{t('landing-page.tabs-headline')}</h1>
 			<Text>{t('landing-page.tabs-subline')}</Text>
 			<CouncilsCarousel />
 			<Button
