@@ -18,6 +18,7 @@ import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
+import { ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,26 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 			<TransactionDialogContextProvider provider={provider ? provider : L2DefaultProvider}>
 				<Header />
 				<UIModal open={isOpen} modalContent={content}>
+					<ToastContainer
+						position="top-right"
+						autoClose={5000}
+						hideProgressBar={false}
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
+						closeButton
+						bodyStyle={{
+							position: 'absolute',
+							top: 0,
+							right: 0,
+							width: '200px',
+							zIndex: 999,
+							height: '100px',
+						}}
+					/>
 					<TheComponent {...pageProps} />
 					<Footer />
 				</UIModal>

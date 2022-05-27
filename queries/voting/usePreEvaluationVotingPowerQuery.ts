@@ -1,13 +1,18 @@
+import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber, ethers } from 'ethers';
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { getUsersDetail } from 'queries/boardroom/useUsersDetailsQuery';
 import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
 import { useQuery } from 'react-query';
+import { hexStringBN } from 'utils/hexString';
 
 type BallotVotes = {
 	ballotId: string;
 	totalVotingPower: BigNumber;
 	voters: string[];
 	votingPowers: BigNumber[];
+	candidate: GetUserDetails;
 };
 
 export const usePreEvaluationVotingPowerQuery = (
@@ -15,6 +20,7 @@ export const usePreEvaluationVotingPowerQuery = (
 	epochIndex: string
 ) => {
 	const governanceModules = useModulesContext();
+	const { walletAddress } = useConnectorContext();
 
 	return useQuery<BallotVotes[]>(
 		['preEvaluationVotingPower', moduleInstance, epochIndex],
@@ -44,11 +50,17 @@ export const usePreEvaluationVotingPowerQuery = (
 				}
 				return group;
 			}, []) as BallotVotes[];
-
-			return result;
+			const addresses: string[] = await Promise.all(
+				result.map((vote) =>
+					contract?.getBallotCandidatesInEpoch(vote.ballotId, hexStringBN(epochIndex))
+				)
+			);
+			const details = await getUsersDetail(addresses, walletAddress || '');
+			return result.map((vote, index) => ({ ...vote, candidate: details[index] }));
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== null,
+			staleTime: 900000,
 		}
 	);
 };

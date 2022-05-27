@@ -24,7 +24,6 @@ export default function Card({
 }
 
 const StyledCard = styled.div<CardProps>`
-	width: 100%;
 	height: 100%;
 	background: ${({ gradient }) => (gradient ? colors.gradients[gradient] : colors.backgroundColor)};
 	box-shadow: ${({ withGlow, color }) => withGlow && color && `0 0 10px ${colors[color]}`};

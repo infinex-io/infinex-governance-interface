@@ -7,6 +7,7 @@ import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNomin
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
@@ -28,16 +29,22 @@ export default function WithdrawNominationModal({
 	const { setTxHash, setContent, setVisible, state, visible, setState } =
 		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
+	const queryClient = useQueryClient();
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
+				queryClient.refetchQueries({
+					active: true,
+					stale: true,
+					queryKey: ['nominees', `${council} council`],
+				});
 				setIsOpen(false);
 				setVisible(false);
 				push('/profile/' + walletAddress);
 			}, 2000);
 		}
-	}, [state, push, setIsOpen, walletAddress, setVisible, visible]);
+	}, [state, push, setIsOpen, walletAddress, setVisible, visible, queryClient, council]);
 
 	const handleWithdrawNomination = async () => {
 		setState('signing');

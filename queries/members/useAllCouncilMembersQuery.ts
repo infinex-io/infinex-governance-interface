@@ -1,7 +1,9 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
+import { useConnectorContext } from 'containers/Connector';
 import { useModulesContext } from 'containers/Modules';
 
 import { useQuery } from 'react-query';
+import { sortToOwnCard } from 'utils/sort';
 
 interface CouncilsUserData {
 	spartan: GetUserDetails[];
@@ -34,6 +36,7 @@ export type GetUserDetails = {
 
 function useAllCouncilMembersQuery() {
 	const governanceModules = useModulesContext();
+	const { walletAddress } = useConnectorContext();
 
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],

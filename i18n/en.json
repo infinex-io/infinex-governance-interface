@@ -104,6 +104,20 @@
 			"change": "Change Vote",
 			"view": "View Profile",
 			"uncast": "Uncast Vote"
+		},
+		"pre-eval": {
+			"headline": "Current Voting Results",
+			"tabs": {
+				"sc": "Spartan Council",
+				"gc": "Grants Council",
+				"ac": "Ambassador Council",
+				"tc": "Treasury Council"
+			},
+			"table": {
+				"name": "Name",
+				"votes": "Votes",
+				"actions": "Actions"
+			}
 		}
 	},
 	"modals": {
