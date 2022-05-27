@@ -1,5 +1,5 @@
-import { useTransactionModalContext } from '@synthetixio/ui';
-import { Button, Flex } from 'components/old-ui';
+import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -34,7 +34,9 @@ export default function WithdrawNominationModal({
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.resetQueries({ queryKey: 'nominees' });
+				queryClient.resetQueries({
+					queryKey: 'nominees',
+				});
 				setIsOpen(false);
 				setVisible(false);
 				push('/profile/' + walletAddress);
@@ -74,15 +76,13 @@ export default function WithdrawNominationModal({
 					) : walletAddress ? (
 						truncateAddress(walletAddress)
 					) : (
-						<Button onClick={() => connectWallet()} variant="primary" size="small">
+						<Button onClick={() => connectWallet()} variant="outline" size="sm">
 							{t('modals.nomination.checkboxes.connect-wallet')}
 						</Button>
 					)}
 				</StyledWalletAddress>
 			</StyledBlackBox>
-			<StyledButton onClick={() => handleWithdrawNomination()}>
-				{t('modals.withdraw.button')}
-			</StyledButton>
+			<Button onClick={() => handleWithdrawNomination()}>{t('modals.withdraw.button')}</Button>
 		</BaseModal>
 	);
 }

@@ -7,8 +7,10 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 	const { setIsOpen, isOpen } = useModalContext();
 
 	useEffect(() => {
-		if (isOpen) document.documentElement.classList.add('stop-scrolling');
-		else document.documentElement.classList.remove('stop-scrolling');
+		if (isOpen) {
+			document.documentElement.scroll(0, 0);
+			document.documentElement.classList.add('stop-scrolling');
+		} else document.documentElement.classList.remove('stop-scrolling');
 	}, [isOpen]);
 
 	return (

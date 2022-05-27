@@ -1982,10 +1982,10 @@
     ethers "5.5.3"
     lodash "4.17.19"
 
-"@synthetixio/ui@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.2.0.tgz#a0ccf3cdcfae19bd9afb76058495809a2979df94"
-  integrity sha512-/cyJBatJbLPTjisY19Qik8ZCkIHQgQ1uHajazmB9xUNzjyXOFKY4PDDRlC3xp6SF4S70IXAciKujsbTFpuqEUQ==
+"@synthetixio/ui@2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@synthetixio/ui/-/ui-2.5.0.tgz#2ee4688b3b77bc5af86b46dcf811caab8c7c1f78"
+  integrity sha512-Mzs7FqjcJB9xyfBrUdgMh9+lWgK3fQvt7rjs2oCjvCKviUPn4ScIoD+g0JyiJhXrLuQvI5Ga7tluy9Bl/kB22A==
   dependencies:
     "@synthetixio/transaction-notifier" "^2.70.1"
     clsx "^1.1.1"

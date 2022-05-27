@@ -1,4 +1,5 @@
-import { Button, SNXIcon, SpotlightButton, theme } from 'components/old-ui';
+import { Button } from '@synthetixio/ui';
+import { SNXIcon, SpotlightButton, theme } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
@@ -65,8 +66,9 @@ export default function Header() {
 				/>
 			))}
 			<ButtonContainer>
-				<StyledConnectWalletButton
-					variant="quaternary"
+				<Button
+					className="min-w-[143px]"
+					variant="outline"
 					onClick={walletAddress ? disconnectWallet : connectWallet}
 				>
 					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
@@ -80,7 +82,7 @@ export default function Header() {
 									.concat('...')
 									.concat(walletAddress.slice(walletAddress.length - 3))}
 					</StyledWalletAddress>
-				</StyledConnectWalletButton>
+				</Button>
 			</ButtonContainer>
 		</StyledHeader>
 	);
@@ -118,12 +120,6 @@ const ButtonContainer = styled.div`
 	justify-content: space-between;
 	min-width: 200px;
 	margin-right: ${theme.spacings.superBig};
-`;
-
-const StyledConnectWalletButton = styled(Button)`
-	min-width: 138px;
-	padding: ${({ theme }) => theme.spacings.tiniest};
-	cursor: pointer;
 `;
 
 const StyledWalletAddress = styled.span`

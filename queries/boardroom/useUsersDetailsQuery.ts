@@ -28,14 +28,13 @@ export type GetUserDetails = {
 function useUsersDetailsQuery(walletAddresses: string[]) {
 	const { walletAddress } = useConnectorContext();
 	return useQuery<GetUserDetails[]>(
-		['userDetails', walletAddresses],
+		['usersDetails', walletAddresses],
 		async () => {
 			return await getUsersDetail(walletAddresses, walletAddress || '');
 		},
 		{
 			enabled: walletAddresses !== null && walletAddresses.length > 0,
-			// 15 minutes
-			cacheTime: 900000,
+			staleTime: 900000,
 		}
 	);
 }
