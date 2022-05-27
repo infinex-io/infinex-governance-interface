@@ -8,7 +8,6 @@ import {
 	NONCE_API_URL,
 } from 'constants/boardroom';
 import { SiweMessage } from 'siwe';
-import { useQueryClient } from 'react-query';
 
 type SIWEMessage = {
 	message: {

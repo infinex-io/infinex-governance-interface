@@ -1,5 +1,5 @@
 import { Card } from '@synthetixio/ui';
-import { DiscordIcon, GitHubIcon, TwitterIcon, theme, SNXIcon } from 'components/old-ui';
+import { DiscordIcon, GitHubIcon, TwitterIcon, SNXIcon } from 'components/old-ui';
 import Link from 'next/link';
 
 import { useTranslation } from 'react-i18next';
@@ -7,11 +7,11 @@ import styled from 'styled-components';
 
 const LINKS = [
 	{
-		title: 'HOME',
+		title: 'footer.home',
 		link: '/',
 	},
 	{
-		title: 'COUNCILS',
+		title: 'footer.councils',
 		link: '/councils',
 	},
 ];
@@ -23,7 +23,9 @@ export default function Footer() {
 			<div className="flex justify-center gap-4">
 				{LINKS.map((link) => (
 					<Link key={link.title} href={link.link} passHref>
-						<span className="text-white tg-caption text-gray-500 cursor-pointer">{link.title}</span>
+						<span className="text-white tg-caption text-gray-500 cursor-pointer">
+							{t(link.title)}
+						</span>
 					</Link>
 				))}
 			</div>

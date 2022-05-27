@@ -8,7 +8,9 @@
 		"connect-wallet": "Connect Wallet"
 	},
 	"footer": {
-		"copyright": "Copyright © Synthetix 2022"
+		"copyright": "Copyright © Synthetix 2022",
+		"home": "Home",
+		"councils": "Councils"
 	},
 	"landing-page": {
 		"headline": "Governing Bodies",
