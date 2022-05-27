@@ -1,7 +1,9 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
+import { useConnectorContext } from 'containers/Connector';
 import { useModulesContext } from 'containers/Modules';
 
 import { useQuery } from 'react-query';
+import { sortToOwnCard } from 'utils/sort';
 
 interface CouncilsUserData {
 	spartan: GetUserDetails[];
@@ -34,6 +36,7 @@ export type GetUserDetails = {
 
 function useAllCouncilMembersQuery() {
 	const governanceModules = useModulesContext();
+	const { walletAddress } = useConnectorContext();
 
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
@@ -85,7 +88,26 @@ function useAllCouncilMembersQuery() {
 					await Promise.all(ambassadorResponse.map((response) => response.json())),
 					await Promise.all(treasuryResponse.map((response) => response.json())),
 				]);
-
+				if (walletAddress) {
+					return {
+						spartan: sortToOwnCard(
+							result[0].map((r) => r.data),
+							walletAddress
+						),
+						grants: sortToOwnCard(
+							result[1].map((r) => r.data),
+							walletAddress
+						),
+						ambassador: sortToOwnCard(
+							result[2].map((r) => r.data),
+							walletAddress
+						),
+						treasury: sortToOwnCard(
+							result[3].map((r) => r.data),
+							walletAddress
+						),
+					};
+				}
 				return {
 					spartan: result[0].map((r) => r.data),
 					grants: result[1].map((r) => r.data),

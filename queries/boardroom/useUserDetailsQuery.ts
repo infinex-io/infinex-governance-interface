@@ -27,11 +27,7 @@ function useUserDetailsQuery(walletAddress: string) {
 	return useQuery<GetUserDetails>(
 		['userDetails', walletAddress],
 		async () => {
-			let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
-				method: 'POST',
-			});
-			const { data } = await response.json();
-			return data;
+			return await getUserDetails(walletAddress);
 		},
 		{
 			enabled: walletAddress !== null,
@@ -42,3 +38,11 @@ function useUserDetailsQuery(walletAddress: string) {
 }
 
 export default useUserDetailsQuery;
+
+export async function getUserDetails(walletAddress: string) {
+	let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
+		method: 'POST',
+	});
+	const { data } = await response.json();
+	return data;
+}

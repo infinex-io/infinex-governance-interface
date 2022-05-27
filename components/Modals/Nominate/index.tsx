@@ -9,6 +9,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import BaseModal from '../BaseModal';
@@ -21,6 +22,7 @@ export default function NominateModal() {
 	const { walletAddress, ensName, connectWallet } = useConnectorContext();
 	const { setVisible, setTxHash, setContent, state, visible, setState } =
 		useTransactionModalContext();
+	const queryClient = useQueryClient();
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
@@ -50,12 +52,17 @@ export default function NominateModal() {
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
+				queryClient.refetchQueries({
+					active: true,
+					stale: true,
+					queryKey: ['nominees', `${activeCheckbox} council`],
+				});
 				setIsOpen(false);
 				setVisible(false);
 				push('/councils/'.concat(activeCheckbox));
 			}, 2000);
 		}
-	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible]);
+	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient]);
 
 	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
 	we should block all the councils radio button */

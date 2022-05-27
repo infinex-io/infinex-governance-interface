@@ -1,21 +1,20 @@
-import { DiscordIcon, Card as OldCard, ThreeDotsKebabIcon, TwitterIcon } from 'components/old-ui';
+import { DiscordIcon, ThreeDotsKebabIcon, TwitterIcon } from 'components/old-ui';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
-import { Text } from 'components/Text/text';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { parseURL } from 'utils/ipfs';
 import VoteModal from 'components/Modals/Vote';
 import { Button, Card, IconButton } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
 import WithdrawVoteModal from 'components/Modals/WithdrawVote';
+import Avatar from 'components/Avatar';
+import { truncateAddress } from 'utils/truncate-address';
 
 interface MemberCardProps {
 	member: GetUserDetails;
@@ -23,6 +22,7 @@ interface MemberCardProps {
 	deployedModule?: DeployedModules;
 	council?: string;
 	votedFor?: GetUserDetails;
+	className?: string;
 }
 
 export default function MemberCard({
@@ -31,6 +31,7 @@ export default function MemberCard({
 	deployedModule,
 	council,
 	votedFor,
+	className,
 }: MemberCardProps) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
@@ -40,15 +41,24 @@ export default function MemberCard({
 	const isOwnCard = walletAddress?.toLocaleLowerCase() === member.address.toLowerCase();
 	if (state === 'ADMINISTRATION') {
 		return (
-			<OldCard
-				color={isOwnCard ? 'orange' : 'purple'}
+			<Card
+				variant={isOwnCard ? 'orange' : 'purple'}
 				key={member.address.concat(member.about)}
-				className="b-[1px] max-w-[210px] max-h-[290px]"
+				wrapperClassName={className}
+				className="w-[210px] h-[285px] p-[1px] m-0"
 			>
-				<div className="darker-60 relative flex flex-col items-center justify-between p-4 min-w-[200px] min-h-[280px]">
-					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
-					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
-					<Text>{member.about}</Text>
+				<div className="darker-60 relative flex flex-col items-center justify-between p-4 rounded">
+					<Avatar walletAddress={member.address} url={member.pfpThumbnailUrl} />
+					<h5 className="tg-title-h5">
+						{member.ens
+							? member.ens
+							: member.username
+							? member.username
+							: truncateAddress(member.address)}
+					</h5>
+					<span className="tg-caption text-gray-500 text-ellipsis  w-[200px] overflow-hidden whitespace-nowrap">
+						{member.about}
+					</span>
 					{member.discord && <DiscordIcon />}
 					{member.twitter && <TwitterIcon />}
 					<div className="flex justify-around w-full relative">
@@ -103,21 +113,30 @@ export default function MemberCard({
 						)}
 					</div>
 				</div>
-			</OldCard>
+			</Card>
 		);
 	}
 
 	if (state === 'NOMINATION') {
 		return (
-			<OldCard
-				color={isOwnCard ? 'orange' : 'purple'}
+			<Card
+				variant={isOwnCard ? 'orange' : 'purple'}
 				key={member.address.concat(member.about)}
-				className="b-[1px] max-w-[210px] max-h-[290px]"
+				wrapperClassName={className}
+				className="w-[210px] h-[285px] p-[1px] m-0"
 			>
-				<div className="darker-60 relative flex flex-col items-center justify-between p-4 min-w-[200px] min-h-[280px]">
-					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
-					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
-					<Text>{member.about}</Text>
+				<div className="darker-60 relative flex flex-col items-center justify-between p-4 h-full w-full rounded">
+					<Avatar walletAddress={member.address} url={member.pfpThumbnailUrl} />
+					<h5 className="tg-title-h5">
+						{member.ens
+							? member.ens
+							: member.username
+							? member.username
+							: truncateAddress(member.address)}
+					</h5>
+					<span className="tg-caption text-gray-500 text-ellipsis w-[200px] overflow-hidden whitespace-nowrap">
+						{member.about}
+					</span>
 					{member.discord && <DiscordIcon />}
 					{member.twitter && <TwitterIcon />}
 					<div className="flex justify-around w-full relative">
@@ -195,21 +214,30 @@ export default function MemberCard({
 						)}
 					</div>
 				</div>
-			</OldCard>
+			</Card>
 		);
 	}
 	if (state === 'VOTING') {
 		const votedForAlready = votedFor?.address.toLowerCase() === member.address.toLowerCase();
 		return (
-			<OldCard
-				color={isOwnCard ? 'orange' : 'purple'}
+			<Card
+				variant={isOwnCard ? 'orange' : 'purple'}
 				key={member.address.concat(member.about)}
-				className="b-[1px] max-w-[210px] max-h-[290px]"
+				wrapperClassName={className}
+				className="w-[210px] h-[285px] p-[1px] m-0"
 			>
-				<div className="darker-60 relative flex flex-col items-center justify-between p-4 min-w-[200px] min-h-[280px]">
-					<StyledCardImage src={parseURL(member.pfpThumbnailUrl)} />
-					<h5 className="tg-title-h5">{member.ens || member.username}</h5>
-					<Text>{member.about}</Text>
+				<div className="darker-60 relative flex flex-col items-center justify-between p-4 h-full w-full rounded">
+					<Avatar walletAddress={member.address} url={member.pfpThumbnailUrl} />
+					<h5 className="tg-title-h5">
+						{member.ens
+							? member.ens
+							: member.username
+							? member.username
+							: truncateAddress(member.address)}
+					</h5>
+					<span className="tg-caption text-gray-500 text-ellipsis  w-[200px] overflow-hidden whitespace-nowrap">
+						{member.about}
+					</span>
 					{member.discord && <DiscordIcon />}
 					{member.twitter && <TwitterIcon />}
 					<div className="flex justify-around w-full relative">
@@ -282,14 +310,8 @@ export default function MemberCard({
 						)}
 					</div>
 				</div>
-			</OldCard>
+			</Card>
 		);
 	}
 	return <>...</>;
 }
-
-const StyledCardImage = styled.img`
-	width: 56px;
-	height: 56px;
-	border-radius: 50%;
-`;

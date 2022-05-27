@@ -54,8 +54,10 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			setTxHash(tx.hash);
 		} catch (error) {
 			console.error(error);
+			setVisible(false);
 		}
 	};
+
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
 			{member.pfpThumbnailUrl && (
@@ -71,7 +73,9 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			) : (
 				<h4 className="tg-title-h4 text-white">{truncateAddress(member.address)}</h4>
 			)}
-			<span className="text-gray-500 max-w-[300px]">{member.about}</span>
+			<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] ">
+				{member.about}
+			</span>
 			<Button onClick={() => handleVote()} size="lg" className="m-6">
 				{t('modals.vote.submit')}
 			</Button>

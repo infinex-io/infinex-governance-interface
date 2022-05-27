@@ -1,14 +1,14 @@
 import BackButton from 'components/BackButton';
 import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
+import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
 import { useConnectorContext } from 'containers/Connector';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useUsersDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUsersDetailsQuery';
+import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
@@ -18,13 +18,9 @@ export default function CouncilNominees() {
 	const { t } = useTranslation();
 	const { walletAddress } = useConnectorContext();
 	const activeCouncil = parseQuery(query?.council?.toString());
-	const [councilNominees, setCouncilNominees] = useState<GetUserDetails[]>([]);
-	const { data } = useNomineesQuery(activeCouncil.module);
+	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const isNominated = useIsNominated(activeCouncil.module, walletAddress ? walletAddress : '');
-	const nomineesInfo = useUsersDetailsQuery(data ? data : []);
-	useEffect(() => {
-		if (nomineesInfo.data?.length) setCouncilNominees(nomineesInfo.data);
-	}, [nomineesInfo]);
+	const nomineesInfo = useUsersDetailsQuery(nomineesQuery.data || []);
 
 	return (
 		<>
@@ -37,10 +33,13 @@ export default function CouncilNominees() {
 				<h1 className="tg-title-h1 text-center">
 					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
 				</h1>
-				{!!councilNominees.length ? (
+				{nomineesInfo.isLoading ? (
+					<Loader className="flex justify-center" />
+				) : !!nomineesInfo.data?.length ? (
 					<div className="flex flex-wrap justify-center">
-						{councilNominees.map((member) => (
+						{nomineesInfo.data.map((member) => (
 							<MemberCard
+								className="m-2"
 								member={member}
 								key={member.address}
 								state="NOMINATION"
