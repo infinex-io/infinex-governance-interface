@@ -2,10 +2,11 @@ import { DeployedModules } from 'containers/Modules';
 import useCouncilMemberHistoryQuery from 'queries/eventHistory/useCouncilMemberHistoryQuery';
 import useNominationHistoryQuery from 'queries/eventHistory/useNominationHistoryQuery';
 import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
+import { usePreEvaluationVotingPowerQuery } from 'queries/voting/usePreEvaluationVotingPowerQuery';
 import { useState } from 'react';
 
 export default function Dev() {
-	const [epochIndex, setEpochIndex] = useState<string>('');
+	const [epochIndex, setEpochIndex] = useState<string>('0');
 	const [wallet, setWallet] = useState<string>('');
 	const [ballotId, setBallotId] = useState<string>('');
 
@@ -26,6 +27,8 @@ export default function Dev() {
 		epochIndex.length > 0 ? epochIndex : null
 	);
 
+	const voting = usePreEvaluationVotingPowerQuery(DeployedModules.SPARTAN_COUNCIL, epochIndex);
+
 	return (
 		<div style={{ color: 'white', padding: '20px', margin: 'auto', paddingLeft: '200px' }}>
 			<p>Epoch Index</p>
@@ -43,6 +46,37 @@ export default function Dev() {
 			>
 				refetch
 			</button>
+			<hr />
+			<h1>Live Voting</h1>
+			{voting.data &&
+				voting.data.map((e, i) => {
+					return (
+						<li key={i}>
+							<ul>
+								<h2>BallotId: {e.ballotId}</h2>
+							</ul>
+							<ul>Total Voting Power: {Number(e.totalVotingPower)}</ul>
+							<ul>Voters:</ul>
+							{e.voters.map((e) => (
+								<>
+									<hr />
+									<p>{e}</p>
+									<hr />
+								</>
+							))}
+							<ul>Voting Powers:</ul>
+							{e.votingPowers.map((e) => (
+								<>
+									<hr />
+									<p>{Number(e)}</p>
+									<hr />
+								</>
+							))}
+							<hr />
+						</li>
+					);
+				})}
+			<hr />
 			<h1>Nominees</h1>
 			{epochIndex} for {wallet}
 			{nomination.data &&
@@ -54,7 +88,7 @@ export default function Dev() {
 						</li>
 					);
 				})}
-			<p>------</p>
+			<hr />
 			<h1>Votes</h1>
 			{epochIndex} for {wallet}
 			{votes.data &&
@@ -68,7 +102,7 @@ export default function Dev() {
 						</li>
 					);
 				})}
-			<p>------</p>
+			<hr />
 			<h1>Members</h1>
 			<h2>
 				{epochIndex} for {wallet}
@@ -82,6 +116,7 @@ export default function Dev() {
 						</li>
 					);
 				})}
+			<hr />
 		</div>
 	);
 }
