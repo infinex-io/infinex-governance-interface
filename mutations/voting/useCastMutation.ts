@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { useConnectorContext } from 'containers/Connector';
-import { Contract } from 'ethers';
+import { BigNumber, Contract } from 'ethers';
 import { useTransactionModalContext } from '@synthetixio/ui';
 
 type Address = string;
@@ -42,7 +42,10 @@ async function transact(ElectionModule: any, methodName: string, ...args: any[])
 	return tx;
 }
 
-async function getCrossChainClaim(ElectionModule: Contract, walletAddress: string) {
+export async function getCrossChainClaim(
+	ElectionModule: Contract,
+	walletAddress: string
+): Promise<{ proof: string; amount: BigNumber } | null> {
 	try {
 		const blockNumber = await ElectionModule.getCrossChainDebtShareMerkleRootBlockNumber();
 		const tree = await fetch(`/data/${blockNumber}-l1-debts.json`).then((res) => res.json());

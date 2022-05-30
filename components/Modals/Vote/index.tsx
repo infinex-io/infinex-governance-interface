@@ -9,8 +9,13 @@ import { truncateAddress } from 'utils/truncate-address';
 import { capitalizeString } from 'utils/capitalize';
 import Avatar from 'components/Avatar';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { useConnectorContext } from 'containers/Connector';
+import { useModulesContext } from 'containers/Modules/index';
+import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
+import { BigNumber } from 'ethers';
+import { SNXL2 } from 'constants/contracts';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -21,6 +26,10 @@ interface VoteModalProps {
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
+	// TODO @DEV remove when switching to real networks
+	const { walletAddress, L2DefaultProvider } = useConnectorContext();
+	const governanceModules = useModulesContext();
+	const [votingPower, setVotingPower] = useState({ l1: BigNumber.from(0), l2: BigNumber.from(0) });
 	const { push } = useRouter();
 	const queryClient = useQueryClient();
 	const castVoteMutation = useCastMutation(deployedModule);
@@ -40,6 +49,23 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			}, 2000);
 		}
 	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient]);
+
+	useEffect(() => {
+		if (walletAddress && governanceModules[deployedModule]?.contract && L2DefaultProvider) {
+			console.log(walletAddress);
+			SNXL2.connect(L2DefaultProvider)
+				.balanceOf(walletAddress)
+				.then((data: BigNumber) => setVotingPower((state) => ({ ...state, l2: data })));
+			getCrossChainClaim(governanceModules[deployedModule]!.contract, walletAddress).then(
+				(data) => {
+					if (data) {
+						setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
+					}
+				}
+			);
+		}
+	}, [walletAddress, governanceModules, deployedModule, L2DefaultProvider]);
+
 	const handleVote = async () => {
 		setState('signing');
 		setVisible(true);
@@ -60,14 +86,12 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
-			{member.pfpThumbnailUrl && (
-				<Avatar
-					width={160}
-					height={160}
-					walletAddress={member.address}
-					url={member.pfpThumbnailUrl}
-				/>
-			)}
+			<Avatar
+				width={160}
+				height={160}
+				walletAddress={member.address}
+				url={member.pfpThumbnailUrl}
+			/>
 			{member?.ens ? (
 				<h4 className="tg-title-h4 text-white">{member.ens}</h4>
 			) : (
@@ -86,6 +110,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					setIsOpen(false);
 					push('/profile/' + member.address);
 				}}
+				disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
 			>
 				{t('modals.vote.profile')}
 			</Button>
