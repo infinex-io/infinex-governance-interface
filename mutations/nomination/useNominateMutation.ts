@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
+import { useTransactionModalContext } from '@synthetixio/ui';
 
 function useNominateMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
 	const governanceModules = useModulesContext();
-
+	const { setState } = useTransactionModalContext();
 	return useMutation(
 		'nominate',
 		async () => {
@@ -16,6 +17,7 @@ function useNominateMutation(moduleInstance: DeployedModules) {
 				let tx = await contract.nominate({ gasLimit });
 				return tx;
 			} else {
+				setState('error');
 				return new Error();
 			}
 		},

@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { useModalContext } from 'containers/Modal';
+import { useQueryClient } from 'react-query';
 
 interface EditModalProps {
 	council: string;
@@ -30,6 +31,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 	const withdrawMutation = useWithdrawNominationMutation(deployedModule);
 	const [step, setStep] = useState(1);
 	const { setIsOpen } = useModalContext();
+	const queryClient = useQueryClient();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
@@ -45,18 +47,22 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 			setStep(2);
 			setVisible(false);
 			setState('signing');
+			queryClient.resetQueries({ queryKey: ['nominees', 'isNominated'], active: true });
 		}
 		if (state === 'confirmed' && step === 2) {
+			queryClient.resetQueries({ queryKey: ['nominees', 'isNominated'], active: true });
 			setTimeout(() => {
 				setVisible(false);
 				push('/councils/'.concat(council));
 				setIsOpen(false);
+				setState('signing');
 			}, 2000);
 		}
-	}, [state, step, setVisible, push, council, setState, setIsOpen]);
+	}, [state, step, setVisible, push, council, setState, setIsOpen, queryClient]);
 
 	const handleBtnClick = async () => {
 		if (step === 1) {
+			setState('signing');
 			setContent(
 				<>
 					<h6 className="tg-title-h6">
@@ -66,9 +72,15 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 				</>
 			);
 			setVisible(true);
-			const tx = await withdrawMutation.mutateAsync();
-			setTxHash(tx.hash);
+			try {
+				const tx = await withdrawMutation.mutateAsync();
+				setTxHash(tx.hash);
+			} catch (error) {
+				console.error(error);
+				setState('error');
+			}
 		} else if (step === 2) {
+			setState('signing');
 			setContent(
 				<>
 					<h6 className="tg-title-h6">
@@ -78,25 +90,30 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 				</>
 			);
 			setVisible(true);
-			switch (activeCheckbox) {
-				case 'spartan':
-					const spartanTx = await nominateForSpartanCouncil.mutateAsync();
-					setTxHash(spartanTx.hash);
-					break;
-				case 'grants':
-					const grantsTx = await nominateForGrantsCouncil.mutateAsync();
-					setTxHash(grantsTx.hash);
-					break;
-				case 'ambassador':
-					const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
-					setTxHash(ambassadorTx.hash);
-					break;
-				case 'treasury':
-					const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
-					setTxHash(treasuryTx.hash);
-					break;
-				default:
-					console.info('no matching entity found');
+			try {
+				switch (activeCheckbox) {
+					case 'spartan':
+						const spartanTx = await nominateForSpartanCouncil.mutateAsync();
+						setTxHash(spartanTx.hash);
+						break;
+					case 'grants':
+						const grantsTx = await nominateForGrantsCouncil.mutateAsync();
+						setTxHash(grantsTx.hash);
+						break;
+					case 'ambassador':
+						const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
+						setTxHash(ambassadorTx.hash);
+						break;
+					case 'treasury':
+						const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
+						setTxHash(treasuryTx.hash);
+						break;
+					default:
+						console.info('no matching entity found');
+				}
+			} catch (error) {
+				console.error(error);
+				setState('error');
 			}
 		}
 	};

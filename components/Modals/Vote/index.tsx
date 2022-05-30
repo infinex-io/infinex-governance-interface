@@ -54,7 +54,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			setTxHash(tx.hash);
 		} catch (error) {
 			console.error(error);
-			setVisible(false);
+			setState('error');
 		}
 	};
 
