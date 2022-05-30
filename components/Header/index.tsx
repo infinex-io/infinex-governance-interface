@@ -8,6 +8,8 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { slide as BurgerMenu } from 'react-burger-menu';
+import './header.module.scss';
 
 export default function Header() {
 	const { push, pathname } = useRouter();
@@ -50,53 +52,58 @@ export default function Header() {
 	}, [pathname]);
 
 	return (
-		<StyledHeader>
-			<Link href="/" passHref>
-				<div className="flex items-center cursor-pointer mr-8">
-					<SNXIcon />
-					<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
+		<>
+			<header className="bg-dark-blue w-full m-h-[66px] p-3 flex items-center justify-center border-b-gray-800 border-b-[1px] border-b-solid">
+				<Link href="/" passHref>
+					<div className="flex items-center cursor-pointer mr-8">
+						<SNXIcon />
+						<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
+					</div>
+				</Link>
+				<div className="invisible md:visible flex justify-center w-full">
+					{routes.map((translation, index) => (
+						<StyledSpotlightButton
+							text={translation}
+							onClick={() => handleIndexAndRouteChange(index)}
+							active={activeRoute === translation.toLowerCase()}
+							key={translation}
+						/>
+					))}
 				</div>
-			</Link>
-			{routes.map((translation, index) => (
-				<StyledSpotlightButton
-					text={translation}
-					onClick={() => handleIndexAndRouteChange(index)}
-					active={activeRoute === translation.toLowerCase()}
-					key={translation}
-				/>
-			))}
-			<ButtonContainer>
-				<Button
-					className="min-w-[143px]"
-					variant="outline"
-					onClick={walletAddress ? disconnectWallet : connectWallet}
-				>
-					{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
-					<StyledWalletAddress>
-						{!walletAddress
-							? t('header.connect-wallet')
-							: ensName
-							? ensName
-							: walletAddress!
-									.slice(0, 5)
-									.concat('...')
-									.concat(walletAddress.slice(walletAddress.length - 3))}
-					</StyledWalletAddress>
-				</Button>
-			</ButtonContainer>
-		</StyledHeader>
+				<div className="flex mr-1">
+					<Button
+						className="min-w-[143px]"
+						variant="outline"
+						onClick={walletAddress ? disconnectWallet : connectWallet}
+					>
+						{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
+						<StyledWalletAddress>
+							{!walletAddress
+								? t('header.connect-wallet')
+								: ensName
+								? ensName
+								: walletAddress!
+										.slice(0, 5)
+										.concat('...')
+										.concat(walletAddress.slice(walletAddress.length - 3))}
+						</StyledWalletAddress>
+					</Button>
+				</div>
+			</header>
+			<div className="bm-burger-button"></div>
+			<BurgerMenu isOpen={false} className="md:invisible">
+				{routes.map((translation, index) => (
+					<StyledSpotlightButton
+						text={translation}
+						onClick={() => handleIndexAndRouteChange(index)}
+						active={activeRoute === translation.toLowerCase()}
+						key={translation}
+					/>
+				))}
+			</BurgerMenu>
+		</>
 	);
 }
-
-const StyledHeader = styled.header`
-	background-color: ${theme.colors.backgroundColor};
-	width: 100%;
-	min-height: 66px;
-	padding-left: ${theme.spacings.biggest};
-	display: flex;
-	align-items: center;
-	border-bottom: 1px solid rgba(130, 130, 149, 0.3);
-`;
 
 const StyledHeaderHeadline = styled.h1`
 	font-family: 'Lustra Text';
@@ -112,14 +119,6 @@ const StyledSpotlightButton = styled(SpotlightButton)`
 	:last-of-type {
 		margin-right: auto;
 	}
-`;
-
-const ButtonContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	min-width: 200px;
-	margin-right: ${theme.spacings.superBig};
 `;
 
 const StyledWalletAddress = styled.span`
