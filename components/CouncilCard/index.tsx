@@ -30,7 +30,6 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
 
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
-	// TODO @DEV warp that into use state to trigger a rerender whenever the data is ready
 	const [dates, nominees, members] = [
 		useCurrentEpochDatesQuery(deployedModule),
 		useNomineesQuery(deployedModule),

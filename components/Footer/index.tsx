@@ -1,112 +1,58 @@
-import {
-	DiscordIcon,
-	GitHubIcon,
-	TwitterIcon,
-	ExternalLink,
-	SNXIcon,
-	theme,
-} from 'components/old-ui';
+import { Card } from '@synthetixio/ui';
+import { DiscordIcon, GitHubIcon, TwitterIcon, SNXIcon } from 'components/old-ui';
+import Link from 'next/link';
 
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const LINKS = [
 	{
-		title: 'SNX',
-		link: '',
+		title: 'footer.home',
+		link: '/',
 	},
 	{
-		title: 'SYNTHS',
-		link: '',
-	},
-	{
-		title: 'STATS',
-		link: '',
-	},
-	{
-		title: 'STAKING',
-		link: '',
-	},
-	{
-		title: 'BUILD',
-		link: '',
-	},
-	{
-		title: 'COMMUNITY',
-		link: '',
-	},
-	{
-		title: 'CAREERS',
-		link: '',
-	},
-	{
-		title: 'BLOG',
-		link: '',
-	},
-	{
-		title: 'RESEARCH',
-		link: '',
+		title: 'footer.councils',
+		link: '/councils',
 	},
 ];
 
 export default function Footer() {
 	const { t } = useTranslation();
 	return (
-		<StyledFooter>
+		<footer className="bg-[url('/footer.svg')] bg-dark-blue flex flex-col items-center gap-y-4 py-4">
+			<div className="flex justify-center gap-4">
+				{LINKS.map((link) => (
+					<Link key={link.title} href={link.link} passHref>
+						<span className="text-white tg-caption text-gray-500 cursor-pointer">
+							{t(link.title)}
+						</span>
+					</Link>
+				))}
+			</div>
 			<StyledSNXIcon />
-			<StyledCopyRightText>{t('footer.copyright')}</StyledCopyRightText>
-			{LINKS.map((link) => {
-				return (
-					<StyledLinks
-						key={link.title}
-						link={link.link}
-						text={link.title}
-						customColor={{ textColor: 'white', hoverColor: 'grey' }}
-						withoutIcon={true}
-					/>
-				);
-			})}
-			<StyledDiscordIcon />
-			<StyledTwitterIcon />
-			<StyledGitHubIcon />
-		</StyledFooter>
+			<span className="tg-caption text-white">{t('footer.copyright')}</span>
+			<Card className="flex gap-4" wrapperClassName="rounded-full">
+				<Link href="https://discord.com/invite/AEdUHzt" passHref>
+					<a rel="noreferrer" target="_blank">
+						<DiscordIcon fill="white" />
+					</a>
+				</Link>
+				<Link href="https://twitter.com/synthetix_io" passHref>
+					<a rel="noreferrer" target="_blank">
+						<TwitterIcon fill="white" />
+					</a>
+				</Link>
+				<Link href="https://github.com/synthetixio" passHref>
+					<a rel="noreferrer" target="_blank">
+						<GitHubIcon fill="white" />
+					</a>
+				</Link>
+			</Card>
+		</footer>
 	);
 }
-
-const StyledFooter = styled.footer`
-	background-color: ${theme.colors.backgroundColor};
-	width: 100%;
-	height: 150px;
-	display: flex;
-	align-items: center;
-	padding: ${theme.spacings.biggest};
-`;
 
 const StyledSNXIcon = styled(SNXIcon)`
 	width: 42px;
 	height: 30px;
 `;
-
-const StyledCopyRightText = styled.span`
-	font-family: 'Inter';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 0.87rem;
-	color: white;
-	opacity: 0.7;
-	margin-left: ${theme.spacings.biggest};
-	margin-right: auto;
-`;
-
-const StyledLinks = styled(ExternalLink)`
-	font-family: 'GT America';
-	font-style: normal;
-	font-weight: 700;
-	font-size: 0.87rem;
-	text-transform: uppercase;
-	margin-right: ${theme.spacings.medium};
-`;
-
-const StyledDiscordIcon = styled(DiscordIcon)``;
-const StyledTwitterIcon = styled(TwitterIcon)``;
-const StyledGitHubIcon = styled(GitHubIcon)``;

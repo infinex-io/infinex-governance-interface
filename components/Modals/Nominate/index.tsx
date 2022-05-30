@@ -181,7 +181,7 @@ export default function NominateModal() {
 					}
 				/>
 			</StyledCheckboxWrapper>
-			<Button disabled={!activeCheckbox} className="w-[313px]" onClick={() => handleNomination()}>
+			<Button className="w-[313px]" onClick={() => handleNomination()} disabled={!activeCheckbox}>
 				{t('modals.nomination.button')}
 			</Button>
 		</BaseModal>

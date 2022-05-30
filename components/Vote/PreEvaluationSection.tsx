@@ -1,6 +1,7 @@
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
 import { t } from 'i18next';
+import Link from 'next/link';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import { usePreEvaluationVotingPowerQuery } from 'queries/voting/usePreEvaluationVotingPowerQuery';
 import { useEffect, useState } from 'react';
@@ -67,7 +68,14 @@ export function PreEvaluationSection() {
 							</th>
 							<th className="p-2">{prevEval.voters.length}</th>
 							<th className="p-2 flex justify-end">
-								<ArrowLinkOffIcon active onClick={() => {}} />
+								<Link
+									href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
+									passHref
+								>
+									<a target="_blank" rel="noreferrer">
+										<ArrowLinkOffIcon active />
+									</a>
+								</Link>
 							</th>
 						</>
 					))}

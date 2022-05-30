@@ -1,3 +1,4 @@
+import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
 import { useConnectorContext } from 'containers/Connector';
@@ -18,8 +19,8 @@ export default function VoteCouncil() {
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const { walletAddress } = useConnectorContext();
 	const { data: periodData } = useCurrentPeriod(activeCouncil.module);
-	const { data: nomineesData } = useNomineesQuery(activeCouncil.module);
-	const usersDetailsQuery = useUsersDetailsQuery(nomineesData || []);
+	const nomineeQuery = useNomineesQuery(activeCouncil.module);
+	const usersDetailsQuery = useUsersDetailsQuery(nomineeQuery.data || []);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
 	useEffect(() => {
@@ -35,9 +36,11 @@ export default function VoteCouncil() {
 				<h1 className="tg-title-h1 text-center">
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
-				{usersDetailsQuery && usersDetailsQuery.data && (
-					<div className="flex flex-wrap justify-center space-x-4 space-y-4">
-						{usersDetailsQuery?.data?.map((member, index) => (
+				<div className="flex flex-wrap justify-center space-x-4 space-y-4">
+					{usersDetailsQuery.isLoading || nomineeQuery.isLoading ? (
+						<Loader />
+					) : usersDetailsQuery.data?.length ? (
+						usersDetailsQuery.data.map((member, index) => (
 							<MemberCard
 								key={member.address.concat(String(index).concat('voting'))}
 								member={member}
@@ -48,9 +51,11 @@ export default function VoteCouncil() {
 									voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
 								}
 							/>
-						))}
-					</div>
-				)}
+						))
+					) : (
+						<h4 className="tg-title-h4 text-center">{t('vote.no-nominations')}</h4>
+					)}
+				</div>
 			</Main>
 		</>
 	);
