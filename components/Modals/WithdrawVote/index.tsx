@@ -52,8 +52,13 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 				<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
 			</>
 		);
-		const tx = await withdrawVoteMutation.mutateAsync();
-		setTxHash(tx.hash);
+		try {
+			const tx = await withdrawVoteMutation.mutateAsync();
+			setTxHash(tx.hash);
+		} catch (error) {
+			console.error(error);
+			setState('error');
+		}
 	};
 	return (
 		<BaseModal headline={t('modals.withdraw-vote.headline')}>

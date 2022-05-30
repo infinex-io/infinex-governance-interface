@@ -52,7 +52,10 @@ export default function NominateModal() {
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.resetQueries({ queryKey: 'nominees' });
+				queryClient.resetQueries({
+					queryKey: ['nominees', 'isNominated'],
+					active: true,
+				});
 				setIsOpen(false);
 				setVisible(false);
 				push('/councils/'.concat(activeCheckbox));
@@ -80,29 +83,34 @@ export default function NominateModal() {
 	const handleNomination = async () => {
 		setState('signing');
 		setVisible(true);
-		switch (activeCheckbox) {
-			case 'spartan':
-				setContent(setCTA('Spartan'));
-				const spartanTx = await nominateForSpartanCouncil.mutateAsync();
-				setTxHash(spartanTx.hash);
-				break;
-			case 'grants':
-				setContent(setCTA('Grants'));
-				const grantsTx = await nominateForGrantsCouncil.mutateAsync();
-				setTxHash(grantsTx.hash);
-				break;
-			case 'ambassador':
-				setContent(setCTA('Ambassador'));
-				const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
-				setTxHash(ambassadorTx.hash);
-				break;
-			case 'treasury':
-				setContent(setCTA('Treasury'));
-				const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
-				setTxHash(treasuryTx.hash);
-				break;
-			default:
-				console.info('no matching entity found');
+		try {
+			switch (activeCheckbox) {
+				case 'spartan':
+					setContent(setCTA('Spartan'));
+					const spartanTx = await nominateForSpartanCouncil.mutateAsync();
+					setTxHash(spartanTx.hash);
+					break;
+				case 'grants':
+					setContent(setCTA('Grants'));
+					const grantsTx = await nominateForGrantsCouncil.mutateAsync();
+					setTxHash(grantsTx.hash);
+					break;
+				case 'ambassador':
+					setContent(setCTA('Ambassador'));
+					const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
+					setTxHash(ambassadorTx.hash);
+					break;
+				case 'treasury':
+					setContent(setCTA('Treasury'));
+					const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
+					setTxHash(treasuryTx.hash);
+					break;
+				default:
+					console.info('no matching entity found');
+			}
+		} catch (error) {
+			console.error(error);
+			setState('error');
 		}
 	};
 
