@@ -124,7 +124,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					<p className="tg-body">{about}</p>
 				</StyledAvatarWrapper>
 				<div className="flex flex-col mb-6 max-w-[900px] w-full">
-					<h4 className="tg-headline text-start">{t('profiles.subheadline')}</h4>
+					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
 					<div className="relative">
 						{ownAddress === walletAddress && (
 							<div
