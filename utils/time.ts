@@ -1,5 +1,6 @@
 export function parseRemainingTime(dateInSec: number) {
 	const difference = dateInSec - new Date().getTime();
+	if (difference <= 0) return '0D 0H 0M';
 	const oneDay = 1000 * 60 * 60 * 24;
 	const oneHour = 1000 * 60 * 60;
 	const days = Math.floor(difference / oneDay);

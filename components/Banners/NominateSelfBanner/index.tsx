@@ -3,17 +3,19 @@ import NominateModal from 'components/Modals/Nominate';
 import RemainingTime from 'components/RemainingTime';
 import { DeployedModules } from 'containers/Modules';
 import { useModalContext } from 'containers/Modal';
-import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
+import useCurrentEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
 import { ArrowRightIcon, IconButton } from 'components/old-ui';
 
-import { BannerProps } from '../types';
-
-export default function NominateSelfBanner({ hideButton }: BannerProps) {
+export default function NominateSelfBanner({
+	deployedModule,
+}: {
+	deployedModule: DeployedModules;
+}) {
 	const { t } = useTranslation();
-	const { data } = useEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data } = useCurrentEpochDatesQuery(deployedModule);
 	const remainingTime = data?.epochStartDate && parseRemainingTime(data.epochStartDate);
 	const { setContent, setIsOpen } = useModalContext();
 
@@ -23,20 +25,18 @@ export default function NominateSelfBanner({ hideButton }: BannerProps) {
 				{t('banner.nominate.closes')}
 				{remainingTime && <RemainingTime>{remainingTime}</RemainingTime>}
 			</TimeWrapper>
-			{!hideButton && (
-				<IconButton
-					onClick={() => {
-						setContent(<NominateModal />);
-						setIsOpen(true);
-					}}
-					size="tiny"
-					active
-					rounded
-				>
-					{t('banner.nominate.self')}
-					<ArrowRightIcon />
-				</IconButton>
-			)}
+			<IconButton
+				onClick={() => {
+					setContent(<NominateModal />);
+					setIsOpen(true);
+				}}
+				size="tiny"
+				active
+				rounded
+			>
+				{t('banner.nominate.self')}
+				<ArrowRightIcon />
+			</IconButton>
 		</Banner>
 	);
 }

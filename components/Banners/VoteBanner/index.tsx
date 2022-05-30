@@ -5,9 +5,9 @@ import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery'
 import { useTranslation } from 'react-i18next';
 import { parseRemainingTime } from 'utils/time';
 
-export default function VoteBanner() {
+export default function VoteBanner({ deployedModule }: { deployedModule: DeployedModules }) {
 	const { t } = useTranslation();
-	const { data } = useVotingPeriodDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data } = useVotingPeriodDatesQuery(deployedModule);
 	const remainingTime =
 		data?.votingPeriodStartDate && parseRemainingTime(data.votingPeriodStartDate);
 

@@ -1,3 +1,4 @@
+import VoteBanner from 'components/Banners/VoteBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
@@ -33,6 +34,7 @@ export default function VoteCouncil() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
+				{activeCouncil && <VoteBanner deployedModule={activeCouncil.module} />}
 				<h1 className="tg-title-h1 text-center">
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
