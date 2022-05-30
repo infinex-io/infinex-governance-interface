@@ -14,8 +14,7 @@ import { useQueryClient } from 'react-query';
 import { useConnectorContext } from 'containers/Connector';
 import { useModulesContext } from 'containers/Modules/index';
 import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
-import { BigNumber } from 'ethers';
-import { SNXL2 } from 'constants/contracts';
+import { BigNumber, utils } from 'ethers';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -26,8 +25,7 @@ interface VoteModalProps {
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
-	// TODO @DEV remove when switching to real networks
-	const { walletAddress, L2DefaultProvider } = useConnectorContext();
+	const { walletAddress } = useConnectorContext();
 	const governanceModules = useModulesContext();
 	const [votingPower, setVotingPower] = useState({ l1: BigNumber.from(0), l2: BigNumber.from(0) });
 	const { push } = useRouter();
@@ -38,10 +36,9 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.refetchQueries({
+				queryClient.resetQueries({
 					active: true,
-					stale: true,
-					queryKey: ['getCurrentVoteStateQuery'],
+					queryKey: 'getCurrentVoteStateQuery',
 				});
 				push('/profile/' + member.address);
 				setVisible(false);
@@ -51,20 +48,23 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient]);
 
 	useEffect(() => {
-		if (walletAddress && governanceModules[deployedModule]?.contract && L2DefaultProvider) {
+		if (walletAddress && governanceModules[deployedModule]?.contract) {
 			console.log(walletAddress);
-			SNXL2.connect(L2DefaultProvider)
-				.balanceOf(walletAddress)
-				.then((data: BigNumber) => setVotingPower((state) => ({ ...state, l2: data })));
+			governanceModules[deployedModule]?.contract
+				.getDebtShare(walletAddress)
+				.then((data: BigNumber) => {
+					if (data) setVotingPower((state) => ({ ...state, l2: data }));
+				});
+			/* 
+add them up and square root them
+*/
 			getCrossChainClaim(governanceModules[deployedModule]!.contract, walletAddress).then(
 				(data) => {
-					if (data) {
-						setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
-					}
+					if (data) setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
 				}
 			);
 		}
-	}, [walletAddress, governanceModules, deployedModule, L2DefaultProvider]);
+	}, [walletAddress, governanceModules, deployedModule]);
 
 	const handleVote = async () => {
 		setState('signing');
@@ -100,6 +100,10 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] ">
 				{member.about}
 			</span>
+			<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black m-w-[320px] text-white">
+				<h6 className="tg-title-h6">{t('modals.vote.voting-power.headline')}</h6>
+				<h3 className="tg-title-h3"></h3>
+			</div>
 			<Button onClick={() => handleVote()} size="lg" className="m-6">
 				{t('modals.vote.submit')}
 			</Button>

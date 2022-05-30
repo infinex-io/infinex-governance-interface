@@ -158,7 +158,10 @@
 			"headline": "Voting For {{council}} Council",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
-			"cta": "Voting for {{council}} Council"
+			"cta": "Voting for {{council}} Council",
+			"voting-power": {
+				"headline": "Combined Voting Power On L1 & L2"
+			}
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
