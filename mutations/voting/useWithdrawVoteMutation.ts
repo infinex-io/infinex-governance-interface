@@ -1,19 +1,22 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
+import { useTransactionModalContext } from '@synthetixio/ui';
 
 function useWithdrawVoteMutation(moduleInstance: DeployedModules) {
-	const queryClient = useQueryClient();
 	const governanceModules = useModulesContext();
+	const { setState } = useTransactionModalContext();
 
 	return useMutation('withdrawVote', async () => {
 		const contract = governanceModules[moduleInstance]?.contract;
 
-		if (contract) {
-			const gasLimit = await contract.estimateGas.withdrawVote();
-			let tx = await contract.withdrawVote({ gasLimit });
+		try {
+			const gasLimit = await contract?.estimateGas.withdrawVote();
+			let tx = await contract?.withdrawVote({ gasLimit });
 			return tx;
-		} else {
+		} catch (error) {
+			setState('error');
+			console.error(error);
 			return new Error();
 		}
 	});
