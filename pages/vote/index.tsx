@@ -3,7 +3,6 @@ import Main from 'components/Main';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import VoteBanner from 'components/Banners/VoteBanner';
 import VoteSection from 'components/Vote';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
@@ -93,7 +92,6 @@ export default function Vote() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{activeCouncilInVoting && <VoteBanner />}
 				<div className="flex flex-col items-center">
 					{!!activeCouncilInVoting && (
 						<Card variant="gray" wrapperClassName="flex flex-col max-w-[1300px] w-full">

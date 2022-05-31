@@ -28,7 +28,7 @@ export default function CouncilNominees() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{typeof isNominated.data !== 'undefined' && !isNominated.data && <NominateSelfBanner />}
+				{!isNominated && <NominateSelfBanner deployedModule={activeCouncil.module} />}
 				<BackButton />
 				<h1 className="tg-title-h1 text-center">
 					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
