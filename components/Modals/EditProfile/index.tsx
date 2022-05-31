@@ -1,11 +1,11 @@
 import { Button, Flex, IconButton, TextInput } from 'components/old-ui';
-import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
 import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { useAccount } from 'wagmi';
 
 import SecondaryModal from '../SecondaryModal';
 
@@ -17,10 +17,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 
 	const updateUserMutation = useUpdateUserDetailsMutation();
-	const userDetailsQuery = useUserDetailsQuery(walletAddress ?? '');
+	const userDetailsQuery = useUserDetailsQuery(data?.address ?? '');
 
 	const [username, setUsername] = useState<string>(userProfile.username);
 	const [pfpThumbnailUrl, setPfpThumbnailUrl] = useState<string>(userProfile.pfpThumbnailUrl);

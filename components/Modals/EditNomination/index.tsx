@@ -17,6 +17,7 @@ import { capitalizeString } from 'utils/capitalize';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { useModalContext } from 'containers/Modal';
 import { useQueryClient } from 'react-query';
+import { useAccount } from 'wagmi';
 
 interface EditModalProps {
 	council: string;
@@ -25,7 +26,8 @@ interface EditModalProps {
 
 export default function EditModal({ deployedModule, council }: EditModalProps) {
 	const { t } = useTranslation();
-	const { walletAddress, ensName } = useConnectorContext();
+	const { data } = useAccount();
+	const { ensName } = useConnectorContext();
 	const { push } = useRouter();
 	const { setContent, setTxHash, setVisible, state, setState } = useTransactionModalContext();
 	const withdrawMutation = useWithdrawNominationMutation(deployedModule);
@@ -68,7 +70,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 					<h6 className="tg-title-h6">
 						{t('modals.edit.cta-step-1-head', { council: capitalizeString(council) })}
 					</h6>
-					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(data!.address!)}</h3>
 				</>
 			);
 			setVisible(true);
@@ -86,7 +88,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 					<h6 className="tg-title-h6">
 						{t('modals.edit.cta-step-2-head', { council: capitalizeString(council) })}
 					</h6>
-					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(data?.address!)}</h3>
 				</>
 			);
 			setVisible(true);
@@ -141,7 +143,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 							<div className="border-gray-500 rounded border-[1px] p-8 m-4">
 								<h6 className="tg-title-h6 text-gray-500">{t('modals.edit.current')}</h6>
 								<h3 className="tg-title-h3 text-white">
-									{ensName ? ensName : walletAddress && truncateAddress(walletAddress)}
+									{ensName ? ensName : data?.address && truncateAddress(data.address)}
 								</h3>
 							</div>
 							<div className="bg-primary p-[2px] rounded">

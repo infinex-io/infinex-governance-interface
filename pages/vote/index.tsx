@@ -3,13 +3,11 @@ import Main from 'components/Main';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import VoteBanner from 'components/Banners/VoteBanner';
 import VoteSection from 'components/Vote';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
 import { Card, IconButton } from '@synthetixio/ui';
 import { useEffect, useState } from 'react';
-import { useConnectorContext } from 'containers/Connector';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
@@ -19,6 +17,7 @@ import WithdrawVote from 'components/Modals/WithdrawVote';
 import BackButton from 'components/BackButton';
 import { PreEvaluationSection } from 'components/Vote/PreEvaluationSection';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { useAccount } from 'wagmi';
 
 interface CouncilState {
 	voted: boolean;
@@ -35,7 +34,7 @@ interface VoteState {
 export default function Vote() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	const [userVoteHistory, setUserVoteHistory] = useState<VoteState>({
 		spartan: { voted: false, candidate: undefined },
 		grants: { voted: false, candidate: undefined },
@@ -47,7 +46,7 @@ export default function Vote() {
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
+	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
 	useEffect(() => {
 		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
 	}, [activeCouncilInVoting, push]);
@@ -93,7 +92,6 @@ export default function Vote() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{activeCouncilInVoting && <VoteBanner />}
 				<div className="flex flex-col items-center">
 					{!!activeCouncilInVoting && (
 						<Card variant="gray" wrapperClassName="flex flex-col max-w-[1300px] w-full">
