@@ -1,9 +1,9 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
 import { useConnectorContext } from 'containers/Connector';
 import { useModulesContext } from 'containers/Modules';
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 
 import { useQuery } from 'react-query';
-import { sortToOwnCard } from 'utils/sort';
 
 interface CouncilsUserData {
 	spartan: GetUserDetails[];
@@ -12,31 +12,8 @@ interface CouncilsUserData {
 	treasury: GetUserDetails[];
 }
 
-export type GetUserDetails = {
-	address: string;
-	email: string;
-	ens: string;
-	username: string;
-	twitter: string;
-	about: string;
-	website: string;
-	notificationPreferences: string;
-	associatedAddresses: string;
-	type: string;
-	pfpUrl: string;
-	pfpImageId: string;
-	bannerThumbnailUrl: string;
-	bannerImageId: string;
-	pfpThumbnailUrl: string;
-	bannerUrl: string;
-	discord: string;
-	delegationPitches: string;
-	github: string;
-};
-
 function useAllCouncilMembersQuery() {
 	const governanceModules = useModulesContext();
-	const { walletAddress } = useConnectorContext();
 
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
@@ -75,10 +52,19 @@ function useAllCouncilMembersQuery() {
 			});
 
 			return {
-				spartan: spartanMembers.map((address: string) => users[address]),
-				grants: grantsMembers.map((address: string) => users[address]),
-				ambassador: ambassadorMembers.map((address: string) => users[address]),
-				treasury: treasuryMembers.map((address: string) => users[address]),
+				spartan: spartanMembers.map((address: string) => ({
+					...users[address],
+					council: 'spartan',
+				})),
+				grants: grantsMembers.map((address: string) => ({ ...users[address], council: 'grants' })),
+				ambassador: ambassadorMembers.map((address: string) => ({
+					...users[address],
+					council: 'ambassador',
+				})),
+				treasury: treasuryMembers.map((address: string) => ({
+					...users[address],
+					council: 'treasury',
+				})),
 			};
 		},
 		{
