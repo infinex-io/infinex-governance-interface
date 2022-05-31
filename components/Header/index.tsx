@@ -8,6 +8,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Header() {
 	const { push, pathname } = useRouter();
@@ -65,7 +66,8 @@ export default function Header() {
 					key={translation}
 				/>
 			))}
-			<ButtonContainer>
+			<ConnectButton />
+			{/* <ButtonContainer>
 				<Button
 					className="min-w-[143px]"
 					variant="outline"
@@ -83,7 +85,7 @@ export default function Header() {
 									.concat(walletAddress.slice(walletAddress.length - 3))}
 					</StyledWalletAddress>
 				</Button>
-			</ButtonContainer>
+			</ButtonContainer> */}
 		</StyledHeader>
 	);
 }
