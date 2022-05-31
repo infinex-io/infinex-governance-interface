@@ -1,6 +1,4 @@
-import { Button } from '@synthetixio/ui';
 import { SNXIcon, SpotlightButton, theme } from 'components/old-ui';
-import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,7 +6,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { truncateAddress } from 'utils/truncate-address';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Header() {
 	const { push, pathname } = useRouter();
@@ -31,9 +29,6 @@ export default function Header() {
 		ambassadorQuery,
 		treasuryQuery,
 	].find((item) => item.data?.currentPeriod === 'VOTING');
-
-	const { connectWallet, disconnectWallet, walletAddress, ensAvatar, ensName } =
-		useConnectorContext();
 
 	useEffect(() => {
 		if (!oneCouncilIsInVotingPeriod)
@@ -132,18 +127,7 @@ export default function Header() {
 					</div>
 				)}
 				<div className="flex mr-1">
-					<Button
-						className="min-w-[143px]"
-						variant="outline"
-						onClick={walletAddress ? disconnectWallet : connectWallet}
-					>
-						{ensAvatar && <StyledENSAvatar src={ensAvatar} />}
-						<StyledWalletAddress>
-							{ensName || !!walletAddress
-								? truncateAddress(walletAddress!)
-								: t('header.connect-wallet')}
-						</StyledWalletAddress>
-					</Button>
+					<ConnectButton />
 				</div>
 			</header>
 		</>
@@ -157,21 +141,4 @@ const StyledHeaderHeadline = styled.h1`
 	font-size: 0.87rem;
 	color: white;
 	margin-left: ${theme.spacings.tiny};
-`;
-
-const StyledWalletAddress = styled.span`
-	color: ${({ theme }) => theme.colors.white};
-	font-family: 'Inter Bold';
-	font-size: 0.75rem;
-	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
-
-const StyledENSAvatar = styled.img`
-	border-radius: 50%;
-	width: 16px;
-	height: 16px;
-	margin-right: ${theme.spacings.tiny};
 `;

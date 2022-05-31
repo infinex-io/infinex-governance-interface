@@ -59,7 +59,11 @@ type ConnectorContextType = {
 	setUuid: (value: string | null) => void;
 	ensName: string | null;
 	ensAvatar: string | null;
-	provider: ethers.providers.JsonRpcProvider | null;
+	provider: ({
+		chainId,
+	}: {
+		chainId?: number | undefined;
+	}) => ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider;
 	signer: ethers.providers.JsonRpcSigner | null;
 	chainId: number | undefined;
 	connectWallet: () => void;
@@ -68,6 +72,7 @@ type ConnectorContextType = {
 	boardroomSignOut: () => void;
 	L1DefaultProvider: ethers.providers.InfuraProvider;
 	L2DefaultProvider: ethers.providers.InfuraProvider;
+	chains: any[];
 };
 
 const ConnectorContext = createContext<unknown>(null);
@@ -77,16 +82,14 @@ export const useConnectorContext = () => {
 };
 
 export const ConnectorContextProvider: React.FC = ({ children }) => {
-	// const { activateBrowserWallet, account, deactivate, library, chainId } = useEthers();
-
-	// const L1DefaultProvider = useMemo(
-	// 	() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
-	// 	[]
-	// );
-	// const L2DefaultProvider = useMemo(
-	// 	() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
-	// 	[]
-	// );
+	const L1DefaultProvider = useMemo(
+		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
+		[]
+	);
+	const L2DefaultProvider = useMemo(
+		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
+		[]
+	);
 
 	// const [provider, setProvider] = useState<
 	// 	ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider | null
@@ -99,9 +102,13 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	// const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
 	// const [uuid, setUuid] = useLocalStorage<string | null>('uuid', null);
 
-	const { chains, provider } = configureChains(
-		[chain.optimism, chain.optimismKovan],
-		[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_BN_ONBOARD_API_KEY }), publicProvider()]
+	const { chains, provider } = useMemo(
+		() =>
+			configureChains(
+				[chain.optimism, chain.optimismKovan],
+				[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }), publicProvider()]
+			),
+		[]
 	);
 
 	const connectors = connectorsForWallets([
@@ -234,12 +241,12 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 						// ensAvatar,
 						provider,
 						chains,
-						// signer,
+						// signer
 						// chainId,
 						// boardroomSignIn,
 						// boardroomSignOut,
-						// L1DefaultProvider,
-						// L2DefaultProvider,
+						L1DefaultProvider,
+						L2DefaultProvider,
 					}}
 				>
 					{children}

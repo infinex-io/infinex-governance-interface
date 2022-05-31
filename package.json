@@ -29,7 +29,6 @@
 		"react-i18next": "11.16.1",
 		"react-query": "^3.34.20",
 		"react-timer-hook": "3.0.5",
-		"react-toastify": "9.0.1",
 		"siwe": "1.1.6",
 		"styled-components": "5.3.3",
 		"wagmi": "0.4.5",

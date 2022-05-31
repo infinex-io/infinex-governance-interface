@@ -8,6 +8,7 @@ import {
 	treasuryCouncil,
 } from 'constants/addresses';
 import { createContext, useContext, useEffect, useState, FC } from 'react';
+import { chain } from 'wagmi';
 
 export enum DeployedModules {
 	SPARTAN_COUNCIL = 'spartan council',
@@ -28,17 +29,16 @@ export const useModulesContext = () => {
 };
 
 export const ModulesProvider: FC = ({ children }) => {
-	const { chainId, provider, signer, L2DefaultProvider } = useConnectorContext();
+	const { chains, provider, L2DefaultProvider } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 
 	useEffect(() => {
-		if (chainId && provider) {
+		console.log(spartanCouncil);
+		if (provider(chains[0].id)) {
 			const SpartanCouncilModule = new ethers.Contract(
 				spartanCouncil,
 				ElectionModuleABI.abi,
-				signer ?? provider
-				// uncomment when contracts are live on L2
-				//!provider || !signer ? L2DefaultProvider : signer
+				provider({ chainId: chain.optimism.id })
 			);
 
 			let modules = {} as GovernanceModule;
@@ -51,9 +51,7 @@ export const ModulesProvider: FC = ({ children }) => {
 			const AmbassadorCouncilModule = new ethers.Contract(
 				ambassadorCouncil,
 				ElectionModuleABI.abi,
-				signer ?? provider
-				// uncomment when contracts are live on L2
-				//!provider || !signer ? L2DefaultProvider : signer
+				provider({ chainId: chain.optimism.id })
 			);
 
 			modules[DeployedModules.AMBASSADOR_COUNCIL] = {
@@ -64,9 +62,7 @@ export const ModulesProvider: FC = ({ children }) => {
 			const GrantsCouncilModule = new ethers.Contract(
 				grantsCouncil,
 				ElectionModuleABI.abi,
-				signer ?? provider
-				// uncomment when contracts are live on L2
-				//!provider || !signer ? L2DefaultProvider : signer
+				provider({ chainId: chain.optimism.id })
 			);
 
 			modules[DeployedModules.GRANTS_COUNCIL] = {
@@ -77,9 +73,7 @@ export const ModulesProvider: FC = ({ children }) => {
 			const TreasuryCouncilModule = new ethers.Contract(
 				treasuryCouncil,
 				ElectionModuleABI.abi,
-				signer ?? provider
-				// uncomment when contracts are live on L2
-				//!provider || !signer ? L2DefaultProvider : signer
+				provider({ chainId: chain.optimism.id })
 			);
 
 			modules[DeployedModules.TREASURY_COUNCIL] = {
@@ -89,7 +83,7 @@ export const ModulesProvider: FC = ({ children }) => {
 
 			setGovernanceModules(modules);
 		}
-	}, [chainId, provider, signer, L2DefaultProvider]);
+	}, [chains, provider, L2DefaultProvider]);
 
 	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
 };
