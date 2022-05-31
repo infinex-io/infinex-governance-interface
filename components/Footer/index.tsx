@@ -19,7 +19,7 @@ const LINKS = [
 export default function Footer() {
 	const { t } = useTranslation();
 	return (
-		<footer className="bg-[url('/footer.svg')] bg-dark-blue flex flex-col items-center gap-y-4 py-4">
+		<footer className="bg-[url('/footer.svg')] bg-cover bg-no-repeat bg-dark-blue flex flex-col items-center gap-y-4 py-4">
 			<div className="flex justify-center gap-4">
 				{LINKS.map((link) => (
 					<Link key={link.title} href={link.link} passHref>
