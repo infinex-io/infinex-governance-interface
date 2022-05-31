@@ -7,12 +7,21 @@ interface SpotlightButtonProps extends HTMLAttributes<HTMLButtonElement> {
 	text: string;
 	active: boolean;
 	onClick: () => void;
+	size?: 'lg';
 }
 
-export default function SpotlightButton({ text, active, onClick, ...rest }: SpotlightButtonProps) {
+export default function SpotlightButton({
+	text,
+	active,
+	onClick,
+	size,
+	...rest
+}: SpotlightButtonProps) {
 	return (
 		<StyledSpotlightButton onClick={onClick} {...rest}>
-			<StyledText active={active}>{text}</StyledText>
+			<StyledText active={active} size={size}>
+				{text}
+			</StyledText>
 			{active && <StyledSpotlight />}
 		</StyledSpotlightButton>
 	);
@@ -31,11 +40,14 @@ const StyledSpotlightButton = styled.button`
 	cursor: pointer;
 `;
 
-const StyledText = styled.span<{ active: SpotlightButtonProps['active'] }>`
+const StyledText = styled.span<{
+	active: SpotlightButtonProps['active'];
+	size?: SpotlightButtonProps['size'];
+}>`
 	font-family: 'GT America';
 	font-style: normal;
 	font-weight: 400;
-	font-size: 0.87rem;
+	font-size: ${({ size }) => (size === 'lg' ? '2rem' : '0.87rem')};
 	margin-bottom: ${spacings.tiny};
 	color: ${({ active }) => (active ? 'white' : colors.grey)};
 `;
