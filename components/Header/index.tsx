@@ -69,7 +69,7 @@ export default function Header() {
 				<div className="hidden md:flex justify-center w-full">
 					{routes.map((translation, index) => (
 						<SpotlightButton
-							className="last-of-type:m-auto"
+							className="last-of-type:mr-auto m-2"
 							text={translation}
 							onClick={() => handleIndexAndRouteChange(index)}
 							active={activeRoute === translation.toLowerCase()}
@@ -94,7 +94,22 @@ export default function Header() {
 							viewBox="0 0 36 36"
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
-						></svg>
+						>
+							<path
+								d="M9 9L27 27"
+								stroke="white"
+								strokeWidth="2"
+								strokeMiterlimit="10"
+								strokeLinecap="round"
+							/>
+							<path
+								d="M27 9L9 27"
+								stroke="white"
+								strokeWidth="2"
+								strokeMiterlimit="10"
+								strokeLinecap="round"
+							/>
+						</svg>
 					)}
 				</button>
 				{burgerMenuOpen && (
