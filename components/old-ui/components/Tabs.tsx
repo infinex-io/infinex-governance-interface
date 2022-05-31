@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import colors from '../styles/colors';
@@ -19,10 +20,11 @@ export default function Tabs({
 	justifyContent,
 	size = 'medium',
 	icons,
+	className,
 	...rest
 }: TabsProps) {
 	return (
-		<StyledTabsWrapper justifyContent={justifyContent} {...rest}>
+		<StyledTabsWrapper className={clsx('md:justify-center justify-start', className)} {...rest}>
 			{titles.map((title, index) => (
 				<StyledTab
 					key={title.concat(index.toString())}
@@ -40,13 +42,10 @@ export default function Tabs({
 	);
 }
 
-const StyledTabsWrapper = styled.ul<{
-	justifyContent?: TabsProps['justifyContent'];
-}>`
+const StyledTabsWrapper = styled.ul`
 	width: 100%;
 	display: flex;
 	margin: auto;
-	justify-content: ${({ justifyContent }) => justifyContent && justifyContent};
 	padding: 5px;
 	font-family: 'Inter';
 	font-style: normal;
