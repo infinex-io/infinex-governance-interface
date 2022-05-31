@@ -2,28 +2,7 @@ import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
 import { useConnectorContext } from 'containers/Connector';
 import { useQuery } from 'react-query';
 import { sortToOwnCard } from 'utils/sort';
-
-export type GetUserDetails = {
-	address: string;
-	email: string;
-	ens: string;
-	username: string;
-	twitter: string;
-	about: string;
-	website: string;
-	notificationPreferences: string;
-	associatedAddresses: string;
-	type: string;
-	pfpUrl: string;
-	pfpImageId: string;
-	bannerThumbnailUrl: string;
-	bannerImageId: string;
-	pfpThumbnailUrl: string;
-	bannerUrl: string;
-	discord: string;
-	delegationPitches: string;
-	github: string;
-};
+import { GetUserDetails } from './useUserDetailsQuery';
 
 function useUsersDetailsQuery(walletAddresses: string[]) {
 	const { walletAddress } = useConnectorContext();

@@ -40,6 +40,7 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 		members.data?.ambassador,
 		members.data?.treasury,
 	];
+
 	return (
 		<div className="flex flex-col items-center">
 			<Tabs
@@ -76,6 +77,7 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 							key={member.address.concat(String(index))}
 							state="ADMINISTRATION"
 							className="m-2"
+							council={member.council}
 						/>
 					))}
 					maxWidth={maxWidth ? maxWidth : '90vw'}
