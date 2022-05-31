@@ -25,7 +25,7 @@ function useUpdateUserDetailsMutation() {
 			if (walletAddress) {
 				const body = {
 					...userProfile,
-					uuid: uuid || signedInUuid,
+					uuid: signedInUuid || uuid,
 				};
 				let response = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
 					method: 'POST',
