@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import colors from '../styles/colors';
@@ -8,7 +9,7 @@ interface TabsProps extends HTMLAttributes<HTMLUListElement> {
 	clicked: (index?: number) => void;
 	size?: 'medium' | 'small';
 	activeIndex?: number;
-	justifyContent: 'flex-start' | 'flex-end' | 'center' | 'space-evenly' | 'space-around';
+	justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-evenly' | 'space-around';
 	icons?: JSX.Element[];
 }
 
@@ -19,10 +20,11 @@ export default function Tabs({
 	justifyContent,
 	size = 'medium',
 	icons,
+	className,
 	...rest
 }: TabsProps) {
 	return (
-		<StyledTabsWrapper justifyContent={justifyContent} {...rest}>
+		<StyledTabsWrapper className={clsx('md:justify-center justify-start', className)} {...rest}>
 			{titles.map((title, index) => (
 				<StyledTab
 					key={title.concat(index.toString())}
@@ -40,12 +42,10 @@ export default function Tabs({
 	);
 }
 
-const StyledTabsWrapper = styled.ul<{
-	justifyContent?: TabsProps['justifyContent'];
-}>`
+const StyledTabsWrapper = styled.ul`
 	width: 100%;
 	display: flex;
-	justify-content: ${({ justifyContent }) => (justifyContent ? justifyContent : 'space-evenly')};
+	margin: auto;
 	padding: 5px;
 	font-family: 'Inter';
 	font-style: normal;
@@ -58,6 +58,7 @@ const StyledTab = styled.li<{ active?: boolean; size: TabsProps['size'] }>`
 	justify-content: center;
 	align-items: center;
 	list-style-type: none;
+	min-width: fit-content;
 	padding: ${({ size }) => (size === 'medium' ? '8px 18px' : '2px 8px')};
 	border-radius: 100px;
 	background-color: ${({ active }) => active && colors.lightBlue};

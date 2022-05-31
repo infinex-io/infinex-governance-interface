@@ -11,11 +11,10 @@ import Avatar from 'components/Avatar';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useConnectorContext } from 'containers/Connector';
 import { useModulesContext } from 'containers/Modules/index';
 import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
 import { BigNumber } from 'ethers';
-import { SNXL2 } from 'constants/contracts';
+import { useAccount } from 'wagmi';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -26,8 +25,7 @@ interface VoteModalProps {
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
-	// TODO @DEV remove when switching to real networks
-	const { walletAddress, L2DefaultProvider } = useConnectorContext();
+	const { data } = useAccount();
 	const governanceModules = useModulesContext();
 	const [votingPower, setVotingPower] = useState({ l1: BigNumber.from(0), l2: BigNumber.from(0) });
 	const { push } = useRouter();
@@ -51,20 +49,14 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient]);
 
 	useEffect(() => {
-		if (walletAddress && governanceModules[deployedModule]?.contract && L2DefaultProvider) {
-			console.log(walletAddress);
-			SNXL2.connect(L2DefaultProvider)
-				.balanceOf(walletAddress)
-				.then((data: BigNumber) => setVotingPower((state) => ({ ...state, l2: data })));
-			getCrossChainClaim(governanceModules[deployedModule]!.contract, walletAddress).then(
-				(data) => {
-					if (data) {
-						setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
-					}
+		if (data?.address && governanceModules[deployedModule]?.contract) {
+			getCrossChainClaim(governanceModules[deployedModule]!.contract, data.address).then((data) => {
+				if (data) {
+					setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
 				}
-			);
+			});
 		}
-	}, [walletAddress, governanceModules, deployedModule, L2DefaultProvider]);
+	}, [data?.address, governanceModules, deployedModule]);
 
 	const handleVote = async () => {
 		setState('signing');

@@ -7,9 +7,11 @@ import { ArrowRightIcon, IconButton } from 'components/old-ui';
 import { Timer } from 'components/Timer';
 import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 
-export default function NominateSelfBanner() {
+export default function NominateSelfBanner({
+	deployedModule,
+}: Record<'deployedModule', DeployedModules>) {
 	const { t } = useTranslation();
-	const { data } = useEpochDatesQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data } = useEpochDatesQuery(deployedModule);
 	const { setContent, setIsOpen } = useModalContext();
 
 	return (

@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
+import { useAccount } from 'wagmi';
 import BaseModal from '../BaseModal';
 
 export default function NominateModal() {
@@ -19,7 +20,8 @@ export default function NominateModal() {
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
-	const { walletAddress, ensName, connectWallet } = useConnectorContext();
+	const { ensName } = useConnectorContext();
+	const { data } = useAccount();
 	const { setVisible, setTxHash, setContent, state, visible, setState } =
 		useTransactionModalContext();
 	const queryClient = useQueryClient();
@@ -34,19 +36,19 @@ export default function NominateModal() {
 
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
-		walletAddress || ''
+		data?.address || ''
 	);
 	const isAlreadyNominatedForGrants = useIsNominated(
 		DeployedModules.GRANTS_COUNCIL,
-		walletAddress || ''
+		data?.address || ''
 	);
 	const isAlreadyNominatedForAmbassador = useIsNominated(
 		DeployedModules.AMBASSADOR_COUNCIL,
-		walletAddress || ''
+		data?.address || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(
 		DeployedModules.TREASURY_COUNCIL,
-		walletAddress || ''
+		data?.address || ''
 	);
 
 	useEffect(() => {
@@ -75,7 +77,7 @@ export default function NominateModal() {
 		return (
 			<>
 				<h6 className="tg-title-h6">{t('modals.nomination.cta', { council })}</h6>
-				<h3 className="tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
+				<h3 className="tg-title-h3">{ensName || truncateAddress(data?.address!)}</h3>
 			</>
 		);
 	};
@@ -118,17 +120,7 @@ export default function NominateModal() {
 		<BaseModal headline={t('modals.nomination.headline')}>
 			<div className="flex flex-col items-center bg-black px-12 py-3 rounded">
 				<StyledBlackBoxSubline>{t('modals.nomination.nominationAddress')}</StyledBlackBoxSubline>
-				<div className="text-white tg-title-h5">
-					{ensName ? (
-						ensName
-					) : walletAddress ? (
-						truncateAddress(walletAddress)
-					) : (
-						<Button variant="outline" className="mt-2" onClick={() => connectWallet()}>
-							{t('modals.nomination.checkboxes.connect-wallet')}
-						</Button>
-					)}
-				</div>
+				<div className="text-white tg-title-h5">{ensName || truncateAddress(data!.address!)}</div>
 			</div>
 			<StyledCheckboxWrapper justifyContent="center">
 				<Checkbox

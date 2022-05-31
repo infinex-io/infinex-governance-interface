@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DAppProvider, Config, Hardhat, Mainnet } from '@usedapp/core';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -18,56 +17,21 @@ import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
-import { ToastContainer } from 'react-toastify';
+import { useProvider } from 'wagmi';
 
 const queryClient = new QueryClient();
 
-const LOCAL_HOST_URL = 'http://127.0.0.1:8545';
-const MAINNET_URL = 'https://mainnet.infura.io/v3/ab04016a6cd448ed8eae571523b521be';
-
-// @TODO: change to main-net ovm when prod
-export const config: Config = {
-	readOnlyChainId: Mainnet.chainId,
-	readOnlyUrls: {
-		[Hardhat.chainId]: LOCAL_HOST_URL,
-		[Mainnet.chainId]: MAINNET_URL,
-	},
-	multicallAddresses: {
-		[Hardhat.chainId]: '0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
-	},
-};
-
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
-	const { L2DefaultProvider, provider } = useConnectorContext();
-
+	const { L2DefaultProvider } = useConnectorContext();
+	const provider = useProvider();
 	const TheComponent = Component as any;
 
 	return (
 		<ModulesProvider>
-			<TransactionDialogContextProvider provider={provider ? provider : L2DefaultProvider}>
+			<TransactionDialogContextProvider provider={provider || L2DefaultProvider}>
 				<Header />
 				<UIModal open={isOpen} modalContent={content}>
-					<ToastContainer
-						position="top-right"
-						autoClose={5000}
-						hideProgressBar={false}
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss
-						draggable
-						pauseOnHover
-						closeButton
-						bodyStyle={{
-							position: 'absolute',
-							top: 0,
-							right: 0,
-							width: '200px',
-							zIndex: 999,
-							height: '100px',
-						}}
-					/>
 					<TheComponent {...pageProps} />
 					<Footer />
 				</UIModal>
@@ -78,18 +42,16 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 
 const App: FC<AppProps> = (props) => {
 	return (
-		<DAppProvider config={config}>
-			<ConnectorContextProvider>
-				<QueryClientProvider client={queryClient}>
-					<ReactQueryDevtools initialIsOpen={false} />
-					<ThemeProvider theme={theme}>
-						<ModalContextProvider>
-							<InnerApp {...props} />
-						</ModalContextProvider>
-					</ThemeProvider>
-				</QueryClientProvider>
-			</ConnectorContextProvider>
-		</DAppProvider>
+		<ConnectorContextProvider>
+			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools initialIsOpen={false} />
+				<ThemeProvider theme={theme}>
+					<ModalContextProvider>
+						<InnerApp {...props} />
+					</ModalContextProvider>
+				</ThemeProvider>
+			</QueryClientProvider>
+		</ConnectorContextProvider>
 	);
 };
 

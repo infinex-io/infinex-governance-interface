@@ -3,48 +3,24 @@ import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
-import { useConnectorContext } from 'containers/Connector';
-import { DeployedModules } from 'containers/Modules';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
+import { useAccount } from 'wagmi';
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
 	const { t } = useTranslation();
-	const [isNominated, setIsNominated] = useState(false);
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	const isNominatedSpartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress || '');
-	const isNominatedGrants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress || '');
-	const isNominatedAmbassador = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
-		walletAddress || ''
-	);
-	const isNominatedTreasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress || '');
+	const isNominated = useIsNominated(activeCouncil.module, data?.address || '');
 	const nomineesInfo = useUsersDetailsQuery(nomineesQuery.data || []);
-
-	useEffect(() => {
-		if (
-			isNominatedAmbassador.data ||
-			isNominatedGrants.data ||
-			isNominatedSpartan.data ||
-			isNominatedTreasury.data
-		)
-			setIsNominated(true);
-	}, [
-		isNominatedAmbassador.data,
-		isNominatedGrants.data,
-		isNominatedSpartan.data,
-		isNominatedTreasury.data,
-	]);
 
 	return (
 		<>
