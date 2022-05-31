@@ -12,13 +12,13 @@ import { useEffect, useState } from 'react';
 import { useConnectorContext } from 'containers/Connector';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import Avatar from 'components/Avatar';
-import { GetUserDetails } from 'queries/members/useAllCouncilMembersQuery';
 import { truncateAddress } from 'utils/truncate-address';
 import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'utils/config';
 import { useModalContext } from 'containers/Modal';
 import WithdrawVote from 'components/Modals/WithdrawVote';
 import BackButton from 'components/BackButton';
 import { PreEvaluationSection } from 'components/Vote/PreEvaluationSection';
+import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 
 interface CouncilState {
 	voted: boolean;
