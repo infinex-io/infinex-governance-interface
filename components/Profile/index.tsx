@@ -16,6 +16,7 @@ import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
 import styles from './Profile.module.scss';
 import clsx from 'clsx';
+import { compareAddress } from 'utils/helpers';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -24,6 +25,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const [isOpen, setIsOpen] = useState(false);
 	const { walletAddress: ownAddress } = useConnectorContext();
 	const allMembers = useAllCouncilMembersQuery();
+
+	const isOwnCard = compareAddress(walletAddress, ownAddress);
 
 	const { data } = useGetMemberCouncilNameQuery(walletAddress);
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
@@ -61,11 +64,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</IconButton>
 					<span className="tg-content-bold text-blue">{t('councils.back-btn')}</span>
 				</div>
-				<StyledAvatarWrapper
-					isOwnAccount={ownAddress === walletAddress}
-					direction="column"
-					alignItems="center"
-				>
+				<StyledAvatarWrapper isOwnAccount={isOwnCard} direction="column" alignItems="center">
 					<Avatar width={90} height={90} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{data && (
 						<Badge variant="success" className="mt-3 max-w-[150px]">
@@ -126,7 +125,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<div className="flex flex-col mb-6 max-w-[900px] w-full">
 					<h4 className="tg-headline text-start">{t('profiles.subheadline')}</h4>
 					<div className="relative">
-						{ownAddress === walletAddress && (
+						{isOwnCard && (
 							<div
 								className="absolute top-5 right-3 flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded w-[28px] h-[28px]"
 								onClick={() => setIsOpen(true)}

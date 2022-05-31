@@ -21,6 +21,7 @@ export type GetUserDetails = {
 	discord: string;
 	delegationPitches: string;
 	github: string;
+	council?: string;
 };
 
 function useUserDetailsQuery(walletAddress: string) {

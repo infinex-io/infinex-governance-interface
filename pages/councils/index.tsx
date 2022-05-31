@@ -66,6 +66,7 @@ const Councils: NextPage = () => {
 									key={member.address}
 									member={member}
 									state="ADMINISTRATION"
+									council={member.council}
 								/>
 							))}
 						</div>
