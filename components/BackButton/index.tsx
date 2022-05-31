@@ -7,7 +7,7 @@ export default function BackButton() {
 	const { push } = useRouter();
 	const { t } = useTranslation();
 	return (
-		<div className="flex items-center absolute top-[100px] left-[50px]">
+		<div className="flex items-center absolute md:top-[100px] md:left-[50px] top-2 left-2">
 			<IconButton
 				onClick={() => push({ pathname: '/' })}
 				rounded
