@@ -1,7 +1,6 @@
 import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
-import { useConnectorContext } from 'containers/Connector';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
@@ -17,18 +16,19 @@ import { ProfileCard } from './ProfileCard';
 import styles from './Profile.module.scss';
 import clsx from 'clsx';
 import { compareAddress } from 'utils/helpers';
+import { useAccount } from 'wagmi';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
+	const { data } = useAccount();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const { walletAddress: ownAddress } = useConnectorContext();
 	const allMembers = useAllCouncilMembersQuery();
 
-	const isOwnCard = compareAddress(walletAddress, ownAddress);
+	const isOwnCard = compareAddress(walletAddress, data?.address);
 
-	const { data } = useGetMemberCouncilNameQuery(walletAddress);
+	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,
@@ -66,9 +66,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				</div>
 				<StyledAvatarWrapper isOwnAccount={isOwnCard} direction="column" alignItems="center">
 					<Avatar width={90} height={90} url={pfpThumbnailUrl} walletAddress={walletAddress} />
-					{data && (
+					{councilMembersQuery.data && (
 						<Badge variant="success" className="mt-3 max-w-[150px]">
-							{t('profiles.council', { council: data })}
+							{t('profiles.council', { council: councilMembersQuery.data })}
 						</Badge>
 					)}
 					<div className="flex flex-col justify-between items-center relative">

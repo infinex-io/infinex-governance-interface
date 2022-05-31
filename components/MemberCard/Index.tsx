@@ -176,7 +176,7 @@ export default function MemberCard({
 											className="darker-60 hover:bg-primary p-2"
 											onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 										>
-											<span key={`${walletAddress}-title`} color="lightBlue">
+											<span key={`${member.address}-title`} color="lightBlue">
 												{t('councils.dropdown.etherscan')}
 											</span>
 										</a>
@@ -251,7 +251,7 @@ export default function MemberCard({
 											className="darker-60 hover:bg-primary p-2"
 											onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 										>
-											<span key={`${walletAddress}-title`} color="lightBlue">
+											<span key={`${member.address}-title`} color="lightBlue">
 												{t('councils.dropdown.etherscan')}
 											</span>
 										</a>

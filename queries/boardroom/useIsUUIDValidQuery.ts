@@ -9,13 +9,12 @@ type UUIDResponse = {
 	};
 };
 
-function useIsUUIDValidQuery() {
-	const { uuid } = useConnectorContext();
+function useIsUUIDValidQuery(uuid: string) {
 	const account = useAccount();
 	return useQuery<boolean>(
 		['isUUIDValid'],
 		async () => {
-			const body = { address: account.data?.address, uuid: uuid };
+			const body = { address: account.data?.address, uuid };
 
 			let response = await fetch(VALID_UUID_API_URL, {
 				method: 'POST',

@@ -5,6 +5,7 @@ import {
 } from 'constants/boardroom';
 import useIsUUIDValidQuery from 'queries/boardroom/useIsUUIDValidQuery';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { SiweMessage } from 'siwe';
 import { useAccount, useProvider, useSigner } from 'wagmi';
@@ -46,6 +47,7 @@ function useUpdateUserDetailsMutation() {
 	const { data: signer } = useSigner();
 	const provider = useProvider();
 	const account = useAccount();
+	const [uuid, setUuid] = useState<null | string>(null);
 	const boardroomSignIn = async () => {
 		// TODO @andy: change to real domain on prod
 		const domain = 'localhost:3000';
@@ -86,7 +88,7 @@ function useUpdateUserDetailsMutation() {
 				});
 
 				const signInResponse: SignInResponse = await response.json();
-
+				setUuid(signInResponse.data.uuid);
 				return signInResponse.data.uuid;
 			} catch (e) {
 				console.log(e);
@@ -95,7 +97,7 @@ function useUpdateUserDetailsMutation() {
 	};
 
 	const { data } = useAccount();
-	const isUuidValidQuery = useIsUUIDValidQuery();
+	const isUuidValidQuery = useIsUUIDValidQuery(uuid || '');
 	const queryClient = useQueryClient();
 	const address = data?.address;
 	return useMutation(
