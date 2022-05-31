@@ -45,9 +45,9 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 		<div className="flex flex-col items-center">
 			<Tabs
 				titles={councilTabs}
+				size="medium"
 				clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
-				justifyContent="center"
-				className="mb-6"
+				className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
 				activeIndex={activeIndex}
 				icons={[
 					<StyledTabIcon key="all-council-members" active={activeIndex === 0}>
@@ -80,7 +80,7 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 							council={member.council}
 						/>
 					))}
-					maxWidth={maxWidth ? maxWidth : '90vw'}
+					maxWidth={maxWidth ? maxWidth : '80vw'}
 					arrowsPosition="outside"
 					withDots="secondary"
 					dotsPosition="outside"
