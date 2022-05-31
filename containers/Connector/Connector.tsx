@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState, useContext, createContext } from 'react';
-import { useEthers } from '@usedapp/core';
 import { ethers } from 'ethers';
 import useLocalStorage from 'hooks/useLocalStorage';
 import {
@@ -8,6 +7,17 @@ import {
 	NONCE_API_URL,
 } from 'constants/boardroom';
 import { SiweMessage } from 'siwe';
+
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+	getDefaultWallets,
+	RainbowKitProvider,
+	connectorsForWallets,
+	wallet,
+} from '@rainbow-me/rainbowkit';
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import { infuraProvider } from 'wagmi/providers/infura';
+import { publicProvider } from 'wagmi/providers/public';
 
 type SIWEMessage = {
 	message: {
@@ -67,159 +77,174 @@ export const useConnectorContext = () => {
 };
 
 export const ConnectorContextProvider: React.FC = ({ children }) => {
-	const { activateBrowserWallet, account, deactivate, library, chainId } = useEthers();
+	// const { activateBrowserWallet, account, deactivate, library, chainId } = useEthers();
 
-	const L1DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
-		[]
+	// const L1DefaultProvider = useMemo(
+	// 	() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
+	// 	[]
+	// );
+	// const L2DefaultProvider = useMemo(
+	// 	() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
+	// 	[]
+	// );
+
+	// const [provider, setProvider] = useState<
+	// 	ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider | null
+	// >(null);
+	// const [client, setClient] = useState<any>();
+	// const [chains, setChains] = useState<any>();
+
+	// const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(null);
+	// const [ensName, setEnsName] = useState<string | null>(null);
+	// const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
+	// const [uuid, setUuid] = useLocalStorage<string | null>('uuid', null);
+
+	const { chains, provider } = configureChains(
+		[chain.optimism, chain.optimismKovan],
+		[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_BN_ONBOARD_API_KEY }), publicProvider()]
 	);
-	const L2DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
-		[]
-	);
 
-	const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider | null>(null);
-	const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(null);
-	const [ensName, setEnsName] = useState<string | null>(null);
-	const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
-	const [uuid, setUuid] = useLocalStorage<string | null>('uuid', null);
+	const connectors = connectorsForWallets([
+		{
+			groupName: 'Recommended',
+			wallets: [
+				wallet.metaMask({ chains }),
+				wallet.injected({ chains }),
+				wallet.walletConnect({ chains }),
+				wallet.ledger({ chains }),
+			],
+		},
+	]);
 
-	useEffect(() => {
-		if (library && account) {
-			setProvider(library);
-			setSigner(library.getSigner(account));
-		}
-	}, [library, account]);
+	const wagmiClient = createClient({
+		autoConnect: true,
+		connectors,
+		provider,
+	});
 
-	useEffect(() => {
-		if (account) {
-			const setUserAddress = async (address: string) => {
-				try {
-					const ensName: string | null =
-						chainId === 1 && provider
-							? await provider.lookupAddress(address)
-							: await L1DefaultProvider.lookupAddress(address);
-					let avatar = ensName ? await L1DefaultProvider.getAvatar(ensName) : null;
-					setEnsName(ensName);
-					setEnsAvatar(avatar);
-				} catch (error) {
-					console.log('No ENS found for address: ', address);
-					console.error(error);
-				}
-			};
-			setUserAddress(account);
-		}
-	}, [account, provider, chainId, L1DefaultProvider]);
+	// useEffect(() => {
+	// 	if (library && account) {
+	// 		setProvider(library);
+	// 		setSigner(library.getSigner(account));
+	// 	}
+	// }, [library, account]);
 
-	const boardroomSignIn = async () => {
-		// @TODO: change to real domain on prod
-		const domain = 'localhost:3000';
+	// useEffect(() => {
+	// 	if (account) {
+	// 		const setUserAddress = async (address: string) => {
+	// 			try {
+	// 				const ensName: string | null =
+	// 					chainId === 1 && provider
+	// 						? await provider.lookupAddress(address)
+	// 						: await L1DefaultProvider.lookupAddress(address);
+	// 				let avatar = ensName ? await L1DefaultProvider.getAvatar(ensName) : null;
+	// 				setEnsName(ensName);
+	// 				setEnsAvatar(avatar);
+	// 			} catch (error) {
+	// 				console.log('No ENS found for address: ', address);
+	// 				console.error(error);
+	// 			}
+	// 		};
+	// 		setUserAddress(account);
+	// 	}
+	// }, [account, provider, chainId, L1DefaultProvider]);
 
-		const chainId = 31337;
+	// const boardroomSignIn = async () => {
+	// 	// @TODO: change to real domain on prod
+	// 	const domain = 'localhost:3000';
 
-		if (signer && provider && account) {
-			try {
-				const body = {
-					address: account,
-				};
-				let response = await fetch(NONCE_API_URL, {
-					method: 'POST',
-					body: JSON.stringify(body),
-				});
-				const nonceResponse: NonceResponse = await response.json();
+	// 	const chainId = 31337;
 
-				let signedMessage = new SiweMessage({
-					domain: domain,
-					address: account,
-					chainId: chainId,
-					uri: `http://${domain}`,
-					version: '1',
-					statement: 'Sign into Boardroom with this wallet',
-					nonce: nonceResponse.data.nonce,
-					issuedAt: new Date().toISOString(),
-				});
+	// 	if (signer && provider && account) {
+	// 		try {
+	// 			const body = {
+	// 				address: account,
+	// 			};
+	// 			let response = await fetch(NONCE_API_URL, {
+	// 				method: 'POST',
+	// 				body: JSON.stringify(body),
+	// 			});
+	// 			const nonceResponse: NonceResponse = await response.json();
 
-				const signature = await provider.getSigner().signMessage(signedMessage.prepareMessage());
+	// 			let signedMessage = new SiweMessage({
+	// 				domain: domain,
+	// 				address: account,
+	// 				chainId: chainId,
+	// 				uri: `http://${domain}`,
+	// 				version: '1',
+	// 				statement: 'Sign into Boardroom with this wallet',
+	// 				nonce: nonceResponse.data.nonce,
+	// 				issuedAt: new Date().toISOString(),
+	// 			});
 
-				const message = {
-					message: { ...signedMessage, signature },
-				} as SIWEMessage;
+	// 			const signature = await provider.getSigner().signMessage(signedMessage.prepareMessage());
 
-				response = await fetch(BOARDROOM_SIGNIN_API_URL, {
-					method: 'POST',
-					body: JSON.stringify(message),
-				});
+	// 			const message = {
+	// 				message: { ...signedMessage, signature },
+	// 			} as SIWEMessage;
 
-				const signInResponse: SignInResponse = await response.json();
+	// 			response = await fetch(BOARDROOM_SIGNIN_API_URL, {
+	// 				method: 'POST',
+	// 				body: JSON.stringify(message),
+	// 			});
 
-				setUuid(signInResponse.data.uuid);
+	// 			const signInResponse: SignInResponse = await response.json();
 
-				return signInResponse.data.uuid;
-			} catch (e) {
-				console.log(e);
-			}
-		}
-	};
+	// 			setUuid(signInResponse.data.uuid);
 
-	const boardroomSignOut = async () => {
-		if (account && uuid) {
-			try {
-				const body = {
-					address: account,
-					uuid: uuid,
-				};
-				let response = await fetch(BOARDROOM_SIGNOUT_API_URL, {
-					method: 'POST',
-					body: JSON.stringify(body),
-				});
+	// 			return signInResponse.data.uuid;
+	// 		} catch (e) {
+	// 			console.log(e);
+	// 		}
+	// 	}
+	// };
 
-				const { data }: SignOutResponse = await response.json();
+	// const boardroomSignOut = async () => {
+	// 	if (account && uuid) {
+	// 		try {
+	// 			const body = {
+	// 				address: account,
+	// 				uuid: uuid,
+	// 			};
+	// 			let response = await fetch(BOARDROOM_SIGNOUT_API_URL, {
+	// 				method: 'POST',
+	// 				body: JSON.stringify(body),
+	// 			});
 
-				if (data.success) {
-					setUuid(null);
-				}
-			} catch (e) {
-				console.log(e);
-			}
-		}
-	};
+	// 			const { data }: SignOutResponse = await response.json();
 
-	const connectWallet = async () => {
-		try {
-			activateBrowserWallet();
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
-	const disconnectWallet = async () => {
-		try {
-			deactivate();
-		} catch (e) {
-			console.log(e);
-		}
-	};
+	// 			if (data.success) {
+	// 				setUuid(null);
+	// 			}
+	// 		} catch (e) {
+	// 			console.log(e);
+	// 		}
+	// 	}
+	// };
 
 	return (
-		<ConnectorContext.Provider
-			value={{
-				walletAddress: account,
-				uuid,
-				setUuid,
-				ensName,
-				ensAvatar,
-				provider,
-				signer,
-				chainId,
-				connectWallet,
-				disconnectWallet,
-				boardroomSignIn,
-				boardroomSignOut,
-				L1DefaultProvider,
-				L2DefaultProvider,
-			}}
-		>
-			{children}
-		</ConnectorContext.Provider>
+		<WagmiConfig client={wagmiClient}>
+			<RainbowKitProvider chains={chains}>
+				<ConnectorContext.Provider
+					value={{
+						// walletAddress: account,
+						// uuid,
+						// setUuid,
+						// ensName,
+						// ensAvatar,
+						provider,
+						chains,
+						// signer,
+						// chainId,
+						// boardroomSignIn,
+						// boardroomSignOut,
+						// L1DefaultProvider,
+						// L2DefaultProvider,
+					}}
+				>
+					{children}
+				</ConnectorContext.Provider>
+			</RainbowKitProvider>
+		</WagmiConfig>
 	);
 };

@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DAppProvider, Config, Hardhat, Mainnet } from '@usedapp/core';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -21,21 +20,6 @@ import { TransactionDialogContextProvider } from '@synthetixio/ui';
 import { ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient();
-
-const LOCAL_HOST_URL = 'http://127.0.0.1:8545';
-const MAINNET_URL = 'https://mainnet.infura.io/v3/ab04016a6cd448ed8eae571523b521be';
-
-// @TODO: change to main-net ovm when prod
-export const config: Config = {
-	readOnlyChainId: Mainnet.chainId,
-	readOnlyUrls: {
-		[Hardhat.chainId]: LOCAL_HOST_URL,
-		[Mainnet.chainId]: MAINNET_URL,
-	},
-	multicallAddresses: {
-		[Hardhat.chainId]: '0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
-	},
-};
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
@@ -78,18 +62,16 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 
 const App: FC<AppProps> = (props) => {
 	return (
-		<DAppProvider config={config}>
-			<ConnectorContextProvider>
-				<QueryClientProvider client={queryClient}>
-					<ReactQueryDevtools initialIsOpen={false} />
-					<ThemeProvider theme={theme}>
-						<ModalContextProvider>
-							<InnerApp {...props} />
-						</ModalContextProvider>
-					</ThemeProvider>
-				</QueryClientProvider>
-			</ConnectorContextProvider>
-		</DAppProvider>
+		<ConnectorContextProvider>
+			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools initialIsOpen={false} />
+				<ThemeProvider theme={theme}>
+					<ModalContextProvider>
+						<InnerApp {...props} />
+					</ModalContextProvider>
+				</ThemeProvider>
+			</QueryClientProvider>
+		</ConnectorContextProvider>
 	);
 };
 
