@@ -1,6 +1,7 @@
 import { VALID_UUID_API_URL } from 'constants/boardroom';
 import { useConnectorContext } from 'containers/Connector';
 import { useQuery } from 'react-query';
+import { useAccount } from 'wagmi';
 
 type UUIDResponse = {
 	data: {
@@ -9,11 +10,12 @@ type UUIDResponse = {
 };
 
 function useIsUUIDValidQuery() {
-	const { walletAddress, uuid } = useConnectorContext();
+	const { uuid } = useConnectorContext();
+	const account = useAccount();
 	return useQuery<boolean>(
 		['isUUIDValid'],
 		async () => {
-			const body = { address: walletAddress, uuid: uuid };
+			const body = { address: account.data?.address, uuid: uuid };
 
 			let response = await fetch(VALID_UUID_API_URL, {
 				method: 'POST',
@@ -25,7 +27,7 @@ function useIsUUIDValidQuery() {
 			return data.success as boolean;
 		},
 		{
-			enabled: walletAddress !== null && uuid !== null,
+			enabled: account.data?.address !== null && uuid !== null,
 		}
 	);
 }

@@ -1,7 +1,7 @@
 import { DiscordIcon, GitHubIcon, ThreeDotsKebabIcon, TwitterIcon } from 'components/old-ui';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
-import { useConnectorContext } from 'containers/Connector';
+
 import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -16,6 +16,7 @@ import WithdrawVoteModal from 'components/Modals/WithdrawVote';
 import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
 import { compareAddress } from 'utils/helpers';
+import { useAccount } from 'wagmi';
 
 interface MemberCardProps {
 	member: GetUserDetails;
@@ -37,9 +38,9 @@ export default function MemberCard({
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	const { setContent, setIsOpen } = useModalContext();
-	const isOwnCard = compareAddress(walletAddress, member.address);
+	const isOwnCard = compareAddress(data?.address, member.address);
 	const votedForAlready = compareAddress(votedFor?.address, member.address);
 
 	return (

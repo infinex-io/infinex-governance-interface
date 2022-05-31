@@ -3,7 +3,6 @@ import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
-import { useConnectorContext } from 'containers/Connector';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
@@ -12,14 +11,15 @@ import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
+import { useAccount } from 'wagmi';
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
 	const { t } = useTranslation();
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	const isNominated = useIsNominated(activeCouncil.module, walletAddress ? walletAddress : '');
+	const isNominated = useIsNominated(activeCouncil.module, data?.address || '');
 	const nomineesInfo = useUsersDetailsQuery(nomineesQuery.data || []);
 
 	return (

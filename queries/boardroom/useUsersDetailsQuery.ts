@@ -1,15 +1,15 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
-import { useConnectorContext } from 'containers/Connector';
 import { useQuery } from 'react-query';
 import { sortToOwnCard } from 'utils/sort';
+import { useAccount } from 'wagmi';
 import { GetUserDetails } from './useUserDetailsQuery';
 
 function useUsersDetailsQuery(walletAddresses: string[]) {
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	return useQuery<GetUserDetails[]>(
 		['usersDetails', walletAddresses],
 		async () => {
-			return await getUsersDetail(walletAddresses, walletAddress || '');
+			return await getUsersDetail(walletAddresses, data?.address || '');
 		},
 		{
 			enabled: walletAddresses !== null && walletAddresses.length > 0,

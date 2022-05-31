@@ -3,6 +3,7 @@ import { useConnectorContext } from 'containers/Connector';
 import useIsUUIDValidQuery from 'queries/boardroom/useIsUUIDValidQuery';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useMutation, useQueryClient } from 'react-query';
+import { useAccount } from 'wagmi';
 
 type UpdateUserDetailsResponse = {
 	data: GetUserDetails & {
@@ -11,10 +12,11 @@ type UpdateUserDetailsResponse = {
 };
 
 function useUpdateUserDetailsMutation() {
-	const { walletAddress, uuid, boardroomSignIn } = useConnectorContext();
+	const { uuid, boardroomSignIn } = useConnectorContext();
+	const { data } = useAccount();
 	const isUuidValidQuery = useIsUUIDValidQuery();
 	const queryClient = useQueryClient();
-
+	const address = data?.address;
 	return useMutation(
 		'updateUserDetails',
 		async (userProfile: GetUserDetails) => {
@@ -22,12 +24,12 @@ function useUpdateUserDetailsMutation() {
 			if (!isUuidValidQuery.data) {
 				signedInUuid = (await boardroomSignIn()) || '';
 			}
-			if (walletAddress) {
+			if (address) {
 				const body = {
 					...userProfile,
 					uuid: signedInUuid || uuid,
 				};
-				let response = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
+				let response = await fetch(UPDATE_USER_DETAILS_API_URL(address), {
 					method: 'POST',
 					body: JSON.stringify(body),
 				});

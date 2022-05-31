@@ -1,27 +1,27 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { useConnectorContext } from 'containers/Connector';
 import { BigNumber, Contract } from 'ethers';
 import { useTransactionModalContext } from '@synthetixio/ui';
+import { useAccount } from 'wagmi';
 
 type Address = string;
 
 function useCastMutation(moduleInstance: DeployedModules) {
 	const { setState } = useTransactionModalContext();
 	const governanceModules = useModulesContext();
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	return useMutation('cast', async (addresses: Address[]) => {
 		try {
 			const ElectionModule = governanceModules[moduleInstance]?.contract;
 
-			if (!walletAddress) throw new Error('Missing walletAddress');
+			if (!data?.address) throw new Error('Missing walletAddress');
 			if (!ElectionModule) throw new Error('Missing contract');
 
-			const claim = await getCrossChainClaim(ElectionModule, walletAddress);
+			const claim = await getCrossChainClaim(ElectionModule, data?.address);
 
 			if (claim) {
-				const crossChainDebt = await ElectionModule.getDeclaredCrossChainDebtShare(walletAddress);
+				const crossChainDebt = await ElectionModule.getDeclaredCrossChainDebtShare(data?.address);
 
 				if (Number(crossChainDebt) === 0) {
 					return transact(ElectionModule, 'declareAndCast', claim.amount, claim.proof, addresses);

@@ -15,7 +15,15 @@ import {
 	connectorsForWallets,
 	wallet,
 } from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import {
+	chain,
+	configureChains,
+	createClient,
+	useAccount,
+	useProvider,
+	useSigner,
+	WagmiConfig,
+} from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
 
@@ -54,25 +62,18 @@ type SignInResponse = {
 };
 
 type ConnectorContextType = {
-	walletAddress: string | null | undefined;
-	uuid: string | null;
-	setUuid: (value: string | null) => void;
 	ensName: string | null;
 	ensAvatar: string | null;
-	provider: ({
+	uuid: string | null;
+	setUuid: (value: string | null) => void;
+	boardroomSignIn: () => Promise<string | undefined>;
+	boardroomSignOut: () => void;
+	L1DefaultProvider: ethers.providers.InfuraProvider;
+	L2DefaultProvider: ({
 		chainId,
 	}: {
 		chainId?: number | undefined;
 	}) => ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider;
-	signer: ethers.providers.JsonRpcSigner | null;
-	chainId: number | undefined;
-	connectWallet: () => void;
-	disconnectWallet: () => void;
-	boardroomSignIn: () => Promise<string | undefined>;
-	boardroomSignOut: () => void;
-	L1DefaultProvider: ethers.providers.InfuraProvider;
-	L2DefaultProvider: ethers.providers.InfuraProvider;
-	chains: any[];
 };
 
 const ConnectorContext = createContext<unknown>(null);
@@ -86,26 +87,14 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
 		[]
 	);
-	const L2DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
-		[]
-	);
 
-	// const [provider, setProvider] = useState<
-	// 	ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider | null
-	// >(null);
-	// const [client, setClient] = useState<any>();
-	// const [chains, setChains] = useState<any>();
-
-	// const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(null);
-	// const [ensName, setEnsName] = useState<string | null>(null);
-	// const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
-	// const [uuid, setUuid] = useLocalStorage<string | null>('uuid', null);
+	const [ensName, setEnsName] = useState<string | null>(null);
+	const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
 
 	const { chains, provider } = useMemo(
 		() =>
 			configureChains(
-				[chain.optimism, chain.optimismKovan],
+				[chain.optimism],
 				[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }), publicProvider()]
 			),
 		[]
@@ -129,32 +118,24 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		provider,
 	});
 
-	// useEffect(() => {
-	// 	if (library && account) {
-	// 		setProvider(library);
-	// 		setSigner(library.getSigner(account));
-	// 	}
-	// }, [library, account]);
-
-	// useEffect(() => {
-	// 	if (account) {
-	// 		const setUserAddress = async (address: string) => {
-	// 			try {
-	// 				const ensName: string | null =
-	// 					chainId === 1 && provider
-	// 						? await provider.lookupAddress(address)
-	// 						: await L1DefaultProvider.lookupAddress(address);
-	// 				let avatar = ensName ? await L1DefaultProvider.getAvatar(ensName) : null;
-	// 				setEnsName(ensName);
-	// 				setEnsAvatar(avatar);
-	// 			} catch (error) {
-	// 				console.log('No ENS found for address: ', address);
-	// 				console.error(error);
-	// 			}
-	// 		};
-	// 		setUserAddress(account);
-	// 	}
-	// }, [account, provider, chainId, L1DefaultProvider]);
+	useEffect(() => {
+		const address = wagmiClient.data?.account;
+		if (address) {
+			try {
+				L1DefaultProvider.lookupAddress(address).then((ensName) => {
+					if (ensName) {
+						setEnsName(ensName);
+						L1DefaultProvider.getAvatar(ensName).then((avatar) => {
+							setEnsAvatar(avatar);
+						});
+					}
+				});
+			} catch (error) {
+				console.log('No ENS found for address: ', address);
+				console.error(error);
+			}
+		}
+	}, [wagmiClient.data?.account, L1DefaultProvider]);
 
 	// const boardroomSignIn = async () => {
 	// 	// @TODO: change to real domain on prod
@@ -234,19 +215,16 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 			<RainbowKitProvider chains={chains}>
 				<ConnectorContext.Provider
 					value={{
-						// walletAddress: account,
 						// uuid,
 						// setUuid,
-						// ensName,
-						// ensAvatar,
+						ensAvatar,
+						ensName,
 						provider,
 						chains,
-						// signer
-						// chainId,
 						// boardroomSignIn,
 						// boardroomSignOut,
 						L1DefaultProvider,
-						L2DefaultProvider,
+						L2DefaultProvider: provider,
 					}}
 				>
 					{children}

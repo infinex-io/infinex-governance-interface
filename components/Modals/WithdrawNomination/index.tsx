@@ -11,6 +11,7 @@ import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
+import { useAccount } from 'wagmi';
 import BaseModal from '../BaseModal';
 
 interface WithdrawNominationModalProps {
@@ -25,7 +26,8 @@ export default function WithdrawNominationModal({
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
-	const { walletAddress, ensName, connectWallet } = useConnectorContext();
+	const { ensName } = useConnectorContext();
+	const { data } = useAccount();
 	const { setTxHash, setContent, setVisible, state, visible, setState } =
 		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
@@ -39,10 +41,10 @@ export default function WithdrawNominationModal({
 				});
 				setIsOpen(false);
 				setVisible(false);
-				push('/profile/' + walletAddress);
+				push('/profile/' + data?.address);
 			}, 2000);
 		}
-	}, [state, push, setIsOpen, walletAddress, setVisible, visible, queryClient, council]);
+	}, [state, push, setIsOpen, data?.address, setVisible, visible, queryClient, council]);
 
 	const handleWithdrawNomination = async () => {
 		setState('signing');
@@ -52,7 +54,7 @@ export default function WithdrawNominationModal({
 				<h6 className="tg-tile-h6">
 					{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
 				</h6>
-				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
+				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(data?.address!)}</h3>
 			</>
 		);
 		try {
@@ -70,17 +72,7 @@ export default function WithdrawNominationModal({
 				<StyledBlackBoxSubline>
 					{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
 				</StyledBlackBoxSubline>
-				<StyledWalletAddress>
-					{ensName ? (
-						ensName
-					) : walletAddress ? (
-						truncateAddress(walletAddress)
-					) : (
-						<Button onClick={() => connectWallet()} variant="outline" size="sm">
-							{t('modals.nomination.checkboxes.connect-wallet')}
-						</Button>
-					)}
-				</StyledWalletAddress>
+				<StyledWalletAddress>{ensName || truncateAddress(data?.address!)}</StyledWalletAddress>
 			</StyledBlackBox>
 			<Button onClick={() => handleWithdrawNomination()}>{t('modals.withdraw.button')}</Button>
 		</BaseModal>

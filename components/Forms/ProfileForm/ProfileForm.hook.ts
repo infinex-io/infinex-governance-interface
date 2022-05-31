@@ -3,14 +3,14 @@ import { useMemo, useState } from 'react';
 import * as yup from 'yup';
 
 import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
-import { useConnectorContext } from 'containers/Connector';
 import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
+import { useAccount } from 'wagmi';
 
 export const useForm = (userProfile: GetUserDetails | undefined) => {
 	const [isLoading, setIsLoading] = useState(false);
-	const { walletAddress } = useConnectorContext();
+	const { data } = useAccount();
 	const updateUserMutation = useUpdateUserDetailsMutation();
-	const userDetailsQuery = useUserDetailsQuery(walletAddress ?? '');
+	const userDetailsQuery = useUserDetailsQuery(data?.address ?? '');
 
 	const validationSchema = yup.object({
 		username: yup.string().required(),

@@ -17,18 +17,19 @@ import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
+import { useProvider } from 'wagmi';
 
 const queryClient = new QueryClient();
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
-	const { L2DefaultProvider, provider } = useConnectorContext();
-
+	const { L2DefaultProvider } = useConnectorContext();
+	const provider = useProvider();
 	const TheComponent = Component as any;
-	// provider ? provider :  set correct provider when done migrating TODO @DEV
+
 	return (
 		<ModulesProvider>
-			<TransactionDialogContextProvider provider={L2DefaultProvider}>
+			<TransactionDialogContextProvider provider={provider || L2DefaultProvider}>
 				<Header />
 				<UIModal open={isOpen} modalContent={content}>
 					<TheComponent {...pageProps} />
