@@ -1,3 +1,4 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
@@ -68,13 +69,19 @@ export default function WithdrawNominationModal({
 
 	return (
 		<BaseModal headline={t('modals.withdraw.headline')}>
-			<StyledBlackBox direction="column" alignItems="center">
-				<StyledBlackBoxSubline>
-					{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
-				</StyledBlackBoxSubline>
-				<StyledWalletAddress>{ensName || truncateAddress(data?.address!)}</StyledWalletAddress>
-			</StyledBlackBox>
-			<Button onClick={() => handleWithdrawNomination()}>{t('modals.withdraw.button')}</Button>
+			{!data?.connector ? (
+				<ConnectButton />
+			) : (
+				<>
+					<StyledBlackBox direction="column" alignItems="center">
+						<StyledBlackBoxSubline>
+							{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
+						</StyledBlackBoxSubline>
+						<StyledWalletAddress>{ensName || truncateAddress(data?.address!)}</StyledWalletAddress>
+					</StyledBlackBox>
+					<Button onClick={() => handleWithdrawNomination()}>{t('modals.withdraw.button')}</Button>
+				</>
+			)}
 		</BaseModal>
 	);
 }

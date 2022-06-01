@@ -1,6 +1,6 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, IconButton, useTransactionModalContext } from '@synthetixio/ui';
 import Avatar from 'components/Avatar';
-import { CloseIcon } from 'components/old-ui';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useWithdrawVoteMutation from 'mutations/voting/useWithdrawVoteMutation';
@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
+import { useAccount } from 'wagmi';
 import BaseModal from '../BaseModal';
 
 interface WithdrawVoteProps {
@@ -23,6 +24,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
+	const { data } = useAccount();
 	const queryClient = useQueryClient();
 	const { state, setContent, setTxHash, setVisible, setState, visible } =
 		useTransactionModalContext();
@@ -62,27 +64,31 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	};
 	return (
 		<BaseModal headline={t('modals.withdraw-vote.headline')}>
-			<div className="min-w-full min-h-full flex flex-col items-center rounded">
-				<Avatar
-					width={160}
-					height={160}
-					walletAddress={member.address}
-					url={member.pfpThumbnailUrl}
-				/>
-				<div className="bg-black max-w-[350px] p-8 text-white m-4">
-					<h6 className="tg-title-h6 text-center">
-						{t('modals.withdraw-vote.voted-for', {
-							council: capitalizeString(council),
-						})}
-					</h6>
-					<h3 className="tg-title-h3 text-center">
-						{member.ens || truncateAddress(member.address)}
-					</h3>
+			{!data?.connector ? (
+				<ConnectButton />
+			) : (
+				<div className="min-w-full min-h-full flex flex-col items-center rounded">
+					<Avatar
+						width={160}
+						height={160}
+						walletAddress={member.address}
+						url={member.pfpThumbnailUrl}
+					/>
+					<div className="bg-black max-w-[350px] p-8 text-white m-4">
+						<h6 className="tg-title-h6 text-center">
+							{t('modals.withdraw-vote.voted-for', {
+								council: capitalizeString(council),
+							})}
+						</h6>
+						<h3 className="tg-title-h3 text-center">
+							{member.ens || truncateAddress(member.address)}
+						</h3>
+					</div>
+					<Button size="lg" onClick={handleWithdraw}>
+						{t('modals.withdraw-vote.uncast-vote')}
+					</Button>
 				</div>
-				<Button size="lg" onClick={handleWithdraw}>
-					{t('modals.withdraw-vote.uncast-vote')}
-				</Button>
-			</div>
+			)}
 		</BaseModal>
 	);
 }

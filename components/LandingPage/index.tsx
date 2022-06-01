@@ -12,7 +12,6 @@ import { CouncilCard } from 'components/CouncilCard';
 export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-
 	return (
 		<div className="flex flex-col align-center gap-4">
 			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
