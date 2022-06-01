@@ -30,10 +30,10 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.refetchQueries({
+				queryClient.resetQueries({
 					active: true,
 					stale: true,
-					queryKey: ['getCurrentVoteStateQuery'],
+					queryKey: 'getCurrentVoteStateQuery',
 				});
 				push('/vote');
 				setIsOpen(false);

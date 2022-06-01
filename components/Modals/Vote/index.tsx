@@ -36,10 +36,10 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.refetchQueries({
+				queryClient.resetQueries({
 					active: true,
 					stale: true,
-					queryKey: ['getCurrentVoteStateQuery'],
+					queryKey: 'getCurrentVoteStateQuery',
 				});
 				push('/profile/' + member.address);
 				setVisible(false);
