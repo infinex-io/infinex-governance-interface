@@ -9,21 +9,23 @@ export default function Dev() {
 	const [balance, setBalance] = useState<null | string>(null);
 	const addFunds = async () => {
 		const address = await signer.getAddress();
-		await provider.send('evm_increaseBlocks', [ethers.utils.hexValue(2)]);
+		// await provider.send('evm_increaseBlocks', [ethers.utils.hexValue(2)]);
 		try {
 			await provider.send('tenderly_addBalance', [
-				address,
+				[address],
 				ethers.utils.hexValue(100), // hex encoded wei amount
 			]);
 		} catch (error) {
 			console.error(error);
 		}
-		await provider.send('evm_increaseBlocks', [ethers.utils.hexValue(2)]);
+
+		// await provider.send('evm_increaseBlocks', [ethers.utils.hexValue(2)]);
 		signer.getBalance().then((x) => setBalance(x.toString()));
+		signer.getBalance().then(console.log);
 	};
 
 	const increaseTime = async (time: number) => {
-		await provider.send('evm_increaseTime', [ethers.utils.hexValue(time)]);
+		//	await provider.send('evm_increaseTime', [ethers.utils.hexValue(time)]);
 	};
 
 	return (
