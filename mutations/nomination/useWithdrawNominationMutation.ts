@@ -24,9 +24,10 @@ function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries({
+				await queryClient.resetQueries({
 					active: true,
-					queryKey: ['nominees', moduleInstance, null],
+					stale: true,
+					queryKey: ['nominees', moduleInstance],
 				});
 			},
 		}

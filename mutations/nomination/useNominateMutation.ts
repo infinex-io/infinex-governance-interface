@@ -23,8 +23,9 @@ function useNominateMutation(moduleInstance: DeployedModules) {
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries({
+				await queryClient.resetQueries({
 					active: true,
+					stale: true,
 					queryKey: ['nominees', moduleInstance],
 				});
 			},

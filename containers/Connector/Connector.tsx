@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState, useContext, createContext } from 'react';
 import { ethers } from 'ethers';
 import '@rainbow-me/rainbowkit/styles.css';
-import { RainbowKitProvider, connectorsForWallets, wallet } from '@rainbow-me/rainbowkit';
+import {
+	RainbowKitProvider,
+	connectorsForWallets,
+	wallet,
+	darkTheme,
+} from '@rainbow-me/rainbowkit';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
@@ -80,7 +85,15 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 
 	return (
 		<WagmiConfig client={wagmiClient}>
-			<RainbowKitProvider chains={chains}>
+			<RainbowKitProvider
+				chains={chains}
+				theme={darkTheme({
+					accentColor: 'linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 90.45%)',
+					accentColorForeground: '#000',
+					borderRadius: 'medium',
+					fontStack: 'rounded',
+				})}
+			>
 				<ConnectorContext.Provider
 					value={{
 						ensAvatar,

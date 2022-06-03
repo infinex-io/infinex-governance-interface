@@ -1,3 +1,4 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { Checkbox, Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
@@ -118,64 +119,81 @@ export default function NominateModal() {
 
 	return (
 		<BaseModal headline={t('modals.nomination.headline')}>
-			<div className="flex flex-col items-center bg-black px-12 py-3 rounded">
-				<StyledBlackBoxSubline>{t('modals.nomination.nominationAddress')}</StyledBlackBoxSubline>
-				<div className="text-white tg-title-h5">{ensName || truncateAddress(data!.address!)}</div>
-			</div>
-			<StyledCheckboxWrapper justifyContent="center">
-				<Checkbox
-					id="spartan-council-checkbox"
-					onChange={() => {
-						setActiveCheckbox('spartan');
-					}}
-					label={t('modals.nomination.checkboxes.spartan')}
-					color="lightBlue"
-					checked={activeCheckbox === 'spartan'}
-					disabled={
-						isAlreadyNominated || isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'
-					}
-				/>
-				<Checkbox
-					id="grants-council-checkbox"
-					onChange={() => {
-						setActiveCheckbox('grants');
-					}}
-					label={t('modals.nomination.checkboxes.grants')}
-					color="lightBlue"
-					checked={activeCheckbox === 'grants'}
-					disabled={
-						isAlreadyNominated || isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'
-					}
-				/>
-				<Checkbox
-					id="ambassador-council-checkbox"
-					onChange={() => {
-						setActiveCheckbox('ambassador');
-					}}
-					label={t('modals.nomination.checkboxes.ambassador')}
-					color="lightBlue"
-					checked={activeCheckbox === 'ambassador'}
-					disabled={
-						isAlreadyNominated ||
-						isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'
-					}
-				/>
-				<Checkbox
-					id="treasury-council-checkbox"
-					onChange={() => {
-						setActiveCheckbox('treasury');
-					}}
-					label={t('modals.nomination.checkboxes.treasury')}
-					color="lightBlue"
-					checked={activeCheckbox === 'treasury'}
-					disabled={
-						isAlreadyNominated || isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'
-					}
-				/>
-			</StyledCheckboxWrapper>
-			<Button className="w-[313px]" onClick={() => handleNomination()} disabled={!activeCheckbox}>
-				{t('modals.nomination.button')}
-			</Button>
+			{!data?.connector ? (
+				<ConnectButton />
+			) : (
+				<>
+					<div className="flex flex-col items-center bg-black px-12 py-3 rounded">
+						<StyledBlackBoxSubline>
+							{t('modals.nomination.nominationAddress')}
+						</StyledBlackBoxSubline>
+						<div className="text-white tg-title-h5">
+							{ensName || truncateAddress(data!.address!)}
+						</div>
+					</div>
+					<StyledCheckboxWrapper justifyContent="center">
+						<Checkbox
+							id="spartan-council-checkbox"
+							onChange={() => {
+								setActiveCheckbox('spartan');
+							}}
+							label={t('modals.nomination.checkboxes.spartan')}
+							color="lightBlue"
+							checked={activeCheckbox === 'spartan'}
+							disabled={
+								isAlreadyNominated ||
+								isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'
+							}
+						/>
+						<Checkbox
+							id="grants-council-checkbox"
+							onChange={() => {
+								setActiveCheckbox('grants');
+							}}
+							label={t('modals.nomination.checkboxes.grants')}
+							color="lightBlue"
+							checked={activeCheckbox === 'grants'}
+							disabled={
+								isAlreadyNominated ||
+								isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'
+							}
+						/>
+						<Checkbox
+							id="ambassador-council-checkbox"
+							onChange={() => {
+								setActiveCheckbox('ambassador');
+							}}
+							label={t('modals.nomination.checkboxes.ambassador')}
+							color="lightBlue"
+							checked={activeCheckbox === 'ambassador'}
+							disabled={
+								isAlreadyNominated ||
+								isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'
+							}
+						/>
+						<Checkbox
+							id="treasury-council-checkbox"
+							onChange={() => {
+								setActiveCheckbox('treasury');
+							}}
+							label={t('modals.nomination.checkboxes.treasury')}
+							color="lightBlue"
+							checked={activeCheckbox === 'treasury'}
+							disabled={
+								isAlreadyNominated ||
+								isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'
+							}
+						/>
+					</StyledCheckboxWrapper>
+					<Button
+						className="w-[313px]"
+						onClick={() => handleNomination()}
+						disabled={!activeCheckbox}
+					>
+						{t('modals.nomination.button')}
+					</Button>
+				</>
+			)}
 		</BaseModal>
 	);
 }

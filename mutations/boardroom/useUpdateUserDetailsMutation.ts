@@ -124,7 +124,7 @@ function useUpdateUserDetailsMutation() {
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.refetchQueries(['userDetails']);
+				await queryClient.resetQueries({ active: true, stale: true, queryKey: 'userDetails' });
 			},
 		}
 	);
