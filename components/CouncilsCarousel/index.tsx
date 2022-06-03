@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Carousel, Tabs } from 'components/old-ui';
+import { Tabs } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import MemberCard from 'components/MemberCard/Index';
+import { Carousel } from '@synthetixio/ui';
 
 interface CouncilsCarouselProps {
 	maxWidth?: string;
@@ -67,25 +68,36 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 					</StyledTabIcon>,
 				]}
 			/>
-			{allMembers[activeIndex] && (
-				<Carousel
-					startIndex={startIndex ? startIndex : 1}
-					widthOfItems={300}
-					carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+			<div className="w-full max-w-[1000px] flex md:justify-center overflow-x-scroll">
+				{allMembers[activeIndex]?.length && allMembers[activeIndex]!.length > 4 ? (
+					<Carousel
+						startPosition={startIndex ? startIndex : 1}
+						widthOfItems={300}
+						carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+							<MemberCard
+								member={member}
+								key={member.address.concat(String(index))}
+								state="ADMINISTRATION"
+								className="m-2 max-w-[218px]"
+								council={member.council}
+							/>
+						))}
+						arrowsPosition="outside"
+						withDots
+						dotsPosition="outside"
+					/>
+				) : (
+					(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
 						<MemberCard
 							member={member}
 							key={member.address.concat(String(index))}
 							state="ADMINISTRATION"
-							className="m-2"
+							className="m-2 max-w-[218px]"
 							council={member.council}
 						/>
-					))}
-					maxWidth={maxWidth ? maxWidth : '80vw'}
-					arrowsPosition="outside"
-					withDots="secondary"
-					dotsPosition="outside"
-				/>
-			)}
+					))
+				)}
+			</div>
 		</div>
 	);
 }

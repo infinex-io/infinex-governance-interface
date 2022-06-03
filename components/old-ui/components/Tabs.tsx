@@ -67,6 +67,7 @@ const StyledTab = styled.li<{ active?: boolean; size: TabsProps['size'] }>`
 	font-family: Inter;
 	font-style: normal;
 	font-weight: bold;
+	margin: 4px;
 	font-size: ${({ size }) => (size === 'medium' ? '0.87rem' : '0.75rem')};
 	line-height: 20px;
 	border: 1px solid transparent;
