@@ -1,30 +1,27 @@
 import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import { useTranslation } from 'react-i18next';
-
 import { Checkbox } from 'components/old-ui';
-
 import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
-
 import { useEffect, useState } from 'react';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
-
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { useModalContext } from 'containers/Modal';
 import { useQueryClient } from 'react-query';
 import { useAccount } from 'wagmi';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface EditModalProps {
 	council: string;
 	deployedModule: DeployedModules;
 }
 
-export default function EditModal({ deployedModule, council }: EditModalProps) {
+export default function EditNominationModal({ deployedModule, council }: EditModalProps) {
 	const { t } = useTranslation();
 	const { data } = useAccount();
 	const { ensName } = useConnectorContext();
@@ -119,6 +116,7 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 			}
 		}
 	};
+	console.log(data);
 	return (
 		<BaseModal headline={t('modals.edit.headline')}>
 			<span className="max-w-[600px] tg-content text-gray-500 text-center my-4">
@@ -126,104 +124,114 @@ export default function EditModal({ deployedModule, council }: EditModalProps) {
 				from one council to another you must first select your new council and click save. You will
 				be need to sign 2 transactions in order to change.
 			</span>
-			<div className="flex flex-col justify-center items-center bg-black px-10 py-6 mb-8 w-[800px]">
-				{step === 1 ? (
-					<>
-						<div className="flex flex-col items-center ">
-							<div className="flex justify-center items-center w-[200px] mb-4">
-								<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
-									1
+			{!data?.connector ? (
+				<ConnectButton />
+			) : (
+				<>
+					<div className="flex flex-col justify-center items-center bg-black px-10 py-6 mb-8 w-[800px]">
+						{step === 1 ? (
+							<>
+								<div className="flex flex-col items-center ">
+									<div className="flex justify-center items-center w-[200px] mb-4">
+										<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+											1
+										</div>
+										<div className="min-w-full h-[1px] bg-purple"></div>
+										<div className="bg-gray-500 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+											2
+										</div>
+									</div>
+									<h4 className="tg-title-h4 text-white">{t('modals.edit.step-one')}</h4>
+									<div className="border-gray-500 rounded border-[1px] p-8 m-4">
+										<h6 className="tg-title-h6 text-gray-500">{t('modals.edit.current')}</h6>
+										<h3 className="tg-title-h3 text-white">
+											{ensName ? ensName : data?.address && truncateAddress(data.address)}
+										</h3>
+									</div>
+									<div className="bg-primary p-[2px] rounded">
+										<div className="darker-60 text-primary py-1 px-6 rounded">
+											{t('modals.edit.council', { council: capitalizeString(council) })}
+										</div>
+									</div>
 								</div>
-								<div className="min-w-full h-[1px] bg-purple"></div>
-								<div className="bg-gray-500 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
-									2
+							</>
+						) : (
+							<>
+								<div className="flex justify-center items-center w-[200px] mb-4">
+									<div className="bg-green rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+										1
+									</div>
+									<div className="min-w-full h-[1px] bg-green"></div>
+									<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+										2
+									</div>
 								</div>
-							</div>
-							<h4 className="tg-title-h4 text-white">{t('modals.edit.step-one')}</h4>
-							<div className="border-gray-500 rounded border-[1px] p-8 m-4">
-								<h6 className="tg-title-h6 text-gray-500">{t('modals.edit.current')}</h6>
-								<h3 className="tg-title-h3 text-white">
-									{ensName ? ensName : data?.address && truncateAddress(data.address)}
-								</h3>
-							</div>
-							<div className="bg-primary p-[2px] rounded">
-								<div className="darker-60 text-primary py-1 px-6 rounded">
-									{t('modals.edit.council', { council: capitalizeString(council) })}
+								<h4 className="tg-title-h4 text-white m-4 mb-8">{t('modals.edit.step-two')}</h4>
+								<div className="flex justify-between w-full">
+									<Checkbox
+										id="spartan-council-checkbox"
+										onChange={() => setActiveCheckbox('spartan')}
+										label={t('modals.nomination.checkboxes.spartan')}
+										color="lightBlue"
+										checked={activeCheckbox === 'spartan'}
+										disabled={isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'}
+									/>
+									<Checkbox
+										id="grants-council-checkbox"
+										onChange={() => setActiveCheckbox('grants')}
+										label={t('modals.nomination.checkboxes.grants')}
+										color="lightBlue"
+										checked={activeCheckbox === 'grants'}
+										disabled={isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'}
+									/>
+									<Checkbox
+										id="ambassador-council-checkbox"
+										onChange={() => setActiveCheckbox('ambassador')}
+										label={t('modals.nomination.checkboxes.ambassador')}
+										color="lightBlue"
+										checked={activeCheckbox === 'ambassador'}
+										disabled={isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'}
+									/>
+									<Checkbox
+										id="treasury-council-checkbox"
+										onChange={() => setActiveCheckbox('treasury')}
+										label={t('modals.nomination.checkboxes.treasury')}
+										color="lightBlue"
+										checked={activeCheckbox === 'treasury'}
+										disabled={isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'}
+									/>
 								</div>
-							</div>
-						</div>
-					</>
-				) : (
-					<>
-						<div className="flex justify-center items-center w-[200px] mb-4">
-							<div className="bg-green rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
-								1
-							</div>
-							<div className="min-w-full h-[1px] bg-green"></div>
-							<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
-								2
-							</div>
-						</div>
-						<h4 className="tg-title-h4 text-white m-4 mb-8">{t('modals.edit.step-two')}</h4>
-						<div className="flex justify-between w-full">
-							<Checkbox
-								id="spartan-council-checkbox"
-								onChange={() => setActiveCheckbox('spartan')}
-								label={t('modals.nomination.checkboxes.spartan')}
-								color="lightBlue"
-								checked={activeCheckbox === 'spartan'}
-								disabled={isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'}
-							/>
-							<Checkbox
-								id="grants-council-checkbox"
-								onChange={() => setActiveCheckbox('grants')}
-								label={t('modals.nomination.checkboxes.grants')}
-								color="lightBlue"
-								checked={activeCheckbox === 'grants'}
-								disabled={isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'}
-							/>
-							<Checkbox
-								id="ambassador-council-checkbox"
-								onChange={() => setActiveCheckbox('ambassador')}
-								label={t('modals.nomination.checkboxes.ambassador')}
-								color="lightBlue"
-								checked={activeCheckbox === 'ambassador'}
-								disabled={isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'}
-							/>
-							<Checkbox
-								id="treasury-council-checkbox"
-								onChange={() => setActiveCheckbox('treasury')}
-								label={t('modals.nomination.checkboxes.treasury')}
-								color="lightBlue"
-								checked={activeCheckbox === 'treasury'}
-								disabled={isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'}
-							/>
-						</div>
-					</>
-				)}
-			</div>
-			<div className="border-l-primary border-l-4 bg-primary mb-4">
-				<h5 className="tg-title-h5 darker-60 text-white p-2 flex">
-					<svg
-						width="29"
-						height="29"
-						viewBox="0 0 29 29"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						className="mr-2"
+							</>
+						)}
+					</div>
+					<div className="border-l-primary border-l-4 bg-primary mb-4">
+						<h5 className="tg-title-h5 darker-60 text-white p-2 flex">
+							<svg
+								width="29"
+								height="29"
+								viewBox="0 0 29 29"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								className="mr-2"
+							>
+								<circle cx="14.5" cy="14.5" r="13.4643" stroke="#00D1FF" strokeWidth="2.07143" />
+								<path
+									d="M10.4194 18.3764H13.3388V13.0404H10.7094V10.8751H16.3161V18.3764H19.3708V20.5417H10.4194V18.3764ZM16.3548 9.61839H12.9521V6.56372H16.3548V9.61839Z"
+									fill="#00D1FF"
+								/>
+							</svg>
+							{t('modals.edit.banner')}
+						</h5>
+					</div>
+					<Button
+						onClick={() => handleBtnClick()}
+						size="lg"
+						disabled={step === 2 && !activeCheckbox}
 					>
-						<circle cx="14.5" cy="14.5" r="13.4643" stroke="#00D1FF" strokeWidth="2.07143" />
-						<path
-							d="M10.4194 18.3764H13.3388V13.0404H10.7094V10.8751H16.3161V18.3764H19.3708V20.5417H10.4194V18.3764ZM16.3548 9.61839H12.9521V6.56372H16.3548V9.61839Z"
-							fill="#00D1FF"
-						/>
-					</svg>
-					{t('modals.edit.banner')}
-				</h5>
-			</div>
-			<Button onClick={() => handleBtnClick()} size="lg" disabled={step === 2 && !activeCheckbox}>
-				{t('modals.edit.button')}
-			</Button>
+						{t('modals.edit.button')}
+					</Button>
+				</>
+			)}
 		</BaseModal>
 	);
 }

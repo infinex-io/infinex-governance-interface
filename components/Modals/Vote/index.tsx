@@ -15,6 +15,7 @@ import { useModulesContext } from 'containers/Modules/index';
 import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
 import { BigNumber } from 'ethers';
 import { useAccount } from 'wagmi';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -92,9 +93,20 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] ">
 				{member.about}
 			</span>
-			<Button onClick={() => handleVote()} size="lg" className="m-6">
-				{t('modals.vote.submit')}
-			</Button>
+			{!data?.connector ? (
+				<div className="m-6">
+					<ConnectButton />
+				</div>
+			) : (
+				<Button
+					onClick={() => handleVote()}
+					size="lg"
+					className="m-6"
+					disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
+				>
+					{t('modals.vote.submit')}
+				</Button>
+			)}
 			<Button
 				size="lg"
 				variant="outline"
@@ -102,7 +114,6 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					setIsOpen(false);
 					push('/profile/' + member.address);
 				}}
-				disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
 			>
 				{t('modals.vote.profile')}
 			</Button>
