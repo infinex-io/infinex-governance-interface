@@ -2,6 +2,7 @@ import {
 	BOARDROOM_SIGNIN_API_URL,
 	NONCE_API_URL,
 	UPDATE_USER_DETAILS_API_URL,
+	// UPDATE_USER_PITCH_FOR_PROTOCOL,
 } from 'constants/boardroom';
 import useIsUUIDValidQuery from 'queries/boardroom/useIsUUIDValidQuery';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -49,10 +50,8 @@ function useUpdateUserDetailsMutation() {
 	const account = useAccount();
 	const [uuid, setUuid] = useState<null | string>(null);
 	const boardroomSignIn = async () => {
-		// TODO @andy: change to real domain on prod
-		const domain = 'localhost:3000';
-
-		const chainId = 31337;
+		const domain = 'https://governance.synthetix.io';
+		const chainId = 10;
 
 		if (signer && provider && account.data?.address) {
 			try {
@@ -69,7 +68,7 @@ function useUpdateUserDetailsMutation() {
 					domain: domain,
 					address: account.data.address,
 					chainId: chainId,
-					uri: `http:${domain}`,
+					uri: domain,
 					version: '1',
 					statement: 'Sign into Boardroom with this wallet',
 					nonce: nonceResponse.data.nonce,
@@ -116,6 +115,13 @@ function useUpdateUserDetailsMutation() {
 					method: 'POST',
 					body: JSON.stringify(body),
 				});
+				// if (userProfile.delegationPitches) {
+				// 	let delegationUpdateReponse = await fetch(UPDATE_USER_PITCH_FOR_PROTOCOL, {
+				// 		method: 'POST',
+				// 		body: JSON.stringify(body),
+				// 	});
+				// 	const { data } = (await response.json()) as UpdateUserDetailsResponse;
+				// }
 				const { data } = (await response.json()) as UpdateUserDetailsResponse;
 				return data;
 			} else {
