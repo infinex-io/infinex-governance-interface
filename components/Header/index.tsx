@@ -126,8 +126,8 @@ export default function Header() {
 						</div>
 					</div>
 				)}
-				<div className="flex mr-1">
-					<ConnectButton />
+				<div className="flex mr-1 min-w-[150px]">
+					<ConnectButton accountStatus="full" showBalance />
 				</div>
 			</header>
 		</>
