@@ -93,6 +93,13 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] ">
 				{member.about}
 			</span>
+			<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black m-w-[320px] text-white">
+				<h6 className="tg-title-h6">{t('modals.vote.voting-power.headline')}</h6>
+				<h3 className="tg-title-h3"></h3>
+			</div>
+			<Button onClick={() => handleVote()} size="lg" className="m-6">
+				{t('modals.vote.submit')}
+			</Button>
 			{!data?.connector ? (
 				<div className="m-6">
 					<ConnectButton />

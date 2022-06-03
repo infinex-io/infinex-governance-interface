@@ -59,7 +59,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<div className="h-full p-8 rounded gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt={council} src={image} width={50} height={72} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
-				<span className={`${color} px-2.5 py-1 rounded-xl tg-content-bold text-center mt-2`}>
+				<span className={`${color} px-2.5 py-1 rounded-xl tg-content-bold text-center my-2`}>
 					{t(cta)}
 				</span>
 				{period && dates.data?.epochEndDate && ['NOMINATION', 'VOTING'].includes(period) && (
