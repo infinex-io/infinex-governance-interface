@@ -1,4 +1,4 @@
-const isMainnet = false;
+const isMainnet = true;
 const TEST_NET_URL = `https://xis287baki.execute-api.us-east-1.amazonaws.com`;
 const MAIN_NET_URL = `https://api.boardroom.info`;
 
