@@ -2,7 +2,7 @@ import {
 	BOARDROOM_SIGNIN_API_URL,
 	NONCE_API_URL,
 	UPDATE_USER_DETAILS_API_URL,
-	// UPDATE_USER_PITCH_FOR_PROTOCOL,
+	UPDATE_USER_PITCH_FOR_PROTOCOL,
 } from 'constants/boardroom';
 import useIsUUIDValidQuery from 'queries/boardroom/useIsUUIDValidQuery';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -50,7 +50,7 @@ function useUpdateUserDetailsMutation() {
 	const account = useAccount();
 	const [uuid, setUuid] = useState<null | string>(null);
 	const boardroomSignIn = async () => {
-		const domain = 'https://governance.synthetix.io';
+		const domain = 'governance.synthetix.io';
 		const chainId = 10;
 
 		if (signer && provider && account.data?.address) {
@@ -68,7 +68,7 @@ function useUpdateUserDetailsMutation() {
 					domain: domain,
 					address: account.data.address,
 					chainId: chainId,
-					uri: domain,
+					uri: `https://${domain}`,
 					version: '1',
 					statement: 'Sign into Boardroom with this wallet',
 					nonce: nonceResponse.data.nonce,
@@ -115,13 +115,23 @@ function useUpdateUserDetailsMutation() {
 					method: 'POST',
 					body: JSON.stringify(body),
 				});
-				// if (userProfile.delegationPitches) {
-				// 	let delegationUpdateReponse = await fetch(UPDATE_USER_PITCH_FOR_PROTOCOL, {
-				// 		method: 'POST',
-				// 		body: JSON.stringify(body),
-				// 	});
-				// 	const { data } = (await response.json()) as UpdateUserDetailsResponse;
-				// }
+
+				// @dev - new delegation pitch update method
+				if (userProfile.delegationPitch) {
+					const delegationPitchesBody = {
+						protocol: 'synthetix',
+						address: address,
+						delegationPitch: userProfile.delegationPitch,
+						uuid: signedInUuid,
+					};
+					let delegationUpdateReponse = await fetch(UPDATE_USER_PITCH_FOR_PROTOCOL, {
+						method: 'POST',
+						body: JSON.stringify(delegationPitchesBody),
+					});
+					const { data } = await delegationUpdateReponse.json();
+				}
+				//
+
 				const { data } = (await response.json()) as UpdateUserDetailsResponse;
 				return data;
 			} else {

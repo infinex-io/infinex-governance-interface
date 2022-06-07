@@ -38,17 +38,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			about,
 			twitter,
 			discord,
-			delegationPitches,
+			delegationPitch,
 			github,
 		} = userDetailsQuery.data;
-
-		let parsedDelegationPitch = {
-			synthetix: '',
-		};
-
-		if (delegationPitches) {
-			parsedDelegationPitch = JSON.parse(delegationPitches);
-		}
 
 		return (
 			<div className="flex flex-col items-center pb-20">
@@ -139,7 +131,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							discord={discord}
 							github={github}
 							twitter={twitter}
-							pitch={parsedDelegationPitch.synthetix}
+							pitch={delegationPitch}
 						/>
 					</div>
 				</div>

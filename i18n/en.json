@@ -181,7 +181,7 @@
 					"website": "Website",
 					"about": "About",
 					"github": "Github",
-					"pitch": "Governance Pitch"
+					"delegationPitch": "Governance Pitch"
 				},
 				"placeholder": {
 					"username": "e.g John Smith",
@@ -190,7 +190,7 @@
 					"website": "e.g https://synthetix.io/",
 					"twitter": "@john_smith",
 					"github": "@john_smith",
-					"pitch": "e.g I am a OG Synthetix Community Member.",
+					"delegationPitch": "e.g I am a OG Synthetix Community Member.",
 					"about": "e.g OG DeFi Member"
 				}
 			}

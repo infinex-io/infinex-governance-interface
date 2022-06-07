@@ -28,15 +28,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 	const [discord, setDiscord] = useState<string>(userProfile.discord);
 	const [twitter, setTwitter] = useState<string>(userProfile.twitter);
 	const [github, setGithub] = useState<string>(userProfile.github);
-
-	const [pitch, setPitch] = useState<string>(JSON.parse(userProfile.delegationPitches).synthetix);
+	const [pitch, setPitch] = useState<string>(userProfile.delegationPitch);
 
 	const handleProfileEdit = () => {
 		if (userDetailsQuery.data) {
-			const delegationPitches = {
-				synthetix: pitch,
-			};
-			const jsonFormatted = JSON.stringify(delegationPitches);
 			const status = updateUserMutation.mutate(
 				{
 					...userDetailsQuery.data,
@@ -46,7 +41,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ userProfile }) => {
 					pfpThumbnailUrl,
 					discord,
 					github,
-					delegationPitches: jsonFormatted,
+					delegationPitch: pitch,
 				},
 				{
 					onSuccess: () => {

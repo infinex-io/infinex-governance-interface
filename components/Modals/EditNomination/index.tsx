@@ -116,7 +116,6 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			}
 		}
 	};
-	console.log(data);
 	return (
 		<BaseModal headline={t('modals.edit.headline')}>
 			<span className="max-w-[600px] tg-content text-gray-500 text-center my-4">
