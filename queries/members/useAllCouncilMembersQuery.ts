@@ -1,5 +1,4 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
-import { useConnectorContext } from 'containers/Connector';
 import { useModulesContext } from 'containers/Modules';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 
