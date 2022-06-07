@@ -34,53 +34,55 @@ export const ModulesProvider: FC = ({ children }) => {
 	const { data: signer } = useSigner();
 
 	useEffect(() => {
-		const SpartanCouncilModule = new ethers.Contract(
-			spartanCouncil,
-			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
-		);
+		if (signer) {
+			const SpartanCouncilModule = new ethers.Contract(
+				spartanCouncil,
+				ElectionModuleABI.abi,
+				signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			);
 
-		let modules = {} as GovernanceModule;
+			let modules = {} as GovernanceModule;
 
-		modules[DeployedModules.SPARTAN_COUNCIL] = {
-			address: spartanCouncil,
-			contract: SpartanCouncilModule,
-		};
+			modules[DeployedModules.SPARTAN_COUNCIL] = {
+				address: spartanCouncil,
+				contract: SpartanCouncilModule,
+			};
 
-		const AmbassadorCouncilModule = new ethers.Contract(
-			ambassadorCouncil,
-			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
-		);
+			const AmbassadorCouncilModule = new ethers.Contract(
+				ambassadorCouncil,
+				ElectionModuleABI.abi,
+				signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			);
 
-		modules[DeployedModules.AMBASSADOR_COUNCIL] = {
-			address: ambassadorCouncil,
-			contract: AmbassadorCouncilModule,
-		};
+			modules[DeployedModules.AMBASSADOR_COUNCIL] = {
+				address: ambassadorCouncil,
+				contract: AmbassadorCouncilModule,
+			};
 
-		const GrantsCouncilModule = new ethers.Contract(
-			grantsCouncil,
-			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
-		);
+			const GrantsCouncilModule = new ethers.Contract(
+				grantsCouncil,
+				ElectionModuleABI.abi,
+				signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			);
 
-		modules[DeployedModules.GRANTS_COUNCIL] = {
-			address: grantsCouncil,
-			contract: GrantsCouncilModule,
-		};
+			modules[DeployedModules.GRANTS_COUNCIL] = {
+				address: grantsCouncil,
+				contract: GrantsCouncilModule,
+			};
 
-		const TreasuryCouncilModule = new ethers.Contract(
-			treasuryCouncil,
-			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
-		);
+			const TreasuryCouncilModule = new ethers.Contract(
+				treasuryCouncil,
+				ElectionModuleABI.abi,
+				signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			);
 
-		modules[DeployedModules.TREASURY_COUNCIL] = {
-			address: treasuryCouncil,
-			contract: TreasuryCouncilModule,
-		};
+			modules[DeployedModules.TREASURY_COUNCIL] = {
+				address: treasuryCouncil,
+				contract: TreasuryCouncilModule,
+			};
 
-		setGovernanceModules(modules);
+			setGovernanceModules(modules);
+		}
 	}, [L2DefaultProvider, signer]);
 
 	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
