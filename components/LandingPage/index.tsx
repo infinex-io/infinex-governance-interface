@@ -79,13 +79,7 @@ export default function LandingPage() {
 			<h1 className="tg-title-h1 text-center">{t('landing-page.tabs-headline')}</h1>
 			<Text>{t('landing-page.tabs-subline')}</Text>
 			<CouncilsCarousel />
-			<Button
-				onClick={() => {
-					push({ pathname: '/councils' });
-				}}
-				size="md"
-				className="mx-auto my-10 min-w-[140px]"
-			>
+			<Button onClick={() => push('/councils')} size="lg" className="m-10 mx-auto">
 				{t('landing-page.carousel-btn')}
 			</Button>
 		</div>

@@ -139,7 +139,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				</div>
 				<hr className="border-gray-700 my-4 w-full p-3" />
 				<CouncilsCarousel />
-				<Button className="m-8" onClick={() => push('/councils')} size="lg">
+				<Button className="mx-auto my-8 mt-12" onClick={() => push('/councils')} size="lg">
 					{t('profiles.view-all-members')}
 				</Button>
 			</div>
