@@ -8,17 +8,16 @@ import { isWalletAddress } from 'utils/validate';
 export default function Profile() {
 	const { query } = useRouter();
 	const { address } = query;
-	if (typeof address !== 'string' || !isWalletAddress(address)) {
-		return <Error statusCode={404} />;
-	}
 
 	return (
 		<>
 			<Head>
-				<title>Synthetix | {address}</title>
+				<title>Synthetix | {address ? address : 'Profile'}</title>
 			</Head>
 			<Main>
-				<ProfileSection walletAddress={address} />
+				{typeof address === 'string' && isWalletAddress(address) && (
+					<ProfileSection walletAddress={address} />
+				)}
 			</Main>
 		</>
 	);
