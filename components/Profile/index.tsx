@@ -53,13 +53,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		return (
 			<div className="flex flex-col items-center pb-20">
 				<div className="flex items-center absolute left-10 top-10">
-					<IconButton
-						className="mr-2"
-						active
-						onClick={() => push({ pathname: '/' })}
-						rounded
-						size="tiniest"
-					>
+					<IconButton className="mr-2" active onClick={() => push('/')} rounded size="tiniest">
 						<ArrowLeftIcon active />
 					</IconButton>
 					<span className="tg-content-bold text-blue">{t('councils.back-btn')}</span>
@@ -144,7 +138,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</div>
 				</div>
 				<CouncilsCarousel />
-				<Button className="max-w-[250px]" onClick={() => push({ pathname: '/councils' })}>
+				<Button className="max-w-[250px] mt-8" onClick={() => push({ pathname: '/councils' })}>
 					{t('profiles.view-all-members')}
 				</Button>
 			</div>
