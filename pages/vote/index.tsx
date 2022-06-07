@@ -92,7 +92,7 @@ export default function Vote() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				<div className="flex flex-col items-center">
+				<div className="flex flex-col items-center p-3">
 					{!!activeCouncilInVoting && (
 						<Card variant="gray" wrapperClassName="flex flex-col max-w-[1300px] w-full">
 							<h3 className="tg-title-h3 mb-2">

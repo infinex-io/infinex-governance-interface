@@ -38,7 +38,7 @@ export default function VoteCouncil() {
 				<h1 className="tg-title-h1 text-center">
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
-				<div className="flex flex-wrap justify-center space-x-4 space-y-4">
+				<div className="flex flex-wrap justify-center space-x-4 space-y-4 p-3">
 					{usersDetailsQuery.isLoading || nomineeQuery.isLoading ? (
 						<Loader />
 					) : usersDetailsQuery.data?.length ? (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -10,6 +10,20 @@ import clsx from 'clsx';
 interface CouncilsCarouselProps {
 	startIndex?: number;
 }
+
+const TabIcon = ({ isActive, children }: PropsWithChildren<{ isActive: boolean }>) => (
+	<span
+		key="all-council-members"
+		className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
+			'bg-black': isActive,
+			'bg-primary': !isActive,
+			'text-white': isActive,
+			'text-black': !isActive,
+		})}
+	>
+		{children}
+	</span>
+);
 
 export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) {
 	const { t } = useTranslation();
@@ -50,61 +64,21 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 				className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
 				activeIndex={activeIndex}
 				icons={[
-					<span
-						key="all-council-members"
-						className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
-							'bg-black': activeIndex === 0,
-							'bg-primary': activeIndex !== 0,
-							'text-white': activeIndex === 0,
-							'text-black': activeIndex !== 0,
-						})}
-					>
+					<TabIcon key="all-members" isActive={activeIndex === 0}>
 						{allMembers[0]?.length}
-					</span>,
-					<span
-						key="spartan-council-tab"
-						className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
-							'bg-black': activeIndex === 1,
-							'bg-primary': activeIndex !== 1,
-							'text-white': activeIndex === 1,
-							'text-black': activeIndex !== 1,
-						})}
-					>
-						{members.data?.spartan.length}
-					</span>,
-					<span
-						key="grants-council-tab"
-						className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
-							'bg-black': activeIndex === 2,
-							'bg-primary': activeIndex !== 2,
-							'text-white': activeIndex === 2,
-							'text-black': activeIndex !== 2,
-						})}
-					>
+					</TabIcon>,
+					<TabIcon key="spartan-members" isActive={activeIndex === 1}>
+						{members.data?.spartan?.length}
+					</TabIcon>,
+					<TabIcon key="grants-members" isActive={activeIndex === 2}>
 						{members.data?.grants.length}
-					</span>,
-					<span
-						key="ambassador-council-tab"
-						className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
-							'bg-black': activeIndex === 3,
-							'bg-primary': activeIndex !== 3,
-							'text-white': activeIndex === 3,
-							'text-black': activeIndex !== 3,
-						})}
-					>
+					</TabIcon>,
+					<TabIcon key="ambassador-members" isActive={activeIndex === 3}>
 						{members.data?.ambassador.length}
-					</span>,
-					<span
-						key="treasury-council-tab"
-						className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
-							'bg-black': activeIndex === 4,
-							'bg-primary': activeIndex !== 4,
-							'text-white': activeIndex === 4,
-							'text-black': activeIndex !== 4,
-						})}
-					>
+					</TabIcon>,
+					<TabIcon key="treasury-members" isActive={activeIndex === 4}>
 						{members.data?.treasury.length}
-					</span>,
+					</TabIcon>,
 				]}
 			/>
 			{allMembers[activeIndex]?.length && allMembers[activeIndex]!.length >= 4 ? (

@@ -54,7 +54,10 @@ export default function Header() {
 
 	return (
 		<>
-			<header className="bg-dark-blue w-full m-h-[66px] p-3 flex items-center md:justify-center justify-between border-b-gray-800 border-b-[1px] border-b-solid">
+			<header
+				className={`bg-dark-blue w-full m-h-[66px] p-3 flex 
+				items-center md:justify-center justify-between border-b-gray-800 border-b-[1px] border-b-solid`}
+			>
 				<Link href="/" passHref>
 					<div className="flex items-center cursor-pointer mr-8">
 						<SNXIcon />
@@ -127,7 +130,7 @@ export default function Header() {
 					</div>
 				)}
 				<div className="flex mr-1 min-w-[150px]">
-					<ConnectButton accountStatus="full" showBalance />
+					<ConnectButton accountStatus="full" showBalance={false} />
 				</div>
 			</header>
 		</>

@@ -9,6 +9,7 @@ type AvatarProps = {
 	walletAddress: string;
 	width?: number;
 	height?: number;
+	scale?: number;
 	className?: string;
 };
 
@@ -17,6 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({
 	url,
 	width = 120,
 	height = 120,
+	scale,
 	className,
 }) => {
 	const parsedUrl = url && parseURL(url);
@@ -30,7 +32,7 @@ const Avatar: React.FC<AvatarProps> = ({
 			width={height}
 		/>
 	) : (
-		<Blockies seed={walletAddress} scale={8} className="rounded-full" />
+		<Blockies seed={walletAddress} scale={scale || 8} className={clsx(className, 'rounded-full')} />
 	);
 };
 export default Avatar;

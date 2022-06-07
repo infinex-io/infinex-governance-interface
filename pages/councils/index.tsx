@@ -30,7 +30,7 @@ const Councils: NextPage = () => {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				<div className="flex flex-col items-center">
+				<div className="flex flex-col items-center p-3">
 					<BackButton />
 					<h1 className="tg-title-h1 text-center">{t('councils.headline')}</h1>
 					<Tabs

@@ -36,7 +36,7 @@ export default function CouncilNominees() {
 				{nomineesInfo.isLoading ? (
 					<Loader className="flex justify-center" />
 				) : !!nomineesInfo.data?.length ? (
-					<div className="flex flex-wrap justify-center">
+					<div className="flex flex-wrap justify-center p-3">
 						{nomineesInfo.data.map((member) => (
 							<MemberCard
 								className="m-2"
