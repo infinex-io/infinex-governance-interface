@@ -1,25 +1,12 @@
 import React, { useEffect, useMemo, useState, useContext, createContext } from 'react';
 import { ethers } from 'ethers';
-import '@rainbow-me/rainbowkit/styles.css';
-import {
-	RainbowKitProvider,
-	connectorsForWallets,
-	wallet,
-	darkTheme,
-} from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
-import { infuraProvider } from 'wagmi/providers/infura';
-import { publicProvider } from 'wagmi/providers/public';
+import { useAccount, useProvider } from 'wagmi';
 
 type ConnectorContextType = {
 	ensName: string | null;
 	ensAvatar: string | null;
 	L1DefaultProvider: ethers.providers.InfuraProvider;
-	L2DefaultProvider: ({
-		chainId,
-	}: {
-		chainId?: number | undefined;
-	}) => ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider;
+	L2DefaultProvider: ethers.providers.StaticJsonRpcProvider | ethers.providers.FallbackProvider;
 };
 
 const ConnectorContext = createContext<unknown>(null);
@@ -33,39 +20,15 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
 		[]
 	);
+	const accountQuery = useAccount();
 
 	const [ensName, setEnsName] = useState<string | null>(null);
 	const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
 
-	const { chains, provider } = useMemo(
-		() =>
-			configureChains(
-				[chain.optimism],
-				[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }), publicProvider()]
-			),
-		[]
-	);
-
-	const connectors = connectorsForWallets([
-		{
-			groupName: 'Recommended',
-			wallets: [
-				wallet.metaMask({ chains }),
-				wallet.injected({ chains }),
-				wallet.walletConnect({ chains }),
-				wallet.ledger({ chains }),
-			],
-		},
-	]);
-
-	const wagmiClient = createClient({
-		autoConnect: true,
-		connectors,
-		provider,
-	});
+	const provider = useProvider();
 
 	useEffect(() => {
-		const address = wagmiClient.data?.account;
+		const address = accountQuery.data?.address;
 		if (address) {
 			try {
 				L1DefaultProvider.lookupAddress(address).then((ensName) => {
@@ -81,32 +44,18 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 				console.error(error);
 			}
 		}
-	}, [wagmiClient.data?.account, L1DefaultProvider]);
+	}, [accountQuery, L1DefaultProvider]);
 
 	return (
-		<WagmiConfig client={wagmiClient}>
-			<RainbowKitProvider
-				chains={chains}
-				theme={darkTheme({
-					accentColor: 'linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 90.45%)',
-					accentColorForeground: '#000',
-					borderRadius: 'medium',
-					fontStack: 'rounded',
-				})}
-			>
-				<ConnectorContext.Provider
-					value={{
-						ensAvatar,
-						ensName,
-						provider,
-						chains,
-						L1DefaultProvider,
-						L2DefaultProvider: provider,
-					}}
-				>
-					{children}
-				</ConnectorContext.Provider>
-			</RainbowKitProvider>
-		</WagmiConfig>
+		<ConnectorContext.Provider
+			value={{
+				ensAvatar,
+				ensName,
+				L1DefaultProvider,
+				L2DefaultProvider: provider,
+			}}
+		>
+			{children}
+		</ConnectorContext.Provider>
 	);
 };

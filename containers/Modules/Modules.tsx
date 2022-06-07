@@ -37,7 +37,7 @@ export const ModulesProvider: FC = ({ children }) => {
 		const SpartanCouncilModule = new ethers.Contract(
 			spartanCouncil,
 			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			signer ? signer : L2DefaultProvider
 		);
 
 		let modules = {} as GovernanceModule;
@@ -50,7 +50,7 @@ export const ModulesProvider: FC = ({ children }) => {
 		const AmbassadorCouncilModule = new ethers.Contract(
 			ambassadorCouncil,
 			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			signer ? signer : L2DefaultProvider
 		);
 
 		modules[DeployedModules.AMBASSADOR_COUNCIL] = {
@@ -61,7 +61,7 @@ export const ModulesProvider: FC = ({ children }) => {
 		const GrantsCouncilModule = new ethers.Contract(
 			grantsCouncil,
 			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			signer ? signer : L2DefaultProvider
 		);
 
 		modules[DeployedModules.GRANTS_COUNCIL] = {
@@ -72,7 +72,7 @@ export const ModulesProvider: FC = ({ children }) => {
 		const TreasuryCouncilModule = new ethers.Contract(
 			treasuryCouncil,
 			ElectionModuleABI.abi,
-			signer ? signer : L2DefaultProvider({ chainId: chain.optimism.id })
+			signer ? signer : L2DefaultProvider
 		);
 
 		modules[DeployedModules.TREASURY_COUNCIL] = {

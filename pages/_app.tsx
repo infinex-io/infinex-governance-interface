@@ -19,7 +19,41 @@ import { theme, Modal as UIModal } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
 import { useProvider } from 'wagmi';
 
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+	RainbowKitProvider,
+	connectorsForWallets,
+	wallet,
+	darkTheme,
+} from '@rainbow-me/rainbowkit';
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import { infuraProvider } from 'wagmi/providers/infura';
+import { publicProvider } from 'wagmi/providers/public';
+
 const queryClient = new QueryClient();
+
+const { chains, provider } = configureChains(
+	[chain.optimism],
+	[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }), publicProvider()]
+);
+
+const connectors = connectorsForWallets([
+	{
+		groupName: 'Recommended',
+		wallets: [
+			wallet.metaMask({ chains }),
+			wallet.injected({ chains }),
+			wallet.walletConnect({ chains }),
+			wallet.ledger({ chains }),
+		],
+	},
+]);
+
+const wagmiClient = createClient({
+	autoConnect: true,
+	connectors,
+	provider,
+});
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
@@ -42,16 +76,28 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 
 const App: FC<AppProps> = (props) => {
 	return (
-		<ConnectorContextProvider>
-			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools initialIsOpen={false} />
-				<ThemeProvider theme={theme}>
-					<ModalContextProvider>
-						<InnerApp {...props} />
-					</ModalContextProvider>
-				</ThemeProvider>
-			</QueryClientProvider>
-		</ConnectorContextProvider>
+		<WagmiConfig client={wagmiClient}>
+			<RainbowKitProvider
+				chains={chains}
+				theme={darkTheme({
+					accentColor: 'linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 90.45%)',
+					accentColorForeground: '#000',
+					borderRadius: 'medium',
+					fontStack: 'rounded',
+				})}
+			>
+				<ConnectorContextProvider>
+					<QueryClientProvider client={queryClient}>
+						<ReactQueryDevtools initialIsOpen={false} />
+						<ThemeProvider theme={theme}>
+							<ModalContextProvider>
+								<InnerApp {...props} />
+							</ModalContextProvider>
+						</ThemeProvider>
+					</QueryClientProvider>
+				</ConnectorContextProvider>
+			</RainbowKitProvider>
+		</WagmiConfig>
 	);
 };
 
