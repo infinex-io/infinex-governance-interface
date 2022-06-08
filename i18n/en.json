@@ -85,7 +85,15 @@
 		"wallet": "Wallet Address",
 		"pitch": "Governance Pitch",
 		"view-all-members": "View all members",
-		"council": "{{council}} COUNCIL"
+		"council": "{{council}} COUNCIL",
+		"completion-card": {
+			"headline": "Your Submission Summary {{percentage}} Complete",
+			"subline": "Complete all of the submission requirements to enhance your chances of becoming a council member",
+			"pitch": "Delegation Pitch",
+			"discord": "Discord ID",
+			"twitter": "Link Twitter",
+			"withdraw": "Withdraw Nomination"
+		}
 	},
 	"vote": {
 		"headline": "Voting",
@@ -177,7 +185,7 @@
 					"username": "Username",
 					"profileImageUrl": "Profile Image URL",
 					"discord": "Discord",
-					"twitter": "Twitter",
+					"twitter": "Twitter Handle",
 					"website": "Website",
 					"about": "About",
 					"github": "Github",
