@@ -69,7 +69,7 @@ export default function WithdrawNominationModal({
 
 	return (
 		<BaseModal headline={t('modals.withdraw.headline')}>
-			{!data?.connector ? (
+			{data?.connector ? (
 				<ConnectButton />
 			) : (
 				<>

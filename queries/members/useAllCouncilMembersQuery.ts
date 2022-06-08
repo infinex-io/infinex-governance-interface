@@ -13,7 +13,6 @@ interface CouncilsUserData {
 
 function useAllCouncilMembersQuery() {
 	const governanceModules = useModulesContext();
-
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
 		async () => {

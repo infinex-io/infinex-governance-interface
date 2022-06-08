@@ -89,6 +89,14 @@
 		"profile-not-found": {
 			"header": "Profile Not Found",
 			"subheadline": "{{walletAddress}} is not a valid wallet address or profile does not exists for user"
+		},
+		"completion-card": {
+			"headline": "Your Submission Summary {{percentage}} Complete",
+			"subline": "Complete all of the submission requirements to enhance your chances of becoming a council member",
+			"pitch": "Delegation Pitch",
+			"discord": "Discord ID",
+			"twitter": "Link Twitter",
+			"withdraw": "Withdraw Nomination"
 		}
 	},
 	"vote": {
@@ -181,7 +189,7 @@
 					"username": "Username",
 					"profileImageUrl": "Profile Image URL",
 					"discord": "Discord",
-					"twitter": "Twitter",
+					"twitter": "Twitter Handle",
 					"website": "Website",
 					"about": "About",
 					"github": "Github",
