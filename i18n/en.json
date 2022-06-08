@@ -85,7 +85,11 @@
 		"wallet": "Wallet Address",
 		"pitch": "Governance Pitch",
 		"view-all-members": "View all members",
-		"council": "{{council}} COUNCIL"
+		"council": "{{council}} COUNCIL",
+		"profile-not-found": {
+			"header": "Profile Not Found",
+			"subheadline": "{{walletAddress}} is not a valid wallet address or profile does not exists for user"
+		}
 	},
 	"vote": {
 		"headline": "Voting",
