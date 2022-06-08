@@ -28,16 +28,7 @@ const Avatar: React.FC<AvatarProps> = ({
 		else return matchPattern.test(parsedUrl!);
 	};
 
-	if (parsedUrl && !parsedUrl.includes('http'))
-		return (
-			<Blockies
-				seed={walletAddress}
-				scale={scale || 8}
-				className={clsx(className, 'rounded-full')}
-			/>
-		);
-
-	return (
+	return parsedUrl && isValidUrl(parsedUrl) ? (
 		<Image
 			className={clsx(className, 'rounded-full')}
 			src={parsedUrl!}
@@ -45,6 +36,8 @@ const Avatar: React.FC<AvatarProps> = ({
 			height={width}
 			width={height}
 		/>
+	) : (
+		<Blockies seed={walletAddress} scale={scale || 8} className={clsx(className, 'rounded-full')} />
 	);
 };
 export default Avatar;
