@@ -1,6 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
-import { Checkbox, Flex } from 'components/old-ui';
+import { Checkbox } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -11,7 +11,6 @@ import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { useAccount } from 'wagmi';
 import BaseModal from '../BaseModal';
@@ -120,14 +119,14 @@ export default function NominateModal() {
 			) : (
 				<>
 					<div className="flex flex-col items-center bg-black px-12 py-3 rounded">
-						<StyledBlackBoxSubline>
+						<h6 className="tg-title-h6 text-gray-500">
 							{t('modals.nomination.nominationAddress')}
-						</StyledBlackBoxSubline>
+						</h6>
 						<div className="text-white tg-title-h5">
 							{ensName || truncateAddress(data!.address!)}
 						</div>
 					</div>
-					<StyledCheckboxWrapper justifyContent="center">
+					<div className="flex justify-center flex-col md:flex-row gap-4 m-10 max-w-[190px] w-full md:max-w-none">
 						<Checkbox
 							id="spartan-council-checkbox"
 							onChange={() => {
@@ -180,7 +179,7 @@ export default function NominateModal() {
 								isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'
 							}
 						/>
-					</StyledCheckboxWrapper>
+					</div>
 					<Button
 						className="w-[313px]"
 						onClick={() => handleNomination()}
@@ -193,18 +192,3 @@ export default function NominateModal() {
 		</BaseModal>
 	);
 }
-
-const StyledBlackBoxSubline = styled.h6`
-	font-family: 'Inter Bold';
-	font-size: 0.75rem;
-	color: ${({ theme }) => theme.colors.grey};
-	margin: 0;
-`;
-
-const StyledCheckboxWrapper = styled(Flex)`
-	margin: ${({ theme }) => theme.spacings.superBig} 0px;
-	width: 100%;
-	> * {
-		margin: ${({ theme }) => theme.spacings.medium};
-	}
-`;
