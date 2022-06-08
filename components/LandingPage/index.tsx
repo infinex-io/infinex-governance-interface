@@ -13,9 +13,11 @@ export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	return (
-		<div className="flex flex-col align-center gap-4 p-3">
+		<div className="flex flex-col p-3">
 			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
-			<Text>{t('landing-page.subline')}</Text>
+			<span className="tg-content text-gray-500 text-center pt-[8px]">
+				{t('landing-page.subline')}
+			</span>
 			<div className="flex justify-center flex-wrap gap-4 my-8">
 				<CouncilCard
 					image="/logos/spartan-council.svg"

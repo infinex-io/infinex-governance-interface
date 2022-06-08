@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import clsx from 'clsx';
+import { sevenDaysInMilliseconds } from 'constants/config';
 
 interface CouncilCardProps {
 	council: string;
@@ -68,7 +69,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 							'text-orange': period === 'NOMINATION',
 							'text-green': period === 'VOTING',
 						})}
-						expiryTimestamp={dates.data?.epochEndDate || 0}
+						expiryTimestamp={
+							dates.data?.epochEndDate - (period === 'NOMINATION' ? sevenDaysInMilliseconds : 0)
+						}
 					/>
 				)}
 				<StyledSpacer className="mb-1" />

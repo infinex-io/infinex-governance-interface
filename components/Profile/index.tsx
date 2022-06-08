@@ -120,7 +120,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</div>
 					<p className="tg-body">{about}</p>
 				</div>
-				{isOwnCard && isNominatedQuery.data?.length && (
+				{isOwnCard && !!isNominatedQuery.data?.length && (
 					<div className="p-3 w-full flex flex-col items-center">
 						<Card
 							wrapperClassName="max-w-[1000px] w-full border border-gray-700"
@@ -129,7 +129,13 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							<div className="flex flex-col">
 								<div className="flex w-full items-center">
 									{calculatePercentage() === '100%' ? (
-										<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+										<Image
+											src="/images/tick.svg"
+											width={44}
+											height={44}
+											alt="tick"
+											className="m-2"
+										/>
 									) : (
 										<Image src="/images/pending.svg" width={94} height={94} alt="pending updates" />
 									)}

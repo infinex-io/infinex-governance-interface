@@ -54,8 +54,6 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 					}
 				);
 			}
-
-			console.log(form);
 		},
 	});
 

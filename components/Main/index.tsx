@@ -12,6 +12,5 @@ export default function Main({ children }: PropsWithChildren<{}>) {
 
 const StyledSpotlight = styled(Spotlight)`
 	min-width: 100%;
-	padding-top: 50px;
 	min-height: 100vh;
 `;

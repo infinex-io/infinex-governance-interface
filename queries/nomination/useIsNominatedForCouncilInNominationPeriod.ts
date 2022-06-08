@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { DeployedModules, useModulesContext } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules';
 import useIsNominated from './useIsNominatedQuery';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 
@@ -12,6 +12,7 @@ function useIsNominatedForCouncilInNominationPeriod(walletAddress: string) {
 	const grantsPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const ambassadorPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const treasuryPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+
 	return useQuery(
 		['isNominatedForCouncil', walletAddress],
 		() => {
@@ -45,7 +46,16 @@ function useIsNominatedForCouncilInNominationPeriod(walletAddress: string) {
 			return isNominatedFor;
 		},
 		{
-			enabled: walletAddress !== null,
+			enabled:
+				walletAddress !== null &&
+				typeof spartan.data === 'boolean' &&
+				typeof grants.data === 'boolean' &&
+				typeof ambassador.data === 'boolean' &&
+				typeof treasury.data === 'boolean' &&
+				!!spartanPeriod.data?.currentPeriod &&
+				!!grantsPeriod.data?.currentPeriod &&
+				!!ambassadorPeriod.data?.currentPeriod &&
+				!!treasuryPeriod.data?.currentPeriod,
 			staleTime: 900000,
 		}
 	);

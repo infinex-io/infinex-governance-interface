@@ -20,7 +20,7 @@ function useGetNomineeBelongingQuery(walletAddress: string) {
 		  }
 		| undefined
 	>(
-		['useGetMemberBelonging'],
+		['useGetMemberBelonging', walletAddress],
 		async () => {
 			if (isSpartanNominee) return { module: DeployedModules.SPARTAN_COUNCIL, name: 'Spartan' };
 			if (isGrantsNominee) return { module: DeployedModules.GRANTS_COUNCIL, name: 'Grants' };
@@ -31,6 +31,7 @@ function useGetNomineeBelongingQuery(walletAddress: string) {
 		},
 		{
 			enabled: true,
+			staleTime: 900000,
 		}
 	);
 }

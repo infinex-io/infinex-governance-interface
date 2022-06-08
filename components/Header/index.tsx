@@ -7,17 +7,22 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
+
+const routesDic = [
+	{ label: 'header.routes.home', link: '' },
+	{ label: 'header.routes.councils', link: 'councils' },
+	{ label: 'header.routes.profile', link: 'profile' },
+	{ label: 'header.routes.vote', link: 'vote' },
+];
 
 export default function Header() {
 	const { push, pathname } = useRouter();
 	const { t } = useTranslation();
+	const { data } = useAccount();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
-	const [activeRoute, setActiveRoute] = useState('home');
-	const [routes, setRoutes] = useState([
-		t('header.routes.home'),
-		t('header.routes.councils'),
-		t('header.routes.vote'),
-	]);
+	const [activeRoute, setActiveRoute] = useState('');
+	const [routes, setRoutes] = useState(routesDic);
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
@@ -32,13 +37,21 @@ export default function Header() {
 
 	useEffect(() => {
 		if (!oneCouncilIsInVotingPeriod)
-			setRoutes([t('header.routes.home'), t('header.routes.councils')]);
-		else setRoutes([t('header.routes.home'), t('header.routes.councils'), t('header.routes.vote')]);
-	}, [oneCouncilIsInVotingPeriod, t]);
+			setRoutes((state) => state.filter((route) => route.link !== 'vote'));
+		if (data?.address)
+			setRoutes((state) =>
+				state.map((route) => {
+					if (route.link === 'profile') {
+						return { ...route, link: 'profile/' + data.address };
+					}
+					return route;
+				})
+			);
+	}, [oneCouncilIsInVotingPeriod, t, data?.address]);
 
 	const handleIndexAndRouteChange = (index: number) => {
-		push(index === 0 ? '/' : '/'.concat(routes[index].toLowerCase()));
-		setActiveRoute(routes[index].toLowerCase());
+		push(index === 0 ? '/' : '/'.concat(routes[index].link.toLowerCase()));
+		setActiveRoute(routes[index].link);
 	};
 
 	useEffect(() => {
@@ -49,7 +62,7 @@ export default function Header() {
 
 	useEffect(() => {
 		const splitRoute = pathname.split('/')[1];
-		setActiveRoute(splitRoute ? splitRoute : 'home');
+		setActiveRoute(splitRoute ? splitRoute : '');
 	}, [pathname]);
 
 	return (
@@ -68,10 +81,10 @@ export default function Header() {
 					{routes.map((translation, index) => (
 						<SpotlightButton
 							className="last-of-type:mr-auto m-2"
-							text={translation}
+							text={t(translation.label)}
 							onClick={() => handleIndexAndRouteChange(index)}
-							active={activeRoute === translation.toLowerCase()}
-							key={translation}
+							active={activeRoute === translation.link}
+							key={translation.label}
 						/>
 					))}
 				</div>
@@ -117,19 +130,19 @@ export default function Header() {
 								<SpotlightButton
 									className="m-4"
 									size="lg"
-									text={translation}
+									text={translation.label}
 									onClick={() => {
 										handleIndexAndRouteChange(index);
 										setBurgerMenuOpen(!burgerMenuOpen);
 									}}
-									active={activeRoute === translation.toLowerCase()}
-									key={translation}
+									active={activeRoute === translation.label.toLowerCase()}
+									key={translation.label}
 								/>
 							))}
 						</div>
 					</div>
 				)}
-				<div className="flex mr-1 min-w-[150px]">
+				<div className="flex mr-1 min-w-[170px]">
 					<ConnectButton accountStatus="full" showBalance={false} />
 				</div>
 			</header>

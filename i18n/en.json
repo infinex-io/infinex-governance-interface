@@ -3,6 +3,7 @@
 		"routes": {
 			"home": "Home",
 			"councils": "Councils",
+			"profile": "Profile",
 			"vote": "Vote"
 		},
 		"connect-wallet": "Connect Wallet"

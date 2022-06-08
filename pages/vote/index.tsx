@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
-import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'utils/config';
+import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'constants/config';
 import { useModalContext } from 'containers/Modal';
 import WithdrawVote from 'components/Modals/WithdrawVote';
 import BackButton from 'components/BackButton';

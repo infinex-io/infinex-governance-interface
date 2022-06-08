@@ -54,17 +54,13 @@ export default function NominateModal() {
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
-			setTimeout(() => {
-				queryClient.resetQueries({
-					queryKey: ['nominees', 'isNominated'],
-					active: true,
-				});
+			queryClient.refetchQueries({ active: true }).then(() => {
 				setIsOpen(false);
 				setVisible(false);
 				push('/councils/'.concat(activeCheckbox));
-			}, 2000);
+			});
 		}
-	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient]);
+	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, data?.address]);
 
 	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
 	we should block all the councils radio button */

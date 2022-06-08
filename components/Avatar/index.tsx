@@ -22,19 +22,29 @@ const Avatar: React.FC<AvatarProps> = ({
 	className,
 }) => {
 	const parsedUrl = url && parseURL(url);
+	const isValidUrl = (parsedUrl?: string) => {
+		const matchPattern = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/;
+		if (parsedUrl) return;
+		else return matchPattern.test(parsedUrl!);
+	};
 
-	if (parsedUrl && !parsedUrl.includes('http')) return null;
+	if (parsedUrl && !parsedUrl.includes('http'))
+		return (
+			<Blockies
+				seed={walletAddress}
+				scale={scale || 8}
+				className={clsx(className, 'rounded-full')}
+			/>
+		);
 
-	return parsedUrl ? (
+	return (
 		<Image
 			className={clsx(className, 'rounded-full')}
-			src={parsedUrl}
+			src={parsedUrl!}
 			alt={`${walletAddress} avatar url`}
 			height={width}
 			width={height}
 		/>
-	) : (
-		<Blockies seed={walletAddress} scale={scale || 8} className={clsx(className, 'rounded-full')} />
 	);
 };
 export default Avatar;

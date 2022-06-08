@@ -31,3 +31,5 @@ export const COUNCILS_DICTIONARY: Record<
 		abbreviation: 'tc',
 	},
 };
+
+export const sevenDaysInMilliseconds = 604800000;

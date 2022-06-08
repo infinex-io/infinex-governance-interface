@@ -15,7 +15,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 	return (
 		<form className="flex flex-col gap-1 text-left" onSubmit={formik.handleSubmit}>
 			<h4 className="tg-title-h4 my-2 text-center">{t('modals.editProfile.headline')}</h4>
-			<h4 className="tg-body mb-4 text-left">{t('modals.editProfile.subheadline')}</h4>
+			<h4 className="tg-body mb-4 text-center">{t('modals.editProfile.subheadline')}</h4>
 
 			<div className="flex items-center gap-2">
 				<TextField
