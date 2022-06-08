@@ -23,6 +23,8 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
 	const parsedUrl = url && parseURL(url);
 
+	if (parsedUrl && !parsedUrl.includes('http')) return null;
+
 	return parsedUrl ? (
 		<Image
 			className={clsx(className, 'rounded-full')}
