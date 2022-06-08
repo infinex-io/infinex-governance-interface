@@ -86,6 +86,10 @@
 		"pitch": "Governance Pitch",
 		"view-all-members": "View all members",
 		"council": "{{council}} COUNCIL",
+		"profile-not-found": {
+			"header": "Profile Not Found",
+			"subheadline": "{{walletAddress}} is not a valid wallet address or profile does not exists for user"
+		},
 		"completion-card": {
 			"headline": "Your Submission Summary {{percentage}} Complete",
 			"subline": "Complete all of the submission requirements to enhance your chances of becoming a council member",
@@ -189,7 +193,7 @@
 					"website": "Website",
 					"about": "About",
 					"github": "Github",
-					"pitch": "Governance Pitch"
+					"delegationPitch": "Governance Pitch"
 				},
 				"placeholder": {
 					"username": "e.g John Smith",
@@ -198,7 +202,7 @@
 					"website": "e.g https://synthetix.io/",
 					"twitter": "@john_smith",
 					"github": "@john_smith",
-					"pitch": "e.g I am a OG Synthetix Community Member.",
+					"delegationPitch": "e.g I am a OG Synthetix Community Member.",
 					"about": "e.g OG DeFi Member"
 				}
 			}

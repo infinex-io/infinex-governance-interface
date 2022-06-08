@@ -43,20 +43,12 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			about,
 			twitter,
 			discord,
-			delegationPitches,
+			delegationPitch,
 			github,
 		} = userDetailsQuery.data;
 
-		let parsedDelegationPitch = {
-			synthetix: '',
-		};
-
-		if (delegationPitches) {
-			parsedDelegationPitch = JSON.parse(delegationPitches);
-		}
-
 		const calculatePercentage = () => {
-			const submissions = [parsedDelegationPitch.synthetix, twitter, discord];
+			const submissions = [delegationPitch, twitter, discord];
 			if (submissions.every((v) => !v)) return '0%';
 			if (submissions.filter((v) => !!v).length === 1) return '33%';
 			if (submissions.filter((v) => !!v).length === 2) return '66%';
@@ -156,7 +148,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
 										<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.pitch')}</h6>
-										{parsedDelegationPitch.synthetix ? (
+										{delegationPitch ? (
 											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 										) : (
 											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
@@ -224,7 +216,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							discord={discord}
 							github={github}
 							twitter={twitter}
-							pitch={parsedDelegationPitch.synthetix}
+							pitch={delegationPitch}
+							className="max-w-[1200px]"
 						/>
 					</div>
 				</div>

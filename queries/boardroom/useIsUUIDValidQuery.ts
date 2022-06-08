@@ -1,5 +1,4 @@
 import { VALID_UUID_API_URL } from 'constants/boardroom';
-import { useConnectorContext } from 'containers/Connector';
 import { useQuery } from 'react-query';
 import { useAccount } from 'wagmi';
 
