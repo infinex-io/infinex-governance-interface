@@ -111,12 +111,18 @@ function useUpdateUserDetailsMutation() {
 					...userProfile,
 					uuid: signedInUuid,
 				};
-				let response = await fetch(UPDATE_USER_DETAILS_API_URL(address), {
+				let updateUserDetailsResponse = await fetch(UPDATE_USER_DETAILS_API_URL(address), {
 					method: 'POST',
 					body: JSON.stringify(body),
 				});
 
-				// @dev - new delegation pitch update method
+				let updateUserDetailsResult =
+					(await updateUserDetailsResponse.json()) as UpdateUserDetailsResponse;
+
+				let updateDelegationPitchResult = {
+					data: {},
+				};
+
 				if (userProfile.delegationPitch) {
 					const delegationPitchesBody = {
 						protocol: 'synthetix',
@@ -128,12 +134,10 @@ function useUpdateUserDetailsMutation() {
 						method: 'POST',
 						body: JSON.stringify(delegationPitchesBody),
 					});
-					const { data } = await delegationUpdateReponse.json();
+					updateDelegationPitchResult = await delegationUpdateReponse.json();
 				}
-				//
 
-				const { data } = (await response.json()) as UpdateUserDetailsResponse;
-				return data;
+				return { ...updateUserDetailsResult.data, ...updateDelegationPitchResult.data };
 			} else {
 				return new Error();
 			}
