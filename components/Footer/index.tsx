@@ -31,7 +31,7 @@ export default function Footer() {
 			</div>
 			<StyledSNXIcon />
 			<span className="tg-caption text-white">{t('footer.copyright')}</span>
-			<Card className="flex gap-4" wrapperClassName="rounded-full">
+			<Card className="flex gap-2" wrapperClassName="rounded-full">
 				<Link href="https://discord.com/invite/AEdUHzt" passHref>
 					<a rel="noreferrer" target="_blank">
 						<DiscordIcon fill="white" />

@@ -36,11 +36,13 @@ export default function WithdrawNominationModal({
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
-			queryClient.refetchQueries({ active: true }).then(() => {
-				setIsOpen(false);
-				setVisible(false);
-				push('/profile/' + data?.address);
-			});
+			queryClient
+				.refetchQueries(['nominees', council.concat(' council')], { active: true })
+				.then(() => {
+					setIsOpen(false);
+					setVisible(false);
+					push('/profile/' + data?.address);
+				});
 		}
 	}, [state, push, setIsOpen, data?.address, setVisible, visible, queryClient, council]);
 

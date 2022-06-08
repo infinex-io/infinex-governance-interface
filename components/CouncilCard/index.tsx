@@ -60,7 +60,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<div className="h-full p-8 rounded gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt={council} src={image} width={50} height={72} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
-				<span className={`${color} px-2.5 py-1 rounded-xl tg-content-bold text-center my-2`}>
+				<span
+					className={`${color} p-2 rounded-full tg-content-bold text-center my-2 w-fit self-center`}
+				>
 					{t(cta)}
 				</span>
 				{period && dates.data?.epochEndDate && ['NOMINATION', 'VOTING'].includes(period) && (
@@ -80,11 +82,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<Text>{t(headlineRight)}</Text>
 				</div>
 				<div className="flex justify-between">
-					<h5 className="tg-title-h5">
+					<h2 className="tg-title-h2">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
-					</h5>
-					{/* TODO @DEV implement votes received or live votes when available */}
-					<h5 className="tg-title-h5">{period === 'NOMINATION' ? nomineesCount : membersCount}</h5>
+					</h2>
+					<h2 className="tg-title-h2">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
 				</div>
 				{secondButton && (
 					<TransparentText

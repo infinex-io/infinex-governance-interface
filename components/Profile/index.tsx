@@ -56,7 +56,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		};
 
 		return (
-			<div className="flex flex-col md:items-center align-center">
+			<div className="flex flex-col md:items-center align-center pt-12">
 				<BackButton />
 				<div
 					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
@@ -66,7 +66,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				>
 					<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{councilMembersQuery.data && (
-						<Badge variant="success" className="mt-3 max-w-[150px]">
+						<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
 							{t('profiles.council', { council: councilMembersQuery.data })}
 						</Badge>
 					)}
