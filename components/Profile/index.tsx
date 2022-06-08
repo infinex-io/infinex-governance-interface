@@ -129,14 +129,18 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					<p className="tg-body">{about}</p>
 				</div>
 				{isOwnCard && isNominatedQuery.data?.length && (
-					<div className="p-3">
+					<div className="p-3 w-full flex flex-col items-center">
 						<Card
 							wrapperClassName="max-w-[1000px] w-full border border-gray-700"
 							className="flex flex-col"
 						>
 							<div className="flex flex-col">
 								<div className="flex w-full items-center">
-									<Image src="/images/pending.svg" width={94} height={94} alt="pending updates" />
+									{calculatePercentage() === '100%' ? (
+										<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+									) : (
+										<Image src="/images/pending.svg" width={94} height={94} alt="pending updates" />
+									)}
 									<div className="flex flex-col">
 										<h4 className="tg-title-h4">
 											{t('profiles.completion-card.headline', {
@@ -148,8 +152,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 										</span>
 									</div>
 								</div>
-								<div className="flex items-center w-full flex-wrap md:flex-nowrap justify-center">
-									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center">
+								<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
 										<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.pitch')}</h6>
 										{parsedDelegationPitch.synthetix ? (
@@ -160,7 +164,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											</IconButton>
 										)}
 									</div>
-									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
 										<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.discord')}</h6>
 										{discord ? (
@@ -171,7 +175,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											</IconButton>
 										)}
 									</div>
-									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
 										<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.twitter')}</h6>
 										{twitter ? (
