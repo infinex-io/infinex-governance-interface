@@ -13,7 +13,7 @@ export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	return (
-		<div className="flex flex-col align-center gap-4">
+		<div className="flex flex-col align-center gap-4 p-3">
 			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
 			<Text>{t('landing-page.subline')}</Text>
 			<div className="flex justify-center flex-wrap gap-4 my-8">
@@ -79,13 +79,7 @@ export default function LandingPage() {
 			<h1 className="tg-title-h1 text-center">{t('landing-page.tabs-headline')}</h1>
 			<Text>{t('landing-page.tabs-subline')}</Text>
 			<CouncilsCarousel />
-			<Button
-				onClick={() => {
-					push({ pathname: '/councils' });
-				}}
-				size="md"
-				className="mx-auto my-10 min-w-[140px]"
-			>
+			<Button onClick={() => push('/councils')} size="lg" className="m-10 mx-auto">
 				{t('landing-page.carousel-btn')}
 			</Button>
 		</div>

@@ -4,16 +4,11 @@ import styled from 'styled-components';
 
 export default function Main({ children }: PropsWithChildren<{}>) {
 	return (
-		<StyledMain>
+		<main className="bg-dark-blue text-white min-height-[90vh]">
 			<StyledSpotlight>{children}</StyledSpotlight>
-		</StyledMain>
+		</main>
 	);
 }
-const StyledMain = styled.main`
-	background-color: ${({ theme }) => theme.colors.backgroundColor};
-	color: ${({ theme }) => theme.colors.white};
-	min-height: 99vh;
-`;
 
 const StyledSpotlight = styled(Spotlight)`
 	min-width: 100%;

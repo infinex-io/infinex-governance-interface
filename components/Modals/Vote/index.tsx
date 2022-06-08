@@ -85,11 +85,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				walletAddress={member.address}
 				url={member.pfpThumbnailUrl}
 			/>
-			{member?.ens ? (
-				<h4 className="tg-title-h4 text-white">{member.ens}</h4>
-			) : (
-				<h4 className="tg-title-h4 text-white">{truncateAddress(member.address)}</h4>
-			)}
+			<h4 className="tg-title-h4 text-white">{member.ens || truncateAddress(member.address)}</h4>
 			<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] ">
 				{member.about}
 			</span>

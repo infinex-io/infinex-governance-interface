@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, Flex, IconButton, ThreeDotsKebabIcon } from 'components/old-ui';
+import { ThreeDotsKebabIcon } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useRouter } from 'next/router';
@@ -6,7 +6,6 @@ import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
 import { Dialog, Button, Dropdown, ExternalLink, Badge } from '@synthetixio/ui';
@@ -17,6 +16,7 @@ import styles from './Profile.module.scss';
 import clsx from 'clsx';
 import { compareAddress } from 'utils/helpers';
 import { useAccount } from 'wagmi';
+import BackButton from 'components/BackButton';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -43,32 +43,25 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		} = userDetailsQuery.data;
 
 		return (
-			<div className="flex flex-col items-center pb-20">
-				<div className="flex items-center absolute left-10 top-10">
-					<IconButton
-						className="mr-2"
-						active
-						onClick={() => push({ pathname: '/' })}
-						rounded
-						size="tiniest"
-					>
-						<ArrowLeftIcon active />
-					</IconButton>
-					<span className="tg-content-bold text-blue">{t('councils.back-btn')}</span>
-				</div>
-				<StyledAvatarWrapper isOwnAccount={isOwnCard} direction="column" alignItems="center">
-					<Avatar width={90} height={90} url={pfpThumbnailUrl} walletAddress={walletAddress} />
+			<div className="flex flex-col md:items-center align-center">
+				<BackButton />
+				<div
+					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
+						'bg-[url(/images/ring-orange.svg)]': isOwnCard,
+						'bg-[url(/images/ring.svg)]': !isOwnCard,
+					})}
+				>
+					<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{councilMembersQuery.data && (
 						<Badge variant="success" className="mt-3 max-w-[150px]">
 							{t('profiles.council', { council: councilMembersQuery.data })}
 						</Badge>
 					)}
-					<div className="flex flex-col justify-between items-center relative">
+					<div className="flex flex-col justify-between items-center p-3">
 						<div className="flex items-center mt-3">
 							<h4 className="tg-title-h4 mr-3">
-								{username ? username : ens ? ens : truncateAddress(walletAddress)}
+								{username || ens || truncateAddress(walletAddress)}
 							</h4>
-
 							<Dropdown
 								triggerElement={
 									<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
@@ -77,6 +70,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								}
 								contentClassName={clsx('bg-navy flex flex-col', styles.dropdown)}
 								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+								contentAlignment="right"
 							>
 								<>
 									{twitter && (
@@ -107,16 +101,15 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								</>
 							</Dropdown>
 						</div>
-
 						<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
 							<ProfileForm userProfile={userDetailsQuery.data} />
 						</Dialog>
 					</div>
 					<p className="tg-body">{about}</p>
-				</StyledAvatarWrapper>
-				<div className="flex flex-col mb-6 max-w-[900px] w-full">
+				</div>
+				<div className="flex flex-col mb-6 w-full p-3 max-w-[1200px]">
 					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
-					<div className="relative">
+					<div className="relative flex flex-col items-center">
 						{isOwnCard && (
 							<div
 								className="absolute top-5 right-3 flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded w-[28px] h-[28px]"
@@ -132,11 +125,13 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							github={github}
 							twitter={twitter}
 							pitch={delegationPitch}
+							className="max-w-[1200px]"
 						/>
 					</div>
 				</div>
+				<hr className="border-gray-700 my-4 w-full p-3" />
 				<CouncilsCarousel />
-				<Button className="max-w-[250px]" onClick={() => push({ pathname: '/councils' })}>
+				<Button className="mx-auto my-8 mt-12" onClick={() => push('/councils')} size="lg">
 					{t('profiles.view-all-members')}
 				</Button>
 			</div>
@@ -145,13 +140,3 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		return <Loader fullScreen />;
 	}
 }
-
-const StyledAvatarWrapper = styled(Flex)<{ isOwnAccount?: boolean }>`
-	background-image: ${({ isOwnAccount }) =>
-		isOwnAccount ? 'url(/images/ring-orange.svg)' : 'url(/images/ring.svg)'};
-	max-width: 780px;
-	width: 100%;
-	height: 100%;
-	background-position: bottom center;
-	background-repeat: no-repeat;
-`;

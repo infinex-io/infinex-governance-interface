@@ -1,18 +1,31 @@
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { Tabs } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import MemberCard from 'components/MemberCard/Index';
 import { Carousel } from '@synthetixio/ui';
+import clsx from 'clsx';
 
 interface CouncilsCarouselProps {
-	maxWidth?: string;
 	startIndex?: number;
 }
 
-export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarouselProps) {
+const TabIcon = ({ isActive, children }: PropsWithChildren<{ isActive: boolean }>) => (
+	<span
+		key="all-council-members"
+		className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
+			'bg-black': isActive,
+			'bg-primary': !isActive,
+			'text-white': isActive,
+			'text-black': !isActive,
+		})}
+	>
+		{children}
+	</span>
+);
+
+export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) {
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
 	const councilTabs = [
@@ -51,29 +64,45 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 				className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
 				activeIndex={activeIndex}
 				icons={[
-					<StyledTabIcon key="all-council-members" active={activeIndex === 0}>
+					<TabIcon key="all-members" isActive={activeIndex === 0}>
 						{allMembers[0]?.length}
-					</StyledTabIcon>,
-					<StyledTabIcon key="spartan-council-tab" active={activeIndex === 1}>
-						{members.data?.spartan.length}
-					</StyledTabIcon>,
-					<StyledTabIcon key="grants-council-tab" active={activeIndex === 2}>
+					</TabIcon>,
+					<TabIcon key="spartan-members" isActive={activeIndex === 1}>
+						{members.data?.spartan?.length}
+					</TabIcon>,
+					<TabIcon key="grants-members" isActive={activeIndex === 2}>
 						{members.data?.grants.length}
-					</StyledTabIcon>,
-					<StyledTabIcon key="ambassador-council-tab" active={activeIndex === 3}>
+					</TabIcon>,
+					<TabIcon key="ambassador-members" isActive={activeIndex === 3}>
 						{members.data?.ambassador.length}
-					</StyledTabIcon>,
-					<StyledTabIcon key="treasury-council-tab" active={activeIndex === 4}>
+					</TabIcon>,
+					<TabIcon key="treasury-members" isActive={activeIndex === 4}>
 						{members.data?.treasury.length}
-					</StyledTabIcon>,
+					</TabIcon>,
 				]}
 			/>
-			<div className="w-full max-w-[1000px] flex md:justify-center overflow-x-scroll">
-				{allMembers[activeIndex]?.length && allMembers[activeIndex]!.length > 4 ? (
-					<Carousel
-						startPosition={startIndex ? startIndex : 1}
-						widthOfItems={300}
-						carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+			{allMembers[activeIndex]?.length && allMembers[activeIndex]!.length >= 4 ? (
+				<>
+					<div className="max-w-[912px] lg:block hidden">
+						<Carousel
+							startPosition={startIndex ? startIndex : 1}
+							widthOfItems={300}
+							carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+								<MemberCard
+									member={member}
+									key={member.address.concat(String(index))}
+									state="ADMINISTRATION"
+									className="m-2	 max-w-[218px]"
+									council={member.council}
+								/>
+							))}
+							arrowsPosition="outside"
+							withDots
+							dotsPosition="outside"
+						/>
+					</div>
+					<div className="w-full flex overflow-x-auto lg:hidden">
+						{(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
 							<MemberCard
 								member={member}
 								key={member.address.concat(String(index))}
@@ -82,12 +111,11 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 								council={member.council}
 							/>
 						))}
-						arrowsPosition="outside"
-						withDots
-						dotsPosition="outside"
-					/>
-				) : (
-					(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+					</div>
+				</>
+			) : (
+				<div className="w-full flex overflow-x-auto justify-center">
+					{(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
 						<MemberCard
 							member={member}
 							key={member.address.concat(String(index))}
@@ -95,19 +123,9 @@ export default function CouncilsCarousel({ maxWidth, startIndex }: CouncilsCarou
 							className="m-2 max-w-[218px]"
 							council={member.council}
 						/>
-					))
-				)}
-			</div>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
-
-const StyledTabIcon = styled.span<{ active?: boolean }>`
-	background-color: ${({ theme, active }) =>
-		active ? theme.colors.black : theme.colors.lightBlue};
-	border-radius: 15px;
-	color: ${({ theme, active }) => (active ? theme.colors.white : theme.colors.black)};
-	padding: 0px 8px;
-	font-size: 0.5rem;
-	font-family: 'Inter Bold';
-`;
