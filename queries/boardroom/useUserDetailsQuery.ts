@@ -61,7 +61,9 @@ export async function getUserDetails(walletAddress: string) {
 		let foundPitch = userPitches.data.delegationPitches.filter(
 			(e: UserPitch) => e.protocol === 'synthetix'
 		);
-		synthetixPitch = foundPitch[0].delegationPitch;
+		if (foundPitch.length > 0) {
+			synthetixPitch = foundPitch[0].delegationPitch;
+		}
 	}
 
 	delete userProfile.data.delegationPitches;
