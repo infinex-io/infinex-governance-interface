@@ -16,7 +16,7 @@ const routesDic = [
 ];
 
 export default function Header() {
-	const { push, pathname, asPath } = useRouter();
+	const { asPath } = useRouter();
 	const { t } = useTranslation();
 	const { data } = useAccount();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
@@ -62,7 +62,7 @@ export default function Header() {
 				<Link href="/" passHref>
 					<div className="flex items-center cursor-pointer mr-8">
 						<SNXIcon />
-						<h1 className="tg-title-h5 text-white ml-2">Governance</h1>
+						<h1 className="lustra tg-title-h5 text-white ml-2">Governance</h1>
 					</div>
 				</Link>
 				<div className="hidden md:flex justify-center w-full">
