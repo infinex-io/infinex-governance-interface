@@ -53,17 +53,20 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 					height={69}
 					url={pfpThumbnailUrl}
 					walletAddress={walletAddress}
-					className="md:block hidden"
+					className="md:block hidden mx-2"
 				/>
 
 				{discord && (
 					<div className="flex flex-col m-2">
 						<h5 className="tg-content-bold text-gray-650">{t('profiles.discord')}</h5>
-						<ExternalLink
-							className="py-1 mt-1"
-							border
-							link={`https://discord.com/${discord}`}
-							text="Discord"
+
+						<DiscordIcon
+							onClick={() => {
+								copytoClipboard(discord);
+								toast.success(t('copyClipboardMessage'));
+							}}
+							className="cursor-pointer mt-2"
+							fill="white"
 						/>
 					</div>
 				)}
@@ -88,7 +91,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
 			<div className="flex flex-col md:pl-[69px] ml-5 break-words">
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.wallet')}</h5>
-				{truncateAddress(walletAddress)}
+				<p className="flex items-center">
+					{truncateAddress(walletAddress)}
+					<CopyClipboard className="ml-1.5" text={walletAddress} />
+				</p>
 			</div>
 			{pitch && (
 				<>

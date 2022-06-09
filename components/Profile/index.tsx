@@ -1,4 +1,4 @@
-import { PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
+import { EditIcon, PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useRouter } from 'next/router';
@@ -205,13 +205,15 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
 					<div className="relative flex flex-col items-center w-full">
 						{isOwnCard && (
-							<div
-								className="absolute top-5 right-3 flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded w-[28px] h-[28px]"
+							<IconButton
+								className="absolute top-5 right-3"
 								onClick={() => setIsOpen(true)}
+								size="sm"
 							>
-								<ThreeDotsKebabIcon />
-							</div>
+								<EditIcon />
+							</IconButton>
 						)}
+
 						<ProfileCard
 							pfpThumbnailUrl={pfpThumbnailUrl}
 							walletAddress={walletAddress}

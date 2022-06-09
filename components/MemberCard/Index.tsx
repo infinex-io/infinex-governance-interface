@@ -15,7 +15,9 @@ import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
 import { compareAddress } from 'utils/helpers';
 import { useAccount } from 'wagmi';
+import { copytoClipboard } from 'utils/helpers';
 import clsx from 'clsx';
+import { toast } from 'react-toastify';
 
 interface MemberCardProps {
 	member: GetUserDetails;
@@ -68,11 +70,14 @@ export default function MemberCard({
 				{(member.discord || member.twitter || member.github) && (
 					<div className="flex items-center justify-center my-3 gap-4">
 						{member.discord && (
-							<Link href={'https://discord.com/invite/' + member.discord} passHref>
-								<a rel="noreferrer" target="_blank">
-									<DiscordIcon fill="white" />
-								</a>
-							</Link>
+							<DiscordIcon
+								onClick={() => {
+									copytoClipboard(member.discord);
+									toast.success(t('copyClipboardMessage'));
+								}}
+								className="cursor-pointer"
+								fill="white"
+							/>
 						)}
 
 						{member.twitter && (
