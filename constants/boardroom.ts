@@ -25,8 +25,8 @@ export const GET_USER_PITCH_FOR_PROTCOL_API_URL = (protocol: string, address: st
 export const GET_PITCHES_FOR_PROTOCOL_API_URL = (protocol: string) =>
 	`${BASE_URL}/v1/getDelegationPitchesByProtocol/${protocol}`;
 // GET
-export const GET_PITCHES_FOR_USER_API_URL = (address: string) =>
-	`${BASE_URL}/v1/getDelegationPitchesByAddress/${address}`;
+export const GET_PITCHES_FOR_USER_API_URL = (address: string, randomNumber: number) =>
+	`${BASE_URL}/v1/getDelegationPitchesByAddress/${address}?${randomNumber}`;
 // POST
 export const UPDATE_USER_DETAILS_API_URL = (address: string) =>
 	`${BASE_URL}/v1/updateUserDetails/${address}`;

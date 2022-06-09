@@ -47,11 +47,12 @@ function useUserDetailsQuery(walletAddress: string) {
 export default useUserDetailsQuery;
 
 export async function getUserDetails(walletAddress: string) {
+	const randomNumber = Math.random();
 	let userDetailsResponse = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
 		method: 'POST',
 	});
 	let userProfile = await userDetailsResponse.json();
-	let userPitchesResponse = await fetch(GET_PITCHES_FOR_USER_API_URL(walletAddress), {
+	let userPitchesResponse = await fetch(GET_PITCHES_FOR_USER_API_URL(walletAddress, randomNumber), {
 		method: 'GET',
 	});
 	let userPitches = await userPitchesResponse.json();

@@ -1,6 +1,5 @@
 import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
-import { Text } from 'components/Text/text';
 import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -16,6 +15,7 @@ import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import clsx from 'clsx';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
+import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 
 interface CouncilCardProps {
 	council: string;
@@ -28,7 +28,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
-
+	const voteHistoryQuery = useVoteHistoryQuery(deployedModule, null, null, null);
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
 
 	// TODO @MF check when voting period starts, should be different
@@ -79,14 +79,16 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					)}
 				<StyledSpacer className="mb-1" />
 				<div className="flex justify-between">
-					<Text>{t(headlineLeft)}</Text>
-					<Text>{t(headlineRight)}</Text>
+					<span className="tg-caption text-gray-500">{t(headlineLeft)}</span>
+					<span className="tg-caption text-gray-500">{t(headlineRight)}</span>
 				</div>
 				<div className="flex justify-between">
-					<h2 className="tg-title-h2">
+					<h4 className="tg-title-h4">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
-					</h2>
-					<h2 className="tg-title-h2">{period === 'NOMINATION' ? nomineesCount : membersCount}</h2>
+					</h4>
+					<h4 className="tg-title-h4">
+						{period === 'NOMINATION' ? voteHistoryQuery.data?.length || 0 : membersCount}
+					</h4>
 				</div>
 				{secondButton && (
 					<TransparentText
