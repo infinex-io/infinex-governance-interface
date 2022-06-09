@@ -9,7 +9,6 @@ import {
 } from 'constants/addresses';
 import { createContext, useContext, useEffect, useState, FC } from 'react';
 import { useSigner } from 'wagmi';
-import { useQueryClient } from 'react-query';
 
 export enum DeployedModules {
 	SPARTAN_COUNCIL = 'spartan council',
@@ -33,7 +32,7 @@ export const ModulesProvider: FC = ({ children }) => {
 	const { L2DefaultProvider } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 	const { data: signer } = useSigner();
-	const queryClient = useQueryClient();
+
 	useEffect(() => {
 		const SpartanCouncilModule = new ethers.Contract(
 			spartanCouncil,
@@ -80,11 +79,6 @@ export const ModulesProvider: FC = ({ children }) => {
 			address: treasuryCouncil,
 			contract: TreasuryCouncilModule,
 		};
-		if (signer) {
-			queryClient
-				.refetchQueries({ queryKey: ['currentPeriod'], active: true })
-				.then(() => console.log('REFETCHED'));
-		}
 		setGovernanceModules(modules);
 	}, [signer, L2DefaultProvider]);
 
