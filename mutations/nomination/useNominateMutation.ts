@@ -14,12 +14,8 @@ function useNominateMutation(moduleInstance: DeployedModules) {
 			const contract = governanceModules[moduleInstance]?.contract;
 
 			if (contract) {
-				// TODO @MF fix when release
 				const gasLimit = await contract.estimateGas.nominate();
-				let tx = await contract.nominate({
-					gasLimit,
-					gasPrice: BigNumber.from(0),
-				});
+				let tx = await contract.nominate({ gasLimit });
 				return tx;
 			} else {
 				setState('error');
