@@ -33,28 +33,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
-const { chains, provider } = configureChains(
-	[chain.optimism],
-	[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID })]
-);
-
-const connectors = connectorsForWallets([
-	{
-		groupName: 'Recommended',
-		wallets: [
-			wallet.metaMask({ chains }),
-			wallet.injected({ chains }),
-			wallet.walletConnect({ chains }),
-			wallet.ledger({ chains }),
-		],
-	},
-]);
-
-const wagmiClient = createClient({
-	connectors,
-	provider,
-});
-
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
 	const { L2DefaultProvider } = useConnectorContext();
@@ -76,6 +54,28 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 const App: FC<AppProps> = (props) => {
+	const { chains, provider } = configureChains(
+		[chain.optimism],
+		[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID })]
+	);
+
+	const connectors = connectorsForWallets([
+		{
+			groupName: 'Recommended',
+			wallets: [
+				wallet.metaMask({ chains }),
+				wallet.injected({ chains }),
+				wallet.walletConnect({ chains }),
+				wallet.ledger({ chains }),
+			],
+		},
+	]);
+
+	const wagmiClient = createClient({
+		autoConnect: true,
+		connectors,
+		provider,
+	});
 	return (
 		<WagmiConfig client={wagmiClient}>
 			<RainbowKitProvider

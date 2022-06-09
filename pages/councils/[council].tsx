@@ -27,7 +27,6 @@ export default function CouncilNominees() {
 	const [activePage, setActivePage] = useState(8);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	console.log(nomineesQuery.isStale);
 	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(data?.address || '');
 	const nomineesInfo = useUsersDetailsQuery(nomineesQuery.data || []);
 	const paginatedNominees = (startIndex: number, endIndex: number) => {

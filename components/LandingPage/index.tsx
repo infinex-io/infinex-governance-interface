@@ -12,7 +12,7 @@ export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	return (
-		<div className="flex flex-col p-3">
+		<div className="flex flex-col p-3 pt-12">
 			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
 			<span className="tg-content text-gray-500 text-center pt-[8px]">
 				{t('landing-page.subline')}
