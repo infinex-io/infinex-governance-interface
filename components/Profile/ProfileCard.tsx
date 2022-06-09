@@ -1,9 +1,13 @@
 import { ExternalLink } from '@synthetixio/ui';
 import clsx from 'clsx';
 import Avatar from 'components/Avatar';
+import { CopyClipboard } from 'components/CopyClipboard/CopyClipboard';
+import { DiscordIcon } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
 import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { copyToClipboard } from 'utils/helpers';
 import { truncateAddress } from 'utils/truncate-address';
 
 export interface ProfileCardProps {
@@ -62,7 +66,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
 						<DiscordIcon
 							onClick={() => {
-								copytoClipboard(discord);
+								copyToClipboard(discord);
 								toast.success(t('copyClipboardMessage'));
 							}}
 							className="cursor-pointer mt-2"

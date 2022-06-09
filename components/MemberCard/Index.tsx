@@ -15,7 +15,7 @@ import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
 import { compareAddress } from 'utils/helpers';
 import { useAccount } from 'wagmi';
-import { copytoClipboard } from 'utils/helpers';
+import { copyToClipboard } from 'utils/helpers';
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
 
@@ -72,7 +72,7 @@ export default function MemberCard({
 						{member.discord && (
 							<DiscordIcon
 								onClick={() => {
-									copytoClipboard(member.discord);
+									copyToClipboard(member.discord);
 									toast.success(t('copyClipboardMessage'));
 								}}
 								className="cursor-pointer"
