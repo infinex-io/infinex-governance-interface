@@ -24,6 +24,7 @@ function useIsNominated(
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null && walletAddress !== null,
+			staleTime: 900000,
 		}
 	);
 }

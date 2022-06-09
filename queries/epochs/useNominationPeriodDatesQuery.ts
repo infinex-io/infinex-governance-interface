@@ -32,6 +32,7 @@ function useNominationPeriodDatesQuery(moduleInstance: DeployedModules, epochInd
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
+			staleTime: 900000,
 		}
 	);
 }

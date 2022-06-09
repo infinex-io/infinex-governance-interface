@@ -15,8 +15,8 @@ import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import clsx from 'clsx';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
-import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
+import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 
 interface CouncilCardProps {
 	council: string;

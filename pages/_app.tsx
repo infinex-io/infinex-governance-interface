@@ -17,7 +17,7 @@ import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
 import { theme, Modal as UIModal } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
-import { useProvider, useSigner } from 'wagmi';
+import { useSigner } from 'wagmi';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import {
@@ -28,7 +28,6 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
-import { publicProvider } from 'wagmi/providers/public';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -36,7 +35,7 @@ const queryClient = new QueryClient();
 
 const { chains, provider } = configureChains(
 	[chain.optimism],
-	[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }), publicProvider()]
+	[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID })]
 );
 
 const connectors = connectorsForWallets([
@@ -60,15 +59,12 @@ const wagmiClient = createClient({
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
 	const { L2DefaultProvider } = useConnectorContext();
-	const provider = useProvider();
 	const { data: signer } = useSigner();
 	const TheComponent = Component as any;
 
 	return (
 		<ModulesProvider>
-			<TransactionDialogContextProvider
-				provider={signer?.provider || provider || L2DefaultProvider}
-			>
+			<TransactionDialogContextProvider provider={signer?.provider || L2DefaultProvider}>
 				<Header />
 				<UIModal open={isOpen} modalContent={content}>
 					<TheComponent {...pageProps} />
