@@ -16,7 +16,6 @@ import { Timer } from 'components/Timer';
 import clsx from 'clsx';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
-import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 
 interface CouncilCardProps {
 	council: string;
@@ -30,12 +29,6 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { setContent, setIsOpen } = useModalContext();
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
 	const currentEpochIndex = useEpochIndexQuery(deployedModule);
-	const voteHistoryQuery = useVoteHistoryQuery(
-		deployedModule,
-		null,
-		null,
-		String(currentEpochIndex.data)
-	);
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
 	// TODO @MF check when voting period starts, should be different
 	const [dates, nominees, members] = [
@@ -93,7 +86,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
 					<h4 className="tg-title-h4">
-						{period === 'NOMINATION' ? voteHistoryQuery.data?.length || 0 : membersCount}
+						{/* TODO @MF implement historical vote query on voting */}
+						{period === 'NOMINATION' ? 0 : membersCount}
 					</h4>
 				</div>
 				{secondButton && (
