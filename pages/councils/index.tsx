@@ -38,7 +38,7 @@ const Councils: NextPage = () => {
 						titles={councilTabs}
 						activeIndex={activeCouncil.index}
 						clicked={(index) => {
-							if (typeof index === 'number') setActiveCouncil((state) => ({ ...state, index }));
+							if (typeof index === 'number') setActiveCouncil(parseQuery(index));
 						}}
 						icons={[
 							<StyledTabIcon key="spartan-council-tab" active={activeCouncil.index === 0}>

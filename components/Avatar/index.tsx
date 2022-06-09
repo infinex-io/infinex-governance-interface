@@ -22,11 +22,16 @@ const Avatar: React.FC<AvatarProps> = ({
 	className,
 }) => {
 	const parsedUrl = url && parseURL(url);
+	const isValidUrl = (parsedUrl?: string) => {
+		const matchPattern = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/;
+		if (parsedUrl) return;
+		else return matchPattern.test(parsedUrl!);
+	};
 
-	return parsedUrl ? (
+	return parsedUrl && isValidUrl(parsedUrl) ? (
 		<Image
 			className={clsx(className, 'rounded-full')}
-			src={parsedUrl}
+			src={parsedUrl!}
 			alt={`${walletAddress} avatar url`}
 			height={width}
 			width={height}

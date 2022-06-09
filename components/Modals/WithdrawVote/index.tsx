@@ -1,5 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button, IconButton, useTransactionModalContext } from '@synthetixio/ui';
+import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import Avatar from 'components/Avatar';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -31,16 +31,18 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	const withdrawVoteMutation = useWithdrawVoteMutation(deployedModule);
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
-			setTimeout(() => {
-				queryClient.resetQueries({
+			queryClient
+				.refetchQueries({
 					active: true,
 					stale: true,
+					inactive: true,
 					queryKey: 'getCurrentVoteStateQuery',
+				})
+				.then(() => {
+					push('/vote');
+					setIsOpen(false);
+					setVisible(false);
 				});
-				push('/vote');
-				setIsOpen(false);
-				setVisible(false);
-			}, 2000);
 		}
 	}, [state, setIsOpen, setVisible, push, visible, queryClient]);
 	const handleWithdraw = async () => {

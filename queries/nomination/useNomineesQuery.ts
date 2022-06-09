@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { hexStringBN } from 'utils/hexString';
 
 function useNomineesQuery(moduleInstance: DeployedModules) {
 	const governanceModules = useModulesContext();

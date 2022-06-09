@@ -1,7 +1,6 @@
 import { Button } from '@synthetixio/ui';
 import { ArrowLinkOffIcon, ButtonCard } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
-import { Text } from 'components/Text/text';
 import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -13,9 +12,11 @@ export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	return (
-		<div className="flex flex-col align-center gap-4 p-3">
+		<div className="flex flex-col p-3">
 			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
-			<Text>{t('landing-page.subline')}</Text>
+			<span className="tg-content text-gray-500 text-center pt-[8px]">
+				{t('landing-page.subline')}
+			</span>
 			<div className="flex justify-center flex-wrap gap-4 my-8">
 				<CouncilCard
 					image="/logos/spartan-council.svg"
@@ -39,7 +40,9 @@ export default function LandingPage() {
 				/>
 			</div>
 			<h1 className="tg-title-h1 text-center">{t('landing-page.second-headline')}</h1>
-			<Text>{t('landing-page.second-subline')}</Text>
+			<span className="tg-content text-gray-500 text-center pt-[8px]">
+				{t('landing-page.second-subline')}
+			</span>
 			<div className="flex flex-wrap justify-center mt-8">
 				<Link href="/councils" passHref>
 					<StyledButtonCards
@@ -77,7 +80,9 @@ export default function LandingPage() {
 				</Link>
 			</div>
 			<h1 className="tg-title-h1 text-center">{t('landing-page.tabs-headline')}</h1>
-			<Text>{t('landing-page.tabs-subline')}</Text>
+			<span className="tg-content text-gray-500 text-center pt-[8px]">
+				{t('landing-page.tabs-subline')}
+			</span>
 			<CouncilsCarousel />
 			<Button onClick={() => push('/councils')} size="lg" className="m-10 mx-auto">
 				{t('landing-page.carousel-btn')}

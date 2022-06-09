@@ -46,18 +46,23 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			setStep(2);
 			setVisible(false);
 			setState('signing');
-			queryClient.resetQueries({ queryKey: ['nominees', 'isNominated'], active: true });
+			queryClient.refetchQueries({ active: true });
 		}
 		if (state === 'confirmed' && step === 2) {
-			queryClient.resetQueries({ queryKey: ['nominees', 'isNominated'], active: true });
-			setTimeout(() => {
-				setVisible(false);
-				push('/councils/'.concat(council));
-				setIsOpen(false);
-				setState('signing');
-			}, 2000);
+			queryClient
+				.refetchQueries(['nominees', activeCheckbox.concat(' council')], { active: true })
+				.then(() => {
+					push('/councils/'.concat(activeCheckbox));
+					setVisible(false);
+					setIsOpen(false);
+					setState('signing');
+				});
 		}
-	}, [state, step, setVisible, push, council, setState, setIsOpen, queryClient]);
+	}, [state, step, setVisible, push, setState, setIsOpen, queryClient, activeCheckbox]);
+
+	useEffect(() => {
+		setStep(1);
+	}, []);
 
 	const handleBtnClick = async () => {
 		if (step === 1) {
@@ -116,7 +121,6 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			}
 		}
 	};
-	console.log(data);
 	return (
 		<BaseModal headline={t('modals.edit.headline')}>
 			<span className="max-w-[600px] tg-content text-gray-500 text-center my-4">
@@ -142,8 +146,10 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 										</div>
 									</div>
 									<h4 className="tg-title-h4 text-white">{t('modals.edit.step-one')}</h4>
-									<div className="border-gray-500 rounded border-[1px] p-8 m-4">
-										<h6 className="tg-title-h6 text-gray-500">{t('modals.edit.current')}</h6>
+									<div className="border-gray-500 rounded border-[1px] p-4 m-4">
+										<h6 className="tg-title-h6 text-gray-500 text-center">
+											{t('modals.edit.current')}
+										</h6>
 										<h3 className="tg-title-h3 text-white">
 											{ensName ? ensName : data?.address && truncateAddress(data.address)}
 										</h3>

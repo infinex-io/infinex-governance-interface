@@ -6,6 +6,7 @@ import MemberCard from 'components/MemberCard/Index';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
+import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +20,7 @@ export default function CouncilNominees() {
 	const { data } = useAccount();
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	const isNominated = useIsNominated(activeCouncil.module, data?.address || '');
+	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(data?.address || '');
 	const nomineesInfo = useUsersDetailsQuery(nomineesQuery.data || []);
 
 	return (
@@ -28,7 +29,9 @@ export default function CouncilNominees() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{!isNominated && <NominateSelfBanner deployedModule={activeCouncil.module} />}
+				{!isNominatedQuery.data?.length && (
+					<NominateSelfBanner deployedModule={activeCouncil.module} />
+				)}
 				<BackButton />
 				<h1 className="tg-title-h1 text-center">
 					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}

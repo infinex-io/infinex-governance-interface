@@ -1,4 +1,4 @@
-import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
+import { GET_PITCHES_FOR_USER_API_URL, GET_USER_DETAILS_API_URL } from 'constants/boardroom';
 import { useQuery } from 'react-query';
 
 export type GetUserDetails = {
@@ -19,9 +19,15 @@ export type GetUserDetails = {
 	pfpThumbnailUrl: string;
 	bannerUrl: string;
 	discord: string;
-	delegationPitches: string;
+	delegationPitch: string;
 	github: string;
 	council?: string;
+};
+
+type UserPitch = {
+	address: string;
+	delegationPitch: string;
+	protocol: string;
 };
 
 function useUserDetailsQuery(walletAddress: string) {
@@ -41,9 +47,26 @@ function useUserDetailsQuery(walletAddress: string) {
 export default useUserDetailsQuery;
 
 export async function getUserDetails(walletAddress: string) {
-	let response = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
+	let userDetailsResponse = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
 		method: 'POST',
 	});
-	const { data } = await response.json();
-	return data;
+	let userProfile = await userDetailsResponse.json();
+	let userPitchesResponse = await fetch(GET_PITCHES_FOR_USER_API_URL(walletAddress), {
+		method: 'GET',
+	});
+	let userPitches = await userPitchesResponse.json();
+
+	let synthetixPitch = '';
+	if (userPitches.data.delegationPitches.length > 0) {
+		let foundPitch = userPitches.data.delegationPitches.filter(
+			(e: UserPitch) => e.protocol === 'synthetix'
+		);
+		if (foundPitch.length > 0) {
+			synthetixPitch = foundPitch[0].delegationPitch;
+		}
+	}
+
+	delete userProfile.data.delegationPitches;
+
+	return { ...userProfile.data, delegationPitch: synthetixPitch };
 }

@@ -1,4 +1,4 @@
-import { ThreeDotsKebabIcon } from 'components/old-ui';
+import { PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useRouter } from 'next/router';
@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Dropdown, ExternalLink, Badge } from '@synthetixio/ui';
+import { Dialog, Button, Dropdown, ExternalLink, Badge, Card, IconButton } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
@@ -16,18 +16,23 @@ import clsx from 'clsx';
 import { compareAddress } from 'utils/helpers';
 import { useAccount } from 'wagmi';
 import BackButton from 'components/BackButton';
+import Image from 'next/image';
+import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
+import { useModalContext } from 'containers/Modal';
+import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
+	const { setContent, setIsOpen: setModalOpen } = useModalContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
 	const allMembers = useAllCouncilMembersQuery();
-
+	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(walletAddress);
 	const isOwnCard = compareAddress(walletAddress, data?.address);
-
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
+
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
 		const {
 			address,
@@ -37,20 +42,20 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 			about,
 			twitter,
 			discord,
-			delegationPitches,
+			delegationPitch,
 			github,
 		} = userDetailsQuery.data;
 
-		let parsedDelegationPitch = {
-			synthetix: '',
+		const calculatePercentage = () => {
+			const submissions = [delegationPitch, twitter, discord];
+			if (submissions.every((v) => !v)) return '0%';
+			if (submissions.filter((v) => !!v).length === 1) return '33%';
+			if (submissions.filter((v) => !!v).length === 2) return '66%';
+			return '100%';
 		};
 
-		if (delegationPitches) {
-			parsedDelegationPitch = JSON.parse(delegationPitches);
-		}
-
 		return (
-			<div className="flex flex-col md:items-center align-center">
+			<div className="flex flex-col md:items-center align-center pt-12">
 				<BackButton />
 				<div
 					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
@@ -60,7 +65,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				>
 					<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{councilMembersQuery.data && (
-						<Badge variant="success" className="mt-3 max-w-[150px]">
+						<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
 							{t('profiles.council', { council: councilMembersQuery.data })}
 						</Badge>
 					)}
@@ -90,7 +95,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									)}
 									{discord && (
 										<ExternalLink
-											link={`https://discord.com/${discord}`}
+											link={discord}
 											className="hover:bg-navy-dark-1 bg-navy-light-1 rounded-none"
 											text="Discord"
 											withoutIcon
@@ -114,7 +119,92 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</div>
 					<p className="tg-body">{about}</p>
 				</div>
-				<div className="flex flex-col mb-6 w-full p-3 max-w-[1200px]">
+				{isOwnCard && !!isNominatedQuery.data?.length && (
+					<div className="p-3 w-full flex flex-col items-center">
+						<Card
+							wrapperClassName="max-w-[1000px] w-full border border-gray-700"
+							className="flex flex-col"
+						>
+							<div className="flex flex-col">
+								<div className="flex w-full items-center">
+									{calculatePercentage() === '100%' ? (
+										<Image
+											src="/images/tick.svg"
+											width={44}
+											height={44}
+											alt="tick"
+											className="m-2"
+										/>
+									) : (
+										<Image src="/images/pending.svg" width={94} height={94} alt="pending updates" />
+									)}
+									<div className="flex flex-col">
+										<h4 className="tg-title-h4">
+											{t('profiles.completion-card.headline', {
+												percentage: calculatePercentage(),
+											})}
+										</h4>
+										<span className="tg-content text-gray-500">
+											{t('profiles.completion-card.subline')}
+										</span>
+									</div>
+								</div>
+								<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
+										<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
+										<h6 className="tg-title-h6">{t('profiles.completion-card.pitch')}</h6>
+										{delegationPitch ? (
+											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+										) : (
+											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<PlusIcon active />
+											</IconButton>
+										)}
+									</div>
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
+										<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
+										<h6 className="tg-title-h6">{t('profiles.completion-card.discord')}</h6>
+										{discord ? (
+											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+										) : (
+											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<PlusIcon active />
+											</IconButton>
+										)}
+									</div>
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
+										<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
+										<h6 className="tg-title-h6">{t('profiles.completion-card.twitter')}</h6>
+										{twitter ? (
+											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+										) : (
+											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<PlusIcon active />
+											</IconButton>
+										)}
+									</div>
+									<Button
+										variant="outline"
+										size="md"
+										className="min-w-[200px]"
+										onClick={() => {
+											setContent(
+												<WithdrawNominationModal
+													council={isNominatedQuery.data[0].council}
+													deployedModule={isNominatedQuery.data[0].module}
+												/>
+											);
+											setModalOpen(true);
+										}}
+									>
+										{t('profiles.completion-card.withdraw')}
+									</Button>
+								</div>
+							</div>
+						</Card>
+					</div>
+				)}
+				<div className="flex flex-col mb-6 w-full p-3 max-w-[1000px]">
 					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
 					<div className="relative flex flex-col items-center">
 						{isOwnCard && (
@@ -131,7 +221,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							discord={discord}
 							github={github}
 							twitter={twitter}
-							pitch={parsedDelegationPitch.synthetix}
+							pitch={delegationPitch}
 							className="max-w-[1200px]"
 						/>
 					</div>

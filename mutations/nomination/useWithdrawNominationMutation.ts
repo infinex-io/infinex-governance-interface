@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { useTransactionModalContext } from '@synthetixio/ui';
+import { BigNumber } from 'ethers';
 
 function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 	const queryClient = useQueryClient();
@@ -15,7 +16,8 @@ function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 
 			if (contract) {
 				const gasLimit = await contract.estimateGas.withdrawNomination();
-				let tx = await contract.withdrawNomination({ gasLimit });
+				// TODO @MF fix when release
+				let tx = await contract.withdrawNomination({ gasLimit, gasPrice: BigNumber.from(0) });
 				return tx;
 			} else {
 				setState('error');
@@ -26,8 +28,6 @@ function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 			onSuccess: async () => {
 				await queryClient.resetQueries({
 					active: true,
-					stale: true,
-					queryKey: ['nominees', moduleInstance],
 				});
 			},
 		}

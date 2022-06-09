@@ -62,11 +62,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
 				<div className="flex flex-col mx-5">
 					<h5 className="tg-content-bold text-gray-650">{t('profiles.votes')}</h5>
-					<h5 className="tg-title-h5  mt-1 text-center">{currency(1252)}</h5>
+					<h5 className="tg-title-h5  mt-1">{currency(1252)}</h5>
 				</div>
 				<div className="flex flex-col mx-5">
 					<h5 className="tg-content-bold text-gray-650 ">{t('profiles.participatedVotes')}</h5>
-					<h5 className="tg-title-h5 mt-1 text-center">{currency(1252)}</h5>
+					<h5 className="tg-title-h5 mt-1">{currency(1252)}</h5>
 				</div>
 			</div>
 			<hr className="border-gray-700 my-4" />

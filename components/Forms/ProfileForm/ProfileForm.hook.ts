@@ -25,7 +25,7 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 
 	const formik = useFormik({
 		initialValues: {
-			pitch: `${JSON.parse(userProfile?.delegationPitches || '').synthetix || ''}`,
+			delegationPitch: userProfile?.delegationPitch || '',
 			about: userProfile?.about || '',
 			twitter: userProfile?.twitter || '',
 			discord: userProfile?.discord || '',
@@ -37,17 +37,11 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 		validationSchema,
 		onSubmit: async (form: any) => {
 			if (userDetailsQuery.data && !isLoading) {
-				const delegationPitches = {
-					synthetix: form.pitch,
-				};
-
-				delete form.pitch;
 				setIsLoading(true);
 				updateUserMutation.mutate(
 					{
 						...userDetailsQuery.data,
 						...form,
-						delegationPitches: JSON.stringify(delegationPitches),
 					},
 					{
 						onSuccess: () => {
@@ -60,15 +54,13 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 					}
 				);
 			}
-
-			console.log(form);
 		},
 	});
 
 	const errors = useMemo(
 		() => ({
-			pitch: {
-				error: formik.touched.pitch && formik.errors.pitch,
+			delegationPitch: {
+				error: formik.touched.delegationPitch && formik.errors.delegationPitch,
 			},
 			about: {
 				error: formik.touched.about && formik.errors.about,

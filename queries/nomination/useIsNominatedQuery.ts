@@ -11,7 +11,7 @@ function useIsNominated(
 ) {
 	const governanceModules = useModulesContext();
 	return useQuery<boolean>(
-		['isNominated', moduleInstance, walletAddress, epochIndex],
+		['isNominated', walletAddress, moduleInstance],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let isNominated: boolean;
