@@ -12,7 +12,7 @@ import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
-import { useAccount } from 'wagmi';
+import { useAccount, useConnect } from 'wagmi';
 import BaseModal from '../BaseModal';
 
 interface WithdrawNominationModalProps {
@@ -29,6 +29,7 @@ export default function WithdrawNominationModal({
 	const { setIsOpen } = useModalContext();
 	const { ensName } = useConnectorContext();
 	const { data } = useAccount();
+	const { activeConnector } = useConnect();
 	const { setTxHash, setContent, setVisible, state, visible, setState } =
 		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
@@ -82,7 +83,7 @@ export default function WithdrawNominationModal({
 
 	return (
 		<BaseModal headline={t('modals.withdraw.headline')}>
-			{!data?.connector ? (
+			{!activeConnector ? (
 				<ConnectButton />
 			) : (
 				<>

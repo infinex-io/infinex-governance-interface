@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"@metamask/providers": "^8.1.1",
-		"@rainbow-me/rainbowkit": "0.2.1",
+		"@rainbow-me/rainbowkit": "0.2.3",
 		"@synthetixio/contracts-interface": "2.64.1",
 		"@synthetixio/providers": "2.64.1",
 		"@synthetixio/transaction-notifier": "^2.63.1",
@@ -32,7 +32,7 @@
 		"react-toastify": "^9.0.4",
 		"siwe": "1.1.6",
 		"styled-components": "5.3.3",
-		"wagmi": "0.4.5",
+		"wagmi": "0.4.10",
 		"yup": "0.32.11"
 	},
 	"devDependencies": {
