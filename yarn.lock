@@ -2459,7 +2459,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-
 "@synthetixio/ui@npm:latest":
   version: 3.0.1
   resolution: "@synthetixio/ui@npm:3.0.1"
