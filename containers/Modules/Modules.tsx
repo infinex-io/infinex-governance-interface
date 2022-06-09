@@ -32,12 +32,11 @@ export const ModulesProvider: FC = ({ children }) => {
 	const { L2DefaultProvider } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 	const { data: signer } = useSigner();
-
 	useEffect(() => {
 		const SpartanCouncilModule = new ethers.Contract(
 			spartanCouncil,
 			ElectionModuleABI.abi,
-			signer || L2DefaultProvider
+			!!signer ? signer : L2DefaultProvider
 		);
 
 		let modules = {} as GovernanceModule;
@@ -50,7 +49,7 @@ export const ModulesProvider: FC = ({ children }) => {
 		const AmbassadorCouncilModule = new ethers.Contract(
 			ambassadorCouncil,
 			ElectionModuleABI.abi,
-			signer || L2DefaultProvider
+			!!signer ? signer : L2DefaultProvider
 		);
 
 		modules[DeployedModules.AMBASSADOR_COUNCIL] = {
@@ -61,7 +60,7 @@ export const ModulesProvider: FC = ({ children }) => {
 		const GrantsCouncilModule = new ethers.Contract(
 			grantsCouncil,
 			ElectionModuleABI.abi,
-			signer || L2DefaultProvider
+			!!signer ? signer : L2DefaultProvider
 		);
 
 		modules[DeployedModules.GRANTS_COUNCIL] = {
@@ -72,16 +71,15 @@ export const ModulesProvider: FC = ({ children }) => {
 		const TreasuryCouncilModule = new ethers.Contract(
 			treasuryCouncil,
 			ElectionModuleABI.abi,
-			signer || L2DefaultProvider
+			!!signer ? signer : L2DefaultProvider
 		);
 
 		modules[DeployedModules.TREASURY_COUNCIL] = {
 			address: treasuryCouncil,
 			contract: TreasuryCouncilModule,
 		};
-
 		setGovernanceModules(modules);
-	}, [L2DefaultProvider, signer]);
+	}, [signer, L2DefaultProvider]);
 
 	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
 };
