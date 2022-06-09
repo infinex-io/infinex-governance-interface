@@ -220,7 +220,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							twitter={twitter}
 							pitch={delegationPitch}
 							className="max-w-[1200px]"
-							deployedModule={isNominatedQuery.data && isNominatedQuery.data[0].module}
+							deployedModule={
+								!!isNominatedQuery.data?.length ? isNominatedQuery.data[0].module : undefined
+							}
 						/>
 					</div>
 				</div>

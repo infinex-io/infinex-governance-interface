@@ -46,17 +46,21 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			setStep(2);
 			setVisible(false);
 			setState('signing');
-			queryClient.refetchQueries({ active: true });
+			queryClient.invalidateQueries({
+				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+			});
+			queryClient.refetchQueries({ stale: true });
 		}
 		if (state === 'confirmed' && step === 2) {
-			queryClient
-				.refetchQueries(['nominees', activeCheckbox.concat(' council')], { active: true })
-				.then(() => {
-					push('/councils/'.concat(activeCheckbox));
-					setVisible(false);
-					setIsOpen(false);
-					setState('signing');
-				});
+			queryClient.invalidateQueries({
+				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+			});
+			queryClient.refetchQueries({ stale: true }).then(() => {
+				push('/councils/'.concat(activeCheckbox));
+				setVisible(false);
+				setIsOpen(false);
+				setState('signing');
+			});
 		}
 	}, [state, step, setVisible, push, setState, setIsOpen, queryClient, activeCheckbox]);
 

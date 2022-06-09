@@ -53,7 +53,10 @@ export default function NominateModal() {
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
-			queryClient.refetchQueries({ active: true }).then(() => {
+			queryClient.invalidateQueries({
+				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+			});
+			queryClient.refetchQueries({ stale: true }).then(() => {
 				setIsOpen(false);
 				setVisible(false);
 				push('/councils/'.concat(activeCheckbox));
