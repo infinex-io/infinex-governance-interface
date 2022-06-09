@@ -16,8 +16,7 @@ function useWithdrawNominationMutation(moduleInstance: DeployedModules) {
 
 			if (contract) {
 				const gasLimit = await contract.estimateGas.withdrawNomination();
-				// TODO @MF fix when release
-				let tx = await contract.withdrawNomination({ gasLimit, gasPrice: BigNumber.from(0) });
+				let tx = await contract.withdrawNomination({ gasLimit });
 				return tx;
 			} else {
 				setState('error');
