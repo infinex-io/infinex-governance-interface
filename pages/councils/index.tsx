@@ -32,9 +32,9 @@ const Councils: NextPage = () => {
 			<Main>
 				<div className="flex flex-col items-center p-3">
 					<BackButton />
-					<h1 className="tg-title-h1 text-center">{t('councils.headline')}</h1>
+					<h1 className="tg-title-h1 text-center p-12">{t('councils.headline')}</h1>
 					<Tabs
-						className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
+						className="overflow-x-auto height-[150px] no-scrollbar"
 						titles={councilTabs}
 						activeIndex={activeCouncil.index}
 						clicked={(index) => {
