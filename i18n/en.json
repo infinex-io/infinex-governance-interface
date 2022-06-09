@@ -199,7 +199,7 @@
 				"placeholder": {
 					"username": "e.g John Smith",
 					"profileImageUrl": "e.g ipfs://QmQx9x2ioChpipfHGeGEQXYSRwAW",
-					"discord": "@john_smith#2131",
+					"discord": "john_smith#2131",
 					"website": "e.g https://synthetix.io/",
 					"twitter": "@john_smith",
 					"github": "@john_smith",
