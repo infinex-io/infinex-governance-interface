@@ -19,7 +19,6 @@ function useCurrentPeriod(moduleInstance: DeployedModules) {
 	return useQuery<CurrentPeriod>(
 		['currentPeriod', moduleInstance],
 		async () => {
-			console.log('currentPeriod fetched');
 			const contract = governanceModules[moduleInstance]?.contract;
 			let currentPeriod = Number(await contract?.getCurrentPeriod());
 
