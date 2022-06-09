@@ -6,7 +6,7 @@ import spacings from '../styles/spacings';
 interface SpotlightButtonProps extends HTMLAttributes<HTMLButtonElement> {
 	text: string;
 	active: boolean;
-	onClick: () => void;
+	onClick?: () => void;
 	size?: 'lg';
 }
 
