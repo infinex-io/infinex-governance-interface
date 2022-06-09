@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 
@@ -17,11 +16,10 @@ const routesDic = [
 ];
 
 export default function Header() {
-	const { push, pathname } = useRouter();
+	const { push, pathname, asPath } = useRouter();
 	const { t } = useTranslation();
 	const { data } = useAccount();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
-	const [activeRoute, setActiveRoute] = useState('');
 	const [routes, setRoutes] = useState(routesDic);
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
@@ -49,21 +47,11 @@ export default function Header() {
 			);
 	}, [oneCouncilIsInVotingPeriod, t, data?.address]);
 
-	const handleIndexAndRouteChange = (index: number) => {
-		push(index === 0 ? '/' : '/'.concat(routes[index].link.toLowerCase()));
-		setActiveRoute(routes[index].link);
-	};
-
 	useEffect(() => {
 		if (burgerMenuOpen) {
 			document.documentElement.classList.add('stop-scrolling');
 		} else document.documentElement.classList.remove('stop-scrolling');
 	}, [burgerMenuOpen]);
-
-	useEffect(() => {
-		const splitRoute = pathname.split('/')[1];
-		setActiveRoute(splitRoute ? splitRoute : '');
-	}, [pathname]);
 
 	return (
 		<>
@@ -74,18 +62,19 @@ export default function Header() {
 				<Link href="/" passHref>
 					<div className="flex items-center cursor-pointer mr-8">
 						<SNXIcon />
-						<StyledHeaderHeadline>Governance</StyledHeaderHeadline>
+						<h1 className="tg-title-h5 text-white ml-2">Governance</h1>
 					</div>
 				</Link>
 				<div className="hidden md:flex justify-center w-full">
-					{routes.map((translation, index) => (
-						<SpotlightButton
-							className="last-of-type:mr-auto m-2"
-							text={t(translation.label)}
-							onClick={() => handleIndexAndRouteChange(index)}
-							active={activeRoute === translation.link}
-							key={translation.label}
-						/>
+					{routes.map((route) => (
+						<Link key={route.label} href={`/${route.link}`} passHref>
+							<SpotlightButton
+								className="last-of-type:mr-auto m-2"
+								text={t(route.label)}
+								active={route.link === '' ? asPath === '/' : asPath.includes(route.link)}
+								key={route.label}
+							/>
+						</Link>
 					))}
 				</div>
 				<button
@@ -124,20 +113,19 @@ export default function Header() {
 					)}
 				</button>
 				{burgerMenuOpen && (
-					<div className="fixed w-full h-full z-100 bg-black bg-opacity-70 top-[66px] left-0">
+					<div className="fixed w-full h-full z-100 bg-black bg-opacity-80 top-[66px] left-0 py-10">
 						<div className="flex flex-col items-center">
-							{routes.map((translation, index) => (
-								<SpotlightButton
-									className="m-4"
-									size="lg"
-									text={translation.label}
-									onClick={() => {
-										handleIndexAndRouteChange(index);
-										setBurgerMenuOpen(!burgerMenuOpen);
-									}}
-									active={activeRoute === translation.label.toLowerCase()}
-									key={translation.label}
-								/>
+							{routes.map((route) => (
+								<Link key={route.label} href={`/${route.link}`} passHref>
+									<SpotlightButton
+										className="m-4"
+										size="lg"
+										onClick={() => setBurgerMenuOpen(false)}
+										text={t(route.label)}
+										active={route.link === '' ? asPath === '/' : asPath.includes(route.link)}
+										key={route.label}
+									/>
+								</Link>
 							))}
 						</div>
 					</div>
@@ -149,12 +137,3 @@ export default function Header() {
 		</>
 	);
 }
-
-const StyledHeaderHeadline = styled.h1`
-	font-family: 'Lustra Text';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 0.87rem;
-	color: white;
-	margin-left: ${theme.spacings.tiny};
-`;
