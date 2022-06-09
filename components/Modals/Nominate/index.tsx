@@ -63,7 +63,6 @@ export default function NominateModal() {
 			});
 		}
 	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, data?.address]);
-
 	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
 	we should block all the councils radio button */
 	const isAlreadyNominated =
