@@ -220,5 +220,6 @@
 			"self": "NOMINATE SELF",
 			"closes": "Nominations Closes in"
 		}
-	}
+	},
+	"copyClipboardMessage": "Successfully Copied"
 }

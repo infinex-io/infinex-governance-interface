@@ -5,4 +5,5 @@ export interface SVGIconProps {
 export interface SVGSocialIconProps {
 	fill?: string;
 	onClick?: () => void;
+	className?: string;
 }
