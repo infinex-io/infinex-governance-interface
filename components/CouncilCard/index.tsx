@@ -6,7 +6,6 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import useCurrentEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
@@ -16,7 +15,7 @@ import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import clsx from 'clsx';
-import { sevenDaysInMilliseconds } from 'constants/config';
+import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 
 interface CouncilCardProps {
 	council: string;
@@ -31,8 +30,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
 
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
+
+	// TODO @MF check when voting period starts, should be different
 	const [dates, nominees, members] = [
-		useCurrentEpochDatesQuery(deployedModule),
+		useNominationPeriodDatesQuery(deployedModule),
 		useNomineesQuery(deployedModule),
 		useCouncilMembersQuery(deployedModule),
 	];
@@ -65,17 +66,17 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				>
 					{t(cta)}
 				</span>
-				{period && dates.data?.epochEndDate && ['NOMINATION', 'VOTING'].includes(period) && (
-					<Timer
-						className={clsx('text-orange tg-body-bold mx-auto', {
-							'text-orange': period === 'NOMINATION',
-							'text-green': period === 'VOTING',
-						})}
-						expiryTimestamp={
-							dates.data?.epochEndDate - (period === 'NOMINATION' ? sevenDaysInMilliseconds : 0)
-						}
-					/>
-				)}
+				{period &&
+					dates.data?.nominationPeriodEndDate &&
+					['NOMINATION', 'VOTING'].includes(period) && (
+						<Timer
+							className={clsx('text-orange tg-body-bold mx-auto', {
+								'text-orange': period === 'NOMINATION',
+								'text-green': period === 'VOTING',
+							})}
+							expiryTimestamp={dates.data?.nominationPeriodEndDate}
+						/>
+					)}
 				<StyledSpacer className="mb-1" />
 				<div className="flex justify-between">
 					<Text>{t(headlineLeft)}</Text>

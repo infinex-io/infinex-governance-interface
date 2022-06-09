@@ -33,18 +33,32 @@ export default function WithdrawNominationModal({
 		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
 	const queryClient = useQueryClient();
-
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
+			queryClient.invalidateQueries({
+				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+			});
 			queryClient
-				.refetchQueries(['nominees', council.concat(' council')], { active: true })
+				.refetchQueries({
+					stale: true,
+				})
 				.then(() => {
 					setIsOpen(false);
 					setVisible(false);
 					push('/profile/' + data?.address);
 				});
 		}
-	}, [state, push, setIsOpen, data?.address, setVisible, visible, queryClient, council]);
+	}, [
+		state,
+		push,
+		setIsOpen,
+		data?.address,
+		setVisible,
+		visible,
+		queryClient,
+		council,
+		deployedModule,
+	]);
 
 	const handleWithdrawNomination = async () => {
 		setState('signing');

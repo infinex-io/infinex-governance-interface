@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { copytoClipboard } from 'utils/helpers';
+import { copyToClipboard } from 'utils/helpers';
 
 interface Props {
 	text: string;
@@ -11,7 +11,7 @@ interface Props {
 export const CopyClipboard: React.FC<Props> = ({ text, className }) => {
 	const { t } = useTranslation();
 	const onClick = () => {
-		copytoClipboard(text);
+		copyToClipboard(text);
 		toast.success(t('copyClipboardMessage'));
 	};
 	return (

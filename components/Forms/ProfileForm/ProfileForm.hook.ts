@@ -5,12 +5,14 @@ import * as yup from 'yup';
 import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useUpdateUserDetailsMutation from 'mutations/boardroom/useUpdateUserDetailsMutation';
 import { useAccount } from 'wagmi';
+import { useQueryClient } from 'react-query';
 
 export const useForm = (userProfile: GetUserDetails | undefined) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { data } = useAccount();
 	const updateUserMutation = useUpdateUserDetailsMutation();
 	const userDetailsQuery = useUserDetailsQuery(data?.address ?? '');
+	const queryClient = useQueryClient();
 
 	const validationSchema = yup.object({
 		username: yup.string().required(),
@@ -46,6 +48,7 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 					{
 						onSuccess: () => {
 							setIsLoading(false);
+							queryClient.refetchQueries({ active: true });
 						},
 						onError: (error: any) => {
 							console.log(error);
