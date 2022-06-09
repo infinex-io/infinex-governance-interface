@@ -24,7 +24,7 @@ type VoteEvent = {
  */
 
 function useVoteHistoryQuery(
-	moduleInstance: DeployedModules,
+	moduleInstance: DeployedModules | null,
 	voter: string | null,
 	ballotId: string | null,
 	epochIndex: string | null
@@ -33,11 +33,14 @@ function useVoteHistoryQuery(
 	return useQuery<VoteEvent[]>(
 		['voteHistory', moduleInstance, voter, ballotId, epochIndex],
 		async () => {
-			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
+			if (moduleInstance) {
+				const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
-			const votes = await voteHistory(contract, voter, ballotId, epochIndex);
+				const votes = await voteHistory(contract, voter, ballotId, epochIndex);
 
-			return votes;
+				return votes;
+			}
+			return [];
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,

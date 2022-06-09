@@ -9,14 +9,11 @@ function useNomineesQuery(moduleInstance: DeployedModules) {
 		['nominees', moduleInstance],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
-			let nominees;
-			// nominees = await contract?.getNomineesAtEpoch(hexStringBN(epochIndex));
-			nominees = await contract?.getNominees();
+			const nominees = await contract?.getNominees();
 			return nominees;
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
-			staleTime: 900000,
 		}
 	);
 }

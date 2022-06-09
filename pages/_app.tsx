@@ -29,6 +29,8 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
@@ -73,6 +75,7 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 					<Footer />
 				</UIModal>
 			</TransactionDialogContextProvider>
+			<ToastContainer theme="dark" />
 		</ModulesProvider>
 	);
 };

@@ -92,7 +92,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 									member={member}
 									key={member.address.concat(String(index))}
 									state="ADMINISTRATION"
-									className="m-2	 max-w-[218px]"
+									className="m-2 max-w-[218px]"
 									council={member.council}
 								/>
 							))}

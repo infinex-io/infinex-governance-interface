@@ -1,7 +1,6 @@
 import { DiscordIcon, GitHubIcon, ThreeDotsKebabIcon, TwitterIcon } from 'components/old-ui';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
-
 import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
@@ -16,7 +15,9 @@ import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
 import { compareAddress } from 'utils/helpers';
 import { useAccount } from 'wagmi';
+import { copyToClipboard } from 'utils/helpers';
 import clsx from 'clsx';
+import { toast } from 'react-toastify';
 
 interface MemberCardProps {
 	member: GetUserDetails;
@@ -43,11 +44,12 @@ export default function MemberCard({
 	const votedForAlready = compareAddress(votedFor?.address, member.address);
 
 	return (
-		<Card
-			variant={isOwnCard ? 'orange' : 'purple'}
+		<div
 			key={member.address.concat(member.about)}
-			wrapperClassName={className}
-			className="w-[210px] h-[285px] p-[1px] m-0"
+			className={clsx('w-[210px] h-[285px] p-[1px]', className, {
+				'bg-orange': isOwnCard,
+				'bg-purple': !isOwnCard,
+			})}
 		>
 			<div className="darker-60 relative flex flex-col items-center justify-between p-4 rounded h-full">
 				<Avatar
@@ -64,15 +66,18 @@ export default function MemberCard({
 				<h5 className="tg-title-h5 capitalize">
 					{member.username || member.ens || truncateAddress(member.address)}
 				</h5>
-				<span className="tg-caption text-gray-200 w-full truncate">{member.about}</span>
+				<span className="tg-caption text-gray-200 w-full truncate text-center">{member.about}</span>
 				{(member.discord || member.twitter || member.github) && (
 					<div className="flex items-center justify-center my-3 gap-4">
 						{member.discord && (
-							<Link href={'https://discord.com/invite/' + member.discord} passHref>
-								<a rel="noreferrer" target="_blank">
-									<DiscordIcon fill="white" />
-								</a>
-							</Link>
+							<DiscordIcon
+								onClick={() => {
+									copyToClipboard(member.discord);
+									toast.success(t('copyClipboardMessage'));
+								}}
+								className="cursor-pointer"
+								fill="white"
+							/>
 						)}
 
 						{member.twitter && (
@@ -262,7 +267,7 @@ export default function MemberCard({
 					)}
 				</div>
 			</div>
-		</Card>
+		</div>
 	);
 
 	return <>...</>;
