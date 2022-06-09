@@ -15,7 +15,6 @@ import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import clsx from 'clsx';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
-import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 
 interface CouncilCardProps {
 	council: string;
@@ -28,7 +27,6 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
-	const currentEpochIndex = useEpochIndexQuery(deployedModule);
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
 	// TODO @MF check when voting period starts, should be different
 	const [dates, nominees, members] = [
