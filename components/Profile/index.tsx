@@ -56,7 +56,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		};
 
 		return (
-			<div className="flex flex-col md:items-center align-center pt-12">
+			<div className="flex flex-col md:items-center align-center pt-12 max-w-[1000px] mx-auto">
 				<BackButton />
 				<div
 					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
@@ -121,11 +121,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					<p className="tg-body">{about}</p>
 				</div>
 				{isOwnCard && !!isNominatedQuery.data?.length && (
-					<div className="p-3 w-full flex flex-col items-center">
-						<Card
-							wrapperClassName="max-w-[1000px] w-full border border-gray-700"
-							className="flex flex-col"
-						>
+					<div className="p-2 w-full">
+						<div className="bg-dark-blue w-full border border-gray-700 flex flex-col p-2">
 							<div className="flex flex-col">
 								<div className="flex w-full items-center">
 									{calculatePercentage() === '100%' ? (
@@ -150,8 +147,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 										</span>
 									</div>
 								</div>
-								<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
-									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
+								<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center ">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center max-w-[195px]">
 										<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.pitch')}</h6>
 										{delegationPitch ? (
@@ -162,7 +159,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											</IconButton>
 										)}
 									</div>
-									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center max-w-[195px]">
 										<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.discord')}</h6>
 										{discord ? (
@@ -173,7 +170,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											</IconButton>
 										)}
 									</div>
-									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center min-w-[204px]">
+									<div className="w-full md:m-6 m-2 border-gray-500 flex border-[1px] rounded p-2 justify-between items-center max-w-[195px]">
 										<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
 										<h6 className="tg-title-h6">{t('profiles.completion-card.twitter')}</h6>
 										{twitter ? (
@@ -187,7 +184,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									<Button
 										variant="outline"
 										size="md"
-										className="min-w-[200px]"
+										className="max-w-[180px]"
 										onClick={() => {
 											setContent(
 												<WithdrawNominationModal
@@ -202,12 +199,12 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									</Button>
 								</div>
 							</div>
-						</Card>
+						</div>
 					</div>
 				)}
-				<div className="flex flex-col mb-6 w-full p-3 max-w-[1000px]">
+				<div className="flex flex-col mb-6 w-full p-2">
 					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
-					<div className="relative flex flex-col items-center">
+					<div className="relative flex flex-col items-center w-full">
 						{isOwnCard && (
 							<div
 								className="absolute top-5 right-3 flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded w-[28px] h-[28px]"
@@ -224,10 +221,11 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							twitter={twitter}
 							pitch={delegationPitch}
 							className="max-w-[1200px]"
+							deployedModule={isNominatedQuery.data && isNominatedQuery.data[0].module}
 						/>
 					</div>
 				</div>
-				<hr className="border-gray-700 my-4 w-full p-3" />
+				<hr className="border-gray-700 my-4 w-full" />
 				<CouncilsCarousel />
 				<Button className="mx-auto my-8 mt-12" onClick={() => push('/councils')} size="lg">
 					{t('profiles.view-all-members')}
