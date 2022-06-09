@@ -12,7 +12,6 @@ import { Dialog, Button, Dropdown, ExternalLink, Badge, Card, IconButton } from 
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
-import styles from './Profile.module.scss';
 import clsx from 'clsx';
 import { compareAddress } from 'utils/helpers';
 import { useAccount } from 'wagmi';
@@ -81,7 +80,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 										<ThreeDotsKebabIcon />
 									</div>
 								}
-								contentClassName={clsx('bg-navy flex flex-col', styles.dropdown)}
+								contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
 								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 								contentAlignment="right"
 							>
