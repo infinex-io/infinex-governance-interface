@@ -2,7 +2,7 @@ import React from 'react';
 import colors from '../../styles/colors';
 import { SVGIconProps } from './types';
 
-export default function SkipLeftIcon({ active, onClick }: SVGIconProps) {
+export default function SkipLeftIcon({ active, onClick, className }: SVGIconProps) {
 	return (
 		<svg
 			width="24"
@@ -11,6 +11,7 @@ export default function SkipLeftIcon({ active, onClick }: SVGIconProps) {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
+			className={className}
 		>
 			<path
 				fillRule="evenodd"
