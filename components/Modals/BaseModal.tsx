@@ -23,10 +23,11 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 						setIsOpen(false);
 					}}
 					rounded
+					size="sm"
 				>
 					<CloseIcon active />
 				</IconButton>
-				<h1 className="tg-title-h1 text-white md:mt-24 mt-16">{headline}</h1>
+				<h1 className="tg-title-h1 text-white md:mt-24 mt-20 text-center">{headline}</h1>
 				{children}
 			</div>
 		</div>

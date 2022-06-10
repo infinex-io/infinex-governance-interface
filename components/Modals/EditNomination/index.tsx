@@ -47,13 +47,13 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			setVisible(false);
 			setState('signing');
 			queryClient.invalidateQueries({
-				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+				queryKey: ['nominees'],
 			});
 			queryClient.refetchQueries({ stale: true });
 		}
 		if (state === 'confirmed' && step === 2) {
 			queryClient.invalidateQueries({
-				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+				queryKey: ['nominees'],
 			});
 			queryClient.refetchQueries({ stale: true }).then(() => {
 				push('/councils/'.concat(activeCheckbox));
@@ -136,7 +136,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 				<ConnectButton />
 			) : (
 				<>
-					<div className="flex flex-col justify-center items-center bg-black px-10 py-6 mb-8 w-[800px]">
+					<div className="flex flex-col justify-center items-center bg-black px-10 py-6 mb-8 max-w-[800px] w-full">
 						{step === 1 ? (
 							<>
 								<div className="flex flex-col items-center ">

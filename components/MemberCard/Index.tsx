@@ -46,12 +46,12 @@ export default function MemberCard({
 	return (
 		<div
 			key={member.address.concat(member.about)}
-			className={clsx('w-[210px] h-[285px] p-[1px]', className, {
+			className={clsx('w-[210px] h-[285px] p-[1px] rounded-lg', className, {
 				'bg-orange': isOwnCard,
 				'bg-purple': !isOwnCard,
 			})}
 		>
-			<div className="darker-60 relative flex flex-col items-center justify-between p-4 rounded h-full">
+			<div className="darker-60 relative flex flex-col items-center justify-between p-4 rounded-lg h-full">
 				<Avatar
 					width={56}
 					height={56}
@@ -104,6 +104,7 @@ export default function MemberCard({
 							})}
 						>
 							<Button
+								className="w-[180px]"
 								variant="outline"
 								onClick={(e) => {
 									e.stopPropagation();
@@ -116,27 +117,22 @@ export default function MemberCard({
 					)}
 
 					{state === 'NOMINATION' && (
-						<div className="flex gap-2">
-							<div
-								className={clsx('rounded', {
-									'bg-dark-blue': isOwnCard,
-								})}
+						<div className="flex gap-2 items-center">
+							<Button
+								className={clsx({ 'w-[180px]': !isOwnCard })}
+								variant="outline"
+								onClick={(e) => {
+									e.stopPropagation();
+									if (isOwnCard) {
+										setContent(<EditModal deployedModule={deployedModule!} council={council!} />);
+										setIsOpen(true);
+									} else {
+										push('/profile/' + member.address);
+									}
+								}}
 							>
-								<Button
-									variant="outline"
-									onClick={(e) => {
-										e.stopPropagation();
-										if (isOwnCard) {
-											setContent(<EditModal deployedModule={deployedModule!} council={council!} />);
-											setIsOpen(true);
-										} else {
-											push('/profile/' + member.address);
-										}
-									}}
-								>
-									{isOwnCard ? t('councils.edit-nomination') : t('councils.view-nominee')}
-								</Button>
-							</div>
+								{isOwnCard ? t('councils.edit-nomination') : t('councils.view-nominee')}
+							</Button>
 
 							{isOwnCard && (
 								<Dropdown

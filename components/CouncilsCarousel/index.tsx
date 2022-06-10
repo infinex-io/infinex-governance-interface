@@ -1,29 +1,15 @@
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'components/old-ui';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import MemberCard from 'components/MemberCard/Index';
 import { Carousel } from '@synthetixio/ui';
-import clsx from 'clsx';
+import { TabIcon } from 'components/TabIcon';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
 }
-
-const TabIcon = ({ isActive, children }: PropsWithChildren<{ isActive: boolean }>) => (
-	<span
-		key="all-council-members"
-		className={clsx('tg-caption-sm rounded-full p-[4px] px-[8px]', {
-			'bg-black': isActive,
-			'bg-primary': !isActive,
-			'text-white': isActive,
-			'text-black': !isActive,
-		})}
-	>
-		{children}
-	</span>
-);
 
 export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) {
 	const { t } = useTranslation();

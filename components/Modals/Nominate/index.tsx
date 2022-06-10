@@ -54,13 +54,18 @@ export default function NominateModal() {
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			queryClient.invalidateQueries({
-				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+				queryKey: ['nominees'],
 			});
-			queryClient.refetchQueries({ stale: true }).then(() => {
-				setIsOpen(false);
-				setVisible(false);
-				push('/councils/'.concat(activeCheckbox));
-			});
+			queryClient
+				.refetchQueries({
+					stale: true,
+					queryKey: ['nominees', 'isNominated'],
+				})
+				.then(() => {
+					setIsOpen(false);
+					setVisible(false);
+					push('/councils/'.concat(activeCheckbox));
+				});
 		}
 	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, data?.address]);
 	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 

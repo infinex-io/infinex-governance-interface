@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { DeployedModules } from 'containers/Modules';
 import useIsNominated from './useIsNominatedQuery';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { isNominatedForCouncilQueryKeys } from 'utils/queries';
 
 function useIsNominatedForCouncilInNominationPeriod(walletAddress: string) {
 	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
@@ -14,7 +15,7 @@ function useIsNominatedForCouncilInNominationPeriod(walletAddress: string) {
 	const treasuryPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 
 	return useQuery(
-		['isNominatedForCouncil', walletAddress],
+		isNominatedForCouncilQueryKeys(walletAddress),
 		() => {
 			const isNominatedFor = [
 				{

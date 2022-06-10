@@ -33,14 +33,16 @@ export default function WithdrawNominationModal({
 		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
 	const queryClient = useQueryClient();
+
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			queryClient.invalidateQueries({
-				queryKey: ['nominees', 'isNominated', 'isNominatedForCouncil'],
+				queryKey: ['nominees'],
 			});
 			queryClient
 				.refetchQueries({
 					stale: true,
+					active: true,
 				})
 				.then(() => {
 					setIsOpen(false);
