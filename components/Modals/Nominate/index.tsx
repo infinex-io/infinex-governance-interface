@@ -124,7 +124,7 @@ export default function NominateModal() {
 			{!data?.connector ? (
 				<ConnectButton />
 			) : (
-				<div className="px-2 flex flex-col items-center max-w-[500px]">
+				<div className="px-2 flex flex-col items-center max-w-[700px]">
 					<span className="tg-content text-gray-500 py-2 text-center">
 						{t('modals.nomination.subline')}
 					</span>
