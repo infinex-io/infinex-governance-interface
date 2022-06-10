@@ -47,6 +47,7 @@ export default function Vote() {
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
+
 	useEffect(() => {
 		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
 	}, [activeCouncilInVoting, push]);
@@ -153,11 +154,11 @@ const VoteCard = ({
 	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 	const { setContent, setIsOpen } = useModalContext();
 	const { push } = useRouter();
+	const activeCouncil =
+		COUNCILS_DICTIONARY.find((c) => c.module === council) || COUNCILS_DICTIONARY[0];
 	if (!periodIsVoting)
 		return (
-			<h6 className="tg-title-h6">
-				{t('vote.not-in-voting', { council: COUNCILS_DICTIONARY[council].label })}
-			</h6>
+			<h6 className="tg-title-h6">{t('vote.not-in-voting', { council: activeCouncil.label })}</h6>
 		);
 
 	return hasVoted && userDetail?.address ? (
@@ -165,7 +166,7 @@ const VoteCard = ({
 			<Avatar walletAddress={userDetail.address} width={33} height={33} />
 			<div className="flex flex-col">
 				<span className="tg-caption-bold text-primary">
-					{t(`vote.councils.${COUNCILS_DICTIONARY[council].abbreviation}`)}
+					{t(`vote.councils.${activeCouncil.abbreviation}`)}
 				</span>
 				<span className="tg-content">{userDetail?.ens || truncateAddress(userDetail.address)}</span>
 			</div>
@@ -177,7 +178,7 @@ const VoteCard = ({
 				<div className="absolute top-[50px] right-0 bg-gray-900 rounded max-w-sm w-full flex flex-col">
 					<span
 						className="tg-caption p-2 text-primary cursor-pointer"
-						onClick={() => push('/vote/' + COUNCILS_DICTIONARY[council].slug)}
+						onClick={() => push('/vote/' + activeCouncil.slug)}
 					>
 						{t('vote.dropdown.change')}
 					</span>
@@ -194,7 +195,7 @@ const VoteCard = ({
 						onClick={() => {
 							setContent(
 								<WithdrawVote
-									council={COUNCILS_DICTIONARY[council].label}
+									council={activeCouncil.label}
 									deployedModule={council}
 									member={userDetail}
 								/>
@@ -213,7 +214,7 @@ const VoteCard = ({
 				<div className="w-[33px] h-[33px] rounded-full border-primary border-2 border-solid bg-black"></div>
 				<div className="flex flex-col">
 					<span className="tg-caption-bold text-white">
-						{t(`vote.councils.${COUNCILS_DICTIONARY[council].abbreviation}`)}
+						{t(`vote.councils.${activeCouncil.abbreviation}`)}
 					</span>
 					<span className="border-2 border-solid border-primary rounded p-1 text-primary tg-content-bold">
 						{t('vote.not-voted')}
@@ -222,7 +223,7 @@ const VoteCard = ({
 				<IconButton
 					className="bg-black"
 					size="sm"
-					onClick={() => push('/vote/' + COUNCILS_DICTIONARY[council].slug)}
+					onClick={() => push('/vote/' + activeCouncil.slug)}
 					rounded
 				>
 					<PlusIcon active />
