@@ -1,11 +1,17 @@
 import React from 'react';
 import { SVGSocialIconProps } from './types';
 
-export default function DiscordIcon({ fill, className, onClick }: SVGSocialIconProps) {
+export default function DiscordIcon({
+	fill,
+	className,
+	onClick,
+	height,
+	width,
+}: SVGSocialIconProps) {
 	return (
 		<svg
-			width="22"
-			height="25"
+			width={width || '22'}
+			height={height || '25'}
 			viewBox="0 0 22 25"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"

@@ -33,7 +33,7 @@ const VoteHistory = ({
 	return (
 		<div className="flex flex-col mx-5">
 			<h5 className="tg-content-bold text-gray-650">{t('profiles.votes')}</h5>
-			<h5 className="tg-title-h5  mt-1">{voteHistory.data?.length || 0}</h5>
+			<h3 className="tg-title-h3 mt-1">{voteHistory.data?.length || 0}</h3>
 		</div>
 	);
 };
@@ -62,7 +62,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
 				{discord && (
 					<div className="flex flex-col m-2">
-						<h5 className="tg-content-bold text-gray-650">{t('profiles.discord')}</h5>
+						<h3 className="tg-content-bold text-gray-650">{t('profiles.discord')}</h3>
 
 						<DiscordIcon
 							onClick={() => {
@@ -78,7 +78,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 				{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
 					<div className="flex flex-col m-2">
 						<h5 className="tg-content-bold text-gray-650">{t('profiles.twitter')}</h5>
-						<ExternalLink className="py-1 mt-1" border link={twitter} text="Twitter" />
+						<ExternalLink className="py-1" border link={twitter} text="Twitter" />
 					</div>
 				)}
 
@@ -88,12 +88,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 			</div>
 			<hr className="border-gray-800 my-4" />
 
-			<div className="flex flex-col md:pl-[69px] md:ml-12 ml-4 break-words">
+			<div className="flex flex-col md:pl-[69px] ml-5 break-words">
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.wallet')}</h5>
-				<p className="flex items-center">
+				<h3 className="flex items-center tg-title-h3">
 					{truncateAddress(walletAddress)}
 					<CopyClipboard className="ml-1.5" text={walletAddress} />
-				</p>
+				</h3>
 			</div>
 			{pitch && (
 				<>

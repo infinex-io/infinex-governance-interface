@@ -93,14 +93,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											withoutIcon
 										/>
 									)}
-									{discord && (
-										<ExternalLink
-											link={discord}
-											className="hover:bg-navy-dark-1 bg-navy-light-1 rounded-none"
-											text="Discord"
-											withoutIcon
-										/>
-									)}
 
 									{address && (
 										<ExternalLink

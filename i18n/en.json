@@ -193,10 +193,10 @@
 					"username": "Username",
 					"profileImageUrl": "Profile Image URL",
 					"discord": "Discord",
-					"twitter": "Twitter Handle",
+					"twitter": "Twitter Full Link",
 					"website": "Website",
 					"about": "About",
-					"github": "Github",
+					"github": "Github Handle",
 					"delegationPitch": "Governance Pitch"
 				},
 				"placeholder": {
