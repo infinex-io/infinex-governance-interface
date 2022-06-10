@@ -13,7 +13,7 @@ import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilNam
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
 import clsx from 'clsx';
-import { compareAddress } from 'utils/helpers';
+import { compareAddress, urlIsCorrect } from 'utils/helpers';
 import { useAccount } from 'wagmi';
 import BackButton from 'components/BackButton';
 import Image from 'next/image';
@@ -85,9 +85,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								contentAlignment="right"
 							>
 								<>
-									{twitter && (
+									{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
 										<ExternalLink
-											link={`https://twitter.com/${twitter}`}
+											link={twitter}
 											className="hover:bg-navy-dark-1 rounded-none"
 											text="Twitter"
 											withoutIcon
