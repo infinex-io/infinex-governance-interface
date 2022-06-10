@@ -1,6 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
-import { Flex } from 'components/old-ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -9,7 +8,6 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import styled from 'styled-components';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
 import { useAccount } from 'wagmi';
@@ -87,49 +85,22 @@ export default function WithdrawNominationModal({
 			{!data?.connector ? (
 				<ConnectButton />
 			) : (
-				<>
-					<StyledBlackBox direction="column" alignItems="center">
-						<StyledBlackBoxSubline>
+				<div className="px-2 flex flex-col items-center max-w-[500px]">
+					<span className="tg-content text-gray-500 py-2 text-center">
+						{t('modals.withdraw.subline')}
+					</span>
+
+					<div className="flex flex-col items-center px-12 py-8 rounded m-4 bg-black w-full">
+						<h5 className="tg-title-h5 text-gray-300 mb-1">
 							{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
-						</StyledBlackBoxSubline>
-						<StyledWalletAddress>{ensName || truncateAddress(data?.address!)}</StyledWalletAddress>
-					</StyledBlackBox>
-					<Button onClick={() => handleWithdrawNomination()}>{t('modals.withdraw.button')}</Button>
-				</>
+						</h5>
+						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(data!.address!)}</h3>
+					</div>
+					<Button onClick={() => handleWithdrawNomination()} className="w-full md:w-auto">
+						{t('modals.withdraw.button')}
+					</Button>
+				</div>
 			)}
 		</BaseModal>
 	);
 }
-
-const StyledBlackBox = styled(Flex)`
-	background-color: ${({ theme }) => theme.colors.black};
-	max-width: 314px;
-	height: 80px;
-	padding: 16px 50px;
-	margin-bottom: ${({ theme }) => theme.spacings.medium};
-`;
-
-const StyledBlackBoxSubline = styled.h6`
-	font-family: 'Inter Bold';
-	font-size: 0.75rem;
-	color: ${({ theme }) => theme.colors.grey};
-	margin: 0;
-`;
-
-const StyledWalletAddress = styled.h3`
-	font-family: 'Inter Bold';
-	font-size: 1.5rem;
-	margin: ${({ theme }) => theme.spacings.tiniest};
-	color: ${({ theme }) => theme.colors.white};
-`;
-
-const StyledCheckboxWrapper = styled(Flex)`
-	margin: ${({ theme }) => theme.spacings.superBig} 0px;
-	width: 100%;
-	> * {
-		margin: ${({ theme }) => theme.spacings.medium};
-	}
-`;
-const StyledButton = styled(Button)`
-	max-width: 312px;
-`;

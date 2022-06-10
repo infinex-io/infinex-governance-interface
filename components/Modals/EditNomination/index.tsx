@@ -127,7 +127,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	};
 	return (
 		<BaseModal headline={t('modals.edit.headline')}>
-			<span className="max-w-[600px] tg-content text-gray-500 text-center my-4">
+			<span className="max-w-[600px] tg-content text-gray-500 text-center my-1 mb-4 px-2">
 				You can only nominate for 1 council at any given time. In order to change your nomination
 				from one council to another you must first select your new council and click save. You will
 				be need to sign 2 transactions in order to change.
@@ -135,40 +135,36 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			{!data?.connector ? (
 				<ConnectButton />
 			) : (
-				<>
-					<div className="flex flex-col justify-center items-center bg-black px-10 py-6 mb-8 max-w-[800px] w-full">
+				<div className="px-2 flex flex-col items-center max-w-[850px] w-full">
+					<div className="flex flex-col justify-center items-center bg-black px-4 py-6 w-full">
 						{step === 1 ? (
-							<>
-								<div className="flex flex-col items-center ">
-									<div className="flex justify-center items-center w-[200px] mb-4">
-										<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
-											1
-										</div>
-										<div className="min-w-full h-[1px] bg-purple"></div>
-										<div className="bg-gray-500 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
-											2
-										</div>
+							<div className="flex flex-col items-center ">
+								<div className="flex justify-center items-center w-[100px] mb-4">
+									<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+										1
 									</div>
-									<h4 className="tg-title-h4 text-white">{t('modals.edit.step-one')}</h4>
-									<div className="border-gray-500 rounded border-[1px] p-4 m-4">
-										<h6 className="tg-title-h6 text-gray-500 text-center">
-											{t('modals.edit.current')}
-										</h6>
-										<h3 className="tg-title-h3 text-white">
-											{ensName ? ensName : data?.address && truncateAddress(data.address)}
-										</h3>
-									</div>
-									<div className="bg-primary p-[2px] rounded">
-										<div className="darker-60 text-primary py-1 px-6 rounded">
-											{t('modals.edit.council', { council: capitalizeString(council) })}
-										</div>
+									<div className="min-w-full h-[1px] bg-purple"></div>
+									<div className="bg-gray-500 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+										2
 									</div>
 								</div>
-							</>
+								<h5 className="tg-title-h5 text-white">{t('modals.edit.step-one')}</h5>
+								<div className="border-gray-500 rounded border-[1px] p-4 m-4 flex flex-col items-center">
+									<h5 className="tg-title-h5 text-gray-300 mb-1">{t('modals.edit.current')}</h5>
+									<h3 className="tg-title-h3 text-white">
+										{ensName ? ensName : data?.address && truncateAddress(data.address)}
+									</h3>
+								</div>
+								<div className="bg-primary p-[2px] rounded">
+									<div className="darker-60 text-primary py-1 px-6 rounded">
+										{t('modals.edit.council', { council: capitalizeString(council) })}
+									</div>
+								</div>
+							</div>
 						) : (
 							<>
-								<div className="flex justify-center items-center w-[200px] mb-4">
-									<div className="bg-green rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+								<div className="flex justify-center items-center w-[100px] mb-4">
+									<div className="bg-green rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
 										1
 									</div>
 									<div className="min-w-full h-[1px] bg-green"></div>
@@ -176,8 +172,8 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 										2
 									</div>
 								</div>
-								<h4 className="tg-title-h4 text-white m-4 mb-8">{t('modals.edit.step-two')}</h4>
-								<div className="flex justify-between w-full">
+								<h5 className="tg-title-h5 text-white m-2 mb-4">{t('modals.edit.step-two')}</h5>
+								<div className="flex justify-between md:flex-row flex-col w-full flex-wrap gap-4">
 									<Checkbox
 										id="spartan-council-checkbox"
 										onChange={() => setActiveCheckbox('spartan')}
@@ -214,8 +210,8 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 							</>
 						)}
 					</div>
-					<div className="border-l-primary border-l-4 bg-primary mb-4">
-						<h5 className="tg-title-h5 darker-60 text-white p-2 flex">
+					<div className="border-l-primary border-l-4 bg-primary mb-4 w-full">
+						<h5 className="tg-title-h5 darker-60 text-white p-2 flex items-center">
 							<svg
 								width="29"
 								height="29"
@@ -234,13 +230,14 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 						</h5>
 					</div>
 					<Button
+						className="w-full mb-8"
 						onClick={() => handleBtnClick()}
 						size="lg"
 						disabled={step === 2 && !activeCheckbox}
 					>
 						{t('modals.edit.button')}
 					</Button>
-				</>
+				</div>
 			)}
 		</BaseModal>
 	);

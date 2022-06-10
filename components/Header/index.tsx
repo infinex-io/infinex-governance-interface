@@ -62,7 +62,7 @@ export default function Header() {
 				items-center md:justify-center justify-between border-b-gray-800 border-b-[1px] border-b-solid`}
 		>
 			<Link href="/" passHref>
-				<div className="flex items-center cursor-pointer mr-8">
+				<div className="md:flex items-center cursor-pointer mr-8 hidden">
 					<SNXIcon />
 					<h1 className="lustra tg-title-h5 text-white ml-2">Governance</h1>
 				</div>
@@ -115,7 +115,7 @@ export default function Header() {
 				)}
 			</button>
 			{burgerMenuOpen && (
-				<div className="fixed w-full h-full z-100 bg-black bg-opacity-80 top-[66px] left-0 py-10">
+				<div className="fixed w-full h-full z-100 bg-dark-blue top-[66px] left-0 py-10">
 					<div className="flex flex-col items-center">
 						{routes.filter(filterRoutes).map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref>

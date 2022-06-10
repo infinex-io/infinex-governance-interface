@@ -141,6 +141,7 @@
 	"modals": {
 		"nomination": {
 			"headline": "Nominate Self",
+			"subline": "Chose a governing body that you would like to represent if chosen as an elected member",
 			"nominationAddress": "Nomination Wallet Address",
 			"button": "Nominate Self",
 			"cta": "Nomination for {{council}} Council",
@@ -154,15 +155,16 @@
 		},
 		"withdraw": {
 			"headline": "Withdraw Nomination",
+			"subline": "A candidate can withdrawal from the nomination process at any given time within the nomination period",
 			"nomination-for": "Nomination for {{ council }} Council",
 			"button": "Withdraw Nomination"
 		},
 		"edit": {
 			"headline": "Edit Your Nomination",
-			"subline": "You can only nominate for 1 coincil at any given time. In order to change your nomination from one council to another you must first select your new council and click save. You will be need to sign 2 transactions in order to change.",
+			"subline": "You can only nominate for 1 council at any given time. In order to change your nomination from one council to another you must first select your new council and click save. You will be need to sign 2 transactions in order to change.",
 			"current": "Current Nomination",
 			"council": "{{council}} Council",
-			"step-one": "Step 1 -  Unominate yourself",
+			"step-one": "Step 1 -  Withdraw Nomination",
 			"step-two": "Step 2 - Chose New Council Nomination",
 			"button": "Next",
 			"banner": "You will need to sign 2 transactions to change council.",

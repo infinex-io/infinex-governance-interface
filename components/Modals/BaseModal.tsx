@@ -17,7 +17,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 		<div className="bg-purple p-1 rounded-[2rem]">
 			<div className=" flex flex-col items-center darker-60 rounded-[2rem] min-h-screen">
 				<IconButton
-					className="top-[40px] right-[40px] absolute"
+					className="top-[20px] right-[20px] absolute"
 					onClick={() => {
 						document.documentElement.classList.remove('stop-scrolling');
 						setIsOpen(false);
@@ -27,7 +27,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 				>
 					<CloseIcon active />
 				</IconButton>
-				<h1 className="tg-title-h1 text-white md:mt-24 mt-20 text-center">{headline}</h1>
+				<h2 className="tg-title-h2 text-white md:mt-24 mt-20 text-center">{headline}</h2>
 				{children}
 			</div>
 		</div>

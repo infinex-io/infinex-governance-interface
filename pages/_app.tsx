@@ -68,8 +68,8 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<ModulesProvider>
 			<TransactionDialogContextProvider provider={signer?.provider || L2DefaultProvider}>
-				<Header />
 				<UIModal open={isOpen} modalContent={content}>
+					<Header />
 					<TheComponent {...pageProps} />
 					<Footer />
 				</UIModal>

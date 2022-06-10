@@ -42,11 +42,13 @@ export default function CouncilNominees() {
 				{!isNominatedQuery.data?.length && (
 					<NominateSelfBanner deployedModule={activeCouncil.module} />
 				)}
-				<BackButton />
-				<h1 className="tg-title-h1 text-center pt-10">
-					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
-				</h1>
-				<span className="tg-content text-gray-500 text-center block pt-[8px] mb-[48px]">
+				<div className="w-full relative mt-10">
+					<BackButton />
+					<h1 className="tg-title-h1 text-center">
+						{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
+					</h1>
+				</div>
+				<span className="tg-content text-gray-500 text-center block pt-[8px] mb-4 p-2">
 					{t('councils.subline')}
 				</span>
 				{nomineesInfo.isLoading && !nomineesInfo.data ? (
@@ -65,7 +67,7 @@ export default function CouncilNominees() {
 								/>
 							))}
 						</div>
-						<div className="w-full flex justify-around items-center gap-5 max-w-[330px] mx-auto">
+						<div className="w-full flex justify-around items-center gap-5 max-w-[330px] mx-auto pb-40">
 							<SkipLeftIcon
 								active={activePage > 8}
 								onClick={() => setActivePage(8)}
@@ -77,8 +79,8 @@ export default function CouncilNominees() {
 								active={activePage > 8}
 							></ArrowDropdownLeftIcon>
 							<h6 className="tg-title-h6 text-gray-500">
-								{activePage - 7 > 0 ? activePage - 7 : 1}-{nomineesInfo.data.length}{' '}
-								{t('councils.of')}
+								{activePage - 7 > 0 ? activePage - 7 : 1}-{nomineesInfo.data.length}&nbsp;
+								{t('councils.of')}&nbsp;
 								{nomineesInfo.data.length}
 							</h6>
 							<ArrowDropdownRightIcon

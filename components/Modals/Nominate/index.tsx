@@ -124,14 +124,15 @@ export default function NominateModal() {
 			{!data?.connector ? (
 				<ConnectButton />
 			) : (
-				<>
-					<div className="flex flex-col items-center bg-black px-12 py-3 rounded">
-						<h6 className="tg-title-h6 text-gray-500">
+				<div className="px-2 flex flex-col items-center max-w-[500px]">
+					<span className="tg-content text-gray-500 py-2 text-center">
+						{t('modals.nomination.subline')}
+					</span>
+					<div className="flex flex-col items-center bg-black px-12 py-8 rounded mt-4">
+						<h5 className="tg-title-h5 text-gray-300 mb-1">
 							{t('modals.nomination.nominationAddress')}
-						</h6>
-						<div className="text-white tg-title-h5">
-							{ensName || truncateAddress(data!.address!)}
-						</div>
+						</h5>
+						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(data!.address!)}</h3>
 					</div>
 					<div className="flex justify-center flex-col md:flex-row gap-4 m-10 max-w-[190px] w-full md:max-w-none">
 						<Checkbox
@@ -194,7 +195,7 @@ export default function NominateModal() {
 					>
 						{t('modals.nomination.button')}
 					</Button>
-				</>
+				</div>
 			)}
 		</BaseModal>
 	);

@@ -32,8 +32,10 @@ const Councils: NextPage = () => {
 			</Head>
 			<Main>
 				<div className="flex flex-col items-center p-3">
-					<BackButton />
-					<h1 className="tg-title-h1 text-center p-12">{t('councils.headline')}</h1>
+					<div className="w-full relative">
+						<BackButton />
+						<h1 className="tg-title-h1 text-center p-12 ml-auto">{t('councils.headline')}</h1>
+					</div>
 					<Tabs
 						className="overflow-x-auto h-[60px] no-scrollbar"
 						titles={councilTabs}

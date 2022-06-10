@@ -17,10 +17,17 @@ export default function IconWrapper({
 	children,
 	active,
 	onClick,
+	className,
 	...rest
 }: PropsWithChildren<IconButton>) {
 	return (
-		<StyledWrapper rounded={rounded} active={active} onClick={onClick} {...rest}>
+		<StyledWrapper
+			rounded={rounded}
+			active={active}
+			onClick={onClick}
+			className={className}
+			{...rest}
+		>
 			<StyledGradient rounded={rounded} size={size} active={active}>
 				{children}
 			</StyledGradient>
@@ -38,6 +45,7 @@ const StyledWrapper = styled.button<{
 	border: 1px solid rgba(130, 130, 149, 0.3);
 	border-radius: ${({ rounded }) => (rounded ? '30px' : '4px')};
 	background: ${({ active }) => (active ? `${colors.gradients.grey}` : 'transparent')};
+	padding-left: 4px;
 `;
 
 const StyledGradient = styled.div<{

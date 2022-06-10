@@ -47,9 +47,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 
 	return (
 		<div className="bg-purple p-1 rounded">
-			<div className="h-full p-8 rounded gap-1 flex flex-col justify-around align-center darker-60">
+			<div className="h-full p-4 rounded gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt={council} src={image} width={50} height={70} />
-				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
+				<h4 className="tg-title-h4 text-center mt-2">{t(`landing-page.cards.${council}`)}</h4>
 				<span
 					className={`${color} p-2 rounded-full tg-caption-bold text-center my-2 w-fit self-center`}
 				>
