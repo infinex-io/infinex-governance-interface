@@ -94,6 +94,16 @@ li {
 }
 
 @font-face {
+	font-family: 'GT America Condensed Bold';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 700;
+	src: local('GT America Condensed Bold'),
+		url('../components/old-ui/fonts/GT-America-Condensed-Bold.woff2') format('woff2'),
+		url('../components/old-ui/fonts/GT-America-Condensed-Bold.woff') format('woff');
+}
+
+@font-face {
 	font-family: 'GT America Mono';
 	font-style: normal;
 	font-display: swap;
@@ -126,6 +136,15 @@ html.stop-scrolling body {
 .no-scrollbar {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-blue);
+	-webkit-border-radius: 5px;
+}
+
+::-webkit-scrollbar-corner {
+	background: #000;
 }
 
 .dropdown-border {

@@ -32,6 +32,7 @@ export default function CouncilNominees() {
 	const paginatedNominees = (startIndex: number, endIndex: number) => {
 		return nomineesInfo.data?.slice(startIndex, endIndex);
 	};
+
 	return (
 		<>
 			<Head>
@@ -42,9 +43,12 @@ export default function CouncilNominees() {
 					<NominateSelfBanner deployedModule={activeCouncil.module} />
 				)}
 				<BackButton />
-				<h1 className="tg-title-h1 text-center pt-20">
+				<h1 className="tg-title-h1 text-center pt-10">
 					{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
 				</h1>
+				<span className="tg-content text-gray-500 text-center block pt-[8px] mb-[48px]">
+					{t('councils.subline')}
+				</span>
 				{nomineesInfo.isLoading && !nomineesInfo.data ? (
 					<Loader className="flex justify-center" />
 				) : !!nomineesInfo.data?.length ? (
@@ -73,7 +77,9 @@ export default function CouncilNominees() {
 								active={activePage > 8}
 							></ArrowDropdownLeftIcon>
 							<h6 className="tg-title-h6 text-gray-500">
-								{activePage - 7}-{activePage} {t('councils.of')} {nomineesInfo.data.length}
+								{activePage - 7 > 0 ? activePage - 7 : 1}-{nomineesInfo.data.length}{' '}
+								{t('councils.of')}
+								{nomineesInfo.data.length}
 							</h6>
 							<ArrowDropdownRightIcon
 								className="cursor-pointer"

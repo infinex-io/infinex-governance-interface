@@ -48,10 +48,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	return (
 		<div className="bg-purple p-1 rounded">
 			<div className="h-full p-8 rounded gap-1 flex flex-col justify-around align-center darker-60">
-				<Image alt={council} src={image} width={50} height={72} />
+				<Image alt={council} src={image} width={50} height={70} />
 				<h4 className="tg-title-h4 text-center">{t(`landing-page.cards.${council}`)}</h4>
 				<span
-					className={`${color} p-2 rounded-full tg-content-bold text-center my-2 w-fit self-center`}
+					className={`${color} p-2 rounded-full tg-caption-bold text-center my-2 w-fit self-center`}
 				>
 					{t(cta)}
 				</span>
@@ -72,10 +72,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<span className="tg-caption text-gray-500">{t(headlineRight)}</span>
 				</div>
 				<div className="flex justify-between">
-					<h4 className="tg-title-h4">
+					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
-					<h4 className="tg-title-h4">
+					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
 						{/* TODO @MF implement historical vote query on voting */}
 						{period === 'NOMINATION' ? 0 : membersCount}
 					</h4>

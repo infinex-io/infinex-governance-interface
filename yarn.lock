@@ -2460,7 +2460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@synthetixio/ui@npm:latest":
+"@synthetixio/ui@npm:3.0.4":
   version: 3.0.4
   resolution: "@synthetixio/ui@npm:3.0.4"
   dependencies:
@@ -7387,7 +7387,7 @@ __metadata:
     "@synthetixio/contracts-interface": 2.64.1
     "@synthetixio/providers": 2.64.1
     "@synthetixio/transaction-notifier": ^2.63.1
-    "@synthetixio/ui": latest
+    "@synthetixio/ui": 3.0.4
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 13.2.0
     "@types/jest": 27.5.1

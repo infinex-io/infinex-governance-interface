@@ -50,7 +50,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 	const { t } = useTranslation();
 
 	return (
-		<div className={clsx('bg-dark-blue border border-gray-700 w-full p-3', className)}>
+		<div className={clsx('bg-dark-blue border border-gray-800 w-full p-3 rounded-lg', className)}>
 			<div className="flex items-center flex-wrap gap-4">
 				<Avatar
 					width={69}
@@ -91,7 +91,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 					<VoteHistory deployedModule={deployedModule} walletAddress={walletAddress} />
 				)}
 			</div>
-			<hr className="border-gray-700 my-4" />
+			<hr className="border-gray-800 my-4" />
 
 			<div className="flex flex-col md:pl-[69px] ml-5 break-words">
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.wallet')}</h5>
@@ -102,7 +102,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 			</div>
 			{pitch && (
 				<>
-					<hr className="border-gray-700 my-4" />
+					<hr className="border-gray-800 my-4" />
 					<div className="flex flex-col md:pl-[69px] ml-5">
 						<h5 className="tg-content-bold text-gray-650">{t('profiles.pitch')}</h5>
 						{pitch}
