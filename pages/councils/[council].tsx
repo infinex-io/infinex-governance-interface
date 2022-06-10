@@ -42,7 +42,7 @@ export default function CouncilNominees() {
 				{!isNominatedQuery.data?.length && (
 					<NominateSelfBanner deployedModule={activeCouncil.module} />
 				)}
-				<div className="w-full relative">
+				<div className="w-full relative p-10">
 					<BackButton />
 					<h1 className="tg-title-h1 text-center">
 						{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
