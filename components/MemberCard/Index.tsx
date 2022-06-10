@@ -13,7 +13,7 @@ import { DeployedModules } from 'containers/Modules';
 import WithdrawVoteModal from 'components/Modals/WithdrawVote';
 import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
-import { compareAddress } from 'utils/helpers';
+import { compareAddress, urlIsCorrect } from 'utils/helpers';
 import { useAccount } from 'wagmi';
 import { copyToClipboard } from 'utils/helpers';
 import clsx from 'clsx';
@@ -80,15 +80,15 @@ export default function MemberCard({
 							/>
 						)}
 
-						{member.twitter && (
-							<Link href={'https://twitter.com/' + member.twitter} passHref>
+						{member.twitter && urlIsCorrect(member.twitter, 'https://twitter.com') && (
+							<Link href={member.twitter} passHref>
 								<a rel="noreferrer" target="_blank">
 									<TwitterIcon fill="white" />
 								</a>
 							</Link>
 						)}
-						{member.github && (
-							<Link href={'https://github.com/' + member.github} passHref>
+						{member.github && urlIsCorrect(member.github, 'https://github.com') && (
+							<Link href={member.github} passHref>
 								<a rel="noreferrer" target="_blank">
 									<GitHubIcon fill="white" />
 								</a>
