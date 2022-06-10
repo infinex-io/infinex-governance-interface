@@ -129,7 +129,7 @@ export default function Header() {
 					</div>
 				</div>
 			)}
-			<div className="flex md:mr-1 min-w-[170px] h-[34px] justify-end">
+			<div className="flex md:mr-1 min-w-[170px] h-[40px] justify-end">
 				<ConnectButton accountStatus="full" showBalance={false} />
 			</div>
 		</header>
