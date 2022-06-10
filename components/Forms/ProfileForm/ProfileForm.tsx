@@ -74,9 +74,11 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				placeholder={t('modals.editProfile.inputs.placeholder.profileImageUrl')}
 			/>
 
-			<Button loading={isLoading} variant="purple" size="lg">
-				Confirm
-			</Button>
+			<div className="mx-auto">
+				<Button loading={isLoading} size="lg">
+					{t('modals.editProfile.cta')}
+				</Button>
+			</div>
 		</form>
 	);
 };
