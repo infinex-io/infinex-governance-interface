@@ -8,19 +8,18 @@ import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 
 export default function useCouncilCardQueries(deployedModule: DeployedModules) {
 	const currentEpochIndex = useEpochIndexQuery(deployedModule);
-	const voteHistoryQuery = useVoteHistoryQuery(
+	/* const voteHistoryQuery = useVoteHistoryQuery(
 		deployedModule,
 		null,
 		null,
 		String(currentEpochIndex.data)
-	);
+	); */
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
 	const { data: nominationDates } = useNominationPeriodDatesQuery(deployedModule);
 	const { data: nominees } = useNomineesQuery(deployedModule);
 	const { data: councilMembers } = useCouncilMembersQuery(deployedModule);
 	return {
 		currentEpochIndex,
-		voteHistoryQuery,
 		currentPeriodData,
 		nominationDates,
 		nominees,

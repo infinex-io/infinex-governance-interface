@@ -29,11 +29,10 @@ const VoteHistory = ({
 	walletAddress: string;
 }) => {
 	const { t } = useTranslation();
-	const voteHistory = useVoteHistoryQuery(deployedModule, walletAddress, null, null);
 	return (
 		<div className="flex flex-col mx-5">
 			<h5 className="tg-content-bold text-gray-650">{t('profiles.votes')}</h5>
-			<h3 className="tg-title-h3 mt-1">{voteHistory.data?.length || 0}</h3>
+			<h3 className="tg-title-h3 mt-1">{0}</h3>
 		</div>
 	);
 };
