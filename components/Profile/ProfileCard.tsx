@@ -7,7 +7,7 @@ import { DeployedModules } from 'containers/Modules';
 import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { copyToClipboard } from 'utils/helpers';
+import { copyToClipboard, urlIsCorrect } from 'utils/helpers';
 import { truncateAddress } from 'utils/truncate-address';
 
 export interface ProfileCardProps {
@@ -75,15 +75,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 					</div>
 				)}
 
-				{twitter && (
+				{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
 					<div className="flex flex-col m-2">
 						<h5 className="tg-content-bold text-gray-650">{t('profiles.twitter')}</h5>
-						<ExternalLink
-							className="py-1 mt-1"
-							border
-							link={`https://twitter.com/${twitter}`}
-							text="Twitter"
-						/>
+						<ExternalLink className="py-1 mt-1" border link={twitter} text="Twitter" />
 					</div>
 				)}
 
