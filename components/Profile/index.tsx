@@ -109,7 +109,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							<ProfileForm userProfile={userDetailsQuery.data} />
 						</Dialog>
 					</div>
-					<p className="tg-body p-8">{about}</p>
+					<p className="tg-body p-8 text-center">{about}</p>
 				</div>
 				{isOwnCard && !!isNominatedQuery.data?.length && (
 					<div className="p-2 w-full">
