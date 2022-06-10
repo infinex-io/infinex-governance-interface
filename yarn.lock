@@ -2452,17 +2452,17 @@ __metadata:
   linkType: hard
 
 "@synthetixio/transaction-notifier@npm:^2.63.1, @synthetixio/transaction-notifier@npm:^2.70.1":
-  version: 2.71.2
-  resolution: "@synthetixio/transaction-notifier@npm:2.71.2"
+  version: 2.72.1
+  resolution: "@synthetixio/transaction-notifier@npm:2.72.1"
   dependencies:
     ethers: 5.5.3
-  checksum: 1ae42cddf33b1c1d2f4aadca1521d20d974dce755a5db7993b2016d94cc5347da423404ad0c526a89498019648e0dd2e1b554faca05dabaa873c37e9910c48dd
+  checksum: 74e5158dbb2ed20bcb5e4fa1115091c7d70356d1cfb00472d6f4eb71e8f82da55518fd494da0cbf67ffb89eef2dfb8f611bdbb883c2c5177ddea2ac38d637574
   languageName: node
   linkType: hard
 
-"@synthetixio/ui@npm:3.0.4":
-  version: 3.0.4
-  resolution: "@synthetixio/ui@npm:3.0.4"
+"@synthetixio/ui@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@synthetixio/ui@npm:3.1.0"
   dependencies:
     "@synthetixio/transaction-notifier": ^2.70.1
     babel-loader: 8.2.3
@@ -2475,7 +2475,7 @@ __metadata:
   dependenciesMeta:
     babel-loader:
       optional: true
-  checksum: db84cbe95d031d98f2a920a4d48568183e3c33554678be8bb5924a2c580a949a8125329a9ac0c6f890fb78f77b40fbbf48baf9b3377dc91be9f55ed2ed14517b
+  checksum: 687527b1bc0d0989efb42a39982cb5daa6c49e7388b797771dcefe9cf3b4248451328368c76ff46af271df3c91526e729713e90a52c8273bcc79a4b945046ab2
   languageName: node
   linkType: hard
 
@@ -5671,9 +5671,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.147":
-  version: 1.4.150
-  resolution: "electron-to-chromium@npm:1.4.150"
-  checksum: d89c4db96c7d8d23c619772b787b7c036ccf48289c36c9e0d0938c137b7d3934234825161e9cc9e918ad83b9a23145e605181544a80034df4d2c0fc880881304
+  version: 1.4.151
+  resolution: "electron-to-chromium@npm:1.4.151"
+  checksum: 03be4f1f1f08da6962a2983ae7a092a61edc736010ed10e42c612ce3fa13d47e360313230ddc101bec71f5da5689546d7eee541ea5e1fe4082b09355b30311ec
   languageName: node
   linkType: hard
 
@@ -7387,7 +7387,7 @@ __metadata:
     "@synthetixio/contracts-interface": 2.64.1
     "@synthetixio/providers": 2.64.1
     "@synthetixio/transaction-notifier": ^2.63.1
-    "@synthetixio/ui": 3.0.4
+    "@synthetixio/ui": 3.1.0
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 13.2.0
     "@types/jest": 27.5.1
