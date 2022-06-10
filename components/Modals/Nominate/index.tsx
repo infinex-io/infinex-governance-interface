@@ -59,7 +59,7 @@ export default function NominateModal() {
 			queryClient
 				.refetchQueries({
 					stale: true,
-					queryKey: ['nominees', 'isNominated'],
+					active: true,
 				})
 				.then(() => {
 					setIsOpen(false);

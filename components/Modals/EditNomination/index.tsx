@@ -49,13 +49,13 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			queryClient.invalidateQueries({
 				queryKey: ['nominees'],
 			});
-			queryClient.refetchQueries({ stale: true });
+			queryClient.refetchQueries({ stale: true, active: true });
 		}
 		if (state === 'confirmed' && step === 2) {
 			queryClient.invalidateQueries({
 				queryKey: ['nominees'],
 			});
-			queryClient.refetchQueries({ stale: true }).then(() => {
+			queryClient.refetchQueries({ stale: true, active: true }).then(() => {
 				push('/councils/'.concat(activeCheckbox));
 				setVisible(false);
 				setIsOpen(false);

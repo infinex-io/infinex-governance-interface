@@ -12,6 +12,7 @@ export const Banner = styled(Flex)<{
 	width: 100%;
 	padding: ${({ theme }) => theme.spacings.tiny};
 	color: ${({ theme }) => theme.colors.black};
+	margin-bottom: 20px;
 `;
 
 export const BannerText = styled.h3`
