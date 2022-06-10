@@ -59,7 +59,7 @@ export default function MemberCard({
 					url={member.pfpThumbnailUrl}
 				/>
 				{council && (
-					<Badge variant="success" className="mt-3 uppercase">
+					<Badge variant="blue" className="mt-3 uppercase">
 						{t('profiles.council', { council })}
 					</Badge>
 				)}
