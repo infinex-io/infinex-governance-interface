@@ -88,7 +88,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 						/>
 					</div>
 					<div className="w-full flex overflow-x-auto lg:hidden">
-						{(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+						{(allMembers[activeIndex] as GetUserDetails[])?.map((member, index) => (
 							<MemberCard
 								member={member}
 								key={member.address.concat(String(index))}
@@ -101,7 +101,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 				</>
 			) : (
 				<div className="w-full flex overflow-x-auto justify-center">
-					{(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+					{(allMembers[activeIndex] as GetUserDetails[])?.map((member, index) => (
 						<MemberCard
 							member={member}
 							key={member.address.concat(String(index))}

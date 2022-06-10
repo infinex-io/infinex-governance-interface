@@ -76,7 +76,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
 					<h4 className="tg-title-h4">
-						{period === 'NOMINATION' ? voteHistoryQuery.data?.length || 0 : membersCount}
+						{/* TODO @MF implement historical vote query on voting */}
+						{period === 'NOMINATION' ? 0 : membersCount}
 					</h4>
 				</div>
 				{secondButton && (

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useContext, createContext } from 'react';
 import { ethers } from 'ethers';
-import { useAccount, useProvider } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 type ConnectorContextType = {
 	ensName: string | null;
@@ -20,12 +20,14 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
 		[]
 	);
+	const L2DefaultProvider = useMemo(
+		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
+		[]
+	);
 	const accountQuery = useAccount();
 
 	const [ensName, setEnsName] = useState<string | null>(null);
 	const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
-
-	const provider = useProvider();
 
 	useEffect(() => {
 		const address = accountQuery.data?.address;
@@ -52,7 +54,7 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 				ensAvatar,
 				ensName,
 				L1DefaultProvider,
-				L2DefaultProvider: provider,
+				L2DefaultProvider,
 			}}
 		>
 			{children}

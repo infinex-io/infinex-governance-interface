@@ -56,6 +56,7 @@ function useIsNominatedForCouncilInNominationPeriod(walletAddress: string) {
 				!!grantsPeriod.data?.currentPeriod &&
 				!!ambassadorPeriod.data?.currentPeriod &&
 				!!treasuryPeriod.data?.currentPeriod,
+			staleTime: 900000,
 		}
 	);
 }
