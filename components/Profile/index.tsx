@@ -121,17 +121,11 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				</div>
 				{isOwnCard && !!isNominatedQuery.data?.length && (
 					<div className="p-2 w-full">
-						<div className="bg-dark-blue w-full border border-gray-700 flex flex-col p-2">
+						<div className="bg-dark-blue w-full border border-gray-700 flex flex-col p-4">
 							<div className="flex flex-col">
-								<div className="flex w-full items-center">
+								<div className="flex w-full items-center gap-2">
 									{calculatePercentage() === '100%' ? (
-										<Image
-											src="/images/tick.svg"
-											width={44}
-											height={44}
-											alt="tick"
-											className="m-2"
-										/>
+										<Image src="/images/tick.svg" width={44} height={44} alt="tick" />
 									) : (
 										<Image src="/images/pending.svg" width={94} height={94} alt="pending updates" />
 									)}
@@ -202,7 +196,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					</div>
 				)}
 				<div className="flex flex-col mb-6 w-full p-2">
-					<h4 className="tg-title-h4 text-start">{t('profiles.subheadline')}</h4>
+					<h4 className="tg-title-h4 text-start my-2">{t('profiles.subheadline')}</h4>
 					<div className="relative flex flex-col items-center w-full">
 						{isOwnCard && (
 							<IconButton

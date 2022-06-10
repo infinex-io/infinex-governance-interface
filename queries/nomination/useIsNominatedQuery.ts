@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { ethers } from 'ethers';
 import { hexStringBN } from 'utils/hexString';
+import { isNominatedQueryKeys } from 'utils/queries';
 
 function useIsNominated(
 	moduleInstance: DeployedModules,
@@ -11,7 +11,7 @@ function useIsNominated(
 ) {
 	const governanceModules = useModulesContext();
 	return useQuery<boolean>(
-		['isNominated', walletAddress, moduleInstance],
+		isNominatedQueryKeys(moduleInstance, walletAddress),
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let isNominated: boolean;

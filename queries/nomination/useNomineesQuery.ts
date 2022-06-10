@@ -1,12 +1,13 @@
 import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
+import { nomineesQueryKeys } from 'utils/queries';
 
 function useNomineesQuery(moduleInstance: DeployedModules) {
 	const governanceModules = useModulesContext();
 
 	return useQuery<string[]>(
-		['nominees', moduleInstance],
+		nomineesQueryKeys(moduleInstance),
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			const nominees = await contract?.getNominees();

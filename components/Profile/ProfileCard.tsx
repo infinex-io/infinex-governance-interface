@@ -103,7 +103,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 			{pitch && (
 				<>
 					<hr className="border-gray-700 my-4" />
-					<div className="flex flex-col md:pl-[69px] ml-5 whitespace-pre">
+					<div className="flex flex-col md:pl-[69px] ml-5">
 						<h5 className="tg-content-bold text-gray-650">{t('profiles.pitch')}</h5>
 						{pitch}
 					</div>

@@ -28,7 +28,7 @@ export default function LandingPage() {
 					/>
 				))}
 			</div>
-			<h1 className="tg-title-h1 text-center">{t('landing-page.second-headline')}</h1>
+			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.second-headline')}</h1>
 			<span className="tg-content text-gray-500 text-center pt-[8px]">
 				{t('landing-page.second-subline')}
 			</span>
@@ -68,7 +68,7 @@ export default function LandingPage() {
 					></StyledButtonCards>
 				</Link>
 			</div>
-			<h1 className="tg-title-h1 text-center">{t('landing-page.tabs-headline')}</h1>
+			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.tabs-headline')}</h1>
 			<span className="tg-content text-gray-500 text-center pt-[8px]">
 				{t('landing-page.tabs-subline')}
 			</span>
