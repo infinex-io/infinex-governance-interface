@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import VoteModal from 'components/Modals/Vote';
-import { Badge, Button, Card, IconButton, Dropdown } from '@synthetixio/ui';
+import { Badge, Button, IconButton, Dropdown } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
