@@ -186,6 +186,7 @@
 		"editProfile": {
 			"headline": "Edit Profile",
 			"subheadline": "Update your profile with more information about yourself",
+			"cta": "Save Profile",
 			"inputs": {
 				"headline": {
 					"username": "Username",
