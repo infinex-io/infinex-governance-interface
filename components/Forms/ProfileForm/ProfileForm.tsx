@@ -19,6 +19,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 
 			<div className="flex items-center gap-2">
 				<TextField
+					variant="black"
 					{...formik.getFieldProps('username')}
 					{...errors.username}
 					label={t('modals.editProfile.inputs.headline.username')}
@@ -26,6 +27,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				/>
 
 				<TextField
+					variant="black"
 					{...formik.getFieldProps('website')}
 					{...errors.website}
 					label={t('modals.editProfile.inputs.headline.website')}
@@ -33,6 +35,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				/>
 			</div>
 			<TextField
+				variant="black"
 				{...formik.getFieldProps('about')}
 				{...errors.about}
 				multiline
@@ -40,6 +43,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				placeholder={t('modals.editProfile.inputs.placeholder.about')}
 			/>
 			<TextField
+				variant="black"
 				{...formik.getFieldProps('delegationPitch')}
 				{...errors.delegationPitch}
 				multiline
@@ -48,18 +52,21 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 			/>
 			<div className="flex items-center gap-2">
 				<TextField
+					variant="black"
 					{...formik.getFieldProps('twitter')}
 					{...errors.twitter}
 					label={t('modals.editProfile.inputs.headline.twitter')}
 					placeholder={t('modals.editProfile.inputs.placeholder.twitter')}
 				/>
 				<TextField
+					variant="black"
 					{...formik.getFieldProps('discord')}
 					{...errors.discord}
 					label={t('modals.editProfile.inputs.headline.discord')}
 					placeholder={t('modals.editProfile.inputs.placeholder.discord')}
 				/>
 				<TextField
+					variant="black"
 					{...formik.getFieldProps('github')}
 					{...errors.github}
 					label={t('modals.editProfile.inputs.headline.github')}
@@ -68,6 +75,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 			</div>
 
 			<TextField
+				variant="black"
 				{...formik.getFieldProps('pfpThumbnailUrl')}
 				{...errors.pfpThumbnailUrl}
 				label={t('modals.editProfile.inputs.headline.profileImageUrl')}

@@ -34,9 +34,7 @@ export default function Header() {
 	].find((item) => item.data?.currentPeriod === 'VOTING');
 
 	useEffect(() => {
-		if (!oneCouncilIsInVotingPeriod)
-			setRoutes((state) => state.filter((route) => route.link !== 'vote'));
-		if (data?.address)
+		if (data?.address) {
 			setRoutes((state) =>
 				state.map((route) => {
 					if (route.link === 'profile') {
@@ -45,6 +43,7 @@ export default function Header() {
 					return route;
 				})
 			);
+		}
 	}, [oneCouncilIsInVotingPeriod, t, data?.address]);
 
 	useEffect(() => {
@@ -52,6 +51,10 @@ export default function Header() {
 			document.documentElement.classList.add('stop-scrolling');
 		} else document.documentElement.classList.remove('stop-scrolling');
 	}, [burgerMenuOpen]);
+
+	const filterRoutes = (route: any) =>
+		(oneCouncilIsInVotingPeriod || route.link !== 'vote') &&
+		(route.link !== 'profile' || data?.address);
 
 	return (
 		<header
@@ -65,7 +68,7 @@ export default function Header() {
 				</div>
 			</Link>
 			<div className="hidden md:flex justify-center w-full">
-				{routes.map((route) => (
+				{routes.filter(filterRoutes).map((route) => (
 					<Link key={route.label} href={`/${route.link}`} passHref>
 						<SpotlightButton
 							className="last-of-type:mr-auto m-2"
@@ -114,7 +117,7 @@ export default function Header() {
 			{burgerMenuOpen && (
 				<div className="fixed w-full h-full z-100 bg-black bg-opacity-80 top-[66px] left-0 py-10">
 					<div className="flex flex-col items-center">
-						{routes.map((route) => (
+						{routes.filter(filterRoutes).map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref>
 								<SpotlightButton
 									className="m-4"
