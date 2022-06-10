@@ -1,16 +1,17 @@
 import { Button } from '@synthetixio/ui';
 import { ArrowLinkOffIcon, ButtonCard } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
-import { DeployedModules } from 'containers/Modules';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { CouncilCard } from 'components/CouncilCard';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
+
 	return (
 		<div className="flex flex-col p-3">
 			<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
@@ -18,26 +19,14 @@ export default function LandingPage() {
 				{t('landing-page.subline')}
 			</span>
 			<div className="flex justify-center flex-wrap gap-4 my-8">
-				<CouncilCard
-					image="/logos/spartan-council.svg"
-					deployedModule={DeployedModules.SPARTAN_COUNCIL}
-					council="spartan"
-				/>
-				<CouncilCard
-					image="/logos/grants-council.svg"
-					deployedModule={DeployedModules.GRANTS_COUNCIL}
-					council="grants"
-				/>
-				<CouncilCard
-					image="/logos/ambassador-council.svg"
-					deployedModule={DeployedModules.AMBASSADOR_COUNCIL}
-					council="ambassador"
-				/>
-				<CouncilCard
-					image="/logos/treasury-council.svg"
-					deployedModule={DeployedModules.TREASURY_COUNCIL}
-					council="treasury"
-				/>
+				{COUNCILS_DICTIONARY.map((council) => (
+					<CouncilCard
+						key={council.image}
+						image={council.image}
+						council={council.slug}
+						deployedModule={council.module}
+					/>
+				))}
 			</div>
 			<h1 className="tg-title-h1 text-center">{t('landing-page.second-headline')}</h1>
 			<span className="tg-content text-gray-500 text-center pt-[8px]">

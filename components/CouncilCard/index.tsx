@@ -5,18 +5,14 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import useCurrentPeriod, { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
-import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
-import useNomineesQuery from 'queries/nomination/useNomineesQuery';
+import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import clsx from 'clsx';
-import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
-import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
-import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
+import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
 
 interface CouncilCardProps {
 	council: string;
@@ -29,23 +25,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
-	const currentEpochIndex = useEpochIndexQuery(deployedModule);
-	const voteHistoryQuery = useVoteHistoryQuery(
-		deployedModule,
-		null,
-		null,
-		String(currentEpochIndex.data)
-	);
-	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
-	// TODO @MF check when voting period starts, should be different
-	const [dates, nominees, members] = [
-		useNominationPeriodDatesQuery(deployedModule),
-		useNomineesQuery(deployedModule),
-		useCouncilMembersQuery(deployedModule),
-	];
-
-	const membersCount = members.data?.length;
-	const nomineesCount = nominees.data?.length;
+	const { councilMembers, currentPeriodData, nominationDates, nominees, voteHistoryQuery } =
+		useCouncilCardQueries(deployedModule);
+	const membersCount = councilMembers?.length;
+	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
 
 	useEffect(() => {
@@ -73,14 +56,14 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					{t(cta)}
 				</span>
 				{period &&
-					dates.data?.nominationPeriodEndDate &&
+					nominationDates?.nominationPeriodEndDate &&
 					['NOMINATION', 'VOTING'].includes(period) && (
 						<Timer
 							className={clsx('text-orange tg-body-bold mx-auto', {
 								'text-orange': period === 'NOMINATION',
 								'text-green': period === 'VOTING',
 							})}
-							expiryTimestamp={dates.data?.nominationPeriodEndDate}
+							expiryTimestamp={nominationDates?.nominationPeriodEndDate}
 						/>
 					)}
 				<StyledSpacer className="mb-1" />

@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Main from 'components/Main';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 import { Tabs } from 'components/old-ui';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
@@ -11,6 +10,8 @@ import MemberCard from 'components/MemberCard/Index';
 import { parseQuery } from 'utils/parse';
 import BackButton from 'components/BackButton';
 import { Loader } from 'components/Loader/Loader';
+import clsx from 'clsx';
+import { TabIcon } from 'components/TabIcon';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
@@ -34,25 +35,25 @@ const Councils: NextPage = () => {
 					<BackButton />
 					<h1 className="tg-title-h1 text-center p-12">{t('councils.headline')}</h1>
 					<Tabs
-						className="overflow-x-auto height-[150px] no-scrollbar"
+						className="overflow-x-auto h-[60px] no-scrollbar"
 						titles={councilTabs}
 						activeIndex={activeCouncil.index}
 						clicked={(index) => {
 							if (typeof index === 'number') setActiveCouncil(parseQuery(index));
 						}}
 						icons={[
-							<StyledTabIcon key="spartan-council-tab" active={activeCouncil.index === 0}>
+							<TabIcon key="spartan-council-tab" isActive={activeCouncil.index === 0}>
 								{members.data?.spartan?.length}
-							</StyledTabIcon>,
-							<StyledTabIcon key="grants-council-tab" active={activeCouncil.index === 1}>
+							</TabIcon>,
+							<TabIcon key="grants-council-tab" isActive={activeCouncil.index === 1}>
 								{members.data?.grants?.length}
-							</StyledTabIcon>,
-							<StyledTabIcon key="ambassador-council-tab" active={activeCouncil.index === 2}>
+							</TabIcon>,
+							<TabIcon key="ambassador-council-tab" isActive={activeCouncil.index === 2}>
 								{members.data?.ambassador?.length}
-							</StyledTabIcon>,
-							<StyledTabIcon key="treasury-council-tab" active={activeCouncil.index === 3}>
+							</TabIcon>,
+							<TabIcon key="treasury-council-tab" isActive={activeCouncil.index === 3}>
 								{members.data?.treasury?.length}
-							</StyledTabIcon>,
+							</TabIcon>,
 						]}
 					/>
 					{members.data?.spartan &&
@@ -60,7 +61,7 @@ const Councils: NextPage = () => {
 					members.data?.ambassador &&
 					members.data?.treasury ? (
 						<div className="flex flex-wrap justify-center">
-							{members.data[activeCouncil.name].map((member) => (
+							{members.data[activeCouncil.name]?.map((member) => (
 								<MemberCard
 									className="m-2"
 									key={member.address}
@@ -78,15 +79,5 @@ const Councils: NextPage = () => {
 		</>
 	);
 };
-
-const StyledTabIcon = styled.span<{ active?: boolean }>`
-	background-color: ${({ theme, active }) =>
-		active ? theme.colors.black : theme.colors.lightBlue};
-	border-radius: 15px;
-	color: ${({ theme, active }) => (active ? theme.colors.white : theme.colors.black)};
-	padding: 0px 8px;
-	font-size: 0.5rem;
-	font-family: 'Inter Bold';
-`;
 
 export default Councils;
