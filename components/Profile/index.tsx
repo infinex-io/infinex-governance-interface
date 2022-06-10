@@ -177,7 +177,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									<Button
 										variant="outline"
 										size="md"
-										className="max-w-[180px]"
+										className="max-w-[180px] m-2"
 										onClick={() => {
 											setContent(
 												<WithdrawNominationModal

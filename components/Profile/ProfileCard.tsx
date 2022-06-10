@@ -93,7 +93,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 			</div>
 			<hr className="border-gray-800 my-4" />
 
-			<div className="flex flex-col md:pl-[69px] ml-5 break-words">
+			<div className="flex flex-col md:pl-[69px] md:ml-12 ml-4 break-words">
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.wallet')}</h5>
 				<p className="flex items-center">
 					{truncateAddress(walletAddress)}
