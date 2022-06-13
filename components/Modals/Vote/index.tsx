@@ -94,9 +94,6 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				<h6 className="tg-title-h6">{t('modals.vote.voting-power.headline')}</h6>
 				<h3 className="tg-title-h3"></h3>
 			</div>
-			<Button onClick={() => handleVote()} size="lg" className="m-6">
-				{t('modals.vote.submit')}
-			</Button>
 			{!data?.connector ? (
 				<div className="m-6">
 					<ConnectButton />
