@@ -13,7 +13,7 @@ export default function VoteBanner({ deployedModule }: { deployedModule: Deploye
 			<BannerText>{t('banner.vote.headline')}</BannerText>
 			<TimeWrapper className="darker-60" alignItems="center">
 				{t('banner.vote.closes')}
-				{data?.votingPeriodStartDate && <Timer expiryTimestamp={data.votingPeriodStartDate} />}
+				{data?.votingPeriodEndDate && <Timer expiryTimestamp={data.votingPeriodEndDate} />}
 			</TimeWrapper>
 		</Banner>
 	);

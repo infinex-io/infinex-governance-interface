@@ -19,17 +19,28 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useAccount } from 'wagmi';
 
+const paginationStep = 8;
+
 export default function CouncilNominees() {
 	const { query } = useRouter();
 	const { t } = useTranslation();
 	const { data } = useAccount();
-	const [activePage, setActivePage] = useState(8);
+	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(data?.address || '');
-	const paginatedNominees = (startIndex: number, endIndex: number) => {
-		return nomineesQuery.data?.slice(startIndex, endIndex);
-	};
+	const maxPages = nomineesQuery.data?.length
+		? Math.floor(nomineesQuery.data.length / paginationStep)
+		: 0;
+
+	const canScrollRight = nomineesQuery.data?.length
+		? nomineesQuery.data.length > activePage * paginationStep + paginationStep
+		: false;
+	const startIndex = !activePage ? 0 : activePage * paginationStep;
+	const endIndex =
+		nomineesQuery.data?.length && startIndex + paginationStep > nomineesQuery.data?.length
+			? nomineesQuery.data!.length
+			: startIndex + paginationStep;
 
 	return (
 		<>
@@ -54,7 +65,7 @@ export default function CouncilNominees() {
 				) : !!nomineesQuery.data?.length ? (
 					<>
 						<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
-							{paginatedNominees(activePage - 8, activePage)?.map((walletAddress) => (
+							{nomineesQuery.data?.slice(startIndex, endIndex).map((walletAddress) => (
 								<MemberCard
 									className="m-2"
 									walletAddress={walletAddress}
@@ -67,34 +78,35 @@ export default function CouncilNominees() {
 						</div>
 						<div className="w-full flex justify-around items-center gap-5 max-w-[330px] mx-auto pb-40">
 							<SkipLeftIcon
-								active={activePage > 8}
-								onClick={() => setActivePage(8)}
+								active={activePage !== 0}
+								onClick={() => setActivePage(0)}
 								className="cursor-pointer"
 							/>
 							<ArrowDropdownLeftIcon
 								className="cursor-pointer"
-								onClick={() => setActivePage(activePage - 8 < 8 ? 8 : activePage - 8)}
-								active={activePage > 8}
+								onClick={() => setActivePage(activePage - 1 >= 0 ? activePage - 1 : 0)}
+								active={activePage !== 0}
 							></ArrowDropdownLeftIcon>
-							<h6 className="tg-title-h6 text-gray-500">
-								{activePage - 7 > 0 ? activePage - 7 : 1}-{activePage}&nbsp;
+							<h6 className="tg-title-h6 text-gray-500 select-none">
+								{startIndex + 1}-{endIndex}
+								&nbsp;
 								{t('councils.of')}&nbsp;
 								{nomineesQuery.data.length}
 							</h6>
 							<ArrowDropdownRightIcon
 								className="cursor-pointer"
-								active={activePage < nomineesQuery.data.length}
-								onClick={() =>
-									setActivePage(
-										activePage + 8 < nomineesQuery.data.length
-											? activePage + 8
-											: nomineesQuery.data.length
-									)
-								}
+								active={canScrollRight}
+								onClick={() => canScrollRight && setActivePage(activePage + 1)}
 							></ArrowDropdownRightIcon>
 							<SkipRightIcon
-								active={activePage < nomineesQuery.data.length}
-								onClick={() => setActivePage(nomineesQuery.data.length)}
+								active={canScrollRight}
+								onClick={() =>
+									setActivePage(
+										canScrollRight && (nomineesQuery.data.length / paginationStep) % 2 === 0
+											? activePage + maxPages - 1
+											: maxPages
+									)
+								}
 								className="cursor-pointer"
 							/>
 						</div>
