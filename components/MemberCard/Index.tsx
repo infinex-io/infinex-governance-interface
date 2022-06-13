@@ -3,7 +3,7 @@ import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { useModalContext } from 'containers/Modal';
 import { useRouter } from 'next/router';
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import VoteModal from 'components/Modals/Vote';
 import { Badge, Button, IconButton, Dropdown } from '@synthetixio/ui';
@@ -20,7 +20,7 @@ import clsx from 'clsx';
 import { toast } from 'react-toastify';
 
 interface MemberCardProps {
-	member: GetUserDetails;
+	walletAddress: string;
 	state: keyof typeof EpochPeriods;
 	deployedModule?: DeployedModules;
 	council?: string;
@@ -29,7 +29,7 @@ interface MemberCardProps {
 }
 
 export default function MemberCard({
-	member,
+	walletAddress,
 	state,
 	deployedModule,
 	council,
@@ -39,9 +39,21 @@ export default function MemberCard({
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
+	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const { setContent, setIsOpen } = useModalContext();
-	const isOwnCard = compareAddress(data?.address, member.address);
-	const votedForAlready = compareAddress(votedFor?.address, member.address);
+	const isOwnCard = compareAddress(data?.address, walletAddress);
+	const votedForAlready = compareAddress(votedFor?.address, walletAddress);
+
+	if (userDetailsQuery.isLoading)
+		return (
+			<div className={clsx('p-1 bg-purple w-[208px] h-[283px] rounded-lg', className)}>
+				<div className="h-full darker-60 animate-pulse"></div>
+			</div>
+		);
+
+	if (!userDetailsQuery.data) return null;
+
+	const member = userDetailsQuery.data;
 
 	return (
 		<div

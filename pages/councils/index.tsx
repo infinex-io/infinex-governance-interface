@@ -5,19 +5,18 @@ import { useRouter } from 'next/router';
 import { Tabs } from 'components/old-ui';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import MemberCard from 'components/MemberCard/Index';
 import { parseQuery } from 'utils/parse';
 import BackButton from 'components/BackButton';
 import { Loader } from 'components/Loader/Loader';
-import clsx from 'clsx';
 import { TabIcon } from 'components/TabIcon';
+import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()));
 	const { t } = useTranslation();
-	const members = useAllCouncilMembersQuery();
+	const members = useAllCouncilMembersAddresses();
 	const councilTabs = [
 		t('landing-page.tabs.sc'),
 		t('landing-page.tabs.gc'),
@@ -63,13 +62,13 @@ const Councils: NextPage = () => {
 					members.data?.ambassador &&
 					members.data?.treasury ? (
 						<div className="flex flex-wrap justify-center">
-							{members.data[activeCouncil.name]?.map((member) => (
+							{members.data[activeCouncil.name]?.map((walletAddress) => (
 								<MemberCard
 									className="m-2"
-									key={member.address}
-									member={member}
+									key={walletAddress}
+									walletAddress={walletAddress}
 									state="ADMINISTRATION"
-									council={member.council}
+									council={activeCouncil.name}
 								/>
 							))}
 						</div>
