@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
-import clsx from 'clsx';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
 
 interface CouncilCardProps {
@@ -25,7 +24,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
-	const { councilMembers, currentPeriodData, nominationDates, nominees } =
+	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
@@ -55,17 +54,18 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				>
 					{t(cta)}
 				</span>
-				{period &&
-					nominationDates?.nominationPeriodEndDate &&
-					['NOMINATION', 'VOTING'].includes(period) && (
-						<Timer
-							className={clsx('text-orange tg-body-bold mx-auto', {
-								'text-orange': period === 'NOMINATION',
-								'text-green': period === 'VOTING',
-							})}
-							expiryTimestamp={nominationDates?.nominationPeriodEndDate}
-						/>
-					)}
+				{period === 'NOMINATION' && nominationDates?.nominationPeriodEndDate && (
+					<Timer
+						className="text-orange tg-body-bold mx-auto"
+						expiryTimestamp={nominationDates?.nominationPeriodEndDate}
+					/>
+				)}
+				{period === 'VOTING' && votingDates?.votingPeriodEndDate && (
+					<Timer
+						className="text-green tg-body-bold mx-auto"
+						expiryTimestamp={votingDates.votingPeriodEndDate}
+					/>
+				)}
 				<StyledSpacer className="mb-1" />
 				<div className="flex justify-between">
 					<span className="tg-caption text-gray-500">{t(headlineLeft)}</span>

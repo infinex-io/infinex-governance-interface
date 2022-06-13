@@ -130,7 +130,6 @@ export default function Vote() {
 							</div>
 						</Card>
 					)}
-					<BackButton />
 					<VoteSection />
 					<PreEvaluationSection />
 				</div>

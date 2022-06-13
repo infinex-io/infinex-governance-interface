@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import useAllCurrentPeriods from 'queries/epochs/useAllCurrentPeriodsQuery';
-import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
+import { COUNCIL_SLUGS } from 'constants/config';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -22,8 +22,8 @@ export default function Header() {
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 	const [routes, setRoutes] = useState(routesDic);
 	const allPeriods = useAllCurrentPeriods();
-	const oneCouncilIsInVotingPeriod = !!allPeriods.data?.find(
-		(item) => item === (EpochPeriods as any)
+	const oneCouncilIsInVotingPeriod = !!COUNCIL_SLUGS.find((council, index) =>
+		allPeriods.data?.length ? allPeriods.data[index][council] === 'VOTING' : false
 	);
 
 	useEffect(() => {

@@ -54,7 +54,7 @@ export default function VoteCouncil() {
 			</Head>
 			<Main>
 				{activeCouncil && <VoteBanner deployedModule={activeCouncil.module} />}
-				<h1 className="tg-title-h1 text-center">
+				<h1 className="tg-title-h1 text-center p-10">
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
 				<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">

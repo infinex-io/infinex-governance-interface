@@ -4,7 +4,7 @@ import { t } from 'i18next';
 import Link from 'next/link';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import { usePreEvaluationVotingPowerQuery } from 'queries/voting/usePreEvaluationVotingPowerQuery';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { truncateAddress } from 'utils/truncate-address';
 
 export function PreEvaluationSection() {
@@ -37,7 +37,7 @@ export function PreEvaluationSection() {
 		preEvalTreasuryQuery.data,
 	];
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center pt-10">
 			<h1 className="tg-title-h1 text-white">{t('vote.pre-eval.headline')}</h1>
 			<Tabs
 				justifyContent="center"

@@ -1,3 +1,4 @@
+import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { DeployedModules } from 'containers/Modules';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
@@ -22,8 +23,11 @@ export default function VoteSection() {
 		treasuryCurrentPeriod?.currentPeriod && parseQuery(treasuryCurrentPeriod.currentPeriod);
 
 	return (
-		<div className="flex flex-col items-center">
-			<h1 className="tg-title-h1">{t('vote.headline')}</h1>
+		<div className="flex flex-col items-center w-full">
+			<div className="relative w-full p-8">
+				<BackButton />
+				<h1 className="tg-title-h1 text-center">{t('vote.headline')}</h1>
+			</div>
 			<div className="flex justify-center flex-wrap space-x-8">
 				{spartanCouncilInfo && (
 					<CouncilCard

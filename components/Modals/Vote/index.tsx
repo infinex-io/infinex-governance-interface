@@ -56,7 +56,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
 				}
 			});
-			// getDebtShare for L2 state
+			//governanceModules[deployedModule]?.contract.getDebtShare(data.address).then(console.log);
 		}
 	}, [data?.address, governanceModules, deployedModule]);
 
