@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 
 import { useForm } from './ProfileForm.hook';
-import { Loader } from 'components/Loader/Loader';
 
 type ProfileFormProps = {
 	userProfile?: GetUserDetails;
@@ -84,7 +83,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 			/>
 
 			<div className="mx-auto">
-				{isLoading ? <Loader /> : <Button size="lg">{t('modals.editProfile.cta')}</Button>}
+				<Button loading={isLoading} size="lg">
+					{t('modals.editProfile.cta')}
+				</Button>
 			</div>
 		</form>
 	);

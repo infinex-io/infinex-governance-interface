@@ -36,7 +36,7 @@ export default function VoteCouncil() {
 				<h1 className="tg-title-h1 text-center">
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
-				<div className="flex flex-wrap justify-center space-x-4 space-y-4 p-3">
+				<div className="flex flex-wrap justify-center p-3">
 					{nomineeQuery.isLoading || nomineeQuery.isLoading ? (
 						<Loader />
 					) : nomineeQuery.data?.length ? (
@@ -47,6 +47,7 @@ export default function VoteCouncil() {
 								council={activeCouncil.name}
 								deployedModule={activeCouncil.module}
 								state="VOTING"
+								className="m-2"
 								votedFor={
 									voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
 								}

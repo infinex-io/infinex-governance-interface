@@ -30,7 +30,7 @@ export default function Header() {
 		if (data?.address) {
 			setRoutes((state) =>
 				state.map((route) => {
-					if (route.link === 'profile') {
+					if (route.link.includes('profile')) {
 						return { ...route, link: 'profile/' + data.address };
 					}
 					return route;
