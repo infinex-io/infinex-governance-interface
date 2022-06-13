@@ -226,5 +226,10 @@
 			"closes": "Nominations Closes in"
 		}
 	},
+	"404": {
+		"title": "Oops! That page doesn’t exist 🤔",
+		"caption": "We’re not sure where it went",
+		"backToHomepage": "Back to Governance Homepage"
+	},
 	"copyClipboardMessage": "Successfully Copied"
 }
