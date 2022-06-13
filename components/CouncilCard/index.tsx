@@ -24,7 +24,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
-	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
+	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates, voteHistory } =
 		useCouncilCardQueries(deployedModule);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
@@ -76,8 +76,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
 					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
-						{/* TODO @MF implement historical vote query on voting */}
-						{period === 'NOMINATION' ? 0 : membersCount}
+						{voteHistory?.length || 0}
 					</h4>
 				</div>
 				{secondButton && (
