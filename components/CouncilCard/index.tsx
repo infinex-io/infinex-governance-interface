@@ -38,7 +38,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 
 	if (!councilInfo)
 		return (
-			<div className="p-1 bg-purple w-[295px] h-[347px] rounded">
+			<div className="p-1 bg-purple w-[248px] h-[347px] rounded">
 				<div className="h-full darker-60 animate-pulse"></div>
 			</div>
 		);
