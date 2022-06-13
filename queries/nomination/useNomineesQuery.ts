@@ -11,6 +11,7 @@ function useNomineesQuery(moduleInstance: DeployedModules) {
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			const nominees = await contract?.getNominees();
+
 			return nominees;
 		},
 		{
