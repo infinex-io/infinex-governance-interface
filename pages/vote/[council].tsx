@@ -4,7 +4,6 @@ import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
@@ -21,7 +20,6 @@ export default function VoteCouncil() {
 	const { data } = useAccount();
 	const { data: periodData } = useCurrentPeriod(activeCouncil.module);
 	const nomineeQuery = useNomineesQuery(activeCouncil.module);
-	const usersDetailsQuery = useUsersDetailsQuery(nomineeQuery.data || []);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
 
 	useEffect(() => {
@@ -39,13 +37,13 @@ export default function VoteCouncil() {
 					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 				</h1>
 				<div className="flex flex-wrap justify-center space-x-4 space-y-4 p-3">
-					{usersDetailsQuery.isLoading || nomineeQuery.isLoading ? (
+					{nomineeQuery.isLoading || nomineeQuery.isLoading ? (
 						<Loader />
-					) : usersDetailsQuery.data?.length ? (
-						usersDetailsQuery.data.map((member, index) => (
+					) : nomineeQuery.data?.length ? (
+						nomineeQuery.data.map((walletAddress, index) => (
 							<MemberCard
-								key={member.address.concat(String(index).concat('voting'))}
-								member={member}
+								key={walletAddress.concat(String(index).concat('voting'))}
+								walletAddress={walletAddress}
 								council={activeCouncil.name}
 								deployedModule={activeCouncil.module}
 								state="VOTING"

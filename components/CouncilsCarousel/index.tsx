@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'components/old-ui';
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
-import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import MemberCard from 'components/MemberCard/Index';
 import { Carousel } from '@synthetixio/ui';
 import { TabIcon } from 'components/TabIcon';
+import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
@@ -22,7 +21,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 		t('landing-page.tabs.tc'),
 	];
 
-	const members = useAllCouncilMembersQuery();
+	const members = useAllCouncilMembersAddresses();
 
 	const allMembers = [
 		members.data?.spartan.length &&
@@ -73,13 +72,12 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 						<Carousel
 							startPosition={startIndex ? startIndex : 1}
 							widthOfItems={300}
-							carouselItems={(allMembers[activeIndex] as GetUserDetails[]).map((member, index) => (
+							carouselItems={(allMembers[activeIndex] as string[]).map((walletAddress, index) => (
 								<MemberCard
-									member={member}
-									key={member.address.concat(String(index))}
+									walletAddress={walletAddress}
+									key={walletAddress.concat(String(index))}
 									state="ADMINISTRATION"
 									className="m-2 max-w-[218px]"
-									council={member.council}
 								/>
 							))}
 							arrowsPosition="outside"
@@ -88,26 +86,24 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 						/>
 					</div>
 					<div className="w-full flex overflow-x-auto lg:hidden">
-						{(allMembers[activeIndex] as GetUserDetails[])?.map((member, index) => (
+						{(allMembers[activeIndex] as string[])?.map((walletAddress, index) => (
 							<MemberCard
-								member={member}
-								key={member.address.concat(String(index))}
+								walletAddress={walletAddress}
+								key={walletAddress.concat(String(index))}
 								state="ADMINISTRATION"
 								className="m-2 max-w-[218px]"
-								council={member.council}
 							/>
 						))}
 					</div>
 				</>
 			) : (
 				<div className="w-full flex overflow-x-auto justify-center">
-					{(allMembers[activeIndex] as GetUserDetails[])?.map((member, index) => (
+					{(allMembers[activeIndex] as string[])?.map((walletAddress, index) => (
 						<MemberCard
-							member={member}
-							key={member.address.concat(String(index))}
+							walletAddress={walletAddress}
+							key={walletAddress.concat(String(index))}
 							state="ADMINISTRATION"
 							className="m-2 max-w-[218px]"
-							council={member.council}
 						/>
 					))}
 				</div>

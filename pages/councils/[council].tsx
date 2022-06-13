@@ -11,7 +11,6 @@ import {
 } from 'components/old-ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useUsersDetailsQuery from 'queries/boardroom/useUsersDetailsQuery';
 import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useState } from 'react';
@@ -28,9 +27,8 @@ export default function CouncilNominees() {
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(data?.address || '');
-	const nomineesInfo = useUsersDetailsQuery(nomineesQuery.data || []);
 	const paginatedNominees = (startIndex: number, endIndex: number) => {
-		return nomineesInfo.data?.slice(startIndex, endIndex);
+		return nomineesQuery.data?.slice(startIndex, endIndex);
 	};
 
 	return (
@@ -51,16 +49,16 @@ export default function CouncilNominees() {
 				<span className="tg-content text-gray-500 text-center block pt-[8px] mb-4 p-2">
 					{t('councils.subline')}
 				</span>
-				{nomineesInfo.isLoading && !nomineesInfo.data ? (
+				{nomineesQuery.isLoading && !nomineesQuery.data ? (
 					<Loader className="flex justify-center" />
-				) : !!nomineesInfo.data?.length ? (
+				) : !!nomineesQuery.data?.length ? (
 					<>
 						<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
-							{paginatedNominees(activePage - 8, activePage)?.map((member) => (
+							{paginatedNominees(activePage - 8, activePage)?.map((walletAddress) => (
 								<MemberCard
 									className="m-2"
-									member={member}
-									key={member.address}
+									walletAddress={walletAddress}
+									key={walletAddress}
 									state="NOMINATION"
 									deployedModule={activeCouncil.module}
 									council={activeCouncil.name}
@@ -79,24 +77,24 @@ export default function CouncilNominees() {
 								active={activePage > 8}
 							></ArrowDropdownLeftIcon>
 							<h6 className="tg-title-h6 text-gray-500">
-								{activePage - 7 > 0 ? activePage - 7 : 1}-{nomineesInfo.data.length}&nbsp;
+								{activePage - 7 > 0 ? activePage - 7 : 1}-{nomineesQuery.data.length}&nbsp;
 								{t('councils.of')}&nbsp;
-								{nomineesInfo.data.length}
+								{nomineesQuery.data.length}
 							</h6>
 							<ArrowDropdownRightIcon
 								className="cursor-pointer"
-								active={activePage < nomineesInfo.data.length}
+								active={activePage < nomineesQuery.data.length}
 								onClick={() =>
 									setActivePage(
-										activePage + 8 < nomineesInfo.data.length
+										activePage + 8 < nomineesQuery.data.length
 											? activePage + 8
-											: nomineesInfo.data.length
+											: nomineesQuery.data.length
 									)
 								}
 							></ArrowDropdownRightIcon>
 							<SkipRightIcon
-								active={activePage < nomineesInfo.data.length}
-								onClick={() => setActivePage(nomineesInfo.data.length)}
+								active={activePage < nomineesQuery.data.length}
+								onClick={() => setActivePage(nomineesQuery.data.length)}
 								className="cursor-pointer"
 							/>
 						</div>
