@@ -9,7 +9,7 @@ export default function BackButton() {
 	return (
 		<div className="md:flex items-center absolute top-[50%] left-1 translate-y-[-50%] hidden">
 			<IconButton
-				onClick={() => push({ pathname: '/' })}
+				onClick={() => push('/')}
 				rounded
 				size="sm"
 				className="bg-black bg-gradient-to-l from-gray-800"
