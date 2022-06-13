@@ -2,13 +2,15 @@ import { DeployedModules } from 'containers/Modules';
 
 export const COUNCIL_SLUGS = ['spartan', 'grants', 'ambassador', 'treasury'];
 
-export const COUNCILS_DICTIONARY: {
+export type CouncilsDictionaryType = {
 	slug: string;
 	label: string;
 	abbreviation: string;
 	image: string;
 	module: DeployedModules;
-}[] = [
+};
+
+export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 	{
 		slug: 'spartan',
 		label: 'Spartan',

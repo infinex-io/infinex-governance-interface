@@ -20,7 +20,10 @@ function useUsersDetailsQuery(walletAddresses: string[]) {
 
 export default useUsersDetailsQuery;
 
-export async function getUsersDetail(walletAddresses: string[], ownAddress: string) {
+export async function getUsersDetail(
+	walletAddresses: string[],
+	ownAddress: string
+): Promise<GetUserDetails[]> {
 	const promises = walletAddresses.map((address) =>
 		fetch(GET_USER_DETAILS_API_URL(address), {
 			method: 'POST',

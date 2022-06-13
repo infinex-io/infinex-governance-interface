@@ -1,12 +1,12 @@
-import { SNXIcon, SpotlightButton, theme } from 'components/old-ui';
-import { DeployedModules } from 'containers/Modules';
+import { SNXIcon, SpotlightButton } from 'components/old-ui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+import useAllCurrentPeriods from 'queries/epochs/useAllCurrentPeriodsQuery';
+import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -21,17 +21,10 @@ export default function Header() {
 	const { data } = useAccount();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 	const [routes, setRoutes] = useState(routesDic);
-	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-
-	const oneCouncilIsInVotingPeriod = !![
-		spartanQuery,
-		grantsQuery,
-		ambassadorQuery,
-		treasuryQuery,
-	].find((item) => item.data?.currentPeriod === 'VOTING');
+	const allPeriods = useAllCurrentPeriods();
+	const oneCouncilIsInVotingPeriod = !!allPeriods.data?.find(
+		(item) => item === (EpochPeriods as any)
+	);
 
 	useEffect(() => {
 		if (data?.address) {
@@ -115,7 +108,7 @@ export default function Header() {
 				)}
 			</button>
 			{burgerMenuOpen && (
-				<div className="fixed w-full h-full z-100 bg-dark-blue top-[66px] left-0 py-10">
+				<div className="fixed w-full h-full z-100 bg-dark-blue top-[65px] left-0 py-10">
 					<div className="flex flex-col items-center">
 						{routes.filter(filterRoutes).map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref>
