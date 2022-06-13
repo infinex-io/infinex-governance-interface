@@ -10,9 +10,9 @@ function useIsNominatedForCouncilInNominationPeriod(walletAddress: string) {
 	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
 	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
 	const spartanPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const grantsPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const ambassadorPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const treasuryPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const grantsPeriod = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
+	const ambassadorPeriod = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
+	const treasuryPeriod = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 
 	return useQuery(
 		isNominatedForCouncilQueryKeys(walletAddress),
