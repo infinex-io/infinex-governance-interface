@@ -1,5 +1,4 @@
-import React from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 import Blockies from 'react-blockies';
 import { parseURL } from 'utils/ipfs';
 import clsx from 'clsx';
@@ -21,17 +20,16 @@ const Avatar: React.FC<AvatarProps> = ({
 	scale,
 	className,
 }) => {
+	const [showBlockies, setShowBlockies] = useState(false);
 	const parsedUrl = url && parseURL(url);
-	const isValidUrl = (parsedUrl?: string) => {
-		const matchPattern = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/;
-		if (parsedUrl) return;
-		else return matchPattern.test(parsedUrl!);
-	};
 
-	return parsedUrl && isValidUrl(parsedUrl) ? (
-		<Image
+	return parsedUrl && !showBlockies ? (
+		<img
+			onError={() => {
+				setShowBlockies(true);
+			}}
 			className={clsx(className, 'rounded-full')}
-			src={parsedUrl!}
+			src={parsedUrl}
 			alt={`${walletAddress} avatar url`}
 			height={width}
 			width={height}
