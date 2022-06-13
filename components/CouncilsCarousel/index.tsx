@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'components/old-ui';
-import MemberCard from 'components/MemberCard/Index';
-import { Carousel } from '@synthetixio/ui';
 import { TabIcon } from 'components/TabIcon';
 import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
+import { CouncilCarousel } from './CouncilCarousel';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
@@ -23,21 +22,27 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 
 	const members = useAllCouncilMembersAddresses();
 
+	if (
+		members.isLoading ||
+		!members.data?.spartan ||
+		!members.data.grants ||
+		!members.data.ambassador ||
+		!members.data.treasury
+	) {
+		return null;
+	}
+
+	const spartan = members.data.spartan.map((address) => ({ address, council: 'spartan' }));
+	const grants = members.data.grants.map((address) => ({ address, council: 'grants' }));
+	const ambassador = members.data.ambassador.map((address) => ({ address, council: 'ambassador' }));
+	const treasury = members.data.treasury.map((address) => ({ address, council: 'treasury' }));
+
 	const allMembers = [
-		members.data?.spartan.length &&
-		members.data.grants.length &&
-		members.data.ambassador.length &&
-		members.data.treasury.length
-			? members.data?.spartan.concat(
-					members.data?.grants,
-					members.data?.ambassador,
-					members.data?.treasury
-			  )
-			: [],
-		members.data?.spartan,
-		members.data?.grants,
-		members.data?.ambassador,
-		members.data?.treasury,
+		spartan.concat(grants, ambassador, treasury),
+		spartan,
+		grants,
+		ambassador,
+		treasury,
 	];
 
 	return (
@@ -66,48 +71,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 					</TabIcon>,
 				]}
 			/>
-			{allMembers[activeIndex]?.length && allMembers[activeIndex]!.length >= 4 ? (
-				<>
-					<div className="max-w-[912px] lg:block hidden">
-						<Carousel
-							startPosition={startIndex ? startIndex : 1}
-							widthOfItems={300}
-							carouselItems={(allMembers[activeIndex] as string[]).map((walletAddress, index) => (
-								<MemberCard
-									walletAddress={walletAddress}
-									key={walletAddress.concat(String(index))}
-									state="ADMINISTRATION"
-									className="m-2 max-w-[218px]"
-								/>
-							))}
-							arrowsPosition="outside"
-							withDots
-							dotsPosition="outside"
-						/>
-					</div>
-					<div className="w-full flex overflow-x-auto lg:hidden">
-						{(allMembers[activeIndex] as string[])?.map((walletAddress, index) => (
-							<MemberCard
-								walletAddress={walletAddress}
-								key={walletAddress.concat(String(index))}
-								state="ADMINISTRATION"
-								className="m-2 max-w-[218px]"
-							/>
-						))}
-					</div>
-				</>
-			) : (
-				<div className="w-full flex overflow-x-auto justify-center">
-					{(allMembers[activeIndex] as string[])?.map((walletAddress, index) => (
-						<MemberCard
-							walletAddress={walletAddress}
-							key={walletAddress.concat(String(index))}
-							state="ADMINISTRATION"
-							className="m-2 max-w-[218px]"
-						/>
-					))}
-				</div>
-			)}
+			<CouncilCarousel members={allMembers[activeIndex] || []} startIndex={startIndex} />
 		</div>
 	);
 }

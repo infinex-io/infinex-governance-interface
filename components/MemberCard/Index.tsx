@@ -44,7 +44,14 @@ export default function MemberCard({
 	const isOwnCard = compareAddress(data?.address, walletAddress);
 	const votedForAlready = compareAddress(votedFor?.address, walletAddress);
 
-	if (userDetailsQuery.isLoading || !userDetailsQuery.data) return null;
+	if (userDetailsQuery.isLoading)
+		return (
+			<div className={clsx('p-1 bg-purple w-[208px] h-[283px] rounded-lg', className)}>
+				<div className="h-full darker-60 animate-pulse"></div>
+			</div>
+		);
+
+	if (!userDetailsQuery.data) return null;
 
 	const member = userDetailsQuery.data;
 
