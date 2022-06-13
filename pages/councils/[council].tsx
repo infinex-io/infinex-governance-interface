@@ -77,7 +77,7 @@ export default function CouncilNominees() {
 								active={activePage > 8}
 							></ArrowDropdownLeftIcon>
 							<h6 className="tg-title-h6 text-gray-500">
-								{activePage - 7 > 0 ? activePage - 7 : 1}-{nomineesQuery.data.length}&nbsp;
+								{activePage - 7 > 0 ? activePage - 7 : 1}-{activePage}&nbsp;
 								{t('councils.of')}&nbsp;
 								{nomineesQuery.data.length}
 							</h6>
