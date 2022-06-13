@@ -3,7 +3,6 @@ import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useRouter } from 'next/router';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
-import useAllCouncilMembersQuery from 'queries/members/useAllCouncilMembersQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateAddress } from 'utils/truncate-address';
@@ -27,12 +26,11 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { setContent, setIsOpen: setModalOpen } = useModalContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const allMembers = useAllCouncilMembersQuery();
 	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(walletAddress);
 	const isOwnCard = compareAddress(walletAddress, data?.address);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
 
-	if (userDetailsQuery.isSuccess && userDetailsQuery.data && allMembers.isSuccess) {
+	if (userDetailsQuery.isSuccess && userDetailsQuery.data) {
 		const {
 			address,
 			pfpThumbnailUrl,

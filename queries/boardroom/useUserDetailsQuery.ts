@@ -38,15 +38,14 @@ function useUserDetailsQuery(walletAddress: string) {
 		},
 		{
 			enabled: walletAddress !== null,
-			// 15 minutes
-			cacheTime: 900000,
+			staleTime: 900000,
 		}
 	);
 }
 
 export default useUserDetailsQuery;
 
-export async function getUserDetails(walletAddress: string) {
+export async function getUserDetails(walletAddress: string): Promise<GetUserDetails> {
 	const randomNumber = Math.random();
 	let userDetailsResponse = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
 		method: 'POST',
