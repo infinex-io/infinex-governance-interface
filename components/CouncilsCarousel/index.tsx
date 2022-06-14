@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tabs } from 'components/old-ui';
+import { IconButton, ListIcon, Tabs } from 'components/old-ui';
 import { TabIcon } from 'components/TabIcon';
 import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 import { CouncilCarousel } from './CouncilCarousel';
+import TileIcon from 'components/old-ui/components/Icons/TileIcon';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
@@ -47,6 +48,10 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 
 	return (
 		<div className="flex flex-col items-center">
+			<IconButton size="tiniest">
+				<ListIcon />
+			</IconButton>
+			<TileIcon />
 			<Tabs
 				titles={councilTabs}
 				size="medium"
