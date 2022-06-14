@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton, ListIcon, Tabs } from 'components/old-ui';
+import { ListIcon, Tabs } from 'components/old-ui';
 import { TabIcon } from 'components/TabIcon';
 import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 import { CouncilCarousel } from './CouncilCarousel';
 import TileIcon from 'components/old-ui/components/Icons/TileIcon';
+import { IconButton } from '@synthetixio/ui';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
@@ -13,6 +14,7 @@ interface CouncilsCarouselProps {
 export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) {
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [listView, setListView] = useState(false);
 	const councilTabs = [
 		t('landing-page.tabs.all'),
 		t('landing-page.tabs.sc'),
@@ -47,36 +49,51 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 	];
 
 	return (
-		<div className="flex flex-col items-center">
-			<IconButton size="tiniest">
-				<ListIcon />
-			</IconButton>
-			<TileIcon />
-			<Tabs
-				titles={councilTabs}
-				size="medium"
-				clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
-				className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
-				activeIndex={activeIndex}
-				icons={[
-					<TabIcon key="all-members" isActive={activeIndex === 0}>
-						{allMembers[0]?.length}
-					</TabIcon>,
-					<TabIcon key="spartan-members" isActive={activeIndex === 1}>
-						{members.data?.spartan?.length}
-					</TabIcon>,
-					<TabIcon key="grants-members" isActive={activeIndex === 2}>
-						{members.data?.grants.length}
-					</TabIcon>,
-					<TabIcon key="ambassador-members" isActive={activeIndex === 3}>
-						{members.data?.ambassador.length}
-					</TabIcon>,
-					<TabIcon key="treasury-members" isActive={activeIndex === 4}>
-						{members.data?.treasury.length}
-					</TabIcon>,
-				]}
+		<div className="flex flex-col items-center container">
+			<div className="w-full flex items-center relative">
+				<Tabs
+					titles={councilTabs}
+					size="medium"
+					clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
+					className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
+					activeIndex={activeIndex}
+					icons={[
+						<TabIcon key="all-members" isActive={activeIndex === 0}>
+							{allMembers[0]?.length}
+						</TabIcon>,
+						<TabIcon key="spartan-members" isActive={activeIndex === 1}>
+							{members.data?.spartan?.length}
+						</TabIcon>,
+						<TabIcon key="grants-members" isActive={activeIndex === 2}>
+							{members.data?.grants.length}
+						</TabIcon>,
+						<TabIcon key="ambassador-members" isActive={activeIndex === 3}>
+							{members.data?.ambassador.length}
+						</TabIcon>,
+						<TabIcon key="treasury-members" isActive={activeIndex === 4}>
+							{members.data?.treasury.length}
+						</TabIcon>,
+					]}
+				/>
+				<div className="items-center hidden lg:flex">
+					<IconButton isActive={listView} onClick={() => setListView(true)} size="sm">
+						<ListIcon />
+					</IconButton>
+					<IconButton
+						className="ml-1.5"
+						isActive={!listView}
+						onClick={() => setListView(false)}
+						size="sm"
+					>
+						<TileIcon />
+					</IconButton>
+				</div>
+			</div>
+			<CouncilCarousel
+				listView={listView}
+				members={allMembers[activeIndex] || []}
+				startIndex={startIndex}
 			/>
-			<CouncilCarousel members={allMembers[activeIndex] || []} startIndex={startIndex} />
 		</div>
 	);
 }
