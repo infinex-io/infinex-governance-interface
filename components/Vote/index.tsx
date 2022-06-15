@@ -217,8 +217,14 @@ const VoteCard = ({
 		);
 
 	return hasVoted && userDetail?.address ? (
-		<div className="bg-black md:max-w-[250px] p-2 m-1 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
-			<Avatar walletAddress={userDetail.address} width={33} height={33} />
+		<div className="bg-black md:max-w-[250px] p-2 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
+			<Avatar
+				walletAddress={userDetail.address}
+				url={userDetail.pfpThumbnailUrl}
+				width={33}
+				height={33}
+				scale={4}
+			/>
 			<div className="flex flex-col">
 				<span className="tg-caption-bold text-primary">
 					{t(`vote.councils.${activeCouncil.abbreviation}`)}
@@ -235,7 +241,7 @@ const VoteCard = ({
 						<ThreeDotsKebabIcon active={isDropDownOpen} />
 					</IconButton>
 				}
-				contentAlignment="left"
+				contentAlignment="right"
 				renderFunction={({ handleClose }) => (
 					<div className="flex flex-col">
 						<span

@@ -56,7 +56,7 @@ export function PreEvaluationSection() {
 				activeIndex={activeTab}
 			/>
 			{!isMobile ? (
-				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded md:block hidden">
+				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded md:table hidden">
 					<tr>
 						<th className="text-left p-2 tg-caption text-gray-500">
 							{t('vote.pre-eval.table.name')}
