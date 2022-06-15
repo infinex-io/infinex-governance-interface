@@ -9,9 +9,25 @@ interface MemberItem {
 interface Props {
 	members: MemberItem[];
 	startIndex?: number;
+	listView: boolean;
 }
 
-export const CouncilCarousel = ({ members, startIndex }: Props) => {
+export const CouncilCarousel = ({ members, startIndex, listView }: Props) => {
+	if (listView)
+		return (
+			<div className="container w-full flex flex-col">
+				{members?.map((member, index) => (
+					<MemberCard
+						walletAddress={member.address}
+						key={member.address.concat(String(index))}
+						state="ADMINISTRATION"
+						className="m-2"
+						council={member.council}
+						listView
+					/>
+				))}
+			</div>
+		);
 	return members.length > 4 ? (
 		<>
 			<div className="max-w-[912px] lg:block hidden">

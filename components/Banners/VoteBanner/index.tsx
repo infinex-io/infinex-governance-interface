@@ -1,4 +1,3 @@
-import { Banner, BannerText, TimeWrapper } from 'components/Banners';
 import { Timer } from 'components/Timer';
 import { DeployedModules } from 'containers/Modules/Modules';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
@@ -9,12 +8,16 @@ export default function VoteBanner({ deployedModule }: { deployedModule: Deploye
 	const { data } = useVotingPeriodDatesQuery(deployedModule);
 
 	return (
-		<Banner color="green" justifyContent="center" alignItems="center">
-			<BannerText>{t('banner.vote.headline')}</BannerText>
-			<TimeWrapper className="darker-60" alignItems="center">
+		<div className="flex justify-center md:flex-nowrap flex-wrap items-center bg-[#2cc294] p-2">
+			<div className="md:mr-8 text-black tg-caption-bold md:p-0 p-2">
+				{t('banner.vote.headline')}
+			</div>
+			<div className="darker-60 flex py-2 rounded px-4">
 				{t('banner.vote.closes')}
-				{data?.votingPeriodEndDate && <Timer expiryTimestamp={data.votingPeriodEndDate} />}
-			</TimeWrapper>
-		</Banner>
+				{data?.votingPeriodEndDate && (
+					<Timer expiryTimestamp={data.votingPeriodEndDate} className="ml-5"></Timer>
+				)}
+			</div>
+		</div>
 	);
 }

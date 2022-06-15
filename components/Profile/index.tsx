@@ -53,7 +53,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 
 		return (
 			<>
-				<div className="flex flex-col md:items-center align-center pt-12 max-w-[1000px] mx-auto">
+				<div className="flex flex-col md:items-center align-center pt-12 container mx-auto">
 					<div
 						className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
 							'bg-[url(/images/ring-orange.svg)]': isOwnCard,
@@ -195,7 +195,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							</div>
 						</div>
 					)}
-					<div className="flex flex-col mb-6 w-full p-2">
+					<div className="flex flex-col mb-6 w-full p-2 max-w-[1000px] mx-auto">
 						<h4 className="tg-title-h4 text-start my-2">{t('profiles.subheadline')}</h4>
 						<div className="relative flex flex-col items-center w-full">
 							{isOwnCard && (

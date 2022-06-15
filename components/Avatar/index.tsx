@@ -25,9 +25,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
 	return parsedUrl && !showBlockies ? (
 		<img
-			onError={() => {
-				setShowBlockies(true);
-			}}
+			onError={() => setShowBlockies(true)}
 			className={clsx(className, 'rounded-full')}
 			src={parsedUrl}
 			alt={`${walletAddress} avatar url`}

@@ -13,7 +13,6 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 	const updateUserMutation = useUpdateUserDetailsMutation();
 	const userDetailsQuery = useUserDetailsQuery(data?.address ?? '');
 	const queryClient = useQueryClient();
-
 	const validationSchema = yup.object({
 		username: yup.string().required(),
 		pitch: yup.string(),
@@ -25,6 +24,7 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 		website: yup.string(),
 	});
 
+	// TODO #196 https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
 	const formik = useFormik({
 		initialValues: {
 			delegationPitch: userProfile?.delegationPitch || '',
