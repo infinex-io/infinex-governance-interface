@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, useRef } from 'react';
-import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 
 interface ModalProps {
@@ -7,39 +6,20 @@ interface ModalProps {
 	modalContent?: JSX.Element;
 }
 
-export default function Modal({
-	open,
-	modalContent,
-	children,
-	...rest
-}: PropsWithChildren<ModalProps>) {
+export default function Modal({ open, modalContent, children }: PropsWithChildren<ModalProps>) {
 	const nodeRef = useRef(null);
 	return (
-		<StyledModalWrapper {...rest}>
-			<CSSTransition
-				unmountOnExit
-				classNames="ui-slide"
-				in={open}
-				nodeRef={nodeRef}
-				timeout={{ enter: 500, exit: 300 }}
-			>
-				<StyledModalContentWrapper ref={nodeRef}>{modalContent}</StyledModalContentWrapper>
+		<>
+			<CSSTransition unmountOnExit classNames="ui-slide" in={open} nodeRef={nodeRef} timeout={500}>
+				<div
+					className="w-full h-full absolute left-0 right-0 top-0 h-full mx-auto z-99 ui-bg-overlay"
+					ref={nodeRef}
+				>
+					<div className="modal-content">{modalContent}</div>
+				</div>
 			</CSSTransition>
 
 			{children}
-		</StyledModalWrapper>
+		</>
 	);
 }
-
-const StyledModalWrapper = styled.div`
-	position: relative;
-`;
-
-const StyledModalContentWrapper = styled.div`
-	position: absolute;
-	z-index: 2;
-	left: 10px;
-	top: 0;
-	width: calc(99% - 10px);
-	height: calc(99% - 10px);
-`;

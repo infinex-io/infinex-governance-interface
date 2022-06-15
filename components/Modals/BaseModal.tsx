@@ -14,10 +14,12 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 	}, [isOpen]);
 
 	return (
-		<div className="bg-purple p-1 rounded-[2rem]">
-			<div className=" flex flex-col items-center darker-60 rounded-[2rem] min-h-screen">
+		<div
+			className="bg-purple p-0.5 rounded-t-[2rem] relative h-screen container"
+		>
+			<div className="flex flex-col items-center darker-60 rounded-t-[2rem] min-h-full w-full">
 				<IconButton
-					className="top-[20px] right-[20px] absolute"
+					className="top-5 right-5 absolute"
 					onClick={() => {
 						document.documentElement.classList.remove('stop-scrolling');
 						setIsOpen(false);

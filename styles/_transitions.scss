@@ -1,17 +1,32 @@
 .ui-slide-enter {
-	transform: translateY(100%);
+	opacity: 0.01;
 }
 .ui-slide-enter.ui-slide-enter-active {
-	transition: transform 120ms ease-in;
-	transform: translateY(10px);
+	opacity: 1;
+	transition: opacity 120ms ease-in;
 }
 .ui-slide-exit {
-	transform: translateY(10px);
+	opacity: 1;
 }
 .ui-slide-exit.ui-slide-exit-active {
-	transition: transform 120ms ease-in;
+	opacity: 0.01;
+	transition: opacity 120ms ease-in;
+}
+
+.ui-slide-enter .modal-content {
 	transform: translateY(100%);
 }
-.ui-slide-enter-done {
-	transform: translateY(10px);
+.ui-slide-enter.ui-slide-enter-active .modal-content {
+	transition: transform 120ms ease-in;
+	transform: translateY(34px);
+}
+.ui-slide-exit .modal-content {
+	transform: translateY(34px);
+}
+.ui-slide-exit.ui-slide-exit-active .modal-content {
+	transition: transform 120ms ease-in;
+	transform: translateY(110%);
+}
+.ui-slide-enter-done .modal-content {
+	transform: translateY(34px);
 }
