@@ -69,24 +69,29 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 			{!data?.connector ? (
 				<ConnectButton />
 			) : (
-				<div className="min-w-full min-h-full flex flex-col items-center rounded">
+				<div className="flex flex-col items-center max-w-[500px] p-2">
+					<span className="text-center tg-body text-gray-500">
+						{t('modals.withdraw-vote.subline')}
+					</span>
 					<Avatar
-						width={160}
-						height={160}
+						scale={12}
+						width={90}
+						height={90}
 						walletAddress={member.address}
 						url={member.pfpThumbnailUrl}
+						className="md:mt-14 mb-8 mt-10"
 					/>
-					<div className="bg-black max-w-[350px] p-8 text-white m-4">
-						<h6 className="tg-title-h6 text-center">
+					<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
+						<h5 className="tg-title-h5 mt-4 mb-2 mx-4">
 							{t('modals.withdraw-vote.voted-for', {
 								council: capitalizeString(council),
 							})}
-						</h6>
+						</h5>
 						<h3 className="tg-title-h3 text-center">
 							{member.ens || truncateAddress(member.address)}
 						</h3>
 					</div>
-					<Button size="lg" onClick={handleWithdraw}>
+					<Button size="lg" onClick={handleWithdraw} className="m-6 w-full">
 						{t('modals.withdraw-vote.uncast-vote')}
 					</Button>
 				</div>

@@ -104,14 +104,18 @@
 	},
 	"vote": {
 		"headline": "Voting",
+		"subline": "Chose one nominee that you want to vote for in this election. Remember to check out their profile & pitch to see what they represent.",
 		"nominees": "{{council}} Council Nominees",
 		"vote-nominee": "Vote Nominee",
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/{{max}}",
 		"vote-status-complete": "Vote Status: Complete",
 		"not-voted": "NOT VOTED YET",
 		"withdraw": "Withdraw Vote",
+		"vote-in-progress": "You have not completed all of your ballots for this voting period. Below indicates which ones you completed and which ones have not. Click on the plus icon to cast your vote.",
+		"vote-finished": "You have completed all of your ballots for this voting period. You can always change your casted votes within the voting period.",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"no-nominations": "No Nominations yet",
+
 		"councils": {
 			"sc": "Spartan Council",
 			"gc": "Grants Council",
@@ -125,6 +129,7 @@
 		},
 		"pre-eval": {
 			"headline": "Current Voting Results",
+			"voting-results-live": "Voting is still in progress. There is still time to vote if you haven't yet.",
 			"tabs": {
 				"sc": "Spartan Council",
 				"gc": "Grants Council",
@@ -172,7 +177,8 @@
 			"cta-step-2-head": "Nominate for {{council}} Council"
 		},
 		"vote": {
-			"headline": "Voting For {{council}} Council",
+			"headline": "Voting For {{council}} Council Nominee",
+			"subline": "If you want to change your vote, you can. To do this, you must first uncast your vote and then select a new nominee.",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
 			"cta": "Voting for {{council}} Council",
@@ -182,6 +188,7 @@
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
+			"subline": "If you want to change your vote, you can. To do this, you must first uncast your vote and then select a new nominee.",
 			"voted-for": "Voted for {{council}} Council",
 			"uncast-vote": "Uncast Vote",
 			"cta": "Withdraw Vote for {{council}} Council"

@@ -159,7 +159,6 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 		},
 		{
 			enabled: governanceModules !== null && walletAddress !== null,
-			// 15 mins
 			cacheTime: 900000,
 		}
 	);
