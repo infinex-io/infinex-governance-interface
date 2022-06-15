@@ -15,7 +15,7 @@ import { ConnectorContextProvider, useConnectorContext } from 'containers/Connec
 import { ModulesProvider } from 'containers/Modules';
 import { ModalContextProvider, useModalContext } from 'containers/Modal';
 import { ThemeProvider } from 'styled-components';
-import { theme, Modal as UIModal } from 'components/old-ui';
+import { theme } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
 import { useSigner } from 'wagmi';
 
@@ -31,6 +31,8 @@ import { infuraProvider } from 'wagmi/providers/infura';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { publicProvider } from 'wagmi/providers/public';
+import Modal from 'components/Modals/Modal';
+
 const { chains, provider } = configureChains(
 	[chain.optimism],
 	[
@@ -68,11 +70,11 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<ModulesProvider>
 			<TransactionDialogContextProvider provider={signer?.provider || L2DefaultProvider}>
-				<UIModal open={isOpen} modalContent={content}>
+				<Modal open={isOpen} modalContent={content}>
 					<Header />
 					<TheComponent {...pageProps} />
 					<Footer />
-				</UIModal>
+				</Modal>
 			</TransactionDialogContextProvider>
 			<ToastContainer theme="dark" />
 		</ModulesProvider>
