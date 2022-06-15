@@ -1,0 +1,17 @@
+.ui-slide-enter {
+	transform: translateY(100%);
+}
+.ui-slide-enter.ui-slide-enter-active {
+	transition: transform 120ms ease-in;
+	transform: translateY(10px);
+}
+.ui-slide-exit {
+	transform: translateY(10px);
+}
+.ui-slide-exit.ui-slide-exit-active {
+	transition: transform 120ms ease-in;
+	transform: translateY(100%);
+}
+.ui-slide-enter-done {
+	transform: translateY(10px);
+}
