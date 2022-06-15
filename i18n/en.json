@@ -112,6 +112,7 @@
 		"not-voted": "NOT VOTED YET",
 		"withdraw": "Withdraw Vote",
 		"vote-in-progress": "You have not completed all of your ballots for this voting period. Below indicates which ones you completed and which ones have not. Click on the plus icon to cast your vote.",
+		"vote-finished": "You have completed all of your ballots for this voting period. You can always change your casted votes within the voting period.",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"no-nominations": "No Nominations yet",
 		"councils": {
@@ -175,6 +176,7 @@
 		},
 		"vote": {
 			"headline": "Voting For {{council}} Council Nominee",
+			"subline": "If you want to change your vote, you can. To do this, you must first uncast your vote and then select a new nominee.",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
 			"cta": "Voting for {{council}} Council",

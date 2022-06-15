@@ -129,7 +129,9 @@ export default function VoteSection() {
 									max: activeCouncilInVoting,
 								})}
 							</h3>
-							<span className="tg-body text-gray-500">{t('vote.vote-in-progress')}</span>
+							<span className="tg-body text-gray-500">
+								{t(calculateProgress() === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
+							</span>
 						</div>
 					</div>
 					<div className="flex justify-between flex-wrap w-full">

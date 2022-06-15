@@ -71,8 +71,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 			) : (
 				<div className="flex flex-col items-center max-w-[500px] p-2">
 					<span className="text-center tg-body text-gray-500">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam
-						id morbi viverra.
+						{t('modals.withdraw-vote.subline')}
 					</span>
 					<Avatar
 						scale={12}
