@@ -208,6 +208,7 @@ export default function MemberCard({
 								})}
 							>
 								<Button
+									className="w-[180px]"
 									variant="outline"
 									onClick={(e) => {
 										e.stopPropagation();

@@ -1,4 +1,5 @@
 import { IconButton } from '@synthetixio/ui';
+import clsx from 'clsx';
 import { CloseIcon } from 'components/old-ui';
 import { useModalContext } from 'containers/Modal';
 import { PropsWithChildren, useEffect } from 'react';
@@ -27,7 +28,9 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 				>
 					<CloseIcon active />
 				</IconButton>
-				<h2 className="tg-title-h2 text-white md:mt-24 mt-20 text-center">{headline}</h2>
+				<h2 className="md:tg-title-h2 tg-title-h3 text-white md:mt-24 mt-20 text-center">
+					{headline}
+				</h2>
 				{children}
 			</div>
 		</div>

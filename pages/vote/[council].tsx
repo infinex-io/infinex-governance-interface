@@ -1,3 +1,4 @@
+import BackButton from 'components/BackButton';
 import VoteBanner from 'components/Banners/VoteBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
@@ -54,67 +55,74 @@ export default function VoteCouncil() {
 			</Head>
 			<Main>
 				{activeCouncil && <VoteBanner deployedModule={activeCouncil.module} />}
-				<h1 className="tg-title-h1 text-center p-10">
-					{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
-				</h1>
-				<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
-					{nomineesQuery.isLoading || nomineesQuery.isLoading ? (
-						<Loader />
-					) : nomineesQuery.data?.length ? (
-						<>
-							{nomineesQuery.data?.slice(startIndex, endIndex).map((walletAddress, index) => (
-								<MemberCard
-									className="m-2"
-									key={walletAddress.concat(String(index).concat('voting'))}
-									walletAddress={walletAddress}
-									council={activeCouncil.name}
-									deployedModule={activeCouncil.module}
-									state="VOTING"
-									votedFor={
-										voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
-									}
-								/>
-							))}
-							<div className="w-full">
-								<div className="w-full flex justify-around items-center gap-5 max-w-[330px] mx-auto pb-40">
-									<SkipLeftIcon
-										active={activePage !== 0}
-										onClick={() => setActivePage(0)}
-										className="cursor-pointer"
-									/>
-									<ArrowDropdownLeftIcon
-										className="cursor-pointer"
-										onClick={() => setActivePage(activePage - 1 >= 0 ? activePage - 1 : 0)}
-										active={activePage !== 0}
-									></ArrowDropdownLeftIcon>
-									<h6 className="tg-title-h6 text-gray-500 select-none">
-										{startIndex + 1}-{endIndex}
-										&nbsp;
-										{t('councils.of')}&nbsp;
-										{nomineesQuery.data.length}
-									</h6>
-									<ArrowDropdownRightIcon
-										className="cursor-pointer"
-										active={canScrollRight}
-										onClick={() => canScrollRight && setActivePage(activePage + 1)}
-									></ArrowDropdownRightIcon>
-									<SkipRightIcon
-										active={canScrollRight}
-										onClick={() =>
-											setActivePage(
-												canScrollRight && (nomineesQuery.data.length / paginationStep) % 2 === 0
-													? activePage + maxPages - 1
-													: maxPages
-											)
-										}
-										className="cursor-pointer"
-									/>
+				<div className="container">
+					<div className="relative w-full">
+						<BackButton />
+						<h1 className="tg-title-h1 text-center p-10">
+							{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
+						</h1>
+					</div>
+					<div className="flex flex-wrap justify-center p-3 container mx-auto">
+						{nomineesQuery.isLoading || nomineesQuery.isLoading ? (
+							<Loader />
+						) : nomineesQuery.data?.length ? (
+							<>
+								<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
+									{nomineesQuery.data?.slice(startIndex, endIndex).map((walletAddress, index) => (
+										<MemberCard
+											className="m-2"
+											key={walletAddress.concat(String(index).concat('voting'))}
+											walletAddress={walletAddress}
+											council={activeCouncil.name}
+											deployedModule={activeCouncil.module}
+											state="VOTING"
+											votedFor={
+												voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
+											}
+										/>
+									))}
 								</div>
-							</div>
-						</>
-					) : (
-						<h4 className="tg-title-h4 text-center">{t('vote.no-nominations')}</h4>
-					)}
+								<div className="w-full">
+									<div className="w-full flex justify-around items-center gap-5 max-w-[330px] mx-auto p-10">
+										<SkipLeftIcon
+											active={activePage !== 0}
+											onClick={() => setActivePage(0)}
+											className="cursor-pointer"
+										/>
+										<ArrowDropdownLeftIcon
+											className="cursor-pointer"
+											onClick={() => setActivePage(activePage - 1 >= 0 ? activePage - 1 : 0)}
+											active={activePage !== 0}
+										></ArrowDropdownLeftIcon>
+										<h6 className="tg-title-h6 text-gray-500 select-none">
+											{startIndex + 1}-{endIndex}
+											&nbsp;
+											{t('councils.of')}&nbsp;
+											{nomineesQuery.data.length}
+										</h6>
+										<ArrowDropdownRightIcon
+											className="cursor-pointer"
+											active={canScrollRight}
+											onClick={() => canScrollRight && setActivePage(activePage + 1)}
+										></ArrowDropdownRightIcon>
+										<SkipRightIcon
+											active={canScrollRight}
+											onClick={() =>
+												setActivePage(
+													canScrollRight && (nomineesQuery.data.length / paginationStep) % 2 === 0
+														? activePage + maxPages - 1
+														: maxPages
+												)
+											}
+											className="cursor-pointer"
+										/>
+									</div>
+								</div>
+							</>
+						) : (
+							<h4 className="tg-title-h4 text-center">{t('vote.no-nominations')}</h4>
+						)}
+					</div>
 				</div>
 			</Main>
 		</>

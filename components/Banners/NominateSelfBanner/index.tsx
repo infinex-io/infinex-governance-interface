@@ -6,7 +6,7 @@ import { ArrowRightIcon } from 'components/old-ui';
 import { Timer } from 'components/Timer';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 import { Card, IconButton } from '@synthetixio/ui';
-import { useEffect, useState } from 'react';
+import useIsMobile from 'hooks/useIsMobile';
 
 export default function NominateSelfBanner({
 	deployedModule,
@@ -14,12 +14,7 @@ export default function NominateSelfBanner({
 	const { t } = useTranslation();
 	const { data } = useNominationPeriodDatesQuery(deployedModule);
 	const { setContent, setIsOpen } = useModalContext();
-	const [isMobile, setIsMobile] = useState(false);
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			setIsMobile(window.innerWidth > 758);
-		}
-	}, []);
+	const isMobile = useIsMobile();
 
 	return (
 		<Card
@@ -31,7 +26,7 @@ export default function NominateSelfBanner({
 				{t('banner.nominate.closes')}&nbsp;
 				{data?.nominationPeriodEndDate && <Timer expiryTimestamp={data.nominationPeriodEndDate} />}
 			</div>
-			{isMobile ? (
+			{!isMobile ? (
 				<IconButton
 					onClick={() => {
 						setContent(<NominateModal />);

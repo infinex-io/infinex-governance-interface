@@ -56,7 +56,11 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
 				}
 			});
-			//governanceModules[deployedModule]?.contract.getDebtShare(data.address).then(console.log);
+			governanceModules[deployedModule]?.contract
+				.getDebtShare(data.address)
+				.then((share: BigNumber) => {
+					setVotingPower((state) => ({ ...state, l2: share }));
+				});
 		}
 	}, [data?.address, governanceModules, deployedModule]);
 
@@ -80,44 +84,55 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
-			<Avatar
-				width={160}
-				height={160}
-				walletAddress={member.address}
-				url={member.pfpThumbnailUrl}
-			/>
-			<h4 className="tg-title-h4 text-white">{member.ens || truncateAddress(member.address)}</h4>
-			<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] ">
-				{member.about}
-			</span>
-			<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black m-w-[320px] text-white">
-				<h6 className="tg-title-h6">{t('modals.vote.voting-power.headline')}</h6>
-				<h3 className="tg-title-h3"></h3>
-			</div>
-			{!data?.connector ? (
-				<div className="m-6">
-					<ConnectButton />
+			<div className="max-w-[500px] flex flex-col items-center px-2">
+				<span className="text-center tg-body text-gray-500">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id
+					morbi viverra.
+				</span>
+				<Avatar
+					scale={12}
+					width={90}
+					height={90}
+					walletAddress={member.address}
+					url={member.pfpThumbnailUrl}
+					className="md:mt-14 mb-8 mt-10"
+				/>
+				<h3 className="tg-title-h3 text-white md:pb-4">
+					{member.ens || truncateAddress(member.address)}
+				</h3>
+				<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] text-center hidden md:block">
+					{member.about}
+				</span>
+				<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
+					<h5 className="tg-title-h5 mt-4 mb-2 mx-4">{t('modals.vote.voting-power.headline')}</h5>
+					<h3 className="pb-4 font-['GT_America_Condensed_Bold'] text-[34px]">56465</h3>
 				</div>
-			) : (
+				{!data?.connector ? (
+					<div className="m-6">
+						<ConnectButton />
+					</div>
+				) : (
+					<Button
+						onClick={() => handleVote()}
+						size="lg"
+						className="m-6 w-full"
+						disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
+					>
+						{t('modals.vote.submit')}
+					</Button>
+				)}
 				<Button
-					onClick={() => handleVote()}
+					className="w-full"
 					size="lg"
-					className="m-6"
-					disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
+					variant="outline"
+					onClick={() => {
+						setIsOpen(false);
+						push('/profile/' + member.address);
+					}}
 				>
-					{t('modals.vote.submit')}
+					{t('modals.vote.profile')}
 				</Button>
-			)}
-			<Button
-				size="lg"
-				variant="outline"
-				onClick={() => {
-					setIsOpen(false);
-					push('/profile/' + member.address);
-				}}
-			>
-				{t('modals.vote.profile')}
-			</Button>
+			</div>
 		</BaseModal>
 	);
 }

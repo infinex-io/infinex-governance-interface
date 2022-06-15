@@ -172,7 +172,7 @@
 			"cta-step-2-head": "Nominate for {{council}} Council"
 		},
 		"vote": {
-			"headline": "Voting For {{council}} Council",
+			"headline": "Voting For {{council}} Council Nominee",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
 			"cta": "Voting for {{council}} Council",
