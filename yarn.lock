@@ -2460,9 +2460,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@synthetixio/ui@npm:3.1.2":
-  version: 3.1.2
-  resolution: "@synthetixio/ui@npm:3.1.2"
+"@synthetixio/ui@npm:3.1.3":
+  version: 3.1.3
+  resolution: "@synthetixio/ui@npm:3.1.3"
   dependencies:
     "@synthetixio/transaction-notifier": ^2.70.1
     babel-loader: 8.2.3
@@ -2475,7 +2475,7 @@ __metadata:
   dependenciesMeta:
     babel-loader:
       optional: true
-  checksum: 6722b67e87f5225cfafedfaffbb12488464db920c41f7babaa2a8ee3d18d8618a9411eceb074504f2719e2ce1e1aa2cd17fb2c9b3b7a67fdb19a3f0be0b12bf9
+  checksum: fc8156fd21624c4971ca0de944f0c708c09df10a29a0890534d6e37c832147050308e21eb60b660d3e7edf362ea46c12aa9bb8c7df4606ab1f767fd5bce3bb49
   languageName: node
   linkType: hard
 
@@ -7387,7 +7387,7 @@ __metadata:
     "@synthetixio/contracts-interface": 2.64.1
     "@synthetixio/providers": 2.64.1
     "@synthetixio/transaction-notifier": ^2.63.1
-    "@synthetixio/ui": 3.1.2
+    "@synthetixio/ui": 3.1.3
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 13.2.0
     "@types/jest": 27.5.1
