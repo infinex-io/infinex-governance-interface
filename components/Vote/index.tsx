@@ -35,19 +35,6 @@ export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
-	const { data: spartanCurrentPeriod } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const { data: grantsCurrentPeriod } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const { data: ambassadorCurrentPeriod } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const { data: treasuryCurrentPeriod } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-
-	const spartanCouncilInfo =
-		spartanCurrentPeriod?.currentPeriod && parseQuery(spartanCurrentPeriod.currentPeriod);
-	const grantsCouncilInfo =
-		grantsCurrentPeriod?.currentPeriod && parseQuery(grantsCurrentPeriod.currentPeriod);
-	const ambassadorCouncilInfo =
-		ambassadorCurrentPeriod?.currentPeriod && parseQuery(ambassadorCurrentPeriod.currentPeriod);
-	const treasuryCouncilInfo =
-		treasuryCurrentPeriod?.currentPeriod && parseQuery(treasuryCurrentPeriod.currentPeriod);
 
 	const [userVoteHistory, setUserVoteHistory] = useState<VoteState>({
 		spartan: { voted: false, candidate: undefined },
@@ -60,6 +47,15 @@ export default function VoteSection() {
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const spartanCouncilInfo =
+		spartanQuery.data?.currentPeriod && parseQuery(spartanQuery.data.currentPeriod);
+	const grantsCouncilInfo =
+		grantsQuery.data?.currentPeriod && parseQuery(grantsQuery.data.currentPeriod);
+	const ambassadorCouncilInfo =
+		ambassadorQuery.data?.currentPeriod && parseQuery(ambassadorQuery.data.currentPeriod);
+	const treasuryCouncilInfo =
+		treasuryQuery.data?.currentPeriod && parseQuery(treasuryQuery.data.currentPeriod);
+
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
 	const isMobile = useIsMobile();
 
@@ -221,7 +217,7 @@ const VoteCard = ({
 		);
 
 	return hasVoted && userDetail?.address ? (
-		<div className="bg-black max-w-[250px] p-2 m-1 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
+		<div className="bg-black md:max-w-[250px] p-2 m-1 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
 			<Avatar walletAddress={userDetail.address} width={33} height={33} />
 			<div className="flex flex-col">
 				<span className="tg-caption-bold text-primary">
