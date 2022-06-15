@@ -12,11 +12,12 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 		async () => {
 			const [spartanEpochIndex, grantsEpochIndex, ambassadorEpochIndex, treasuryEpochIndex] =
 				await Promise.all([
-					governanceModules['spartan council']?.contract.getCurrentPeriod(),
-					governanceModules['grants council']?.contract.getCurrentPeriod(),
-					governanceModules['ambassador council']?.contract.getCurrentPeriod(),
-					governanceModules['treasury council']?.contract.getCurrentPeriod(),
+					governanceModules['spartan council']?.contract.getEpochIndex(),
+					governanceModules['grants council']?.contract.getEpochIndex(),
+					governanceModules['ambassador council']?.contract.getEpochIndex(),
+					governanceModules['treasury council']?.contract.getEpochIndex(),
 				]);
+
 			const [
 				hasVotedSpartan,
 				hasVotedGrants,
@@ -74,25 +75,25 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 					voteHistorySpartan.length
 						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
 								voteHistorySpartan[voteHistorySpartan.length - 1].ballotId,
-								hexStringBN(String(spartanEpochIndex))
+								hexStringBN(spartanEpochIndex.toString())
 						  )
 						: false,
 					voteHistoryGrants.length
 						? governanceModules['grants council']!.contract.getBallotCandidatesInEpoch(
 								voteHistoryGrants[voteHistoryGrants.length - 1].ballotId,
-								hexStringBN(String(grantsEpochIndex))
+								hexStringBN(grantsEpochIndex.toString())
 						  )
 						: false,
 					voteHistoryAmbassador.length
 						? governanceModules['ambassador council']!.contract.getBallotCandidatesInEpoch(
 								voteHistoryAmbassador[voteHistoryAmbassador.length - 1].ballotId,
-								hexStringBN(String(ambassadorEpochIndex))
+								hexStringBN(ambassadorEpochIndex.toString())
 						  )
 						: false,
 					voteHistoryTreasury.length
 						? governanceModules['treasury council']!.contract.getBallotCandidatesInEpoch(
 								voteHistoryTreasury[voteHistoryTreasury.length - 1].ballotId,
-								hexStringBN(String(treasuryEpochIndex))
+								hexStringBN(treasuryEpochIndex.toString())
 						  )
 						: false,
 				]);

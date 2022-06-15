@@ -66,14 +66,17 @@ export async function voteHistory(
 		ballotId ?? null,
 		epochIndex ? hexStringBN(epochIndex) : null
 	);
-	let voteEvents;
-	let voteWithdrawnEvents;
+	let voteEvents: Event[] = [];
+	let voteWithdrawnEvents: Event[] = [];
 	try {
 		voteEvents = await contract.queryFilter(voteFilter);
+	} catch (error) {
+		console.log('no voting events found for voter: ', voter);
+	}
+	try {
 		voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
 	} catch (error) {
-		console.log('no vote events found');
-		return [];
+		console.log('no withdraw voting events found for voter: ', voter);
 	}
 	let listOfVoters = [] as string[];
 	let votes = [] as VoteEvent[];

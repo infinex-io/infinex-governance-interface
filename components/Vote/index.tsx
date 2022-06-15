@@ -7,7 +7,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { parseQuery } from 'utils/parse';
 import { useAccount } from 'wagmi';
-import { Badge, IconButton } from '@synthetixio/ui';
+import { Badge, Dropdown, IconButton } from '@synthetixio/ui';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import Avatar from 'components/Avatar';
@@ -102,7 +102,7 @@ export default function VoteSection() {
 		}
 		return count;
 	};
-	console.log(userVoteHistory);
+
 	return (
 		<div className="flex flex-col items-center w-full container">
 			<div className="relative w-full m-4 mt-8">
@@ -229,43 +229,56 @@ const VoteCard = ({
 				</span>
 				<span className="tg-content">{userDetail?.ens || truncateAddress(userDetail.address)}</span>
 			</div>
-			<IconButton rounded onClick={() => setIsDropDownOpen(!isDropDownOpen)} size="sm">
-				<ThreeDotsKebabIcon active={isDropDownOpen} />
-			</IconButton>
-			{/* TODO @DEV add this dropdown to the UI lib */}
-			{isDropDownOpen && (
-				<div className="absolute top-[50px] right-0 bg-gray-900 rounded max-w-sm w-full flex flex-col">
-					<span
-						className="tg-caption p-2 text-primary cursor-pointer"
-						onClick={() => push('/vote/' + activeCouncil.slug)}
-					>
-						{t('vote.dropdown.change')}
-					</span>
-					<span
-						className="tg-caption p-2 text-primary bg-black cursor-pointer"
-						onClick={() => {
-							push('/profile/' + userDetail.address);
-						}}
-					>
-						{t('vote.dropdown.view')}
-					</span>
-					<span
-						className="tg-caption p-2 text-primary cursor-pointer"
-						onClick={() => {
-							setContent(
-								<WithdrawVote
-									council={activeCouncil.label}
-									deployedModule={council}
-									member={userDetail}
-								/>
-							);
-							setIsOpen(true);
-						}}
-					>
-						{t('vote.dropdown.uncast')}
-					</span>
-				</div>
-			)}
+
+			<Dropdown
+				width="sm"
+				triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+				contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+				triggerElement={
+					<IconButton rounded onClick={() => setIsDropDownOpen(!isDropDownOpen)} size="sm">
+						<ThreeDotsKebabIcon active={isDropDownOpen} />
+					</IconButton>
+				}
+				contentAlignment="left"
+				renderFunction={({ handleClose }) => (
+					<div className="flex flex-col">
+						<span
+							className="tg-caption p-2 text-primary cursor-pointer"
+							onClick={() => {
+								handleClose();
+								push('/vote/' + activeCouncil.slug);
+							}}
+						>
+							{t('vote.dropdown.change')}
+						</span>
+						<span
+							className="tg-caption p-2 text-primary bg-black cursor-pointer"
+							onClick={() => {
+								handleClose();
+								push('/profile/' + userDetail.address);
+							}}
+						>
+							{t('vote.dropdown.view')}
+						</span>
+						<span
+							className="tg-caption p-2 text-primary cursor-pointer"
+							onClick={() => {
+								handleClose();
+								setContent(
+									<WithdrawVote
+										council={activeCouncil.label}
+										deployedModule={council}
+										member={userDetail}
+									/>
+								);
+								setIsOpen(true);
+							}}
+						>
+							{t('vote.dropdown.uncast')}
+						</span>
+					</div>
+				)}
+			></Dropdown>
 		</div>
 	) : (
 		<div className="md:max-w-[250px] w-full bg-primary border-2 border-solid rounded border-primary my-2">
