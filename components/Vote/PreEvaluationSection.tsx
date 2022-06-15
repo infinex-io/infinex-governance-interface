@@ -57,7 +57,7 @@ export function PreEvaluationSection() {
 			{isMobile ? (
 				<>
 					{preEvalDic[activeTab]?.map((prevEval) => (
-						<div></div>
+						<div key="test"></div>
 					))}
 				</>
 			) : (
