@@ -115,6 +115,7 @@
 		"vote-finished": "You have completed all of your ballots for this voting period. You can always change your casted votes within the voting period.",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"no-nominations": "No Nominations yet",
+
 		"councils": {
 			"sc": "Spartan Council",
 			"gc": "Grants Council",
@@ -128,6 +129,7 @@
 		},
 		"pre-eval": {
 			"headline": "Current Voting Results",
+			"voting-results-live": "Voting is still in progress. There is still time to vote if you haven't yet.",
 			"tabs": {
 				"sc": "Spartan Council",
 				"gc": "Grants Council",
@@ -186,6 +188,7 @@
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
+			"subline": "If you want to change your vote, you can. To do this, you must first uncast your vote and then select a new nominee.",
 			"voted-for": "Voted for {{council}} Council",
 			"uncast-vote": "Uncast Vote",
 			"cta": "Withdraw Vote for {{council}} Council"

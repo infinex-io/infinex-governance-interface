@@ -86,8 +86,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
 			<div className="max-w-[500px] flex flex-col items-center px-2">
 				<span className="text-center tg-body text-gray-500">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id
-					morbi viverra.
+					{t('modals.withdraw-vote.subline')}
 				</span>
 				<Avatar
 					scale={12}

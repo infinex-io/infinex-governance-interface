@@ -108,10 +108,7 @@ export default function VoteSection() {
 				<BackButton />
 				<h1 className="tg-title-h1 text-center">{t('vote.headline')}</h1>
 			</div>
-			<span className="tg-body pb-8 text-center">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-				labore et dolore magna aliqua.
-			</span>
+			<span className="tg-body pb-8 text-center">{t('vote.subline')}</span>
 			{!!activeCouncilInVoting && (
 				<div className="max-w-[1300px] w-full p-4 rounded bg-dark-blue flex flex-wrap items-center">
 					<div className="flex w-fit">

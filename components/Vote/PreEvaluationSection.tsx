@@ -41,10 +41,7 @@ export function PreEvaluationSection() {
 	return (
 		<div className="flex flex-col items-center pt-10">
 			<h1 className="md:tg-title-h1 tg-title-h3 text-white">{t('vote.pre-eval.headline')}</h1>
-			<span className="tg-body text-center py-4">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sit donec id etiam id
-				morbi viverra.
-			</span>
+			<span className="tg-body text-center py-4">{t('vote.pre-eval.voting-results-live')}</span>
 			<Tabs
 				className="overflow-x-auto"
 				justifyContent="center"

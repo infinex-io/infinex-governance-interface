@@ -142,7 +142,7 @@ export const MemberCardAction: React.FC<Props> = ({
 							variant="outline"
 							onClick={(e) => {
 								e.stopPropagation();
-								if (votedForAlready) {
+								if (true) {
 									setContent(
 										<WithdrawVoteModal
 											member={member}
