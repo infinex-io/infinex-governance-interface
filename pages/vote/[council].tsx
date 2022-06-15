@@ -61,6 +61,7 @@ export default function VoteCouncil() {
 						<h1 className="tg-title-h1 text-center p-10">
 							{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 						</h1>
+						<span className="tg-body text-center block text-gray-500">{t('vote.subline')}</span>
 					</div>
 					<div className="flex flex-wrap justify-center p-3 container mx-auto">
 						{nomineesQuery.isLoading || nomineesQuery.isLoading ? (

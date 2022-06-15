@@ -104,12 +104,14 @@
 	},
 	"vote": {
 		"headline": "Voting",
+		"subline": "Chose one nominee that you want to vote for in this election. Remember to check out their profile & pitch to see what they represent.",
 		"nominees": "{{council}} Council Nominees",
 		"vote-nominee": "Vote Nominee",
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/{{max}}",
 		"vote-status-complete": "Vote Status: Complete",
 		"not-voted": "NOT VOTED YET",
 		"withdraw": "Withdraw Vote",
+		"vote-in-progress": "You have not completed all of your ballots for this voting period. Below indicates which ones you completed and which ones have not. Click on the plus icon to cast your vote.",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"no-nominations": "No Nominations yet",
 		"councils": {

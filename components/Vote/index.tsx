@@ -114,22 +114,24 @@ export default function VoteSection() {
 			</span>
 			{!!activeCouncilInVoting && (
 				<div className="max-w-[1300px] w-full p-4 rounded bg-dark-blue flex flex-wrap items-center">
-					<Image
-						src={`/images/${calculateProgress() === 4 ? 'tick' : 'pending-big'}.svg`}
-						width={isMobile ? 40 : 90}
-						height={isMobile ? 40 : 90}
-					/>
-					<h3 className="md:tg-title-h3 tg-title-h4 pb-4 pt-4">
-						{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
-							progress: calculateProgress(),
-							max: activeCouncilInVoting,
-						})}
-						<br />
-						<span className="tg-body text-gray-500">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-							incididunt ut labore et dolore magna aliqua.
-						</span>
-					</h3>
+					<div className="flex w-fit">
+						{!isMobile && (
+							<Image
+								src={`/images/${calculateProgress() === 4 ? 'tick' : 'pending-big'}.svg`}
+								width={isMobile ? 40 : 90}
+								height={isMobile ? 40 : 90}
+							/>
+						)}
+						<div className="pb-2">
+							<h3 className="md:tg-title-h3 tg-title-h4 pt-4">
+								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
+									progress: calculateProgress(),
+									max: activeCouncilInVoting,
+								})}
+							</h3>
+							<span className="tg-body text-gray-500">{t('vote.vote-in-progress')}</span>
+						</div>
+					</div>
 					<div className="flex justify-between flex-wrap w-full">
 						<VoteCard
 							userDetail={userVoteHistory.spartan.candidate}
