@@ -70,18 +70,10 @@ export async function voteHistory(
 	let voteWithdrawnEvents: Event[] = [];
 	try {
 		voteEvents = await contract.queryFilter(voteFilter);
-	} catch (error) {
-		if (process.env.NODE_ENV === 'development') {
-			console.log('no voting events found for voter: ', voter);
-		}
-	}
+	} catch (error) {}
 	try {
 		voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
-	} catch (error) {
-		if (process.env.NODE_ENV === 'development') {
-			console.log('no withdraw voting events found for voter: ', voter);
-		}
-	}
+	} catch (error) {}
 	let listOfVoters = [] as string[];
 	let votes = [] as VoteEvent[];
 	voteEvents.forEach((event: Event) => {
