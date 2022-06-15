@@ -102,6 +102,7 @@ export default function VoteSection() {
 		}
 		return count;
 	};
+	console.log(userVoteHistory);
 	return (
 		<div className="flex flex-col items-center w-full container">
 			<div className="relative w-full m-4 mt-8">

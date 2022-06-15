@@ -12,12 +12,11 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 		async () => {
 			const [spartanEpochIndex, grantsEpochIndex, ambassadorEpochIndex, treasuryEpochIndex] =
 				await Promise.all([
-					governanceModules['spartan council']?.contract.getEpochIndex(),
-					governanceModules['grants council']?.contract.getEpochIndex(),
-					governanceModules['ambassador council']?.contract.getEpochIndex(),
-					governanceModules['treasury council']?.contract.getEpochIndex(),
+					governanceModules['spartan council']?.contract.getCurrentPeriod(),
+					governanceModules['grants council']?.contract.getCurrentPeriod(),
+					governanceModules['ambassador council']?.contract.getCurrentPeriod(),
+					governanceModules['treasury council']?.contract.getCurrentPeriod(),
 				]);
-
 			const [
 				hasVotedSpartan,
 				hasVotedGrants,
@@ -48,25 +47,25 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 					governanceModules['spartan council']!.contract,
 					walletAddress,
 					null,
-					String(spartanEpochIndex) || null
+					spartanEpochIndex.toString() || null
 				),
 				voteHistory(
 					governanceModules['grants council']!.contract,
 					walletAddress,
 					null,
-					String(grantsEpochIndex) || null
+					grantsEpochIndex.toString() || null
 				),
 				voteHistory(
 					governanceModules['ambassador council']!.contract,
 					walletAddress,
 					null,
-					String(ambassadorEpochIndex) || null
+					ambassadorEpochIndex.toString() || null
 				),
 				voteHistory(
 					governanceModules['treasury council']!.contract,
 					walletAddress,
 					null,
-					String(treasuryEpochIndex) || null
+					treasuryEpochIndex.toString() || null
 				),
 			]);
 
@@ -79,19 +78,19 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 						  )
 						: false,
 					voteHistoryGrants.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules['grants council']!.contract.getBallotCandidatesInEpoch(
 								voteHistoryGrants[voteHistoryGrants.length - 1].ballotId,
 								hexStringBN(String(grantsEpochIndex))
 						  )
 						: false,
 					voteHistoryAmbassador.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules['ambassador council']!.contract.getBallotCandidatesInEpoch(
 								voteHistoryAmbassador[voteHistoryAmbassador.length - 1].ballotId,
 								hexStringBN(String(ambassadorEpochIndex))
 						  )
 						: false,
 					voteHistoryTreasury.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules['treasury council']!.contract.getBallotCandidatesInEpoch(
 								voteHistoryTreasury[voteHistoryTreasury.length - 1].ballotId,
 								hexStringBN(String(treasuryEpochIndex))
 						  )

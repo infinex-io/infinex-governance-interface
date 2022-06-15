@@ -16,6 +16,7 @@ import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
 import { BigNumber } from 'ethers';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Wei from '@synthetixio/wei';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -28,7 +29,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	const { setIsOpen } = useModalContext();
 	const { data } = useAccount();
 	const governanceModules = useModulesContext();
-	const [votingPower, setVotingPower] = useState({ l1: BigNumber.from(0), l2: BigNumber.from(0) });
+	const [votingPower, setVotingPower] = useState({ l1: new Wei(0), l2: new Wei(0) });
 	const { push } = useRouter();
 	const queryClient = useQueryClient();
 	const castVoteMutation = useCastMutation(deployedModule);
@@ -53,13 +54,14 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		if (data?.address && governanceModules[deployedModule]?.contract) {
 			getCrossChainClaim(governanceModules[deployedModule]!.contract, data.address).then((data) => {
 				if (data) {
-					setVotingPower((state) => ({ ...state, l1: BigNumber.from(data.amount) }));
+					console.log(data.amount);
+					setVotingPower((state) => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
 				}
 			});
 			governanceModules[deployedModule]?.contract
 				.getDebtShare(data.address)
 				.then((share: BigNumber) => {
-					setVotingPower((state) => ({ ...state, l2: share }));
+					setVotingPower((state) => ({ ...state, l2: new Wei(share) }));
 				});
 		}
 	}, [data?.address, governanceModules, deployedModule]);
@@ -104,7 +106,10 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				</span>
 				<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
 					<h5 className="tg-title-h5 mt-4 mb-2 mx-4">{t('modals.vote.voting-power.headline')}</h5>
-					<h3 className="pb-4 font-['GT_America_Condensed_Bold'] text-[34px]">56465</h3>
+					<h3 className="pb-4 font-['GT_America_Condensed_Bold'] text-[34px]">
+						{/* TODO @MF treasury council edge case l1 + l2 only */}
+						Your total debt shares: {bnSqrt(votingPower.l1.add(votingPower.l2).toBN()).toString()}
+					</h3>
 				</div>
 				{!data?.connector ? (
 					<div className="m-6">
@@ -134,4 +139,19 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 			</div>
 		</BaseModal>
 	);
+}
+
+const BN_ONE = BigNumber.from(1);
+const BN_TWO = BigNumber.from(2);
+
+function bnSqrt(value: BigNumber) {
+	let z = value.add(BN_ONE).div(BN_TWO);
+	let y = value;
+
+	while (z.sub(y).isNegative()) {
+		y = z;
+		z = value.div(z).add(z).div(BN_TWO);
+	}
+
+	return y;
 }
