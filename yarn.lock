@@ -2881,6 +2881,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-transition-group@npm:^4.4.4":
+  version: 4.4.4
+  resolution: "@types/react-transition-group@npm:4.4.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: 86e9ff9731798e12bc2afe0304678918769633b531dcf6397f86af81718fb7930ef8648e894eeb3718fc6eab6eb885cfb9b82a44d1d74e10951ee11ebc4643ae
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*":
   version: 18.0.12
   resolution: "@types/react@npm:18.0.12"
@@ -7412,6 +7421,7 @@ __metadata:
     "@types/node": 17.0.21
     "@types/react": 17.0.2
     "@types/react-blockies": 1.4.1
+    "@types/react-transition-group": ^4.4.4
     "@types/styled-components": 5.1.24
     autoprefixer: 10.4.7
     babel-plugin-styled-components: 2.0.7
@@ -7435,6 +7445,7 @@ __metadata:
     react-query: ^3.34.20
     react-timer-hook: 3.0.5
     react-toastify: ^9.0.4
+    react-transition-group: ^4.4.2
     sass: 1.51.0
     siwe: 1.1.6
     styled-components: 5.3.3
