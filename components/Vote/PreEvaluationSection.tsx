@@ -70,13 +70,27 @@ export function PreEvaluationSection() {
 						{preEvalDic[activeTab]
 							// @TODO check this sort behavior
 							?.sort((prevEval) => (prevEval.voters.length < prevEval.voters.length ? 1 : -1))
-							.map((prevEval) => (
+							.map((prevEval, index) => (
 								<>
-									<th className="text-left p-2">
+									<th
+										className="text-left p-2"
+										key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
+									>
 										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 									</th>
-									<th className="p-2">{prevEval.voters.length}</th>
-									<th className="p-2 flex justify-end">
+									<th
+										className="p-2"
+										key={String(prevEval.voters).concat(prevEval.candidate.address)}
+									>
+										{prevEval.voters.length}
+									</th>
+									<th
+										className="p-2 flex justify-end"
+										key={prevEval.candidate.address.concat(
+											String(prevEval.voters.length),
+											String(index)
+										)}
+									>
 										<Link
 											href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
 											passHref
@@ -96,7 +110,10 @@ export function PreEvaluationSection() {
 						// @TODO check this sort behavior
 						?.sort((prevEval) => (prevEval.voters.length < prevEval.voters.length ? 1 : -1))
 						.map((prevEval) => (
-							<div className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative">
+							<div
+								className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative"
+								key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
+							>
 								<div className="flex flex-col gap-2 mr-2">
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
