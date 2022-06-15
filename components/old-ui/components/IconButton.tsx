@@ -8,7 +8,7 @@ interface IconButton extends HTMLAttributes<HTMLButtonElement> {
 	rounded?: boolean;
 	size?: keyof typeof spacings;
 	active?: boolean;
-	onClick: (e: any) => void;
+	onClick?: (e: any) => void;
 }
 
 export default function IconWrapper({

@@ -10,6 +10,6 @@ export default function useIsMobile() {
 		return () => {
 			window.removeEventListener('resize', resize);
 		};
-	}, [window]);
+	}, [typeof window !== 'undefined']);
 	return isMobile;
 }

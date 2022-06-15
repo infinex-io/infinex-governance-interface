@@ -52,172 +52,183 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		};
 
 		return (
-			<div className="flex flex-col md:items-center align-center pt-12 container mx-auto">
-				<div
-					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
-						'bg-[url(/images/ring-orange.svg)]': isOwnCard,
-						'bg-[url(/images/ring.svg)]': !isOwnCard,
-					})}
-				>
-					<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
-					{councilMembersQuery.data && (
-						<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
-							{t('profiles.council', { council: councilMembersQuery.data })}
-						</Badge>
-					)}
-					<div className="flex flex-col justify-between items-center p-3">
-						<div className="flex items-center mt-3">
-							<h4 className="tg-title-h4 mr-3">
-								{username || ens || truncateAddress(walletAddress)}
-							</h4>
-							<Dropdown
-								triggerElement={
-									<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
-										<ThreeDotsKebabIcon />
-									</div>
-								}
-								contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
-								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-								contentAlignment="right"
-							>
-								<>
-									{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
-										<ExternalLink
-											link={twitter}
-											className="hover:bg-navy-dark-1 rounded-none"
-											text="Twitter"
-											withoutIcon
-										/>
-									)}
+			<>
+				<div className="flex flex-col md:items-center align-center pt-12 container mx-auto">
+					<div
+						className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
+							'bg-[url(/images/ring-orange.svg)]': isOwnCard,
+							'bg-[url(/images/ring.svg)]': !isOwnCard,
+						})}
+					>
+						<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
+						{councilMembersQuery.data && (
+							<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
+								{t('profiles.council', { council: councilMembersQuery.data })}
+							</Badge>
+						)}
+						<div className="flex flex-col justify-between items-center p-3">
+							<div className="flex items-center mt-3">
+								<h4 className="tg-title-h4 mr-3">
+									{username || ens || truncateAddress(walletAddress)}
+								</h4>
+								<Dropdown
+									triggerElement={
+										<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
+											<ThreeDotsKebabIcon />
+										</div>
+									}
+									contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+									triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+									contentAlignment="right"
+								>
+									<>
+										{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
+											<ExternalLink
+												link={twitter}
+												className="hover:bg-navy-dark-1 rounded-none"
+												text="Twitter"
+												withoutIcon
+											/>
+										)}
 
-									{address && (
-										<ExternalLink
-											link={`https://optimistic.etherscan.io/address/${address}`}
-											className="hover:bg-navy-dark-1 rounded-none"
-											text="Etherscan"
-											withoutIcon
-										/>
-									)}
-								</>
-							</Dropdown>
+										{address && (
+											<ExternalLink
+												link={`https://optimistic.etherscan.io/address/${address}`}
+												className="hover:bg-navy-dark-1 rounded-none"
+												text="Etherscan"
+												withoutIcon
+											/>
+										)}
+									</>
+								</Dropdown>
+							</div>
+							<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
+								<ProfileForm userProfile={userDetailsQuery.data} />
+							</Dialog>
 						</div>
-						<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
-							<ProfileForm userProfile={userDetailsQuery.data} />
-						</Dialog>
+						<p className="tg-body p-8 text-center">{about}</p>
 					</div>
-					<p className="tg-body p-8 text-center">{about}</p>
-				</div>
-				{isOwnCard && !!isNominatedQuery.data?.length && (
-					<div className="p-2 w-full">
-						<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
-							<div className="flex flex-col">
-								<div className="flex w-full items-center gap-2">
-									{calculatePercentage() === '100%' ? (
-										<Image src="/images/tick.svg" width={44} height={44} alt="tick" />
-									) : (
-										<Image src="/images/pending.svg" width={94} height={94} alt="pending updates" />
-									)}
-									<div className="flex flex-col">
-										<h4 className="tg-title-h4">
-											{t('profiles.completion-card.headline', {
-												percentage: calculatePercentage(),
-											})}
-										</h4>
-										<span className="tg-content text-gray-500 pt-1">
-											{t('profiles.completion-card.subline')}
-										</span>
-									</div>
-								</div>
-								<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
-									<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 items-center max-w-[210px] gap-2 h-[74px]">
-										<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
-										<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.pitch')}</h6>
-										{delegationPitch ? (
-											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+					{isOwnCard && !!isNominatedQuery.data?.length && (
+						<div className="p-2 w-full">
+							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
+								<div className="flex flex-col">
+									<div className="flex w-full items-center gap-2">
+										{calculatePercentage() === '100%' ? (
+											<Image src="/images/tick.svg" width={44} height={44} alt="tick" />
 										) : (
-											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-												<PlusIcon active />
-											</IconButton>
+											<Image
+												src="/images/pending.svg"
+												width={94}
+												height={94}
+												alt="pending updates"
+											/>
 										)}
+										<div className="flex flex-col">
+											<h4 className="tg-title-h4">
+												{t('profiles.completion-card.headline', {
+													percentage: calculatePercentage(),
+												})}
+											</h4>
+											<span className="tg-content text-gray-500 pt-1">
+												{t('profiles.completion-card.subline')}
+											</span>
+										</div>
 									</div>
-									<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
-										<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
-										<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.discord')}</h6>
-										{discord ? (
-											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
-										) : (
-											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-												<PlusIcon active />
-											</IconButton>
-										)}
+									<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
+										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 items-center max-w-[210px] gap-2 h-[74px]">
+											<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
+											<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.pitch')}</h6>
+											{delegationPitch ? (
+												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+											) : (
+												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+													<PlusIcon active />
+												</IconButton>
+											)}
+										</div>
+										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
+											<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
+											<h6 className="tg-title-h6 mr-auto">
+												{t('profiles.completion-card.discord')}
+											</h6>
+											{discord ? (
+												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+											) : (
+												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+													<PlusIcon active />
+												</IconButton>
+											)}
+										</div>
+										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
+											<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
+											<h6 className="tg-title-h6 mr-auto">
+												{t('profiles.completion-card.twitter')}
+											</h6>
+											{twitter ? (
+												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+											) : (
+												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+													<PlusIcon active />
+												</IconButton>
+											)}
+										</div>
+										<Button
+											variant="outline"
+											size="md"
+											className="max-w-[180px] m-2"
+											onClick={() => {
+												if (isNominatedQuery.data?.length) {
+													setContent(
+														<WithdrawNominationModal
+															council={isNominatedQuery.data[0].council}
+															deployedModule={isNominatedQuery.data[0].module}
+														/>
+													);
+													setModalOpen(true);
+												}
+											}}
+										>
+											{t('profiles.completion-card.withdraw')}
+										</Button>
 									</div>
-									<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
-										<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
-										<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.twitter')}</h6>
-										{twitter ? (
-											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
-										) : (
-											<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-												<PlusIcon active />
-											</IconButton>
-										)}
-									</div>
-									<Button
-										variant="outline"
-										size="md"
-										className="max-w-[180px] m-2"
-										onClick={() => {
-											if (isNominatedQuery.data?.length) {
-												setContent(
-													<WithdrawNominationModal
-														council={isNominatedQuery.data[0].council}
-														deployedModule={isNominatedQuery.data[0].module}
-													/>
-												);
-												setModalOpen(true);
-											}
-										}}
-									>
-										{t('profiles.completion-card.withdraw')}
-									</Button>
 								</div>
 							</div>
 						</div>
-					</div>
-				)}
-				<div className="flex flex-col mb-6 w-full p-2">
-					<h4 className="tg-title-h4 text-start my-2">{t('profiles.subheadline')}</h4>
-					<div className="relative flex flex-col items-center w-full">
-						{isOwnCard && (
-							<IconButton
-								className="absolute top-5 right-3"
-								onClick={() => setIsOpen(true)}
-								size="sm"
-							>
-								<EditIcon />
-							</IconButton>
-						)}
+					)}
+					<div className="flex flex-col mb-6 w-full p-2 max-w-[1000px] mx-auto">
+						<h4 className="tg-title-h4 text-start my-2">{t('profiles.subheadline')}</h4>
+						<div className="relative flex flex-col items-center w-full">
+							{isOwnCard && (
+								<IconButton
+									className="absolute top-5 right-3"
+									onClick={() => setIsOpen(true)}
+									size="sm"
+								>
+									<EditIcon />
+								</IconButton>
+							)}
 
-						<ProfileCard
-							pfpThumbnailUrl={pfpThumbnailUrl}
-							walletAddress={walletAddress}
-							discord={discord}
-							github={github}
-							twitter={twitter}
-							pitch={delegationPitch}
-							className="max-w-[1200px]"
-							deployedModule={
-								!!isNominatedQuery.data?.length ? isNominatedQuery.data[0].module : undefined
-							}
-						/>
+							<ProfileCard
+								pfpThumbnailUrl={pfpThumbnailUrl}
+								walletAddress={walletAddress}
+								discord={discord}
+								github={github}
+								twitter={twitter}
+								pitch={delegationPitch}
+								className="max-w-[1200px]"
+								deployedModule={
+									!!isNominatedQuery.data?.length ? isNominatedQuery.data[0].module : undefined
+								}
+							/>
+						</div>
 					</div>
+					<hr className="border-gray-700 my-4 w-full" />
+					<CouncilsCarousel />
+					<Button className="mx-auto my-8 mt-12" onClick={() => push('/councils')} size="lg">
+						{t('profiles.view-all-members')}
+					</Button>
 				</div>
-				<hr className="border-gray-700 my-4 w-full" />
-				<CouncilsCarousel />
-				<Button className="mx-auto my-8 mt-12" onClick={() => push('/councils')} size="lg">
-					{t('profiles.view-all-members')}
-				</Button>
-			</div>
+			</>
 		);
 	} else {
 		return <Loader fullScreen />;
