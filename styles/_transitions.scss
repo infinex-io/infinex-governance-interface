@@ -3,28 +3,28 @@
 }
 .ui-slide-enter.ui-slide-enter-active {
 	opacity: 1;
-	transition: opacity 120ms ease-in;
+	transition: opacity 160ms ease-in;
 }
 .ui-slide-exit {
 	opacity: 1;
 }
 .ui-slide-exit.ui-slide-exit-active {
 	opacity: 0.01;
-	transition: opacity 120ms ease-in;
+	transition: opacity 160ms ease-in;
 }
 
 .ui-slide-enter .modal-content {
 	transform: translateY(100%);
 }
 .ui-slide-enter.ui-slide-enter-active .modal-content {
-	transition: transform 120ms ease-in;
+	transition: transform 220ms ease-in;
 	transform: translateY(34px);
 }
 .ui-slide-exit .modal-content {
 	transform: translateY(34px);
 }
 .ui-slide-exit.ui-slide-exit-active .modal-content {
-	transition: transform 120ms ease-in;
+	transition: transform 220ms ease-in;
 	transform: translateY(110%);
 }
 .ui-slide-enter-done .modal-content {
