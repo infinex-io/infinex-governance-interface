@@ -15,9 +15,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 	}, [isOpen]);
 
 	return (
-		<div
-			className="bg-purple p-0.5 rounded-t-[2rem] relative h-screen container"
-		>
+		<div className="bg-purple p-0.5 rounded-t-[2rem] relative h-screen container">
 			<div className="flex flex-col items-center darker-60 rounded-t-[2rem] min-h-full w-full">
 				<IconButton
 					className="top-5 right-5 absolute"
