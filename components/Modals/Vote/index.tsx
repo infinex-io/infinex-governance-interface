@@ -107,8 +107,10 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
 					<h5 className="tg-title-h5 mt-4 mb-2 mx-4">{t('modals.vote.voting-power.headline')}</h5>
 					<h3 className="pb-4 font-['GT_America_Condensed_Bold'] text-[34px]">
-						{/* TODO @MF treasury council edge case l1 + l2 only */}
-						Your total debt shares: {bnSqrt(votingPower.l1.add(votingPower.l2).toBN()).toString()}
+						Your total debt shares:&nbsp;
+						{deployedModule === 'treasury council'
+							? votingPower.l1.add(votingPower.l2).toBN().toString()
+							: bnSqrt(votingPower.l1.add(votingPower.l2).toBN()).toString()}
 					</h3>
 				</div>
 				{!data?.connector ? (

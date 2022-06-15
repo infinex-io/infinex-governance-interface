@@ -67,13 +67,47 @@ export function PreEvaluationSection() {
 						</th>
 					</tr>
 					<tr>
-						{preEvalDic[activeTab]?.map((prevEval) => (
-							<>
-								<th className="text-left p-2">
-									{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
-								</th>
-								<th className="p-2">{prevEval.voters.length}</th>
-								<th className="p-2 flex justify-end">
+						{preEvalDic[activeTab]
+							// @TODO check this sort behavior
+							?.sort((prevEval) => (prevEval.voters.length < prevEval.voters.length ? 1 : -1))
+							.map((prevEval) => (
+								<>
+									<th className="text-left p-2">
+										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+									</th>
+									<th className="p-2">{prevEval.voters.length}</th>
+									<th className="p-2 flex justify-end">
+										<Link
+											href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
+											passHref
+										>
+											<a target="_blank" rel="noreferrer">
+												<ArrowLinkOffIcon active />
+											</a>
+										</Link>
+									</th>
+								</>
+							))}
+					</tr>
+				</table>
+			) : (
+				<div className="flex flex-col w-full md:hidden p-2">
+					{preEvalDic[activeTab]
+						// @TODO check this sort behavior
+						?.sort((prevEval) => (prevEval.voters.length < prevEval.voters.length ? 1 : -1))
+						.map((prevEval) => (
+							<div className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative">
+								<div className="flex flex-col gap-2 mr-2">
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
+								</div>
+								<div className="flex flex-col gap-1">
+									<h5 className="tg-title-h5">
+										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+									</h5>
+									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
+								</div>
+								<div className="absolute right-0 top-1">
 									<Link
 										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
 										passHref
@@ -82,37 +116,9 @@ export function PreEvaluationSection() {
 											<ArrowLinkOffIcon active />
 										</a>
 									</Link>
-								</th>
-							</>
+								</div>
+							</div>
 						))}
-					</tr>
-				</table>
-			) : (
-				<div className="flex flex-col w-full md:hidden p-2">
-					{preEvalDic[activeTab]?.map((prevEval) => (
-						<div className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex justify-center flex-col relative">
-							<div className="flex">
-								<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
-								<h5 className="tg-title-h5">
-									{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
-								</h5>
-							</div>
-							<div className="flex">
-								<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
-								<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
-							</div>
-							<div className="absolute right-0 top-1">
-								<Link
-									href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
-									passHref
-								>
-									<a target="_blank" rel="noreferrer">
-										<ArrowLinkOffIcon active />
-									</a>
-								</Link>
-							</div>
-						</div>
-					))}
 				</div>
 			)}
 		</div>
