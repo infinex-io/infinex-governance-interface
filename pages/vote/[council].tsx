@@ -1,14 +1,9 @@
+import { Pagination } from '@synthetixio/ui';
 import BackButton from 'components/BackButton';
 import VoteBanner from 'components/Banners/VoteBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
-import {
-	ArrowDropdownLeftIcon,
-	ArrowDropdownRightIcon,
-	SkipLeftIcon,
-	SkipRightIcon,
-} from 'components/old-ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
@@ -20,7 +15,7 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useAccount } from 'wagmi';
 
-const paginationStep = 8;
+const PAGE_SIZE = 8;
 
 export default function VoteCouncil() {
 	const { query, push } = useRouter();
@@ -31,18 +26,12 @@ export default function VoteCouncil() {
 	const { data: periodData } = useCurrentPeriod(activeCouncil.module);
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
-	const maxPages = nomineesQuery.data?.length
-		? Math.floor(nomineesQuery.data.length / paginationStep)
-		: 0;
 
-	const canScrollRight = nomineesQuery.data?.length
-		? nomineesQuery.data.length > activePage * paginationStep + paginationStep
-		: false;
-	const startIndex = !activePage ? 0 : activePage * paginationStep;
+	const startIndex = activePage * PAGE_SIZE;
 	const endIndex =
-		nomineesQuery.data?.length && startIndex + paginationStep > nomineesQuery.data?.length
+		nomineesQuery.data?.length && startIndex + PAGE_SIZE > nomineesQuery.data?.length
 			? nomineesQuery.data!.length
-			: startIndex + paginationStep;
+			: startIndex + PAGE_SIZE;
 
 	useEffect(() => {
 		if (periodData?.currentPeriod !== 'VOTING') push('/');
@@ -85,40 +74,13 @@ export default function VoteCouncil() {
 									))}
 								</div>
 								<div className="w-full">
-									<div className="w-full flex justify-around items-center gap-5 max-w-[330px] mx-auto p-10">
-										<SkipLeftIcon
-											active={activePage !== 0}
-											onClick={() => setActivePage(0)}
-											className="cursor-pointer"
-										/>
-										<ArrowDropdownLeftIcon
-											className="cursor-pointer"
-											onClick={() => setActivePage(activePage - 1 >= 0 ? activePage - 1 : 0)}
-											active={activePage !== 0}
-										></ArrowDropdownLeftIcon>
-										<h6 className="tg-title-h6 text-gray-500 select-none">
-											{startIndex + 1}-{endIndex}
-											&nbsp;
-											{t('councils.of')}&nbsp;
-											{nomineesQuery.data.length}
-										</h6>
-										<ArrowDropdownRightIcon
-											className="cursor-pointer"
-											active={canScrollRight}
-											onClick={() => canScrollRight && setActivePage(activePage + 1)}
-										></ArrowDropdownRightIcon>
-										<SkipRightIcon
-											active={canScrollRight}
-											onClick={() =>
-												setActivePage(
-													canScrollRight && (nomineesQuery.data.length / paginationStep) % 2 === 0
-														? activePage + maxPages - 1
-														: maxPages
-												)
-											}
-											className="cursor-pointer"
-										/>
-									</div>
+									<Pagination
+										className="mx-auto py-10"
+										pageIndex={activePage}
+										gotoPage={setActivePage}
+										length={nomineesQuery.data.length}
+										pageSize={PAGE_SIZE}
+									/>
 								</div>
 							</>
 						) : (
