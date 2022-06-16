@@ -1,14 +1,17 @@
+import Avatar from 'components/Avatar';
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
+import useIsMobile from 'hooks/useIsMobile';
 import { t } from 'i18next';
 import Link from 'next/link';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import { usePreEvaluationVotingPowerQuery } from 'queries/voting/usePreEvaluationVotingPowerQuery';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { truncateAddress } from 'utils/truncate-address';
 
 export function PreEvaluationSection() {
 	const [activeTab, setActiveTab] = useState<number>(0);
+	const isMobile = useIsMobile();
 	const spartanEpochIndex = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
 	const grantsEpochIndex = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorEpochIndex = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
@@ -36,10 +39,15 @@ export function PreEvaluationSection() {
 		preEvalAmbassadorQuery.data,
 		preEvalTreasuryQuery.data,
 	];
+
 	return (
-		<div className="flex flex-col items-center">
-			<h1 className="tg-title-h1 text-white">{t('vote.pre-eval.headline')}</h1>
+		<div className="flex flex-col items-center pt-10">
+			<h1 className="md:tg-title-h1 tg-title-h3 text-white">{t('vote.pre-eval.headline')}</h1>
+			<span className="tg-body text-center p-4 text-gray-500">
+				{t('vote.pre-eval.voting-results-live')}
+			</span>
 			<Tabs
+				className="overflow-x-auto no-scrollbar"
 				justifyContent="center"
 				titles={[
 					t('vote.pre-eval.tabs.sc'),
@@ -50,37 +58,93 @@ export function PreEvaluationSection() {
 				clicked={(id) => typeof id === 'number' && setActiveTab(id)}
 				activeIndex={activeTab}
 			/>
-			<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded">
-				<tr>
-					<th className="text-left p-2 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.name')}
-					</th>
-					<th className="tg-caption text-gray-500 p-2">{t('vote.pre-eval.table.votes')}</th>
-					<th className="text-right p-2 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.actions')}
-					</th>
-				</tr>
-				<tr>
-					{preEvalDic[activeTab]?.map((prevEval) => (
-						<>
-							<th className="text-left p-2">
-								{prevEval.candidate.ens || truncateAddress(prevEval.candidate.address)}
+			{!isMobile ? (
+				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded-xl md:table hidden table-fixed mt-6 mb-20">
+					<thead>
+						<tr className="border-b-2 border-b-gray-700 border-b-solid">
+							<th className="text-left p-6 tg-caption text-gray-500">
+								{t('vote.pre-eval.table.name')}
 							</th>
-							<th className="p-2">{prevEval.voters.length}</th>
-							<th className="p-2 flex justify-end">
-								<Link
-									href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
-									passHref
-								>
-									<a target="_blank" rel="noreferrer">
-										<ArrowLinkOffIcon active />
-									</a>
-								</Link>
+							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
+							<th className="text-right p-6 tg-caption text-gray-500">
+								{t('vote.pre-eval.table.actions')}
 							</th>
-						</>
-					))}
-				</tr>
-			</table>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{preEvalDic[activeTab]
+								// @TODO check this sort behavior
+								?.sort((prevEval) => (prevEval.voters.length > prevEval.voters.length ? 1 : -1))
+								.map((prevEval, index) => (
+									<>
+										<th
+											className="text-left p-6"
+											key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
+										>
+											{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+										</th>
+										<th
+											className="p-6"
+											key={String(prevEval.voters).concat(prevEval.candidate.address)}
+										>
+											{prevEval.voters.length}
+										</th>
+										<th
+											className="p-6 flex justify-end"
+											key={prevEval.candidate.address.concat(
+												String(prevEval.voters.length),
+												String(index)
+											)}
+										>
+											<Link
+												href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
+												passHref
+											>
+												<a target="_blank" rel="noreferrer">
+													<ArrowLinkOffIcon active />
+												</a>
+											</Link>
+										</th>
+									</>
+								))}
+						</tr>
+					</tbody>
+				</table>
+			) : (
+				<div className="flex flex-col w-full md:hidden p-2 mb-20">
+					{preEvalDic[activeTab]
+						// @TODO check this sort behavior
+						?.sort((prevEval) => (prevEval.voters.length > prevEval.voters.length ? 1 : -1))
+						.map((prevEval) => (
+							<div
+								className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative p-4"
+								key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
+							>
+								<div className="flex flex-col gap-2 mr-2">
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
+								</div>
+								<div className="flex flex-col gap-1">
+									<h5 className="tg-title-h5">
+										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+									</h5>
+									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
+								</div>
+								<div className="absolute right-3 top-3">
+									<Link
+										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
+										passHref
+									>
+										<a target="_blank" rel="noreferrer">
+											<ArrowLinkOffIcon active />
+										</a>
+									</Link>
+								</div>
+							</div>
+						))}
+				</div>
+			)}
 		</div>
 	);
 }

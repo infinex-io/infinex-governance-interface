@@ -104,14 +104,18 @@
 	},
 	"vote": {
 		"headline": "Voting",
+		"subline": "Chose one nominee that you want to vote for in this election. Remember to check out their profile & pitch to see what they represent.",
 		"nominees": "{{council}} Council Nominees",
 		"vote-nominee": "Vote Nominee",
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/{{max}}",
 		"vote-status-complete": "Vote Status: Complete",
 		"not-voted": "NOT VOTED YET",
 		"withdraw": "Withdraw Vote",
+		"vote-in-progress": "You have not completed all of your ballots for this voting period. Below indicates which ones you completed and which ones have not. Click on the plus icon to cast your vote.",
+		"vote-finished": "You have completed all of your ballots for this voting period. You can always change your casted votes within the voting period.",
 		"not-in-voting": "{{council}} Council is not in voting period.",
 		"no-nominations": "No Nominations yet",
+
 		"councils": {
 			"sc": "Spartan Council",
 			"gc": "Grants Council",
@@ -125,6 +129,11 @@
 		},
 		"pre-eval": {
 			"headline": "Current Voting Results",
+			"voting-results-live": "Voting is still in progress. There is still time to vote if you haven't yet.",
+			"list": {
+				"name": "Name",
+				"vote": "Vote"
+			},
 			"tabs": {
 				"sc": "Spartan Council",
 				"gc": "Grants Council",
@@ -172,16 +181,18 @@
 			"cta-step-2-head": "Nominate for {{council}} Council"
 		},
 		"vote": {
-			"headline": "Voting For {{council}} Council",
+			"headline": "Voting For {{council}} Council Nominee",
+			"subline": "You are about to vote for this nominee. If you are happy to proceed, click the submit vote button.",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
 			"cta": "Voting for {{council}} Council",
 			"voting-power": {
-				"headline": "Combined Voting Power On L1 & L2"
+				"headline": "Your Total Voting Power Is On L1 & L2:"
 			}
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
+			"subline": "You are about to uncast your vote. Select uncast vote button to continue.",
 			"voted-for": "Voted for {{council}} Council",
 			"uncast-vote": "Uncast Vote",
 			"cta": "Withdraw Vote for {{council}} Council"

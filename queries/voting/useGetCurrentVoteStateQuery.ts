@@ -1,4 +1,4 @@
-import { useModulesContext } from 'containers/Modules';
+import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { useQuery } from 'react-query';
 import { hexStringBN } from 'utils/hexString';
 import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
@@ -12,10 +12,10 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 		async () => {
 			const [spartanEpochIndex, grantsEpochIndex, ambassadorEpochIndex, treasuryEpochIndex] =
 				await Promise.all([
-					governanceModules['spartan council']?.contract.getEpochIndex(),
-					governanceModules['grants council']?.contract.getEpochIndex(),
-					governanceModules['ambassador council']?.contract.getEpochIndex(),
-					governanceModules['treasury council']?.contract.getEpochIndex(),
+					governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract.getEpochIndex(),
+					governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract.getEpochIndex(),
+					governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract.getEpochIndex(),
+					governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.getEpochIndex(),
 				]);
 
 			const [
@@ -28,72 +28,80 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 				voteHistoryAmbassador,
 				voteHistoryTreasury,
 			] = await Promise.all([
-				governanceModules['spartan council']?.contract.hasVotedInEpoch(
+				governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract.hasVotedInEpoch(
 					walletAddress,
 					hexStringBN(String(spartanEpochIndex))
 				),
-				governanceModules['grants council']?.contract.hasVotedInEpoch(
+				governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract.hasVotedInEpoch(
 					walletAddress,
 					hexStringBN(String(grantsEpochIndex))
 				),
-				governanceModules['ambassador council']?.contract.hasVotedInEpoch(
+				governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract.hasVotedInEpoch(
 					walletAddress,
 					hexStringBN(String(ambassadorEpochIndex))
 				),
-				governanceModules['treasury council']?.contract.hasVotedInEpoch(
+				governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.hasVotedInEpoch(
 					walletAddress,
 					hexStringBN(String(treasuryEpochIndex))
 				),
 				voteHistory(
-					governanceModules['spartan council']!.contract,
+					governanceModules[DeployedModules.SPARTAN_COUNCIL]!.contract,
 					walletAddress,
 					null,
-					String(spartanEpochIndex) || null
+					spartanEpochIndex.toString() || null
 				),
 				voteHistory(
-					governanceModules['grants council']!.contract,
+					governanceModules[DeployedModules.GRANTS_COUNCIL]!.contract,
 					walletAddress,
 					null,
-					String(grantsEpochIndex) || null
+					grantsEpochIndex.toString() || null
 				),
 				voteHistory(
-					governanceModules['ambassador council']!.contract,
+					governanceModules[DeployedModules.AMBASSADOR_COUNCIL]!.contract,
 					walletAddress,
 					null,
-					String(ambassadorEpochIndex) || null
+					ambassadorEpochIndex.toString() || null
 				),
 				voteHistory(
-					governanceModules['treasury council']!.contract,
+					governanceModules[DeployedModules.TREASURY_COUNCIL]!.contract,
 					walletAddress,
 					null,
-					String(treasuryEpochIndex) || null
+					treasuryEpochIndex.toString() || null
 				),
 			]);
 
 			const [spartanCandidate, grantsCandidate, ambassadorCandidate, treasuryCandidate] =
 				await Promise.all([
 					voteHistorySpartan.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules[
+								DeployedModules.SPARTAN_COUNCIL
+						  ]!.contract.getBallotCandidatesInEpoch(
 								voteHistorySpartan[voteHistorySpartan.length - 1].ballotId,
-								hexStringBN(String(spartanEpochIndex))
+								hexStringBN(spartanEpochIndex.toString())
 						  )
 						: false,
 					voteHistoryGrants.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules[
+								DeployedModules.GRANTS_COUNCIL
+						  ]!.contract.getBallotCandidatesInEpoch(
 								voteHistoryGrants[voteHistoryGrants.length - 1].ballotId,
-								hexStringBN(String(grantsEpochIndex))
+								hexStringBN(grantsEpochIndex.toString())
 						  )
 						: false,
 					voteHistoryAmbassador.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules[
+								DeployedModules.AMBASSADOR_COUNCIL
+						  ]!.contract.getBallotCandidatesInEpoch(
 								voteHistoryAmbassador[voteHistoryAmbassador.length - 1].ballotId,
-								hexStringBN(String(ambassadorEpochIndex))
+								hexStringBN(ambassadorEpochIndex.toString())
 						  )
 						: false,
 					voteHistoryTreasury.length
-						? governanceModules['spartan council']!.contract.getBallotCandidatesInEpoch(
+						? governanceModules[
+								DeployedModules.TREASURY_COUNCIL
+						  ]!.contract.getBallotCandidatesInEpoch(
 								voteHistoryTreasury[voteHistoryTreasury.length - 1].ballotId,
-								hexStringBN(String(treasuryEpochIndex))
+								hexStringBN(treasuryEpochIndex.toString())
 						  )
 						: false,
 				]);
@@ -120,7 +128,6 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 				fetch(GET_USER_DETAILS_API_URL(treasuryCandidate), {
 					method: 'POST',
 				});
-
 			const responses = await Promise.all([
 				spartanCandidateInfoResponse,
 				grantsCandidateInfoResponse,
@@ -152,14 +159,13 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 					candidate: result[2] as GetUserDetails,
 				},
 				treasury: {
-					voted: !!hasVotedTreasury.data,
+					voted: !!hasVotedTreasury,
 					candidate: result[3] as GetUserDetails,
 				},
 			};
 		},
 		{
-			enabled: governanceModules !== null && walletAddress !== null,
-			// 15 mins
+			enabled: governanceModules !== null && !!walletAddress,
 			cacheTime: 900000,
 		}
 	);

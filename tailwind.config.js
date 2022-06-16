@@ -46,6 +46,7 @@ module.exports = {
 				'green-light-2': 'var(--color-green-light-2)',
 				'green-light-3': 'var(--color-green-light-3)',
 				'green-light-4': 'var(--color-green-light-4)',
+				'green-vote': '#2cc294',
 				yellow: 'var(--color-yellow)',
 				'yellow-dark-1': 'var(--color-yellow-dark-1)',
 				'yellow-dark-2': 'var(--color-yellow-dark-2)',
