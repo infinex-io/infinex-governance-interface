@@ -159,7 +159,7 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 					candidate: result[2] as GetUserDetails,
 				},
 				treasury: {
-					voted: !!hasVotedTreasury.data,
+					voted: !!hasVotedTreasury,
 					candidate: result[3] as GetUserDetails,
 				},
 			};

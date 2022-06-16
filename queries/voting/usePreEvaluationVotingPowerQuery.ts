@@ -25,7 +25,6 @@ export const usePreEvaluationVotingPowerQuery = (
 	return useQuery<BallotVotes[]>(
 		['preEvaluationVotingPower', moduleInstance, epochIndex],
 		async () => {
-			console.log('triggered');
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
 			const votes = await voteHistory(contract, null, null, epochIndex);

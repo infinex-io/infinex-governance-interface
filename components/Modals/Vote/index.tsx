@@ -103,7 +103,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				<h3 className="tg-title-h3 text-white md:pb-4">
 					{member.ens || truncateAddress(member.address)}
 				</h3>
-				<span className="text-gray-500 max-w-[500px] overflow-auto max-h-[200px] text-center hidden md:block">
+				<span className="text-gray-500 max-w-[500px] overflow-y-auto h-[100px] text-center hidden md:block">
 					{member.about}
 				</span>
 				<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">

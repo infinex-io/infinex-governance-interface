@@ -112,8 +112,8 @@ export default function VoteSection() {
 						{!isMobile && (
 							<Image
 								src={`/images/${calculateProgress() === 4 ? 'tick' : 'pending-big'}.svg`}
-								width={isMobile ? 40 : 90}
-								height={isMobile ? 40 : 90}
+								width={40}
+								height={40}
 							/>
 						)}
 						<div className="pb-2">
