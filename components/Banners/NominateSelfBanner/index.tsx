@@ -47,7 +47,7 @@ export default function NominateSelfBanner({
 					}}
 					size="sm"
 					rounded
-					className="p2"
+					className="p-2"
 				>
 					<ArrowRightIcon />
 				</IconButton>
