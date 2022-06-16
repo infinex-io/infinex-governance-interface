@@ -187,7 +187,7 @@
 			"profile": "See full profile",
 			"cta": "Voting for {{council}} Council",
 			"voting-power": {
-				"headline": "Combined Voting Power Debt Shares On L1 & L2"
+				"headline": "Your Total Voting Power Is On L1 & L2:"
 			}
 		},
 		"withdraw-vote": {
