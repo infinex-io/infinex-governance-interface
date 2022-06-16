@@ -42,6 +42,8 @@ export default function CouncilNominees() {
 			? nomineesQuery.data!.length
 			: startIndex + paginationStep;
 
+	const sortedNominees =
+		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));
 	return (
 		<>
 			<Head>
@@ -66,7 +68,7 @@ export default function CouncilNominees() {
 					) : !!nomineesQuery.data?.length ? (
 						<>
 							<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
-								{nomineesQuery.data?.slice(startIndex, endIndex).map((walletAddress) => (
+								{sortedNominees?.slice(startIndex, endIndex).map((walletAddress) => (
 									<MemberCard
 										className="m-2"
 										walletAddress={walletAddress}

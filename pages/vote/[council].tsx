@@ -47,7 +47,8 @@ export default function VoteCouncil() {
 	useEffect(() => {
 		if (periodData?.currentPeriod !== 'VOTING') push('/');
 	}, [periodData, push]);
-
+	const sortedNominees =
+		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));
 	return (
 		<>
 			<Head>
@@ -69,7 +70,7 @@ export default function VoteCouncil() {
 						) : nomineesQuery.data?.length ? (
 							<>
 								<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
-									{nomineesQuery.data?.slice(startIndex, endIndex).map((walletAddress, index) => (
+									{sortedNominees?.slice(startIndex, endIndex).map((walletAddress, index) => (
 										<MemberCard
 											className="m-2"
 											key={walletAddress.concat(String(index).concat('voting'))}
