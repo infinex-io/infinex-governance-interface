@@ -130,6 +130,10 @@
 		"pre-eval": {
 			"headline": "Current Voting Results",
 			"voting-results-live": "Voting is still in progress. There is still time to vote if you haven't yet.",
+			"list": {
+				"name": "Name",
+				"vote": "Vote"
+			},
 			"tabs": {
 				"sc": "Spartan Council",
 				"gc": "Grants Council",

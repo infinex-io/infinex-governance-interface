@@ -38,6 +38,7 @@ export function PreEvaluationSection() {
 		preEvalAmbassadorQuery.data,
 		preEvalTreasuryQuery.data,
 	];
+
 	return (
 		<div className="flex flex-col items-center pt-10">
 			<h1 className="md:tg-title-h1 tg-title-h3 text-white">{t('vote.pre-eval.headline')}</h1>
@@ -54,14 +55,8 @@ export function PreEvaluationSection() {
 				clicked={(id) => typeof id === 'number' && setActiveTab(id)}
 				activeIndex={activeTab}
 			/>
-			{isMobile ? (
-				<>
-					{preEvalDic[activeTab]?.map((prevEval) => (
-						<div key="test"></div>
-					))}
-				</>
-			) : (
-				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded">
+			{!isMobile ? (
+				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded md:table hidden">
 					<tr>
 						<th className="text-left p-2 tg-caption text-gray-500">
 							{t('vote.pre-eval.table.name')}
@@ -72,13 +67,64 @@ export function PreEvaluationSection() {
 						</th>
 					</tr>
 					<tr>
-						{preEvalDic[activeTab]?.map((prevEval) => (
-							<>
-								<th className="text-left p-2">
-									{prevEval.candidate.ens || truncateAddress(prevEval.candidate.address)}
-								</th>
-								<th className="p-2">{prevEval.voters.length}</th>
-								<th className="p-2 flex justify-end">
+						{preEvalDic[activeTab]
+							// @TODO check this sort behavior
+							?.sort((prevEval) => (prevEval.voters.length < prevEval.voters.length ? 1 : -1))
+							.map((prevEval, index) => (
+								<>
+									<th
+										className="text-left p-2"
+										key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
+									>
+										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+									</th>
+									<th
+										className="p-2"
+										key={String(prevEval.voters).concat(prevEval.candidate.address)}
+									>
+										{prevEval.voters.length}
+									</th>
+									<th
+										className="p-2 flex justify-end"
+										key={prevEval.candidate.address.concat(
+											String(prevEval.voters.length),
+											String(index)
+										)}
+									>
+										<Link
+											href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
+											passHref
+										>
+											<a target="_blank" rel="noreferrer">
+												<ArrowLinkOffIcon active />
+											</a>
+										</Link>
+									</th>
+								</>
+							))}
+					</tr>
+				</table>
+			) : (
+				<div className="flex flex-col w-full md:hidden p-2">
+					{preEvalDic[activeTab]
+						// @TODO check this sort behavior
+						?.sort((prevEval) => (prevEval.voters.length < prevEval.voters.length ? 1 : -1))
+						.map((prevEval) => (
+							<div
+								className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative"
+								key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
+							>
+								<div className="flex flex-col gap-2 mr-2">
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
+								</div>
+								<div className="flex flex-col gap-1">
+									<h5 className="tg-title-h5">
+										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+									</h5>
+									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
+								</div>
+								<div className="absolute right-0 top-1">
 									<Link
 										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
 										passHref
@@ -87,11 +133,10 @@ export function PreEvaluationSection() {
 											<ArrowLinkOffIcon active />
 										</a>
 									</Link>
-								</th>
-							</>
+								</div>
+							</div>
 						))}
-					</tr>
-				</table>
+				</div>
 			)}
 		</div>
 	);

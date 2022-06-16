@@ -66,26 +66,26 @@ export async function voteHistory(
 		ballotId ?? null,
 		epochIndex ? hexStringBN(epochIndex) : null
 	);
-	let voteEvents;
-	let voteWithdrawnEvents;
+	let voteEvents: Event[] = [];
+	let voteWithdrawnEvents: Event[] = [];
 	try {
 		voteEvents = await contract.queryFilter(voteFilter);
+	} catch (error) {}
+	try {
 		voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
-	} catch (error) {
-		console.log('no vote events found');
-		return [];
-	}
+	} catch (error) {}
 	let listOfVoters = [] as string[];
 	let votes = [] as VoteEvent[];
-	voteEvents.forEach((event: Event) => {
-		listOfVoters.push(event.args?.voter);
-		votes.push({
-			voter: event.args?.voter,
-			voterPower: event.args?.votePower,
-			ballotId: event.args?.ballotId,
+	voteEvents
+		.sort((a, b) => (a.blockNumber > b.blockNumber ? 1 : -1))
+		.forEach((event: Event) => {
+			listOfVoters.push(event.args?.voter);
+			votes.push({
+				voter: event.args?.voter,
+				voterPower: event.args?.votePower,
+				ballotId: event.args?.ballotId,
+			});
 		});
-	});
-
 	voteWithdrawnEvents.forEach((event: Event) => {
 		if (listOfVoters.includes(event.args?.voter)) {
 			votes.splice(listOfVoters.indexOf(event.args?.voter), 1);

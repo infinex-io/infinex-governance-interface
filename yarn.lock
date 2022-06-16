@@ -2479,6 +2479,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@synthetixio/wei@npm:^2.73.1":
+  version: 2.73.1
+  resolution: "@synthetixio/wei@npm:2.73.1"
+  dependencies:
+    big.js: ^6.1.1
+    ethers: ^5.5.3
+  checksum: c9dbcb82d094c912c2ebf1934f96e4dc5261d15f76673eee841c52aac066bf5819b24fa1fa7825a6692b97cf47f4f7b6d67aba9c0457da5d52c3a049b76fa11d
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^8.5.0":
   version: 8.13.0
   resolution: "@testing-library/dom@npm:8.13.0"
@@ -4118,6 +4128,13 @@ __metadata:
   version: 5.2.2
   resolution: "big.js@npm:5.2.2"
   checksum: b89b6e8419b097a8fb4ed2399a1931a68c612bce3cfd5ca8c214b2d017531191070f990598de2fc6f3f993d91c0f08aa82697717f6b3b8732c9731866d233c9e
+  languageName: node
+  linkType: hard
+
+"big.js@npm:^6.1.1":
+  version: 6.2.0
+  resolution: "big.js@npm:6.2.0"
+  checksum: 42bcbf0be703c4ae8669c969d0e108f9e1730f20e85bd779e31f7a92d28f6b3e87de96e25ef8657edc0b5dc945a0f66c184ec2654276b86f49e4e9ba025f131a
   languageName: node
   linkType: hard
 
@@ -6523,7 +6540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:5.6.8, ethers@npm:^5.0.24, ethers@npm:^5.5.4":
+"ethers@npm:5.6.8, ethers@npm:^5.0.24, ethers@npm:^5.5.3, ethers@npm:^5.5.4":
   version: 5.6.8
   resolution: "ethers@npm:5.6.8"
   dependencies:
@@ -7397,6 +7414,7 @@ __metadata:
     "@synthetixio/providers": 2.64.1
     "@synthetixio/transaction-notifier": ^2.63.1
     "@synthetixio/ui": 3.1.3
+    "@synthetixio/wei": ^2.73.1
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 13.2.0
     "@types/jest": 27.5.1
