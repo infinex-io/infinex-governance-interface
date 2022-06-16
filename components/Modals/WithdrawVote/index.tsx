@@ -71,7 +71,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 				<ConnectButton />
 			) : (
 				<div className="flex flex-col items-center max-w-[500px] p-2">
-					<span className="text-center tg-body text-gray-500">
+					<span className="tg-body p-2 text-gray-500 text-center">
 						{t('modals.withdraw-vote.subline')}
 					</span>
 					<Avatar

@@ -59,7 +59,7 @@ export default function VoteCouncil() {
 				<div className="container">
 					<div className="relative w-full">
 						<BackButton />
-						<h1 className="tg-title-h1 text-center p-10">
+						<h1 className="tg-title-h1 text-center pt-5">
 							{t('vote.nominees', { council: capitalizeString(activeCouncil.name) })}
 						</h1>
 						<span className="tg-body text-center block text-gray-500">{t('vote.subline')}</span>
