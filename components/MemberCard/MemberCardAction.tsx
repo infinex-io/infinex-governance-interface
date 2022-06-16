@@ -132,39 +132,30 @@ export const MemberCardAction: React.FC<Props> = ({
 			)}
 
 			{state === 'VOTING' && (
-				<div className="flex gap-2">
-					<div
-						className={clsx('rounded', {
-							'bg-dark-blue': isOwnCard,
-						})}
+				<>
+					<Button
+						className={clsx('w-full', { 'mr-2': isOwnCard })}
+						variant="outline"
+						onClick={(e) => {
+							e.stopPropagation();
+							if (votedForAlready) {
+								setContent(
+									<WithdrawVoteModal
+										member={member}
+										council={council!}
+										deployedModule={deployedModule!}
+									/>
+								);
+							} else {
+								setContent(
+									<VoteModal member={member} deployedModule={deployedModule!} council={council!} />
+								);
+							}
+							setIsOpen(true);
+						}}
 					>
-						<Button
-							variant="outline"
-							onClick={(e) => {
-								e.stopPropagation();
-								if (votedForAlready) {
-									setContent(
-										<WithdrawVoteModal
-											member={member}
-											council={council!}
-											deployedModule={deployedModule!}
-										/>
-									);
-								} else {
-									setContent(
-										<VoteModal
-											member={member}
-											deployedModule={deployedModule!}
-											council={council!}
-										/>
-									);
-								}
-								setIsOpen(true);
-							}}
-						>
-							{votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
-						</Button>
-					</div>
+						{votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
+					</Button>
 
 					{isOwnCard && (
 						<Dropdown
@@ -202,7 +193,7 @@ export const MemberCardAction: React.FC<Props> = ({
 							)}
 						/>
 					)}
-				</div>
+				</>
 			)}
 		</>
 	);

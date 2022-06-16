@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules/index';
 import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Wei from '@synthetixio/wei';
@@ -89,31 +89,30 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
 			<div className="max-w-[500px] flex flex-col items-center px-2">
-				<span className="text-center tg-body text-gray-500">
-					{t('modals.withdraw-vote.subline')}
-				</span>
+				<span className="text-center tg-body text-gray-500 mt-2">{t('modals.vote.subline')}</span>
 				<Avatar
 					scale={12}
 					width={90}
 					height={90}
 					walletAddress={member.address}
 					url={member.pfpThumbnailUrl}
-					className="md:mt-14 mb-8 mt-10"
+					className="md:mt-10 mb-8 mt-8"
 				/>
 				<h3 className="tg-title-h3 text-white md:pb-4">
 					{member.ens || truncateAddress(member.address)}
 				</h3>
-				<span className="text-gray-500 max-w-[500px] overflow-y-auto h-[100px] text-center hidden md:block">
+				<span className="text-gray-500 max-w-[500px] overflow-y-auto max-h-[100px] text-center hidden md:block">
 					{member.about}
 				</span>
-				<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
+				<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 w-full">
 					<h5 className="tg-title-h5 mt-4 mb-2 mx-4">{t('modals.vote.voting-power.headline')}</h5>
-					<h3 className="pb-4 font-['GT_America_Condensed_Bold'] text-[34px]">
-						Your total debt shares:&nbsp;
-						{deployedModule === 'treasury council'
-							? votingPower.l1.add(votingPower.l2).toBN().toString()
-							: bnSqrt(votingPower.l1.add(votingPower.l2).toBN()).toString()}
-					</h3>
+					<h4 className="pb-4 font-['GT_America_Condensed_Bold'] text-[24px]">
+						{utils.formatEther(
+							deployedModule === 'treasury council'
+								? votingPower.l1.add(votingPower.l2).toBN().toString()
+								: bnSqrt(votingPower.l1.add(votingPower.l2).toBN()).toString()
+						)}
+					</h4>
 				</div>
 				{!data?.connector ? (
 					<div className="m-6">

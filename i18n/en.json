@@ -182,17 +182,17 @@
 		},
 		"vote": {
 			"headline": "Voting For {{council}} Council Nominee",
-			"subline": "If you want to change your vote, you can. To do this, you must first uncast your vote and then select a new nominee.",
+			"subline": "You are about to vote for this nominee. If you are happy to proceed, click the submit vote button.",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
 			"cta": "Voting for {{council}} Council",
 			"voting-power": {
-				"headline": "Combined Voting Power On L1 & L2"
+				"headline": "Combined Voting Power Debt Shares On L1 & L2"
 			}
 		},
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
-			"subline": "If you want to change your vote, you can. To do this, you must first uncast your vote and then select a new nominee.",
+			"subline": "You are about to uncast your vote. Select uncast vote button to continue.",
 			"voted-for": "Voted for {{council}} Council",
 			"uncast-vote": "Uncast Vote",
 			"cta": "Withdraw Vote for {{council}} Council"
