@@ -32,12 +32,12 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			queryClient.invalidateQueries(['getCurrentVoteStateQuery', data?.address]);
+			queryClient.invalidateQueries(['preEvaluationVotingPower', deployedModule]);
 			queryClient
 				.refetchQueries({
 					active: true,
 					stale: true,
 					inactive: true,
-					queryKey: 'getCurrentVoteStateQuery',
 				})
 				.then(() => {
 					push('/vote');
