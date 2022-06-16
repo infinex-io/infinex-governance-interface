@@ -76,15 +76,16 @@ export async function voteHistory(
 	} catch (error) {}
 	let listOfVoters = [] as string[];
 	let votes = [] as VoteEvent[];
-	voteEvents.forEach((event: Event) => {
-		listOfVoters.push(event.args?.voter);
-		votes.push({
-			voter: event.args?.voter,
-			voterPower: event.args?.votePower,
-			ballotId: event.args?.ballotId,
+	voteEvents
+		.sort((a, b) => (a.blockNumber > b.blockNumber ? 1 : -1))
+		.forEach((event: Event) => {
+			listOfVoters.push(event.args?.voter);
+			votes.push({
+				voter: event.args?.voter,
+				voterPower: event.args?.votePower,
+				ballotId: event.args?.ballotId,
+			});
 		});
-	});
-
 	voteWithdrawnEvents.forEach((event: Event) => {
 		if (listOfVoters.includes(event.args?.voter)) {
 			votes.splice(listOfVoters.indexOf(event.args?.voter), 1);

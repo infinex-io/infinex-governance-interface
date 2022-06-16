@@ -137,19 +137,19 @@ export default function VoteSection() {
 						/>
 						<VoteCard
 							userDetail={userVoteHistory.grants.candidate}
-							hasVoted={userVoteHistory.spartan.voted}
+							hasVoted={userVoteHistory.grants.voted}
 							council={DeployedModules.GRANTS_COUNCIL}
 							periodIsVoting={grantsQuery.data?.currentPeriod === 'VOTING'}
 						/>
 						<VoteCard
 							userDetail={userVoteHistory.ambassador.candidate}
-							hasVoted={userVoteHistory.spartan.voted}
+							hasVoted={userVoteHistory.ambassador.voted}
 							council={DeployedModules.AMBASSADOR_COUNCIL}
 							periodIsVoting={ambassadorQuery.data?.currentPeriod === 'VOTING'}
 						/>
 						<VoteCard
 							userDetail={userVoteHistory.treasury.candidate}
-							hasVoted={userVoteHistory.spartan.voted}
+							hasVoted={userVoteHistory.treasury.voted}
 							council={DeployedModules.TREASURY_COUNCIL}
 							periodIsVoting={treasuryQuery.data?.currentPeriod === 'VOTING'}
 						/>

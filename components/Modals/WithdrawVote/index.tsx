@@ -31,6 +31,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	const withdrawVoteMutation = useWithdrawVoteMutation(deployedModule);
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
+			queryClient.invalidateQueries(['getCurrentVoteStateQuery', data?.address]);
 			queryClient
 				.refetchQueries({
 					active: true,

@@ -120,7 +120,6 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 				fetch(GET_USER_DETAILS_API_URL(treasuryCandidate), {
 					method: 'POST',
 				});
-
 			const responses = await Promise.all([
 				spartanCandidateInfoResponse,
 				grantsCandidateInfoResponse,
@@ -158,7 +157,7 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 			};
 		},
 		{
-			enabled: governanceModules !== null && walletAddress !== null,
+			enabled: governanceModules !== null && !!walletAddress,
 			cacheTime: 900000,
 		}
 	);
