@@ -75,26 +75,12 @@ export function PreEvaluationSection() {
 							return 0;
 						})
 						.map((prevEval, index) => (
-							<tr>
-								<th
-									className="text-left p-6"
-									key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
-								>
+							<tr key={prevEval.candidate.address.concat(String(prevEval.voters.length))}>
+								<th className="text-left p-6">
 									{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 								</th>
-								<th
-									className="p-6"
-									key={String(prevEval.voters).concat(prevEval.candidate.address)}
-								>
-									{prevEval.voters.length}
-								</th>
-								<th
-									className="p-6 flex justify-end"
-									key={prevEval.candidate.address.concat(
-										String(prevEval.voters.length),
-										String(index)
-									)}
-								>
+								<th className="p-6">{prevEval.voters.length}</th>
+								<th className="p-6 flex justify-end">
 									<Link
 										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
 										passHref
