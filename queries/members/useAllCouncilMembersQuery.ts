@@ -1,6 +1,7 @@
 import { GET_USER_DETAILS_API_URL } from 'constants/boardroom';
 import { useModulesContext } from 'containers/Modules';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import { DeployedModules } from 'containers/Modules';
 
 import { useQuery } from 'react-query';
 
@@ -17,13 +18,13 @@ function useAllCouncilMembersQuery() {
 		['allCouncilMembers'],
 		async () => {
 			const spartanMembersPromise =
-				governanceModules['spartan council']?.contract.getCouncilMembers();
+				governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract.getCouncilMembers();
 			const grantsMembersPromise =
-				governanceModules['grants council']?.contract.getCouncilMembers();
+				governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract.getCouncilMembers();
 			const ambassadorMembersPromise =
-				governanceModules['ambassador council']?.contract.getCouncilMembers();
+				governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract.getCouncilMembers();
 			const treasuryMembersPromise =
-				governanceModules['treasury council']?.contract.getCouncilMembers();
+				governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.getCouncilMembers();
 			const [spartanMembers, grantsMembers, ambassadorMembers, treasuryMembers]: string[][] =
 				await Promise.all([
 					spartanMembersPromise,
