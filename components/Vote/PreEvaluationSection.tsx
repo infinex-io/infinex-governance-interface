@@ -69,9 +69,9 @@ export function PreEvaluationSection() {
 						</th>
 					</tr>
 					{preEvalDic[activeTab]
-						?.sort((prevEval) => {
-							if (prevEval.voters.length > prevEval.voters.length) return 1;
-							if (prevEval.voters.length < prevEval.voters.length) return -1;
+						?.sort((a, b) => {
+							if (a.voters.length > b.voters.length) return -1;
+							if (a.voters.length < b.voters.length) return 1;
 							return 0;
 						})
 						.map((prevEval, index) => (
@@ -110,10 +110,9 @@ export function PreEvaluationSection() {
 			) : (
 				<div className="flex flex-col w-full md:hidden p-2 mb-20">
 					{preEvalDic[activeTab]
-						// @TODO check this sort behavior
-						?.sort((prevEval) => {
-							if (prevEval.voters.length > prevEval.voters.length) return 1;
-							if (prevEval.voters.length < prevEval.voters.length) return -1;
+						?.sort((a, b) => {
+							if (a.voters.length > b.voters.length) return -1;
+							if (a.voters.length < b.voters.length) return 1;
 							return 0;
 						})
 						.map((prevEval) => (
