@@ -16,17 +16,21 @@ function useAllCouncilMembersQuery() {
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
 		async () => {
-			const spartanMembers = await governanceModules[
-				'spartan council'
-			]?.contract.getCouncilMembers();
-			const grantsMembers = await governanceModules['grants council']?.contract.getCouncilMembers();
-			const ambassadorMembers = await governanceModules[
-				'ambassador council'
-			]?.contract.getCouncilMembers();
-			const treasuryMembers = await governanceModules[
-				'treasury council'
-			]?.contract.getCouncilMembers();
-
+			const spartanMembersPromise =
+				governanceModules['spartan council']?.contract.getCouncilMembers();
+			const grantsMembersPromise =
+				governanceModules['grants council']?.contract.getCouncilMembers();
+			const ambassadorMembersPromise =
+				governanceModules['ambassador council']?.contract.getCouncilMembers();
+			const treasuryMembersPromise =
+				governanceModules['treasury council']?.contract.getCouncilMembers();
+			const [spartanMembers, grantsMembers, ambassadorMembers, treasuryMembers]: string[][] =
+				await Promise.all([
+					spartanMembersPromise,
+					grantsMembersPromise,
+					ambassadorMembersPromise,
+					treasuryMembersPromise,
+				]);
 			const addresses = [
 				...spartanMembers,
 				...grantsMembers,
