@@ -62,7 +62,6 @@ export default function VoteSection() {
 
 	useEffect(() => {
 		if (voteStatusQuery.data) {
-			console.log('triggered');
 			setUserVoteHistory(voteStatusQuery.data);
 			let count = 0;
 			for (const council of COUNCIL_SLUGS) {
