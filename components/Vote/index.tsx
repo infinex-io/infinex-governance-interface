@@ -16,8 +16,6 @@ import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'constants/config';
 import { useModalContext } from 'containers/Modal';
 import WithdrawVote from 'components/Modals/WithdrawVote';
 import { PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
-import Image from 'next/image';
-import useIsMobile from 'hooks/useIsMobile';
 
 interface CouncilState {
 	voted: boolean;
@@ -35,7 +33,7 @@ export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
-
+	const [progress, setProgress] = useState(0);
 	const [userVoteHistory, setUserVoteHistory] = useState<VoteState>({
 		spartan: { voted: false, candidate: undefined },
 		grants: { voted: false, candidate: undefined },
@@ -57,15 +55,22 @@ export default function VoteSection() {
 		treasuryQuery.data?.currentPeriod && parseQuery(treasuryQuery.data.currentPeriod);
 
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
-	const isMobile = useIsMobile();
 
 	useEffect(() => {
 		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
 	}, [activeCouncilInVoting, push]);
 
 	useEffect(() => {
-		if (voteStatusQuery.data) setUserVoteHistory(voteStatusQuery.data);
-	}, [voteStatusQuery.data]);
+		if (voteStatusQuery.data) {
+			console.log('triggered');
+			setUserVoteHistory(voteStatusQuery.data);
+			let count = 0;
+			for (const council of COUNCIL_SLUGS) {
+				if (voteStatusQuery.data[council as keyof VoteState].voted) count += 1;
+			}
+			setProgress(count);
+		}
+	}, [voteStatusQuery.isFetching, voteStatusQuery.data]);
 
 	useEffect(() => {
 		if (
@@ -91,40 +96,25 @@ export default function VoteSection() {
 		userVoteHistory.ambassador.voted &&
 		userVoteHistory.treasury.voted;
 
-	const calculateProgress = () => {
-		let count = 0;
-		for (const council of COUNCIL_SLUGS) {
-			if (userVoteHistory[council as keyof VoteState].voted) count += 1;
-		}
-		return count;
-	};
-
 	return (
 		<div className="flex flex-col items-center w-full container">
 			<div className="relative w-full m-4 mt-8">
 				<BackButton />
 				<h1 className="tg-title-h1 text-center">{t('vote.headline')}</h1>
 			</div>
-			<span className="tg-body pb-8 text-center">{t('vote.subline')}</span>
+			<span className="tg-body pb-8 text-center text-gray-500">{t('vote.subline')}</span>
 			{!!activeCouncilInVoting && (
-				<div className="max-w-[1300px] w-full p-4 rounded bg-dark-blue flex flex-wrap items-center">
+				<div className="max-w-[1000px] w-full p-4 rounded bg-dark-blue flex flex-wrap items-center">
 					<div className="flex w-fit">
-						{!isMobile && (
-							<Image
-								src={`/images/${calculateProgress() === 4 ? 'tick' : 'pending-big'}.svg`}
-								width={40}
-								height={40}
-							/>
-						)}
-						<div className="pb-2">
+						<div className="pb-2 ml-2">
 							<h3 className="md:tg-title-h3 tg-title-h4 pt-4">
 								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
-									progress: calculateProgress(),
+									progress: progress,
 									max: activeCouncilInVoting,
 								})}
 							</h3>
 							<span className="tg-body text-gray-500">
-								{t(calculateProgress() === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
+								{t(progress === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
 							</span>
 						</div>
 					</div>
@@ -217,7 +207,7 @@ const VoteCard = ({
 		);
 
 	return hasVoted && userDetail?.address ? (
-		<div className="bg-black md:max-w-[250px] p-2 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
+		<div className="bg-black md:max-w-[230px] p-2 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
 			<Avatar
 				walletAddress={userDetail.address}
 				url={userDetail.pfpThumbnailUrl}
@@ -283,7 +273,7 @@ const VoteCard = ({
 			></Dropdown>
 		</div>
 	) : (
-		<div className="md:max-w-[250px] w-full bg-primary border-2 border-solid rounded border-primary my-2">
+		<div className="md:max-w-[220px] w-full bg-primary border-2 border-solid rounded border-primary my-2">
 			<div className="darker-60 w-full h-full p-1 flex items-center rounded">
 				<div className="w-[33px] h-[33px] rounded-full border-primary border-2 border-solid bg-black mr-2"></div>
 				<div className="flex flex-col mr-auto">
