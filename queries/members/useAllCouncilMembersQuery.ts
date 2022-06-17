@@ -38,19 +38,18 @@ function useAllCouncilMembersQuery() {
 				...treasuryMembers,
 			].filter((x, i, a) => a.indexOf(x) == i);
 
-			const responses: Response[] = await Promise.all(
-				addresses.map((address: string) =>
-					fetch(GET_USER_DETAILS_API_URL(address), {
+			const userDetails: { data: GetUserDetails }[] = await Promise.all(
+				addresses.map(async (address: string) => {
+					const response = await fetch(GET_USER_DETAILS_API_URL(address), {
 						method: 'POST',
-					})
-				)
+					});
+					return response.json();
+				})
 			);
-			const result = await Promise.all(responses.map((response) => response.json()));
-
 			const users: { [key: string]: GetUserDetails } = {};
 
 			addresses.forEach((address, index) => {
-				users[address] = result[index].data;
+				users[address] = userDetails[index].data;
 			});
 
 			return {
