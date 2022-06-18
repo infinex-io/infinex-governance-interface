@@ -132,7 +132,8 @@
 			"voting-results-live": "Voting is still in progress. There is still time to vote if you haven't yet.",
 			"list": {
 				"name": "Name",
-				"vote": "Vote"
+				"vote": "Vote",
+				"power": "Voting Power"
 			},
 			"tabs": {
 				"sc": "Spartan Council",
@@ -143,6 +144,7 @@
 			"table": {
 				"name": "Name",
 				"votes": "Votes",
+				"power": "Voting Power",
 				"actions": "Actions"
 			}
 		}
