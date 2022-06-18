@@ -133,7 +133,9 @@ export function PreEvaluationSection() {
 									</h5>
 									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
 									<h5 className="tg-title-h5">
-										{utils.formatUnits(prevEval.totalVotingPower, 'wei')}
+										{totalVotingPowers &&
+											calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}
+										%
 									</h5>
 								</div>
 								<div className="absolute right-3 top-3">
