@@ -1,6 +1,7 @@
+import { wei } from '@synthetixio/wei';
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import useIsMobile from 'hooks/useIsMobile';
 import { t } from 'i18next';
 import Link from 'next/link';
@@ -40,6 +41,14 @@ export function PreEvaluationSection() {
 		preEvalTreasuryQuery.data,
 	];
 
+	const totalVotingPowers = preEvalDic[activeTab]?.reduce(
+		(cur, prev) => cur.add(prev.totalVotingPower),
+		BigNumber.from(0)
+	);
+
+	const calcPercentage = (a: BigNumber, b: BigNumber) => {
+		return ((wei(a).toNumber() / wei(b).toNumber()) * 100).toFixed(2);
+	};
 	return (
 		<div className="flex flex-col items-center pt-10">
 			<h1 className="md:tg-title-h1 tg-title-h3 text-white">{t('vote.pre-eval.headline')}</h1>
@@ -82,7 +91,11 @@ export function PreEvaluationSection() {
 									{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 								</th>
 								<th className="p-6">{prevEval.voters.length}</th>
-								<th className="p-6">{utils.formatUnits(prevEval.totalVotingPower, 'wei')}</th>
+								<th className="p-6">
+									{totalVotingPowers &&
+										calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}
+									%
+								</th>
 								<th className="p-6 flex justify-end">
 									<Link
 										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
@@ -123,7 +136,6 @@ export function PreEvaluationSection() {
 										{utils.formatUnits(prevEval.totalVotingPower, 'wei')}
 									</h5>
 								</div>
-
 								<div className="absolute right-3 top-3">
 									<Link
 										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
