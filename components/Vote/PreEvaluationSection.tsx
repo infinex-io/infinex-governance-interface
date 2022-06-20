@@ -1,4 +1,3 @@
-import Avatar from 'components/Avatar';
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
 import useIsMobile from 'hooks/useIsMobile';
@@ -59,63 +58,49 @@ export function PreEvaluationSection() {
 				activeIndex={activeTab}
 			/>
 			{!isMobile ? (
-				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded-xl md:table hidden table-fixed mt-6 mb-20">
-					<thead>
-						<tr className="border-b-2 border-b-gray-700 border-b-solid">
-							<th className="text-left p-6 tg-caption text-gray-500">
-								{t('vote.pre-eval.table.name')}
-							</th>
-							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-							<th className="text-right p-6 tg-caption text-gray-500">
-								{t('vote.pre-eval.table.actions')}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							{preEvalDic[activeTab]
-								// @TODO check this sort behavior
-								?.sort((prevEval) => (prevEval.voters.length > prevEval.voters.length ? 1 : -1))
-								.map((prevEval, index) => (
-									<>
-										<th
-											className="text-left p-6"
-											key={prevEval.candidate.address.concat(String(prevEval.voters.length))}
-										>
-											{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
-										</th>
-										<th
-											className="p-6"
-											key={String(prevEval.voters).concat(prevEval.candidate.address)}
-										>
-											{prevEval.voters.length}
-										</th>
-										<th
-											className="p-6 flex justify-end"
-											key={prevEval.candidate.address.concat(
-												String(prevEval.voters.length),
-												String(index)
-											)}
-										>
-											<Link
-												href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
-												passHref
-											>
-												<a target="_blank" rel="noreferrer">
-													<ArrowLinkOffIcon active />
-												</a>
-											</Link>
-										</th>
-									</>
-								))}
-						</tr>
-					</tbody>
+				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded-xl :table mt-6 mb-20">
+					<tr className="border-b-2 border-b-gray-700 border-b-solid">
+						<th className="text-left p-6 tg-caption text-gray-500">
+							{t('vote.pre-eval.table.name')}
+						</th>
+						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
+						<th className="text-right p-6 tg-caption text-gray-500">
+							{t('vote.pre-eval.table.actions')}
+						</th>
+					</tr>
+					{preEvalDic[activeTab]
+						?.sort((a, b) => {
+							if (a.voters.length > b.voters.length) return -1;
+							if (a.voters.length < b.voters.length) return 1;
+							return 0;
+						})
+						.map((prevEval, index) => (
+							<tr key={prevEval.candidate.address.concat(String(prevEval.voters.length))}>
+								<th className="text-left p-6">
+									{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
+								</th>
+								<th className="p-6">{prevEval.voters.length}</th>
+								<th className="p-6 flex justify-end">
+									<Link
+										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
+										passHref
+									>
+										<a target="_blank" rel="noreferrer">
+											<ArrowLinkOffIcon active />
+										</a>
+									</Link>
+								</th>
+							</tr>
+						))}
 				</table>
 			) : (
 				<div className="flex flex-col w-full md:hidden p-2 mb-20">
 					{preEvalDic[activeTab]
-						// @TODO check this sort behavior
-						?.sort((prevEval) => (prevEval.voters.length > prevEval.voters.length ? 1 : -1))
+						?.sort((a, b) => {
+							if (a.voters.length > b.voters.length) return -1;
+							if (a.voters.length < b.voters.length) return 1;
+							return 0;
+						})
 						.map((prevEval) => (
 							<div
 								className="bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative p-4"
