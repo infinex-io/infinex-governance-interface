@@ -74,7 +74,9 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		try {
 			setContent(
 				<>
-					<h6 className="tg-title-h6">{t('modals.vote.cta', { council: 'Spartan' })}</h6>
+					<h6 className="tg-title-h6">
+						{t('modals.vote.cta', { council: capitalizeString(council) })}
+					</h6>
 					<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
 				</>
 			);
