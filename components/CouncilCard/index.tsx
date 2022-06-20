@@ -6,7 +6,7 @@ import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
@@ -29,12 +29,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
 
-	const councilInfo = useMemo(() => {
-		if (currentPeriodData?.currentPeriod) {
-			return parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]);
-		}
-		return null;
-	}, [currentPeriodData?.currentPeriod]);
+	const councilInfo = currentPeriodData
+		? parseCouncil(EpochPeriods[currentPeriodData.currentPeriod])
+		: null;
 
 	if (!councilInfo)
 		return (
