@@ -133,7 +133,8 @@
 			"list": {
 				"name": "Name",
 				"vote": "Vote",
-				"power": "Voting Power"
+				"power": "Voting Power in %",
+				"received": "Received Voting Power"
 			},
 			"tabs": {
 				"sc": "Spartan Council",
@@ -144,8 +145,9 @@
 			"table": {
 				"name": "Name",
 				"votes": "Votes",
-				"power": "Voting Power",
-				"actions": "Actions"
+				"power": "Voting Power in %",
+				"actions": "Actions",
+				"received": "Received Voting Power"
 			}
 		}
 	},

@@ -75,6 +75,7 @@ export function PreEvaluationSection() {
 						</th>
 						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
 						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
+						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.received')}</th>
 						<th className="text-right p-6 tg-caption text-gray-500">
 							{t('vote.pre-eval.table.actions')}
 						</th>
@@ -95,6 +96,12 @@ export function PreEvaluationSection() {
 									{totalVotingPowers &&
 										calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}
 									%
+								</th>
+								<th className="p-6">
+									{utils.formatUnits(
+										prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
+										'wei'
+									)}
 								</th>
 								<th className="p-6 flex justify-end">
 									<Link
@@ -125,6 +132,7 @@ export function PreEvaluationSection() {
 								<div className="flex flex-col gap-2 mr-2">
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.table.received')}</h6>
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.power')}</h6>
 								</div>
 								<div className="flex flex-col gap-1">
@@ -132,6 +140,12 @@ export function PreEvaluationSection() {
 										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 									</h5>
 									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
+									<h5 className="tg-title-h5">
+										{utils.formatUnits(
+											prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
+											'wei'
+										)}
+									</h5>
 									<h5 className="tg-title-h5">
 										{totalVotingPowers &&
 											calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}
