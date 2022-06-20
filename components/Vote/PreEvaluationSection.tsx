@@ -1,5 +1,7 @@
+import { wei } from '@synthetixio/wei';
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
+import { BigNumber, utils } from 'ethers';
 import useIsMobile from 'hooks/useIsMobile';
 import { t } from 'i18next';
 import Link from 'next/link';
@@ -39,6 +41,14 @@ export function PreEvaluationSection() {
 		preEvalTreasuryQuery.data,
 	];
 
+	const totalVotingPowers = preEvalDic[activeTab]?.reduce(
+		(cur, prev) => cur.add(prev.totalVotingPower),
+		BigNumber.from(0)
+	);
+
+	const calcPercentage = (a: BigNumber, b: BigNumber) => {
+		return ((wei(a).toNumber() / wei(b).toNumber()) * 100).toFixed(2);
+	};
 	return (
 		<div className="flex flex-col items-center pt-10">
 			<h1 className="md:tg-title-h1 tg-title-h3 text-white">{t('vote.pre-eval.headline')}</h1>
@@ -64,22 +74,35 @@ export function PreEvaluationSection() {
 							{t('vote.pre-eval.table.name')}
 						</th>
 						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
+						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
+						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.received')}</th>
 						<th className="text-right p-6 tg-caption text-gray-500">
 							{t('vote.pre-eval.table.actions')}
 						</th>
 					</tr>
 					{preEvalDic[activeTab]
 						?.sort((a, b) => {
-							if (a.voters.length > b.voters.length) return -1;
-							if (a.voters.length < b.voters.length) return 1;
+							if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
+							if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
 							return 0;
 						})
-						.map((prevEval, index) => (
+						.map((prevEval) => (
 							<tr key={prevEval.candidate.address.concat(String(prevEval.voters.length))}>
 								<th className="text-left p-6">
 									{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 								</th>
 								<th className="p-6">{prevEval.voters.length}</th>
+								<th className="p-6">
+									{totalVotingPowers &&
+										calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}
+									%
+								</th>
+								<th className="p-6">
+									{utils.formatUnits(
+										prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
+										'wei'
+									)}
+								</th>
 								<th className="p-6 flex justify-end">
 									<Link
 										href={`https://optimistic.etherscan.io/address/${prevEval.candidate.address}`}
@@ -97,8 +120,8 @@ export function PreEvaluationSection() {
 				<div className="flex flex-col w-full md:hidden p-2 mb-20">
 					{preEvalDic[activeTab]
 						?.sort((a, b) => {
-							if (a.voters.length > b.voters.length) return -1;
-							if (a.voters.length < b.voters.length) return 1;
+							if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
+							if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
 							return 0;
 						})
 						.map((prevEval) => (
@@ -109,12 +132,25 @@ export function PreEvaluationSection() {
 								<div className="flex flex-col gap-2 mr-2">
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
 									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.table.received')}</h6>
+									<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.power')}</h6>
 								</div>
 								<div className="flex flex-col gap-1">
 									<h5 className="tg-title-h5">
 										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 									</h5>
 									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
+									<h5 className="tg-title-h5 truncate ">
+										{utils.formatUnits(
+											prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
+											'wei'
+										)}
+									</h5>
+									<h5 className="tg-title-h5">
+										{totalVotingPowers &&
+											calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}
+										%
+									</h5>
 								</div>
 								<div className="absolute right-3 top-3">
 									<Link
