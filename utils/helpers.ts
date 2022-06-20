@@ -4,3 +4,5 @@ export const compareAddress = (add1: string | null = '', add2: string | null = '
 export const copyToClipboard = (value: string) => navigator.clipboard.writeText(value);
 
 export const urlIsCorrect = (value: string, baseUrl: string) => value.includes(baseUrl);
+
+export const shuffle = (array: any[]) => array.sort(() => 0.5 - Math.random());
