@@ -140,7 +140,7 @@ export function PreEvaluationSection() {
 										{prevEval.candidate.username || truncateAddress(prevEval.candidate.address)}
 									</h5>
 									<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
-									<h5 className="tg-title-h5">
+									<h5 className="tg-title-h5 truncate ">
 										{utils.formatUnits(
 											prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
 											'wei'
