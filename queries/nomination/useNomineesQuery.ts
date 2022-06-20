@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { nomineesQueryKeys } from 'utils/queries';
+import { shuffle } from 'utils/helpers';
 
 function useNomineesQuery(moduleInstance: DeployedModules) {
 	const governanceModules = useModulesContext();
@@ -12,7 +13,7 @@ function useNomineesQuery(moduleInstance: DeployedModules) {
 			const contract = governanceModules[moduleInstance]?.contract;
 			const nominees = await contract?.getNominees();
 
-			return nominees;
+			return shuffle([...nominees]);
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
