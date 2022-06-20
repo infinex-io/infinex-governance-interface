@@ -6,7 +6,7 @@ import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
@@ -23,17 +23,15 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
-	const [councilInfo, setCouncilInfo] = useState<null | ReturnType<typeof parseCouncil>>(null);
 	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates, voteHistory } =
 		useCouncilCardQueries(deployedModule);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
 
-	useEffect(() => {
-		if (currentPeriodData?.currentPeriod)
-			setCouncilInfo(parseCouncil(EpochPeriods[currentPeriodData.currentPeriod]));
-	}, [currentPeriodData?.currentPeriod]);
+	const councilInfo = currentPeriodData
+		? parseCouncil(EpochPeriods[currentPeriodData.currentPeriod])
+		: null;
 
 	if (!councilInfo)
 		return (
