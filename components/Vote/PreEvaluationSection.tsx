@@ -74,26 +74,26 @@ export function PreEvaluationSection() {
 		switch (activeTab) {
 			case 0:
 				return (
-					<Badge variant="blue" className={clsx({ isMobile: 'ml-4' })}>
+					<Badge variant="blue" className={clsx({ 'ml-4': !isMobile })}>
 						Spartan Council
 					</Badge>
 				);
 			case 1:
 				return (
-					<Badge variant="success" className={clsx({ isMobile: 'ml-4' })}>
+					<Badge variant="success" className={clsx({ 'ml-4': !isMobile })}>
 						Grants Council
 					</Badge>
 				);
 			case 2:
 				return (
-					<Badge variant="orange" className={clsx({ isMobile: 'ml-4' })}>
+					<Badge variant="orange" className={clsx({ 'ml-4': !isMobile })}>
 						Ambassador Council
 					</Badge>
 				);
 
 			default:
 				return (
-					<Badge variant="yellow" className={clsx({ isMobile: 'ml-4' })}>
+					<Badge variant="yellow" className={clsx({ 'ml-4': !isMobile })}>
 						Treasury Council
 					</Badge>
 				);
