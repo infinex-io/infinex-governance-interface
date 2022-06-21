@@ -1,6 +1,6 @@
 import { Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber } from 'ethers';
 import useIsMobile from 'hooks/useIsMobile';
 import { t } from 'i18next';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
@@ -17,44 +17,35 @@ export function PreEvaluationSection() {
 	const grantsEpochIndex = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorEpochIndex = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryEpochIndex = useEpochIndexQuery(DeployedModules.TREASURY_COUNCIL);
-	const preEvalSpartanQuery = usePreEvaluationVotingPowerQuery(
-		DeployedModules.SPARTAN_COUNCIL,
-		spartanEpochIndex.data?.toString() || '0'
-	);
-	const preEvalGrantsQuery = usePreEvaluationVotingPowerQuery(
-		DeployedModules.GRANTS_COUNCIL,
-		grantsEpochIndex.data?.toString() || '0'
-	);
-	const preEvalAmbassadorQuery = usePreEvaluationVotingPowerQuery(
-		DeployedModules.AMBASSADOR_COUNCIL,
-		ambassadorEpochIndex.data?.toString() || '0'
-	);
-	const preEvalTreasuryQuery = usePreEvaluationVotingPowerQuery(
-		DeployedModules.TREASURY_COUNCIL,
-		treasuryEpochIndex.data?.toString() || '0'
-	);
-
-	const spartanSeatsQuery = useNextEpochSeatCountQuery(DeployedModules.SPARTAN_COUNCIL);
-	const grantsSeatsQuery = useNextEpochSeatCountQuery(DeployedModules.GRANTS_COUNCIL);
-	const ambassadorSeatsQuery = useNextEpochSeatCountQuery(DeployedModules.AMBASSADOR_COUNCIL);
-	const treasurySeatsQuery = useNextEpochSeatCountQuery(DeployedModules.TREASURY_COUNCIL);
 
 	const preEvalDic = [
 		{
-			seats: spartanSeatsQuery.data,
-			council: preEvalSpartanQuery.data,
+			seats: useNextEpochSeatCountQuery(DeployedModules.SPARTAN_COUNCIL).data,
+			council: usePreEvaluationVotingPowerQuery(
+				DeployedModules.SPARTAN_COUNCIL,
+				spartanEpochIndex.data?.toString() || '0'
+			).data,
 		},
 		{
-			seats: grantsSeatsQuery.data,
-			council: preEvalGrantsQuery.data,
+			seats: useNextEpochSeatCountQuery(DeployedModules.GRANTS_COUNCIL).data,
+			council: usePreEvaluationVotingPowerQuery(
+				DeployedModules.GRANTS_COUNCIL,
+				grantsEpochIndex.data?.toString() || '0'
+			).data,
 		},
 		{
-			seats: ambassadorSeatsQuery.data,
-			council: preEvalAmbassadorQuery.data,
+			seats: useNextEpochSeatCountQuery(DeployedModules.AMBASSADOR_COUNCIL).data,
+			council: usePreEvaluationVotingPowerQuery(
+				DeployedModules.AMBASSADOR_COUNCIL,
+				ambassadorEpochIndex.data?.toString() || '0'
+			).data,
 		},
 		{
-			seats: treasurySeatsQuery.data,
-			council: preEvalTreasuryQuery.data,
+			seats: useNextEpochSeatCountQuery(DeployedModules.TREASURY_COUNCIL).data,
+			council: usePreEvaluationVotingPowerQuery(
+				DeployedModules.TREASURY_COUNCIL,
+				treasuryEpochIndex.data?.toString() || '0'
+			).data,
 		},
 	];
 

@@ -1,6 +1,6 @@
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber, ethers } from 'ethers';
-import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
+import useVoteHistoryQuery, { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
 import { useQuery } from 'react-query';
 import { hexStringBN } from 'utils/hexString';
 
@@ -18,16 +18,14 @@ export const usePreEvaluationVotingPowerQuery = (
 	epochIndex: string
 ) => {
 	const governanceModules = useModulesContext();
-
+	const { data: votes } = useVoteHistoryQuery(moduleInstance, null, null, epochIndex);
 	return useQuery<BallotVotes[]>(
 		['preEvaluationVotingPower', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
-			const votes = await voteHistory(contract, null, null, epochIndex);
-
 			var helper = {} as any;
-			var result = votes.reduce((group: any, currentData) => {
+			var result = votes?.reduce((group: any, currentData) => {
 				var key = currentData.ballotId;
 
 				if (!helper[key]) {
@@ -59,7 +57,11 @@ export const usePreEvaluationVotingPowerQuery = (
 			}));
 		},
 		{
-			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== null,
+			enabled:
+				governanceModules !== null &&
+				moduleInstance !== null &&
+				epochIndex !== null &&
+				votes !== undefined,
 			staleTime: 900000,
 		}
 	);

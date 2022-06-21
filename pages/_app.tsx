@@ -30,15 +30,11 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { publicProvider } from 'wagmi/providers/public';
 import Modal from 'components/Modals/Modal';
 
 const { chains, provider } = configureChains(
 	[chain.optimism],
-	[
-		infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID }),
-		publicProvider({ pollingInterval: 5000 }),
-	]
+	[infuraProvider({ infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID })]
 );
 
 const connectors = connectorsForWallets([
