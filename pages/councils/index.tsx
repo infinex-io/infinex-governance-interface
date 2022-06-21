@@ -61,7 +61,7 @@ const Councils: NextPage = () => {
 					members.data?.grants &&
 					members.data?.ambassador &&
 					members.data?.treasury ? (
-						<div className="flex flex-wrap justify-center">
+						<div className="flex flex-wrap justify-center w-full">
 							{members.data[activeCouncil.name]?.map((walletAddress) => (
 								<MemberCard
 									className="m-2"
