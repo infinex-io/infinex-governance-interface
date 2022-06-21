@@ -1,18 +1,16 @@
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber, ethers } from 'ethers';
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
-import { getUsersDetail } from 'queries/boardroom/useUsersDetailsQuery';
 import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
 import { useQuery } from 'react-query';
 import { hexStringBN } from 'utils/hexString';
-import { useAccount } from 'wagmi';
 
-type BallotVotes = {
+export type BallotVotes = {
 	ballotId: string;
 	totalVotingPower: BigNumber;
 	voters: string[];
 	votingPowers: BigNumber[];
-	candidate: GetUserDetails;
+	walletAddress: string;
+	council: DeployedModules;
 };
 
 export const usePreEvaluationVotingPowerQuery = (
@@ -20,7 +18,6 @@ export const usePreEvaluationVotingPowerQuery = (
 	epochIndex: string
 ) => {
 	const governanceModules = useModulesContext();
-	const { data } = useAccount();
 
 	return useQuery<BallotVotes[]>(
 		['preEvaluationVotingPower', moduleInstance, epochIndex],
@@ -55,8 +52,11 @@ export const usePreEvaluationVotingPowerQuery = (
 					contract?.getBallotCandidatesInEpoch(vote.ballotId, hexStringBN(epochIndex))
 				)
 			);
-			const details = await getUsersDetail(addresses, data?.address || '');
-			return result.map((vote, index) => ({ ...vote, candidate: details[index] }));
+			return result.map((vote, index) => ({
+				...vote,
+				walletAddress: addresses[index],
+				council: moduleInstance,
+			}));
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== null,
