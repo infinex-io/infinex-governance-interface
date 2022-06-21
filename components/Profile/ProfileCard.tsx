@@ -4,7 +4,6 @@ import Avatar from 'components/Avatar';
 import { CopyClipboard } from 'components/CopyClipboard/CopyClipboard';
 import { DiscordIcon } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
-import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { copyToClipboard, urlIsCorrect } from 'utils/helpers';
