@@ -1,7 +1,6 @@
-import { Badge } from '@synthetixio/ui';
 import { wei } from '@synthetixio/wei';
 import clsx from 'clsx';
-import { CoucilBadge } from 'components/CoucilBadge';
+import { CouncilBadge } from 'components/CouncilBadge';
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber, utils } from 'ethers';
@@ -40,7 +39,7 @@ export function PreEvaluationSectionRow({
 				})}
 			>
 				{userDetailsQuery?.data?.username || truncateAddress(userDetailsQuery?.data?.address || '')}
-				{isActive && <CoucilBadge className="ml-4" council={prevEval.council} />}
+				{isActive && <CouncilBadge className="ml-4" council={prevEval.council} />}
 			</th>
 			<th className="p-6">{prevEval.voters.length}</th>
 			<th className="p-6">

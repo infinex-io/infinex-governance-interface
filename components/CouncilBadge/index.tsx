@@ -15,7 +15,7 @@ const councilVariant = {
 	[DeployedModules.TREASURY_COUNCIL]: 'yellow',
 };
 
-export const CoucilBadge: React.FC<Props> = ({ council, className }) => {
+export const CouncilBadge: React.FC<Props> = ({ council, className }) => {
 	return (
 		<Badge
 			variant={councilVariant[council] as BadgeVariant}
