@@ -96,12 +96,29 @@ export async function voteHistory(
 	let totalVotesForBallot = {} as any;
 
 	votes.forEach((vote) => {
-		if (vote.type === 'VoteWithdrawn') {
-			totalVotesForBallot[vote.ballotId] = totalVotesForBallot[vote.ballotId].sub(vote.voterPower);
+		if (!totalVotesForBallot[vote.ballotId]) {
+			totalVotesForBallot[vote.ballotId] = {
+				totalVotes: vote.voterPower,
+			};
 		} else {
-			totalVotesForBallot[vote.ballotId] = totalVotesForBallot[vote.ballotId].plus(vote.voterPower);
+			if (vote.type === 'VoteWithdrawn') {
+				totalVotesForBallot[vote.ballotId].totalVotes = totalVotesForBallot[
+					vote.ballotId
+				].totalVotes.sub(vote.voterPower);
+			} else {
+				totalVotesForBallot[vote.ballotId].totalVotes = totalVotesForBallot[
+					vote.ballotId
+				].totalVotes.add(vote.voterPower);
+			}
 		}
 	});
 
+	// @MAX remove this when u are ready
+	console.log(
+		Number(
+			totalVotesForBallot['0x5f4fbc3efb80b602a1e5dd64e4626cbff6e424f9519fd74a750a162335987526']
+				.totalVotes
+		)
+	);
 	return votes;
 }
