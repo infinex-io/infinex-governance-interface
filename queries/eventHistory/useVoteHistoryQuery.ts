@@ -58,7 +58,6 @@ export async function voteHistory(
 	ballotId: string | null,
 	epochIndex: string | null
 ) {
-	voter = '0x585639fBf797c1258eBA8875c080Eb63C833d252';
 	const voteFilter = contract.filters.VoteRecorded(
 		voter ?? null,
 		ballotId ?? null,
