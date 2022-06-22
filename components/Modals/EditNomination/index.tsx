@@ -149,7 +149,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 									</div>
 								</div>
 								<h5 className="tg-title-h5 text-white">{t('modals.edit.step-one')}</h5>
-								<div className="border-gray-500 rounded border-[1px] p-4 m-4 flex flex-col items-center">
+								<div className="border-gray-500 rounded border p-4 m-4 flex flex-col items-center">
 									<h5 className="tg-title-h5 text-gray-300 mb-1">{t('modals.edit.current')}</h5>
 									<h3 className="tg-title-h3 text-white">
 										{ensName ? ensName : data?.address && truncateAddress(data.address)}

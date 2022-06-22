@@ -7,7 +7,8 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 
 export default function useCouncilCardQueries(deployedModule: DeployedModules) {
-	const { data: voteHistory } = useVoteHistoryQuery(deployedModule, null, null, null);
+	// TODO issue 238
+	const { data: voteHistory } = useVoteHistoryQuery(deployedModule, null, null, '0');
 	const { data: votingDates } = useVotingPeriodDatesQuery(deployedModule);
 	const { data: currentPeriodData } = useCurrentPeriod(deployedModule);
 	const { data: nominationDates } = useNominationPeriodDatesQuery(deployedModule);
