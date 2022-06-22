@@ -44,6 +44,7 @@ function useVoteHistoryQuery(
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
+			staleTime: 900000,
 		}
 	);
 }

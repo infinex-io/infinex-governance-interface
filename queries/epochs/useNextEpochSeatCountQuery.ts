@@ -14,6 +14,7 @@ function useNextEpochSeatCountQuery(moduleInstance: DeployedModules) {
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
+			staleTime: 900000,
 		}
 	);
 }

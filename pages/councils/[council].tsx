@@ -57,7 +57,7 @@ export default function CouncilNominees() {
 						<Loader className="flex justify-center" />
 					) : !!nomineesQuery.data?.length ? (
 						<>
-							<div className="flex flex-wrap justify-center p-3 max-w-[1000px] mx-auto">
+							<div className="flex flex-wrap justify-center p-3 max-w-[1000px] w-full mx-auto">
 								{sortedNominees?.slice(startIndex, endIndex).map((walletAddress) => (
 									<MemberCard
 										className="m-2"

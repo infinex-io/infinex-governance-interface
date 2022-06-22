@@ -1,18 +1,16 @@
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber, ethers } from 'ethers';
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
-import { getUsersDetail } from 'queries/boardroom/useUsersDetailsQuery';
-import { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
+import useVoteHistoryQuery, { voteHistory } from 'queries/eventHistory/useVoteHistoryQuery';
 import { useQuery } from 'react-query';
 import { hexStringBN } from 'utils/hexString';
-import { useAccount } from 'wagmi';
 
-type BallotVotes = {
+export type BallotVotes = {
 	ballotId: string;
 	totalVotingPower: BigNumber;
 	voters: string[];
 	votingPowers: BigNumber[];
-	candidate: GetUserDetails;
+	walletAddress: string;
+	council: DeployedModules;
 };
 
 export const usePreEvaluationVotingPowerQuery = (
@@ -20,17 +18,14 @@ export const usePreEvaluationVotingPowerQuery = (
 	epochIndex: string
 ) => {
 	const governanceModules = useModulesContext();
-	const { data } = useAccount();
-
+	const { data: votes } = useVoteHistoryQuery(moduleInstance, null, null, epochIndex);
 	return useQuery<BallotVotes[]>(
 		['preEvaluationVotingPower', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
-			const votes = await voteHistory(contract, null, null, epochIndex);
-
 			var helper = {} as any;
-			var result = votes.reduce((group: any, currentData) => {
+			var result = votes?.reduce((group: any, currentData) => {
 				var key = currentData.ballotId;
 
 				if (!helper[key]) {
@@ -55,11 +50,18 @@ export const usePreEvaluationVotingPowerQuery = (
 					contract?.getBallotCandidatesInEpoch(vote.ballotId, hexStringBN(epochIndex))
 				)
 			);
-			const details = await getUsersDetail(addresses, data?.address || '');
-			return result.map((vote, index) => ({ ...vote, candidate: details[index] }));
+			return result.map((vote, index) => ({
+				...vote,
+				walletAddress: addresses[index],
+				council: moduleInstance,
+			}));
 		},
 		{
-			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== null,
+			enabled:
+				governanceModules !== null &&
+				moduleInstance !== null &&
+				epochIndex !== null &&
+				votes !== undefined,
 			staleTime: 900000,
 		}
 	);
