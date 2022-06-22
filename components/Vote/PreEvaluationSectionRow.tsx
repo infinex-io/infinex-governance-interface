@@ -1,4 +1,3 @@
-import { wei } from '@synthetixio/wei';
 import clsx from 'clsx';
 import { CouncilBadge } from 'components/CouncilBadge';
 import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
@@ -7,6 +6,8 @@ import { BigNumber, utils } from 'ethers';
 import Link from 'next/link';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import { BallotVotes } from 'queries/voting/usePreEvaluationVotingPowerQuery';
+import { currency } from 'utils/currency';
+import { calcPercentage } from 'utils/helpers';
 import { truncateAddress } from 'utils/truncate-address';
 
 interface PreEvaluationSectionRowProps {
@@ -23,15 +24,17 @@ export function PreEvaluationSectionRow({
 	totalVotingPowers,
 }: PreEvaluationSectionRowProps) {
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
-	const calcPercentage = (a: BigNumber, b: BigNumber) => {
-		return ((wei(a).toNumber() / wei(b).toNumber()) * 100).toFixed(2);
-	};
+
+	const recievedVotingPower = prevEval.votingPowers.reduce(
+		(prev, cur) => prev.add(cur),
+		BigNumber.from(0)
+	);
 
 	return (
 		<tr>
 			<th
 				className={clsx('text-left p-6 flex items-center', {
-					'border-l-[1px]': isActive,
+					'border-l': isActive,
 					'border-l-primary': isActive && prevEval.council === DeployedModules.SPARTAN_COUNCIL,
 					'border-l-green': isActive && prevEval.council === DeployedModules.GRANTS_COUNCIL,
 					'border-l-orange': isActive && prevEval.council === DeployedModules.AMBASSADOR_COUNCIL,
@@ -45,12 +48,7 @@ export function PreEvaluationSectionRow({
 			<th className="p-6">
 				{totalVotingPowers && calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}%
 			</th>
-			<th className="p-6">
-				{utils.formatUnits(
-					prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
-					'wei'
-				)}
-			</th>
+			<th className="p-6">{currency(utils.formatUnits(recievedVotingPower, 'wei'))}</th>
 			<th className="p-6 flex justify-end">
 				<Link
 					href={`https://optimistic.etherscan.io/address/${userDetailsQuery?.data?.address}`}

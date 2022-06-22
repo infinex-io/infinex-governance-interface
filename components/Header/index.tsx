@@ -52,7 +52,7 @@ export default function Header() {
 	return (
 		<header
 			className={`bg-dark-blue w-full m-h-[66px] p-3 flex 
-				items-center md:justify-center justify-between border-b-gray-800 border-b-[1px] border-b-solid`}
+				items-center md:justify-center justify-between border-b-gray-800 border-b border-b-solid`}
 		>
 			<Link href="/" passHref>
 				<div className="md:flex items-center cursor-pointer mr-8 hidden">
