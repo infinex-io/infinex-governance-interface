@@ -135,7 +135,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 										</div>
 									</div>
 									<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
-										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 items-center max-w-[210px] gap-2 h-[74px]">
+										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-2 py-4 items-center max-w-[210px] gap-2 h-[74px]">
 											<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
 											<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.pitch')}</h6>
 											{delegationPitch ? (
@@ -146,7 +146,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 												</IconButton>
 											)}
 										</div>
-										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
+										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
 											<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
 											<h6 className="tg-title-h6 mr-auto">
 												{t('profiles.completion-card.discord')}
@@ -159,7 +159,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 												</IconButton>
 											)}
 										</div>
-										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border-[1px] rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
+										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
 											<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
 											<h6 className="tg-title-h6 mr-auto">
 												{t('profiles.completion-card.twitter')}

@@ -1,4 +1,3 @@
-import { wei } from '@synthetixio/wei';
 import clsx from 'clsx';
 import { CouncilBadge } from 'components/CouncilBadge';
 import { ArrowLinkOffIcon } from 'components/old-ui';
@@ -8,6 +7,8 @@ import Link from 'next/link';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import { BallotVotes } from 'queries/voting/usePreEvaluationVotingPowerQuery';
 import { useTranslation } from 'react-i18next';
+import { currency } from 'utils/currency';
+import { calcPercentage } from 'utils/helpers';
 import { truncateAddress } from 'utils/truncate-address';
 
 interface PreEvaluationSectionRowProps {
@@ -25,16 +26,18 @@ export function PreEvaluationSectionRowMobile({
 }: PreEvaluationSectionRowProps) {
 	const { t } = useTranslation();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
-	const calcPercentage = (a: BigNumber, b: BigNumber) => {
-		return ((wei(a).toNumber() / wei(b).toNumber()) * 100).toFixed(2);
-	};
+
+	const recievedVotingPower = prevEval.votingPowers.reduce(
+		(prev, cur) => prev.add(cur),
+		BigNumber.from(0)
+	);
 
 	return (
 		<div
 			className={clsx(
-				'bg-dark-blue border-gray-700 border-[1px] rounded w-full flex relative p-4',
+				'bg-dark-blue border-gray-700 first:rounded-t last:rounded-b border border-b-0 last:border-b w-full flex relative p-4',
 				{
-					'border-l-[1px]': isActive,
+					'border-l': isActive,
 					'border-l-primary': isActive && prevEval.council === DeployedModules.SPARTAN_COUNCIL,
 					'border-l-green': isActive && prevEval.council === DeployedModules.GRANTS_COUNCIL,
 					'border-l-orange': isActive && prevEval.council === DeployedModules.AMBASSADOR_COUNCIL,
@@ -42,32 +45,27 @@ export function PreEvaluationSectionRowMobile({
 				}
 			)}
 		>
-			<div className="flex flex-col gap-2 mr-2">
+			<div className="grid grid-cols-2 gap-2">
 				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.name')}</h6>
-				{isActive && (
-					<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.council')}</h6>
-				)}
-				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
-				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.table.received')}</h6>
-				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.power')}</h6>
-			</div>
-			<div className="flex flex-col gap-1">
 				<h5 className="tg-title-h5">
 					{userDetailsQuery?.data?.username ||
 						truncateAddress(userDetailsQuery?.data?.address || '')}
 				</h5>
 				{isActive && (
-					<div>
-						<CouncilBadge council={prevEval.council} />
-					</div>
+					<>
+						<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.council')}</h6>
+						<div className="flex items-center">
+							<CouncilBadge council={prevEval.council} />
+						</div>
+					</>
 				)}
+				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
 				<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
+				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.table.received')}</h6>
 				<h5 className="tg-title-h5 truncate ">
-					{utils.formatUnits(
-						prevEval.votingPowers.reduce((prev, cur) => prev.add(cur), BigNumber.from(0)),
-						'wei'
-					)}
+					{currency(utils.formatUnits(recievedVotingPower, 'wei'))}
 				</h5>
+				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.power')}</h6>
 				<h5 className="tg-title-h5">
 					{totalVotingPowers && calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}%
 				</h5>

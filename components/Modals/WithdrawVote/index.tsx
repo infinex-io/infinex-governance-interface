@@ -82,7 +82,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 						url={member.pfpThumbnailUrl}
 						className="md:mt-14 mb-8 mt-10"
 					/>
-					<div className="flex flex-col items-center border-gray-700 border-[1px] rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
+					<div className="flex flex-col items-center border-gray-700 border rounded bg-black text-white mt-4 md:p-10 p-4 w-full">
 						<h5 className="tg-title-h5 mt-4 mb-2 mx-4">
 							{t('modals.withdraw-vote.voted-for', {
 								council: capitalizeString(council),
