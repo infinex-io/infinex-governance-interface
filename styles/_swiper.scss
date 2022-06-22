@@ -1,0 +1,32 @@
+$themeColor: #00d1ff;
+
+@import 'swiper/scss';
+@import 'swiper/scss/pagination';
+
+html {
+	--swiper-pagination-bullet-inactive-opacity: 1;
+	--swiper-pagination-bullet-inactive-color: #828295;
+}
+.swiper-pagination-lock {
+	display: none;
+}
+.swiper-button-lock {
+	display: none;
+}
+
+@media only screen and (max-width: 580px) {
+	.swiper-button-next,
+	.swiper-button-prev {
+		display: none;
+	}
+}
+
+.swiper-wrapper {
+	padding-bottom: 48px;
+	.swiper-slide > * {
+		margin: auto;
+	}
+}
+.swiper-button-disabled > div {
+	opacity: 0.4;
+}
