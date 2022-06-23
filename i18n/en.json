@@ -134,7 +134,7 @@
 				"name": "Name",
 				"vote": "Vote",
 				"power": "Voting Power in %",
-				"received": "Received Voting Power",
+				"received": "Received Voting Power  ({{units}})",
 				"council": "Council"
 			},
 			"tabs": {
