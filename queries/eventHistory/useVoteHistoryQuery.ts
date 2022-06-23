@@ -92,23 +92,20 @@ export async function voteHistory(
 		});
 	});
 
-	let totalVotesForBallot = {} as Record<string, VoteEvent>;
+	let totalVotesForBallot: Record<string, { totalVotes: BigNumber }> = {};
 
 	votes.forEach(vote => {
 		if (!totalVotesForBallot[vote.ballotId]) {
 			totalVotesForBallot[vote.ballotId] = {
-				...vote,
 				totalVotes: vote.voterPower,
 			};
 		} else {
 			if (vote.type === 'VoteWithdrawn') {
 				totalVotesForBallot[vote.ballotId] = {
-					...vote,
 					totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.sub(vote.voterPower),
 				};
 			} else {
 				totalVotesForBallot[vote.ballotId] = {
-					...vote,
 					totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.add(vote.voterPower),
 				};
 			}
