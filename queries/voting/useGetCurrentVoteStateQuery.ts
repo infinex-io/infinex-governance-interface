@@ -10,13 +10,17 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 	return useQuery(
 		['getCurrentVoteStateQuery', walletAddress],
 		async () => {
-			const [spartanEpochIndex, grantsEpochIndex, ambassadorEpochIndex, treasuryEpochIndex] =
-				await Promise.all([
-					governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract.getEpochIndex(),
-					governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract.getEpochIndex(),
-					governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract.getEpochIndex(),
-					governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.getEpochIndex(),
-				]);
+			const [
+				spartanEpochIndex,
+				grantsEpochIndex,
+				ambassadorEpochIndex,
+				treasuryEpochIndex,
+			] = await Promise.all([
+				governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract.getEpochIndex(),
+				governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract.getEpochIndex(),
+				governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract.getEpochIndex(),
+				governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.getEpochIndex(),
+			]);
 
 			const [
 				hasVotedSpartan,
@@ -70,41 +74,41 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 				),
 			]);
 
-			const [spartanCandidate, grantsCandidate, ambassadorCandidate, treasuryCandidate] =
-				await Promise.all([
-					voteHistorySpartan.length
-						? governanceModules[
-								DeployedModules.SPARTAN_COUNCIL
-						  ]!.contract.getBallotCandidatesInEpoch(
-								voteHistorySpartan[voteHistorySpartan.length - 1].ballotId,
-								hexStringBN(spartanEpochIndex.toString())
-						  )
-						: false,
-					voteHistoryGrants.length
-						? governanceModules[
-								DeployedModules.GRANTS_COUNCIL
-						  ]!.contract.getBallotCandidatesInEpoch(
-								voteHistoryGrants[voteHistoryGrants.length - 1].ballotId,
-								hexStringBN(grantsEpochIndex.toString())
-						  )
-						: false,
-					voteHistoryAmbassador.length
-						? governanceModules[
-								DeployedModules.AMBASSADOR_COUNCIL
-						  ]!.contract.getBallotCandidatesInEpoch(
-								voteHistoryAmbassador[voteHistoryAmbassador.length - 1].ballotId,
-								hexStringBN(ambassadorEpochIndex.toString())
-						  )
-						: false,
-					voteHistoryTreasury.length
-						? governanceModules[
-								DeployedModules.TREASURY_COUNCIL
-						  ]!.contract.getBallotCandidatesInEpoch(
-								voteHistoryTreasury[voteHistoryTreasury.length - 1].ballotId,
-								hexStringBN(treasuryEpochIndex.toString())
-						  )
-						: false,
-				]);
+			const [
+				spartanCandidate,
+				grantsCandidate,
+				ambassadorCandidate,
+				treasuryCandidate,
+			] = await Promise.all([
+				voteHistorySpartan.votes.length
+					? governanceModules[DeployedModules.SPARTAN_COUNCIL]!.contract.getBallotCandidatesInEpoch(
+							voteHistorySpartan.votes[voteHistorySpartan.votes.length - 1].ballotId,
+							hexStringBN(spartanEpochIndex.toString())
+					  )
+					: false,
+				voteHistoryGrants.votes.length
+					? governanceModules[DeployedModules.GRANTS_COUNCIL]!.contract.getBallotCandidatesInEpoch(
+							voteHistoryGrants.votes[voteHistoryGrants.votes.length - 1].ballotId,
+							hexStringBN(grantsEpochIndex.toString())
+					  )
+					: false,
+				voteHistoryAmbassador.votes.length
+					? governanceModules[
+							DeployedModules.AMBASSADOR_COUNCIL
+					  ]!.contract.getBallotCandidatesInEpoch(
+							voteHistoryAmbassador.votes[voteHistoryAmbassador.votes.length - 1].ballotId,
+							hexStringBN(ambassadorEpochIndex.toString())
+					  )
+					: false,
+				voteHistoryTreasury.votes.length
+					? governanceModules[
+							DeployedModules.TREASURY_COUNCIL
+					  ]!.contract.getBallotCandidatesInEpoch(
+							voteHistoryTreasury.votes[voteHistoryTreasury.votes.length - 1].ballotId,
+							hexStringBN(treasuryEpochIndex.toString())
+					  )
+					: false,
+			]);
 
 			const spartanCandidateInfoResponse =
 				spartanCandidate &&
@@ -135,12 +139,12 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 				treasuryCandidateInfoResponse,
 			]);
 			const results = await Promise.all(
-				responses.map((response) => {
+				responses.map(response => {
 					if (response) return response.json();
 					return;
 				})
 			);
-			const result = results.map((r) => {
+			const result = results.map(r => {
 				if (r) return r.data;
 				return;
 			});

@@ -9,6 +9,7 @@ type VoteEvent = {
 	voterPower: BigNumber;
 	ballotId: string;
 	type?: string;
+	totalVotes: BigNumber;
 };
 
 /**
@@ -31,17 +32,14 @@ function useVoteHistoryQuery(
 	epochIndex: string | null
 ) {
 	const governanceModules = useModulesContext();
-	return useQuery<VoteEvent[]>(
+	return useQuery(
 		['voteHistory', moduleInstance, voter, ballotId, epochIndex],
 		async () => {
-			if (moduleInstance) {
-				const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
+			const contract = governanceModules[moduleInstance!]?.contract as ethers.Contract;
 
-				const votes = await voteHistory(contract, voter, ballotId, epochIndex);
+			const votes = await voteHistory(contract, voter, ballotId, epochIndex);
 
-				return votes;
-			}
-			return [];
+			return votes;
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
@@ -90,10 +88,11 @@ export async function voteHistory(
 			voterPower: event.args?.votePower,
 			ballotId: event.args?.ballotId,
 			type: event.event,
+			totalVotes: BigNumber.from(0),
 		});
 	});
 
-	let totalVotesForBallot = {} as any;
+	let totalVotesForBallot: Record<string, { totalVotes: BigNumber }> = {};
 
 	votes.forEach(vote => {
 		if (!totalVotesForBallot[vote.ballotId]) {
@@ -102,16 +101,16 @@ export async function voteHistory(
 			};
 		} else {
 			if (vote.type === 'VoteWithdrawn') {
-				totalVotesForBallot[vote.ballotId].totalVotes = totalVotesForBallot[
-					vote.ballotId
-				].totalVotes.sub(vote.voterPower);
+				totalVotesForBallot[vote.ballotId] = {
+					totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.sub(vote.voterPower),
+				};
 			} else {
-				totalVotesForBallot[vote.ballotId].totalVotes = totalVotesForBallot[
-					vote.ballotId
-				].totalVotes.add(vote.voterPower);
+				totalVotesForBallot[vote.ballotId] = {
+					totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.add(vote.voterPower),
+				};
 			}
 		}
 	});
 
-	return votes;
+	return { totalVotesForBallot, votes };
 }

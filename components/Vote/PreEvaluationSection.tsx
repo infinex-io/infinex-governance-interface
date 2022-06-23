@@ -50,7 +50,7 @@ export function PreEvaluationSection() {
 	];
 
 	const totalVotingPowers = preEvalDic[activeTab].council?.reduce(
-		(cur, prev) => cur.add(prev.totalVotingPower),
+		(cur, prev) => cur.add(prev.totalVotingPowerReceived),
 		BigNumber.from(0)
 	);
 
@@ -69,7 +69,7 @@ export function PreEvaluationSection() {
 					t('vote.pre-eval.tabs.ac'),
 					t('vote.pre-eval.tabs.tc'),
 				]}
-				clicked={(id) => typeof id === 'number' && setActiveTab(id)}
+				clicked={id => typeof id === 'number' && setActiveTab(id)}
 				activeIndex={activeTab}
 			/>
 			{!isMobile ? (
@@ -81,15 +81,17 @@ export function PreEvaluationSection() {
 							</th>
 							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
 							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.received')}</th>
+							<th className="tg-caption text-gray-500 p-6">
+								{t('vote.pre-eval.table.received', { units: activeTab === 3 ? 'Ether' : 'Wei' })}
+							</th>
 							<th className="text-right p-6 tg-caption text-gray-500">
 								{t('vote.pre-eval.table.actions')}
 							</th>
 						</tr>
 						{preEvalDic[activeTab].council
 							?.sort((a, b) => {
-								if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
-								if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
+								if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
+								if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
 								return 0;
 							})
 							.map((prevEval, index) => (
@@ -107,8 +109,8 @@ export function PreEvaluationSection() {
 				<div className="flex flex-col w-full md:hidden p-2 mb-20">
 					{preEvalDic[activeTab].council
 						?.sort((a, b) => {
-							if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
-							if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
+							if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
+							if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
 							return 0;
 						})
 						.map((prevEval, index) => (
