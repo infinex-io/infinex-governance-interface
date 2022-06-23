@@ -27,11 +27,6 @@ export function PreEvaluationSectionRowMobile({
 	const { t } = useTranslation();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 
-	const recievedVotingPower = prevEval.votingPowers.reduce(
-		(prev, cur) => prev.add(cur),
-		BigNumber.from(0)
-	);
-
 	return (
 		<div
 			className={clsx(
@@ -63,7 +58,7 @@ export function PreEvaluationSectionRowMobile({
 				<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
 				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.table.received')}</h6>
 				<h5 className="tg-title-h5 truncate ">
-					{currency(utils.formatUnits(recievedVotingPower, 'wei'))}
+					{currency(utils.formatUnits(prevEval.totalVotingPower, 'wei'))}
 				</h5>
 				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.power')}</h6>
 				<h5 className="tg-title-h5">

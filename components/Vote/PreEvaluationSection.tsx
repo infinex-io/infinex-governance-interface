@@ -69,7 +69,7 @@ export function PreEvaluationSection() {
 					t('vote.pre-eval.tabs.ac'),
 					t('vote.pre-eval.tabs.tc'),
 				]}
-				clicked={(id) => typeof id === 'number' && setActiveTab(id)}
+				clicked={id => typeof id === 'number' && setActiveTab(id)}
 				activeIndex={activeTab}
 			/>
 			{!isMobile ? (
