@@ -148,7 +148,7 @@
 				"votes": "Votes",
 				"power": "Voting Power in %",
 				"actions": "Actions",
-				"received": "Received Voting Power"
+				"received": "Received Voting Power ({{units}})"
 			}
 		}
 	},

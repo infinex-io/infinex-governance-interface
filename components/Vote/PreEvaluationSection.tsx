@@ -81,7 +81,9 @@ export function PreEvaluationSection() {
 							</th>
 							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
 							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.received')}</th>
+							<th className="tg-caption text-gray-500 p-6">
+								{t('vote.pre-eval.table.received', { units: activeTab === 3 ? 'Ether' : 'Wei' })}
+							</th>
 							<th className="text-right p-6 tg-caption text-gray-500">
 								{t('vote.pre-eval.table.actions')}
 							</th>

@@ -44,7 +44,12 @@ export function PreEvaluationSectionRow({
 				{totalVotingPowers && calcPercentage(prevEval.totalVotingPowerReceived, totalVotingPowers)}%
 			</th>
 			<th className="p-6">
-				{currency(utils.formatUnits(prevEval.totalVotingPowerReceived, 'wei'))}
+				{currency(
+					utils.formatUnits(
+						prevEval.totalVotingPowerReceived,
+						prevEval.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+					)
+				)}
 			</th>
 			<th className="p-6 flex justify-end">
 				<Link
