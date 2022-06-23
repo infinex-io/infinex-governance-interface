@@ -73,34 +73,36 @@ export function PreEvaluationSection() {
 				activeIndex={activeTab}
 			/>
 			{!isMobile ? (
-				<table className="bg-dark-blue w-[1000px] border-gray-700 border-[1px] rounded-xl :table mt-6 mb-20">
-					<tr className="border-b-2 border-b-gray-700 border-b-solid">
-						<th className="text-left p-6 tg-caption text-gray-500">
-							{t('vote.pre-eval.table.name')}
-						</th>
-						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.received')}</th>
-						<th className="text-right p-6 tg-caption text-gray-500">
-							{t('vote.pre-eval.table.actions')}
-						</th>
-					</tr>
-					{preEvalDic[activeTab].council
-						?.sort((a, b) => {
-							if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
-							if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
-							return 0;
-						})
-						.map((prevEval, index) => (
-							<PreEvaluationSectionRow
-								key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
-								isActive={index < (preEvalDic[activeTab].seats || 0)}
-								totalVotingPowers={totalVotingPowers}
-								prevEval={prevEval}
-								walletAddress={prevEval.walletAddress}
-							/>
-						))}
-				</table>
+				<div className="border-gray-700 border mt-6 mb-20 rounded-xl">
+					<table className="bg-dark-blue w-[1000px] rounded-xl :table">
+						<tr className="border-b-2 border-b-gray-700 border-b-solid">
+							<th className="text-left p-6 tg-caption text-gray-500">
+								{t('vote.pre-eval.table.name')}
+							</th>
+							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
+							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
+							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.received')}</th>
+							<th className="text-right p-6 tg-caption text-gray-500">
+								{t('vote.pre-eval.table.actions')}
+							</th>
+						</tr>
+						{preEvalDic[activeTab].council
+							?.sort((a, b) => {
+								if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
+								if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
+								return 0;
+							})
+							.map((prevEval, index) => (
+								<PreEvaluationSectionRow
+									key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
+									isActive={index < (preEvalDic[activeTab].seats || 0)}
+									totalVotingPowers={totalVotingPowers}
+									prevEval={prevEval}
+									walletAddress={prevEval.walletAddress}
+								/>
+							))}
+					</table>
+				</div>
 			) : (
 				<div className="flex flex-col w-full md:hidden p-2 mb-20">
 					{preEvalDic[activeTab].council
