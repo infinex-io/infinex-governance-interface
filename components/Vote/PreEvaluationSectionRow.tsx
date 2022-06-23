@@ -41,9 +41,11 @@ export function PreEvaluationSectionRow({
 			</th>
 			<th className="p-6">{prevEval.voters.length}</th>
 			<th className="p-6">
-				{totalVotingPowers && calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}%
+				{totalVotingPowers && calcPercentage(prevEval.totalVotingPowerReceived, totalVotingPowers)}%
 			</th>
-			<th className="p-6">{currency(utils.formatUnits(prevEval.totalVotingPower, 'wei'))}</th>
+			<th className="p-6">
+				{currency(utils.formatUnits(prevEval.totalVotingPowerReceived, 'wei'))}
+			</th>
 			<th className="p-6 flex justify-end">
 				<Link
 					href={`https://optimistic.etherscan.io/address/${userDetailsQuery?.data?.address}`}

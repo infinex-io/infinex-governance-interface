@@ -6,9 +6,8 @@ import { hexStringBN } from 'utils/hexString';
 
 export type BallotVotes = {
 	ballotId: string;
-	totalVotingPower: BigNumber;
+	totalVotingPowerReceived: BigNumber;
 	voters: string[];
-	votingPowers: BigNumber[];
 	walletAddress: string;
 	council: DeployedModules;
 };
@@ -30,15 +29,14 @@ export const usePreEvaluationVotingPowerQuery = (
 				if (!helper[key]) {
 					helper[key] = Object.assign({}, currentData); // create a copy of currentData
 					helper[key].voters = !helper[key].voters ? [currentData.voter] : [];
-					helper[key].totalVotingPower = !helper[key].totalVotingPower
-						? data.totalVotesForBallot[currentData.ballotId].totalVotes
-						: BigNumber.from('0');
-					helper[key].totalVotes = currentData.totalVotes;
+					helper[key].totalVotingPowerReceived =
+						data.totalVotesForBallot[currentData.ballotId].totalVotes;
 					delete helper[key].voter;
 					delete helper[key].voterPower;
 					group.push(helper[key]);
 				} else {
-					helper[key].totalVotingPower = data.totalVotesForBallot[currentData.ballotId].totalVotes;
+					helper[key].totalVotingPowerReceived =
+						data.totalVotesForBallot[currentData.ballotId].totalVotes;
 					helper[key].voters.push(currentData.voter);
 				}
 				return group;

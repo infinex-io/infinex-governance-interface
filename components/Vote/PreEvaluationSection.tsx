@@ -50,7 +50,7 @@ export function PreEvaluationSection() {
 	];
 
 	const totalVotingPowers = preEvalDic[activeTab].council?.reduce(
-		(cur, prev) => cur.add(prev.totalVotingPower),
+		(cur, prev) => cur.add(prev.totalVotingPowerReceived),
 		BigNumber.from(0)
 	);
 
@@ -88,8 +88,8 @@ export function PreEvaluationSection() {
 						</tr>
 						{preEvalDic[activeTab].council
 							?.sort((a, b) => {
-								if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
-								if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
+								if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
+								if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
 								return 0;
 							})
 							.map((prevEval, index) => (
@@ -107,8 +107,8 @@ export function PreEvaluationSection() {
 				<div className="flex flex-col w-full md:hidden p-2 mb-20">
 					{preEvalDic[activeTab].council
 						?.sort((a, b) => {
-							if (a.totalVotingPower.gt(b.totalVotingPower)) return -1;
-							if (a.totalVotingPower.lt(b.totalVotingPower)) return 1;
+							if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
+							if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
 							return 0;
 						})
 						.map((prevEval, index) => (
