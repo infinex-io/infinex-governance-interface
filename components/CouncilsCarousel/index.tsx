@@ -35,10 +35,10 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 		return null;
 	}
 
-	const spartan = members.data.spartan.map((address) => ({ address, council: 'spartan' }));
-	const grants = members.data.grants.map((address) => ({ address, council: 'grants' }));
-	const ambassador = members.data.ambassador.map((address) => ({ address, council: 'ambassador' }));
-	const treasury = members.data.treasury.map((address) => ({ address, council: 'treasury' }));
+	const spartan = members.data.spartan.map(address => ({ address, council: 'spartan' }));
+	const grants = members.data.grants.map(address => ({ address, council: 'grants' }));
+	const ambassador = members.data.ambassador.map(address => ({ address, council: 'ambassador' }));
+	const treasury = members.data.treasury.map(address => ({ address, council: 'treasury' }));
 
 	const allMembers = [
 		spartan.concat(grants, ambassador, treasury),
@@ -54,7 +54,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 				<Tabs
 					titles={councilTabs}
 					size="medium"
-					clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
+					clicked={index => typeof index === 'number' && setActiveIndex(index)}
 					className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
 					activeIndex={activeIndex}
 					icons={[

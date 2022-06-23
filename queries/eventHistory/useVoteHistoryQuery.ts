@@ -95,7 +95,7 @@ export async function voteHistory(
 
 	let totalVotesForBallot = {} as any;
 
-	votes.forEach((vote) => {
+	votes.forEach(vote => {
 		if (!totalVotesForBallot[vote.ballotId]) {
 			totalVotesForBallot[vote.ballotId] = {
 				totalVotes: vote.voterPower,
@@ -113,12 +113,5 @@ export async function voteHistory(
 		}
 	});
 
-	// @MAX remove this when u are ready
-	console.log(
-		Number(
-			totalVotesForBallot['0x5f4fbc3efb80b602a1e5dd64e4626cbff6e424f9519fd74a750a162335987526']
-				.totalVotes
-		)
-	);
 	return votes;
 }
