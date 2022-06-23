@@ -89,3 +89,19 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 		</div>
 	);
 };
+
+const VoteHistory = ({
+	deployedModule,
+	walletAddress,
+}: {
+	deployedModule: DeployedModules;
+	walletAddress: string;
+}) => {
+	const { t } = useTranslation();
+	return (
+		<div className="flex flex-col mx-5">
+			<h5 className="tg-content-bold text-gray-650">{t('profiles.votes')}</h5>
+			<h3 className="tg-title-h3 mt-1">{0}</h3>
+		</div>
+	);
+};
