@@ -8,6 +8,7 @@ type VoteEvent = {
 	voter: string;
 	voterPower: BigNumber;
 	ballotId: string;
+	type?: string;
 };
 
 /**
@@ -67,6 +68,7 @@ export async function voteHistory(
 		ballotId ?? null,
 		epochIndex ? hexStringBN(epochIndex) : null
 	);
+
 	let voteEvents: Event[] = [];
 	let voteWithdrawnEvents: Event[] = [];
 	try {
@@ -75,21 +77,39 @@ export async function voteHistory(
 	try {
 		voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
 	} catch (error) {}
-	let listOfVoters = [] as string[];
+
+	let combinedEvents = voteEvents
+		.concat(voteWithdrawnEvents)
+		.sort((a, b) => (a.blockNumber > b.blockNumber ? 1 : -1));
+
 	let votes = [] as VoteEvent[];
-	voteEvents
-		.sort((a, b) => (a.blockNumber > b.blockNumber ? 1 : -1))
-		.forEach((event: Event) => {
-			listOfVoters.push(event.args?.voter);
-			votes.push({
-				voter: event.args?.voter,
-				voterPower: event.args?.votePower,
-				ballotId: event.args?.ballotId,
-			});
+
+	combinedEvents.forEach((event: Event) => {
+		votes.push({
+			voter: event.args?.voter,
+			voterPower: event.args?.votePower,
+			ballotId: event.args?.ballotId,
+			type: event.event,
 		});
-	voteWithdrawnEvents.forEach((event: Event) => {
-		if (listOfVoters.includes(event.args?.voter)) {
-			votes.splice(listOfVoters.indexOf(event.args?.voter), 1);
+	});
+
+	let totalVotesForBallot = {} as any;
+
+	votes.forEach(vote => {
+		if (!totalVotesForBallot[vote.ballotId]) {
+			totalVotesForBallot[vote.ballotId] = {
+				totalVotes: vote.voterPower,
+			};
+		} else {
+			if (vote.type === 'VoteWithdrawn') {
+				totalVotesForBallot[vote.ballotId].totalVotes = totalVotesForBallot[
+					vote.ballotId
+				].totalVotes.sub(vote.voterPower);
+			} else {
+				totalVotesForBallot[vote.ballotId].totalVotes = totalVotesForBallot[
+					vote.ballotId
+				].totalVotes.add(vote.voterPower);
+			}
 		}
 	});
 
