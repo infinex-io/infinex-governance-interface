@@ -48,7 +48,7 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 				},
 				1030: {
 					slidesPerView: 4,
-					spaceBetween: 40,
+					spaceBetween: 30,
 				},
 			}}
 			slides={members.map((member, index) => (

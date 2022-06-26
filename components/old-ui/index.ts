@@ -56,7 +56,6 @@ export { default as Checkbox } from './components/Checkbox';
 export { default as Card } from './components/Card';
 export { default as Carousel } from './components/Carousel';
 export { default as TextInput } from './components/TextInput';
-export { default as Accordion } from './components/Accordion';
 export { default as Spotlight } from './components/Spotlight';
 export { default as SpotlightButton } from './components/SpotlightButton';
 export { default as Flex } from './components/Flex';
