@@ -39,7 +39,9 @@ export function PreEvaluationSectionRow({
 				{userDetailsQuery?.data?.username || truncateAddress(userDetailsQuery?.data?.address || '')}
 				{isActive && <CouncilBadge className="ml-4" council={prevEval.council} />}
 			</th>
-			<th className="p-6">{prevEval.voters.length}</th>
+			<th className="p-6">
+				{prevEval.voters.filter((value, index, self) => self.indexOf(value) === index).length}
+			</th>
 			<th className="p-6">
 				{totalVotingPowers && calcPercentage(prevEval.totalVotingPowerReceived, totalVotingPowers)}%
 			</th>
