@@ -83,32 +83,31 @@ export async function voteHistory(
 	let votes = [] as VoteEvent[];
 
 	combinedEvents.forEach((event: Event) => {
-		votes.push({
-			voter: event.args?.voter,
-			voterPower: event.args?.votePower,
-			ballotId: event.args?.ballotId,
-			type: event.event,
-			totalVotes: BigNumber.from(0),
-		});
+		if (event.event === 'VoteWithdrawn') {
+			const index = votes.findIndex((vote) => vote.voter === event.args?.voter);
+			votes.splice(index, 1);
+		} else {
+			votes.push({
+				voter: event.args?.voter,
+				voterPower: event.args?.votePower,
+				ballotId: event.args?.ballotId,
+				type: event.event,
+				totalVotes: BigNumber.from(0),
+			});
+		}
 	});
 
 	let totalVotesForBallot: Record<string, { totalVotes: BigNumber }> = {};
 
-	votes.forEach(vote => {
+	votes.forEach((vote) => {
 		if (!totalVotesForBallot[vote.ballotId]) {
 			totalVotesForBallot[vote.ballotId] = {
 				totalVotes: vote.voterPower,
 			};
 		} else {
-			if (vote.type === 'VoteWithdrawn') {
-				totalVotesForBallot[vote.ballotId] = {
-					totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.sub(vote.voterPower),
-				};
-			} else {
-				totalVotesForBallot[vote.ballotId] = {
-					totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.add(vote.voterPower),
-				};
-			}
+			totalVotesForBallot[vote.ballotId] = {
+				totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.add(vote.voterPower),
+			};
 		}
 	});
 
