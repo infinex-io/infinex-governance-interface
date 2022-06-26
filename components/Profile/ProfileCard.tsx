@@ -4,7 +4,6 @@ import Avatar from 'components/Avatar';
 import { CopyClipboard } from 'components/CopyClipboard/CopyClipboard';
 import { DiscordIcon } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
-import useVoteHistoryQuery from 'queries/eventHistory/useVoteHistoryQuery';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { copyToClipboard, urlIsCorrect } from 'utils/helpers';
@@ -20,22 +19,6 @@ export interface ProfileCardProps {
 	pitch: string;
 	deployedModule?: DeployedModules;
 }
-
-const VoteHistory = ({
-	deployedModule,
-	walletAddress,
-}: {
-	deployedModule: DeployedModules;
-	walletAddress: string;
-}) => {
-	const { t } = useTranslation();
-	return (
-		<div className="flex flex-col mx-5">
-			<h5 className="tg-content-bold text-gray-650">{t('profiles.votes')}</h5>
-			<h3 className="tg-title-h3 mt-1">{0}</h3>
-		</div>
-	);
-};
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({
 	className,
@@ -103,6 +86,22 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 					</div>
 				</>
 			)}
+		</div>
+	);
+};
+
+const VoteHistory = ({
+	deployedModule,
+	walletAddress,
+}: {
+	deployedModule: DeployedModules;
+	walletAddress: string;
+}) => {
+	const { t } = useTranslation();
+	return (
+		<div className="flex flex-col mx-5">
+			<h5 className="tg-content-bold text-gray-650">{t('profiles.votes')}</h5>
+			<h3 className="tg-title-h3 mt-1">{0}</h3>
 		</div>
 	);
 };

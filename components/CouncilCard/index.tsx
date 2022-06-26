@@ -23,8 +23,14 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
-	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates, voteHistory } =
-		useCouncilCardQueries(deployedModule);
+	const {
+		councilMembers,
+		currentPeriodData,
+		nominationDates,
+		nominees,
+		votingDates,
+		voteHistory,
+	} = useCouncilCardQueries(deployedModule);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
@@ -74,7 +80,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
 					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
-						{voteHistory?.length || 0}
+						{voteHistory?.votes.length || 0}
 					</h4>
 				</div>
 				{secondButton && (

@@ -8,6 +8,8 @@ type VoteEvent = {
 	voter: string;
 	voterPower: BigNumber;
 	ballotId: string;
+	type?: string;
+	totalVotes: BigNumber;
 };
 
 /**
@@ -30,17 +32,14 @@ function useVoteHistoryQuery(
 	epochIndex: string | null
 ) {
 	const governanceModules = useModulesContext();
-	return useQuery<VoteEvent[]>(
+	return useQuery(
 		['voteHistory', moduleInstance, voter, ballotId, epochIndex],
 		async () => {
-			if (moduleInstance) {
-				const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
+			const contract = governanceModules[moduleInstance!]?.contract as ethers.Contract;
 
-				const votes = await voteHistory(contract, voter, ballotId, epochIndex);
+			const votes = await voteHistory(contract, voter, ballotId, epochIndex);
 
-				return votes;
-			}
-			return [];
+			return votes;
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
@@ -67,6 +66,7 @@ export async function voteHistory(
 		ballotId ?? null,
 		epochIndex ? hexStringBN(epochIndex) : null
 	);
+
 	let voteEvents: Event[] = [];
 	let voteWithdrawnEvents: Event[] = [];
 	try {
@@ -75,23 +75,41 @@ export async function voteHistory(
 	try {
 		voteWithdrawnEvents = await contract.queryFilter(voteWithdrawnFilter);
 	} catch (error) {}
-	let listOfVoters = [] as string[];
+
+	let combinedEvents = voteEvents
+		.concat(voteWithdrawnEvents)
+		.sort((a, b) => (a.blockNumber > b.blockNumber ? 1 : -1));
+
 	let votes = [] as VoteEvent[];
-	voteEvents
-		.sort((a, b) => (a.blockNumber > b.blockNumber ? 1 : -1))
-		.forEach((event: Event) => {
-			listOfVoters.push(event.args?.voter);
+
+	combinedEvents.forEach((event: Event) => {
+		if (event.event === 'VoteWithdrawn') {
+			const index = votes.findIndex((vote) => vote.voter === event.args?.voter);
+			votes.splice(index, 1);
+		} else {
 			votes.push({
 				voter: event.args?.voter,
 				voterPower: event.args?.votePower,
 				ballotId: event.args?.ballotId,
+				type: event.event,
+				totalVotes: BigNumber.from(0),
 			});
-		});
-	voteWithdrawnEvents.forEach((event: Event) => {
-		if (listOfVoters.includes(event.args?.voter)) {
-			votes.splice(listOfVoters.indexOf(event.args?.voter), 1);
 		}
 	});
 
-	return votes;
+	let totalVotesForBallot: Record<string, { totalVotes: BigNumber }> = {};
+
+	votes.forEach((vote) => {
+		if (!totalVotesForBallot[vote.ballotId]) {
+			totalVotesForBallot[vote.ballotId] = {
+				totalVotes: vote.voterPower,
+			};
+		} else {
+			totalVotesForBallot[vote.ballotId] = {
+				totalVotes: totalVotesForBallot[vote.ballotId].totalVotes.add(vote.voterPower),
+			};
+		}
+	});
+
+	return { totalVotesForBallot, votes };
 }

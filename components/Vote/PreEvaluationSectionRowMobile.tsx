@@ -27,11 +27,6 @@ export function PreEvaluationSectionRowMobile({
 	const { t } = useTranslation();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 
-	const recievedVotingPower = prevEval.votingPowers.reduce(
-		(prev, cur) => prev.add(cur),
-		BigNumber.from(0)
-	);
-
 	return (
 		<div
 			className={clsx(
@@ -61,13 +56,24 @@ export function PreEvaluationSectionRowMobile({
 				)}
 				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
 				<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
-				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.table.received')}</h6>
-				<h5 className="tg-title-h5 truncate ">
-					{currency(utils.formatUnits(recievedVotingPower, 'wei'))}
+				<h6 className="tg-title-h6 text-gray-500">
+					{t('vote.pre-eval.table.received', {
+						units: prevEval.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'Wei',
+					})}
+				</h6>
+				<h5 className="tg-title-h5 truncate">
+					{currency(
+						utils.formatUnits(
+							prevEval.totalVotingPowerReceived,
+							prevEval.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+						)
+					)}
 				</h5>
 				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.power')}</h6>
 				<h5 className="tg-title-h5">
-					{totalVotingPowers && calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}%
+					{totalVotingPowers &&
+						calcPercentage(prevEval.totalVotingPowerReceived, totalVotingPowers)}
+					%
 				</h5>
 			</div>
 			<div className="absolute right-3 top-3">

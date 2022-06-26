@@ -25,11 +25,6 @@ export function PreEvaluationSectionRow({
 }: PreEvaluationSectionRowProps) {
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 
-	const recievedVotingPower = prevEval.votingPowers.reduce(
-		(prev, cur) => prev.add(cur),
-		BigNumber.from(0)
-	);
-
 	return (
 		<tr>
 			<th
@@ -46,9 +41,16 @@ export function PreEvaluationSectionRow({
 			</th>
 			<th className="p-6">{prevEval.voters.length}</th>
 			<th className="p-6">
-				{totalVotingPowers && calcPercentage(prevEval.totalVotingPower, totalVotingPowers)}%
+				{totalVotingPowers && calcPercentage(prevEval.totalVotingPowerReceived, totalVotingPowers)}%
 			</th>
-			<th className="p-6">{currency(utils.formatUnits(recievedVotingPower, 'wei'))}</th>
+			<th className="p-6">
+				{currency(
+					utils.formatUnits(
+						prevEval.totalVotingPowerReceived,
+						prevEval.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+					)
+				)}
+			</th>
 			<th className="p-6 flex justify-end">
 				<Link
 					href={`https://optimistic.etherscan.io/address/${userDetailsQuery?.data?.address}`}
