@@ -55,9 +55,7 @@ export function PreEvaluationSectionRowMobile({
 					</>
 				)}
 				<h6 className="tg-title-h6 text-gray-500">{t('vote.pre-eval.list.vote')}</h6>
-				<h5 className="tg-title-h5">
-					{prevEval.voters.filter((value, index, self) => self.indexOf(value) === index).length}
-				</h5>
+				<h5 className="tg-title-h5">{prevEval.voters.length}</h5>
 				<h6 className="tg-title-h6 text-gray-500">
 					{t('vote.pre-eval.table.received', {
 						units: prevEval.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'Wei',
