@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListIcon, Tabs } from 'components/old-ui';
+import { Tabs } from 'components/old-ui';
 import { TabIcon } from 'components/TabIcon';
 import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 import { CouncilCarousel } from './CouncilCarousel';
-import TileIcon from 'components/old-ui/components/Icons/TileIcon';
-import { IconButton } from '@synthetixio/ui';
+import { Icon, IconButton } from '@synthetixio/ui';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
@@ -77,7 +76,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 				/>
 				<div className="items-center hidden lg:flex">
 					<IconButton isActive={listView} onClick={() => setListView(true)} size="sm">
-						<ListIcon />
+						<Icon name="List" className="text-primary" />
 					</IconButton>
 					<IconButton
 						className="ml-1.5"
@@ -85,15 +84,11 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 						onClick={() => setListView(false)}
 						size="sm"
 					>
-						<TileIcon />
+						<Icon name="Grid" className="text-primary" />
 					</IconButton>
 				</div>
 			</div>
-			<CouncilCarousel
-				listView={listView}
-				members={allMembers[activeIndex] || []}
-				startIndex={startIndex}
-			/>
+			<CouncilCarousel listView={listView} members={allMembers[activeIndex] || []} />
 		</div>
 	);
 }
