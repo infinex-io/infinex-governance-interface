@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Blockies from 'react-blockies';
-import { parseURL } from 'utils/ipfs';
 import clsx from 'clsx';
+import { parseURL } from 'utils/ipfs';
 
 type AvatarProps = {
 	url?: string;
@@ -21,13 +21,18 @@ const Avatar: React.FC<AvatarProps> = ({
 	className,
 }) => {
 	const [showBlockies, setShowBlockies] = useState(false);
-	const parsedUrl = url && parseURL(url);
+	let parsedUrl: URL | undefined | '';
+	try {
+		parsedUrl = url && new URL(parseURL(url));
+	} catch (error) {
+		console.error(error);
+	}
 
-	return parsedUrl && !showBlockies ? (
+	return parsedUrl instanceof URL && parsedUrl.host === 'ipfs.io' && !showBlockies ? (
 		<img
 			onError={() => setShowBlockies(true)}
 			className={clsx(className, 'rounded-full')}
-			src={parsedUrl}
+			src={parsedUrl.href}
 			alt={`${walletAddress} avatar url`}
 			height={width}
 			width={height}
