@@ -5,7 +5,7 @@ import { CouncilCarousel } from './CouncilCarousel';
 import { Icon, IconButton, Tabs } from '@synthetixio/ui';
 import { TabIcon } from 'components/TabIcon';
 
-export default function CouncilsCarousel() {
+export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMembers?: boolean }) {
 	const { t } = useTranslation();
 	const [listView, setListView] = useState(false);
 	const [activeTab, setActiveTab] = useState('');
@@ -27,13 +27,9 @@ export default function CouncilsCarousel() {
 	const ambassador = members.data.ambassador.map((address) => ({ address, council: 'ambassador' }));
 	const treasury = members.data.treasury.map((address) => ({ address, council: 'treasury' }));
 
-	const allMembers = [
-		spartan.concat(grants, ambassador, treasury),
-		spartan,
-		grants,
-		ambassador,
-		treasury,
-	];
+	const allMembers = withoutAllMembers
+		? [spartan, grants, ambassador, treasury]
+		: [spartan.concat(grants, ambassador, treasury), spartan, grants, ambassador, treasury];
 
 	return (
 		<div className="flex flex-col container relative">
@@ -41,58 +37,109 @@ export default function CouncilsCarousel() {
 				className="mb-2 ov"
 				contentClassName="max-w-[90vw]"
 				initial="all-members"
-				items={[
-					{
-						id: 'all-members',
-						label: (
-							<div className="flex items-center gap-1">
-								{t('landing-page.tabs.all')}
-								<TabIcon isActive={activeTab === 'all-members'}>{allMembers[0].length}</TabIcon>
-							</div>
-						),
-						content: <CouncilCarousel listView={listView} members={allMembers[0] || []} />,
-					},
-					{
-						id: 'spartan',
-						label: (
-							<div className="flex items-center gap-1">
-								{t('landing-page.tabs.sc')}
-								<TabIcon isActive={activeTab === 'spartan'}>{allMembers[1].length}</TabIcon>
-							</div>
-						),
-						content: <CouncilCarousel listView={listView} members={allMembers[1] || []} />,
-					},
-					{
-						id: 'grants',
-						label: (
-							<div className="flex items-center gap-1">
-								{t('landing-page.tabs.gc')}
-								<TabIcon isActive={activeTab === 'grants'}>{allMembers[2].length}</TabIcon>
-							</div>
-						),
-						content: <CouncilCarousel listView={listView} members={allMembers[2] || []} />,
-					},
-					{
-						id: 'ambassador',
-						label: (
-							<div className="flex items-center gap-1">
-								{t('landing-page.tabs.ac')}
-								<TabIcon isActive={activeTab === 'ambassador'}>{allMembers[3].length}</TabIcon>
-							</div>
-						),
-						content: <CouncilCarousel listView={listView} members={allMembers[3] || []} />,
-					},
-					{
-						id: 'treasury',
-						label: (
-							<div className="flex items-center gap-1">
-								{t('landing-page.tabs.tc')}
-								<TabIcon isActive={activeTab === 'treasury'}>{allMembers[4].length}</TabIcon>
-							</div>
-						),
-						content: <CouncilCarousel listView={listView} members={allMembers[4] || []} />,
-					},
-				]}
+				items={
+					withoutAllMembers
+						? [
+								{
+									id: 'spartan',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.sc')}
+											<TabIcon isActive={activeTab === 'spartan'}>{allMembers[0].length}</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[0] || []} />,
+								},
+								{
+									id: 'grants',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.gc')}
+											<TabIcon isActive={activeTab === 'grants'}>{allMembers[1].length}</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[1] || []} />,
+								},
+								{
+									id: 'ambassador',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.ac')}
+											<TabIcon isActive={activeTab === 'ambassador'}>
+												{allMembers[2].length}
+											</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[2] || []} />,
+								},
+								{
+									id: 'treasury',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.tc')}
+											<TabIcon isActive={activeTab === 'treasury'}>{allMembers[3].length}</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[3] || []} />,
+								},
+						  ]
+						: [
+								{
+									id: 'all-members',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.all')}
+											<TabIcon isActive={activeTab === 'all-members'}>
+												{allMembers[0].length}
+											</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[0] || []} />,
+								},
+								{
+									id: 'spartan',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.sc')}
+											<TabIcon isActive={activeTab === 'spartan'}>{allMembers[1].length}</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[1] || []} />,
+								},
+								{
+									id: 'grants',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.gc')}
+											<TabIcon isActive={activeTab === 'grants'}>{allMembers[2].length}</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[2] || []} />,
+								},
+								{
+									id: 'ambassador',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.ac')}
+											<TabIcon isActive={activeTab === 'ambassador'}>
+												{allMembers[3].length}
+											</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[3] || []} />,
+								},
+								{
+									id: 'treasury',
+									label: (
+										<div className="flex items-center gap-1">
+											{t('landing-page.tabs.tc')}
+											<TabIcon isActive={activeTab === 'treasury'}>{allMembers[4].length}</TabIcon>
+										</div>
+									),
+									content: <CouncilCarousel listView={listView} members={allMembers[4] || []} />,
+								},
+						  ]
+				}
 				onChange={(id) => setActiveTab(id)}
 			/>
 
