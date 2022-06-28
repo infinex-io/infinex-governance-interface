@@ -1,6 +1,6 @@
+import { Icon } from '@synthetixio/ui';
 import clsx from 'clsx';
 import { CouncilBadge } from 'components/CouncilBadge';
-import { ArrowLinkOffIcon, Tabs } from 'components/old-ui';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber, utils } from 'ethers';
 import Link from 'next/link';
@@ -57,7 +57,7 @@ export function PreEvaluationSectionRow({
 					passHref
 				>
 					<a target="_blank" rel="noreferrer">
-						<ArrowLinkOffIcon active />
+						<Icon name="Link-off" className="text-primary" />
 					</a>
 				</Link>
 			</th>

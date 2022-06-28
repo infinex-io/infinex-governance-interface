@@ -1,10 +1,9 @@
+import { Icon } from '@synthetixio/ui';
 import React, { HTMLAttributes, ReactElement, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import colors from '../styles/colors';
 import spacings from '../styles/spacings';
 import IconButton from './IconButton';
-import ArrowLeftIcon from './Icons/ArrowLeftIcon';
-import ArrowRightIcon from './Icons/ArrowRightIcon';
 
 interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 	carouselItems: ReactElement[];
@@ -95,7 +94,7 @@ export default function Carousel({
 						onClick={handlePrev}
 						position={arrowsPosition}
 					>
-						<ArrowLeftIcon active={true} />
+						<Icon name="Left" className="text-primary" />
 					</StyledLeftArrow>
 					<StyledRightArrow
 						rounded={true}
@@ -104,7 +103,7 @@ export default function Carousel({
 						onClick={handleNext}
 						position={arrowsPosition}
 					>
-						<ArrowRightIcon active={true} />
+						<Icon name="Right" className="text-primary" />
 					</StyledRightArrow>
 				</>
 			)}
