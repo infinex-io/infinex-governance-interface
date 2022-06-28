@@ -21,7 +21,7 @@ export default function LandingPage() {
 			</span>
 			<div className="flex flex-col align-center justify-center">
 				<div className="inline-flex mx-auto flex-col align-center justify-center">
-					<div className="flex justify-center flex-wrap gap-4 my-8">
+					<div className="flex justify-center flex-wrap gap-4 mt-8 mb-4">
 						{COUNCILS_DICTIONARY.map((council) => (
 							<CouncilCard
 								key={council.image}

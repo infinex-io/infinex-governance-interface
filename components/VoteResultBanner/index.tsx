@@ -17,7 +17,7 @@ export const VoteResultBanner: React.FC = () => {
 	if (![period1, period2, period3, period4].find((item) => item?.currentPeriod === 'VOTING')) null;
 
 	return (
-		<div className="w-full p-1 bg-purple rounded mx-auto">
+		<div className="w-full p-0.5 bg-purple rounded mx-auto">
 			<div className="flex md:flex-row flex-col gap-2 items-center justify-between w-full h-full darker-60 p-5">
 				<div className="flex md:flex-row flex-col gap-2 items-center">
 					<div className="bg-dark-blue rounded-full h-12 w-12 flex items-center justify-center mr-4">
