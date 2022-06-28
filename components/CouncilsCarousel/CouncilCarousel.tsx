@@ -30,36 +30,38 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 		);
 
 	return (
-		<Swiper
-			className="w-full"
-			breakpoints={{
-				// when window width is >= 320px
-				320: {
-					slidesPerView: 1,
-					spaceBetween: 20,
-				},
-				580: {
-					slidesPerView: 2,
-					spaceBetween: 25,
-				},
-				790: {
-					slidesPerView: 3,
-					spaceBetween: 30,
-				},
-				1030: {
-					slidesPerView: 4,
-					spaceBetween: 30,
-				},
-			}}
-			slides={members.map((member, index) => (
-				<MemberCard
-					walletAddress={member.address}
-					key={member.address.concat(String(index))}
-					state="ADMINISTRATION"
-					className="m-2"
-					council={member.council}
-				/>
-			))}
-		/>
+		<div className="w-full max-w-[1080px]">
+			<Swiper
+				className="w-full"
+				breakpoints={{
+					// when window width is >= 320px
+					320: {
+						slidesPerView: 1.2,
+						spaceBetween: 15,
+					},
+					580: {
+						slidesPerView: 2,
+						spaceBetween: 15,
+					},
+					790: {
+						slidesPerView: 3,
+						spaceBetween: 20,
+					},
+					1030: {
+						slidesPerView: 4,
+						spaceBetween: 10,
+					},
+				}}
+				slides={[...members, ...members].map((member, index) => (
+					<MemberCard
+						walletAddress={member.address}
+						key={member.address.concat(String(index))}
+						state="ADMINISTRATION"
+						className="m-2"
+						council={member.council}
+					/>
+				))}
+			/>
+		</div>
 	);
 };
