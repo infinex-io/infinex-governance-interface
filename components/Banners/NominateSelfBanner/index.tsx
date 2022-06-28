@@ -2,10 +2,9 @@ import NominateModal from 'components/Modals/Nominate';
 import { DeployedModules } from 'containers/Modules';
 import { useModalContext } from 'containers/Modal';
 import { useTranslation } from 'react-i18next';
-import { ArrowRightIcon } from 'components/old-ui';
 import { Timer } from 'components/Timer';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
-import { Card, IconButton } from '@synthetixio/ui';
+import { Card, Icon, IconButton } from '@synthetixio/ui';
 import useIsMobile from 'hooks/useIsMobile';
 
 export default function NominateSelfBanner({
@@ -37,7 +36,7 @@ export default function NominateSelfBanner({
 					className="w-[160px] pl-2"
 				>
 					{t('banner.nominate.self')}
-					<ArrowRightIcon />
+					<Icon name="Right" />
 				</IconButton>
 			) : (
 				<IconButton
@@ -49,7 +48,7 @@ export default function NominateSelfBanner({
 					rounded
 					className="p-2"
 				>
-					<ArrowRightIcon />
+					<Icon name="Right" />
 				</IconButton>
 			)}
 		</Card>
