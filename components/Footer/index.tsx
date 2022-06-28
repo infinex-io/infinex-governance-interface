@@ -1,4 +1,4 @@
-import { Card } from '@synthetixio/ui';
+import { Card, Icon } from '@synthetixio/ui';
 import { DiscordIcon, GitHubIcon, TwitterIcon, SNXIcon } from 'components/old-ui';
 import Link from 'next/link';
 

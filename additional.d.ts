@@ -1,5 +1,4 @@
 import { NetworkId } from '@synthetixio/contracts-interface';
-import { theme } from 'components/old-ui';
 
 declare global {
 	interface Window {
@@ -20,12 +19,6 @@ declare global {
 			NEXT_INFURA_PROJECT_ID: string;
 		}
 	}
-}
-
-type ThemeInterface = typeof theme;
-
-declare module 'styled-components' {
-	interface DefaultTheme extends ThemeInterface {}
 }
 
 // Trick to make this a valid module:

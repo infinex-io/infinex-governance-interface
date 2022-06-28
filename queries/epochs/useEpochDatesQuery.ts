@@ -3,7 +3,7 @@ import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { hexStringBN } from 'utils/hexString';
 
-type EpochDates = {
+export type EpochDates = {
 	epochStartDate: number;
 	epochEndDate: number;
 };
