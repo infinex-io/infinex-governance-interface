@@ -1,4 +1,3 @@
-import { Icon } from '@synthetixio/ui';
 import MemberCard from 'components/MemberCard/Index';
 import { Swiper } from 'components/Swiper';
 
@@ -31,7 +30,6 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 
 	return (
 		<Swiper
-			className="w-full"
 			breakpoints={{
 				// when window width is >= 320px
 				320: {

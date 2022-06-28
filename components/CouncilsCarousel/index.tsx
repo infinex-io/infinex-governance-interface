@@ -1,26 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tabs } from 'components/old-ui';
-import { TabIcon } from 'components/TabIcon';
 import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 import { CouncilCarousel } from './CouncilCarousel';
-import { Icon, IconButton } from '@synthetixio/ui';
+import { Icon, IconButton, Tabs } from '@synthetixio/ui';
+import { TabIcon } from 'components/TabIcon';
 
-interface CouncilsCarouselProps {
-	startIndex?: number;
-}
-
-export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) {
+export default function CouncilsCarousel() {
 	const { t } = useTranslation();
-	const [activeIndex, setActiveIndex] = useState(0);
 	const [listView, setListView] = useState(false);
-	const councilTabs = [
-		t('landing-page.tabs.all'),
-		t('landing-page.tabs.sc'),
-		t('landing-page.tabs.gc'),
-		t('landing-page.tabs.ac'),
-		t('landing-page.tabs.tc'),
-	];
+	const [activeTab, setActiveTab] = useState('');
 
 	const members = useAllCouncilMembersAddresses();
 
@@ -48,47 +36,79 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 	];
 
 	return (
-		<div className="flex flex-col items-center container">
-			<div className="w-full flex items-center relative">
-				<Tabs
-					titles={councilTabs}
-					size="medium"
-					clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
-					className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
-					activeIndex={activeIndex}
-					icons={[
-						<TabIcon key="all-members" isActive={activeIndex === 0}>
-							{allMembers[0]?.length}
-						</TabIcon>,
-						<TabIcon key="spartan-members" isActive={activeIndex === 1}>
-							{members.data?.spartan?.length}
-						</TabIcon>,
-						<TabIcon key="grants-members" isActive={activeIndex === 2}>
-							{members.data?.grants.length}
-						</TabIcon>,
-						<TabIcon key="ambassador-members" isActive={activeIndex === 3}>
-							{members.data?.ambassador.length}
-						</TabIcon>,
-						<TabIcon key="treasury-members" isActive={activeIndex === 4}>
-							{members.data?.treasury.length}
-						</TabIcon>,
-					]}
-				/>
-				<div className="items-center hidden lg:flex">
-					<IconButton isActive={listView} onClick={() => setListView(true)} size="sm">
-						<Icon name="List" className="text-primary" />
-					</IconButton>
-					<IconButton
-						className="ml-1.5"
-						isActive={!listView}
-						onClick={() => setListView(false)}
-						size="sm"
-					>
-						<Icon name="Grid" className="text-primary" />
-					</IconButton>
-				</div>
+		<div className="flex flex-col container relative">
+			<Tabs
+				className="mb-2 ov"
+				contentClassName="max-w-[90vw]"
+				initial="all-members"
+				items={[
+					{
+						id: 'all-members',
+						label: (
+							<div className="flex items-center gap-1">
+								{t('landing-page.tabs.all')}
+								<TabIcon isActive={activeTab === 'all-members'}>{allMembers[0].length}</TabIcon>
+							</div>
+						),
+						content: <CouncilCarousel listView={listView} members={allMembers[0] || []} />,
+					},
+					{
+						id: 'spartan',
+						label: (
+							<div className="flex items-center gap-1">
+								{t('landing-page.tabs.sc')}
+								<TabIcon isActive={activeTab === 'spartan'}>{allMembers[1].length}</TabIcon>
+							</div>
+						),
+						content: <CouncilCarousel listView={listView} members={allMembers[1] || []} />,
+					},
+					{
+						id: 'grants',
+						label: (
+							<div className="flex items-center gap-1">
+								{t('landing-page.tabs.gc')}
+								<TabIcon isActive={activeTab === 'grants'}>{allMembers[2].length}</TabIcon>
+							</div>
+						),
+						content: <CouncilCarousel listView={listView} members={allMembers[2] || []} />,
+					},
+					{
+						id: 'ambassador',
+						label: (
+							<div className="flex items-center gap-1">
+								{t('landing-page.tabs.ac')}
+								<TabIcon isActive={activeTab === 'ambassador'}>{allMembers[3].length}</TabIcon>
+							</div>
+						),
+						content: <CouncilCarousel listView={listView} members={allMembers[3] || []} />,
+					},
+					{
+						id: 'treasury',
+						label: (
+							<div className="flex items-center gap-1">
+								{t('landing-page.tabs.tc')}
+								<TabIcon isActive={activeTab === 'treasury'}>{allMembers[4].length}</TabIcon>
+							</div>
+						),
+						content: <CouncilCarousel listView={listView} members={allMembers[4] || []} />,
+					},
+				]}
+				onChange={(id) => setActiveTab(id)}
+			/>
+
+			<div className="hidden lg:flex absolute right-0">
+				<IconButton isActive={listView} onClick={() => setListView(true)} size="sm">
+					<Icon name="List" className="text-primary" />
+				</IconButton>
+				<IconButton
+					className="ml-1.5"
+					isActive={!listView}
+					onClick={() => setListView(false)}
+					size="sm"
+				>
+					<Icon name="Grid" className="text-primary" />
+				</IconButton>
 			</div>
-			<CouncilCarousel listView={listView} members={allMembers[activeIndex] || []} />
 		</div>
 	);
 }
