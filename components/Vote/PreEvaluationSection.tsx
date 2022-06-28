@@ -1,17 +1,18 @@
-import { Tabs } from 'components/old-ui';
+import { Tabs } from '@synthetixio/ui';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber } from 'ethers';
 import useIsMobile from 'hooks/useIsMobile';
 import { t } from 'i18next';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useNextEpochSeatCountQuery from 'queries/epochs/useNextEpochSeatCountQuery';
-import { usePreEvaluationVotingPowerQuery } from 'queries/voting/usePreEvaluationVotingPowerQuery';
-import { useState } from 'react';
+import {
+	BallotVotes,
+	usePreEvaluationVotingPowerQuery,
+} from 'queries/voting/usePreEvaluationVotingPowerQuery';
 import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
 import { PreEvaluationSectionRowMobile } from './PreEvaluationSectionRowMobile';
 
 export function PreEvaluationSection() {
-	const [activeTab, setActiveTab] = useState<number>(0);
 	const isMobile = useIsMobile();
 	const spartanEpochIndex = useEpochIndexQuery(DeployedModules.SPARTAN_COUNCIL);
 	const grantsEpochIndex = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
@@ -49,11 +50,6 @@ export function PreEvaluationSection() {
 		},
 	];
 
-	const totalVotingPowers = preEvalDic[activeTab].council?.reduce(
-		(cur, prev) => cur.add(prev.totalVotingPowerReceived),
-		BigNumber.from(0)
-	);
-
 	return (
 		<div className="flex flex-col items-center pt-10">
 			<h1 className="md:tg-title-h1 tg-title-h3 text-white">{t('vote.pre-eval.headline')}</h1>
@@ -61,69 +57,104 @@ export function PreEvaluationSection() {
 				{t('vote.pre-eval.voting-results-live')}
 			</span>
 			<Tabs
+				initial="spartan"
 				className="overflow-x-auto no-scrollbar"
-				justifyContent="center"
-				titles={[
-					t('vote.pre-eval.tabs.sc'),
-					t('vote.pre-eval.tabs.gc'),
-					t('vote.pre-eval.tabs.ac'),
-					t('vote.pre-eval.tabs.tc'),
+				items={[
+					{
+						id: 'spartan',
+						label: t('vote.pre-eval.tabs.sc'),
+						content: <PreEvalResults isMobile={isMobile} preEvalDic={preEvalDic[0]} />,
+					},
+					{
+						id: 'grants',
+						label: t('vote.pre-eval.tabs.gc'),
+						content: <PreEvalResults isMobile={isMobile} preEvalDic={preEvalDic[1]} />,
+					},
+					{
+						id: 'ambassador',
+						label: t('vote.pre-eval.tabs.ac'),
+						content: <PreEvalResults isMobile={isMobile} preEvalDic={preEvalDic[2]} />,
+					},
+					{
+						id: 'treasury',
+						label: t('vote.pre-eval.tabs.tc'),
+						content: <PreEvalResults isMobile={isMobile} preEvalDic={preEvalDic[3]} isTreasury />,
+					},
 				]}
-				clicked={id => typeof id === 'number' && setActiveTab(id)}
-				activeIndex={activeTab}
 			/>
-			{!isMobile ? (
-				<div className="border-gray-700 border mt-6 mb-20 rounded-xl">
-					<table className="bg-dark-blue w-[1000px] rounded-xl :table">
-						<tr className="border-b-2 border-b-gray-700 border-b-solid">
-							<th className="text-left p-6 tg-caption text-gray-500">
-								{t('vote.pre-eval.table.name')}
-							</th>
-							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-							<th className="tg-caption text-gray-500 p-6">
-								{t('vote.pre-eval.table.received', { units: activeTab === 3 ? 'Ether' : 'Wei' })}
-							</th>
-							<th className="text-right p-6 tg-caption text-gray-500">
-								{t('vote.pre-eval.table.actions')}
-							</th>
-						</tr>
-						{preEvalDic[activeTab].council
-							?.sort((a, b) => {
-								if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
-								if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
-								return 0;
-							})
-							.map((prevEval, index) => (
-								<PreEvaluationSectionRow
-									key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
-									isActive={index < (preEvalDic[activeTab].seats || 0)}
-									totalVotingPowers={totalVotingPowers}
-									prevEval={prevEval}
-									walletAddress={prevEval.walletAddress}
-								/>
-							))}
-					</table>
-				</div>
-			) : (
-				<div className="flex flex-col w-full md:hidden p-2 mb-20">
-					{preEvalDic[activeTab].council
+		</div>
+	);
+}
+
+const PreEvalResults = ({
+	isMobile,
+	preEvalDic,
+	isTreasury,
+}: {
+	isTreasury?: boolean;
+	isMobile: boolean;
+	preEvalDic: {
+		seats: number | undefined;
+		council: BallotVotes[] | undefined;
+	};
+}) => {
+	const totalVotingPowers = preEvalDic.council?.reduce(
+		(cur, prev) => cur.add(prev.totalVotingPowerReceived),
+		BigNumber.from(0)
+	);
+	if (!isMobile) {
+		return (
+			<div className="border-gray-700 border mt-6 mb-20 rounded-xl">
+				<table className="bg-dark-blue w-[1000px] rounded-xl :table">
+					<tr className="border-b-2 border-b-gray-700 border-b-solid">
+						<th className="text-left p-6 tg-caption text-gray-500">
+							{t('vote.pre-eval.table.name')}
+						</th>
+						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
+						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
+						<th className="tg-caption text-gray-500 p-6">
+							{t('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' })}
+						</th>
+						<th className="text-right p-6 tg-caption text-gray-500">
+							{t('vote.pre-eval.table.actions')}
+						</th>
+					</tr>
+					{preEvalDic.council
 						?.sort((a, b) => {
 							if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
 							if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
 							return 0;
 						})
 						.map((prevEval, index) => (
-							<PreEvaluationSectionRowMobile
+							<PreEvaluationSectionRow
 								key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
-								isActive={index < (preEvalDic[activeTab].seats || 0)}
+								isActive={index < (preEvalDic.seats || 0)}
 								totalVotingPowers={totalVotingPowers}
 								prevEval={prevEval}
 								walletAddress={prevEval.walletAddress}
 							/>
 						))}
-				</div>
-			)}
+				</table>
+			</div>
+		);
+	}
+	return (
+		<div className="flex flex-col w-full md:hidden p-2 mb-20">
+			{preEvalDic.council
+				?.sort((a, b) => {
+					if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
+					if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
+					return 0;
+				})
+				.map((prevEval, index) => (
+					<PreEvaluationSectionRowMobile
+						key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
+						isActive={index < (preEvalDic.seats || 0)}
+						totalVotingPowers={totalVotingPowers}
+						prevEval={prevEval}
+						walletAddress={prevEval.walletAddress}
+					/>
+				))}
 		</div>
 	);
-}
+};

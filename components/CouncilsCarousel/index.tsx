@@ -8,7 +8,7 @@ import { TabIcon } from 'components/TabIcon';
 export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMembers?: boolean }) {
 	const { t } = useTranslation();
 	const [listView, setListView] = useState(false);
-	const [activeTab, setActiveTab] = useState('');
+	const [activeTab, setActiveTab] = useState(withoutAllMembers ? 'spartan' : 'all-members');
 
 	const members = useAllCouncilMembersAddresses();
 
@@ -36,7 +36,7 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 			<Tabs
 				className="mb-2 ov"
 				contentClassName="max-w-[90vw]"
-				initial="all-members"
+				initial={withoutAllMembers ? 'spartan' : 'all-members'}
 				items={
 					withoutAllMembers
 						? [
