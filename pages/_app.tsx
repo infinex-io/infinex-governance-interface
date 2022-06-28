@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 import '@synthetixio/ui/dist/default.css';
+import '@synthetixio/ui/dist/fonts/index.scss';
 import '../styles/index.scss';
 import '../i18n';
 
