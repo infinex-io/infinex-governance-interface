@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { CouncilCard } from 'components/CouncilCard';
 import { COUNCILS_DICTIONARY } from 'constants/config';
+import { VoteResultBanner } from 'components/VoteResultBanner';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -18,15 +19,20 @@ export default function LandingPage() {
 			<span className="tg-content text-gray-500 text-center pt-[8px]">
 				{t('landing-page.subline')}
 			</span>
-			<div className="flex justify-center flex-wrap gap-4 my-8">
-				{COUNCILS_DICTIONARY.map((council) => (
-					<CouncilCard
-						key={council.image}
-						image={council.image}
-						council={council.slug}
-						deployedModule={council.module}
-					/>
-				))}
+			<div className="flex flex-col align-center justify-center">
+				<div className="inline-flex mx-auto flex-col align-center justify-center">
+					<div className="flex justify-center flex-wrap gap-4 my-8">
+						{COUNCILS_DICTIONARY.map((council) => (
+							<CouncilCard
+								key={council.image}
+								image={council.image}
+								council={council.slug}
+								deployedModule={council.module}
+							/>
+						))}
+					</div>
+					<VoteResultBanner />
+				</div>
 			</div>
 			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.second-headline')}</h1>
 			<span className="tg-content text-gray-500 text-center pt-[8px]">

@@ -69,13 +69,13 @@ export function PreEvaluationSection() {
 					t('vote.pre-eval.tabs.ac'),
 					t('vote.pre-eval.tabs.tc'),
 				]}
-				clicked={id => typeof id === 'number' && setActiveTab(id)}
+				clicked={(id) => typeof id === 'number' && setActiveTab(id)}
 				activeIndex={activeTab}
 			/>
 			{!isMobile ? (
 				<div className="border-gray-700 border mt-6 mb-20 rounded-xl">
 					<table className="bg-dark-blue w-[1000px] rounded-xl :table">
-						<tr className="border-b-2 border-b-gray-700 border-b-solid">
+						<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
 							<th className="text-left p-6 tg-caption text-gray-500">
 								{t('vote.pre-eval.table.name')}
 							</th>
