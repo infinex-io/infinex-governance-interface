@@ -32,6 +32,11 @@
 			"records": "SCCP / SIP VOTING RECORDS",
 			"records-subline": "View the voting history of all governance proposals."
 		},
+		"vote-banner": {
+			"title": "See live voting results as the come in",
+			"subtitle": "Keep track of who is winning the election. Remember to vote!",
+			"cta": "Current Voting Results"
+		},
 		"cards": {
 			"spartan": "Spartan Council",
 			"grants": "Grants Council",
