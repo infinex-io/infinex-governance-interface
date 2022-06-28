@@ -1,5 +1,5 @@
-import { Button } from '@synthetixio/ui';
-import { ArrowLinkOffIcon, ButtonCard } from 'components/old-ui';
+import { Button, Icon } from '@synthetixio/ui';
+import { ButtonCard } from 'components/old-ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -37,7 +37,7 @@ export default function LandingPage() {
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
-						icon={<ArrowLinkOffIcon active />}
+						icon={<Icon name="Link-off" className="text-primary" />}
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
@@ -45,7 +45,7 @@ export default function LandingPage() {
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
-						icon={<ArrowLinkOffIcon active />}
+						icon={<Icon name="Link-off" className="text-primary" />}
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
@@ -55,7 +55,7 @@ export default function LandingPage() {
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
-						icon={<ArrowLinkOffIcon active />}
+						icon={<Icon name="Link-off" className="text-primary" />}
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>
@@ -63,7 +63,7 @@ export default function LandingPage() {
 					<StyledButtonCards
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}
-						icon={<ArrowLinkOffIcon active />}
+						icon={<Icon name="Link-off" className="text-primary" />}
 						arrowDirection="right"
 					></StyledButtonCards>
 				</Link>

@@ -1,10 +1,9 @@
+import { Icon } from '@synthetixio/ui';
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import colors from '../styles/colors';
 import spacings from '../styles/spacings';
 import Flex from './Flex';
-import ArrowLeftIcon from './Icons/ArrowLeftIcon';
-import ArrowRightIcon from './Icons/ArrowRightIcon';
 
 interface ButtonCardsProps extends HTMLAttributes<HTMLButtonElement> {
 	onClick?: () => void;
@@ -47,12 +46,12 @@ export default function ButtonCards({
 						icon ? (
 							icon
 						) : (
-							<ArrowLeftIcon active={true} />
+							<Icon name="Left" className="text-primary" />
 						)
 					) : icon ? (
 						icon
 					) : (
-						<ArrowRightIcon active={true} />
+						<Icon name="Right" className="text-primary" />
 					)}
 				</StyledArrowWrapperIcon>
 			</StyledWrapper>

@@ -7,7 +7,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { parseQuery } from 'utils/parse';
 import { useAccount } from 'wagmi';
-import { Badge, Dropdown, IconButton } from '@synthetixio/ui';
+import { Badge, Dropdown, Icon, IconButton } from '@synthetixio/ui';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import Avatar from 'components/Avatar';
@@ -15,7 +15,6 @@ import { truncateAddress } from 'utils/truncate-address';
 import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'constants/config';
 import { useModalContext } from 'containers/Modal';
 import WithdrawVote from 'components/Modals/WithdrawVote';
-import { PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
 
 interface CouncilState {
 	voted: boolean;
@@ -195,7 +194,6 @@ const VoteCard = ({
 	periodIsVoting: boolean;
 }) => {
 	const { t } = useTranslation();
-	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 	const { setContent, setIsOpen } = useModalContext();
 	const { push } = useRouter();
 	const activeCouncil =
@@ -226,8 +224,8 @@ const VoteCard = ({
 				triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 				contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
 				triggerElement={
-					<IconButton rounded onClick={() => setIsDropDownOpen(!isDropDownOpen)} size="sm">
-						<ThreeDotsKebabIcon active={isDropDownOpen} />
+					<IconButton rounded size="sm">
+						<Icon className="text-xl" name="Vertical" />
 					</IconButton>
 				}
 				contentAlignment="right"
@@ -283,13 +281,8 @@ const VoteCard = ({
 						{t('vote.not-voted')}
 					</Badge>
 				</div>
-				<IconButton
-					className="bg-black"
-					size="sm"
-					onClick={() => push('/vote/' + activeCouncil.slug)}
-					rounded
-				>
-					<PlusIcon active />
+				<IconButton size="sm" onClick={() => push('/vote/' + activeCouncil.slug)} rounded>
+					<Icon name="Plus" className="text-primary" />
 				</IconButton>
 			</div>
 		</div>

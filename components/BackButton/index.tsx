@@ -1,5 +1,4 @@
-import { IconButton } from '@synthetixio/ui';
-import { ArrowLeftIcon } from 'components/old-ui';
+import { Icon, IconButton } from '@synthetixio/ui';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +13,7 @@ export default function BackButton() {
 				size="sm"
 				className="bg-black bg-gradient-to-l from-gray-800"
 			>
-				<ArrowLeftIcon active />
+				<Icon name="Left" className="text-primary" />
 			</IconButton>
 			<span className="tg-content text-primary ml-2">{t('councils.back-btn')}</span>
 		</div>

@@ -1,4 +1,3 @@
-import { ThreeDotsKebabIcon } from 'components/old-ui';
 import EditModal from 'components/Modals/EditNomination';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { useModalContext } from 'containers/Modal';
@@ -6,7 +5,7 @@ import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import VoteModal from 'components/Modals/Vote';
-import { Button, IconButton, Dropdown } from '@synthetixio/ui';
+import { Button, IconButton, Dropdown, Icon } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
@@ -81,7 +80,7 @@ export const MemberCardAction: React.FC<Props> = ({
 						<Dropdown
 							triggerElement={
 								<IconButton size="sm">
-									<ThreeDotsKebabIcon />
+									<Icon className="text-xl" name="Vertical" />
 								</IconButton>
 							}
 							contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
@@ -161,7 +160,7 @@ export const MemberCardAction: React.FC<Props> = ({
 						<Dropdown
 							triggerElement={
 								<IconButton size="sm">
-									<ThreeDotsKebabIcon />
+									<Icon className="text-xl" name="Vertical" />
 								</IconButton>
 							}
 							contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"

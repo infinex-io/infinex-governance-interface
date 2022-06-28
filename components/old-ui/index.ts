@@ -47,7 +47,6 @@ export { default as DiscordIcon } from './components/Icons/DiscordIcon';
 
 // Components
 export { default as Button } from './components/Button';
-export { default as ExternalLink } from './components/ExternalLink';
 export { default as IconButton } from './components/IconButton';
 export { default as Tabs } from './components/Tabs';
 export { default as LinkButton } from './components/LinkButton';
