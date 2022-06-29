@@ -49,7 +49,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 
 	return (
 		<div className="flex flex-col items-center container">
-			<div className="w-full flex items-center relative">
+			<div className="w-full flex items-center relative mb-4">
 				<Tabs
 					titles={councilTabs}
 					size="medium"

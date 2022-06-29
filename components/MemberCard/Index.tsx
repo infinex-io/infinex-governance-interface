@@ -160,7 +160,7 @@ export default function MemberCard({
 	return (
 		<div
 			key={member.address.concat(member.about)}
-			className={clsx('p-[1px] rounded-lg', className, {
+			className={clsx('p-0.5 rounded-lg', className, {
 				'bg-orange': isOwnCard,
 				'bg-purple': !isOwnCard,
 				'xs:w-[210px] w-full max-w-full h-[285px]': !listView,

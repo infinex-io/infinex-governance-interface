@@ -54,19 +54,19 @@ export default function VoteCouncil() {
 						</h1>
 						<span className="tg-body text-center block text-gray-500">{t('vote.subline')}</span>
 					</div>
-					<div className="flex flex-wrap justify-center p-3 container mx-auto">
+					<div className="flex flex-wrap justify-center xs:px-3 px-0 py-3 container mx-auto">
 						{nomineesQuery.isLoading || nomineesQuery.isLoading ? (
 							<Loader />
 						) : nomineesQuery.data?.length ? (
 							<>
-								<div className="px-3 inline-flex mx-auto flex-col align-center justify-center w-full">
-									<div className="w-full px-2">
+								<div className="xs:px-3 inline-flex mx-auto flex-col align-center justify-center w-full xs:w-auto">
+									<div className="w-full xs:px-2">
 										<VoteResultBanner />
 									</div>
-									<div className="flex flex-wrap justify-center py-2 max-w-[905px] mx-auto w-full">
+									<div className="flex flex-col xs:flex-row flex-wrap justify-center py-2 max-w-[905px] mx-auto w-full">
 										{sortedNominees?.slice(startIndex, endIndex).map((walletAddress, index) => (
 											<MemberCard
-												className="m-2"
+												className="my-2 xs:m-2"
 												key={walletAddress.concat(String(index).concat('voting'))}
 												walletAddress={walletAddress}
 												council={activeCouncil.name}
