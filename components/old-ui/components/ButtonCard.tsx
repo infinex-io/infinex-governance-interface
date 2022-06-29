@@ -80,8 +80,9 @@ const StyledWrapper = styled(Flex)`
 `;
 
 const StyledHeadline = styled.h3<{ direction: ButtonCardsProps['arrowDirection'] }>`
-	font-family: 'Inter Bold';
+	font-family: 'Inter';
 	font-size: 0.75rem;
+	font-weight: 700;
 	color: ${colors.white};
 	text-align: ${({ direction }) => (direction === 'left' ? 'right' : 'left')};
 	width: 100%;

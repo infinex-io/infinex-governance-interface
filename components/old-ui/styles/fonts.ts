@@ -1,6 +1,6 @@
 const fonts = {
 	inter: 'Inter',
-	interBold: 'Inter Bold',
+	interBold: 'Inter',
 	gtAmerica: 'GT America',
 	gtAmericaMono: 'GT America Mono',
 };

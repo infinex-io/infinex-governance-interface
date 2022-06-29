@@ -144,7 +144,7 @@ export default function VoteSection() {
 					</div>
 				</div>
 			)}
-			<div className="flex justify-center flex-wrap mt-10 gap-2">
+			<div className="flex justify-center w-full flex-wrap mt-10 gap-2">
 				{spartanCouncilInfo && (
 					<CouncilCard
 						deployedModule={DeployedModules.SPARTAN_COUNCIL}
