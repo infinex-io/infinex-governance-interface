@@ -47,12 +47,12 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8" />
 							) : (
 								<>
-									<div className="py-6 px-10 border-[1px] border-gray-500 rounded max-w-3xl mx-auto">
+									<div className="p-6 border-[1px] border-gray-500 rounded max-w-3xl mx-auto">
 										<span className="tg-caption">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
-										<div className="flex justify-evenly flex-wrap mt-4">
-											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center">
+										<div className="flex justify-center flex-wrap mt-4 md:flex-nowrap">
+											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
 												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.election`)}
 												</span>
@@ -63,7 +63,7 @@ const Councils: NextPage = () => {
 													})}
 												</span>
 											</div>
-											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center">
+											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
 												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.stipends`)}
 												</span>
