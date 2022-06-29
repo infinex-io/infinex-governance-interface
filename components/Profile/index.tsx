@@ -101,7 +101,12 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									</>
 								</Dropdown>
 							</div>
-							<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
+							<Dialog
+								className="overflow-auto"
+								wrapperClass="max-w-[700px]"
+								onClose={() => setIsOpen(false)}
+								open={isOpen}
+							>
 								<ProfileForm userProfile={userDetailsQuery.data} />
 							</Dialog>
 						</div>

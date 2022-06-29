@@ -59,11 +59,11 @@ export default function VoteCouncil() {
 							<Loader />
 						) : nomineesQuery.data?.length ? (
 							<>
-								<div className="px-3 inline-flex mx-auto flex-col align-center justify-center">
+								<div className="px-3 inline-flex mx-auto flex-col align-center justify-center w-full">
 									<div className="w-full px-2">
 										<VoteResultBanner />
 									</div>
-									<div className="flex flex-wrap justify-center py-2 max-w-[905px] mx-auto">
+									<div className="flex flex-wrap justify-center py-2 max-w-[905px] mx-auto w-full">
 										{sortedNominees?.slice(startIndex, endIndex).map((walletAddress, index) => (
 											<MemberCard
 												className="m-2"
