@@ -34,7 +34,7 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 	return (
 		<div className="flex flex-col container relative">
 			<Tabs
-				className="mb-2 justify-start"
+				className="mb-2 justify-start lg:mx-auto"
 				tabClassName="min-w-fit"
 				contentClassName="max-w-[90vw]"
 				initial={withoutAllMembers ? 'spartan' : 'all-members'}

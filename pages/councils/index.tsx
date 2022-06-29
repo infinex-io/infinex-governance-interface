@@ -24,14 +24,15 @@ const Councils: NextPage = () => {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				<div className="flex flex-col items-center p-3 container">
+				<div className="flex flex-col p-3 container">
 					<div className="w-full relative">
 						<BackButton />
 						<h1 className="tg-title-h1 text-center p-12 ml-auto">{t('councils.headline')}</h1>
 					</div>
 					<Tabs
 						initial={activeCouncil}
-						className="overflow-x-auto h-[60px] no-scrollbar"
+						className="mb-2 justify-start lg:mx-auto"
+						tabClassName="min-w-fit"
 						items={COUNCILS_DICTIONARY.map((council) => ({
 							id: council.slug,
 							label: (
@@ -46,7 +47,7 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8" />
 							) : (
 								<>
-									<div className="py-6 px-10 border-[1px] border-gray-500 rounded max-w-3xl">
+									<div className="py-6 px-10 border-[1px] border-gray-500 rounded max-w-3xl mx-auto">
 										<span className="tg-caption">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
