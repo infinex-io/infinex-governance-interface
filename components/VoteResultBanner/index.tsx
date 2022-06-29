@@ -14,7 +14,8 @@ export const VoteResultBanner: React.FC = () => {
 	const { data: period3 } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const { data: period4 } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
 
-	if (![period1, period2, period3, period4].find((item) => item?.currentPeriod === 'VOTING')) null;
+	if (![period1, period2, period3, period4].find((item) => item?.currentPeriod === 'VOTING'))
+		return null;
 
 	return (
 		<div className="w-full p-0.5 bg-purple rounded mx-auto">
@@ -30,7 +31,7 @@ export const VoteResultBanner: React.FC = () => {
 				</div>
 				<Button
 					onClick={() => {
-						push({ pathname: '/vote/' });
+						push('/vote');
 					}}
 					variant="outline"
 				>

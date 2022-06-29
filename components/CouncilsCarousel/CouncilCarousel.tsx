@@ -1,4 +1,3 @@
-import { Icon } from '@synthetixio/ui';
 import MemberCard from 'components/MemberCard/Index';
 import { Swiper } from 'components/Swiper';
 
