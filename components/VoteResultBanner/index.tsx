@@ -1,6 +1,6 @@
 import { Button } from '@synthetixio/ui';
 import { SNXIcon } from 'components/old-ui';
-import { DeployedModules } from 'containers/Modules';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import React from 'react';
@@ -9,12 +9,9 @@ import { useTranslation } from 'react-i18next';
 export const VoteResultBanner: React.FC = () => {
 	const { push } = useRouter();
 	const { t } = useTranslation();
-	const { data: period1 } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const { data: period2 } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const { data: period3 } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const { data: period4 } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const periods = COUNCILS_DICTIONARY.map((council) => useCurrentPeriod(council.module));
 
-	if (![period1, period2, period3, period4].find((item) => item?.currentPeriod === 'VOTING')) null;
+	if (!periods.find((item) => item.data?.currentPeriod === 'VOTING')) return null;
 
 	return (
 		<div className="w-full p-0.5 bg-purple rounded mx-auto">

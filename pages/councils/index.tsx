@@ -20,7 +20,6 @@ const Councils: NextPage = () => {
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
 	const nextEpochs = COUNCILS_DICTIONARY.map((council) => useNextEpochDatesQuery(council.module));
-	// TODO @MF fix it
 	const members = useAllCouncilMembersAddresses();
 	return (
 		<>
@@ -50,35 +49,38 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8" />
 							) : (
 								<>
-									<div className="py-10 px-6 border-[1px] border-gray-500 rounded">
+									<div className="py-6 px-10 border-[1px] border-gray-500 rounded max-w-4xl">
 										<span className="tg-caption">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
-										<div className="flex justify-evenly flex-wrap">
-											<div className="border-[1px] border-gray-500 rounded">
-												<span>
+										<div className="flex justify-evenly flex-wrap mt-4">
+											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center">
+												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.election`)}
 												</span>
-												<span>
+												&nbsp;
+												<span className="tg-caption-bold">
 													{t(`councils.tabs.explanations.${council.abbreviation}.members`, {
 														count: members.data && members.data[council.slug].length,
 													})}
 												</span>
 											</div>
-											<div className="border-[1px] border-gray-500 rounded">
-												<span>
+											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center">
+												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.stipends`)}
 												</span>
-												<span>
+												&nbsp;
+												<span className="tg-caption-bold">
 													{t(`councils.tabs.explanations.${council.abbreviation}.amount`, {
-														amount: '2000 SNX',
+														amount: '2000',
 													})}
 												</span>
 											</div>
-											<div className="border-[1px] border-gray-500 rounded">
-												<span>
+											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center">
+												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.nextElection`)}
 												</span>
+												&nbsp;
 												<Timer expiryTimestamp={nextEpochs[index].data?.epochStartDate || 0} />
 											</div>
 										</div>

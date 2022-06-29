@@ -23,14 +23,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
-	const {
-		councilMembers,
-		currentPeriodData,
-		nominationDates,
-		nominees,
-		votingDates,
-		voteHistory,
-	} = useCouncilCardQueries(deployedModule);
+	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates, voteHistory } =
+		useCouncilCardQueries(deployedModule);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;

@@ -100,7 +100,7 @@
 					"election": "Grants Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
-					"amount": "{{count}} SNX",
+					"amount": "{{amount}} SNX",
 					"nextElection": "Next Grants Election:"
 				},
 				"ac": {
@@ -108,7 +108,7 @@
 					"election": "Ambassador Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
-					"amount": "{{count}} SNX",
+					"amount": "{{amount}} SNX",
 					"nextElection": "Next Ambassador Election:"
 				},
 				"tc": {
@@ -116,7 +116,7 @@
 					"election": "Treasury Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
-					"amount": "{{count}} SNX",
+					"amount": "{{amount}} SNX",
 					"nextElection": "Next Treasury Election:"
 				}
 			}
