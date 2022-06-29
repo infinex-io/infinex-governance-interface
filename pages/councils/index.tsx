@@ -12,14 +12,11 @@ import MemberCard from 'components/MemberCard/Index';
 import { Loader } from 'components/Loader/Loader';
 import { TabIcon } from 'components/TabIcon';
 import { useState } from 'react';
-import { Timer } from 'components/Timer';
-import useNextEpochDatesQuery from 'queries/epochs/useNextEpochDatesQuery';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
-	const nextEpochs = COUNCILS_DICTIONARY.map((council) => useNextEpochDatesQuery(council.module));
 	const members = useAllCouncilMembersAddresses();
 	return (
 		<>
@@ -35,7 +32,7 @@ const Councils: NextPage = () => {
 					<Tabs
 						initial={activeCouncil}
 						className="overflow-x-auto h-[60px] no-scrollbar"
-						items={COUNCILS_DICTIONARY.map((council, index) => ({
+						items={COUNCILS_DICTIONARY.map((council) => ({
 							id: council.slug,
 							label: (
 								<div className="flex items-center gap-1">
@@ -49,7 +46,7 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8" />
 							) : (
 								<>
-									<div className="py-6 px-10 border-[1px] border-gray-500 rounded max-w-4xl">
+									<div className="py-6 px-10 border-[1px] border-gray-500 rounded max-w-3xl">
 										<span className="tg-caption">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
@@ -75,13 +72,6 @@ const Councils: NextPage = () => {
 														amount: '2000',
 													})}
 												</span>
-											</div>
-											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center">
-												<span className="tg-caption">
-													{t(`councils.tabs.explanations.${council.abbreviation}.nextElection`)}
-												</span>
-												&nbsp;
-												<Timer expiryTimestamp={nextEpochs[index].data?.epochStartDate || 0} />
 											</div>
 										</div>
 									</div>

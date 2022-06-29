@@ -34,7 +34,8 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 	return (
 		<div className="flex flex-col container relative">
 			<Tabs
-				className="mb-2 ov"
+				className="mb-2 justify-start"
+				tabClassName="min-w-fit"
 				contentClassName="max-w-[90vw]"
 				initial={withoutAllMembers ? 'spartan' : 'all-members'}
 				items={
@@ -140,7 +141,7 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 								},
 						  ]
 				}
-				onChange={(id) => setActiveTab(id)}
+				onChange={(id) => setActiveTab(String(id))}
 			/>
 
 			<div className="hidden lg:flex absolute right-0">
