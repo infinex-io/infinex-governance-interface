@@ -30,7 +30,7 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 		);
 
 	return (
-		<div className="w-full max-w-[1080px]">
+		<div className="w-full container">
 			<Swiper
 				className="w-full"
 				breakpoints={{
@@ -43,13 +43,17 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 						slidesPerView: 2,
 						spaceBetween: 15,
 					},
-					790: {
+					768: {
 						slidesPerView: 3,
 						spaceBetween: 20,
 					},
-					1030: {
+					1024: {
 						slidesPerView: 4,
 						spaceBetween: 10,
+					},
+					1280: {
+						slidesPerView: 5,
+						spaceBetween: 5,
 					},
 				}}
 				slides={members.map((member, index) => (
