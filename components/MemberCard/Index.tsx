@@ -44,7 +44,7 @@ export default function MemberCard({
 				className={clsx(
 					'p-0.5 bg-purple rounded-lg',
 					{
-						'xs:w-[210px] max-w-full h-[283px]': !listView,
+						'xs:w-[210px] w-full max-w-full h-[283px]': !listView,
 						'w-full h-[88px]': listView,
 					},
 					className
@@ -163,7 +163,7 @@ export default function MemberCard({
 			className={clsx('p-[1px] rounded-lg', className, {
 				'bg-orange': isOwnCard,
 				'bg-purple': !isOwnCard,
-				'xs:w-[210px] max-w-full h-[285px]': !listView,
+				'xs:w-[210px] w-full max-w-full h-[285px]': !listView,
 				'w-full': listView,
 			})}
 		>
