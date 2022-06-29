@@ -64,8 +64,9 @@ const StyledLabel = styled.label`
 const StyledLabelText = styled.span<{ disabled?: boolean }>`
 	display: inline-block;
 	cursor: pointer;
-	font-family: 'Inter Bold';
+	font-family: 'Inter';
 	font-size: 0.9rem;
+	font-weight: 700;
 	line-height: 1.65rem;
 	color: ${(attrs) => (attrs.disabled ? colors.disabled : colors.white)};
 `;

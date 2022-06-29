@@ -47,7 +47,6 @@ export { default as DiscordIcon } from './components/Icons/DiscordIcon';
 
 // Components
 export { default as Button } from './components/Button';
-export { default as ExternalLink } from './components/ExternalLink';
 export { default as IconButton } from './components/IconButton';
 export { default as Tabs } from './components/Tabs';
 export { default as LinkButton } from './components/LinkButton';
@@ -56,7 +55,6 @@ export { default as Checkbox } from './components/Checkbox';
 export { default as Card } from './components/Card';
 export { default as Carousel } from './components/Carousel';
 export { default as TextInput } from './components/TextInput';
-export { default as Accordion } from './components/Accordion';
 export { default as Spotlight } from './components/Spotlight';
 export { default as SpotlightButton } from './components/SpotlightButton';
 export { default as Flex } from './components/Flex';

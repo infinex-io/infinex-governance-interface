@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListIcon, Tabs } from 'components/old-ui';
+import { Tabs } from 'components/old-ui';
 import { TabIcon } from 'components/TabIcon';
 import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 import { CouncilCarousel } from './CouncilCarousel';
-import TileIcon from 'components/old-ui/components/Icons/TileIcon';
-import { IconButton } from '@synthetixio/ui';
+import { Icon, IconButton } from '@synthetixio/ui';
 
 interface CouncilsCarouselProps {
 	startIndex?: number;
@@ -35,10 +34,10 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 		return null;
 	}
 
-	const spartan = members.data.spartan.map(address => ({ address, council: 'spartan' }));
-	const grants = members.data.grants.map(address => ({ address, council: 'grants' }));
-	const ambassador = members.data.ambassador.map(address => ({ address, council: 'ambassador' }));
-	const treasury = members.data.treasury.map(address => ({ address, council: 'treasury' }));
+	const spartan = members.data.spartan.map((address) => ({ address, council: 'spartan' }));
+	const grants = members.data.grants.map((address) => ({ address, council: 'grants' }));
+	const ambassador = members.data.ambassador.map((address) => ({ address, council: 'ambassador' }));
+	const treasury = members.data.treasury.map((address) => ({ address, council: 'treasury' }));
 
 	const allMembers = [
 		spartan.concat(grants, ambassador, treasury),
@@ -50,11 +49,11 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 
 	return (
 		<div className="flex flex-col items-center container">
-			<div className="w-full flex items-center relative">
+			<div className="w-full flex items-center relative mb-4">
 				<Tabs
 					titles={councilTabs}
 					size="medium"
-					clicked={index => typeof index === 'number' && setActiveIndex(index)}
+					clicked={(index) => typeof index === 'number' && setActiveIndex(index)}
 					className="mb-6 overflow-x-auto height-[150px] no-scrollbar"
 					activeIndex={activeIndex}
 					icons={[
@@ -77,7 +76,7 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 				/>
 				<div className="items-center hidden lg:flex">
 					<IconButton isActive={listView} onClick={() => setListView(true)} size="sm">
-						<ListIcon />
+						<Icon name="List" className="text-primary" />
 					</IconButton>
 					<IconButton
 						className="ml-1.5"
@@ -85,15 +84,11 @@ export default function CouncilsCarousel({ startIndex }: CouncilsCarouselProps) 
 						onClick={() => setListView(false)}
 						size="sm"
 					>
-						<TileIcon />
+						<Icon name="Grid" className="text-primary" />
 					</IconButton>
 				</div>
 			</div>
-			<CouncilCarousel
-				listView={listView}
-				members={allMembers[activeIndex] || []}
-				startIndex={startIndex}
-			/>
+			<CouncilCarousel listView={listView} members={allMembers[activeIndex] || []} />
 		</div>
 	);
 }

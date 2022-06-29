@@ -1,5 +1,6 @@
+import { Icon } from '@synthetixio/ui';
 import MemberCard from 'components/MemberCard/Index';
-import { Carousel } from '@synthetixio/ui';
+import { Swiper } from 'components/Swiper';
 
 interface MemberItem {
 	address: string;
@@ -8,11 +9,10 @@ interface MemberItem {
 
 interface Props {
 	members: MemberItem[];
-	startIndex?: number;
 	listView: boolean;
 }
 
-export const CouncilCarousel = ({ members, startIndex, listView }: Props) => {
+export const CouncilCarousel = ({ members, listView }: Props) => {
 	if (listView)
 		return (
 			<div className="container w-full flex flex-col">
@@ -28,49 +28,44 @@ export const CouncilCarousel = ({ members, startIndex, listView }: Props) => {
 				))}
 			</div>
 		);
-	return members.length > 4 ? (
-		<>
-			<div className="max-w-[912px] lg:block hidden">
-				<Carousel
-					startPosition={startIndex || 1}
-					widthOfItems={300}
-					carouselItems={members.map((member, index) => (
-						<MemberCard
-							walletAddress={member.address}
-							key={member.address.concat(String(index))}
-							state="ADMINISTRATION"
-							className="m-2 max-w-[218px]"
-							council={member.council}
-						/>
-					))}
-					arrowsPosition="outside"
-					withDots
-					dotsPosition="outside"
-				/>
-			</div>
-			<div className="w-full flex overflow-x-auto lg:hidden">
-				{members?.map((member, index) => (
+
+	return (
+		<div className="w-full container">
+			<Swiper
+				className="w-full"
+				breakpoints={{
+					// when window width is >= 320px
+					320: {
+						slidesPerView: 1.2,
+						spaceBetween: 15,
+					},
+					580: {
+						slidesPerView: 2,
+						spaceBetween: 15,
+					},
+					768: {
+						slidesPerView: 3,
+						spaceBetween: 20,
+					},
+					1024: {
+						slidesPerView: 4,
+						spaceBetween: 10,
+					},
+					1280: {
+						slidesPerView: 5,
+						spaceBetween: 5,
+					},
+				}}
+				slides={members.map((member, index) => (
 					<MemberCard
 						walletAddress={member.address}
 						key={member.address.concat(String(index))}
 						state="ADMINISTRATION"
-						className="m-2 max-w-[218px]"
+						className="m-2"
 						council={member.council}
 					/>
 				))}
-			</div>
-		</>
-	) : (
-		<div className="w-full flex overflow-x-auto justify-center">
-			{members?.map((member, index) => (
-				<MemberCard
-					walletAddress={member.address}
-					key={member.address.concat(String(index))}
-					state="ADMINISTRATION"
-					className="m-2 max-w-[218px]"
-					council={member.council}
-				/>
-			))}
+			/>
 		</div>
 	);
 };

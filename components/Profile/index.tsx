@@ -1,4 +1,3 @@
-import { EditIcon, PlusIcon, ThreeDotsKebabIcon } from 'components/old-ui';
 import Avatar from 'components/Avatar';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import { useRouter } from 'next/router';
@@ -7,7 +6,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Dropdown, ExternalLink, Badge, Card, IconButton } from '@synthetixio/ui';
+import { Dialog, Button, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
@@ -74,7 +73,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								<Dropdown
 									triggerElement={
 										<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
-											<ThreeDotsKebabIcon />
+											<Icon className="text-xl" name="Vertical" />
 										</div>
 									}
 									contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
@@ -102,7 +101,12 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									</>
 								</Dropdown>
 							</div>
-							<Dialog wrapperClass="max-w-[700px]" onClose={() => setIsOpen(false)} open={isOpen}>
+							<Dialog
+								className="overflow-auto"
+								wrapperClass="max-w-[700px]"
+								onClose={() => setIsOpen(false)}
+								open={isOpen}
+							>
 								<ProfileForm userProfile={userDetailsQuery.data} />
 							</Dialog>
 						</div>
@@ -142,7 +146,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
 												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-													<PlusIcon active />
+													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
 										</div>
@@ -155,7 +159,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
 												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-													<PlusIcon active />
+													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
 										</div>
@@ -168,7 +172,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
 												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-													<PlusIcon active />
+													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
 										</div>
@@ -204,7 +208,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									onClick={() => setIsOpen(true)}
 									size="sm"
 								>
-									<EditIcon />
+									<Icon name="Edit" />
 								</IconButton>
 							)}
 

@@ -34,13 +34,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 	return (
 		<div className={clsx('bg-dark-blue border border-gray-800 w-full p-3 rounded-lg', className)}>
 			<div className="flex items-center flex-wrap gap-4">
-				<Avatar
-					width={69}
-					height={69}
-					url={pfpThumbnailUrl}
-					walletAddress={walletAddress}
-					className="md:block hidden mx-2"
-				/>
+				<Avatar width={69} height={69} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 
 				{discord && (
 					<div className="flex flex-col m-2">
