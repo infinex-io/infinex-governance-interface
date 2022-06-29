@@ -41,7 +41,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 
 	if (!councilInfo)
 		return (
-			<div className="p-1 bg-purple w-[248px] h-[347px] rounded">
+			<div className="p-0.5 bg-purple w-[248px] h-[347px] rounded">
 				<div className="h-full darker-60 animate-pulse"></div>
 			</div>
 		);
@@ -49,7 +49,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { cta, button, variant, color, headlineLeft, headlineRight, secondButton } = councilInfo;
 
 	return (
-		<div className="bg-purple p-1 rounded">
+		<div className="p-0.5 bg-purple rounded">
 			<div className="h-full p-4 rounded gap-1 flex flex-col justify-around align-center darker-60">
 				<Image alt={council} src={image} width={50} height={70} />
 				<h4 className="tg-title-h4 text-center mt-2">{t(`landing-page.cards.${council}`)}</h4>

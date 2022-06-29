@@ -4,6 +4,7 @@ import VoteBanner from 'components/Banners/VoteBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
+import { VoteResultBanner } from 'components/VoteResultBanner';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
@@ -58,29 +59,34 @@ export default function VoteCouncil() {
 							<Loader />
 						) : nomineesQuery.data?.length ? (
 							<>
-								<div className="flex flex-wrap justify-center p-3 max-w-[1000px] w-full mx-auto">
-									{sortedNominees?.slice(startIndex, endIndex).map((walletAddress, index) => (
-										<MemberCard
-											className="m-2"
-											key={walletAddress.concat(String(index).concat('voting'))}
-											walletAddress={walletAddress}
-											council={activeCouncil.name}
-											deployedModule={activeCouncil.module}
-											state="VOTING"
-											votedFor={
-												voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
-											}
+								<div className="px-3 inline-flex mx-auto flex-col align-center justify-center">
+									<div className="w-full px-2">
+										<VoteResultBanner />
+									</div>
+									<div className="flex flex-wrap justify-center py-2 max-w-[905px] mx-auto">
+										{sortedNominees?.slice(startIndex, endIndex).map((walletAddress, index) => (
+											<MemberCard
+												className="m-2"
+												key={walletAddress.concat(String(index).concat('voting'))}
+												walletAddress={walletAddress}
+												council={activeCouncil.name}
+												deployedModule={activeCouncil.module}
+												state="VOTING"
+												votedFor={
+													voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
+												}
+											/>
+										))}
+									</div>
+									<div className="w-full">
+										<Pagination
+											className="mx-auto py-10"
+											pageIndex={activePage}
+											gotoPage={setActivePage}
+											length={nomineesQuery.data.length}
+											pageSize={PAGE_SIZE}
 										/>
-									))}
-								</div>
-								<div className="w-full">
-									<Pagination
-										className="mx-auto py-10"
-										pageIndex={activePage}
-										gotoPage={setActivePage}
-										length={nomineesQuery.data.length}
-										pageSize={PAGE_SIZE}
-									/>
+									</div>
 								</div>
 							</>
 						) : (
