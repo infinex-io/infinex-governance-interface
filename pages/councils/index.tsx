@@ -43,8 +43,8 @@ const Councils: NextPage = () => {
 									</TabIcon>
 								</div>
 							),
-							content: members.isLoading ? (
-								<Loader className="mt-8" />
+							content: true ? (
+								<Loader className="mt-8 mx-auto w-fit" />
 							) : (
 								<>
 									<div className="p-6 border-[1px] border-gray-500 rounded max-w-3xl mx-auto">
