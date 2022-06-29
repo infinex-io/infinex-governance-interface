@@ -52,7 +52,7 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 						spaceBetween: 10,
 					},
 				}}
-				slides={[...members, ...members].map((member, index) => (
+				slides={members.map((member, index) => (
 					<MemberCard
 						walletAddress={member.address}
 						key={member.address.concat(String(index))}
