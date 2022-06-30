@@ -4,9 +4,11 @@ import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
+import { DeployedModules } from 'containers/Modules';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,8 +25,28 @@ export default function CouncilNominees() {
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(data?.address || '');
+	const isAlreadyNominatedForSpartan = useIsNominated(
+		DeployedModules.SPARTAN_COUNCIL,
+		data?.address || ''
+	);
+	const isAlreadyNominatedForGrants = useIsNominated(
+		DeployedModules.GRANTS_COUNCIL,
+		data?.address || ''
+	);
+	const isAlreadyNominatedForAmbassador = useIsNominated(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		data?.address || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		data?.address || ''
+	);
 
+	const isAlreadyNominated =
+		isAlreadyNominatedForSpartan.data ||
+		isAlreadyNominatedForGrants.data ||
+		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTreasury.data;
 	const startIndex = activePage * PAGE_SIZE;
 	const endIndex =
 		nomineesQuery.data?.length && startIndex + PAGE_SIZE > nomineesQuery.data?.length
@@ -39,9 +61,7 @@ export default function CouncilNominees() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{!isNominatedQuery.data?.length && (
-					<NominateSelfBanner deployedModule={activeCouncil.module} />
-				)}
+				{!isAlreadyNominated && <NominateSelfBanner deployedModule={activeCouncil.module} />}
 				<div className="container">
 					<div className="w-full relative p-10">
 						<BackButton />

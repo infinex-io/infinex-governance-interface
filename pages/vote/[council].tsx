@@ -5,9 +5,10 @@ import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
 import { VoteResultBanner } from 'components/VoteResultBanner';
+import { COUNCIL_SLUGS } from 'constants/config';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { useEffect, useState } from 'react';
@@ -35,7 +36,12 @@ export default function VoteCouncil() {
 			: startIndex + PAGE_SIZE;
 
 	useEffect(() => {
-		if (periodData?.currentPeriod !== 'VOTING') push('/');
+		if (
+			(periodData as CurrentPeriodsWithCouncils[]).filter(
+				(period, index) => period[COUNCIL_SLUGS[index]] !== 'VOTING'
+			)
+		)
+			push('/');
 	}, [periodData, push]);
 	const sortedNominees =
 		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));

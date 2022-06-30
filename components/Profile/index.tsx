@@ -14,9 +14,11 @@ import clsx from 'clsx';
 import { compareAddress, urlIsCorrect } from 'utils/helpers';
 import { useAccount } from 'wagmi';
 import Image from 'next/image';
-import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
 import { useModalContext } from 'containers/Modal';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import { DeployedModules } from 'containers/Modules';
+import useCurrentPeriod, { CurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -25,9 +27,43 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const { setContent, setIsOpen: setModalOpen } = useModalContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(walletAddress);
 	const isOwnCard = compareAddress(walletAddress, data?.address);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
+	// cleanup @MF
+	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
+	const grants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);
+	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
+	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
+	const spartanPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
+	const grantsPeriod = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
+	const ambassadorPeriod = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
+	const treasuryPeriod = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const isNominatedFor = [
+		{
+			nominated: spartan.data,
+			period: (spartanPeriod.data as CurrentPeriod)?.currentPeriod,
+			council: 'Spartan',
+			module: DeployedModules.SPARTAN_COUNCIL,
+		},
+		{
+			nominated: grants.data,
+			period: (grantsPeriod.data as CurrentPeriod)?.currentPeriod,
+			council: 'Grants',
+			module: DeployedModules.GRANTS_COUNCIL,
+		},
+		{
+			nominated: ambassador.data,
+			period: (ambassadorPeriod.data as CurrentPeriod)?.currentPeriod,
+			council: 'Ambassador',
+			module: DeployedModules.AMBASSADOR_COUNCIL,
+		},
+		{
+			nominated: treasury.data,
+			period: (treasuryPeriod.data as CurrentPeriod)?.currentPeriod,
+			council: 'Treasury',
+			module: DeployedModules.TREASURY_COUNCIL,
+		},
+	].filter((v) => v.nominated && v.period === 'NOMINATION');
 
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data) {
 		const {
@@ -112,7 +148,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 						</div>
 						<p className="tg-body py-8 text-center max-w-[1000px]">{about}</p>
 					</div>
-					{isOwnCard && !!isNominatedQuery.data?.length && (
+					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
 							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
 								<div className="flex flex-col">
@@ -181,11 +217,11 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											size="md"
 											className="max-w-[180px] m-2"
 											onClick={() => {
-												if (isNominatedQuery.data?.length) {
+												if (isNominatedFor?.length) {
 													setContent(
 														<WithdrawNominationModal
-															council={isNominatedQuery.data[0].council}
-															deployedModule={isNominatedQuery.data[0].module}
+															council={isNominatedFor[0].council}
+															deployedModule={isNominatedFor[0].module}
 														/>
 													);
 													setModalOpen(true);
@@ -220,9 +256,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								twitter={twitter}
 								pitch={delegationPitch}
 								className="max-w-[1200px]"
-								deployedModule={
-									!!isNominatedQuery.data?.length ? isNominatedQuery.data[0].module : undefined
-								}
+								deployedModule={!!isNominatedFor.length ? isNominatedFor[0].module : undefined}
 							/>
 						</div>
 					</div>
