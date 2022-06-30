@@ -9,6 +9,7 @@ import {
 	BallotVotes,
 	usePreEvaluationVotingPowerQuery,
 } from 'queries/voting/usePreEvaluationVotingPowerQuery';
+import { useVotingResult } from 'queries/voting/useVotingResult';
 import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
 import { PreEvaluationSectionRowMobile } from './PreEvaluationSectionRowMobile';
 
@@ -18,6 +19,8 @@ export function PreEvaluationSection() {
 	const grantsEpochIndex = useEpochIndexQuery(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorEpochIndex = useEpochIndexQuery(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryEpochIndex = useEpochIndexQuery(DeployedModules.TREASURY_COUNCIL);
+
+	useVotingResult(DeployedModules.SPARTAN_COUNCIL, spartanEpochIndex.data?.toString() || null);
 
 	const preEvalDic = [
 		{
