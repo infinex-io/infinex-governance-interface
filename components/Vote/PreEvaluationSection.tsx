@@ -5,10 +5,7 @@ import useIsMobile from 'hooks/useIsMobile';
 import { t } from 'i18next';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useNextEpochSeatCountQuery from 'queries/epochs/useNextEpochSeatCountQuery';
-import {
-	BallotVotes,
-	usePreEvaluationVotingPowerQuery,
-} from 'queries/voting/usePreEvaluationVotingPowerQuery';
+import { useVotingResult, VoteResult } from 'queries/voting/useVotingResult';
 import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
 import { PreEvaluationSectionRowMobile } from './PreEvaluationSectionRowMobile';
 
@@ -22,28 +19,28 @@ export function PreEvaluationSection() {
 	const preEvalDic = [
 		{
 			seats: useNextEpochSeatCountQuery(DeployedModules.SPARTAN_COUNCIL).data,
-			council: usePreEvaluationVotingPowerQuery(
+			council: useVotingResult(
 				DeployedModules.SPARTAN_COUNCIL,
 				spartanEpochIndex.data?.toString() || '0'
 			).data,
 		},
 		{
 			seats: useNextEpochSeatCountQuery(DeployedModules.GRANTS_COUNCIL).data,
-			council: usePreEvaluationVotingPowerQuery(
+			council: useVotingResult(
 				DeployedModules.GRANTS_COUNCIL,
 				grantsEpochIndex.data?.toString() || '0'
 			).data,
 		},
 		{
 			seats: useNextEpochSeatCountQuery(DeployedModules.AMBASSADOR_COUNCIL).data,
-			council: usePreEvaluationVotingPowerQuery(
+			council: useVotingResult(
 				DeployedModules.AMBASSADOR_COUNCIL,
 				ambassadorEpochIndex.data?.toString() || '0'
 			).data,
 		},
 		{
 			seats: useNextEpochSeatCountQuery(DeployedModules.TREASURY_COUNCIL).data,
-			council: usePreEvaluationVotingPowerQuery(
+			council: useVotingResult(
 				DeployedModules.TREASURY_COUNCIL,
 				treasuryEpochIndex.data?.toString() || '0'
 			).data,
@@ -95,18 +92,18 @@ const PreEvalResults = ({
 	isMobile: boolean;
 	preEvalDic: {
 		seats: number | undefined;
-		council: BallotVotes[] | undefined;
+		council: VoteResult[] | undefined;
 	};
 }) => {
 	const totalVotingPowers = preEvalDic.council?.reduce(
-		(cur, prev) => cur.add(prev.totalVotingPowerReceived),
+		(cur, prev) => cur.add(prev.totalVotePower),
 		BigNumber.from(0)
 	);
 	if (!isMobile) {
 		return (
 			<div className="border-gray-700 border mt-6 mb-20 rounded-xl">
 				<table className="bg-dark-blue w-[1000px] rounded-xl :table">
-					<tr className="border-b-2 border-b-gray-700 border-b-solid">
+					<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
 						<th className="text-left p-6 tg-caption text-gray-500">
 							{t('vote.pre-eval.table.name')}
 						</th>
@@ -121,17 +118,17 @@ const PreEvalResults = ({
 					</tr>
 					{preEvalDic.council
 						?.sort((a, b) => {
-							if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
-							if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
+							if (a.totalVotePower.gt(b.totalVotePower)) return -1;
+							if (a.totalVotePower.lt(b.totalVotePower)) return 1;
 							return 0;
 						})
-						.map((prevEval, index) => (
+						.map((voteResult, index) => (
 							<PreEvaluationSectionRow
-								key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
+								key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
 								isActive={index < (preEvalDic.seats || 0)}
 								totalVotingPowers={totalVotingPowers}
-								prevEval={prevEval}
-								walletAddress={prevEval.walletAddress}
+								voteResult={voteResult}
+								walletAddress={voteResult.walletAddress}
 							/>
 						))}
 				</table>
@@ -142,17 +139,17 @@ const PreEvalResults = ({
 		<div className="flex flex-col w-full md:hidden p-2 mb-20">
 			{preEvalDic.council
 				?.sort((a, b) => {
-					if (a.totalVotingPowerReceived.gt(b.totalVotingPowerReceived)) return -1;
-					if (a.totalVotingPowerReceived.lt(b.totalVotingPowerReceived)) return 1;
+					if (a.totalVotePower.gt(b.totalVotePower)) return -1;
+					if (a.totalVotePower.lt(b.totalVotePower)) return 1;
 					return 0;
 				})
-				.map((prevEval, index) => (
+				.map((voteResult, index) => (
 					<PreEvaluationSectionRowMobile
-						key={prevEval.walletAddress.concat(String(prevEval.voters.length))}
+						key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
 						isActive={index < (preEvalDic.seats || 0)}
 						totalVotingPowers={totalVotingPowers}
-						prevEval={prevEval}
-						walletAddress={prevEval.walletAddress}
+						voteResult={voteResult}
+						walletAddress={voteResult.walletAddress}
 					/>
 				))}
 		</div>

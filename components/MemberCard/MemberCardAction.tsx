@@ -18,7 +18,7 @@ interface Props {
 	deployedModule?: DeployedModules;
 	isOwnCard: boolean;
 	member: GetUserDetails;
-	votedFor?: GetUserDetails;
+	votedFor?: string;
 	walletAddress: string;
 	council?: string;
 }
@@ -35,7 +35,7 @@ export const MemberCardAction: React.FC<Props> = ({
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
-	const votedForAlready = compareAddress(votedFor?.address, walletAddress);
+	const votedForAlready = compareAddress(votedFor, walletAddress);
 
 	return (
 		<>
