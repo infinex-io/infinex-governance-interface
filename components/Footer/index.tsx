@@ -1,9 +1,10 @@
-import { Card, Icon } from '@synthetixio/ui';
-import { DiscordIcon, GitHubIcon, TwitterIcon, SNXIcon } from 'components/old-ui';
+import { Card } from '@synthetixio/ui';
+import DiscordIcon from 'components/Icons/DiscordIcon';
+import SNXIcon from 'components/Icons/SNXIcon';
+import TwitterIcon from 'components/Icons/TwitterIcon';
+import GitHubIcon from 'components/Icons/GitHubIcon';
 import Link from 'next/link';
-
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 
 const LINKS = [
 	{
@@ -29,7 +30,7 @@ export default function Footer() {
 					</Link>
 				))}
 			</div>
-			<StyledSNXIcon />
+			<SNXIcon className="w-[42px] h-[30px]" />
 			<span className="tg-caption text-white">{t('footer.copyright')}</span>
 			<Card className="flex gap-2" wrapperClassName="rounded-full">
 				<Link href="https://discord.com/invite/AEdUHzt" passHref>
@@ -51,8 +52,3 @@ export default function Footer() {
 		</footer>
 	);
 }
-
-const StyledSNXIcon = styled(SNXIcon)`
-	width: 42px;
-	height: 30px;
-`;

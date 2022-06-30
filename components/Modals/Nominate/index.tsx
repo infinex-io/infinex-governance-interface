@@ -1,6 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
-import { Checkbox } from 'components/old-ui';
+import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';

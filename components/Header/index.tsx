@@ -1,13 +1,13 @@
-import { SNXIcon, SpotlightButton } from 'components/old-ui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
-import useAllCurrentPeriods from 'queries/epochs/useAllCurrentPeriodsQuery';
 import { COUNCIL_SLUGS } from 'constants/config';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { Button } from '@synthetixio/ui';
+import SNXIcon from 'components/Icons/SNXIcon';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -22,9 +22,11 @@ export default function Header() {
 	const { data } = useAccount();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 	const [routes, setRoutes] = useState(routesDic);
-	const allPeriods = useAllCurrentPeriods();
+	const allPeriods = useCurrentPeriod();
 	const oneCouncilIsInVotingPeriod = !!COUNCIL_SLUGS.find((council, index) =>
-		allPeriods.data?.length ? allPeriods.data[index][council] === 'VOTING' : false
+		Array.isArray(allPeriods.data) && allPeriods.data?.length
+			? allPeriods.data[index][council] === 'VOTING'
+			: false
 	);
 
 	useEffect(() => {

@@ -1,7 +1,6 @@
 import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import { useTranslation } from 'react-i18next';
-import { Checkbox } from 'components/old-ui';
 import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
@@ -10,7 +9,7 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
 import { useModalContext } from 'containers/Modal';
 import { useQueryClient } from 'react-query';
 import { useAccount } from 'wagmi';

@@ -135,6 +135,9 @@ module.exports = {
 				100: '100',
 				999: '999',
 			},
+			backgroundImage: {
+				'gradient-primary': 'linear-gradient(73.6deg, #85ffc4 2.11%, #5cc6ff 90.45%);',
+			},
 		},
 	},
 	plugins: [],
