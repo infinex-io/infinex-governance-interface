@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
@@ -40,7 +39,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 
 	if (!councilInfo)
 		return (
-			<div className="p-0.5 bg-purple xs:w-[248px] w-full max-w-full h-[347px] rounded">
+			<div className="min-w-[90vw] xs:min-w-fit p-0.5 bg-purple xs:w-[248px] w-full max-w-full h-[347px] rounded">
 				<div className="h-full darker-60 animate-pulse"></div>
 			</div>
 		);
@@ -69,7 +68,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						expiryTimestamp={votingDates.votingPeriodEndDate}
 					/>
 				)}
-				<StyledSpacer className="mb-1" />
+				<span className="ui-gradient-purple h-[1px] w-full mb-1"></span>
 				<div className="flex justify-between">
 					<span className="tg-caption text-gray-500">{t(headlineLeft)}</span>
 					<span className="tg-caption text-gray-500">{t(headlineRight)}</span>
@@ -110,9 +109,3 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 		</div>
 	);
 };
-
-const StyledSpacer = styled.span`
-	height: 1px;
-	width: 100%;
-	background: linear-gradient(73.6deg, #8e2de2 2.11%, #4b01e0 90.45%);
-`;

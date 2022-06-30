@@ -31,7 +31,7 @@ const Councils: NextPage = () => {
 					</div>
 					<Tabs
 						initial={activeCouncil}
-						className="mb-2 justify-start lg:mx-auto"
+						className="mb-2 justify-start lg:mx-auto no-scrollbar"
 						tabClassName="min-w-fit"
 						items={COUNCILS_DICTIONARY.map((council) => ({
 							id: council.slug,
@@ -47,12 +47,12 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8 mx-auto w-fit" />
 							) : (
 								<>
-									<div className="p-6 border-[1px] border-gray-500 rounded max-w-3xl mx-auto">
+									<div className="mt-4 mb-3 p-6 border border-gray-500 rounded max-w-3xl mx-auto">
 										<span className="tg-caption">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
 										<div className="flex justify-center flex-wrap mt-4 md:flex-nowrap">
-											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
+											<div className="border border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
 												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.election`)}
 												</span>
@@ -63,7 +63,7 @@ const Councils: NextPage = () => {
 													})}
 												</span>
 											</div>
-											<div className="border-[1px] border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
+											<div className="border border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
 												<span className="tg-caption">
 													{t(`councils.tabs.explanations.${council.abbreviation}.stipends`)}
 												</span>
