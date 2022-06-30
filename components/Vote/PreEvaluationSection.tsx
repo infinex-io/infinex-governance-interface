@@ -55,7 +55,7 @@ export function PreEvaluationSection() {
 			</span>
 			<Tabs
 				initial="spartan"
-				className="overflow-x-auto no-scrollbar"
+				className="overflow-x-auto no-scrollbar xs:w-auto w-full"
 				items={[
 					{
 						id: 'spartan',
