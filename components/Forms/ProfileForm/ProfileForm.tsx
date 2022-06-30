@@ -17,7 +17,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 			<h4 className="tg-title-h4 my-2 text-center">{t('modals.editProfile.headline')}</h4>
 			<h4 className="tg-body mb-4 text-center">{t('modals.editProfile.subheadline')}</h4>
 
-			<div className="flex items-center gap-2">
+			<div className="flex flex-col md:flex-row items-center gap-2">
 				<TextField
 					variant="black"
 					{...formik.getFieldProps('username')}
@@ -50,7 +50,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				label={t('modals.editProfile.inputs.headline.delegationPitch')}
 				placeholder={t('modals.editProfile.inputs.placeholder.delegationPitch')}
 			/>
-			<div className="flex items-center gap-2">
+			<div className="flex items-center flex-col md:flex-row gap-2">
 				<TextField
 					variant="black"
 					{...formik.getFieldProps('twitter')}

@@ -36,8 +36,9 @@ export function PreEvaluationSectionRow({
 					'border-l-yellow': isActive && prevEval.council === DeployedModules.TREASURY_COUNCIL,
 				})}
 			>
-				{userDetailsQuery?.data?.username || truncateAddress(userDetailsQuery?.data?.address || '')}
-				{isActive && <CouncilBadge className="ml-4" council={prevEval.council} />}
+				{prevEval.ballotId}
+				{/* {userDetailsQuery?.data?.username || truncateAddress(userDetailsQuery?.data?.address || '')}
+				{isActive && <CouncilBadge className="ml-4" council={prevEval.council} />} */}
 			</th>
 			<th className="p-6">{prevEval.voters.length}</th>
 			<th className="p-6">

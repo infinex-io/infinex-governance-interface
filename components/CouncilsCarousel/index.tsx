@@ -32,10 +32,9 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 		: [spartan.concat(grants, ambassador, treasury), spartan, grants, ambassador, treasury];
 
 	return (
-		<div className="flex flex-col container relative">
+		<div className="mt-4 flex flex-col container relative">
 			<Tabs
-				className="mb-2 justify-start lg:mx-auto"
-				tabClassName="min-w-fit"
+				className="mb-4 justify-start lg:mx-auto hide-scrollbar"
 				contentClassName="max-w-[90vw]"
 				initial={withoutAllMembers ? 'spartan' : 'all-members'}
 				items={
