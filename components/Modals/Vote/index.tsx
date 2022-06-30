@@ -38,8 +38,8 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
-				queryClient.invalidateQueries('voteHistory');
-				queryClient.invalidateQueries(['preEvaluationVotingPower', deployedModule]);
+				queryClient.invalidateQueries('voting-result');
+				queryClient.invalidateQueries(['getCurrentVoteStateQuery', data?.address]);
 				queryClient.resetQueries({
 					active: true,
 					stale: true,

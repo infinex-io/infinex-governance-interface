@@ -3,7 +3,6 @@ import { BigNumber, ethers } from 'ethers';
 import client from 'gql/apollo-client';
 import { useQuery } from 'react-query';
 import { gql } from '@apollo/client';
-import { moduleAddresses } from 'containers/Modules/Modules';
 import { hexStringBN } from 'utils/hexString';
 
 export type VoteResult = {
@@ -20,7 +19,7 @@ export const useVotingResult = (moduleInstance: DeployedModules, epochIndex: str
 	return useQuery<VoteResult[]>(
 		['voting-result', moduleInstance, epochIndex],
 		async () => {
-			const contractAddress = moduleAddresses[moduleInstance].toLowerCase();
+			const contractAddress = governanceModules[moduleInstance]?.contract.address;
 			const epoch = String(epochIndex || '0');
 
 			const { data } = await client.query({
