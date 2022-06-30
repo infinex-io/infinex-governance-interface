@@ -56,16 +56,12 @@ export default function VoteSection() {
 		}
 	}, [spartanQuery.data, grantsQuery.data, ambassadorQuery.data, treasuryQuery.data]);
 
-	useEffect(() => {
-		if (voteStatusQuery.data) {
-			let count = 0;
-			for (const council of COUNCIL_SLUGS) {
-				if (voteStatusQuery.data[council as 'spartan' | 'grants' | 'ambassador' | 'treasury'].voted)
-					count += 1;
-			}
-			setProgress(count);
-		}
-	}, [voteStatusQuery.isFetching, voteStatusQuery.data]);
+	const count = [
+		voteStatusQuery.data?.spartan.voted,
+		voteStatusQuery.data?.grants.voted,
+		voteStatusQuery.data?.ambassador.voted,
+		voteStatusQuery.data?.treasury.voted,
+	].filter((voted) => voted).length;
 
 	const hasVotedAll =
 		voteStatusQuery.data?.spartan.voted &&
@@ -91,7 +87,7 @@ export default function VoteSection() {
 								})}
 							</h3>
 							<span className="tg-body text-gray-500">
-								{t(progress === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
+								{t(count === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
 							</span>
 						</div>
 					</div>
