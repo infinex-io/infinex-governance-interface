@@ -19,7 +19,7 @@ interface MemberCardProps {
 	state: keyof typeof EpochPeriods;
 	deployedModule?: DeployedModules;
 	council?: string;
-	votedFor?: GetUserDetails;
+	votedFor?: string;
 	className?: string;
 	listView?: boolean;
 }
