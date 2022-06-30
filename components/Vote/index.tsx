@@ -9,13 +9,11 @@ import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
-import { COUNCIL_SLUGS } from 'constants/config';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
-	const [progress, setProgress] = useState(0);
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
 
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
@@ -82,7 +80,7 @@ export default function VoteSection() {
 						<div className="pb-2 ml-2">
 							<h3 className="md:tg-title-h3 tg-title-h4 pt-4">
 								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
-									progress: progress,
+									progress: count,
 									max: activeCouncilInVoting,
 								})}
 							</h3>
