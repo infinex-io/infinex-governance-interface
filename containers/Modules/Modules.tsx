@@ -16,6 +16,14 @@ export enum DeployedModules {
 	GRANTS_COUNCIL = 'grants council',
 	TREASURY_COUNCIL = 'treasury council',
 }
+
+export const moduleAddresses = {
+	[DeployedModules.SPARTAN_COUNCIL]: spartanCouncil,
+	[DeployedModules.AMBASSADOR_COUNCIL]: ambassadorCouncil,
+	[DeployedModules.GRANTS_COUNCIL]: grantsCouncil,
+	[DeployedModules.TREASURY_COUNCIL]: treasuryCouncil,
+};
+
 type GovernanceModule = Partial<
 	Record<DeployedModules, { address: string; contract: ethers.Contract }>
 >;

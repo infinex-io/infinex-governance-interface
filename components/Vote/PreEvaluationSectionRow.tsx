@@ -5,21 +5,21 @@ import { DeployedModules } from 'containers/Modules';
 import { BigNumber, utils } from 'ethers';
 import Link from 'next/link';
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
-import { BallotVotes } from 'queries/voting/usePreEvaluationVotingPowerQuery';
+import { VoteResult } from 'queries/voting/useVotingResult';
 import { currency } from 'utils/currency';
 import { calcPercentage } from 'utils/helpers';
 import { truncateAddress } from 'utils/truncate-address';
 
 interface PreEvaluationSectionRowProps {
 	walletAddress: string;
-	prevEval: BallotVotes;
+	voteResult: VoteResult;
 	isActive?: boolean;
 	totalVotingPowers: BigNumber | undefined;
 }
 
 export function PreEvaluationSectionRow({
 	walletAddress,
-	prevEval,
+	voteResult,
 	isActive,
 	totalVotingPowers,
 }: PreEvaluationSectionRowProps) {
@@ -30,24 +30,24 @@ export function PreEvaluationSectionRow({
 			<th
 				className={clsx('text-left p-6 flex items-center', {
 					'border-l': isActive,
-					'border-l-primary': isActive && prevEval.council === DeployedModules.SPARTAN_COUNCIL,
-					'border-l-green': isActive && prevEval.council === DeployedModules.GRANTS_COUNCIL,
-					'border-l-orange': isActive && prevEval.council === DeployedModules.AMBASSADOR_COUNCIL,
-					'border-l-yellow': isActive && prevEval.council === DeployedModules.TREASURY_COUNCIL,
+					'border-l-primary': isActive && voteResult.council === DeployedModules.SPARTAN_COUNCIL,
+					'border-l-green': isActive && voteResult.council === DeployedModules.GRANTS_COUNCIL,
+					'border-l-orange': isActive && voteResult.council === DeployedModules.AMBASSADOR_COUNCIL,
+					'border-l-yellow': isActive && voteResult.council === DeployedModules.TREASURY_COUNCIL,
 				})}
 			>
 				{userDetailsQuery?.data?.username || truncateAddress(userDetailsQuery?.data?.address || '')}
-				{isActive && <CouncilBadge className="ml-4" council={prevEval.council} />}
+				{isActive && <CouncilBadge className="ml-4" council={voteResult.council} />}
 			</th>
-			<th className="p-6">{prevEval.voters.length}</th>
+			<th className="p-6">{voteResult.voteCount}</th>
 			<th className="p-6">
-				{totalVotingPowers && calcPercentage(prevEval.totalVotingPowerReceived, totalVotingPowers)}%
+				{totalVotingPowers && calcPercentage(voteResult.totalVotePower, totalVotingPowers)}%
 			</th>
 			<th className="p-6">
 				{currency(
 					utils.formatUnits(
-						prevEval.totalVotingPowerReceived,
-						prevEval.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+						voteResult.totalVotePower,
+						voteResult.council === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
 					)
 				)}
 			</th>
