@@ -80,7 +80,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				</div>
 				{secondButton && (
 					<span
-						className="tg-caption cursor-pointer bg-clip-text text-transparent bg-gradient-primary"
+						className="tg-caption cursor-pointer bg-clip-text text-transparent ui-gradient-primary"
 						onClick={() => push(`/councils/${council}`)}
 					>
 						{t(secondButton)}
