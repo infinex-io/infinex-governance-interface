@@ -12,6 +12,8 @@ import styled from 'styled-components';
 import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
+import { useVotingCount } from 'queries/voting/useVotingCount';
+import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 
 interface CouncilCardProps {
 	council: string;
@@ -23,8 +25,11 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
-	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates, voteHistory } =
+	const epochIndex = useEpochIndexQuery(deployedModule);
+	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
+
+	const voteCount = useVotingCount(deployedModule, epochIndex.data?.toString() || null);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
@@ -73,9 +78,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
-					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
-						{voteHistory?.votes.length || 0}
-					</h4>
+					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">{voteCount}</h4>
 				</div>
 				{secondButton && (
 					<TransparentText
