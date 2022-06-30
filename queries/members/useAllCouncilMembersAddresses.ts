@@ -1,17 +1,10 @@
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { useQuery } from 'react-query';
 
-interface CouncilsAddresses {
-	spartan: string[];
-	grants: string[];
-	ambassador: string[];
-	treasury: string[];
-}
-
 export const useAllCouncilMembersAddresses = () => {
 	const governanceModules = useModulesContext();
 
-	return useQuery<CouncilsAddresses>(
+	return useQuery<Record<string, string[]>>(
 		['council-members'],
 		async () => {
 			const [spartan, grants, ambassador, treasury] = await Promise.all([

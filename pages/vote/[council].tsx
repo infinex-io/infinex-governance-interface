@@ -73,7 +73,8 @@ export default function VoteCouncil() {
 												deployedModule={activeCouncil.module}
 												state="VOTING"
 												votedFor={
-													voteStatusQuery.data && voteStatusQuery.data[activeCouncil.name].candidate
+													voteStatusQuery.data &&
+													voteStatusQuery.data[activeCouncil.name].candidateAddress
 												}
 											/>
 										))}

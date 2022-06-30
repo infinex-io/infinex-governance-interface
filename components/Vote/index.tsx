@@ -7,43 +7,22 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { parseQuery } from 'utils/parse';
 import { useAccount } from 'wagmi';
-import { Badge, Dropdown, Icon, IconButton } from '@synthetixio/ui';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
-import Avatar from 'components/Avatar';
-import { truncateAddress } from 'utils/truncate-address';
-import { COUNCIL_SLUGS, COUNCILS_DICTIONARY } from 'constants/config';
-import { useModalContext } from 'containers/Modal';
-import WithdrawVote from 'components/Modals/WithdrawVote';
-
-interface CouncilState {
-	voted: boolean;
-	candidate: undefined | GetUserDetails;
-}
-
-interface VoteState {
-	spartan: CouncilState;
-	grants: CouncilState;
-	ambassador: CouncilState;
-	treasury: CouncilState;
-}
+import { VoteCard } from './VoteCard';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
 	const [progress, setProgress] = useState(0);
-	const [userVoteHistory, setUserVoteHistory] = useState<VoteState>({
-		spartan: { voted: false, candidate: undefined },
-		grants: { voted: false, candidate: undefined },
-		ambassador: { voted: false, candidate: undefined },
-		treasury: { voted: false, candidate: undefined },
-	});
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
+
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
 	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
 	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+
 	const spartanCouncilInfo =
 		spartanQuery.data?.currentPeriod && parseQuery(spartanQuery.data.currentPeriod);
 	const grantsCouncilInfo =
@@ -58,17 +37,6 @@ export default function VoteSection() {
 	useEffect(() => {
 		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
 	}, [activeCouncilInVoting, push]);
-
-	useEffect(() => {
-		if (voteStatusQuery.data) {
-			setUserVoteHistory(voteStatusQuery.data);
-			let count = 0;
-			for (const council of COUNCIL_SLUGS) {
-				if (voteStatusQuery.data[council as keyof VoteState].voted) count += 1;
-			}
-			setProgress(count);
-		}
-	}, [voteStatusQuery.isFetching, voteStatusQuery.data]);
 
 	useEffect(() => {
 		if (
@@ -89,10 +57,10 @@ export default function VoteSection() {
 	}, [spartanQuery.data, grantsQuery.data, ambassadorQuery.data, treasuryQuery.data]);
 
 	const hasVotedAll =
-		userVoteHistory.spartan.voted &&
-		userVoteHistory.grants.voted &&
-		userVoteHistory.ambassador.voted &&
-		userVoteHistory.treasury.voted;
+		voteStatusQuery.data?.spartan.voted &&
+		voteStatusQuery.data?.grants.voted &&
+		voteStatusQuery.data?.ambassador.voted &&
+		voteStatusQuery.data?.treasury.voted;
 
 	return (
 		<div className="flex flex-col items-center w-full container">
@@ -118,26 +86,26 @@ export default function VoteSection() {
 					</div>
 					<div className="flex justify-between flex-wrap w-full">
 						<VoteCard
-							userDetail={userVoteHistory.spartan.candidate}
-							hasVoted={userVoteHistory.spartan.voted}
+							walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.spartan.voted}
 							periodIsVoting={spartanQuery.data?.currentPeriod === 'VOTING'}
 							council={DeployedModules.SPARTAN_COUNCIL}
 						/>
 						<VoteCard
-							userDetail={userVoteHistory.grants.candidate}
-							hasVoted={userVoteHistory.grants.voted}
+							walletAddress={voteStatusQuery.data?.grants.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.grants.voted}
 							council={DeployedModules.GRANTS_COUNCIL}
 							periodIsVoting={grantsQuery.data?.currentPeriod === 'VOTING'}
 						/>
 						<VoteCard
-							userDetail={userVoteHistory.ambassador.candidate}
-							hasVoted={userVoteHistory.ambassador.voted}
+							walletAddress={voteStatusQuery.data?.ambassador.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.ambassador.voted}
 							council={DeployedModules.AMBASSADOR_COUNCIL}
 							periodIsVoting={ambassadorQuery.data?.currentPeriod === 'VOTING'}
 						/>
 						<VoteCard
-							userDetail={userVoteHistory.treasury.candidate}
-							hasVoted={userVoteHistory.treasury.voted}
+							walletAddress={voteStatusQuery.data?.treasury.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.treasury.voted}
 							council={DeployedModules.TREASURY_COUNCIL}
 							periodIsVoting={treasuryQuery.data?.currentPeriod === 'VOTING'}
 						/>
@@ -181,110 +149,3 @@ export default function VoteSection() {
 		</div>
 	);
 }
-
-const VoteCard = ({
-	userDetail,
-	hasVoted,
-	council,
-	periodIsVoting,
-}: {
-	userDetail?: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl'>;
-	hasVoted: boolean;
-	council: DeployedModules;
-	periodIsVoting: boolean;
-}) => {
-	const { t } = useTranslation();
-	const { setContent, setIsOpen } = useModalContext();
-	const { push } = useRouter();
-	const activeCouncil =
-		COUNCILS_DICTIONARY.find((c) => c.module === council) || COUNCILS_DICTIONARY[0];
-	if (!periodIsVoting)
-		return (
-			<h6 className="tg-title-h6">{t('vote.not-in-voting', { council: activeCouncil.label })}</h6>
-		);
-
-	return hasVoted && userDetail?.address ? (
-		<div className="bg-black md:max-w-[230px] p-2 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
-			<Avatar
-				walletAddress={userDetail.address}
-				url={userDetail.pfpThumbnailUrl}
-				width={33}
-				height={33}
-				scale={4}
-			/>
-			<div className="flex flex-col">
-				<span className="tg-caption-bold text-primary">
-					{t(`vote.councils.${activeCouncil.abbreviation}`)}
-				</span>
-				<span className="tg-content">{userDetail?.ens || truncateAddress(userDetail.address)}</span>
-			</div>
-
-			<Dropdown
-				width="sm"
-				triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-				contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
-				triggerElement={
-					<IconButton rounded size="sm">
-						<Icon className="text-xl" name="Vertical" />
-					</IconButton>
-				}
-				contentAlignment="right"
-				renderFunction={({ handleClose }) => (
-					<div className="flex flex-col">
-						<span
-							className="tg-caption p-2 text-primary cursor-pointer"
-							onClick={() => {
-								handleClose();
-								push('/vote/' + activeCouncil.slug);
-							}}
-						>
-							{t('vote.dropdown.change')}
-						</span>
-						<span
-							className="tg-caption p-2 text-primary bg-black cursor-pointer"
-							onClick={() => {
-								handleClose();
-								push('/profile/' + userDetail.address);
-							}}
-						>
-							{t('vote.dropdown.view')}
-						</span>
-						<span
-							className="tg-caption p-2 text-primary cursor-pointer"
-							onClick={() => {
-								handleClose();
-								setContent(
-									<WithdrawVote
-										council={activeCouncil.label}
-										deployedModule={council}
-										member={userDetail}
-									/>
-								);
-								setIsOpen(true);
-							}}
-						>
-							{t('vote.dropdown.uncast')}
-						</span>
-					</div>
-				)}
-			></Dropdown>
-		</div>
-	) : (
-		<div className="md:max-w-[220px] w-full bg-primary border-2 border-solid rounded border-primary my-2">
-			<div className="darker-60 w-full h-full p-1 flex items-center rounded">
-				<div className="w-[33px] h-[33px] rounded-full border-primary border-2 border-solid bg-black mr-2"></div>
-				<div className="flex flex-col mr-auto">
-					<span className="tg-caption-bold text-white">
-						{t(`vote.councils.${activeCouncil.abbreviation}`)}
-					</span>
-					<Badge variant="blue" className="mt-1 uppercase w-fit">
-						{t('vote.not-voted')}
-					</Badge>
-				</div>
-				<IconButton size="sm" onClick={() => push('/vote/' + activeCouncil.slug)} rounded>
-					<Icon name="Plus" className="text-primary" />
-				</IconButton>
-			</div>
-		</div>
-	);
-};

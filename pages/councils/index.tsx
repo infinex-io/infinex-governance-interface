@@ -1,80 +1,98 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Main from 'components/Main';
-import { useRouter } from 'next/router';
-import { Tabs } from 'components/old-ui';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import MemberCard from 'components/MemberCard/Index';
-import { parseQuery } from 'utils/parse';
 import BackButton from 'components/BackButton';
+import { Tabs } from '@synthetixio/ui';
+import { useRouter } from 'next/router';
+import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
+import { COUNCILS_DICTIONARY } from 'constants/config';
+import { parseQuery } from 'utils/parse';
+import MemberCard from 'components/MemberCard/Index';
 import { Loader } from 'components/Loader/Loader';
 import { TabIcon } from 'components/TabIcon';
-import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
+import { useState } from 'react';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
-	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()));
+	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
 	const members = useAllCouncilMembersAddresses();
-	const councilTabs = [
-		t('landing-page.tabs.sc'),
-		t('landing-page.tabs.gc'),
-		t('landing-page.tabs.ac'),
-		t('landing-page.tabs.tc'),
-	];
-
 	return (
 		<>
 			<Head>
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				<div className="flex flex-col items-center p-3 container">
+				<div className="flex flex-col p-3 container">
 					<div className="w-full relative">
 						<BackButton />
 						<h1 className="tg-title-h1 text-center p-12 ml-auto">{t('councils.headline')}</h1>
 					</div>
 					<Tabs
-						className="overflow-x-auto h-[60px] no-scrollbar"
-						titles={councilTabs}
-						activeIndex={activeCouncil.index}
-						clicked={(index) => {
-							if (typeof index === 'number') setActiveCouncil(parseQuery(index));
-						}}
-						icons={[
-							<TabIcon key="spartan-council-tab" isActive={activeCouncil.index === 0}>
-								{members.data?.spartan?.length}
-							</TabIcon>,
-							<TabIcon key="grants-council-tab" isActive={activeCouncil.index === 1}>
-								{members.data?.grants?.length}
-							</TabIcon>,
-							<TabIcon key="ambassador-council-tab" isActive={activeCouncil.index === 2}>
-								{members.data?.ambassador?.length}
-							</TabIcon>,
-							<TabIcon key="treasury-council-tab" isActive={activeCouncil.index === 3}>
-								{members.data?.treasury?.length}
-							</TabIcon>,
-						]}
+						initial={activeCouncil}
+						className="mb-2 justify-start lg:mx-auto no-scrollbar"
+						tabClassName="min-w-fit"
+						items={COUNCILS_DICTIONARY.map((council) => ({
+							id: council.slug,
+							label: (
+								<div className="flex items-center gap-1">
+									{t(`councils.tabs.${council.abbreviation}`)}
+									<TabIcon isActive={activeCouncil === council.slug}>
+										{members.data && members.data[council.slug].length}
+									</TabIcon>
+								</div>
+							),
+							content: members.isLoading ? (
+								<Loader className="mt-8 mx-auto w-fit" />
+							) : (
+								<>
+									<div className="mt-4 mb-3 p-6 border border-gray-500 rounded max-w-3xl mx-auto">
+										<span className="tg-caption">
+											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
+										</span>
+										<div className="flex justify-center flex-wrap mt-4 md:flex-nowrap">
+											<div className="border border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
+												<span className="tg-caption">
+													{t(`councils.tabs.explanations.${council.abbreviation}.election`)}
+												</span>
+												&nbsp;
+												<span className="tg-caption-bold">
+													{t(`councils.tabs.explanations.${council.abbreviation}.members`, {
+														count: members.data && members.data[council.slug].length,
+													})}
+												</span>
+											</div>
+											<div className="border border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
+												<span className="tg-caption">
+													{t(`councils.tabs.explanations.${council.abbreviation}.stipends`)}
+												</span>
+												&nbsp;
+												<span className="tg-caption-bold">
+													{t(`councils.tabs.explanations.${council.abbreviation}.amount`, {
+														amount: '2000',
+													})}
+												</span>
+											</div>
+										</div>
+									</div>
+									<div className="flex flex-wrap justify-center w-full">
+										{members.data &&
+											members.data[council.slug]?.map((walletAddress) => (
+												<MemberCard
+													className="m-2"
+													key={walletAddress}
+													walletAddress={walletAddress}
+													state="ADMINISTRATION"
+													council={activeCouncil}
+												/>
+											))}
+									</div>
+								</>
+							),
+						}))}
+						onChange={(id) => setActiveCouncil(id as any)}
 					/>
-					{members.data?.spartan &&
-					members.data?.grants &&
-					members.data?.ambassador &&
-					members.data?.treasury ? (
-						<div className="flex flex-wrap justify-center w-full">
-							{members.data[activeCouncil.name]?.map((walletAddress) => (
-								<MemberCard
-									className="m-2"
-									key={walletAddress}
-									walletAddress={walletAddress}
-									state="ADMINISTRATION"
-									council={activeCouncil.name}
-								/>
-							))}
-						</div>
-					) : (
-						<Loader className="mt-8" />
-					)}
 				</div>
 			</Main>
 		</>

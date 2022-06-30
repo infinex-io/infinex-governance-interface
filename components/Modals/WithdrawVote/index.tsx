@@ -45,7 +45,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 					setVisible(false);
 				});
 		}
-	}, [state, setIsOpen, setVisible, push, visible, queryClient]);
+	}, [state, setIsOpen, setVisible, push, visible, queryClient, data?.address]);
 	const handleWithdraw = async () => {
 		setState('signing');
 		setVisible(true);

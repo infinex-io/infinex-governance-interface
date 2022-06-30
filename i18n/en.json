@@ -80,6 +80,46 @@
 			"edit": "Edit Profile",
 			"etherscan": "Etherscan",
 			"withdraw-vote": "Withdraw Vote"
+		},
+		"tabs": {
+			"sc": "Spartan Council",
+			"gc": "Grants Council",
+			"ac": "Ambassador Council",
+			"tc": "Treasury Council",
+			"explanations": {
+				"sc": {
+					"subline": "The Spartan Council (SC) is the central governing body of the Synthetix protocol. The SC votes on overall improvement proposals and parameter changes.",
+					"election": "Spartan Election:",
+					"members": "{{count}} Members",
+					"stipends": "Stipends PM:",
+					"amount": "{{amount}} SNX",
+					"nextElection": "Next Spartan Election:"
+				},
+				"gc": {
+					"subline": "The Grants Council is a value-based Synthetix elected body whose ultimate goal is to fund beneficial and high-quality public goods projects through grants, initiative bounties, or competition prizes.",
+					"election": "Grants Election:",
+					"members": "{{count}} Members",
+					"stipends": "Stipends PM:",
+					"amount": "{{amount}} SNX",
+					"nextElection": "Next Grants Election:"
+				},
+				"ac": {
+					"subline": "The Ambassador Council actively promotes and advocates for the interests of Synthetix in the overall Ethereum (and DeFi) ecosystem.",
+					"election": "Ambassador Election:",
+					"members": "{{count}} Members",
+					"stipends": "Stipends PM:",
+					"amount": "{{amount}} SNX",
+					"nextElection": "Next Ambassador Election:"
+				},
+				"tc": {
+					"subline": "The Treasury Council manages the Synthetix Treasury and provides funding to the other governance bodies, CC stipend payments, and other discretionary incentives.",
+					"election": "Treasury Election:",
+					"members": "{{count}} Members",
+					"stipends": "Stipends PM:",
+					"amount": "{{amount}} SNX",
+					"nextElection": "Next Treasury Election:"
+				}
+			}
 		}
 	},
 	"profiles": {

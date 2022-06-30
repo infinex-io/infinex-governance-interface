@@ -31,7 +31,7 @@ export default function LandingPage() {
 							/>
 						))}
 					</div>
-					<VoteResultBanner />
+					{/* <VoteResultBanner /> */}
 				</div>
 			</div>
 			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.second-headline')}</h1>

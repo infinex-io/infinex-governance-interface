@@ -33,14 +33,8 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	const { push } = useRouter();
 	const queryClient = useQueryClient();
 	const castVoteMutation = useCastMutation(deployedModule);
-	const {
-		setVisible,
-		setContent,
-		state,
-		setTxHash,
-		visible,
-		setState,
-	} = useTransactionModalContext();
+	const { setVisible, setContent, state, setTxHash, visible, setState } =
+		useTransactionModalContext();
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
@@ -57,20 +51,20 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				setIsOpen(false);
 			}, 2000);
 		}
-	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient]);
+	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient, deployedModule]);
 
 	useEffect(() => {
 		if (data?.address && governanceModules[deployedModule]?.contract) {
-			getCrossChainClaim(governanceModules[deployedModule]!.contract, data.address).then(data => {
+			getCrossChainClaim(governanceModules[deployedModule]!.contract, data.address).then((data) => {
 				if (data) {
 					console.log(data.amount);
-					setVotingPower(state => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
+					setVotingPower((state) => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
 				}
 			});
 			governanceModules[deployedModule]?.contract
 				.getDebtShare(data.address)
 				.then((share: BigNumber) => {
-					setVotingPower(state => ({ ...state, l2: new Wei(share) }));
+					setVotingPower((state) => ({ ...state, l2: new Wei(share) }));
 				});
 		}
 	}, [data?.address, governanceModules, deployedModule]);
@@ -118,10 +112,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					<h4 className="pb-4 font-['GT_America_Condensed_Bold'] text-[24px] truncate max-w-[350px] md:max-w-[460px]">
 						{utils.formatUnits(
 							deployedModule === 'treasury council'
-								? votingPower.l1
-										.add(votingPower.l2)
-										.toBN()
-										.toString()
+								? votingPower.l1.add(votingPower.l2).toBN().toString()
 								: bnSqrt(votingPower.l1.add(votingPower.l2).toBN()).toString(),
 							'wei'
 						)}
@@ -166,10 +157,7 @@ function bnSqrt(value: BigNumber) {
 
 	while (z.sub(y).isNegative()) {
 		y = z;
-		z = value
-			.div(z)
-			.add(z)
-			.div(BN_TWO);
+		z = value.div(z).add(z).div(BN_TWO);
 	}
 
 	return y;

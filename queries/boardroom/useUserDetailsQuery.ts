@@ -31,7 +31,7 @@ type UserPitch = {
 };
 
 function useUserDetailsQuery(walletAddress: string) {
-	return useQuery<GetUserDetails>(
+	return useQuery<GetUserDetails | undefined>(
 		['userDetails', walletAddress],
 		async () => {
 			return await getUserDetails(walletAddress);
@@ -45,7 +45,9 @@ function useUserDetailsQuery(walletAddress: string) {
 
 export default useUserDetailsQuery;
 
-export async function getUserDetails(walletAddress: string): Promise<GetUserDetails> {
+export async function getUserDetails(walletAddress: string): Promise<GetUserDetails | undefined> {
+	if (!walletAddress) return;
+
 	const randomNumber = Math.random();
 	let userDetailsResponse = await fetch(GET_USER_DETAILS_API_URL(walletAddress), {
 		method: 'POST',
