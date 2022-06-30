@@ -41,7 +41,9 @@ export const useVotingResult = (moduleInstance: DeployedModules, epochIndex: str
 
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
 
-			const voteResults = data.voteResults || [];
+			const voteResults = (data.voteResults || []).filter(
+				(voteResult: any) => Number(voteResult.voteCount) > 0
+			);
 			const addresses: string[] = await Promise.all(
 				voteResults.map((voteResult: any) =>
 					contract?.getBallotCandidatesInEpoch(voteResult.id, hexStringBN(epoch))
