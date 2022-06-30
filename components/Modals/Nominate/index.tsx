@@ -1,5 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -28,10 +29,7 @@ export default function NominateModal() {
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const isInNominationPeriodSpartan = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const isInNominationPeriodGrants = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const isInNominationPeriodAmbassador = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const isInNominationPeriodTreasury = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const { data: periodData } = useCurrentPeriod();
 
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
@@ -84,6 +82,14 @@ export default function NominateModal() {
 		);
 	};
 
+	const shouldBeDisabled = (council: string) => {
+		if (Array.isArray(periodData)) {
+			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
+			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
+		}
+		return true;
+	};
+
 	const handleNomination = async () => {
 		setState('signing');
 		setVisible(true);
@@ -134,58 +140,16 @@ export default function NominateModal() {
 						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(data!.address!)}</h3>
 					</div>
 					<div className="flex justify-center flex-col md:flex-row gap-4 m-10 max-w-[190px] w-full md:max-w-none">
-						<Checkbox
-							id="spartan-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('spartan');
-							}}
-							label={t('modals.nomination.checkboxes.spartan')}
-							color="lightBlue"
-							checked={activeCheckbox === 'spartan'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
-						<Checkbox
-							id="grants-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('grants');
-							}}
-							label={t('modals.nomination.checkboxes.grants')}
-							color="lightBlue"
-							checked={activeCheckbox === 'grants'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
-						<Checkbox
-							id="ambassador-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('ambassador');
-							}}
-							label={t('modals.nomination.checkboxes.ambassador')}
-							color="lightBlue"
-							checked={activeCheckbox === 'ambassador'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
-						<Checkbox
-							id="treasury-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('treasury');
-							}}
-							label={t('modals.nomination.checkboxes.treasury')}
-							color="lightBlue"
-							checked={activeCheckbox === 'treasury'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
+						{COUNCILS_DICTIONARY.map((council) => (
+							<Checkbox
+								id={`${council.slug}-council-checkbox`}
+								onChange={() => setActiveCheckbox(council.slug)}
+								label={t('modals.nomination.checkboxes'.concat(council.slug))}
+								color="lightBlue"
+								checked={activeCheckbox === council.slug}
+								disabled={shouldBeDisabled(council.slug) || isAlreadyNominated}
+							/>
+						))}
 					</div>
 					<Button
 						className="w-[313px]"

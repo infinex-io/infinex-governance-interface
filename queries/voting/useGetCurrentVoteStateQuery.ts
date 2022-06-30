@@ -3,7 +3,6 @@ import { useQuery } from 'react-query';
 import client from 'gql/apollo-client';
 import { gql } from '@apollo/client';
 import { Contract } from 'ethers';
-import { moduleAddresses } from 'containers/Modules/Modules';
 import { hexStringBN } from 'utils/hexString';
 
 async function getVoteDetails(
@@ -16,14 +15,15 @@ async function getVoteDetails(
 			voted: false,
 			ballotId: '',
 		};
-	const contractAddress = moduleAddresses[moduleInstance];
+	const contractAddress = contract.address.toLowerCase();
+	const parsedVoter = voter.toLowerCase();
 	const epochIndex = String((await contract.getEpochIndex()) || '0');
 
 	const { data } = await client.query({
 		query: gql`
 				query Votes {
 					votes(
-						where: { epochIndex: "${epochIndex}", contract: "${contractAddress.toLowerCase()}", voter: "${voter.toLowerCase()}" }
+						where: { epochIndex: "${epochIndex}", contract: "${contractAddress}", voter: "${parsedVoter}" }
 					) {
 						id
 						voter

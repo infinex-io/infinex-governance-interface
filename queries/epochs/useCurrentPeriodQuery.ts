@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { CouncilsDictionaryType, COUNCILS_DICTIONARY } from 'constants/config';
@@ -10,11 +10,14 @@ export enum EpochPeriods {
 	EVALUATION = 3,
 }
 
-type CurrentPeriod = {
+export type CurrentPeriod = {
 	currentPeriod: keyof typeof EpochPeriods;
 };
 
-type CurrentPeriodsWithCouncils = Record<CouncilsDictionaryType['slug'], keyof typeof EpochPeriods>;
+export type CurrentPeriodsWithCouncils = Record<
+	CouncilsDictionaryType['slug'],
+	keyof typeof EpochPeriods
+>;
 
 function useCurrentPeriod(moduleInstance?: DeployedModules) {
 	const governanceModules = useModulesContext();
