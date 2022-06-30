@@ -1,5 +1,5 @@
 import { Button } from '@synthetixio/ui';
-import { SNXIcon } from 'components/old-ui';
+import SNXIcon from 'components/Icons/SNXIcon';
 import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';

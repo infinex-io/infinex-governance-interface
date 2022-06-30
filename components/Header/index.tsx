@@ -1,4 +1,3 @@
-import { SNXIcon, SpotlightButton } from 'components/old-ui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import { useAccount } from 'wagmi';
 import useAllCurrentPeriods from 'queries/epochs/useAllCurrentPeriodsQuery';
 import { COUNCIL_SLUGS } from 'constants/config';
 import { Button } from '@synthetixio/ui';
+import SNXIcon from 'components/Icons/SNXIcon';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },

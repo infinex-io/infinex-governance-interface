@@ -15,8 +15,6 @@ import '../i18n';
 import { ConnectorContextProvider, useConnectorContext } from 'containers/Connector';
 import { ModulesProvider } from 'containers/Modules';
 import { ModalContextProvider, useModalContext } from 'containers/Modal';
-import { ThemeProvider } from 'styled-components';
-import { theme } from 'components/old-ui';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
 import { useSigner } from 'wagmi';
 
@@ -93,11 +91,9 @@ const App: FC<AppProps> = (props) => {
 				<ConnectorContextProvider>
 					<QueryClientProvider client={queryClient}>
 						<ReactQueryDevtools initialIsOpen={false} />
-						<ThemeProvider theme={theme}>
-							<ModalContextProvider>
-								<InnerApp {...props} />
-							</ModalContextProvider>
-						</ThemeProvider>
+						<ModalContextProvider>
+							<InnerApp {...props} />
+						</ModalContextProvider>
 					</QueryClientProvider>
 				</ConnectorContextProvider>
 			</RainbowKitProvider>

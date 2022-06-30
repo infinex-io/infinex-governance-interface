@@ -1,6 +1,5 @@
 import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
-import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
@@ -80,13 +79,13 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">{voteCount}</h4>
 				</div>
 				{secondButton && (
-					<TransparentText
-						gradient="lightBlue"
+					// TODO @MF fix it
+					<span
+						className="tg-caption cursor-pointer"
 						onClick={() => push({ pathname: `/councils/${council}` })}
-						clickable
 					>
 						{t(secondButton)}
-					</TransparentText>
+					</span>
 				)}
 				<Button
 					variant={variant}
