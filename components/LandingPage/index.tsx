@@ -39,14 +39,14 @@ export default function LandingPage() {
 			<div className="flex flex-wrap justify-center mt-8">
 				<Link href="/councils" passHref>
 					<ButtonCard
-						className="max-w-lg m-2"
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
 					></ButtonCard>
 				</Link>
 				<Link href="https://sips.synthetix.io/all-sip/" passHref>
 					<ButtonCard
-						className="max-w-lg m-2"
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
 					></ButtonCard>
@@ -55,14 +55,14 @@ export default function LandingPage() {
 			<div className="flex flex-wrap justify-center">
 				<Link href="https://discord.com/invite/HQSTqXH84t" passHref>
 					<ButtonCard
-						className="max-w-lg m-2"
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
 					></ButtonCard>
 				</Link>
 				<Link href="https://gov.synthetix.io/#/" passHref>
 					<ButtonCard
-						className="max-w-lg m-2"
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}
 					></ButtonCard>

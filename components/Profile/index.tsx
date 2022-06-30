@@ -16,9 +16,9 @@ import { useAccount } from 'wagmi';
 import Image from 'next/image';
 import { useModalContext } from 'containers/Modal';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
-import useIsNominated from 'queries/nomination/useIsNominatedQuery';
-import { DeployedModules } from 'containers/Modules';
-import useCurrentPeriod, { CurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
+import useIsNominated, { NominationForCouncil } from 'queries/nomination/useIsNominatedQuery';
+import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -29,41 +29,14 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const [isOpen, setIsOpen] = useState(false);
 	const isOwnCard = compareAddress(walletAddress, data?.address);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
-	// cleanup @MF
-	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
-	const grants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);
-	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
-	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
-	const spartanPeriod = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const grantsPeriod = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const ambassadorPeriod = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const treasuryPeriod = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-	const isNominatedFor = [
-		{
-			nominated: spartan.data,
-			period: (spartanPeriod.data as CurrentPeriod)?.currentPeriod,
-			council: 'Spartan',
-			module: DeployedModules.SPARTAN_COUNCIL,
-		},
-		{
-			nominated: grants.data,
-			period: (grantsPeriod.data as CurrentPeriod)?.currentPeriod,
-			council: 'Grants',
-			module: DeployedModules.GRANTS_COUNCIL,
-		},
-		{
-			nominated: ambassador.data,
-			period: (ambassadorPeriod.data as CurrentPeriod)?.currentPeriod,
-			council: 'Ambassador',
-			module: DeployedModules.AMBASSADOR_COUNCIL,
-		},
-		{
-			nominated: treasury.data,
-			period: (treasuryPeriod.data as CurrentPeriod)?.currentPeriod,
-			council: 'Treasury',
-			module: DeployedModules.TREASURY_COUNCIL,
-		},
-	].filter((v) => v.nominated && v.period === 'NOMINATION');
+	const { data: councilNomination } = useIsNominated(null, walletAddress);
+	const { data: allPeriods } = useCurrentPeriod();
+	const isNominatedFor = COUNCILS_DICTIONARY.map((council) => ({
+		nominated: councilNomination && (councilNomination[0] as NominationForCouncil)[council.slug],
+		period: allPeriods && (allPeriods[0] as CurrentPeriodsWithCouncils)[council],
+		council: council.label,
+		module: council.module,
+	})).filter((v) => v.nominated && v.period === 'NOMINATION');
 
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data) {
 		const {
