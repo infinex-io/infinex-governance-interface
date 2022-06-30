@@ -24,11 +24,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
-	const epochIndex = useEpochIndexQuery(deployedModule);
 	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
-
-	const voteCount = useVotingCount(deployedModule, epochIndex.data?.toString() || null);
+	const voteCount = useVotingCount(deployedModule, null);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
@@ -98,6 +96,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 							setIsOpen(true);
 						} else if (period === 'VOTING') {
 							push({ pathname: `/vote/${council}` });
+						} else if (period === 'EVALUATION') {
+							push('/councils/' + council);
 						} else {
 							push({ pathname: '/councils' });
 						}

@@ -58,7 +58,7 @@ export const useVotingResult = (moduleInstance: DeployedModules, epochIndex: str
 			}));
 		},
 		{
-			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== null,
+			enabled: governanceModules !== null && moduleInstance !== null,
 			staleTime: 900000,
 		}
 	);

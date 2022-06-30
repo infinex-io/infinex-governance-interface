@@ -54,6 +54,16 @@ export function parseCouncil(index: number): {
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
 			};
+		case 3: {
+			return {
+				cta: 'landing-page.cards.cta.eval',
+				button: 'landing-page.cards.button.nominees',
+				color: 'bg-purple',
+				variant: 'outline',
+				headlineLeft: 'landing-page.cards.members',
+				headlineRight: 'landing-page.cards.received',
+			};
+		}
 		default:
 			return {
 				cta: 'landing-page.cards.cta.closed',

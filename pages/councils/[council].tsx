@@ -33,13 +33,14 @@ export default function CouncilNominees() {
 
 	const sortedNominees =
 		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));
+
 	return (
 		<>
 			<Head>
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{!isNominatedQuery.data?.length && (
+				{isNominatedQuery.data?.length && (
 					<NominateSelfBanner deployedModule={activeCouncil.module} />
 				)}
 				<div className="container">
