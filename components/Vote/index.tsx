@@ -2,7 +2,6 @@ import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
-
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { parseQuery } from 'utils/parse';
