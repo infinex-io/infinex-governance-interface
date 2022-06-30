@@ -19,7 +19,7 @@ export const useVotingResult = (moduleInstance: DeployedModules, epochIndex: str
 	return useQuery<VoteResult[]>(
 		['voting-result', moduleInstance, epochIndex],
 		async () => {
-			const contractAddress = governanceModules[moduleInstance]?.contract.address;
+			const contractAddress = governanceModules[moduleInstance]?.contract.address.toLowerCase();
 			const epoch = String(epochIndex || '0');
 
 			const { data } = await client.query({
