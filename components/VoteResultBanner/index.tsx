@@ -2,19 +2,16 @@ import { Button } from '@synthetixio/ui';
 import SNXIcon from 'components/Icons/SNXIcon';
 import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const VoteResultBanner: React.FC = () => {
 	const { push } = useRouter();
 	const { t } = useTranslation();
-	const { data: period1 } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const { data: period2 } = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const { data: period3 } = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const { data: period4 } = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const { data: period } = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
 
-	if (![period1, period2, period3, period4].find((item) => item?.currentPeriod === 'VOTING'))
+	if (!(period as CurrentPeriodsWithCouncils[]).find((item) => item?.currentPeriod === 'VOTING'))
 		return null;
 
 	return (
