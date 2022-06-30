@@ -2,7 +2,6 @@ import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { parseQuery } from 'utils/parse';
@@ -10,6 +9,7 @@ import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
+import { COUNCIL_SLUGS } from 'constants/config';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
@@ -55,6 +55,17 @@ export default function VoteSection() {
 			);
 		}
 	}, [spartanQuery.data, grantsQuery.data, ambassadorQuery.data, treasuryQuery.data]);
+
+	useEffect(() => {
+		if (voteStatusQuery.data) {
+			let count = 0;
+			for (const council of COUNCIL_SLUGS) {
+				if (voteStatusQuery.data[council as 'spartan' | 'grants' | 'ambassador' | 'treasury'].voted)
+					count += 1;
+			}
+			setProgress(count);
+		}
+	}, [voteStatusQuery.isFetching, voteStatusQuery.data]);
 
 	const hasVotedAll =
 		voteStatusQuery.data?.spartan.voted &&
