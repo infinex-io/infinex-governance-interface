@@ -4,7 +4,6 @@ import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
-
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
