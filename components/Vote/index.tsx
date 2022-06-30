@@ -2,7 +2,7 @@ import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
-import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { parseQuery } from 'utils/parse';
@@ -15,7 +15,6 @@ export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
-	const [progress, setProgress] = useState(0);
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
 
 	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
@@ -56,6 +55,13 @@ export default function VoteSection() {
 		}
 	}, [spartanQuery.data, grantsQuery.data, ambassadorQuery.data, treasuryQuery.data]);
 
+	const count = [
+		voteStatusQuery.data?.spartan.voted,
+		voteStatusQuery.data?.grants.voted,
+		voteStatusQuery.data?.ambassador.voted,
+		voteStatusQuery.data?.treasury.voted,
+	].filter((voted) => voted).length;
+
 	const hasVotedAll =
 		voteStatusQuery.data?.spartan.voted &&
 		voteStatusQuery.data?.grants.voted &&
@@ -75,12 +81,12 @@ export default function VoteSection() {
 						<div className="pb-2 ml-2">
 							<h3 className="md:tg-title-h3 tg-title-h4 pt-4">
 								{t(`vote.vote-status-${hasVotedAll ? 'complete' : 'incomplete'}`, {
-									progress: progress,
+									progress: count,
 									max: activeCouncilInVoting,
 								})}
 							</h3>
 							<span className="tg-body text-gray-500">
-								{t(progress === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
+								{t(count === 4 ? 'vote.vote-finished' : 'vote.vote-in-progress')}
 							</span>
 						</div>
 					</div>
