@@ -12,6 +12,8 @@ import MemberCard from 'components/MemberCard/Index';
 import { Loader } from 'components/Loader/Loader';
 import { TabIcon } from 'components/TabIcon';
 import { useState } from 'react';
+import { PassedVotingResults } from 'components/Vote/PassedVotingResult';
+import { DeployedModules } from 'containers/Modules';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
@@ -93,6 +95,7 @@ const Councils: NextPage = () => {
 						}))}
 						onChange={(id) => setActiveCouncil(id as any)}
 					/>
+					<PassedVotingResults moduleInstance={DeployedModules.SPARTAN_COUNCIL} />
 				</div>
 			</Main>
 		</>
