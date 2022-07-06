@@ -14,6 +14,7 @@ import { TabIcon } from 'components/TabIcon';
 import { useState } from 'react';
 import { PassedVotingResults } from 'components/Vote/PassedVotingResult';
 import { DeployedModules } from 'containers/Modules';
+import { PreEvaluationSection } from 'components/Vote/PreEvaluationSection';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
