@@ -20,6 +20,7 @@ const Councils: NextPage = () => {
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
 	const members = useAllCouncilMembersAddresses();
+	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
 	return (
 		<>
 			<Head>
@@ -95,7 +96,7 @@ const Councils: NextPage = () => {
 						}))}
 						onChange={(id) => setActiveCouncil(id as any)}
 					/>
-					<PassedVotingResults moduleInstance={DeployedModules.SPARTAN_COUNCIL} />
+					{moduleInstance && <PassedVotingResults moduleInstance={moduleInstance} />}
 				</div>
 			</Main>
 		</>

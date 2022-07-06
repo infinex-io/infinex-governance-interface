@@ -121,6 +121,9 @@ module.exports = {
 			borderRadius: {
 				'2lg': '0.625rem',
 			},
+			boxShadow: {
+				card: '0px 14px 14px rgba(0, 0, 0, 0.25);',
+			},
 			container: {
 				center: true,
 				padding: '1rem',
