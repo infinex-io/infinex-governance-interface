@@ -16,7 +16,7 @@ declare global {
 	}
 	namespace NodeJS {
 		interface ProcessEnv {
-			NEXT_INFURA_PROJECT_ID: string;
+			NEXT_PUBLIC_INFURA_PROJECT_ID: string;
 		}
 	}
 }
