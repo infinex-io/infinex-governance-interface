@@ -17,11 +17,11 @@ export const useConnectorContext = () => {
 
 export const ConnectorContextProvider: React.FC = ({ children }) => {
 	const L1DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_INFURA_PROJECT_ID),
+		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
 		[]
 	);
 	const L2DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_INFURA_PROJECT_ID),
+		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
 		[]
 	);
 	const accountQuery = useAccount();

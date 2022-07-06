@@ -1,4 +1,4 @@
-import { Tabs } from '@synthetixio/ui';
+import { Pagination, Tabs } from '@synthetixio/ui';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber } from 'ethers';
 import useIsMobile from 'hooks/useIsMobile';
@@ -6,6 +6,7 @@ import { t } from 'i18next';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useNextEpochSeatCountQuery from 'queries/epochs/useNextEpochSeatCountQuery';
 import { useVotingResult, VoteResult } from 'queries/voting/useVotingResult';
+import { useState } from 'react';
 import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
 import { PreEvaluationSectionRowMobile } from './PreEvaluationSectionRowMobile';
 
@@ -83,6 +84,8 @@ export function PreEvaluationSection() {
 	);
 }
 
+const PAGE_SIZE = 8;
+
 const PreEvalResults = ({
 	isMobile,
 	preEvalDic,
@@ -99,59 +102,95 @@ const PreEvalResults = ({
 		(cur, prev) => cur.add(prev.totalVotePower),
 		BigNumber.from(0)
 	);
+
+	const result = preEvalDic.council;
+	const [activePage, setActivePage] = useState(0);
+	const startIndex = activePage * PAGE_SIZE;
+	const endIndex =
+		result?.length && startIndex + PAGE_SIZE > result?.length
+			? result?.length
+			: startIndex + PAGE_SIZE;
 	if (!isMobile) {
 		return (
-			<div className="border-gray-700 border mt-6 mb-20 rounded-xl">
-				<table className="bg-dark-blue w-[1000px] rounded-xl :table">
-					<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
-						<th className="text-left p-6 tg-caption text-gray-500">
-							{t('vote.pre-eval.table.name')}
-						</th>
-						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-						<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-						<th className="tg-caption text-gray-500 p-6">
-							{t('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' })}
-						</th>
-						<th className="text-right p-6 tg-caption text-gray-500">
-							{t('vote.pre-eval.table.actions')}
-						</th>
-					</tr>
-					{preEvalDic.council
-						?.sort((a, b) => {
-							if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-							if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-							return 0;
-						})
-						.map((voteResult, index) => (
-							<PreEvaluationSectionRow
-								key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-								isActive={index < (preEvalDic.seats || 0)}
-								totalVotingPowers={totalVotingPowers}
-								voteResult={voteResult}
-								walletAddress={voteResult.walletAddress}
-							/>
-						))}
-				</table>
+			<div className="mt-6 mb-20">
+				<div className="border-gray-700 border rounded-xl overflow-hidden">
+					<table className="bg-dark-blue w-[1000px] rounded-xl :table">
+						<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
+							<th className="text-left p-6 tg-caption text-gray-500">
+								{t('vote.pre-eval.table.name')}
+							</th>
+							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
+							<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
+							<th className="tg-caption text-gray-500 p-6">
+								{t('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' })}
+							</th>
+							<th className="text-right p-6 tg-caption text-gray-500">
+								{t('vote.pre-eval.table.actions')}
+							</th>
+						</tr>
+						{result
+							?.sort((a, b) => {
+								if (a.totalVotePower.gt(b.totalVotePower)) return -1;
+								if (a.totalVotePower.lt(b.totalVotePower)) return 1;
+								return 0;
+							})
+							.slice(startIndex, endIndex)
+							.map((voteResult) => (
+								<PreEvaluationSectionRow
+									key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
+									isActive={
+										result.findIndex((item) => item.walletAddress === voteResult.walletAddress) <
+										(preEvalDic.seats || 0)
+									}
+									totalVotingPowers={totalVotingPowers}
+									voteResult={voteResult}
+									walletAddress={voteResult.walletAddress}
+								/>
+							))}
+					</table>
+				</div>
+				<div className="w-full">
+					<Pagination
+						className="mx-auto py-4"
+						pageIndex={activePage}
+						gotoPage={setActivePage}
+						length={result?.length || 0}
+						pageSize={PAGE_SIZE}
+					/>
+				</div>
 			</div>
 		);
 	}
 	return (
 		<div className="flex flex-col w-full md:hidden p-2 mb-20">
-			{preEvalDic.council
+			{result
 				?.sort((a, b) => {
 					if (a.totalVotePower.gt(b.totalVotePower)) return -1;
 					if (a.totalVotePower.lt(b.totalVotePower)) return 1;
 					return 0;
 				})
-				.map((voteResult, index) => (
+				.slice(startIndex, endIndex)
+				.map((voteResult) => (
 					<PreEvaluationSectionRowMobile
 						key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-						isActive={index < (preEvalDic.seats || 0)}
+						isActive={
+							result.findIndex((item) => item.walletAddress === voteResult.walletAddress) <
+							(preEvalDic.seats || 0)
+						}
 						totalVotingPowers={totalVotingPowers}
 						voteResult={voteResult}
 						walletAddress={voteResult.walletAddress}
 					/>
 				))}
+			<div className="w-full">
+				<Pagination
+					className="mx-auto py-4"
+					pageIndex={activePage}
+					gotoPage={setActivePage}
+					length={result?.length || 0}
+					pageSize={PAGE_SIZE}
+				/>
+			</div>
 		</div>
 	);
 };
