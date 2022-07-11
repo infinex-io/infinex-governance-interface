@@ -39,7 +39,6 @@ export const Swiper: React.FC<SwiperProps> = ({
 			pagination={{ clickable: true }}
 			slidesPerView={slidesPerView}
 			spaceBetween={spaceBetween}
-			centerInsufficientSlides
 			centeredSlides
 			{...props}
 		>
