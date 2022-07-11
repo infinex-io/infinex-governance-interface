@@ -22,7 +22,7 @@ function useEpochDatesQuery(moduleInstance: DeployedModules, epochIndex: string 
 			return { epochStartDate, epochEndDate };
 		},
 		{
-			enabled: governanceModules !== null && moduleInstance !== null,
+			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== null,
 			staleTime: 900000,
 		}
 	);

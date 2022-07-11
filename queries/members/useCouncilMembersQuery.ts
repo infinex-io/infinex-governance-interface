@@ -6,7 +6,7 @@ function useCouncilMembersQuery(moduleInstance: DeployedModules) {
 	const governanceModules = useModulesContext();
 
 	return useQuery<string[]>(
-		['council-members', moduleInstance],
+		['councilMembers', moduleInstance],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			let councilMembers = await contract?.getCouncilMembers();
