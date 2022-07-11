@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import BackButton from 'components/BackButton';
 import { Tabs } from '@synthetixio/ui';
 import { useRouter } from 'next/router';
-import { useAllCouncilMembersAddresses } from 'queries/members/useAllCouncilMembersAddresses';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { parseQuery } from 'utils/parse';
 import MemberCard from 'components/MemberCard/Index';
@@ -13,12 +12,20 @@ import { Loader } from 'components/Loader/Loader';
 import { TabIcon } from 'components/TabIcon';
 import { useState } from 'react';
 import { PassedVotingResults } from 'components/Vote/PassedVotingResult';
+import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
+import { DeployedModules } from 'containers/Modules';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
-	const members = useAllCouncilMembersAddresses();
+	const { data: spartan } = useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL);
+	const { data: grants } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
+	const { data: ambassador } = useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL);
+	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
+
+	const allMembers = [spartan, grants, ambassador, treasury];
+
 	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
 	return (
 		<>
@@ -35,17 +42,17 @@ const Councils: NextPage = () => {
 						initial={activeCouncil}
 						className="mb-2 justify-start lg:mx-auto no-scrollbar"
 						tabClassName="min-w-fit"
-						items={COUNCILS_DICTIONARY.map((council) => ({
+						items={COUNCILS_DICTIONARY.map((council, index) => ({
 							id: council.slug,
 							label: (
 								<div className="flex items-center gap-1">
 									{t(`councils.tabs.${council.abbreviation}`)}
 									<TabIcon isActive={activeCouncil === council.slug}>
-										{members.data && members.data[council.slug].length}
+										{allMembers[index]?.length}
 									</TabIcon>
 								</div>
 							),
-							content: members.isLoading ? (
+							content: !allMembers.length ? (
 								<Loader className="mt-8 mx-auto w-fit" />
 							) : (
 								<>
@@ -61,7 +68,7 @@ const Councils: NextPage = () => {
 												&nbsp;
 												<span className="tg-caption-bold">
 													{t(`councils.tabs.explanations.${council.abbreviation}.members`, {
-														count: members.data && members.data[council.slug].length,
+														count: allMembers[index]?.length,
 													})}
 												</span>
 											</div>
@@ -79,8 +86,8 @@ const Councils: NextPage = () => {
 										</div>
 									</div>
 									<div className="flex flex-wrap justify-center w-full">
-										{members.data &&
-											members.data[council.slug]?.map((walletAddress) => (
+										{allMembers.length &&
+											allMembers[index]?.map((walletAddress) => (
 												<MemberCard
 													className="m-2"
 													key={walletAddress}

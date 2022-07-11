@@ -1,27 +1,23 @@
 import MemberCard from 'components/MemberCard/Index';
 import { Swiper } from 'components/Swiper';
 
-interface MemberItem {
-	address: string;
-	council: string;
-}
-
 interface Props {
-	members: MemberItem[];
+	members: string[];
 	listView: boolean;
+	council?: string;
 }
 
-export const CouncilCarousel = ({ members, listView }: Props) => {
+export const CouncilCarousel = ({ members, listView, council }: Props) => {
 	if (listView)
 		return (
 			<div className="container w-full flex flex-col">
 				{members?.map((member, index) => (
 					<MemberCard
-						walletAddress={member.address}
-						key={member.address.concat(String(index))}
+						walletAddress={member}
+						key={member.concat(String(index))}
 						state="ADMINISTRATION"
 						className="m-2"
-						council={member.council}
+						council={council}
 						listView
 					/>
 				))}
@@ -58,10 +54,10 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 				}}
 				slides={members.map((member, index) => (
 					<MemberCard
-						walletAddress={member.address}
-						key={member.address.concat(String(index))}
+						walletAddress={member}
+						key={member.concat(String(index))}
 						state="ADMINISTRATION"
-						council={member.council}
+						council={council}
 					/>
 				))}
 			/>
