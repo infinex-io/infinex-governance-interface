@@ -14,7 +14,10 @@ export type VoteResult = {
 	walletAddress: string;
 };
 
-export const useVotingResult = (moduleInstance: DeployedModules, epochIndex: string | null) => {
+export const useVotingResult = (
+	moduleInstance: DeployedModules,
+	epochIndex: string | number | null
+) => {
 	const governanceModules = useModulesContext();
 	return useQuery<VoteResult[]>(
 		['voting-result', moduleInstance, epochIndex],

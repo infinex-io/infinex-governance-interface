@@ -12,12 +12,16 @@ import MemberCard from 'components/MemberCard/Index';
 import { Loader } from 'components/Loader/Loader';
 import { TabIcon } from 'components/TabIcon';
 import { useState } from 'react';
+import { PassedVotingResults } from 'components/Vote/PassedVotingResult';
+import { DeployedModules } from 'containers/Modules';
+import { PreEvaluationSection } from 'components/Vote/PreEvaluationSection';
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
 	const members = useAllCouncilMembersAddresses();
+	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
 	return (
 		<>
 			<Head>
@@ -93,6 +97,7 @@ const Councils: NextPage = () => {
 						}))}
 						onChange={(id) => setActiveCouncil(id as any)}
 					/>
+					{moduleInstance && <PassedVotingResults moduleInstance={moduleInstance} />}
 				</div>
 			</Main>
 		</>

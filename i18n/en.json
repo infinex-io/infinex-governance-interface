@@ -45,12 +45,14 @@
 			"cta": {
 				"closed": "CLOSED - COUNCIL ELECTED",
 				"nomination": "NOMINATIONS OPEN",
-				"vote": "VOTING OPEN"
+				"vote": "VOTING OPEN",
+				"eval": "VOTING OVER"
 			},
 			"button": {
 				"closed": "View Council",
 				"nomination": "Nominate Yourself",
-				"vote": "Vote Candidates"
+				"vote": "Vote Candidates",
+				"nominees": "View Nominees"
 			},
 			"nominees": "View Nominees",
 			"members": "Members",

@@ -55,6 +55,7 @@ export default function CouncilNominees() {
 
 	const sortedNominees =
 		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));
+
 	return (
 		<>
 			<Head>
