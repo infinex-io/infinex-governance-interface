@@ -20,7 +20,7 @@ export const useVotingResult = (
 ) => {
 	const governanceModules = useModulesContext();
 	return useQuery<VoteResult[]>(
-		['voting-result', moduleInstance, epochIndex],
+		['votingResult', moduleInstance, epochIndex],
 		async () => {
 			const contractAddress = governanceModules[moduleInstance]?.contract?.address?.toLowerCase();
 			const epoch = String(epochIndex || '0');

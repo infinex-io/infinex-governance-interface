@@ -40,6 +40,7 @@ export const Swiper: React.FC<SwiperProps> = ({
 			slidesPerView={slidesPerView}
 			spaceBetween={spaceBetween}
 			centerInsufficientSlides
+			centeredSlides
 			{...props}
 		>
 			{slides.map((slide, i) => (
