@@ -181,6 +181,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 								<div className="flex justify-between md:flex-row flex-col w-full flex-wrap gap-4">
 									{COUNCILS_DICTIONARY.map((council) => (
 										<Checkbox
+											key={`${council.slug}-council-checkbox`}
 											id={`${council.slug}-council-checkbox`}
 											onChange={() => setActiveCheckbox(council.slug)}
 											label={t('modals.nomination.checkboxes'.concat(council.slug))}

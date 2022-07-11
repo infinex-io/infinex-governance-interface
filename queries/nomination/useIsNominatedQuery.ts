@@ -3,9 +3,7 @@ import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
 import { hexStringBN } from 'utils/hexString';
 import { isNominatedQueryKeys } from 'utils/queries';
-import { COUNCILS_DICTIONARY, COUNCIL_SLUGS } from 'constants/config';
-
-export type NominationForCouncil = Record<string, boolean>;
+import { COUNCILS_DICTIONARY } from 'constants/config';
 
 function useIsNominated(
 	moduleInstance: DeployedModules | null,
@@ -13,7 +11,7 @@ function useIsNominated(
 	epochIndex?: string
 ) {
 	const governanceModules = useModulesContext();
-	return useQuery<boolean | NominationForCouncil[]>(
+	return useQuery<boolean | boolean[]>(
 		isNominatedQueryKeys(moduleInstance, walletAddress),
 		async () => {
 			if (!moduleInstance) {
@@ -30,8 +28,7 @@ function useIsNominated(
 						governanceModules[council.module]?.contract.isNominated(walletAddress)
 					);
 				}
-				const results = await Promise.all(promises);
-				return COUNCIL_SLUGS.map((council, index) => ({ [council]: results[index] }));
+				return (await Promise.all(promises)) as boolean[];
 			} else {
 				const contract = governanceModules[moduleInstance]?.contract;
 				let isNominated: boolean;

@@ -31,23 +31,6 @@ export default function NominateModal() {
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 	const { data: periodData } = useCurrentPeriod();
 
-	const isAlreadyNominatedForSpartan = useIsNominated(
-		DeployedModules.SPARTAN_COUNCIL,
-		data?.address || ''
-	);
-	const isAlreadyNominatedForGrants = useIsNominated(
-		DeployedModules.GRANTS_COUNCIL,
-		data?.address || ''
-	);
-	const isAlreadyNominatedForAmbassador = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
-		data?.address || ''
-	);
-	const isAlreadyNominatedForTreasury = useIsNominated(
-		DeployedModules.TREASURY_COUNCIL,
-		data?.address || ''
-	);
-
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
 			queryClient.invalidateQueries({
@@ -65,13 +48,6 @@ export default function NominateModal() {
 				});
 		}
 	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, data?.address]);
-	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
-	we should block all the councils radio button */
-	const isAlreadyNominated =
-		isAlreadyNominatedForSpartan.data ||
-		isAlreadyNominatedForGrants.data ||
-		isAlreadyNominatedForAmbassador.data ||
-		isAlreadyNominatedForTreasury.data;
 
 	const setCTA = (council: string) => {
 		return (
@@ -142,12 +118,13 @@ export default function NominateModal() {
 					<div className="flex justify-center flex-col md:flex-row gap-4 m-10 max-w-[190px] w-full md:max-w-none">
 						{COUNCILS_DICTIONARY.map((council) => (
 							<Checkbox
+								key={`${council.slug}-council-checkbox`}
 								id={`${council.slug}-council-checkbox`}
 								onChange={() => setActiveCheckbox(council.slug)}
 								label={t('modals.nomination.checkboxes'.concat(council.slug))}
 								color="lightBlue"
 								checked={activeCheckbox === council.slug}
-								disabled={shouldBeDisabled(council.slug) || isAlreadyNominated}
+								disabled={shouldBeDisabled(council.slug)}
 							/>
 						))}
 					</div>

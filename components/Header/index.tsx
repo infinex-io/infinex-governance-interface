@@ -68,7 +68,7 @@ export default function Header() {
 					<Link key={route.label} href={`/${route.link}`} passHref>
 						<Button
 							variant="spotlight"
-							className="last-of-type:mr-auto"
+							className="last-of-type:mr-auto font-['GT_America'] tg-content"
 							size="sm"
 							onClick={() => setBurgerMenuOpen(false)}
 							spotlightActive={route.link === '' ? asPath === '/' : asPath.includes(route.link)}

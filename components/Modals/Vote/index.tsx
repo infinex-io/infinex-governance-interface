@@ -51,7 +51,17 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				setIsOpen(false);
 			}, 2000);
 		}
-	}, [state, setVisible, setIsOpen, push, member.address, visible, queryClient, deployedModule]);
+	}, [
+		state,
+		setVisible,
+		setIsOpen,
+		push,
+		member.address,
+		visible,
+		queryClient,
+		deployedModule,
+		data?.address,
+	]);
 
 	useEffect(() => {
 		if (data?.address && governanceModules[deployedModule]?.contract) {

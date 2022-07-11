@@ -31,6 +31,7 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 	return (
 		<div className="w-full container">
 			<Swiper
+				slideProps={{ className: 'm-2' }}
 				className="w-full"
 				breakpoints={{
 					// when window width is >= 320px
@@ -60,7 +61,6 @@ export const CouncilCarousel = ({ members, listView }: Props) => {
 						walletAddress={member.address}
 						key={member.address.concat(String(index))}
 						state="ADMINISTRATION"
-						className="m-2"
 						council={member.council}
 					/>
 				))}

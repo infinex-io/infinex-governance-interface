@@ -66,8 +66,9 @@ export default function VoteSection() {
 						</div>
 					</div>
 					<div className="flex justify-between flex-wrap w-full">
-						{COUNCILS_DICTIONARY.map((council) => (
+						{COUNCILS_DICTIONARY.map((council, index) => (
 							<VoteCard
+								key={council.slug.concat(index.toString())}
 								walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
 								hasVoted={!!voteStatusQuery.data?.spartan.voted}
 								periodIsVoting={
@@ -82,8 +83,9 @@ export default function VoteSection() {
 				</div>
 			)}
 			<div className="flex justify-center w-full flex-wrap mt-10 gap-2">
-				{COUNCILS_DICTIONARY.map((council) => (
+				{COUNCILS_DICTIONARY.map((council, index) => (
 					<CouncilCard
+						key={council.slug.concat(index.toString())}
 						deployedModule={council.module}
 						council={council.slug}
 						image={council.image}
