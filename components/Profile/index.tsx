@@ -17,9 +17,10 @@ import Image from 'next/image';
 import { useModalContext } from 'containers/Modal';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
-import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useConnectorContext } from 'containers/Connector';
+import { DeployedModules } from 'containers/Modules';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -31,14 +32,15 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const [isOpen, setIsOpen] = useState(false);
 	const isOwnCard = compareAddress(walletAddress, data?.address);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
-	const { data: councilNomination } = useIsNominated(null, walletAddress);
+	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
+	const grants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);
+	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
+	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
+	const councilNomination = [spartan.data, grants.data, ambassador.data, treasury.data];
 	const { data: allPeriods } = useCurrentPeriod();
 	const isNominatedFor = COUNCILS_DICTIONARY.map((council, index) => ({
 		nominated: councilNomination && Array.isArray(councilNomination) && councilNomination[index],
-		period:
-			allPeriods &&
-			Array.isArray(allPeriods) &&
-			(allPeriods[index] as CurrentPeriodsWithCouncils)[council.slug],
+		period: allPeriods && Array.isArray(allPeriods) && allPeriods[index][council.slug],
 		council: council.label,
 		module: council.module,
 	})).filter((v) => v.nominated && v.period === 'NOMINATION');

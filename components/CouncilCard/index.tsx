@@ -68,10 +68,12 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<span className="tg-caption text-gray-500">{t(headlineRight)}</span>
 				</div>
 				<div className="flex justify-between">
-					<h4 className="text-2xl council-card-numbers">
+					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
-					<h4 className="text-2xl council-card-numbers">{voteCount}</h4>
+					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
+						{voteCount}
+					</h4>
 				</div>
 				{secondButton && (
 					<span
