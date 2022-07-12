@@ -25,167 +25,63 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 			? [spartan, grants, ambassador, treasury]
 			: [spartan.concat(grants, ambassador, treasury), spartan, grants, ambassador, treasury];
 
+		const getTabItems = () => {
+			return withoutAllMembers
+				? COUNCILS_DICTIONARY.map((council, index) => ({
+						id: council.slug,
+						label: (
+							<div className="flex items-center gap-1">
+								{t(`landing-page.tabs.${council.abbreviation}`)}
+								<TabIcon isActive={activeTab === council.slug}>{allMembers[index].length}</TabIcon>
+							</div>
+						),
+						content: (
+							<CouncilCarousel
+								council={council.label}
+								listView={listView}
+								members={allMembers[index] || []}
+							/>
+						),
+				  }))
+				: [
+						{
+							id: 'all-members',
+							label: (
+								<div className="flex items-center gap-1">
+									{t('landing-page.tabs.all')}
+									<TabIcon isActive={activeTab === 'all-members'}>{allMembers[0].length}</TabIcon>
+								</div>
+							),
+							content: <CouncilCarousel listView={listView} members={allMembers[0] || []} />,
+						},
+						...COUNCILS_DICTIONARY.map((council, index) => ({
+							id: council.slug,
+							label: (
+								<div className="flex items-center gap-1">
+									{t(`landing-page.tabs.${council.abbreviation}`)}
+									<TabIcon isActive={activeTab === council.slug}>
+										{allMembers[index + 1].length}
+									</TabIcon>
+								</div>
+							),
+							content: (
+								<CouncilCarousel
+									council={council.label}
+									listView={listView}
+									members={allMembers[index + 1] || []}
+								/>
+							),
+						})),
+				  ];
+		};
+
 		return (
 			<div className="mt-4 flex flex-col container relative">
 				<Tabs
 					className="mb-4 justify-start lg:mx-auto hide-scrollbar"
 					contentClassName="max-w-[90vw]"
 					initial={withoutAllMembers ? 'spartan' : 'all-members'}
-					items={
-						withoutAllMembers
-							? [
-									{
-										id: 'spartan',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.sc')}
-												<TabIcon isActive={activeTab === 'spartan'}>{allMembers[0].length}</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[0].label}
-												listView={listView}
-												members={allMembers[0] || []}
-											/>
-										),
-									},
-									{
-										id: 'grants',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.gc')}
-												<TabIcon isActive={activeTab === 'grants'}>{allMembers[1].length}</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[1].label}
-												listView={listView}
-												members={allMembers[1] || []}
-											/>
-										),
-									},
-									{
-										id: 'ambassador',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.ac')}
-												<TabIcon isActive={activeTab === 'ambassador'}>
-													{allMembers[2].length}
-												</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[2].label}
-												listView={listView}
-												members={allMembers[2] || []}
-											/>
-										),
-									},
-									{
-										id: 'treasury',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.tc')}
-												<TabIcon isActive={activeTab === 'treasury'}>
-													{allMembers[3].length}
-												</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[3].label}
-												listView={listView}
-												members={allMembers[3] || []}
-											/>
-										),
-									},
-							  ]
-							: [
-									{
-										id: 'all-members',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.all')}
-												<TabIcon isActive={activeTab === 'all-members'}>
-													{allMembers[0].length}
-												</TabIcon>
-											</div>
-										),
-										content: <CouncilCarousel listView={listView} members={allMembers[0] || []} />,
-									},
-									{
-										id: 'spartan',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.sc')}
-												<TabIcon isActive={activeTab === 'spartan'}>{allMembers[1].length}</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[0].label}
-												listView={listView}
-												members={allMembers[1] || []}
-											/>
-										),
-									},
-									{
-										id: 'grants',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.gc')}
-												<TabIcon isActive={activeTab === 'grants'}>{allMembers[2].length}</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[1].label}
-												listView={listView}
-												members={allMembers[2] || []}
-											/>
-										),
-									},
-									{
-										id: 'ambassador',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.ac')}
-												<TabIcon isActive={activeTab === 'ambassador'}>
-													{allMembers[3].length}
-												</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[2].label}
-												listView={listView}
-												members={allMembers[3] || []}
-											/>
-										),
-									},
-									{
-										id: 'treasury',
-										label: (
-											<div className="flex items-center gap-1">
-												{t('landing-page.tabs.tc')}
-												<TabIcon isActive={activeTab === 'treasury'}>
-													{allMembers[4].length}
-												</TabIcon>
-											</div>
-										),
-										content: (
-											<CouncilCarousel
-												council={COUNCILS_DICTIONARY[3].label}
-												listView={listView}
-												members={allMembers[4] || []}
-											/>
-										),
-									},
-							  ]
-					}
+					items={getTabItems()}
 					onChange={(id) => setActiveTab(String(id))}
 				/>
 

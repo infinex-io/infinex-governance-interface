@@ -42,6 +42,7 @@ export default function LandingPage() {
 						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
+						direction="left"
 					></ButtonCard>
 				</Link>
 				<Link href="https://sips.synthetix.io/all-sip/" passHref>
@@ -49,6 +50,7 @@ export default function LandingPage() {
 						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
+						direction="left"
 					></ButtonCard>
 				</Link>
 			</div>
@@ -58,6 +60,7 @@ export default function LandingPage() {
 						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
+						direction="left"
 					></ButtonCard>
 				</Link>
 				<Link href="https://gov.synthetix.io/#/" passHref>
@@ -65,6 +68,7 @@ export default function LandingPage() {
 						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}
+						direction="left"
 					></ButtonCard>
 				</Link>
 			</div>

@@ -119,7 +119,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				</span>
 				<div className="flex flex-col items-center border-gray-700 border rounded bg-black text-white mt-4 md:p-4 w-full">
 					<h5 className="tg-title-h5 mt-4 mb-2 mx-4">{t('modals.vote.voting-power.headline')}</h5>
-					<h4 className="pb-4 font-['GT_America_Condensed_Bold'] text-[24px] truncate max-w-[350px] md:max-w-[460px]">
+					<h4 className="pb-4 gt-america-condensed-bold-font text-2xl truncate max-w-[350px] md:max-w-[460px]">
 						{utils.formatUnits(
 							deployedModule === 'treasury council'
 								? votingPower.l1.add(votingPower.l2).toBN().toString()

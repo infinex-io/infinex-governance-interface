@@ -83,9 +83,9 @@ export default function VoteSection() {
 				</div>
 			)}
 			<div className="flex justify-center w-full flex-wrap mt-10 gap-2">
-				{COUNCILS_DICTIONARY.map((council, index) => (
+				{COUNCILS_DICTIONARY.map((council) => (
 					<CouncilCard
-						key={council.slug.concat(index.toString())}
+						key={council.slug}
 						deployedModule={council.module}
 						council={council.slug}
 						image={council.image}

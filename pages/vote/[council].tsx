@@ -8,7 +8,7 @@ import { VoteResultBanner } from 'components/VoteResultBanner';
 import { COUNCIL_SLUGS } from 'constants/config';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { useEffect, useState } from 'react';
@@ -37,9 +37,8 @@ export default function VoteCouncil() {
 
 	useEffect(() => {
 		if (
-			(periodData as CurrentPeriodsWithCouncils[]).filter(
-				(period, index) => period[COUNCIL_SLUGS[index]] !== 'VOTING'
-			)
+			Array.isArray(periodData) &&
+			periodData.filter((period, index) => period[COUNCIL_SLUGS[index]] !== 'VOTING')
 		)
 			push('/');
 	}, [periodData, push]);

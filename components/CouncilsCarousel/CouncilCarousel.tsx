@@ -55,7 +55,7 @@ export const CouncilCarousel = ({ members, listView, council }: Props) => {
 				slides={members.map((member, index) => (
 					<MemberCard
 						walletAddress={member}
-						key={member.concat(String(index))}
+						key={member.concat(council || index.toString())}
 						state="ADMINISTRATION"
 						council={council}
 					/>

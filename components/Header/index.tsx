@@ -68,7 +68,7 @@ export default function Header() {
 					<Link key={route.label} href={`/${route.link}`} passHref>
 						<Button
 							variant="spotlight"
-							className="last-of-type:mr-auto font-['GT_America'] tg-content"
+							className="last-of-type:mr-auto gt-america-font tg-content"
 							size="sm"
 							onClick={() => setBurgerMenuOpen(false)}
 							spotlightActive={route.link === '' ? asPath === '/' : asPath.includes(route.link)}
@@ -121,7 +121,7 @@ export default function Header() {
 							<Link key={route.label} href={`/${route.link}`} passHref>
 								<Button
 									variant="spotlight"
-									className="m-4 font-['GT_America'] tg-main"
+									className="m-4 gt-america-font tg-main"
 									size="md"
 									onClick={() => setBurgerMenuOpen(false)}
 									spotlightActive={route.link === '' ? asPath === '/' : asPath.includes(route.link)}

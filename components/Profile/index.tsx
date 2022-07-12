@@ -85,9 +85,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							</h4>
 							<Dropdown
 								triggerElement={
-									<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
+									<IconButton variant="dark-blue">
 										<Icon className="text-xl" name="Vertical" />
-									</div>
+									</IconButton>
 								}
 								contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
 								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
