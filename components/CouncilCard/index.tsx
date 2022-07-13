@@ -1,6 +1,5 @@
 import { Button } from '@synthetixio/ui';
 import NominateModal from 'components/Modals/Nominate';
-import { TransparentText } from 'components/Text/transparent';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import Image from 'next/image';
@@ -12,7 +11,6 @@ import { parseCouncil } from 'utils/parse';
 import { Timer } from 'components/Timer';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
 import { useVotingCount } from 'queries/voting/useVotingCount';
-import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 
 interface CouncilCardProps {
 	council: string;
@@ -29,11 +27,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const voteCount = useVotingCount(deployedModule, null);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
-	const period = currentPeriodData?.currentPeriod;
+	const period = !Array.isArray(currentPeriodData) && currentPeriodData?.currentPeriod;
 
-	const councilInfo = currentPeriodData
-		? parseCouncil(EpochPeriods[currentPeriodData.currentPeriod])
-		: null;
+	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
 
 	if (!councilInfo)
 		return (
@@ -72,19 +68,20 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<span className="tg-caption text-gray-500">{t(headlineRight)}</span>
 				</div>
 				<div className="flex justify-between">
-					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">
+					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
-					<h4 className="font-['GT_America_Condensed_Bold'] text-[24px]">{voteCount}</h4>
+					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
+						{voteCount}
+					</h4>
 				</div>
 				{secondButton && (
-					<TransparentText
-						gradient="lightBlue"
-						onClick={() => push({ pathname: `/councils/${council}` })}
-						clickable
+					<span
+						className="tg-caption cursor-pointer bg-clip-text text-transparent ui-gradient-primary"
+						onClick={() => push(`/councils/${council}`)}
 					>
 						{t(secondButton)}
-					</TransparentText>
+					</span>
 				)}
 				<Button
 					variant={variant}

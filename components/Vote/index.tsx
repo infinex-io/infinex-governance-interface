@@ -1,34 +1,20 @@
 import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
-import { DeployedModules } from 'containers/Modules';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
-import { parseQuery } from 'utils/parse';
 import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
-
-	const spartanQuery = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const grantsQuery = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const ambassadorQuery = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const treasuryQuery = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-
-	const spartanCouncilInfo =
-		spartanQuery.data?.currentPeriod && parseQuery(spartanQuery.data.currentPeriod);
-	const grantsCouncilInfo =
-		grantsQuery.data?.currentPeriod && parseQuery(grantsQuery.data.currentPeriod);
-	const ambassadorCouncilInfo =
-		ambassadorQuery.data?.currentPeriod && parseQuery(ambassadorQuery.data.currentPeriod);
-	const treasuryCouncilInfo =
-		treasuryQuery.data?.currentPeriod && parseQuery(treasuryQuery.data.currentPeriod);
+	const { data: allPeriods } = useCurrentPeriod();
 
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
 
@@ -37,22 +23,12 @@ export default function VoteSection() {
 	}, [activeCouncilInVoting, push]);
 
 	useEffect(() => {
-		if (
-			spartanQuery.data?.currentPeriod &&
-			grantsQuery.data?.currentPeriod &&
-			ambassadorQuery.data?.currentPeriod &&
-			treasuryQuery.data?.currentPeriod
-		) {
+		if (Array.isArray(allPeriods) && allPeriods.length) {
 			setActiveCouncilInVoting(
-				[
-					spartanQuery.data?.currentPeriod,
-					grantsQuery.data?.currentPeriod,
-					ambassadorQuery.data?.currentPeriod,
-					treasuryQuery.data?.currentPeriod,
-				].filter((period) => period === 'VOTING').length
+				allPeriods.filter((period) => period[Object.keys(period)[0]] === 'VOTING').length
 			);
 		}
-	}, [spartanQuery.data, grantsQuery.data, ambassadorQuery.data, treasuryQuery.data]);
+	}, [allPeriods]);
 
 	const count = [
 		voteStatusQuery.data?.spartan.voted,
@@ -90,66 +66,31 @@ export default function VoteSection() {
 						</div>
 					</div>
 					<div className="flex justify-between flex-wrap w-full">
-						<VoteCard
-							walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.spartan.voted}
-							periodIsVoting={spartanQuery.data?.currentPeriod === 'VOTING'}
-							council={DeployedModules.SPARTAN_COUNCIL}
-						/>
-						<VoteCard
-							walletAddress={voteStatusQuery.data?.grants.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.grants.voted}
-							council={DeployedModules.GRANTS_COUNCIL}
-							periodIsVoting={grantsQuery.data?.currentPeriod === 'VOTING'}
-						/>
-						<VoteCard
-							walletAddress={voteStatusQuery.data?.ambassador.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.ambassador.voted}
-							council={DeployedModules.AMBASSADOR_COUNCIL}
-							periodIsVoting={ambassadorQuery.data?.currentPeriod === 'VOTING'}
-						/>
-						<VoteCard
-							walletAddress={voteStatusQuery.data?.treasury.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.treasury.voted}
-							council={DeployedModules.TREASURY_COUNCIL}
-							periodIsVoting={treasuryQuery.data?.currentPeriod === 'VOTING'}
-						/>
+						{COUNCILS_DICTIONARY.map((council, index) => (
+							<VoteCard
+								key={council.slug.concat(index.toString())}
+								walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
+								hasVoted={!!voteStatusQuery.data?.spartan.voted}
+								periodIsVoting={
+									!!(allPeriods as CurrentPeriodsWithCouncils[])?.find(
+										(period) => period[council.slug] === 'VOTING'
+									)
+								}
+								council={council.module}
+							/>
+						))}
 					</div>
 				</div>
 			)}
 			<div className="flex justify-center w-full flex-wrap mt-10 gap-2">
-				{spartanCouncilInfo && (
+				{COUNCILS_DICTIONARY.map((council) => (
 					<CouncilCard
-						deployedModule={DeployedModules.SPARTAN_COUNCIL}
-						{...spartanCouncilInfo}
-						image="/logos/spartan-council.svg"
-						council="spartan"
+						key={council.slug}
+						deployedModule={council.module}
+						council={council.slug}
+						image={council.image}
 					/>
-				)}
-				{grantsCouncilInfo && (
-					<CouncilCard
-						deployedModule={DeployedModules.GRANTS_COUNCIL}
-						{...grantsCouncilInfo}
-						image="/logos/grants-council.svg"
-						council="grants"
-					/>
-				)}
-				{ambassadorCouncilInfo && (
-					<CouncilCard
-						deployedModule={DeployedModules.AMBASSADOR_COUNCIL}
-						{...ambassadorCouncilInfo}
-						image="/logos/ambassador-council.svg"
-						council="ambassador"
-					/>
-				)}
-				{treasuryCouncilInfo && (
-					<CouncilCard
-						deployedModule={DeployedModules.TREASURY_COUNCIL}
-						{...treasuryCouncilInfo}
-						image="/logos/treasury-council.svg"
-						council="treasury"
-					/>
-				)}
+				))}
 			</div>
 		</div>
 	);

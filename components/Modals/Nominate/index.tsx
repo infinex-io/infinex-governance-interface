@@ -1,13 +1,12 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
-import { Checkbox } from 'components/old-ui';
+import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
-import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -29,27 +28,7 @@ export default function NominateModal() {
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const isInNominationPeriodSpartan = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const isInNominationPeriodGrants = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const isInNominationPeriodAmbassador = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const isInNominationPeriodTreasury = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
-
-	const isAlreadyNominatedForSpartan = useIsNominated(
-		DeployedModules.SPARTAN_COUNCIL,
-		data?.address || ''
-	);
-	const isAlreadyNominatedForGrants = useIsNominated(
-		DeployedModules.GRANTS_COUNCIL,
-		data?.address || ''
-	);
-	const isAlreadyNominatedForAmbassador = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
-		data?.address || ''
-	);
-	const isAlreadyNominatedForTreasury = useIsNominated(
-		DeployedModules.TREASURY_COUNCIL,
-		data?.address || ''
-	);
+	const { data: periodData } = useCurrentPeriod();
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
@@ -68,13 +47,6 @@ export default function NominateModal() {
 				});
 		}
 	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, data?.address]);
-	/* @dev only for security reasons. For whatever the user ends up in a nomination modal although he already nominated himself, 
-	we should block all the councils radio button */
-	const isAlreadyNominated =
-		isAlreadyNominatedForSpartan.data ||
-		isAlreadyNominatedForGrants.data ||
-		isAlreadyNominatedForAmbassador.data ||
-		isAlreadyNominatedForTreasury.data;
 
 	const setCTA = (council: string) => {
 		return (
@@ -83,6 +55,14 @@ export default function NominateModal() {
 				<h3 className="tg-title-h3">{ensName || truncateAddress(data?.address!)}</h3>
 			</>
 		);
+	};
+
+	const shouldBeDisabled = (council: string) => {
+		if (Array.isArray(periodData)) {
+			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
+			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
+		}
+		return true;
 	};
 
 	const handleNomination = async () => {
@@ -135,58 +115,17 @@ export default function NominateModal() {
 						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(data!.address!)}</h3>
 					</div>
 					<div className="flex justify-center flex-col md:flex-row gap-4 m-10 max-w-[190px] w-full md:max-w-none">
-						<Checkbox
-							id="spartan-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('spartan');
-							}}
-							label={t('modals.nomination.checkboxes.spartan')}
-							color="lightBlue"
-							checked={activeCheckbox === 'spartan'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
-						<Checkbox
-							id="grants-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('grants');
-							}}
-							label={t('modals.nomination.checkboxes.grants')}
-							color="lightBlue"
-							checked={activeCheckbox === 'grants'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
-						<Checkbox
-							id="ambassador-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('ambassador');
-							}}
-							label={t('modals.nomination.checkboxes.ambassador')}
-							color="lightBlue"
-							checked={activeCheckbox === 'ambassador'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
-						<Checkbox
-							id="treasury-council-checkbox"
-							onChange={() => {
-								setActiveCheckbox('treasury');
-							}}
-							label={t('modals.nomination.checkboxes.treasury')}
-							color="lightBlue"
-							checked={activeCheckbox === 'treasury'}
-							disabled={
-								isAlreadyNominated ||
-								isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'
-							}
-						/>
+						{COUNCILS_DICTIONARY.map((council) => (
+							<Checkbox
+								key={`${council.slug}-council-checkbox`}
+								id={`${council.slug}-council-checkbox`}
+								onChange={() => setActiveCheckbox(council.slug)}
+								label={t('modals.nomination.checkboxes'.concat(council.slug))}
+								color="lightBlue"
+								checked={activeCheckbox === council.slug}
+								disabled={shouldBeDisabled(council.slug)}
+							/>
+						))}
 					</div>
 					<Button
 						className="w-[313px]"

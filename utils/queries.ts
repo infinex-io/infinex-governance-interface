@@ -1,7 +1,7 @@
 import { DeployedModules } from 'containers/Modules';
 
 export const nomineesQueryKeys = (council: DeployedModules) => ['nominees', council];
-export const isNominatedQueryKeys = (council: DeployedModules, walletAddress: string) => [
+export const isNominatedQueryKeys = (council: DeployedModules | null, walletAddress: string) => [
 	'nominees',
 	'isNominated',
 	walletAddress,

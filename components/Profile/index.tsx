@@ -14,20 +14,36 @@ import clsx from 'clsx';
 import { compareAddress, urlIsCorrect } from 'utils/helpers';
 import { useAccount } from 'wagmi';
 import Image from 'next/image';
-import useIsNominatedForCouncilInNominationPeriod from 'queries/nomination/useIsNominatedForCouncilInNominationPeriod';
 import { useModalContext } from 'containers/Modal';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { COUNCILS_DICTIONARY } from 'constants/config';
+import { useConnectorContext } from 'containers/Connector';
+import { DeployedModules } from 'containers/Modules';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
+	const { ensName } = useConnectorContext();
 	const { setContent, setIsOpen: setModalOpen } = useModalContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const isNominatedQuery = useIsNominatedForCouncilInNominationPeriod(walletAddress);
 	const isOwnCard = compareAddress(walletAddress, data?.address);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
+	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
+	const grants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);
+	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
+	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
+	const councilNomination = [spartan.data, grants.data, ambassador.data, treasury.data];
+	const { data: allPeriods } = useCurrentPeriod();
+	const isNominatedFor = COUNCILS_DICTIONARY.map((council, index) => ({
+		nominated: councilNomination && Array.isArray(councilNomination) && councilNomination[index],
+		period: allPeriods && Array.isArray(allPeriods) && allPeriods[index][council.slug],
+		council: council.label,
+		module: council.module,
+	})).filter((v) => v.nominated && v.period === 'NOMINATION');
 
 	if (userDetailsQuery.isSuccess && userDetailsQuery.data) {
 		const {
@@ -51,68 +67,68 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 		};
 
 		return (
-			<>
-				<div className="flex flex-col md:items-center align-center pt-12 container mx-auto">
-					<div
-						className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
-							'bg-[url(/images/ring-orange.svg)]': isOwnCard,
-							'bg-[url(/images/ring.svg)]': !isOwnCard,
-						})}
-					>
-						<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
-						{councilMembersQuery.data && (
-							<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
-								{t('profiles.council', { council: councilMembersQuery.data })}
-							</Badge>
-						)}
-						<div className="flex flex-col justify-between items-center p-3">
-							<div className="flex items-center mt-3">
-								<h4 className="tg-title-h4 mr-3">
-									{username || ens || truncateAddress(walletAddress)}
-								</h4>
-								<Dropdown
-									triggerElement={
-										<div className="flex items-center hover:brightness-150 transition-colors justify-center cursor-pointer rounded bg-dark-blue w-[28px] h-[28px]">
-											<Icon className="text-xl" name="Vertical" />
-										</div>
-									}
-									contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
-									triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-									contentAlignment="right"
-								>
-									<>
-										{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
-											<ExternalLink
-												link={twitter}
-												className="hover:bg-navy-dark-1 rounded-none"
-												text="Twitter"
-												withoutIcon
-											/>
-										)}
-
-										{address && (
-											<ExternalLink
-												link={`https://optimistic.etherscan.io/address/${address}`}
-												className="hover:bg-navy-dark-1 rounded-none"
-												text="Etherscan"
-												withoutIcon
-											/>
-										)}
-									</>
-								</Dropdown>
-							</div>
-							<Dialog
-								className="overflow-auto"
-								wrapperClass="max-w-[700px]"
-								onClose={() => setIsOpen(false)}
-								open={isOpen}
+			<div className="flex flex-col md:items-center align-center pt-12">
+				<div
+					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
+						'bg-[url(/images/ring-orange.svg)]': isOwnCard,
+						'bg-[url(/images/ring.svg)]': !isOwnCard,
+					})}
+				>
+					<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
+					{councilMembersQuery.data && (
+						<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
+							{t('profiles.council', { council: councilMembersQuery.data })}
+						</Badge>
+					)}
+					<div className="flex flex-col justify-between items-center p-3">
+						<div className="flex items-center mt-3">
+							<h4 className="tg-title-h4 mr-3">
+								{username || ensName || truncateAddress(walletAddress)}
+							</h4>
+							<Dropdown
+								triggerElement={
+									<IconButton variant="dark-blue">
+										<Icon className="text-xl" name="Vertical" />
+									</IconButton>
+								}
+								contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+								contentAlignment="right"
 							>
-								<ProfileForm userProfile={userDetailsQuery.data} />
-							</Dialog>
+								<>
+									{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
+										<ExternalLink
+											link={twitter}
+											className="hover:bg-navy-dark-1 rounded-none"
+											text="Twitter"
+											withoutIcon
+										/>
+									)}
+
+									{address && (
+										<ExternalLink
+											link={`https://optimistic.etherscan.io/address/${address}`}
+											className="hover:bg-navy-dark-1 rounded-none"
+											text="Etherscan"
+											withoutIcon
+										/>
+									)}
+								</>
+							</Dropdown>
 						</div>
-						<p className="tg-body py-8 text-center max-w-[1000px]">{about}</p>
+						<Dialog
+							className="overflow-auto"
+							wrapperClass="max-w-[700px]"
+							onClose={() => setIsOpen(false)}
+							open={isOpen}
+						>
+							<ProfileForm userProfile={userDetailsQuery.data} />
+						</Dialog>
 					</div>
-					{isOwnCard && !!isNominatedQuery.data?.length && (
+					<p className="tg-body py-8 text-center max-w-[1000px]">{about}</p>
+				</div>
+				<div className="container">
+					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
 							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
 								<div className="flex flex-col">
@@ -181,11 +197,11 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											size="md"
 											className="max-w-[180px] m-2"
 											onClick={() => {
-												if (isNominatedQuery.data?.length) {
+												if (isNominatedFor?.length) {
 													setContent(
 														<WithdrawNominationModal
-															council={isNominatedQuery.data[0].council}
-															deployedModule={isNominatedQuery.data[0].module}
+															council={isNominatedFor[0].council}
+															deployedModule={isNominatedFor[0].module}
 														/>
 													);
 													setModalOpen(true);
@@ -219,10 +235,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 								github={github}
 								twitter={twitter}
 								pitch={delegationPitch}
-								className="max-w-[1200px]"
-								deployedModule={
-									!!isNominatedQuery.data?.length ? isNominatedQuery.data[0].module : undefined
-								}
+								deployedModule={!!isNominatedFor.length ? isNominatedFor[0].module : undefined}
 							/>
 						</div>
 					</div>
@@ -232,7 +245,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 						{t('profiles.view-all-members')}
 					</Button>
 				</div>
-			</>
+			</div>
 		);
 	} else {
 		return <Loader fullScreen />;

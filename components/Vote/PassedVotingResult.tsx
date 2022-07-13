@@ -1,4 +1,4 @@
-import { Accordion, Badge, Pagination } from '@synthetixio/ui';
+import { Accordion, Pagination } from '@synthetixio/ui';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber } from 'ethers';
 import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';

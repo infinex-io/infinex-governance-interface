@@ -1,10 +1,8 @@
-import { Button, Icon } from '@synthetixio/ui';
-import { ButtonCard } from 'components/old-ui';
+import { Button, ButtonCard } from '@synthetixio/ui';
 import CouncilsCarousel from 'components/CouncilsCarousel';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { CouncilCard } from 'components/CouncilCard';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
@@ -31,7 +29,7 @@ export default function LandingPage() {
 							/>
 						))}
 					</div>
-					{/* <VoteResultBanner /> */}
+					<VoteResultBanner />
 				</div>
 			</div>
 			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.second-headline')}</h1>
@@ -40,38 +38,38 @@ export default function LandingPage() {
 			</span>
 			<div className="flex flex-wrap justify-center mt-8">
 				<Link href="/councils" passHref>
-					<StyledButtonCards
+					<ButtonCard
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.all-members')}
 						subline={t('landing-page.button-cards.all-members-subline')}
-						icon={<Icon name="Link-off" className="text-primary" />}
-						arrowDirection="right"
-					></StyledButtonCards>
+						direction="left"
+					></ButtonCard>
 				</Link>
 				<Link href="https://sips.synthetix.io/all-sip/" passHref>
-					<StyledButtonCards
+					<ButtonCard
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.sccp')}
 						subline={t('landing-page.button-cards.sccp-subline')}
-						icon={<Icon name="Link-off" className="text-primary" />}
-						arrowDirection="right"
-					></StyledButtonCards>
+						direction="left"
+					></ButtonCard>
 				</Link>
 			</div>
 			<div className="flex flex-wrap justify-center">
 				<Link href="https://discord.com/invite/HQSTqXH84t" passHref>
-					<StyledButtonCards
+					<ButtonCard
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.forum')}
 						subline={t('landing-page.button-cards.forum-subline')}
-						icon={<Icon name="Link-off" className="text-primary" />}
-						arrowDirection="right"
-					></StyledButtonCards>
+						direction="left"
+					></ButtonCard>
 				</Link>
 				<Link href="https://gov.synthetix.io/#/" passHref>
-					<StyledButtonCards
+					<ButtonCard
+						className="max-w-lg m-2 h-[170px] md:h-[122px]"
 						headline={t('landing-page.button-cards.records')}
 						subline={t('landing-page.button-cards.records-subline')}
-						icon={<Icon name="Link-off" className="text-primary" />}
-						arrowDirection="right"
-					></StyledButtonCards>
+						direction="left"
+					></ButtonCard>
 				</Link>
 			</div>
 			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.tabs-headline')}</h1>
@@ -85,9 +83,3 @@ export default function LandingPage() {
 		</div>
 	);
 }
-
-const StyledButtonCards = styled(ButtonCard)`
-	width: 350px;
-	height: 112px;
-	margin: ${({ theme }) => theme.spacings.small};
-`;

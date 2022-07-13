@@ -1,5 +1,4 @@
-import { DiscordIcon, GitHubIcon, TwitterIcon } from 'components/old-ui';
-import useUserDetailsQuery, { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
+import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@synthetixio/ui';
 import Link from 'next/link';
@@ -13,6 +12,9 @@ import { copyToClipboard } from 'utils/helpers';
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
 import { MemberCardAction } from './MemberCardAction';
+import TwitterIcon from 'components/Icons/TwitterIcon';
+import GitHubIcon from 'components/Icons/GitHubIcon';
+import DiscordIcon from 'components/Icons/DiscordIcon';
 
 interface MemberCardProps {
 	walletAddress: string;
@@ -163,7 +165,7 @@ export default function MemberCard({
 			className={clsx('p-0.5 rounded-lg', className, {
 				'bg-orange': isOwnCard,
 				'bg-purple': !isOwnCard,
-				'xs:w-[210px] w-full max-w-full h-[285px]': !listView,
+				'w-full xs:max-w-[210px] min-w-[210px] h-[285px]': !listView,
 				'w-full': listView,
 			})}
 		>

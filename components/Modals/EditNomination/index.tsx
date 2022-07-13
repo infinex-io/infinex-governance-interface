@@ -1,7 +1,6 @@
 import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 import { useTranslation } from 'react-i18next';
-import { Checkbox } from 'components/old-ui';
 import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
@@ -10,11 +9,12 @@ import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
 import { useModalContext } from 'containers/Modal';
 import { useQueryClient } from 'react-query';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 
 interface EditModalProps {
 	council: string;
@@ -36,10 +36,15 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const isInNominationPeriodSpartan = useCurrentPeriod(DeployedModules.SPARTAN_COUNCIL);
-	const isInNominationPeriodGrants = useCurrentPeriod(DeployedModules.GRANTS_COUNCIL);
-	const isInNominationPeriodAmbassador = useCurrentPeriod(DeployedModules.AMBASSADOR_COUNCIL);
-	const isInNominationPeriodTreasury = useCurrentPeriod(DeployedModules.TREASURY_COUNCIL);
+	const { data: periodData } = useCurrentPeriod();
+
+	const shouldBeDisabled = (council: string) => {
+		if (Array.isArray(periodData)) {
+			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
+			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
+		}
+		return true;
+	};
 
 	useEffect(() => {
 		if (state === 'confirmed' && step === 1) {
@@ -174,38 +179,17 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 								</div>
 								<h5 className="tg-title-h5 text-white m-2 mb-4">{t('modals.edit.step-two')}</h5>
 								<div className="flex justify-between md:flex-row flex-col w-full flex-wrap gap-4">
-									<Checkbox
-										id="spartan-council-checkbox"
-										onChange={() => setActiveCheckbox('spartan')}
-										label={t('modals.nomination.checkboxes.spartan')}
-										color="lightBlue"
-										checked={activeCheckbox === 'spartan'}
-										disabled={isInNominationPeriodSpartan.data?.currentPeriod !== 'NOMINATION'}
-									/>
-									<Checkbox
-										id="grants-council-checkbox"
-										onChange={() => setActiveCheckbox('grants')}
-										label={t('modals.nomination.checkboxes.grants')}
-										color="lightBlue"
-										checked={activeCheckbox === 'grants'}
-										disabled={isInNominationPeriodGrants.data?.currentPeriod !== 'NOMINATION'}
-									/>
-									<Checkbox
-										id="ambassador-council-checkbox"
-										onChange={() => setActiveCheckbox('ambassador')}
-										label={t('modals.nomination.checkboxes.ambassador')}
-										color="lightBlue"
-										checked={activeCheckbox === 'ambassador'}
-										disabled={isInNominationPeriodAmbassador.data?.currentPeriod !== 'NOMINATION'}
-									/>
-									<Checkbox
-										id="treasury-council-checkbox"
-										onChange={() => setActiveCheckbox('treasury')}
-										label={t('modals.nomination.checkboxes.treasury')}
-										color="lightBlue"
-										checked={activeCheckbox === 'treasury'}
-										disabled={isInNominationPeriodTreasury.data?.currentPeriod !== 'NOMINATION'}
-									/>
+									{COUNCILS_DICTIONARY.map((council) => (
+										<Checkbox
+											key={`${council.slug}-council-checkbox`}
+											id={`${council.slug}-council-checkbox`}
+											onChange={() => setActiveCheckbox(council.slug)}
+											label={t('modals.nomination.checkboxes'.concat(council.slug))}
+											color="lightBlue"
+											checked={activeCheckbox === council.slug}
+											disabled={shouldBeDisabled(council.slug)}
+										/>
+									))}
 								</div>
 							</>
 						)}

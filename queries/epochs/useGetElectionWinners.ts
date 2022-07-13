@@ -6,7 +6,7 @@ function useGetElectionWinners(moduleInstance: DeployedModules, epochIndex: numb
 	const governanceModules = useModulesContext();
 
 	return useQuery<string[]>(
-		['election-winners', moduleInstance, epochIndex],
+		['electionWinners', moduleInstance, epochIndex],
 		async () => {
 			const contract = governanceModules[moduleInstance]?.contract;
 			const winners = await contract?.getElectionWinnersInEpoch(epochIndex);
