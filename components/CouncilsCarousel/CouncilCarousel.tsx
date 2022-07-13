@@ -27,7 +27,6 @@ export const CouncilCarousel = ({ members, listView, council }: Props) => {
 	return (
 		<div className="w-full container">
 			<Swiper
-				slideProps={{ className: 'm-2' }}
 				className="w-full"
 				breakpoints={{
 					// when window width is >= 320px
