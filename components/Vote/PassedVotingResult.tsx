@@ -1,13 +1,15 @@
-import { Accordion, Pagination } from '@synthetixio/ui';
+import { Accordion, Pagination, Table } from '@synthetixio/ui';
 import { DeployedModules } from 'containers/Modules';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useGetElectionWinners from 'queries/epochs/useGetElectionWinners';
-import { useVotingResult } from 'queries/voting/useVotingResult';
-import React, { useEffect, useState } from 'react';
+import { useVotingResult, VoteResult } from 'queries/voting/useVotingResult';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { compareAddress } from 'utils/helpers';
+import { Column } from 'react-table';
+import { currency } from 'utils/currency';
+import { calcPercentage, compareAddress } from 'utils/helpers';
 import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
 
 interface PassedVotingResultsProps {
@@ -66,8 +68,46 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 			? result?.length
 			: startIndex + PAGE_SIZE;
 
+	const columns = useMemo<Column<VoteResult>[]>(
+		() => [
+			{
+				Header: t<string>('vote.pre-eval.table.name'),
+				accessor: (row) => row.voteCount,
+				columnClass: 'text-left',
+				cellClass: 'text-left',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.votes'),
+				accessor: (row) => row.voteCount,
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.power'),
+				accessor: (row) =>
+					totalVotingPowers ? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%` : '',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
+				accessor: (row) =>
+					currency(
+						utils.formatUnits(
+							row.totalVotePower,
+							moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+						)
+					),
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.actions'),
+				accessor: (row) => row.voteCount,
+			},
+		],
+		[isTreasury, moduleInstance, t, totalVotingPowers]
+	);
+
+	if (!result) return null;
+
 	return (
 		<div className="w-full overflow-auto">
+			<Table data={result} columns={columns} />
 			<table className="w-full :table">
 				<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
 					<th className="text-left p-6 tg-caption text-gray-500">
