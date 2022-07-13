@@ -19,22 +19,12 @@ export type CurrentPeriodsWithCouncils = Record<
 	keyof typeof EpochPeriods
 >;
 
-function useCurrentPeriod(moduleInstance?: DeployedModules) {
+export const useCurrentPeriod = (moduleInstance: DeployedModules) => {
 	const governanceModules = useModulesContext();
 
-	return useQuery<CurrentPeriod | CurrentPeriodsWithCouncils[]>(
+	return useQuery<CurrentPeriod>(
 		['currentPeriod', moduleInstance],
 		async () => {
-			if (!moduleInstance) {
-				const promises = COUNCILS_DICTIONARY.map((council) =>
-					governanceModules[council.module]?.contract.getCurrentPeriod()
-				);
-				const rawNumber = await Promise.all(promises);
-				const results = rawNumber.map((raw) => Number(raw));
-				return COUNCILS_DICTIONARY.map((council, index) => ({
-					[council.slug]: EpochPeriods[results[index]] as keyof typeof EpochPeriods,
-				}));
-			}
 			const contract = governanceModules[moduleInstance]?.contract;
 			let currentPeriod = Number(await contract?.getCurrentPeriod());
 
@@ -45,6 +35,26 @@ function useCurrentPeriod(moduleInstance?: DeployedModules) {
 			staleTime: 900000,
 		}
 	);
-}
+};
 
-export default useCurrentPeriod;
+export const useCurrentPeriods = () => {
+	const governanceModules = useModulesContext();
+
+	return useQuery<CurrentPeriodsWithCouncils[]>(
+		['currentPeriods'],
+		async () => {
+			const promises = COUNCILS_DICTIONARY.map((council) =>
+				governanceModules[council.module]?.contract.getCurrentPeriod()
+			);
+			const rawNumber = await Promise.all(promises);
+			const results = rawNumber.map((raw) => Number(raw));
+			return COUNCILS_DICTIONARY.map((council, index) => ({
+				[council.slug]: EpochPeriods[results[index]] as keyof typeof EpochPeriods,
+			}));
+		},
+		{
+			enabled: governanceModules !== null,
+			staleTime: 900000,
+		}
+	);
+};

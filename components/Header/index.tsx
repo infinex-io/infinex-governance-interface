@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import { COUNCIL_SLUGS } from 'constants/config';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { Button } from '@synthetixio/ui';
 import SNXIcon from 'components/Icons/SNXIcon';
 
@@ -22,11 +22,9 @@ export default function Header() {
 	const { data } = useAccount();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 	const [routes, setRoutes] = useState(routesDic);
-	const allPeriods = useCurrentPeriod();
+	const allPeriods = useCurrentPeriods();
 	const oneCouncilIsInVotingPeriod = !!COUNCIL_SLUGS.find((council, index) =>
-		Array.isArray(allPeriods.data) && allPeriods.data?.length
-			? allPeriods.data[index][council] === 'VOTING'
-			: false
+		allPeriods.data?.length ? allPeriods.data[index][council] === 'VOTING' : false
 	);
 
 	useEffect(() => {

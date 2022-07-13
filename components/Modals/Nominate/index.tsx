@@ -6,7 +6,7 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -28,7 +28,7 @@ export default function NominateModal() {
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriod();
+	const { data: periodData } = useCurrentPeriods();
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
@@ -58,7 +58,7 @@ export default function NominateModal() {
 	};
 
 	const shouldBeDisabled = (council: string) => {
-		if (Array.isArray(periodData)) {
+		if (periodData) {
 			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
 			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
 		}

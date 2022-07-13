@@ -5,7 +5,7 @@ import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
 import { useEffect, useState } from 'react';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
@@ -36,10 +36,10 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriod();
+	const { data: periodData } = useCurrentPeriods();
 
 	const shouldBeDisabled = (council: string) => {
-		if (Array.isArray(periodData)) {
+		if (periodData) {
 			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
 			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
 		}

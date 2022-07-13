@@ -1,7 +1,10 @@
 import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { useRouter } from 'next/router';
-import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
+import {
+	useCurrentPeriods,
+	CurrentPeriodsWithCouncils,
+} from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react';
@@ -14,7 +17,7 @@ export default function VoteSection() {
 	const { push } = useRouter();
 	const { data } = useAccount();
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
-	const { data: allPeriods } = useCurrentPeriod();
+	const { data: allPeriods } = useCurrentPeriods();
 
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
 
@@ -23,7 +26,7 @@ export default function VoteSection() {
 	}, [activeCouncilInVoting, push]);
 
 	useEffect(() => {
-		if (Array.isArray(allPeriods) && allPeriods.length) {
+		if (allPeriods?.length) {
 			setActiveCouncilInVoting(
 				allPeriods.filter((period) => period[Object.keys(period)[0]] === 'VOTING').length
 			);

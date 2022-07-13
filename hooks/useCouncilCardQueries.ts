@@ -1,5 +1,5 @@
 import { DeployedModules } from 'containers/Modules';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
 import useNominationPeriodDatesQuery from 'queries/epochs/useNominationPeriodDatesQuery';
 import useVotingPeriodDatesQuery from 'queries/epochs/useVotingPeriodDatesQuery';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';

@@ -27,7 +27,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const voteCount = useVotingCount(deployedModule, null);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
-	const period = !Array.isArray(currentPeriodData) && currentPeriodData?.currentPeriod;
+	const period = currentPeriodData?.currentPeriod;
 
 	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
 
