@@ -35,7 +35,7 @@ export default function NominateSelfBanner({
 					rounded
 					className="w-[160px] pl-2"
 				>
-					{t('banner.nominate.self')}
+					{t('banner.nominate.headline')}
 					<Icon name="Right" />
 				</IconButton>
 			) : (
