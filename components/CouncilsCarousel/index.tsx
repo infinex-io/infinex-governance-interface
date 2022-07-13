@@ -10,7 +10,7 @@ import { COUNCILS_DICTIONARY } from 'constants/config';
 export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMembers?: boolean }) {
 	const { t } = useTranslation();
 	const [listView, setListView] = useState(false);
-	const [activeTab, setActiveTab] = useState(withoutAllMembers ? 'spartan' : 'all-members');
+	const [activeTab, setActiveTab] = useState('spartan');
 
 	const { data: spartan } = useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL);
 	const { data: grants } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
@@ -80,7 +80,7 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 				<Tabs
 					className="mb-4 justify-start lg:mx-auto hide-scrollbar"
 					contentClassName="max-w-[90vw]"
-					initial={withoutAllMembers ? 'spartan' : 'all-members'}
+					initial={activeTab}
 					items={getTabItems()}
 					onChange={(id) => setActiveTab(String(id))}
 				/>
