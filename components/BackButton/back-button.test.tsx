@@ -13,16 +13,22 @@ jest.mock('react-i18next', () => ({
 }));
 
 test('BackButton component should have "back" as translation text', () => {
+	useRouter.mockImplementationOnce(() => ({
+		push: jest.fn(),
+	}));
 	render(<BackButton />);
 	expect(screen.getAllByTestId('back-button-text')[0].innerHTML).toBe('Back');
 });
 
 test('BackButton component should have "back" as translation text wrapped in a span element', () => {
+	useRouter.mockImplementationOnce(() => ({
+		push: jest.fn(),
+	}));
 	render(<BackButton />);
 	expect(screen.getAllByTestId('back-button-text')[0].nodeName === 'SPAN').toBeTruthy();
 });
 
-test.only('BackButton should navigate back to homepage when being clicked', () => {
+test('BackButton should navigate back to homepage when being clicked', () => {
 	let state = '/defaultRoute';
 	useRouter.mockImplementationOnce(() => ({
 		push: (route: string) => (state = route),
