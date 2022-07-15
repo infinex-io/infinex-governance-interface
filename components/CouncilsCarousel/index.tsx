@@ -6,12 +6,15 @@ import { TabIcon } from 'components/TabIcon';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { DeployedModules } from 'containers/Modules';
 import { COUNCILS_DICTIONARY } from 'constants/config';
+import useIsMobile from 'hooks/useIsMobile';
+import clsx from 'clsx';
 
 export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMembers?: boolean }) {
 	const { t } = useTranslation();
 	const [listView, setListView] = useState(false);
 	const [activeTab, setActiveTab] = useState('spartan');
 
+	const isMobile = useIsMobile();
 	const { data: spartan } = useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL);
 	const { data: grants } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
 	const { data: ambassador } = useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL);
@@ -76,10 +79,14 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 		};
 
 		return (
-			<div className="mt-4 flex flex-col container relative">
+			<div
+				className={clsx('mt-4 flex flex-col relative', {
+					container: !isMobile,
+				})}
+			>
 				<Tabs
 					className="mb-4 justify-start lg:mx-auto hide-scrollbar"
-					contentClassName="max-w-[90vw]"
+					contentClassName="xs:max-w-[90vw] w-full mx-auto"
 					initial={activeTab}
 					items={getTabItems()}
 					onChange={(id) => setActiveTab(String(id))}
