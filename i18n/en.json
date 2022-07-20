@@ -70,7 +70,6 @@
 	"councils": {
 		"headline": "Our Current Elected Members",
 		"subline": "Meet each of the nominees for the new and up and coming elections for the Synthetix governing bodies, each responsible for a core aspect of the DAO.",
-		"back-btn": "Back",
 		"nominees": "{{ council }} Council Nominees",
 		"view-member": "View Member",
 		"view-nominee": "View Nominee",
@@ -293,5 +292,8 @@
 		"caption": "We’re not sure where it went",
 		"backToHomepage": "Back to Governance Homepage"
 	},
-	"copyClipboardMessage": "Successfully Copied"
+	"components": {
+		"copy-clipboard-message": "Successfully Copied",
+		"back-btn": "Back"
+	}
 }
