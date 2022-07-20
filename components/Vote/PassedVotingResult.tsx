@@ -1,4 +1,5 @@
-import { Accordion, Pagination, Table } from '@synthetixio/ui';
+import { Accordion, Badge, Table } from '@synthetixio/ui';
+import { CouncilBadge } from 'components/CouncilBadge';
 import { DeployedModules } from 'containers/Modules';
 import { BigNumber, utils } from 'ethers';
 import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
@@ -10,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Column } from 'react-table';
 import { currency } from 'utils/currency';
 import { calcPercentage, compareAddress } from 'utils/helpers';
-import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
+import { UserDetails } from './UserDetails';
 
 interface PassedVotingResultsProps {
 	moduleInstance: DeployedModules;
@@ -72,7 +73,18 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 		() => [
 			{
 				Header: t<string>('vote.pre-eval.table.name'),
-				accessor: (row) => row.voteCount,
+				accessor: (row) => <UserDetails walletAddress={row.walletAddress} />,
+				columnClass: 'text-left',
+				cellClass: 'text-left',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.outcome'),
+				accessor: (row) =>
+					!!winners?.find((winner: string) => compareAddress(winner, row.walletAddress)) ? (
+						<CouncilBadge council={moduleInstance} />
+					) : (
+						<Badge variant="gray">{t('vote.pre-eval.table.nominee')}</Badge>
+					),
 				columnClass: 'text-left',
 				cellClass: 'text-left',
 			},
@@ -95,12 +107,8 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 						)
 					),
 			},
-			{
-				Header: t<string>('vote.pre-eval.table.actions'),
-				accessor: (row) => row.voteCount,
-			},
 		],
-		[isTreasury, moduleInstance, t, totalVotingPowers]
+		[isTreasury, moduleInstance, t, totalVotingPowers, winners]
 	);
 
 	if (!result) return null;
@@ -108,50 +116,6 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 	return (
 		<div className="w-full overflow-auto">
 			<Table data={result} columns={columns} />
-			<table className="w-full :table">
-				<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
-					<th className="text-left p-6 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.name')}
-					</th>
-					<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-					<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-					<th className="tg-caption text-gray-500 p-6">
-						{t('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' })}
-					</th>
-					<th className="text-right p-6 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.actions')}
-					</th>
-				</tr>
-				{result
-					?.sort((a, b) => {
-						if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-						if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-						return 0;
-					})
-					.slice(startIndex, endIndex)
-					.map((voteResult) => (
-						<PreEvaluationSectionRow
-							key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-							isActive={
-								!!winners?.find((winner: string) =>
-									compareAddress(winner, voteResult.walletAddress)
-								)
-							}
-							totalVotingPowers={totalVotingPowers}
-							voteResult={voteResult}
-							walletAddress={voteResult.walletAddress}
-						/>
-					))}
-			</table>
-			<div className="w-full">
-				<Pagination
-					className="mx-auto py-4"
-					pageIndex={activePage}
-					gotoPage={setActivePage}
-					length={result?.length || 0}
-					pageSize={PAGE_SIZE}
-				/>
-			</div>
 		</div>
 	);
 };

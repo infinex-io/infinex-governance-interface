@@ -2672,9 +2672,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@synthetixio/ui@npm:3.9.1":
-  version: 3.9.1
-  resolution: "@synthetixio/ui@npm:3.9.1"
+"@synthetixio/ui@npm:3.10.0":
+  version: 3.10.0
+  resolution: "@synthetixio/ui@npm:3.10.0"
   dependencies:
     "@synthetixio/transaction-notifier": ^2.70.1
     babel-loader: 8.2.3
@@ -2688,7 +2688,7 @@ __metadata:
   dependenciesMeta:
     babel-loader:
       optional: true
-  checksum: e25cdb82c5cc81095f3a8f96f5299b37086ab37e13581ba0949e195fb6faa7612b94a72b9838f8eda5794638ca3e3e7b0c292ac81000f7305401d6ed8fdc7e79
+  checksum: 3b45d42c59485c4bc9b6b33686e1913f009fd4a5ad64a901f5020cbe1738838f4faa32a0863bda2698f558ee92c2019654067d9a64e664c3f26805f1bc40c30c
   languageName: node
   linkType: hard
 
@@ -3095,6 +3095,15 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 66e1f9eb961eaa863bab02e143f0298516d9fa640f0737816ebc766b90ca1062c2dc18cbfda1c1679aa4be640172efe6931886207af4f01b8c894988f9df085a
+  languageName: node
+  linkType: hard
+
+"@types/react-table@npm:^7.7.12":
+  version: 7.7.12
+  resolution: "@types/react-table@npm:7.7.12"
+  dependencies:
+    "@types/react": "*"
+  checksum: 287ea68e75b56c2e70e6d6491cd172348c7302b032789047eb2dca1b25b240684e48a60f58140575828b790f95724b9f3ec4d3adce82fc1c05d994def1449009
   languageName: node
   linkType: hard
 
@@ -7829,7 +7838,7 @@ __metadata:
     "@synthetixio/contracts-interface": 2.64.1
     "@synthetixio/providers": 2.64.1
     "@synthetixio/transaction-notifier": ^2.63.1
-    "@synthetixio/ui": 3.9.1
+    "@synthetixio/ui": 3.10.0
     "@synthetixio/wei": ^2.73.1
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 12.1.2
