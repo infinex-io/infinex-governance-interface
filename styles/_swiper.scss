@@ -7,6 +7,11 @@ html {
 	--swiper-pagination-bullet-inactive-opacity: 1;
 	--swiper-pagination-bullet-inactive-color: #828295;
 }
+.swiper-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .swiper-pagination-lock {
 	display: none;
 }

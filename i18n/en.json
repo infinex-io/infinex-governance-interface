@@ -284,8 +284,7 @@
 			"button": "VOTE NOW"
 		},
 		"nominate": {
-			"headline": "NOMINATE YOURSELF",
-			"self": "NOMINATE SELF",
+			"headline": "NOMINATE SELF",
 			"closes": "Nominations Closes in"
 		}
 	},

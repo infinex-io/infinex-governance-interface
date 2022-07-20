@@ -1,13 +1,12 @@
 import { Icon, IconButton } from '@synthetixio/ui';
 import clsx from 'clsx';
-import React, { ReactElement } from 'react';
-import { Navigation, Pagination } from 'swiper';
+import React, { ReactElement, useState } from 'react';
+import { Navigation, Pagination, Swiper as SwiperType } from 'swiper';
 import {
 	Swiper as SwiperReact,
 	SwiperProps as SwiperReactProps,
 	SwiperSlide,
 	SwiperSlideProps,
-	useSwiper,
 } from 'swiper/react';
 
 interface SwiperProps extends SwiperReactProps {
@@ -28,49 +27,57 @@ export const Swiper: React.FC<SwiperProps> = ({
 	buttonClassName,
 	...props
 }) => {
+	const [swiper, setSwiper] = useState<SwiperType | null>(null);
 	return (
-		<SwiperReact
-			className={clsx(className, 'relative')}
-			modules={[Navigation, Pagination]}
-			navigation={{
-				nextEl: '.swiper-button-next',
-				prevEl: '.swiper-button-prev',
-			}}
-			pagination={{ clickable: true }}
-			slidesPerView={slidesPerView}
-			spaceBetween={spaceBetween}
-			centeredSlides
-			{...props}
-		>
-			{slides.map((slide, i) => (
-				<SwiperSlide key={i} {...slideProps}>
-					{slide}
-				</SwiperSlide>
-			))}
+		<div className='relative w-full'>
+			<SwiperReact
+				className={clsx(className, 'relative')}
+				modules={[Navigation, Pagination]}
+				navigation={{
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				}}
+				pagination={{ clickable: true }}
+				slidesPerView={slidesPerView}
+				spaceBetween={spaceBetween}
+				centerInsufficientSlides
+				onSwiper={setSwiper}
+				{...props}
+			>
+				{slides.map((slide, i) => (
+					<SwiperSlide key={i} {...slideProps}>
+						{slide}
+					</SwiperSlide>
+				))}
+			</SwiperReact>
 
-			<SlideButton buttonClassName={buttonClassName} />
-			<SlideButton buttonClassName={buttonClassName} next />
-		</SwiperReact>
+			<SlideButton onClick={() => swiper?.slidePrev()} buttonClassName={buttonClassName} />
+			<SlideButton onClick={() => swiper?.slideNext()} buttonClassName={buttonClassName} next />
+		</div>
 	);
 };
 
 interface SlideButtonProps {
 	next?: boolean;
 	buttonClassName?: string;
+	onClick?: () => void;
 }
 
-const SlideButton: React.FC<SlideButtonProps> = ({ next = false, buttonClassName = '' }) => {
-	const swiper = useSwiper();
+const SlideButton: React.FC<SlideButtonProps> = ({
+	next = false,
+	buttonClassName = '',
+	onClick,
+}) => {
 	return (
 		<IconButton
 			rounded
-			className={clsx(buttonClassName, 'absolute top-1/2 z-10 -translate-y-1/2', {
-				'right-0 swiper-button-next': next,
-				'left-0 swiper-button-prev': !next,
+			className={clsx(buttonClassName, 'absolute top-1/2 -mt-6 z-10 -translate-y-1/2', {
+				'-right-6 swiper-button-next': next,
+				'-left-6 swiper-button-prev': !next,
 			})}
 			size="md"
 			variant="gray"
-			onClick={() => (next ? swiper.slideNext() : swiper.slidePrev())}
+			onClick={onClick}
 		>
 			{!next ? (
 				<Icon name="Left-4" className="text-primary text-2xl" />
