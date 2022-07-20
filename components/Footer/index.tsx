@@ -25,9 +25,9 @@ export default function Footer() {
 				<div className="hidden xs:block flex justify-center mb-6">
 					{LINKS.map((link) => (
 						<Link key={link.title} href={link.link} passHref>
-							<span className="mx-2 text-white hover:text-primary hover:opacity-100 uppercase gt-america-font tg-body opacity-60 cursor-pointer">
+							<a className="mx-2 text-white hover:text-primary hover:opacity-100 uppercase gt-america-font tg-body opacity-60 cursor-pointer">
 								{t(link.title)}
-							</span>
+							</a>
 						</Link>
 					))}
 				</div>
