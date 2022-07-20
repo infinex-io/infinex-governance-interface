@@ -26,7 +26,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ walletAddress }) => {
 			/>
 
 			<h5 className="tg-title-h5 capitalize ml-2">
-				{member.username || member.ens || truncateAddress(member.address)}
+				{member.username || truncateAddress(member.address)}
 			</h5>
 		</div>
 	);
