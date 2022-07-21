@@ -37,5 +37,18 @@ test('Nominate Self Banner should display the nomination time', () => {
 		</Wrapper>
 	);
 
-	expect(!!container.querySelector('.gt-america-mono')).toBe(true);
+	expect(!!container.querySelector('.flex .items-center .gt-america-mono')).toBe(true);
+});
+
+test('Nominate Self Banner should display the closes text when it is rendered', () => {
+	const Wrapper = getWrapper();
+	const { container } = render(
+		<Wrapper>
+			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+		</Wrapper>
+	);
+	expect(
+		!!container.querySelector('.flex .p-2 .darker-60 .text-white .items-center .flex-wrap .rounded')
+			?.innerHTML
+	).toEqual(enJSON.banner.nominate.closes);
 });

@@ -1,5 +1,6 @@
 import MemberCard from 'components/MemberCard/Index';
 import { Swiper } from 'components/Swiper';
+import useIsMobile from 'hooks/useIsMobile';
 
 interface Props {
 	members: string[];
@@ -8,9 +9,13 @@ interface Props {
 }
 
 export const CouncilCarousel = ({ members, listView, council }: Props) => {
+	const isMobile = useIsMobile();
+
+	const wrapperClassName = isMobile ? '' : 'container ';
+
 	if (listView)
 		return (
-			<div className="container w-full flex flex-col">
+			<div className={wrapperClassName + 'w-full flex flex-col'}>
 				{members?.map((member, index) => (
 					<MemberCard
 						walletAddress={member}
@@ -25,7 +30,7 @@ export const CouncilCarousel = ({ members, listView, council }: Props) => {
 		);
 
 	return (
-		<div className="w-full container">
+		<div className={wrapperClassName + 'w-full'}>
 			<Swiper
 				className="w-full"
 				breakpoints={{

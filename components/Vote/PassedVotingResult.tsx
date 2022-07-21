@@ -1,14 +1,17 @@
-import { Accordion, Pagination } from '@synthetixio/ui';
+import { Accordion, Badge, Table } from '@synthetixio/ui';
+import { CouncilBadge } from 'components/CouncilBadge';
 import { DeployedModules } from 'containers/Modules';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useGetElectionWinners from 'queries/epochs/useGetElectionWinners';
-import { useVotingResult } from 'queries/voting/useVotingResult';
-import React, { useEffect, useState } from 'react';
+import { useVotingResult, VoteResult } from 'queries/voting/useVotingResult';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { compareAddress } from 'utils/helpers';
-import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
+import { Column } from 'react-table';
+import { currency } from 'utils/currency';
+import { calcPercentage, compareAddress } from 'utils/helpers';
+import { UserDetails } from './UserDetails';
 
 interface PassedVotingResultsProps {
 	moduleInstance: DeployedModules;
@@ -66,52 +69,53 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 			? result?.length
 			: startIndex + PAGE_SIZE;
 
+	const columns = useMemo<Column<VoteResult>[]>(
+		() => [
+			{
+				Header: t<string>('vote.pre-eval.table.name'),
+				accessor: (row) => <UserDetails walletAddress={row.walletAddress} />,
+				columnClass: 'text-left',
+				cellClass: 'text-left',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.outcome'),
+				accessor: (row) =>
+					!!winners?.find((winner: string) => compareAddress(winner, row.walletAddress)) ? (
+						<CouncilBadge council={moduleInstance} />
+					) : (
+						<Badge variant="gray">{t('vote.pre-eval.table.nominee')}</Badge>
+					),
+				columnClass: 'text-left',
+				cellClass: 'text-left',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.votes'),
+				accessor: (row) => row.voteCount,
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.power'),
+				accessor: (row) =>
+					totalVotingPowers ? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%` : '',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
+				accessor: (row) =>
+					currency(
+						utils.formatUnits(
+							row.totalVotePower,
+							moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+						)
+					),
+			},
+		],
+		[isTreasury, moduleInstance, t, totalVotingPowers, winners]
+	);
+
+	if (!result) return null;
+
 	return (
 		<div className="w-full overflow-auto">
-			<table className="w-full :table">
-				<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
-					<th className="text-left p-6 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.name')}
-					</th>
-					<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-					<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-					<th className="tg-caption text-gray-500 p-6">
-						{t('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' })}
-					</th>
-					<th className="text-right p-6 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.actions')}
-					</th>
-				</tr>
-				{result
-					?.sort((a, b) => {
-						if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-						if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-						return 0;
-					})
-					.slice(startIndex, endIndex)
-					.map((voteResult) => (
-						<PreEvaluationSectionRow
-							key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-							isActive={
-								!!winners?.find((winner: string) =>
-									compareAddress(winner, voteResult.walletAddress)
-								)
-							}
-							totalVotingPowers={totalVotingPowers}
-							voteResult={voteResult}
-							walletAddress={voteResult.walletAddress}
-						/>
-					))}
-			</table>
-			<div className="w-full">
-				<Pagination
-					className="mx-auto py-4"
-					pageIndex={activePage}
-					gotoPage={setActivePage}
-					length={result?.length || 0}
-					pageSize={PAGE_SIZE}
-				/>
-			</div>
+			<Table data={result} columns={columns} />
 		</div>
 	);
 };

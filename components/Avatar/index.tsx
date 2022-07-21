@@ -29,6 +29,7 @@ const Avatar: React.FC<AvatarProps> = ({
 	}
 
 	return parsedUrl instanceof URL && parsedUrl.host === 'ipfs.io' && !showBlockies ? (
+		// eslint-disable-next-line @next/next/no-img-element
 		<img
 			onError={() => setShowBlockies(true)}
 			className={clsx(className, 'rounded-full')}

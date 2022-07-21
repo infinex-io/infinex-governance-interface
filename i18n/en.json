@@ -194,6 +194,8 @@
 				"votes": "Votes",
 				"power": "Voting Power in %",
 				"actions": "Actions",
+				"outcome": "Outcome",
+				"nominee": "Nominee",
 				"received": "Received Voting Power ({{units}})"
 			}
 		}
