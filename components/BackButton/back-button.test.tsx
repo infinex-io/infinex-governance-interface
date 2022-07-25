@@ -17,7 +17,7 @@ test('BackButton component should have "back" as translation text', () => {
 		push: jest.fn(),
 	}));
 	render(<BackButton />);
-	expect(screen.getAllByTestId('back-button-text')[0].innerHTML).toBe('Back');
+	expect(screen.getAllByTestId('back-button-text')[0].textContent).toBe('Back');
 });
 
 test('BackButton component should have "back" as translation text wrapped in a span element', () => {

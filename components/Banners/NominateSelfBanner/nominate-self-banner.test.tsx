@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { DeployedModules } from 'containers/Modules';
 import { getWrapper } from 'utils/__test__/wrapper';
 import NominateSelfBanner from '.';
@@ -42,13 +42,12 @@ test('Nominate Self Banner should display the nomination time', () => {
 
 test('Nominate Self Banner should display the closes text when it is rendered', () => {
 	const Wrapper = getWrapper();
-	const { container } = render(
+	render(
 		<Wrapper>
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
 		</Wrapper>
 	);
-	expect(
-		!!container.querySelector('.flex .p-2 .darker-60 .text-white .items-center .flex-wrap .rounded')
-			?.innerHTML
-	).toEqual(enJSON.banner.nominate.closes);
+	expect(screen.getByTestId('nominate-self-banner-container')?.textContent).toEqual(
+		enJSON.banner.nominate.closes
+	);
 });
