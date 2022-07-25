@@ -29,6 +29,11 @@ jest.mock('queries/epochs/useNominationPeriodDatesQuery', () => ({
 	}),
 }));
 
+jest.mock('hooks/useIsMobile', () => ({
+	__esModule: true,
+	default: () => true,
+}));
+
 test('Nominate Self Banner should display the nomination time', () => {
 	const Wrapper = getWrapper();
 	const { container } = render(
@@ -47,8 +52,21 @@ test('Nominate Self Banner should display the closes text when it is rendered', 
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
 		</Wrapper>
 	);
-	const renderedText = screen
-		.getByTestId('nominate-self-banner-container')
-		?.textContent?.includes(enJSON.banner.nominate.closes);
-	expect(renderedText).toEqual(true);
+	expect(
+		screen
+			.getByTestId('nominate-self-banner-container')
+			?.textContent?.includes(enJSON.banner.nominate.closes)
+	).toEqual(true);
+});
+
+test('Nominate Self Banner should display no text when screen is mobile', () => {
+	const Wrapper = getWrapper();
+	const { container } = render(
+		<Wrapper>
+			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+		</Wrapper>
+	);
+	const elements = container.getElementsByClassName('p-2');
+	const buttonToTest = elements.item(elements.length - 1);
+	expect(buttonToTest?.textContent === '').toEqual(true);
 });
