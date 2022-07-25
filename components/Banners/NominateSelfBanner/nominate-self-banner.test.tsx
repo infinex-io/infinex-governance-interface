@@ -47,7 +47,8 @@ test('Nominate Self Banner should display the closes text when it is rendered', 
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
 		</Wrapper>
 	);
-	expect(screen.getByTestId('nominate-self-banner-container')?.textContent).toEqual(
-		enJSON.banner.nominate.closes
-	);
+	const renderedText = screen
+		.getByTestId('nominate-self-banner-container')
+		?.textContent?.includes(enJSON.banner.nominate.closes);
+	expect(renderedText).toEqual(true);
 });
