@@ -195,6 +195,8 @@
 				"votes": "Votes",
 				"power": "Voting Power in %",
 				"actions": "Actions",
+				"outcome": "Outcome",
+				"nominee": "Nominee",
 				"received": "Received Voting Power ({{units}})"
 			}
 		}
@@ -284,8 +286,7 @@
 			"button": "VOTE NOW"
 		},
 		"nominate": {
-			"headline": "NOMINATE YOURSELF",
-			"self": "NOMINATE SELF",
+			"headline": "NOMINATE SELF",
 			"closes": "Nominations Closes in"
 		}
 	},

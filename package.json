@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"test": "jest",
+		"test": "npx jest",
 		"commit": "cz"
 	},
 	"dependencies": {
@@ -16,7 +16,7 @@
 		"@synthetixio/contracts-interface": "2.64.1",
 		"@synthetixio/providers": "2.64.1",
 		"@synthetixio/transaction-notifier": "^2.63.1",
-		"@synthetixio/ui": "3.9",
+		"@synthetixio/ui": "3.10.0",
 		"@synthetixio/wei": "^2.73.1",
 		"clsx": "1.1.1",
 		"ethers": "5.6.8",
@@ -38,23 +38,27 @@
 		"yup": "0.32.11"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^17.0.3",
+		"@commitlint/config-conventional": "^17.0.3",
 		"@nomiclabs/hardhat-ethers": "2.0.5",
 		"@testing-library/jest-dom": "5.16.4",
-		"@testing-library/react": "13.2.0",
+		"@testing-library/react": "12.1.2",
 		"@types/jest": "27.5.1",
 		"@types/node": "17.0.21",
 		"@types/react": "17.0.2",
 		"@types/react-blockies": "1.4.1",
+		"@types/react-table": "^7.7.12",
 		"@types/react-transition-group": "^4.4.4",
 		"@types/styled-components": "5.1.24",
 		"autoprefixer": "10.4.7",
 		"babel-plugin-styled-components": "2.0.7",
-		"cz-conventional-changelog": "3.3.0",
+		"cz-conventional-changelog": "^3.3.0",
 		"eslint": "8.11.0",
 		"eslint-config-next": "12.1.0",
 		"hardhat": "2.9.3",
 		"hardhat-cannon": "0.2.3",
 		"jest": "28.1.0",
+		"jest-canvas-mock": "^2.4.0",
 		"jest-environment-jsdom": "28.1.0",
 		"postcss": "8.4.13",
 		"sass": "1.51.0",
@@ -63,7 +67,7 @@
 	},
 	"config": {
 		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
+			"path": "cz-conventional-changelog"
 		}
 	},
 	"packageManager": "yarn@3.2.1"

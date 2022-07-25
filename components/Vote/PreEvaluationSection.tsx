@@ -128,25 +128,18 @@ const PreEvalResults = ({
 								{t('vote.pre-eval.table.actions')}
 							</th>
 						</tr>
-						{result
-							?.sort((a, b) => {
-								if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-								if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-								return 0;
-							})
-							.slice(startIndex, endIndex)
-							.map((voteResult) => (
-								<PreEvaluationSectionRow
-									key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-									isActive={
-										result.findIndex((item) => item.walletAddress === voteResult.walletAddress) <
-										(preEvalDic.seats || 0)
-									}
-									totalVotingPowers={totalVotingPowers}
-									voteResult={voteResult}
-									walletAddress={voteResult.walletAddress}
-								/>
-							))}
+						{result?.slice(startIndex, endIndex).map((voteResult) => (
+							<PreEvaluationSectionRow
+								key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
+								isActive={
+									result.findIndex((item) => item.walletAddress === voteResult.walletAddress) <
+									(preEvalDic.seats || 0)
+								}
+								totalVotingPowers={totalVotingPowers}
+								voteResult={voteResult}
+								walletAddress={voteResult.walletAddress}
+							/>
+						))}
 					</table>
 				</div>
 				<div className="w-full">
@@ -163,25 +156,18 @@ const PreEvalResults = ({
 	}
 	return (
 		<div className="flex flex-col w-full md:hidden p-2 mb-20">
-			{result
-				?.sort((a, b) => {
-					if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-					if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-					return 0;
-				})
-				.slice(startIndex, endIndex)
-				.map((voteResult) => (
-					<PreEvaluationSectionRowMobile
-						key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-						isActive={
-							result.findIndex((item) => item.walletAddress === voteResult.walletAddress) <
-							(preEvalDic.seats || 0)
-						}
-						totalVotingPowers={totalVotingPowers}
-						voteResult={voteResult}
-						walletAddress={voteResult.walletAddress}
-					/>
-				))}
+			{result?.slice(startIndex, endIndex).map((voteResult) => (
+				<PreEvaluationSectionRowMobile
+					key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
+					isActive={
+						result.findIndex((item) => item.walletAddress === voteResult.walletAddress) <
+						(preEvalDic.seats || 0)
+					}
+					totalVotingPowers={totalVotingPowers}
+					voteResult={voteResult}
+					walletAddress={voteResult.walletAddress}
+				/>
+			))}
 			<div className="w-full">
 				<Pagination
 					className="mx-auto py-4"

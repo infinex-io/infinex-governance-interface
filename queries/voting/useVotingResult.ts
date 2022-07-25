@@ -51,14 +51,20 @@ export const useVotingResult = (
 					contract?.getBallotCandidatesInEpoch(voteResult.id, hexStringBN(epoch))
 				)
 			);
-			return voteResults.map((voteResult: any, index: number) => ({
-				walletAddress: addresses[index].toString(),
-				council: moduleInstance,
-				ballotId: voteResult.id,
-				totalVotePower: BigNumber.from(voteResult.votePower),
-				voteCount: voteResult.voteCount,
-				epochIndex: voteResult.epochIndex,
-			}));
+			return voteResults
+				.map((voteResult: any, index: number) => ({
+					walletAddress: addresses[index].toString(),
+					council: moduleInstance,
+					ballotId: voteResult.id,
+					totalVotePower: BigNumber.from(voteResult.votePower),
+					voteCount: voteResult.voteCount,
+					epochIndex: voteResult.epochIndex,
+				}))
+				.sort((a: any, b: any) => {
+					if (a.totalVotePower.gt(b.totalVotePower)) return -1;
+					if (a.totalVotePower.lt(b.totalVotePower)) return 1;
+					return 0;
+				});
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null,
