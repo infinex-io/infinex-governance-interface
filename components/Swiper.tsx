@@ -72,8 +72,8 @@ const SlideButton: React.FC<SlideButtonProps> = ({
 		<IconButton
 			rounded
 			className={clsx(buttonClassName, 'absolute top-1/2 -mt-6 z-10 -translate-y-1/2', {
-				'-right-6 swiper-button-next': next,
-				'-left-6 swiper-button-prev': !next,
+				'-right-8 swiper-button-next': next,
+				'-left-8 swiper-button-prev': !next,
 			})}
 			size="md"
 			variant="gray"
