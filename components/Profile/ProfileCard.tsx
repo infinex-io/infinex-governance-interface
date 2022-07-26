@@ -43,7 +43,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 						<DiscordIcon
 							onClick={() => {
 								copyToClipboard(discord);
-								toast.success(t('copyClipboardMessage'));
+								toast.success(t('copy-clipboard-message'));
 							}}
 							className="cursor-pointer mt-2"
 							fill="white"

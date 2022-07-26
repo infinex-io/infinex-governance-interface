@@ -12,10 +12,13 @@ export default function BackButton() {
 				rounded
 				size="sm"
 				className="bg-black bg-gradient-to-l from-gray-800"
+				data-testid="back-button-icon"
 			>
 				<Icon name="Left" className="text-primary" />
 			</IconButton>
-			<span className="tg-content text-primary ml-2">{t('councils.back-btn')}</span>
+			<span className="tg-content text-primary ml-2" data-testid="back-button-text">
+				{t('components.back-btn')}
+			</span>
 		</div>
 	);
 }
