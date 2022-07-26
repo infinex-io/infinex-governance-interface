@@ -21,7 +21,7 @@ export const CouncilCarousel = ({ members, listView, council }: Props) => {
 			key={council}
 			council={council}
 			members={members.length}
-			listView={!!listView}
+			listView={listView}
 		/>,
 		...members.map((member, index) => (
 			<MemberCard
@@ -30,7 +30,7 @@ export const CouncilCarousel = ({ members, listView, council }: Props) => {
 				state="ADMINISTRATION"
 				className={clsx({ 'm-2': listView })}
 				council={council}
-				listView={!!listView}
+				listView={listView}
 			/>
 		)),
 	];
