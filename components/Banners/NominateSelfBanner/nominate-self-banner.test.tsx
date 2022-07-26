@@ -3,6 +3,7 @@ import { DeployedModules } from 'containers/Modules';
 import { getWrapper } from 'utils/__test__/wrapper';
 import NominateSelfBanner from '.';
 import enJSON from '../../../i18n/en.json';
+import * as mobileHook from 'hooks/useIsMobile';
 
 jest.mock('react-i18next', () => ({
 	useTranslation() {
@@ -27,11 +28,6 @@ jest.mock('queries/epochs/useNominationPeriodDatesQuery', () => ({
 	default: () => ({
 		data: { nominationPeriodEndDate: new Date().getTime() },
 	}),
-}));
-
-jest.mock('hooks/useIsMobile', () => ({
-	__esModule: true,
-	default: () => true,
 }));
 
 test('Nominate Self Banner should display the nomination time', () => {
@@ -61,6 +57,7 @@ test('Nominate Self Banner should display the closes text when it is rendered', 
 
 test('Nominate Self Banner should display no text when screen is mobile', () => {
 	const Wrapper = getWrapper();
+	jest.spyOn(mobileHook, 'default').mockReturnValue(true);
 	const { container } = render(
 		<Wrapper>
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
@@ -69,4 +66,16 @@ test('Nominate Self Banner should display no text when screen is mobile', () => 
 	const elements = container.getElementsByClassName('p-2');
 	const buttonToTest = elements.item(elements.length - 1);
 	expect(buttonToTest?.textContent === '').toEqual(true);
+});
+test('Nominate Self Banner should display text when screen is not mobile', () => {
+	const Wrapper = getWrapper();
+	jest.spyOn(mobileHook, 'default').mockReturnValue(false);
+	const { container } = render(
+		<Wrapper>
+			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+		</Wrapper>
+	);
+	const elements = container.getElementsByClassName('pl-2');
+	const buttonToTest = elements.item(elements.length - 1);
+	expect(buttonToTest?.textContent?.includes(enJSON.banner.nominate.headline)).toEqual(true);
 });
