@@ -32,13 +32,13 @@ jest.mock('queries/epochs/useNominationPeriodDatesQuery', () => ({
 
 test('Nominate Self Banner should display the nomination time', () => {
 	const Wrapper = getWrapper();
-	const { container } = render(
+	render(
 		<Wrapper>
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
 		</Wrapper>
 	);
 
-	expect(!!container.querySelector('.flex .items-center .gt-america-mono')).toBe(true);
+	expect(!!screen.getByTestId('nominate-self-banner-timer')).toBe(true);
 });
 
 test('Nominate Self Banner should display the closes text when it is rendered', () => {
@@ -58,24 +58,26 @@ test('Nominate Self Banner should display the closes text when it is rendered', 
 test('Nominate Self Banner should display no text when screen is mobile', () => {
 	const Wrapper = getWrapper();
 	jest.spyOn(mobileHook, 'default').mockReturnValue(true);
-	const { container } = render(
+	render(
 		<Wrapper>
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
 		</Wrapper>
 	);
-	const elements = container.getElementsByClassName('p-2');
-	const buttonToTest = elements.item(elements.length - 1);
-	expect(buttonToTest?.textContent === '').toEqual(true);
+	expect(screen.getByTestId('nominate-self-banner-button-mobile')?.textContent === '').toEqual(
+		true
+	);
 });
 test('Nominate Self Banner should display text when screen is not mobile', () => {
 	const Wrapper = getWrapper();
 	jest.spyOn(mobileHook, 'default').mockReturnValue(false);
-	const { container } = render(
+	render(
 		<Wrapper>
 			<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
 		</Wrapper>
 	);
-	const elements = container.getElementsByClassName('pl-2');
-	const buttonToTest = elements.item(elements.length - 1);
-	expect(buttonToTest?.textContent?.includes(enJSON.banner.nominate.headline)).toEqual(true);
+	expect(
+		screen
+			.getByTestId('nominate-self-banner-button-desktop')
+			?.textContent?.includes(enJSON.banner.nominate.headline)
+	).toEqual(true);
 });

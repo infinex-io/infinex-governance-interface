@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Avatar from './';
 import React from 'react';
 
@@ -7,19 +7,20 @@ test('Avatar component should show blockies component if provided link is not ip
 		<Avatar
 			walletAddress="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 			url="https://coinmarketcap.com/"
+			className="TEST-CLASS"
 		></Avatar>
 	);
-	expect(container.querySelector('.rounded-full')?.nodeName === 'CANVAS').toBe(true);
+	expect(container.querySelector('.TEST-CLASS')?.nodeName === 'CANVAS').toBe(true);
 });
 
 test('Avatar component should show img tag if provided link is not ipfs protocol', () => {
-	const { container } = render(
+	render(
 		<Avatar
 			walletAddress="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 			url="ipfs://QmdeUUmDkcjVAxAbFkUhqjASTazFWCsZ4s5uZsT7hA9u3t"
 		></Avatar>
 	);
-	expect(container.querySelector('.rounded-full')?.nodeName === 'IMG').toBe(true);
+	expect(screen.getByTestId('avatar-image')?.nodeName === 'IMG').toBe(true);
 });
 
 test('Avatar component should throw error when invalid url is provided', () => {

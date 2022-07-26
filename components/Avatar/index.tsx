@@ -37,6 +37,7 @@ const Avatar: React.FC<AvatarProps> = ({
 			alt={`${walletAddress} avatar url`}
 			height={width}
 			width={height}
+			data-testid="avatar-image"
 		/>
 	) : (
 		<Blockies seed={walletAddress} scale={scale || 7} className={clsx(className, 'rounded-full')} />

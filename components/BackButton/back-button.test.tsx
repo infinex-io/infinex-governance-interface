@@ -33,8 +33,8 @@ test('BackButton should navigate back to homepage when being clicked', () => {
 	useRouter.mockImplementationOnce(() => ({
 		push: (route: string) => (state = route),
 	}));
-	const { container } = render(<BackButton />);
-	const backButton = container.querySelector('.bg-gradient-to-l');
+	render(<BackButton />);
+	const backButton = screen.getByTestId('back-button-icon');
 	act(() => {
 		fireEvent.click(backButton!);
 	});
