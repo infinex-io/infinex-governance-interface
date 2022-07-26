@@ -7,10 +7,10 @@ test('Avatar component should show blockies component if provided link is not ip
 		<Avatar
 			walletAddress="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 			url="https://coinmarketcap.com/"
-			className="TEST-CLASS"
+			className="avatar-test-class"
 		></Avatar>
 	);
-	expect(container.querySelector('.TEST-CLASS')?.nodeName === 'CANVAS').toBe(true);
+	expect(container.querySelector('.avatar-test-class')?.nodeName === 'CANVAS').toBe(true);
 });
 
 test('Avatar component should show img tag if provided link is not ipfs protocol', () => {
