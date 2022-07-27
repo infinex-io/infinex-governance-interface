@@ -20,14 +20,12 @@ interface VotingResultProps {
 
 export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance }) => {
 	const epochIndex = useEpochIndexQuery(moduleInstance);
-	const { data: voteResults } = useVotingResult(moduleInstance, epochIndex.data);
+	const { data: voteResults, isLoading } = useVotingResult(moduleInstance, epochIndex.data);
 	const { data: seats } = useNextEpochSeatCountQuery(moduleInstance);
 	const { activePage, setActivePage, pageSize, paginate } = usePaginate(6, voteResults?.length);
 	const isMobile = useIsMobile();
 
-	if (voteResults === undefined || seats === undefined) return null;
-
-	const totalVotingPowers = voteResults.reduce(
+	const totalVotingPowers = (voteResults || []).reduce(
 		(cur, prev) => cur.add(prev.totalVotePower),
 		BigNumber.from(0)
 	);
@@ -36,14 +34,17 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance }) =>
 		return (
 			<div className="mt-6 mb-20 p-6 border-gray-700 border bg-dark-blue w-[1000px] rounded-xl max-w-full mx-auto">
 				<VotingResultTable
-					voteResults={voteResults}
-					seats={seats}
+					voteResults={voteResults || []}
+					seats={seats || 0}
+					isLoading={isLoading}
 					moduleInstance={moduleInstance}
 					totalVotingPowers={totalVotingPowers}
 				/>
 			</div>
 		);
 	}
+
+	if (!voteResults) return null;
 
 	return (
 		<div className="flex flex-col w-full md:hidden p-2 mb-20">
@@ -80,6 +81,7 @@ interface VotingResultTableProps {
 	voteResults: VoteResult[];
 	seats: number;
 	totalVotingPowers: BigNumber;
+	isLoading: boolean;
 }
 
 export const VotingResultTable: React.FC<VotingResultTableProps> = ({
@@ -87,6 +89,7 @@ export const VotingResultTable: React.FC<VotingResultTableProps> = ({
 	voteResults,
 	seats,
 	totalVotingPowers,
+	isLoading,
 }) => {
 	const { t } = useTranslation();
 
@@ -116,18 +119,24 @@ export const VotingResultTable: React.FC<VotingResultTableProps> = ({
 			{
 				Header: t<string>('vote.pre-eval.table.power'),
 				accessor: (row) =>
-					totalVotingPowers ? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%` : '',
+					totalVotingPowers && row.totalVotePower
+						? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%`
+						: '',
 			},
 			{
 				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
 				columnClass: 'text-sm text-right',
-				accessor: (row) =>
-					currency(
-						utils.formatUnits(
-							row.totalVotePower,
-							moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
-						)
-					),
+				accessor: 'totalVotePower',
+				Cell: ({ row }) => (
+					<>
+						{currency(
+							utils.formatUnits(
+								row.values.totalVotePower,
+								moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+							)
+						)}
+					</>
+				),
 				width: 200,
 			},
 			{
@@ -139,7 +148,7 @@ export const VotingResultTable: React.FC<VotingResultTableProps> = ({
 
 	return (
 		<div className="w-full overflow-auto">
-			<Table data={voteResults} columns={columns} />
+			<Table data={voteResults} isLoading={isLoading} columns={columns} />
 		</div>
 	);
 };

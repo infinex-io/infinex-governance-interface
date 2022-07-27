@@ -34,6 +34,7 @@ function useUserDetailsQuery(walletAddress: string) {
 	return useQuery<GetUserDetails | undefined>(
 		['userDetails', walletAddress],
 		async () => {
+			if (!walletAddress) return;
 			return await getUserDetails(walletAddress);
 		},
 		{

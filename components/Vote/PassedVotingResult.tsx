@@ -54,7 +54,7 @@ export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = (
 	epoch,
 }) => {
 	const { data: winners } = useGetElectionWinners(moduleInstance, epoch);
-	const { data: result } = useVotingResult(moduleInstance, epoch);
+	const { data: result, isLoading } = useVotingResult(moduleInstance, epoch);
 	const { t } = useTranslation();
 
 	const totalVotingPowers = result?.reduce(
@@ -74,8 +74,9 @@ export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = (
 
 			{
 				Header: t<string>('vote.pre-eval.table.outcome'),
-				accessor: (row) =>
-					!!winners?.find((winner: string) => compareAddress(winner, row.walletAddress)) ? (
+				accessor: 'walletAddress',
+				Cell: ({ row }) =>
+					!!winners?.find((winner: string) => compareAddress(winner, row.values.walletAddress)) ? (
 						<CouncilBadge council={moduleInstance} />
 					) : (
 						<Badge variant="gray">{t('vote.pre-eval.table.nominee')}</Badge>
@@ -90,18 +91,24 @@ export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = (
 			{
 				Header: t<string>('vote.pre-eval.table.power'),
 				accessor: (row) =>
-					totalVotingPowers ? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%` : '',
+					totalVotingPowers && row.totalVotePower
+						? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%`
+						: '',
 			},
 			{
 				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
 				columnClass: 'text-sm text-right',
-				accessor: (row) =>
-					currency(
-						utils.formatUnits(
-							row.totalVotePower,
-							moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
-						)
-					),
+				accessor: 'totalVotePower',
+				Cell: ({ row }) => (
+					<>
+						{currency(
+							utils.formatUnits(
+								row.values.totalVotePower,
+								moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+							)
+						)}
+					</>
+				),
 				width: 200,
 			},
 			{
@@ -112,11 +119,9 @@ export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = (
 		[isTreasury, moduleInstance, t, totalVotingPowers, winners]
 	);
 
-	if (!result) return null;
-
 	return (
 		<div className="w-full overflow-auto">
-			<Table data={result} columns={columns} />
+			<Table data={result || []} columns={columns} isLoading={isLoading} />
 		</div>
 	);
 };
