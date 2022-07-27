@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Column } from 'react-table';
 import { currency } from 'utils/currency';
 import { calcPercentage, compareAddress } from 'utils/helpers';
-import { UserDetails } from './UserDetails';
+import { UserActions, UserDetails } from './UserDetails';
 
 interface PassedVotingResultsProps {
 	moduleInstance: DeployedModules;
@@ -36,7 +36,7 @@ export const PassedVotingResults: React.FC<PassedVotingResultsProps> = ({ module
 						variant="dark-blue"
 						title={<VotingResultTitle moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />}
 					>
-						<VotingResult moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />
+						<PassedVotingResultTable moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />
 					</Accordion>
 				</div>
 			))}
@@ -44,17 +44,17 @@ export const PassedVotingResults: React.FC<PassedVotingResultsProps> = ({ module
 	);
 };
 
-interface VotingResultProps {
+interface PassedVotingResultTableProps {
 	moduleInstance: DeployedModules;
 	epoch: number;
 }
 
-const PAGE_SIZE = 8;
-
-export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoch }) => {
+export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = ({
+	moduleInstance,
+	epoch,
+}) => {
 	const { data: winners } = useGetElectionWinners(moduleInstance, epoch);
 	const { data: result } = useVotingResult(moduleInstance, epoch);
-	const [activePage, setActivePage] = useState(0);
 	const { t } = useTranslation();
 
 	const totalVotingPowers = result?.reduce(
@@ -62,12 +62,6 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 		BigNumber.from(0)
 	);
 	const isTreasury = moduleInstance === DeployedModules.TREASURY_COUNCIL;
-
-	const startIndex = activePage * PAGE_SIZE;
-	const endIndex =
-		result?.length && startIndex + PAGE_SIZE > result?.length
-			? result?.length
-			: startIndex + PAGE_SIZE;
 
 	const columns = useMemo<Column<VoteResult>[]>(
 		() => [
@@ -77,6 +71,7 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 				columnClass: 'text-left',
 				cellClass: 'text-left',
 			},
+
 			{
 				Header: t<string>('vote.pre-eval.table.outcome'),
 				accessor: (row) =>
@@ -99,6 +94,7 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 			},
 			{
 				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
+				columnClass: 'text-sm text-right',
 				accessor: (row) =>
 					currency(
 						utils.formatUnits(
@@ -106,6 +102,11 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 							moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
 						)
 					),
+				width: 200,
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.actions'),
+				accessor: (row) => <UserActions walletAddress={row.walletAddress} />,
 			},
 		],
 		[isTreasury, moduleInstance, t, totalVotingPowers, winners]
@@ -120,15 +121,19 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 	);
 };
 
-export const VotingResultTitle: React.FC<VotingResultProps> = ({ moduleInstance, epoch }) => {
+export const VotingResultTitle: React.FC<PassedVotingResultTableProps> = ({
+	moduleInstance,
+	epoch,
+}) => {
 	const { data, isLoading } = useEpochDatesQuery(moduleInstance, epoch);
+	const { t } = useTranslation();
 	if (isLoading) return <div className="h-6 rounded-full bg-gray-600 w-32 animate-pulse"></div>;
 	if (isLoading || !data?.epochStartDate || !data?.epochEndDate) return null;
 	return (
 		<div className="flex items-center xs:flex-row flex-col">
-			Passed Elections
+			{t('councils.passed-elections')}
 			<span className="ml-2 bg-green py-0.5 px-2 text-black tg-caption-sm-bold font-semibold text-bold rounded-[130px]">
-				Epoch - {new Date(data?.epochStartDate).toLocaleDateString()} -{' '}
+				{t('councils.epoch')} - {new Date(data?.epochStartDate).toLocaleDateString()} -{' '}
 				{new Date(data?.epochEndDate).toLocaleDateString()}
 			</span>
 		</div>

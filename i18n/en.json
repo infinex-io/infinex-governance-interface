@@ -78,6 +78,8 @@
 		"view-nominee": "View Nominee",
 		"edit-nomination": "Edit Nomination",
 		"no-nominations": "No Nominations yet",
+		"passed-elections": "Passed Elections",
+		"epoch": "Epoch",
 		"of": "of",
 		"dropdown": {
 			"withdraw": "Withdraw Nomination",
@@ -184,7 +186,8 @@
 				"vote": "Vote",
 				"power": "Voting Power in %",
 				"received": "Received Voting Power  ({{units}})",
-				"council": "Council"
+				"council": "Council",
+				"action": "Action"
 			},
 			"tabs": {
 				"sc": "Spartan Council",
