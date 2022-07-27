@@ -40,3 +40,5 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		module: DeployedModules.TREASURY_COUNCIL,
 	},
 ];
+
+export const PAGE_SIZE = 6;
