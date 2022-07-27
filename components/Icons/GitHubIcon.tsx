@@ -1,15 +1,22 @@
 import React from 'react';
 import { SVGSocialIconProps } from './types';
 
-export default function GitHub({ fill, onClick }: SVGSocialIconProps) {
+export default function GitHub({
+	fill,
+	onClick,
+	className,
+	width = '24',
+	height = '24',
+}: SVGSocialIconProps) {
 	return (
 		<svg
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
+			width={width}
+			height={height}
+			viewBox={`0 0 ${width} ${height}`}
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
+			className={className}
 		>
 			<g clipPath="url(#clip0_916_1832)">
 				<path

@@ -12,7 +12,7 @@ export const CopyClipboard: React.FC<Props> = ({ text, className }) => {
 	const { t } = useTranslation();
 	const onClick = () => {
 		copyToClipboard(text);
-		toast.success(t('copyClipboardMessage'));
+		toast.success(t('components.copy-clipboard-message'));
 	};
 	return (
 		<svg
