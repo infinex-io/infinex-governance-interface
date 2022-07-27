@@ -284,8 +284,7 @@
 	"banner": {
 		"vote": {
 			"headline": "VOTING IS LIVE - VOTE NOW!",
-			"closes": "Closes in",
-			"button": "VOTE NOW"
+			"closes": "Closes in"
 		},
 		"nominate": {
 			"headline": "NOMINATE SELF",
