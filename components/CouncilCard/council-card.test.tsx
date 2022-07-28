@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { DeployedModules } from 'containers/Modules';
 import { CouncilCard } from '.';
 import enJSON from 'i18n/en.json';
@@ -16,11 +16,15 @@ const translationMock = {
 	'landing-page.cards.grants': enJSON['landing-page'].cards.grants,
 	'landing-page.cards.ambassador': enJSON['landing-page'].cards.ambassador,
 	'landing-page.cards.treasury': enJSON['landing-page'].cards.treasury,
+	'landing-page.cards.candidates': enJSON['landing-page'].cards.candidates,
+	'landing-page.cards.received': enJSON['landing-page'].cards.received,
 };
 
 const useCouncilCardQueriesMock = jest.spyOn(require('hooks/useCouncilCardQueries'), 'default');
-jest.mock('containers/Modal/Modal', () => ({
-	useModalContext: () => ({ setContent: jest.fn(), setIsOpen: jest.fn() }),
+const modalMock = jest.spyOn(require('containers/Modal/Modal'), 'useModalContext');
+modalMock.mockImplementation(() => ({
+	setContent: jest.fn(),
+	setIsOpen: jest.fn(),
 }));
 jest.mock('queries/voting/useVotingCount');
 jest.mock('@apollo/client', () => {
@@ -107,5 +111,181 @@ describe('Council Card component', () => {
 			/>
 		);
 		expect(!!screen.getByTestId('voting-timer')).toBeTruthy();
+	});
+
+	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: { currentPeriod: 'ADMINISTRATION' },
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: { votingPeriodEndDate: now },
+			};
+		});
+		let state = { pathname: '/defaultRoute' };
+		useRouterMock.mockImplementationOnce(() => {
+			return { push: (route: Record<'pathname', string>) => (state = route) };
+		});
+		render(
+			<CouncilCard
+				council="spartan"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		act(() => {
+			fireEvent.click(screen.getByTestId('card-button'));
+		});
+		expect(state.pathname).toEqual('/councils');
+	});
+
+	test('Council Card component should display loading state when councilInfo is undefined', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: jest.fn(),
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: { votingPeriodEndDate: now },
+			};
+		});
+		render(
+			<CouncilCard
+				council="spartan"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		expect(!!screen.getByTestId('loading-state')).toBeTruthy();
+	});
+	test('Council Card component should display the correct left and right headline if in nomination period', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: { currentPeriod: 'NOMINATION' },
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: jest.fn(),
+			};
+		});
+		render(
+			<CouncilCard
+				council="test-council"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		expect(screen.getByTestId('cta-text').textContent).toBe('NOMINATIONS OPEN');
+	});
+
+	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: { currentPeriod: 'ADMINISTRATION' },
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: { votingPeriodEndDate: now },
+			};
+		});
+		let state = { pathname: '/defaultRoute' };
+		useRouterMock.mockImplementationOnce(() => {
+			return { push: (route: Record<'pathname', string>) => (state = route) };
+		});
+		render(
+			<CouncilCard
+				council="spartan"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		act(() => {
+			fireEvent.click(screen.getByTestId('card-button'));
+		});
+		expect(state.pathname).toEqual('/councils');
+	});
+	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: { currentPeriod: 'NOMINATION' },
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: { votingPeriodEndDate: now },
+			};
+		});
+		const modalState = { content: false, open: false };
+		modalMock.mockImplementation(() => {
+			return {
+				setContent: () => (modalState.content = true),
+				setIsOpen: () => (modalState.open = true),
+			};
+		});
+		render(
+			<CouncilCard
+				council="spartan"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		act(() => {
+			fireEvent.click(screen.getByTestId('card-button'));
+		});
+		expect(modalState.content).toBeTruthy();
+		expect(modalState.open).toBeTruthy();
+	});
+	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: { currentPeriod: 'VOTING' },
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: { votingPeriodEndDate: now },
+			};
+		});
+		let state = '/defaultRoute';
+		useRouterMock.mockImplementationOnce(() => {
+			return { push: (route: string) => (state = route) };
+		});
+		render(
+			<CouncilCard
+				council="spartan"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		act(() => {
+			fireEvent.click(screen.getByTestId('card-button'));
+		});
+		expect(state).toBe('/vote/spartan');
+	});
+
+	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
+		useCouncilCardQueriesMock.mockImplementation(() => {
+			return {
+				councilMembers: jest.fn(),
+				currentPeriodData: { currentPeriod: 'EVALUATION' },
+				nominationDates: { nominationPeriodEndDate: now },
+				nominees: jest.fn(),
+				votingDates: { votingPeriodEndDate: now },
+			};
+		});
+		let state = '/defaultRoute';
+		useRouterMock.mockImplementationOnce(() => {
+			return { push: (route: string) => (state = route) };
+		});
+		render(
+			<CouncilCard
+				council="spartan"
+				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				image="http://localhost:3000"
+			/>
+		);
+		act(() => {
+			fireEvent.click(screen.getByTestId('card-button'));
+		});
+		expect(state).toBe('/councils/spartan');
 	});
 });

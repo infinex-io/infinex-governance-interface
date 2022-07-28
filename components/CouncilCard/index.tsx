@@ -33,7 +33,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 
 	if (!councilInfo)
 		return (
-			<div className="min-w-[90vw] xs:min-w-fit p-0.5 bg-purple xs:w-[248px] w-full max-w-full h-[347px] rounded">
+			<div
+				className="min-w-[90vw] xs:min-w-fit p-0.5 bg-purple xs:w-[248px] w-full max-w-full h-[347px] rounded"
+				data-testid="loading-state"
+			>
 				<div className="h-full darker-60 animate-pulse"></div>
 			</div>
 		);
@@ -69,8 +72,12 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				)}
 				<span className="ui-gradient-purple h-[1px] w-full mb-1"></span>
 				<div className="flex justify-between">
-					<span className="tg-caption text-gray-500">{t(headlineLeft)}</span>
-					<span className="tg-caption text-gray-500">{t(headlineRight)}</span>
+					<span className="tg-caption text-gray-500" data-testid="headline-left">
+						{t(headlineLeft)}
+					</span>
+					<span className="tg-caption text-gray-500" data-testid="headline-right">
+						{t(headlineRight)}
+					</span>
 				</div>
 				<div className="flex justify-between">
 					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
@@ -97,13 +104,14 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 							setContent(<NominateModal />);
 							setIsOpen(true);
 						} else if (period === 'VOTING') {
-							push({ pathname: `/vote/${council}` });
+							push(`/vote/${council}`);
 						} else if (period === 'EVALUATION') {
 							push('/councils/' + council);
 						} else {
 							push({ pathname: '/councils' });
 						}
 					}}
+					data-testid="card-button"
 				>
 					{t(button)}
 				</Button>
