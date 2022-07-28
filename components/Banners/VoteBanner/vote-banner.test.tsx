@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { DeployedModules } from 'containers/Modules';
-import { getWrapper } from 'utils/__test__/wrapper';
+import { getWrapper } from 'utils/wrapper';
 import VoteBanner from './';
 import enJSON from 'i18n/en.json';
 
@@ -25,33 +25,39 @@ jest.mock('react-i18next', () => ({
 	},
 }));
 
-test('Vote Banner component should render the correct headline', () => {
-	const Wrapper = getWrapper();
-	render(
-		<Wrapper>
-			<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL}></VoteBanner>
-		</Wrapper>
-	);
-	expect(screen.getByTestId('vote-banner-headline').textContent).toBe(enJSON.banner.vote.headline);
-});
+describe('Vote Banner Component', () => {
+	afterAll(() => jest.clearAllMocks());
 
-test('Vote Banner component should render the correct button text', () => {
-	const Wrapper = getWrapper();
-	render(
-		<Wrapper>
-			<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL}></VoteBanner>
-		</Wrapper>
-	);
-	expect(
-		screen.getByTestId('vote-banner-timer-text').textContent?.includes(enJSON.banner.vote.closes)
-	).toBe(true);
-});
-test('Vote Banner component should render the time component when time is provided', () => {
-	const Wrapper = getWrapper();
-	render(
-		<Wrapper>
-			<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
-		</Wrapper>
-	);
-	expect(screen.getByTestId('vote-banner-timer').nodeName === 'DIV').toBe(true);
+	test('Vote Banner component should render the correct headline', () => {
+		const Wrapper = getWrapper();
+		render(
+			<Wrapper>
+				<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL}></VoteBanner>
+			</Wrapper>
+		);
+		expect(screen.getByTestId('vote-banner-headline').textContent).toBe(
+			'VOTING IS LIVE - VOTE NOW!'
+		);
+	});
+
+	test('Vote Banner component should render the correct button text', () => {
+		const Wrapper = getWrapper();
+		render(
+			<Wrapper>
+				<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL}></VoteBanner>
+			</Wrapper>
+		);
+		expect(screen.getByTestId('vote-banner-timer-text').textContent?.includes('Closes in')).toBe(
+			true
+		);
+	});
+	test('Vote Banner component should render the time component when time is provided', () => {
+		const Wrapper = getWrapper();
+		render(
+			<Wrapper>
+				<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+			</Wrapper>
+		);
+		expect(screen.getByTestId('vote-banner-timer').nodeName === 'DIV').toBe(true);
+	});
 });

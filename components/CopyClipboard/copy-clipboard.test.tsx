@@ -15,10 +15,14 @@ jest.mock('react-i18next', () => ({
 		};
 	},
 }));
-test('Copy Clipboard component should copy text unaltered to the clipboard', () => {
-	render(<CopyClipboard text="test-text"></CopyClipboard>);
-	act(() => {
-		fireEvent.click(screen.getByTestId('copy-clipboard-svg'));
+
+describe('Copy Clipboard component', () => {
+	afterAll(() => jest.clearAllMocks());
+	test('Copy Clipboard component should copy text unaltered to the clipboard', () => {
+		render(<CopyClipboard text="test-text"></CopyClipboard>);
+		act(() => {
+			fireEvent.click(screen.getByTestId('copy-clipboard-svg'));
+		});
+		expect(navigator.clipboard.writeText).toBeCalledWith('test-text');
 	});
-	expect(navigator.clipboard.writeText).toBeCalledWith('test-text');
 });
