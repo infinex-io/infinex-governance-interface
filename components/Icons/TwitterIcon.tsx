@@ -1,15 +1,22 @@
 import React from 'react';
 import { SVGSocialIconProps } from './types';
 
-export default function TwitterIcon({ fill, onClick }: SVGSocialIconProps) {
+export default function TwitterIcon({
+	fill,
+	onClick,
+	width = '24',
+	height = '20',
+	className,
+}: SVGSocialIconProps) {
 	return (
 		<svg
-			width="24"
-			height="20"
-			viewBox="0 0 24 20"
+			width={width}
+			height={height}
+			viewBox={`0 0 ${width} ${height}`}
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
+			className={className}
 		>
 			<g clipPath="url(#clip0_916_1830)">
 				<path
