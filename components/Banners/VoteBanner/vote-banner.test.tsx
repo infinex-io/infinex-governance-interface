@@ -40,6 +40,7 @@ describe('Vote Banner Component', () => {
 		expect(screen.getByTestId('vote-banner-headline').textContent).toBe(
 			'VOTING IS LIVE - VOTE NOW!'
 		);
+		expect(latestPath.headline).toBe('banner.vote.headline');
 	});
 
 	test('Vote Banner component should render the correct button text', () => {
@@ -52,6 +53,7 @@ describe('Vote Banner Component', () => {
 		expect(screen.getByTestId('vote-banner-timer-text').textContent?.includes('Closes in')).toBe(
 			true
 		);
+		expect(latestPath.closes).toBe('banner.vote.closes');
 	});
 	test('Vote Banner component should render the time component when time is provided', () => {
 		const Wrapper = getWrapper();

@@ -20,6 +20,8 @@ const translationMock = {
 	'landing-page.cards.received': enJSON['landing-page'].cards.received,
 };
 
+let latestPaths: string[] = [];
+
 const useCouncilCardQueriesMock = jest.spyOn(require('hooks/useCouncilCardQueries'), 'default');
 const modalMock = jest.spyOn(require('containers/Modal/Modal'), 'useModalContext');
 modalMock.mockImplementation(() => ({
@@ -33,14 +35,17 @@ jest.mock('@apollo/client', () => {
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
-			t: (path: keyof typeof translationMock) => translationMock[path],
+			t: (path: keyof typeof translationMock) => {
+				latestPaths.push(path);
+				return translationMock[path];
+			},
 		};
 	},
 }));
 
 describe('Council Card component', () => {
 	afterAll(() => jest.clearAllMocks());
-
+	afterEach(() => (latestPaths = []));
 	test('Council Card component should display the correct CTA text for nomination period', () => {
 		useCouncilCardQueriesMock.mockImplementation(() => {
 			return {
@@ -59,6 +64,7 @@ describe('Council Card component', () => {
 			/>
 		);
 		expect(screen.getByTestId('cta-text').textContent).toBe('NOMINATIONS OPEN');
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.cta.nomination')).toBeTruthy();
 	});
 	test('Council Card component should display the correct headlines the provided council prop', () => {
 		render(
@@ -91,6 +97,10 @@ describe('Council Card component', () => {
 			'Ambassador Council'
 		);
 		expect(screen.getByTestId('council-headline-treasury').textContent).toBe('Treasury Council');
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.spartan')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.grants')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.ambassador')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.treasury')).toBeTruthy();
 	});
 
 	test('Council Card component should show the timer if the period is set to Nomination and the nomination period end time is provided', () => {
@@ -176,7 +186,10 @@ describe('Council Card component', () => {
 				image="http://localhost:3000"
 			/>
 		);
-		expect(screen.getByTestId('cta-text').textContent).toBe('NOMINATIONS OPEN');
+		expect(screen.getByTestId('headline-left').textContent).toBe('Candidates');
+		expect(screen.getByTestId('headline-right').textContent).toBe('Votes Received');
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.candidates')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.received')).toBeTruthy();
 	});
 
 	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {

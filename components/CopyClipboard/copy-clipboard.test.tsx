@@ -8,10 +8,14 @@ Object.assign(navigator, {
 	},
 });
 jest.spyOn(navigator.clipboard, 'writeText');
+let latestPath = '';
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
-			t: () => enJSON.components['copy-clipboard-message'],
+			t: (path: string) => {
+				latestPath = path;
+				enJSON.components['copy-clipboard-message'];
+			},
 		};
 	},
 }));
@@ -24,5 +28,6 @@ describe('Copy Clipboard component', () => {
 			fireEvent.click(screen.getByTestId('copy-clipboard-svg'));
 		});
 		expect(navigator.clipboard.writeText).toBeCalledWith('test-text');
+		expect(latestPath).toBe('components.copy-clipboard-message');
 	});
 });
