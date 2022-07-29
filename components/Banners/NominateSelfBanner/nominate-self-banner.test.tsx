@@ -5,13 +5,16 @@ import NominateSelfBanner from '.';
 import enJSON from '../../../i18n/en.json';
 import * as mobileHook from 'hooks/useIsMobile';
 
+let latestPath = '';
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
 			t: (path: string) => {
 				if (path === 'banner.nominate.headline') {
+					latestPath = path;
 					return enJSON.banner.nominate.headline;
 				} else {
+					latestPath = path;
 					return enJSON.banner.nominate.closes;
 				}
 			},
@@ -56,6 +59,7 @@ describe('Nominate Self Banner Component', () => {
 				.getByTestId('nominate-self-banner-container')
 				?.textContent?.includes('Nominations Closes in')
 		).toEqual(true);
+		expect(latestPath).toBe('banner.nominate.headline');
 	});
 
 	test('Nominate Self Banner should display no text when screen is mobile', () => {
@@ -83,5 +87,6 @@ describe('Nominate Self Banner Component', () => {
 				.getByTestId('nominate-self-banner-button-desktop')
 				?.textContent?.includes('NOMINATE SELF')
 		).toEqual(true);
+		expect(latestPath).toBe('banner.nominate.closes');
 	});
 });

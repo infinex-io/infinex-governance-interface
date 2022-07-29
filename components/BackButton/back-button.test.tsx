@@ -3,11 +3,14 @@ import BackButton from '.';
 import enJSON from '../../i18n/en.json';
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-
+let latestPath = '';
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
-			t: () => enJSON.components['back-btn'],
+			t: (path: string) => {
+				latestPath = path;
+				return enJSON.components['back-btn'];
+			},
 		};
 	},
 }));
@@ -19,7 +22,8 @@ describe('Back Button Component', () => {
 			push: jest.fn(),
 		}));
 		render(<BackButton />);
-		expect(screen.getAllByTestId('back-button-text')[0].textContent).toBe('Back');
+		expect(screen.getByTestId('back-button-text').textContent).toBe('Back');
+		expect(latestPath).toBe('components.back-btn');
 	});
 
 	test('BackButton component should have "back" as translation text wrapped in a span element', () => {
@@ -27,7 +31,7 @@ describe('Back Button Component', () => {
 			push: jest.fn(),
 		}));
 		render(<BackButton />);
-		expect(screen.getAllByTestId('back-button-text')[0].nodeName === 'SPAN').toBeTruthy();
+		expect(screen.getByTestId('back-button-text').nodeName === 'SPAN').toBeTruthy();
 	});
 
 	test('BackButton should navigate back to homepage when being clicked', () => {
