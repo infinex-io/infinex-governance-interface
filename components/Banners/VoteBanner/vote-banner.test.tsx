@@ -10,14 +10,16 @@ jest.mock('queries/epochs/useVotingPeriodDatesQuery', () => ({
 		data: { votingPeriodEndDate: new Date().getTime() },
 	}),
 }));
-
+let latestPath = { headline: '', closes: '' };
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
 			t: (path: string) => {
 				if (path === 'banner.vote.headline') {
+					latestPath.headline = 'banner.vote.headline';
 					return enJSON.banner.vote.headline;
 				} else {
+					latestPath.closes = 'banner.vote.closes';
 					return enJSON.banner.vote.closes;
 				}
 			},
@@ -27,7 +29,7 @@ jest.mock('react-i18next', () => ({
 
 describe('Vote Banner Component', () => {
 	afterAll(() => jest.clearAllMocks());
-
+	afterEach(() => (latestPath = { headline: '', closes: '' }));
 	test('Vote Banner component should render the correct headline', () => {
 		const Wrapper = getWrapper();
 		render(

@@ -5,16 +5,16 @@ import NominateSelfBanner from '.';
 import enJSON from '../../../i18n/en.json';
 import * as mobileHook from 'hooks/useIsMobile';
 
-let latestPath = '';
+let latestPath = { headline: '', closes: '' };
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
 			t: (path: string) => {
 				if (path === 'banner.nominate.headline') {
-					latestPath = path;
+					latestPath.headline = path;
 					return enJSON.banner.nominate.headline;
 				} else {
-					latestPath = path;
+					latestPath.closes = path;
 					return enJSON.banner.nominate.closes;
 				}
 			},
@@ -35,7 +35,7 @@ jest.mock('queries/epochs/useNominationPeriodDatesQuery', () => ({
 
 describe('Nominate Self Banner Component', () => {
 	afterAll(() => jest.clearAllMocks());
-
+	afterEach(() => (latestPath = { headline: '', closes: '' }));
 	test('Nominate Self Banner should display the nomination time', () => {
 		const Wrapper = getWrapper();
 		render(
@@ -59,7 +59,7 @@ describe('Nominate Self Banner Component', () => {
 				.getByTestId('nominate-self-banner-container')
 				?.textContent?.includes('Nominations Closes in')
 		).toEqual(true);
-		expect(latestPath).toBe('banner.nominate.headline');
+		expect(latestPath.closes).toBe('banner.nominate.closes');
 	});
 
 	test('Nominate Self Banner should display no text when screen is mobile', () => {
@@ -87,6 +87,6 @@ describe('Nominate Self Banner Component', () => {
 				.getByTestId('nominate-self-banner-button-desktop')
 				?.textContent?.includes('NOMINATE SELF')
 		).toEqual(true);
-		expect(latestPath).toBe('banner.nominate.closes');
+		expect(latestPath.headline).toBe('banner.nominate.headline');
 	});
 });
