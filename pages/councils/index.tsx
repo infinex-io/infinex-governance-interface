@@ -56,8 +56,8 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8 mx-auto w-fit" />
 							) : (
 								<>
-									<div className="mt-4 mb-3 p-6 border border-gray-500 rounded max-w-3xl mx-auto">
-										<span className="tg-caption">
+									<div className="mt-4 mb-3 p-6 max-w-3xl mx-auto">
+										<span className="tg-content text-center block">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
 										<div className="flex justify-center flex-wrap mt-4 md:flex-nowrap">
