@@ -6,7 +6,7 @@ import { DeployedModules } from 'containers/Modules';
 import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
 import { compareAddress } from 'utils/helpers';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
 import clsx from 'clsx';
 import { MemberCardAction } from './MemberCardAction';
 import { UserSocials } from './UserSocials';
@@ -31,9 +31,9 @@ export default function MemberCard({
 	listView,
 }: MemberCardProps) {
 	const { t } = useTranslation();
-	const { data } = useAccount();
+	const { walletAddress: userAddress } = useConnectorContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
-	const isOwnCard = compareAddress(data?.address, walletAddress);
+	const isOwnCard = compareAddress(userAddress, walletAddress);
 
 	if (userDetailsQuery.isLoading)
 		return (

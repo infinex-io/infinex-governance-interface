@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount } from 'wagmi';
 import { COUNCIL_SLUGS } from 'constants/config';
 import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
-import { Button } from '@synthetixio/ui';
+import { Button, Dropdown } from '@synthetixio/ui';
 import SNXIcon from 'components/Icons/SNXIcon';
+import { useConnectorContext } from 'containers/Connector';
+import { truncateAddress } from 'utils/truncate-address';
+import { ConnectButton } from 'components/ConnectButton';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -17,9 +18,9 @@ const routesDic = [
 ];
 
 export default function Header() {
-	const { asPath } = useRouter();
+	const { asPath, push } = useRouter();
 	const { t } = useTranslation();
-	const { data } = useAccount();
+	const { ensName, walletAddress, disconnectWallet, isWalletConnected } = useConnectorContext();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 	const [routes, setRoutes] = useState(routesDic);
 	const allPeriods = useCurrentPeriod();
@@ -30,17 +31,17 @@ export default function Header() {
 	);
 
 	useEffect(() => {
-		if (data?.address) {
+		if (walletAddress) {
 			setRoutes((state) =>
 				state.map((route) => {
 					if (route.link.includes('profile')) {
-						return { ...route, link: 'profile/' + data.address };
+						return { ...route, link: 'profile/' + walletAddress };
 					}
 					return route;
 				})
 			);
 		}
-	}, [oneCouncilIsInVotingPeriod, t, data?.address]);
+	}, [oneCouncilIsInVotingPeriod, t, walletAddress]);
 
 	useEffect(() => {
 		if (burgerMenuOpen) {
@@ -50,7 +51,7 @@ export default function Header() {
 
 	const filterRoutes = (route: any) =>
 		(oneCouncilIsInVotingPeriod || route.link !== 'vote') &&
-		(route.link !== 'profile' || data?.address);
+		(route.link !== 'profile' || walletAddress);
 
 	return (
 		<header
@@ -135,7 +136,33 @@ export default function Header() {
 				</div>
 			)}
 			<div className="flex md:mr-1 min-w-[170px] h-[40px] justify-end">
-				<ConnectButton accountStatus="full" showBalance={false} />
+				{!isWalletConnected && <ConnectButton />}
+
+				{isWalletConnected && walletAddress && (
+					<Dropdown
+						triggerElement={
+							<Button className="min-w-[142px]" variant="secondary">
+								{ensName || truncateAddress(walletAddress)}
+							</Button>
+						}
+						contentClassName="bg-navy-dark-1 flex flex-col dropdown-border overflow-hidden"
+						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+						contentAlignment="right"
+					>
+						<span
+							className="p-3 hover:bg-navy text-primary cursor-pointer"
+							onClick={() => push('/profile/' + walletAddress)}
+						>
+							{t('header.view-profile')}
+						</span>
+						<span
+							className="p-3 hover:bg-navy text-primary cursor-pointer"
+							onClick={disconnectWallet}
+						>
+							{t('header.disconnect-wallet')}
+						</span>
+					</Dropdown>
+				)}
 			</div>
 		</header>
 	);

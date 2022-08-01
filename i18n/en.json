@@ -6,7 +6,9 @@
 			"profile": "Profile",
 			"vote": "Vote"
 		},
-		"connect-wallet": "Connect Wallet"
+		"connect-wallet": "Connect Wallet",
+		"view-profile": "View Profile",
+		"disconnect-wallet": "Disconnect Wallet"
 	},
 	"footer": {
 		"copyright": "Copyright © Synthetix 2022",

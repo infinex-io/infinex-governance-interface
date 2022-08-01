@@ -1,4 +1,4 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from 'components/ConnectButton';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import Avatar from 'components/Avatar';
 import { useModalContext } from 'containers/Modal';
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
 import BaseModal from '../BaseModal';
 
 interface WithdrawVoteProps {
@@ -24,14 +24,14 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
-	const { data } = useAccount();
+	const { walletAddress, isWalletConnected } = useConnectorContext();
 	const queryClient = useQueryClient();
 	const { state, setContent, setTxHash, setVisible, setState, visible } =
 		useTransactionModalContext();
 	const withdrawVoteMutation = useWithdrawVoteMutation(deployedModule);
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
-			queryClient.invalidateQueries(['getCurrentVoteStateQuery', data?.address]);
+			queryClient.invalidateQueries(['getCurrentVoteStateQuery', walletAddress]);
 			queryClient.invalidateQueries(['preEvaluationVotingPower', deployedModule]);
 			queryClient
 				.refetchQueries({
@@ -45,7 +45,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 					setVisible(false);
 				});
 		}
-	}, [state, setIsOpen, setVisible, push, visible, queryClient, data?.address, deployedModule]);
+	}, [state, setIsOpen, setVisible, push, visible, queryClient, walletAddress, deployedModule]);
 	const handleWithdraw = async () => {
 		setState('signing');
 		setVisible(true);
@@ -67,7 +67,7 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 	};
 	return (
 		<BaseModal headline={t('modals.withdraw-vote.headline')}>
-			{!data?.connector ? (
+			{!isWalletConnected ? (
 				<ConnectButton />
 			) : (
 				<div className="flex flex-col items-center max-w-[500px] p-2">

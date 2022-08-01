@@ -14,8 +14,8 @@ import { useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules/index';
 import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
 import { BigNumber, utils } from 'ethers';
-import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useConnectorContext } from 'containers/Connector';
+import { ConnectButton } from 'components/ConnectButton';
 import Wei from '@synthetixio/wei';
 
 interface VoteModalProps {
@@ -27,7 +27,7 @@ interface VoteModalProps {
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
-	const { data } = useAccount();
+	const { walletAddress, isWalletConnected } = useConnectorContext();
 	const governanceModules = useModulesContext();
 	const [votingPower, setVotingPower] = useState({ l1: new Wei(0), l2: new Wei(0) });
 	const { push } = useRouter();
@@ -39,7 +39,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		if (state === 'confirmed' && visible) {
 			setTimeout(() => {
 				queryClient.invalidateQueries('voting-result');
-				queryClient.invalidateQueries(['getCurrentVoteStateQuery', data?.address]);
+				queryClient.invalidateQueries(['getCurrentVoteStateQuery', walletAddress]);
 				queryClient.resetQueries({
 					active: true,
 					stale: true,
@@ -60,24 +60,26 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		visible,
 		queryClient,
 		deployedModule,
-		data?.address,
+		walletAddress,
 	]);
 
 	useEffect(() => {
-		if (data?.address && governanceModules[deployedModule]?.contract) {
-			getCrossChainClaim(governanceModules[deployedModule]!.contract, data.address).then((data) => {
-				if (data) {
-					console.log(data.amount);
-					setVotingPower((state) => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
+		if (walletAddress && governanceModules[deployedModule]?.contract) {
+			getCrossChainClaim(governanceModules[deployedModule]!.contract, walletAddress).then(
+				(data) => {
+					if (data) {
+						console.log(data.amount);
+						setVotingPower((state) => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
+					}
 				}
-			});
+			);
 			governanceModules[deployedModule]?.contract
-				.getDebtShare(data.address)
+				.getDebtShare(walletAddress)
 				.then((share: BigNumber) => {
 					setVotingPower((state) => ({ ...state, l2: new Wei(share) }));
 				});
 		}
-	}, [data?.address, governanceModules, deployedModule]);
+	}, [walletAddress, governanceModules, deployedModule]);
 
 	const handleVote = async () => {
 		setState('signing');
@@ -128,7 +130,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						)}
 					</h4>
 				</div>
-				{!data?.connector ? (
+				{!isWalletConnected ? (
 					<div className="m-6">
 						<ConnectButton />
 					</div>

@@ -1,4 +1,4 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from 'components/ConnectButton';
 import { Button, useTransactionModalContext } from '@synthetixio/ui';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { capitalizeString } from 'utils/capitalize';
 import { truncateAddress } from 'utils/truncate-address';
-import { useAccount } from 'wagmi';
 import BaseModal from '../BaseModal';
 
 interface WithdrawNominationModalProps {
@@ -25,8 +24,7 @@ export default function WithdrawNominationModal({
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
-	const { ensName } = useConnectorContext();
-	const { data } = useAccount();
+	const { ensName, walletAddress, isWalletConnected } = useConnectorContext();
 	const { setTxHash, setContent, setVisible, state, visible, setState } =
 		useTransactionModalContext();
 	const withdrawNomination = useWithdrawNominationMutation(deployedModule);
@@ -45,14 +43,14 @@ export default function WithdrawNominationModal({
 				.then(() => {
 					setIsOpen(false);
 					setVisible(false);
-					push('/profile/' + data?.address);
+					push('/profile/' + walletAddress);
 				});
 		}
 	}, [
 		state,
 		push,
 		setIsOpen,
-		data?.address,
+		walletAddress,
 		setVisible,
 		visible,
 		queryClient,
@@ -68,7 +66,7 @@ export default function WithdrawNominationModal({
 				<h6 className="tg-tile-h6">
 					{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
 				</h6>
-				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(data?.address!)}</h3>
+				<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
 			</>
 		);
 		try {
@@ -82,7 +80,7 @@ export default function WithdrawNominationModal({
 
 	return (
 		<BaseModal headline={t('modals.withdraw.headline')}>
-			{!data?.connector ? (
+			{!isWalletConnected ? (
 				<ConnectButton />
 			) : (
 				<div className="px-2 flex flex-col items-center max-w-[500px]">
@@ -94,7 +92,7 @@ export default function WithdrawNominationModal({
 						<h5 className="tg-title-h5 text-gray-300 mb-1">
 							{t('modals.withdraw.nomination-for', { council: capitalizeString(council) })}
 						</h5>
-						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(data!.address!)}</h3>
+						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
 					</div>
 					<Button onClick={() => handleWithdrawNomination()} className="w-full md:w-auto">
 						{t('modals.withdraw.button')}
