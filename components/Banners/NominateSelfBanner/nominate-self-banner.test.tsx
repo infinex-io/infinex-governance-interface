@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { DeployedModules } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 import { getWrapper } from 'utils/wrapper';
 import NominateSelfBanner from '.';
 import enJSON from '../../../i18n/en.json';
@@ -21,7 +21,9 @@ jest.mock('react-i18next', () => ({
 		};
 	},
 }));
-
+jest.mock('containers/Modules/Modules', () => ({
+	DeployedModules: { SPARTAN_COUNCIL: 'spartan council' },
+}));
 jest.mock('containers/Modal/Modal', () => ({
 	useModalContext: () => ({ setContent: jest.fn(), setIsOpen: jest.fn() }),
 }));

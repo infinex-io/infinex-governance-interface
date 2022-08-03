@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"test": "jest --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
+		"test": "jest --transformIgnorePatterns \"node_modules/(?!@web3-onboard/core)/\"",
 		"commit": "cz"
 	},
 	"dependencies": {

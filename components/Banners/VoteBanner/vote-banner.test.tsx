@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { DeployedModules } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 import { getWrapper } from 'utils/wrapper';
 import VoteBanner from './';
 import enJSON from 'i18n/en.json';
@@ -26,7 +26,9 @@ jest.mock('react-i18next', () => ({
 		};
 	},
 }));
-
+jest.mock('containers/Modules/Modules', () => ({
+	DeployedModules: { SPARTAN_COUNCIL: 'spartan council' },
+}));
 describe('Vote Banner Component', () => {
 	afterAll(() => jest.clearAllMocks());
 	afterEach(() => (latestPath = { headline: '', closes: '' }));

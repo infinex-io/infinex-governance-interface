@@ -1,5 +1,5 @@
 import NominateModal from 'components/Modals/Nominate';
-import { DeployedModules } from 'containers/Modules';
+import { DeployedModules } from 'containers/Modules/Modules';
 import { useModalContext } from 'containers/Modal';
 import { useTranslation } from 'react-i18next';
 import { Timer } from 'components/Timer';
