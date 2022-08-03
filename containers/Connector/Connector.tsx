@@ -196,12 +196,13 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		}
 	}, [onboard]);
 
-	const disconnectWallet = useCallback(async () => {
+	const disconnectWallet = useCallback(() => {
 		try {
 			if (onboard) {
 				const [primaryWallet] = onboard.state.get().wallets;
 				onboard.disconnectWallet({ label: primaryWallet?.label });
 				localStorage.removeItem(LOCAL_STORAGE_KEYS.SELECTED_WALLET);
+				dispatch({ type: AppEvents.WALLET_DISCONNECTED });
 			}
 		} catch (e) {
 			console.log(e);

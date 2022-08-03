@@ -32,14 +32,9 @@ export default function Header() {
 
 	useEffect(() => {
 		if (walletAddress) {
-			setRoutes((state) =>
-				state.map((route) => {
-					if (route.link.includes('profile')) {
-						return { ...route, link: 'profile/' + walletAddress };
-					}
-					return route;
-				})
-			);
+			setRoutes(routesDic);
+		} else {
+			setRoutes((state) => state.filter((route) => !route.link.includes('profile')));
 		}
 	}, [oneCouncilIsInVotingPeriod, t, walletAddress]);
 
