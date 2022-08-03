@@ -8,7 +8,6 @@ import {
 	treasuryCouncil,
 } from 'constants/addresses';
 import { createContext, useContext, useEffect, useState, FC } from 'react';
-import { useNetwork, useSigner } from 'wagmi';
 
 export enum DeployedModules {
 	SPARTAN_COUNCIL = 'spartan council',
@@ -30,13 +29,11 @@ export const useModulesContext = () => {
 };
 
 export const ModulesProvider: FC = ({ children }) => {
-	const { L2DefaultProvider } = useConnectorContext();
+	const { L2DefaultProvider, signer, network } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
-	const { data: signer } = useSigner();
-	const network = useNetwork();
 
 	useEffect(() => {
-		const wrongNetwork = network.activeChain?.id !== 10;
+		const wrongNetwork = network?.id !== 10;
 
 		const provider = !!signer && !wrongNetwork ? signer : L2DefaultProvider;
 
@@ -82,7 +79,7 @@ export const ModulesProvider: FC = ({ children }) => {
 			contract: TreasuryCouncilModule,
 		};
 		setGovernanceModules(modules);
-	}, [signer, L2DefaultProvider, network.activeChain?.id]);
+	}, [signer, L2DefaultProvider, network?.id]);
 
 	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
 };

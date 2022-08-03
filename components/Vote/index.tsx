@@ -3,7 +3,7 @@ import { CouncilCard } from 'components/CouncilCard';
 import { useRouter } from 'next/router';
 import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
@@ -12,11 +12,11 @@ import { COUNCILS_DICTIONARY } from 'constants/config';
 export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { data } = useAccount();
+	const { walletAddress } = useConnectorContext();
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
 	const { data: allPeriods } = useCurrentPeriod();
 
-	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
+	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
 	useEffect(() => {
 		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');

@@ -4,12 +4,12 @@ import {
 	UPDATE_USER_DETAILS_API_URL,
 	UPDATE_USER_PITCH_FOR_PROTOCOL,
 } from 'constants/boardroom';
+import { useConnectorContext } from 'containers/Connector';
 import useIsUUIDValidQuery from 'queries/boardroom/useIsUUIDValidQuery';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { SiweMessage } from 'siwe';
-import { useAccount, useProvider, useSigner } from 'wagmi';
 
 type UpdateUserDetailsResponse = {
 	data: GetUserDetails & {
@@ -45,18 +45,16 @@ type SignInResponse = {
 };
 
 function useUpdateUserDetailsMutation() {
-	const { data: signer } = useSigner();
-	const provider = useProvider();
-	const account = useAccount();
+	const { walletAddress, provider, signer } = useConnectorContext();
 	const [uuid, setUuid] = useState<null | string>(null);
 	const boardroomSignIn = async () => {
 		const domain = 'governance.synthetix.io';
 		const chainId = 10;
 
-		if (signer && provider && account.data?.address) {
+		if (signer && provider && walletAddress) {
 			try {
 				const body = {
-					address: account.data?.address,
+					address: walletAddress,
 				};
 				let response = await fetch(NONCE_API_URL, {
 					method: 'POST',
@@ -66,7 +64,7 @@ function useUpdateUserDetailsMutation() {
 
 				let signedMessage = new SiweMessage({
 					domain: domain,
-					address: account.data.address,
+					address: walletAddress,
 					chainId: chainId,
 					uri: `https://${domain}`,
 					version: '1',
@@ -95,10 +93,8 @@ function useUpdateUserDetailsMutation() {
 		}
 	};
 
-	const { data } = useAccount();
 	const isUuidValidQuery = useIsUUIDValidQuery(uuid || '');
 	const queryClient = useQueryClient();
-	const address = data?.address;
 	return useMutation(
 		'updateUserDetails',
 		async (userProfile: GetUserDetails) => {
@@ -106,12 +102,12 @@ function useUpdateUserDetailsMutation() {
 			if (!isUuidValidQuery.data) {
 				signedInUuid = (await boardroomSignIn()) || '';
 			}
-			if (address) {
+			if (walletAddress) {
 				const body = {
 					...userProfile,
 					uuid: signedInUuid,
 				};
-				let updateUserDetailsResponse = await fetch(UPDATE_USER_DETAILS_API_URL(address), {
+				let updateUserDetailsResponse = await fetch(UPDATE_USER_DETAILS_API_URL(walletAddress), {
 					method: 'POST',
 					body: JSON.stringify(body),
 				});
@@ -126,7 +122,7 @@ function useUpdateUserDetailsMutation() {
 				if (userProfile.delegationPitch) {
 					const delegationPitchesBody = {
 						protocol: 'synthetix',
-						address: address,
+						address: walletAddress,
 						delegationPitch: userProfile.delegationPitch,
 						uuid: signedInUuid,
 					};
