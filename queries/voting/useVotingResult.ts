@@ -67,11 +67,7 @@ export const useVotingResult = (
 				});
 		},
 		{
-			enabled:
-				governanceModules !== null &&
-				moduleInstance !== null &&
-				epochIndex !== undefined &&
-				epochIndex !== null,
+			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== undefined,
 			staleTime: 900000,
 		}
 	);
