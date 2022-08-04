@@ -84,7 +84,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
 					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
-						{voteCount}
+						{voteCount.data || ''}
 					</h4>
 				</div>
 				{secondButton && (

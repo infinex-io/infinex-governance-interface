@@ -16,7 +16,7 @@ export type VoteResult = {
 
 export const useVotingResult = (
 	moduleInstance: DeployedModules,
-	epochIndex: string | number | null | undefined
+	epochIndex: string | number | undefined
 ) => {
 	const governanceModules = useModulesContext();
 	return useQuery<VoteResult[]>(
