@@ -28,7 +28,13 @@ modalMock.mockImplementation(() => ({
 	setContent: jest.fn(),
 	setIsOpen: jest.fn(),
 }));
-jest.mock('queries/voting/useVotingCount');
+jest.mock('queries/voting/useVotingCount', () => {
+	return {
+		useVotingCount: () => {
+			return { data: jest.fn() };
+		},
+	};
+});
 jest.mock('@apollo/client', () => {
 	return { ApolloClient: jest.fn(), InMemoryCache: jest.fn() };
 });
