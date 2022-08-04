@@ -55,7 +55,8 @@ export const useCurrentPeriods = () => {
 			queryKey: getCurrentPeriodQueryKey(council.module),
 			queryFn: () =>
 				fetchCurrentPeriod(governanceModules[council.module]?.contract, council.module),
-			staleTime: 60000,
+			enabled: governanceModules !== null,
+			staleTime: 900000,
 		}))
 	);
 };
