@@ -73,7 +73,10 @@ export default function VoteSection() {
 								key={council.slug.concat(index.toString())}
 								walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
 								hasVoted={!!voteStatusQuery.data?.spartan.voted}
-								periodIsVoting={!!periodsData.find((period) => period.data?.council === 'VOTING')}
+								periodIsVoting={
+									periodsData.find((period) => period.data?.council === council.slug)?.data
+										?.currentPeriod === 'VOTING'
+								}
 								council={council.module}
 							/>
 						))}
