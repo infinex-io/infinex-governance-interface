@@ -1,14 +1,17 @@
-import { Accordion, Pagination } from '@synthetixio/ui';
+import { Accordion, Badge, Table } from '@synthetixio/ui';
+import { CouncilBadge } from 'components/CouncilBadge';
 import { DeployedModules } from 'containers/Modules';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import useEpochDatesQuery from 'queries/epochs/useEpochDatesQuery';
 import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import useGetElectionWinners from 'queries/epochs/useGetElectionWinners';
-import { useVotingResult } from 'queries/voting/useVotingResult';
-import React, { useEffect, useState } from 'react';
+import { useVotingResult, VoteResult } from 'queries/voting/useVotingResult';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { compareAddress } from 'utils/helpers';
-import { PreEvaluationSectionRow } from './PreEvaluationSectionRow';
+import { Column } from 'react-table';
+import { currency } from 'utils/currency';
+import { calcPercentage, compareAddress } from 'utils/helpers';
+import { UserActions, UserDetails } from './UserDetails';
 
 interface PassedVotingResultsProps {
 	moduleInstance: DeployedModules;
@@ -33,7 +36,7 @@ export const PassedVotingResults: React.FC<PassedVotingResultsProps> = ({ module
 						variant="dark-blue"
 						title={<VotingResultTitle moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />}
 					>
-						<VotingResult moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />
+						<PassedVotingResultTable moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />
 					</Accordion>
 				</div>
 			))}
@@ -41,17 +44,17 @@ export const PassedVotingResults: React.FC<PassedVotingResultsProps> = ({ module
 	);
 };
 
-interface VotingResultProps {
+interface PassedVotingResultTableProps {
 	moduleInstance: DeployedModules;
 	epoch: number;
 }
 
-const PAGE_SIZE = 8;
-
-export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoch }) => {
+export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = ({
+	moduleInstance,
+	epoch,
+}) => {
 	const { data: winners } = useGetElectionWinners(moduleInstance, epoch);
-	const { data: result } = useVotingResult(moduleInstance, epoch);
-	const [activePage, setActivePage] = useState(0);
+	const { data: result, isLoading } = useVotingResult(moduleInstance, epoch);
 	const { t } = useTranslation();
 
 	const totalVotingPowers = result?.reduce(
@@ -60,71 +63,82 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance, epoc
 	);
 	const isTreasury = moduleInstance === DeployedModules.TREASURY_COUNCIL;
 
-	const startIndex = activePage * PAGE_SIZE;
-	const endIndex =
-		result?.length && startIndex + PAGE_SIZE > result?.length
-			? result?.length
-			: startIndex + PAGE_SIZE;
+	const columns = useMemo<Column<VoteResult>[]>(
+		() => [
+			{
+				Header: t<string>('vote.pre-eval.table.name'),
+				accessor: (row) => <UserDetails walletAddress={row.walletAddress} />,
+				columnClass: 'text-left',
+				cellClass: 'text-left',
+			},
+
+			{
+				Header: t<string>('vote.pre-eval.table.outcome'),
+				accessor: 'walletAddress',
+				Cell: ({ row }) =>
+					!!winners?.find((winner: string) => compareAddress(winner, row.values.walletAddress)) ? (
+						<CouncilBadge council={moduleInstance} />
+					) : (
+						<Badge variant="gray">{t('vote.pre-eval.table.nominee')}</Badge>
+					),
+				columnClass: 'text-left',
+				cellClass: 'text-left',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.votes'),
+				accessor: (row) => row.voteCount,
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.power'),
+				accessor: (row) =>
+					totalVotingPowers && row.totalVotePower
+						? `${calcPercentage(row.totalVotePower, totalVotingPowers)}%`
+						: '',
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
+				columnClass: 'text-sm text-right',
+				accessor: 'totalVotePower',
+				Cell: ({ row }) => (
+					<>
+						{currency(
+							utils.formatUnits(
+								row.values.totalVotePower,
+								moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+							)
+						)}
+					</>
+				),
+				width: 200,
+			},
+			{
+				Header: t<string>('vote.pre-eval.table.actions'),
+				accessor: (row) => <UserActions walletAddress={row.walletAddress} />,
+			},
+		],
+		[isTreasury, moduleInstance, t, totalVotingPowers, winners]
+	);
 
 	return (
 		<div className="w-full overflow-auto">
-			<table className="w-full :table">
-				<tr className="border-b-2 last:border-b-0 border-b-gray-700 border-b-solid">
-					<th className="text-left p-6 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.name')}
-					</th>
-					<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.votes')}</th>
-					<th className="tg-caption text-gray-500 p-6">{t('vote.pre-eval.table.power')}</th>
-					<th className="tg-caption text-gray-500 p-6">
-						{t('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' })}
-					</th>
-					<th className="text-right p-6 tg-caption text-gray-500">
-						{t('vote.pre-eval.table.actions')}
-					</th>
-				</tr>
-				{result
-					?.sort((a, b) => {
-						if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-						if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-						return 0;
-					})
-					.slice(startIndex, endIndex)
-					.map((voteResult) => (
-						<PreEvaluationSectionRow
-							key={voteResult.walletAddress.concat(String(voteResult.voteCount))}
-							isActive={
-								!!winners?.find((winner: string) =>
-									compareAddress(winner, voteResult.walletAddress)
-								)
-							}
-							totalVotingPowers={totalVotingPowers}
-							voteResult={voteResult}
-							walletAddress={voteResult.walletAddress}
-						/>
-					))}
-			</table>
-			<div className="w-full">
-				<Pagination
-					className="mx-auto py-4"
-					pageIndex={activePage}
-					gotoPage={setActivePage}
-					length={result?.length || 0}
-					pageSize={PAGE_SIZE}
-				/>
-			</div>
+			<Table data={result || []} columns={columns} isLoading={isLoading} />
 		</div>
 	);
 };
 
-export const VotingResultTitle: React.FC<VotingResultProps> = ({ moduleInstance, epoch }) => {
+export const VotingResultTitle: React.FC<PassedVotingResultTableProps> = ({
+	moduleInstance,
+	epoch,
+}) => {
 	const { data, isLoading } = useEpochDatesQuery(moduleInstance, epoch);
+	const { t } = useTranslation();
 	if (isLoading) return <div className="h-6 rounded-full bg-gray-600 w-32 animate-pulse"></div>;
 	if (isLoading || !data?.epochStartDate || !data?.epochEndDate) return null;
 	return (
 		<div className="flex items-center xs:flex-row flex-col">
-			Passed Elections
+			{t('councils.passed-elections')}
 			<span className="ml-2 bg-green py-0.5 px-2 text-black tg-caption-sm-bold font-semibold text-bold rounded-[130px]">
-				Epoch - {new Date(data?.epochStartDate).toLocaleDateString()} -{' '}
+				{t('councils.epoch')} - {new Date(data?.epochStartDate).toLocaleDateString()} -{' '}
 				{new Date(data?.epochEndDate).toLocaleDateString()}
 			</span>
 		</div>

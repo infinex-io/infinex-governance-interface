@@ -29,6 +29,7 @@ const Avatar: React.FC<AvatarProps> = ({
 	}
 
 	return parsedUrl instanceof URL && parsedUrl.host === 'ipfs.io' && !showBlockies ? (
+		// eslint-disable-next-line @next/next/no-img-element
 		<img
 			onError={() => setShowBlockies(true)}
 			className={clsx(className, 'rounded-full')}
@@ -36,6 +37,7 @@ const Avatar: React.FC<AvatarProps> = ({
 			alt={`${walletAddress} avatar url`}
 			height={width}
 			width={height}
+			data-testid="avatar-image"
 		/>
 	) : (
 		<Blockies seed={walletAddress} scale={scale || 7} className={clsx(className, 'rounded-full')} />

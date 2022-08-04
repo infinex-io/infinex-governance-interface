@@ -14,32 +14,33 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
+import { compareAddress } from 'utils/helpers';
 
 const PAGE_SIZE = 8;
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
 	const { t } = useTranslation();
-	const { data } = useAccount();
+	const { walletAddress } = useConnectorContext();
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
-		data?.address || ''
+		walletAddress || ''
 	);
 	const isAlreadyNominatedForGrants = useIsNominated(
 		DeployedModules.GRANTS_COUNCIL,
-		data?.address || ''
+		walletAddress || ''
 	);
 	const isAlreadyNominatedForAmbassador = useIsNominated(
 		DeployedModules.AMBASSADOR_COUNCIL,
-		data?.address || ''
+		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(
 		DeployedModules.TREASURY_COUNCIL,
-		data?.address || ''
+		walletAddress || ''
 	);
 
 	const isAlreadyNominated =
@@ -54,7 +55,8 @@ export default function CouncilNominees() {
 			: startIndex + PAGE_SIZE;
 
 	const sortedNominees =
-		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));
+		nomineesQuery.data &&
+		[...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1));
 
 	return (
 		<>

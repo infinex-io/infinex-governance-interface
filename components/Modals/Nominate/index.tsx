@@ -1,4 +1,4 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from 'components/ConnectButton';
 import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useConnectorContext } from 'containers/Connector';
@@ -6,29 +6,57 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { truncateAddress } from 'utils/truncate-address';
-import { useAccount } from 'wagmi';
 import BaseModal from '../BaseModal';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 
 export default function NominateModal() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { setIsOpen } = useModalContext();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
-	const { ensName } = useConnectorContext();
-	const { data } = useAccount();
+	const { ensName, walletAddress, isWalletConnected } = useConnectorContext();
 	const { setVisible, setTxHash, setContent, state, visible, setState } =
 		useTransactionModalContext();
 	const queryClient = useQueryClient();
+
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriod();
+
+	const isAlreadyNominatedForSpartan = useIsNominated(
+		DeployedModules.SPARTAN_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForGrants = useIsNominated(
+		DeployedModules.GRANTS_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForAmbassador = useIsNominated(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominated =
+		isAlreadyNominatedForSpartan.data ||
+		isAlreadyNominatedForGrants.data ||
+		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTreasury.data;
+
+	const periodsData = useCurrentPeriods();
+
+	const shouldBeDisabled = (council: string) => {
+		const periodForCouncil = periodsData.find((periodData) => periodData.data?.council === council);
+		return periodForCouncil ? periodForCouncil.data?.currentPeriod !== 'NOMINATION' : true;
+	};
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
@@ -46,23 +74,15 @@ export default function NominateModal() {
 					push('/councils/'.concat(activeCheckbox));
 				});
 		}
-	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, data?.address]);
+	}, [state, setIsOpen, push, activeCheckbox, visible, setVisible, queryClient, walletAddress]);
 
 	const setCTA = (council: string) => {
 		return (
 			<>
 				<h6 className="tg-title-h6">{t('modals.nomination.cta', { council })}</h6>
-				<h3 className="tg-title-h3">{ensName || truncateAddress(data?.address!)}</h3>
+				<h3 className="tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
 			</>
 		);
-	};
-
-	const shouldBeDisabled = (council: string) => {
-		if (Array.isArray(periodData)) {
-			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
-			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
-		}
-		return true;
 	};
 
 	const handleNomination = async () => {
@@ -101,7 +121,7 @@ export default function NominateModal() {
 
 	return (
 		<BaseModal headline={t('modals.nomination.headline')}>
-			{!data?.connector ? (
+			{!isWalletConnected ? (
 				<ConnectButton />
 			) : (
 				<div className="px-2 flex flex-col items-center max-w-[700px]">
@@ -112,7 +132,7 @@ export default function NominateModal() {
 						<h5 className="tg-title-h5 text-gray-300 mb-1">
 							{t('modals.nomination.nominationAddress')}
 						</h5>
-						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(data!.address!)}</h3>
+						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
 					</div>
 					<div className="flex justify-center flex-col md:flex-row gap-4 m-10 max-w-[190px] w-full md:max-w-none">
 						{COUNCILS_DICTIONARY.map((council) => (
@@ -120,10 +140,10 @@ export default function NominateModal() {
 								key={`${council.slug}-council-checkbox`}
 								id={`${council.slug}-council-checkbox`}
 								onChange={() => setActiveCheckbox(council.slug)}
-								label={t('modals.nomination.checkboxes'.concat(council.slug))}
+								label={t('modals.nomination.checkboxes.'.concat(council.slug))}
 								color="lightBlue"
 								checked={activeCheckbox === council.slug}
-								disabled={shouldBeDisabled(council.slug)}
+								disabled={shouldBeDisabled(council.slug) || isAlreadyNominated}
 							/>
 						))}
 					</div>

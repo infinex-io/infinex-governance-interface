@@ -12,6 +12,7 @@ export default function BackButton() {
 				rounded
 				size="sm"
 				className="bg-black bg-gradient-to-l from-gray-800"
+				data-testid="back-button-icon"
 			>
 				<Icon name="Left" className="text-primary" />
 			</IconButton>

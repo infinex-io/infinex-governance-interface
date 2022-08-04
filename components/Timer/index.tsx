@@ -8,7 +8,7 @@ interface TimerProps {
 	className?: string;
 }
 
-export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, className }) => {
+export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, className, ...props }) => {
 	const { minutes, hours, days } = useTimer({
 		expiryTimestamp: new Date(expiryTimestamp),
 		autoStart: true,
@@ -16,7 +16,7 @@ export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, classNa
 	});
 
 	return (
-		<div className={clsx('flex items-center gt-america-mono', className)}>
+		<div className={clsx('flex items-center gt-america-mono', className)} {...props}>
 			<span>{days}D</span>
 			<span className="mx-2">{hours}H</span>
 			<span>{minutes}M</span>

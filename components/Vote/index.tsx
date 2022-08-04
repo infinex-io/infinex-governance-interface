@@ -1,9 +1,9 @@
 import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { useRouter } from 'next/router';
-import useCurrentPeriod, { CurrentPeriodsWithCouncils } from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
@@ -12,23 +12,25 @@ import { COUNCILS_DICTIONARY } from 'constants/config';
 export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { data } = useAccount();
+	const periodsData = useCurrentPeriods();
+	const isLoading = !!periodsData.find((period) => period.isLoading);
+
+	const { walletAddress } = useConnectorContext();
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
-	const { data: allPeriods } = useCurrentPeriod();
 
-	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
-
-	useEffect(() => {
-		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
-	}, [activeCouncilInVoting, push]);
+	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
 	useEffect(() => {
-		if (Array.isArray(allPeriods) && allPeriods.length) {
-			setActiveCouncilInVoting(
-				allPeriods.filter((period) => period[Object.keys(period)[0]] === 'VOTING').length
-			);
+		if (!isLoading) {
+			const numberOfCouncilInVoting = periodsData.filter(
+				(period) => period.data?.currentPeriod === 'VOTING'
+			).length;
+			if (numberOfCouncilInVoting === 0) {
+				push('/');
+			}
+			setActiveCouncilInVoting(numberOfCouncilInVoting);
 		}
-	}, [allPeriods]);
+	}, [periodsData, isLoading, push]);
 
 	const count = [
 		voteStatusQuery.data?.spartan.voted,
@@ -72,9 +74,8 @@ export default function VoteSection() {
 								walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
 								hasVoted={!!voteStatusQuery.data?.spartan.voted}
 								periodIsVoting={
-									!!(allPeriods as CurrentPeriodsWithCouncils[])?.find(
-										(period) => period[council.slug] === 'VOTING'
-									)
+									periodsData.find((period) => period.data?.council === council.slug)?.data
+										?.currentPeriod === 'VOTING'
 								}
 								council={council.module}
 							/>

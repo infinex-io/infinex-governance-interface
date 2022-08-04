@@ -1,20 +1,15 @@
 import useUserDetailsQuery from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@synthetixio/ui';
-import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
 import Avatar from 'components/Avatar';
 import { truncateAddress } from 'utils/truncate-address';
-import { compareAddress, urlIsCorrect } from 'utils/helpers';
-import { useAccount } from 'wagmi';
-import { copyToClipboard } from 'utils/helpers';
+import { compareAddress } from 'utils/helpers';
+import { useConnectorContext } from 'containers/Connector';
 import clsx from 'clsx';
-import { toast } from 'react-toastify';
 import { MemberCardAction } from './MemberCardAction';
-import TwitterIcon from 'components/Icons/TwitterIcon';
-import GitHubIcon from 'components/Icons/GitHubIcon';
-import DiscordIcon from 'components/Icons/DiscordIcon';
+import { UserSocials } from './UserSocials';
 
 interface MemberCardProps {
 	walletAddress: string;
@@ -36,9 +31,9 @@ export default function MemberCard({
 	listView,
 }: MemberCardProps) {
 	const { t } = useTranslation();
-	const { data } = useAccount();
+	const { walletAddress: userAddress } = useConnectorContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
-	const isOwnCard = compareAddress(data?.address, walletAddress);
+	const isOwnCard = compareAddress(userAddress, walletAddress);
 
 	if (userDetailsQuery.isLoading)
 		return (
@@ -62,31 +57,7 @@ export default function MemberCard({
 
 	const socialMedia = (member.discord || member.twitter || member.github) && (
 		<div className="flex items-center justify-center my-3 gap-4">
-			{member.discord && (
-				<DiscordIcon
-					onClick={() => {
-						copyToClipboard(member.discord);
-						toast.success(t('copyClipboardMessage'));
-					}}
-					className="cursor-pointer"
-					fill="white"
-				/>
-			)}
-
-			{member.twitter && urlIsCorrect(member.twitter, 'https://twitter.com') && (
-				<Link href={member.twitter} passHref>
-					<a rel="noreferrer" target="_blank">
-						<TwitterIcon fill="white" />
-					</a>
-				</Link>
-			)}
-			{member.github && urlIsCorrect(member.github, 'https://github.com') && (
-				<Link href={member.github} passHref>
-					<a rel="noreferrer" target="_blank">
-						<GitHubIcon fill="white" />
-					</a>
-				</Link>
-			)}
+			<UserSocials discord={member.discord} twitter={member.twitter} github={member.github} />
 		</div>
 	);
 

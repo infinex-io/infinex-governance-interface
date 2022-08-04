@@ -29,7 +29,7 @@ export const Swiper: React.FC<SwiperProps> = ({
 }) => {
 	const [swiper, setSwiper] = useState<SwiperType | null>(null);
 	return (
-		<div>
+		<div className='relative w-full'>
 			<SwiperReact
 				className={clsx(className, 'relative')}
 				modules={[Navigation, Pagination]}
@@ -71,9 +71,9 @@ const SlideButton: React.FC<SlideButtonProps> = ({
 	return (
 		<IconButton
 			rounded
-			className={clsx(buttonClassName, 'absolute top-1/2 z-10 -translate-y-1/2', {
-				'right-0 swiper-button-next': next,
-				'left-0 swiper-button-prev': !next,
+			className={clsx(buttonClassName, 'absolute top-1/2 -mt-6 z-10 -translate-y-1/2', {
+				'-right-8 swiper-button-next': next,
+				'-left-8 swiper-button-prev': !next,
 			})}
 			size="md"
 			variant="gray"

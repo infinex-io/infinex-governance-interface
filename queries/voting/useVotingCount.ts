@@ -1,13 +1,36 @@
-import { DeployedModules } from 'containers/Modules';
+import { gql } from '@apollo/client';
+import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber } from 'ethers';
-import { useMemo } from 'react';
-import { useVotingResult } from './useVotingResult';
+import client from 'gql/apollo-client';
+import { useQuery } from 'react-query';
 
-export const useVotingCount = (moduleInstance: DeployedModules, epochIndex: string | null) => {
-	const { data, isLoading } = useVotingResult(moduleInstance, epochIndex);
+export const useVotingCount = (moduleInstance: DeployedModules) => {
+	const governanceModules = useModulesContext();
 
-	return useMemo(() => {
-		if (!data || isLoading) return '';
-		return data.reduce((cur, prev) => cur.add(prev.voteCount), BigNumber.from(0)).toString();
-	}, [data, isLoading]);
+	return useQuery<string>(
+		['voteCountAll', moduleInstance],
+		async () => {
+			const contractAddress = governanceModules[moduleInstance]?.contract?.address?.toLowerCase();
+
+			const { data } = await client.query({
+				query: gql`
+					query VoteResults {
+						voteResults(
+							where: { contract: "${contractAddress}",  }
+						) {
+							voteCount
+						}
+					}
+				`,
+			});
+
+			return data.voteResults
+				.reduce((cur: BigNumber, prev: any) => cur.add(prev.voteCount), BigNumber.from(0))
+				.toString();
+		},
+		{
+			enabled: governanceModules !== null && moduleInstance !== null,
+			staleTime: 900000,
+		}
+	);
 };

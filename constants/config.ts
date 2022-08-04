@@ -1,6 +1,11 @@
-import { DeployedModules } from 'containers/Modules';
-
 export const COUNCIL_SLUGS = ['spartan', 'grants', 'ambassador', 'treasury'];
+
+export enum DeployedModules {
+	SPARTAN_COUNCIL = 'spartan council',
+	AMBASSADOR_COUNCIL = 'ambassador council',
+	GRANTS_COUNCIL = 'grants council',
+	TREASURY_COUNCIL = 'treasury council',
+}
 
 export type CouncilsDictionaryType = {
 	slug: string;
@@ -40,3 +45,10 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		module: DeployedModules.TREASURY_COUNCIL,
 	},
 ];
+
+export const PAGE_SIZE = 6;
+
+export const LOCAL_STORAGE_KEYS = {
+	SELECTED_WALLET: 'selectedWallet',
+	WATCHED_WALLETS: 'watchedWallets',
+};

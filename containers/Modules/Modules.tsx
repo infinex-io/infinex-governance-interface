@@ -8,14 +8,9 @@ import {
 	treasuryCouncil,
 } from 'constants/addresses';
 import { createContext, useContext, useEffect, useState, FC } from 'react';
-import { useNetwork, useSigner } from 'wagmi';
+import { DeployedModules } from 'constants/config';
 
-export enum DeployedModules {
-	SPARTAN_COUNCIL = 'spartan council',
-	AMBASSADOR_COUNCIL = 'ambassador council',
-	GRANTS_COUNCIL = 'grants council',
-	TREASURY_COUNCIL = 'treasury council',
-}
+export { DeployedModules };
 
 type GovernanceModule = Partial<
 	Record<DeployedModules, { address: string; contract: ethers.Contract }>
@@ -30,13 +25,14 @@ export const useModulesContext = () => {
 };
 
 export const ModulesProvider: FC = ({ children }) => {
-	const { L2DefaultProvider } = useConnectorContext();
+	const { L2DefaultProvider, signer, network } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
-	const { data: signer } = useSigner();
-	const network = useNetwork();
 
 	useEffect(() => {
-		const wrongNetwork = network.activeChain?.id !== 10;
+		const wrongNetwork = network?.id !== 10;
+
+		//Uncomment next line for testing forks
+		// if (!signer) return;
 
 		const provider = !!signer && !wrongNetwork ? signer : L2DefaultProvider;
 
@@ -82,7 +78,7 @@ export const ModulesProvider: FC = ({ children }) => {
 			contract: TreasuryCouncilModule,
 		};
 		setGovernanceModules(modules);
-	}, [signer, L2DefaultProvider, network.activeChain?.id]);
+	}, [signer, L2DefaultProvider, network?.id]);
 
 	return <ModulesContext.Provider value={governanceModules}>{children}</ModulesContext.Provider>;
 };

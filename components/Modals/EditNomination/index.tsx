@@ -5,15 +5,14 @@ import BaseModal from '../BaseModal';
 import { truncateAddress } from 'utils/truncate-address';
 import useWithdrawNominationMutation from 'mutations/nomination/useWithdrawNominationMutation';
 import { useEffect, useState } from 'react';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
 import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
 import { useModalContext } from 'containers/Modal';
 import { useQueryClient } from 'react-query';
-import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from 'components/ConnectButton';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 
 interface EditModalProps {
@@ -23,8 +22,7 @@ interface EditModalProps {
 
 export default function EditNominationModal({ deployedModule, council }: EditModalProps) {
 	const { t } = useTranslation();
-	const { data } = useAccount();
-	const { ensName } = useConnectorContext();
+	const { ensName, walletAddress, isWalletConnected } = useConnectorContext();
 	const { push } = useRouter();
 	const { setContent, setTxHash, setVisible, state, setState } = useTransactionModalContext();
 	const withdrawMutation = useWithdrawNominationMutation(deployedModule);
@@ -36,14 +34,11 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriod();
+	const periodsData = useCurrentPeriods();
 
 	const shouldBeDisabled = (council: string) => {
-		if (Array.isArray(periodData)) {
-			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
-			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
-		}
-		return true;
+		const periodForCouncil = periodsData.find((periodData) => periodData.data?.council === council);
+		return periodForCouncil?.data ? periodForCouncil.data?.currentPeriod !== 'NOMINATION' : true;
 	};
 
 	useEffect(() => {
@@ -81,7 +76,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 					<h6 className="tg-title-h6">
 						{t('modals.edit.cta-step-1-head', { council: capitalizeString(council) })}
 					</h6>
-					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(data!.address!)}</h3>
+					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
 				</>
 			);
 			setVisible(true);
@@ -99,7 +94,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 					<h6 className="tg-title-h6">
 						{t('modals.edit.cta-step-2-head', { council: capitalizeString(council) })}
 					</h6>
-					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(data?.address!)}</h3>
+					<h3 className="tg-title-h3">{ensName ? ensName : truncateAddress(walletAddress!)}</h3>
 				</>
 			);
 			setVisible(true);
@@ -137,7 +132,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 				from one council to another you must first select your new council and click save. You will
 				be need to sign 2 transactions in order to change.
 			</span>
-			{!data?.connector ? (
+			{!isWalletConnected ? (
 				<ConnectButton />
 			) : (
 				<div className="px-2 flex flex-col items-center max-w-[850px] w-full">
@@ -157,7 +152,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 								<div className="border-gray-500 rounded border p-4 m-4 flex flex-col items-center">
 									<h5 className="tg-title-h5 text-gray-300 mb-1">{t('modals.edit.current')}</h5>
 									<h3 className="tg-title-h3 text-white">
-										{ensName ? ensName : data?.address && truncateAddress(data.address)}
+										{ensName ? ensName : walletAddress && truncateAddress(walletAddress)}
 									</h3>
 								</div>
 								<div className="bg-primary p-[2px] rounded">
@@ -184,7 +179,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 											key={`${council.slug}-council-checkbox`}
 											id={`${council.slug}-council-checkbox`}
 											onChange={() => setActiveCheckbox(council.slug)}
-											label={t('modals.nomination.checkboxes'.concat(council.slug))}
+											label={t('modals.nomination.checkboxes.'.concat(council.slug))}
 											color="lightBlue"
 											checked={activeCheckbox === council.slug}
 											disabled={shouldBeDisabled(council.slug)}
