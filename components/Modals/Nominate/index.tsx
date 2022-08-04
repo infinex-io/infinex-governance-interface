@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { truncateAddress } from 'utils/truncate-address';
 import BaseModal from '../BaseModal';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 
 export default function NominateModal() {
 	const { t } = useTranslation();
@@ -27,6 +28,27 @@ export default function NominateModal() {
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 	const { data: periodData } = useCurrentPeriod();
+	const isAlreadyNominatedForSpartan = useIsNominated(
+		DeployedModules.SPARTAN_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForGrants = useIsNominated(
+		DeployedModules.GRANTS_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForAmbassador = useIsNominated(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominated =
+		isAlreadyNominatedForSpartan.data ||
+		isAlreadyNominatedForGrants.data ||
+		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTreasury.data;
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
@@ -121,7 +143,7 @@ export default function NominateModal() {
 								label={t('modals.nomination.checkboxes'.concat(council.slug))}
 								color="lightBlue"
 								checked={activeCheckbox === council.slug}
-								disabled={shouldBeDisabled(council.slug)}
+								disabled={shouldBeDisabled(council.slug) || isAlreadyNominated}
 							/>
 						))}
 					</div>
