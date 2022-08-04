@@ -37,10 +37,11 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
 	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
 	const councilNomination = [spartan.data, grants.data, ambassador.data, treasury.data];
-	const { data: allPeriods } = useCurrentPeriods();
+	const periodsData = useCurrentPeriods();
+
 	const isNominatedFor = COUNCILS_DICTIONARY.map((council, index) => ({
 		nominated: councilNomination && Array.isArray(councilNomination) && councilNomination[index],
-		period: allPeriods && allPeriods[index][council.slug],
+		period: periodsData[index].data?.currentPeriod,
 		council: council.label,
 		module: council.module,
 	})).filter((v) => v.nominated && v.period === 'NOMINATION');

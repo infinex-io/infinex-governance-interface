@@ -28,7 +28,12 @@ export default function NominateModal() {
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriods();
+	const periodsData = useCurrentPeriods();
+
+	const shouldBeDisabled = (council: string) => {
+		const periodForCouncil = periodsData.find((periodData) => periodData.data?.council === council);
+		return periodForCouncil ? periodForCouncil.data?.currentPeriod !== 'NOMINATION' : true;
+	};
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
@@ -55,14 +60,6 @@ export default function NominateModal() {
 				<h3 className="tg-title-h3">{ensName || truncateAddress(data?.address!)}</h3>
 			</>
 		);
-	};
-
-	const shouldBeDisabled = (council: string) => {
-		if (periodData) {
-			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
-			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
-		}
-		return true;
 	};
 
 	const handleNomination = async () => {

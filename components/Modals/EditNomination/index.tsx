@@ -36,14 +36,11 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriods();
+	const periodsData = useCurrentPeriods();
 
 	const shouldBeDisabled = (council: string) => {
-		if (periodData) {
-			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
-			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
-		}
-		return true;
+		const periodForCouncil = periodsData.find((periodData) => periodData.data?.council === council);
+		return periodForCouncil?.data ? periodForCouncil.data?.currentPeriod !== 'NOMINATION' : true;
 	};
 
 	useEffect(() => {

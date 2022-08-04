@@ -1,10 +1,7 @@
 import BackButton from 'components/BackButton';
 import { CouncilCard } from 'components/CouncilCard';
 import { useRouter } from 'next/router';
-import {
-	useCurrentPeriods,
-	CurrentPeriodsWithCouncils,
-} from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { useTranslation } from 'react-i18next';
 import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react';
@@ -16,22 +13,24 @@ export default function VoteSection() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const { data } = useAccount();
+	const periodsData = useCurrentPeriods();
+	const isLoading = !!periodsData.find((period) => period.isLoading);
+
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
-	const { data: allPeriods } = useCurrentPeriods();
 
 	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
 
 	useEffect(() => {
-		if (typeof activeCouncilInVoting === 'number' && activeCouncilInVoting === 0) push('/');
-	}, [activeCouncilInVoting, push]);
-
-	useEffect(() => {
-		if (allPeriods?.length) {
-			setActiveCouncilInVoting(
-				allPeriods.filter((period) => period[Object.keys(period)[0]] === 'VOTING').length
-			);
+		if (!isLoading) {
+			const numberOfCouncilInVoting = periodsData.filter(
+				(period) => period.data?.currentPeriod === 'VOTING'
+			).length;
+			if (numberOfCouncilInVoting === 0) {
+				push('/');
+			}
+			setActiveCouncilInVoting(numberOfCouncilInVoting);
 		}
-	}, [allPeriods]);
+	}, [periodsData, isLoading, push]);
 
 	const count = [
 		voteStatusQuery.data?.spartan.voted,
@@ -74,11 +73,7 @@ export default function VoteSection() {
 								key={council.slug.concat(index.toString())}
 								walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
 								hasVoted={!!voteStatusQuery.data?.spartan.voted}
-								periodIsVoting={
-									!!(allPeriods as CurrentPeriodsWithCouncils[])?.find(
-										(period) => period[council.slug] === 'VOTING'
-									)
-								}
+								periodIsVoting={!!periodsData.find((period) => period.data?.council === 'VOTING')}
 								council={council.module}
 							/>
 						))}
