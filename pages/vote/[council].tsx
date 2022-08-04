@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
 
 const PAGE_SIZE = 8;
 
@@ -23,10 +23,10 @@ export default function VoteCouncil() {
 	const { t } = useTranslation();
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
-	const { data } = useAccount();
+	const { walletAddress } = useConnectorContext();
 	const { data: periodData } = useCurrentPeriod(activeCouncil.module);
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	const voteStatusQuery = useGetCurrentVoteStateQuery(data?.address || '');
+	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
 	const period = periodData?.currentPeriod;
 
@@ -41,7 +41,7 @@ export default function VoteCouncil() {
 	}, [period, push]);
 
 	const sortedNominees =
-		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === data?.address ? -1 : 1));
+		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === walletAddress ? -1 : 1));
 	return (
 		<>
 			<Head>

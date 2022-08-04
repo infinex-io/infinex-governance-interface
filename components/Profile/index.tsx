@@ -12,25 +12,24 @@ import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
 import clsx from 'clsx';
 import { compareAddress, urlIsCorrect } from 'utils/helpers';
-import { useAccount } from 'wagmi';
+import { useConnectorContext } from 'containers/Connector';
 import Image from 'next/image';
 import { useModalContext } from 'containers/Modal';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCILS_DICTIONARY } from 'constants/config';
-import { useConnectorContext } from 'containers/Connector';
 import { DeployedModules } from 'containers/Modules';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { push } = useRouter();
-	const { data } = useAccount();
+	const { walletAddress: userAddress } = useConnectorContext();
 	const { ensName } = useConnectorContext();
 	const { setContent, setIsOpen: setModalOpen } = useModalContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
-	const isOwnCard = compareAddress(walletAddress, data?.address);
+	const isOwnCard = compareAddress(walletAddress, userAddress);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
 	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
 	const grants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);

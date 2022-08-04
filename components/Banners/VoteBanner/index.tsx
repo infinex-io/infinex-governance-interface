@@ -9,13 +9,20 @@ export default function VoteBanner({ deployedModule }: { deployedModule: Deploye
 
 	return (
 		<div className="flex justify-center md:flex-nowrap flex-wrap items-center bg-green-vote p-2">
-			<div className="md:mr-8 text-black tg-caption-bold md:p-0 p-2">
+			<div
+				className="md:mr-8 text-black tg-caption-bold md:p-0 p-2"
+				data-testid="vote-banner-headline"
+			>
 				{t('banner.vote.headline')}
 			</div>
-			<div className="darker-60 flex py-2 rounded px-4">
+			<div className="darker-60 flex py-2 rounded px-4" data-testid="vote-banner-timer-text">
 				{t('banner.vote.closes')}
 				{data?.votingPeriodEndDate && (
-					<Timer expiryTimestamp={data.votingPeriodEndDate} className="ml-5"></Timer>
+					<Timer
+						expiryTimestamp={data.votingPeriodEndDate}
+						className="ml-5"
+						data-testid="vote-banner-timer"
+					></Timer>
 				)}
 			</div>
 		</div>

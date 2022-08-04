@@ -40,3 +40,10 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		module: DeployedModules.TREASURY_COUNCIL,
 	},
 ];
+
+export const PAGE_SIZE = 6;
+
+export const LOCAL_STORAGE_KEYS = {
+	SELECTED_WALLET: 'selectedWallet',
+	WATCHED_WALLETS: 'watchedWallets',
+};

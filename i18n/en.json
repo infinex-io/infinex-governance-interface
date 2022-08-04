@@ -6,7 +6,9 @@
 			"profile": "Profile",
 			"vote": "Vote"
 		},
-		"connect-wallet": "Connect Wallet"
+		"connect-wallet": "Connect Wallet",
+		"view-profile": "View Profile",
+		"disconnect-wallet": "Disconnect Wallet"
 	},
 	"footer": {
 		"copyright": "Copyright © Synthetix 2022",
@@ -70,12 +72,16 @@
 	"councils": {
 		"headline": "Our Current Elected Members",
 		"subline": "Meet each of the nominees for the new and up and coming elections for the Synthetix governing bodies, each responsible for a core aspect of the DAO.",
-		"back-btn": "Back",
 		"nominees": "{{ council }} Council Nominees",
+		"members": "{{ council }} Council Members",
+		"view-council": "View Council",
+		"view-member-sub": "View all memebers in detail and view past elections and pitches",
 		"view-member": "View Member",
 		"view-nominee": "View Nominee",
 		"edit-nomination": "Edit Nomination",
 		"no-nominations": "No Nominations yet",
+		"passed-elections": "Passed Elections",
+		"epoch": "Epoch",
 		"of": "of",
 		"dropdown": {
 			"withdraw": "Withdraw Nomination",
@@ -182,7 +188,8 @@
 				"vote": "Vote",
 				"power": "Voting Power in %",
 				"received": "Received Voting Power  ({{units}})",
-				"council": "Council"
+				"council": "Council",
+				"action": "Action"
 			},
 			"tabs": {
 				"sc": "Spartan Council",
@@ -282,8 +289,7 @@
 	"banner": {
 		"vote": {
 			"headline": "VOTING IS LIVE - VOTE NOW!",
-			"closes": "Closes in",
-			"button": "VOTE NOW"
+			"closes": "Closes in"
 		},
 		"nominate": {
 			"headline": "NOMINATE SELF",
@@ -295,5 +301,8 @@
 		"caption": "We’re not sure where it went",
 		"backToHomepage": "Back to Governance Homepage"
 	},
-	"copyClipboardMessage": "Successfully Copied"
+	"components": {
+		"copy-clipboard-message": "Successfully Copied",
+		"back-btn": "Back"
+	}
 }
