@@ -5,10 +5,9 @@ import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
 import { VoteResultBanner } from 'components/VoteResultBanner';
-import { COUNCIL_SLUGS } from 'constants/config';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
 import useNomineesQuery from 'queries/nomination/useNomineesQuery';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { useEffect, useState } from 'react';
@@ -16,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
+import { compareAddress } from 'utils/helpers';
 
 const PAGE_SIZE = 8;
 
@@ -29,6 +29,8 @@ export default function VoteCouncil() {
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
 
+	const period = periodData?.currentPeriod;
+
 	const startIndex = activePage * PAGE_SIZE;
 	const endIndex =
 		nomineesQuery.data?.length && startIndex + PAGE_SIZE > nomineesQuery.data?.length
@@ -36,14 +38,12 @@ export default function VoteCouncil() {
 			: startIndex + PAGE_SIZE;
 
 	useEffect(() => {
-		if (
-			Array.isArray(periodData) &&
-			periodData.filter((period, index) => period[COUNCIL_SLUGS[index]] !== 'VOTING')
-		)
-			push('/');
-	}, [periodData, push]);
+		if (period !== 'VOTING') push('/');
+	}, [period, push]);
+
 	const sortedNominees =
-		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === walletAddress ? -1 : 1));
+		nomineesQuery.data &&
+		[...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1));
 	return (
 		<>
 			<Head>

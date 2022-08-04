@@ -11,11 +11,7 @@ import { onboard as Web3Onboard } from './config';
 import { LOCAL_STORAGE_KEYS } from 'constants/config';
 import { AppEvents, initialState, Network, reducer } from './reducer';
 import { getIsOVM, isSupportedNetworkId } from 'utils/network';
-import synthetix, {
-	NetworkIdByName,
-	NetworkNameById,
-	SynthetixJS,
-} from '@synthetixio/contracts-interface';
+import { NetworkIdByName, NetworkNameById, SynthetixJS } from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
 
@@ -55,7 +51,6 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		provider,
 		network,
 		signer,
-		synthetixjs,
 		walletAddress,
 		walletWatched,
 		ensName,
@@ -85,12 +80,9 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 				const isSupported = isSupportedNetworkId(networkId);
 
 				if (!isSupported) {
-					// Switch to mainnet ethereum by default
+					// Switch to mainnet ovm by default
 					(async () => {
-						// Only switch chains if the user has tab open
-						if (document.hasFocus()) {
-							await onboard?.setChain({ chainId: getChainIdHex(NetworkIdByName['mainnet-ovm']) });
-						}
+						await onboard?.setChain({ chainId: getChainIdHex(NetworkIdByName['mainnet-ovm']) });
 					})();
 				} else {
 					const network = {
@@ -105,8 +97,6 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 					});
 
 					const signer = provider.getSigner();
-					const useOvm = getIsOVM(Number(networkId));
-					const synthetixjs = synthetix({ provider, networkId, useOvm });
 
 					dispatch({
 						type: AppEvents.CONFIG_UPDATE,
@@ -117,7 +107,6 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 							network,
 							provider,
 							signer,
-							synthetixjs,
 							ensName: wallet?.ens?.name || null,
 							ensAvatar: wallet?.ens?.avatar?.url || null,
 						},
@@ -244,7 +233,6 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 				provider,
 				network,
 				signer,
-				synthetixjs,
 				walletAddress,
 				walletWatched,
 				onboard,

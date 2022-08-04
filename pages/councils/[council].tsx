@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
+import { compareAddress } from 'utils/helpers';
 
 const PAGE_SIZE = 8;
 
@@ -54,7 +55,8 @@ export default function CouncilNominees() {
 			: startIndex + PAGE_SIZE;
 
 	const sortedNominees =
-		nomineesQuery.data && [...nomineesQuery.data].sort((a) => (a === walletAddress ? -1 : 1));
+		nomineesQuery.data &&
+		[...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1));
 
 	return (
 		<>

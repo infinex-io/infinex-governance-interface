@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueries } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { CouncilsDictionaryType, COUNCILS_DICTIONARY } from 'constants/config';
+import { COUNCILS_DICTIONARY } from 'constants/config';
+import { Contract } from 'ethers';
 
 export enum EpochPeriods {
 	ADMINISTRATION = 0,
@@ -11,40 +12,46 @@ export enum EpochPeriods {
 }
 
 export type CurrentPeriod = {
+	council: string | undefined;
 	currentPeriod: keyof typeof EpochPeriods;
 };
 
-export type CurrentPeriodsWithCouncils = Record<
-	CouncilsDictionaryType['slug'],
-	keyof typeof EpochPeriods
->;
+const getCurrentPeriodQueryKey = (moduleInstance: DeployedModules) => [
+	'currentPeriod',
+	moduleInstance,
+];
+const fetchCurrentPeriod = async (
+	councilContract: Contract | undefined,
+	moduleInstance: DeployedModules
+) => {
+	const currentPeriod = Number(await councilContract?.getCurrentPeriod());
+	const councilData = COUNCILS_DICTIONARY.find((council) => council.module === moduleInstance);
+	return {
+		council: councilData?.slug,
+		currentPeriod: EpochPeriods[currentPeriod] as keyof typeof EpochPeriods,
+	};
+};
 
-function useCurrentPeriod(moduleInstance?: DeployedModules) {
+export const useCurrentPeriod = (moduleInstance: DeployedModules) => {
 	const governanceModules = useModulesContext();
-
-	return useQuery<CurrentPeriod | CurrentPeriodsWithCouncils[]>(
-		['currentPeriod', moduleInstance],
-		async () => {
-			if (!moduleInstance) {
-				const promises = COUNCILS_DICTIONARY.map((council) =>
-					governanceModules[council.module]?.contract.getCurrentPeriod()
-				);
-				const rawNumber = await Promise.all(promises);
-				const results = rawNumber.map((raw) => Number(raw));
-				return COUNCILS_DICTIONARY.map((council, index) => ({
-					[council.slug]: EpochPeriods[results[index]] as keyof typeof EpochPeriods,
-				}));
-			}
-			const contract = governanceModules[moduleInstance]?.contract;
-			let currentPeriod = Number(await contract?.getCurrentPeriod());
-
-			return { currentPeriod: EpochPeriods[currentPeriod] as keyof typeof EpochPeriods };
-		},
+	return useQuery<CurrentPeriod>(
+		getCurrentPeriodQueryKey(moduleInstance),
+		() => fetchCurrentPeriod(governanceModules[moduleInstance]?.contract, moduleInstance),
 		{
 			enabled: governanceModules !== null,
 			staleTime: 900000,
 		}
 	);
-}
-
-export default useCurrentPeriod;
+};
+export const useCurrentPeriods = () => {
+	const governanceModules = useModulesContext();
+	return useQueries(
+		COUNCILS_DICTIONARY.map((council) => ({
+			queryKey: getCurrentPeriodQueryKey(council.module),
+			queryFn: () =>
+				fetchCurrentPeriod(governanceModules[council.module]?.contract, council.module),
+			enabled: governanceModules !== null,
+			staleTime: 900000,
+		}))
+	);
+};

@@ -16,7 +16,7 @@ export type VoteResult = {
 
 export const useVotingResult = (
 	moduleInstance: DeployedModules,
-	epochIndex: string | number | null | undefined
+	epochIndex: string | number | undefined
 ) => {
 	const governanceModules = useModulesContext();
 	return useQuery<VoteResult[]>(
@@ -29,7 +29,7 @@ export const useVotingResult = (
 				query: gql`
 					query VoteResults {
 						voteResults(
-							where: { epochIndex: "${epoch}", contract: "${contractAddress}" }
+							where: { contract: "${contractAddress}", epochIndex: "${epoch}" }
 						) {
 							id
 							epochIndex

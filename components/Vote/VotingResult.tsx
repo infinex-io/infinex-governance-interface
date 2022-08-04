@@ -97,7 +97,8 @@ export const VotingResultTable: React.FC<VotingResultTableProps> = ({
 
 	const columns = useMemo<Column<VoteResult>[]>(() => {
 		const isActive = (walletAddress: string) =>
-			(voteResults.findIndex((item) => item.walletAddress === walletAddress) || 0) < (seats || 0);
+			(voteResults.findIndex((item) => compareAddress(item.walletAddress, walletAddress)) || 0) <
+			(seats || 0);
 
 		return [
 			{

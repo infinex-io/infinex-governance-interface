@@ -24,10 +24,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { setContent, setIsOpen } = useModalContext();
 	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
-	const voteCount = useVotingCount(deployedModule, null);
+	const voteCount = useVotingCount(deployedModule);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
-	const period = !Array.isArray(currentPeriodData) && currentPeriodData?.currentPeriod;
+	const period = currentPeriodData?.currentPeriod;
 
 	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
 
@@ -84,7 +84,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						{period === 'NOMINATION' || period === 'VOTING' ? nomineesCount : membersCount}
 					</h4>
 					<h4 className="text-2xl council-card-numbers gt-america-condensed-bold-font">
-						{voteCount}
+						{voteCount.data || ''}
 					</h4>
 				</div>
 				{secondButton && (

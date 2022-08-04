@@ -6,13 +6,13 @@ import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { truncateAddress } from 'utils/truncate-address';
 import BaseModal from '../BaseModal';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 
 export default function NominateModal() {
 	const { t } = useTranslation();
@@ -23,11 +23,12 @@ export default function NominateModal() {
 	const { setVisible, setTxHash, setContent, state, visible, setState } =
 		useTransactionModalContext();
 	const queryClient = useQueryClient();
+
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
-	const { data: periodData } = useCurrentPeriod();
+
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
 		walletAddress || ''
@@ -49,6 +50,13 @@ export default function NominateModal() {
 		isAlreadyNominatedForGrants.data ||
 		isAlreadyNominatedForAmbassador.data ||
 		isAlreadyNominatedForTreasury.data;
+
+	const periodsData = useCurrentPeriods();
+
+	const shouldBeDisabled = (council: string) => {
+		const periodForCouncil = periodsData.find((periodData) => periodData.data?.council === council);
+		return periodForCouncil ? periodForCouncil.data?.currentPeriod !== 'NOMINATION' : true;
+	};
 
 	useEffect(() => {
 		if (state === 'confirmed' && visible) {
@@ -75,14 +83,6 @@ export default function NominateModal() {
 				<h3 className="tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
 			</>
 		);
-	};
-
-	const shouldBeDisabled = (council: string) => {
-		if (Array.isArray(periodData)) {
-			const periodForCouncil = periodData.find((c) => Object.keys(c)[0] === council);
-			return periodForCouncil ? periodForCouncil[council] === 'NOMINATION' : true;
-		}
-		return true;
 	};
 
 	const handleNomination = async () => {
@@ -140,7 +140,7 @@ export default function NominateModal() {
 								key={`${council.slug}-council-checkbox`}
 								id={`${council.slug}-council-checkbox`}
 								onChange={() => setActiveCheckbox(council.slug)}
-								label={t('modals.nomination.checkboxes'.concat(council.slug))}
+								label={t('modals.nomination.checkboxes.'.concat(council.slug))}
 								color="lightBlue"
 								checked={activeCheckbox === council.slug}
 								disabled={shouldBeDisabled(council.slug) || isAlreadyNominated}

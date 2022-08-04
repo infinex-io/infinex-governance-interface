@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { COUNCIL_SLUGS } from 'constants/config';
-import useCurrentPeriod from 'queries/epochs/useCurrentPeriodQuery';
+import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { Button, Dropdown } from '@synthetixio/ui';
 import SNXIcon from 'components/Icons/SNXIcon';
 import { useConnectorContext } from 'containers/Connector';
@@ -13,7 +12,6 @@ import { ConnectButton } from 'components/ConnectButton';
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
 	{ label: 'header.routes.councils', link: 'councils' },
-	{ label: 'header.routes.profile', link: 'profile' },
 	{ label: 'header.routes.vote', link: 'vote' },
 ];
 
@@ -22,21 +20,7 @@ export default function Header() {
 	const { t } = useTranslation();
 	const { ensName, walletAddress, disconnectWallet, isWalletConnected } = useConnectorContext();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
-	const [routes, setRoutes] = useState(routesDic);
-	const allPeriods = useCurrentPeriod();
-	const oneCouncilIsInVotingPeriod = !!COUNCIL_SLUGS.find((council, index) =>
-		Array.isArray(allPeriods.data) && allPeriods.data?.length
-			? allPeriods.data[index][council] === 'VOTING'
-			: false
-	);
-
-	useEffect(() => {
-		if (walletAddress) {
-			setRoutes(routesDic);
-		} else {
-			setRoutes((state) => state.filter((route) => !route.link.includes('profile')));
-		}
-	}, [oneCouncilIsInVotingPeriod, t, walletAddress]);
+	const periodsData = useCurrentPeriods();
 
 	useEffect(() => {
 		if (burgerMenuOpen) {
@@ -44,10 +28,11 @@ export default function Header() {
 		} else document.documentElement.classList.remove('stop-scrolling');
 	}, [burgerMenuOpen]);
 
-	const filterRoutes = (route: any) =>
-		(oneCouncilIsInVotingPeriod || route.link !== 'vote') &&
-		(route.link !== 'profile' || walletAddress);
+	const oneCouncilIsInVotingPeriod = !!periodsData.find(
+		(periodData) => periodData.data?.currentPeriod === 'VOTING'
+	);
 
+	const routes = routesDic.filter((route) => oneCouncilIsInVotingPeriod || route.link !== 'vote');
 	return (
 		<header
 			className={`bg-dark-blue w-full m-h-[66px] p-3 flex 
@@ -60,7 +45,7 @@ export default function Header() {
 				</div>
 			</Link>
 			<div className="hidden md:flex justify-center w-full">
-				{routes.filter(filterRoutes).map((route) => (
+				{routes.map((route) => (
 					<Link key={route.label} href={`/${route.link}`} passHref>
 						<Button
 							variant="spotlight"
@@ -113,7 +98,7 @@ export default function Header() {
 			{burgerMenuOpen && (
 				<div className="fixed w-full h-full z-100 bg-dark-blue top-[65px] left-0 py-4">
 					<div className="flex flex-col items-center">
-						{routes.filter(filterRoutes).map((route) => (
+						{routes.map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref>
 								<Button
 									variant="spotlight"
@@ -132,7 +117,6 @@ export default function Header() {
 			)}
 			<div className="flex md:mr-1 min-w-[170px] h-[40px] justify-end">
 				{!isWalletConnected && <ConnectButton />}
-
 				{isWalletConnected && walletAddress && (
 					<Dropdown
 						triggerElement={
