@@ -179,7 +179,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 											key={`${council.slug}-council-checkbox`}
 											id={`${council.slug}-council-checkbox`}
 											onChange={() => setActiveCheckbox(council.slug)}
-											label={t('modals.nomination.checkboxes'.concat(council.slug))}
+											label={t('modals.nomination.checkboxes.'.concat(council.slug))}
 											color="lightBlue"
 											checked={activeCheckbox === council.slug}
 											disabled={shouldBeDisabled(council.slug)}

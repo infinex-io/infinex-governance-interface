@@ -16,10 +16,9 @@ import { useConnectorContext } from 'containers/Connector';
 import Image from 'next/image';
 import { useModalContext } from 'containers/Modal';
 import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
-import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCILS_DICTIONARY } from 'constants/config';
-import { DeployedModules } from 'containers/Modules';
+import { useIsNominatedCouncils } from 'queries/nomination/useIsNominatedCouncils';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -31,12 +30,10 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const [isOpen, setIsOpen] = useState(false);
 	const isOwnCard = compareAddress(walletAddress, userAddress);
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
-	const spartan = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
-	const grants = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);
-	const ambassador = useIsNominated(DeployedModules.AMBASSADOR_COUNCIL, walletAddress);
-	const treasury = useIsNominated(DeployedModules.TREASURY_COUNCIL, walletAddress);
-	const councilNomination = [spartan.data, grants.data, ambassador.data, treasury.data];
 	const periodsData = useCurrentPeriods();
+
+	const { spartan, grants, ambassador, treasury } = useIsNominatedCouncils(walletAddress);
+	const councilNomination = [spartan.data, grants.data, ambassador.data, treasury.data];
 
 	const isNominatedFor = COUNCILS_DICTIONARY.map((council, index) => ({
 		nominated: councilNomination && Array.isArray(councilNomination) && councilNomination[index],

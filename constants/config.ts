@@ -1,6 +1,11 @@
-import { DeployedModules } from 'containers/Modules';
-
 export const COUNCIL_SLUGS = ['spartan', 'grants', 'ambassador', 'treasury'];
+
+export enum DeployedModules {
+	SPARTAN_COUNCIL = 'spartan council',
+	AMBASSADOR_COUNCIL = 'ambassador council',
+	GRANTS_COUNCIL = 'grants council',
+	TREASURY_COUNCIL = 'treasury council',
+}
 
 export type CouncilsDictionaryType = {
 	slug: string;

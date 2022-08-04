@@ -29,7 +29,7 @@ export const useVotingResult = (
 				query: gql`
 					query VoteResults {
 						voteResults(
-							where: { epochIndex: "${epoch}", contract: "${contractAddress}" }
+							where: { contract: "${contractAddress}", epochIndex: "${epoch}" }
 						) {
 							id
 							epochIndex

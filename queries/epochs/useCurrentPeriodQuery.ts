@@ -1,7 +1,7 @@
 import { useQuery, useQueries } from 'react-query';
 import { useModulesContext } from 'containers/Modules';
 import { DeployedModules } from 'containers/Modules';
-import { CouncilsDictionaryType, COUNCILS_DICTIONARY } from 'constants/config';
+import { COUNCILS_DICTIONARY } from 'constants/config';
 import { Contract } from 'ethers';
 
 export enum EpochPeriods {
@@ -15,11 +15,6 @@ export type CurrentPeriod = {
 	council: string | undefined;
 	currentPeriod: keyof typeof EpochPeriods;
 };
-
-export type CurrentPeriodsWithCouncils = Record<
-	CouncilsDictionaryType['slug'],
-	keyof typeof EpochPeriods
->;
 
 const getCurrentPeriodQueryKey = (moduleInstance: DeployedModules) => [
 	'currentPeriod',

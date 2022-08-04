@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import useCouncilMembersQuery from './useCouncilMembersQuery';
+import { compareAddress } from 'utils/helpers';
 
 function useGetMemberCouncilNameQuery(walletAddress: string) {
 	const governanceModules = useModulesContext();
@@ -13,11 +14,13 @@ function useGetMemberCouncilNameQuery(walletAddress: string) {
 	return useQuery<string>(
 		['getMemberCouncilName', walletAddress],
 		async () => {
-			if (spartanQuery.data?.filter((member) => member === walletAddress).length) return 'Spartan';
-			if (grantsQuery.data?.filter((member) => member === walletAddress).length) return 'Grants';
-			if (ambassadorQuery.data?.filter((member) => member === walletAddress).length)
+			if (spartanQuery.data?.filter((member) => compareAddress(member, walletAddress)).length)
+				return 'Spartan';
+			if (grantsQuery.data?.filter((member) => compareAddress(member, walletAddress)).length)
+				return 'Grants';
+			if (ambassadorQuery.data?.filter((member) => compareAddress(member, walletAddress)).length)
 				return 'Ambassador';
-			if (treasuryQuery.data?.filter((member) => member === walletAddress).length)
+			if (treasuryQuery.data?.filter((member) => compareAddress(member, walletAddress)).length)
 				return 'Treasury';
 			return '';
 		},

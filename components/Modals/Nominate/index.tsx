@@ -22,10 +22,12 @@ export default function NominateModal() {
 	const { setVisible, setTxHash, setContent, state, visible, setState } =
 		useTransactionModalContext();
 	const queryClient = useQueryClient();
+
 	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
 	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
 	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
+
 	const periodsData = useCurrentPeriods();
 
 	const shouldBeDisabled = (council: string) => {
@@ -115,7 +117,7 @@ export default function NominateModal() {
 								key={`${council.slug}-council-checkbox`}
 								id={`${council.slug}-council-checkbox`}
 								onChange={() => setActiveCheckbox(council.slug)}
-								label={t('modals.nomination.checkboxes'.concat(council.slug))}
+								label={t('modals.nomination.checkboxes.'.concat(council.slug))}
 								color="lightBlue"
 								checked={activeCheckbox === council.slug}
 								disabled={shouldBeDisabled(council.slug)}

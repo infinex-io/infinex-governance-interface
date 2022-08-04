@@ -1,4 +1,3 @@
-import { SynthetixJS } from '@synthetixio/contracts-interface';
 import { OnboardAPI } from '@web3-onboard/core';
 import { ethers } from 'ethers';
 import { onboard } from './config';
@@ -15,7 +14,6 @@ type ConnectorState = {
 	network: Network | null;
 	provider: ethers.providers.Web3Provider | null;
 	signer: ethers.Signer | null;
-	synthetixjs: SynthetixJS | null;
 	isAppReady: boolean;
 	walletAddress: string | null;
 	walletWatched: string | null;
@@ -38,7 +36,6 @@ export const initialState: ConnectorState = {
 	network: null,
 	provider: null,
 	signer: null,
-	synthetixjs: null,
 	isAppReady: false,
 	walletAddress: null,
 	walletWatched: null,
@@ -54,7 +51,6 @@ export type ConnectionUpdate = {
 	signer: ethers.Signer | null;
 	walletWatched: null;
 	walletType: string | null;
-	synthetixjs: SynthetixJS;
 	provider: ethers.providers.Web3Provider;
 	ensName: string | null;
 	ensAvatar: string | null;
@@ -98,7 +94,6 @@ export function reducer(state: ConnectorState, action: Actions) {
 				network: action.payload.network,
 				signer: action.payload.signer,
 				provider: action.payload.provider,
-				synthetixjs: action.payload.synthetixjs,
 				ensName: action.payload.ensName,
 				ensAvatar: action.payload.ensAvatar,
 			};
@@ -120,7 +115,6 @@ export function reducer(state: ConnectorState, action: Actions) {
 				network: null,
 				provider: null,
 				signer: null,
-				synthetixjs: null,
 				walletAddress: null,
 				watchedWallet: null,
 				walletType: null,
