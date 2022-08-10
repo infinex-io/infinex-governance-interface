@@ -90,7 +90,7 @@ export function reducer(state: ConnectorState, action: Actions) {
 				...state,
 				walletWatched: action.payload.walletWatched,
 				walletType: action.payload.walletType,
-				walletAddress: action.payload.address,
+				walletAddress: parseAddress(action.payload.address),
 				network: action.payload.network,
 				signer: action.payload.signer,
 				provider: action.payload.provider,
@@ -101,7 +101,7 @@ export function reducer(state: ConnectorState, action: Actions) {
 		case AppEvents.WATCH_WALLET:
 			return {
 				...state,
-				walletAddress: action.payload.address,
+				walletAddress: parseAddress(action.payload.address),
 				ensName: action.payload.ensName,
 				walletWatched: action.payload.walletWatched,
 			};
@@ -133,3 +133,6 @@ export function reducer(state: ConnectorState, action: Actions) {
 			return { ...state };
 	}
 }
+
+const parseAddress = (walletAddress: string | null) =>
+	walletAddress ? ethers.utils.getAddress(walletAddress) : null;
