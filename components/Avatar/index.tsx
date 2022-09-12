@@ -28,9 +28,7 @@ const Avatar: React.FC<AvatarProps> = ({
 		console.error(error);
 	}
 
-	return parsedUrl instanceof URL &&
-		(parsedUrl.host === 'ipfs.io' || parsedUrl.host === 'ipfs.pics') &&
-		!showBlockies ? (
+	return parsedUrl instanceof URL && parsedUrl.host === 'ipfs.io' && !showBlockies ? (
 		// eslint-disable-next-line @next/next/no-img-element
 		<img
 			onError={() => setShowBlockies(true)}
