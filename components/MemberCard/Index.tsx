@@ -55,17 +55,20 @@ export default function MemberCard({
 
 	const member = userDetailsQuery.data;
 
-	const socialMedia = (member.discord || member.twitter || member.github) && (
-		<div className="flex items-center justify-center my-3 gap-4">
-			<UserSocials discord={member.discord} twitter={member.twitter} github={member.github} />
-		</div>
-	);
+	const socialMedia =
+		member.discord || member.twitter || member.github ? (
+			<div className="flex items-center justify-center my-3 gap-4">
+				<UserSocials discord={member.discord} twitter={member.twitter} github={member.github} />
+			</div>
+		) : (
+			<div className="my-3" />
+		);
 
 	const content = !listView ? (
 		<>
 			<Avatar width={56} height={56} walletAddress={member.address} url={member.pfpThumbnailUrl} />
 			{council && (
-				<Badge variant="blue" className="mt-3 uppercase">
+				<Badge variant="blue" className="mt-2 uppercase">
 					{t('profiles.council', { council })}
 				</Badge>
 			)}
