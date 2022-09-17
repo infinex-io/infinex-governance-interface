@@ -7,7 +7,7 @@ import { useConnectorContext } from 'containers/Connector';
 import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
-import { COUNCILS_DICTIONARY } from 'constants/config';
+import { COUNCILS_DICTIONARY, DeployedModules } from 'constants/config';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
@@ -68,18 +68,42 @@ export default function VoteSection() {
 						</div>
 					</div>
 					<div className="flex justify-between flex-wrap w-full">
-						{COUNCILS_DICTIONARY.map((council, index) => (
-							<VoteCard
-								key={council.slug.concat(index.toString())}
-								walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
-								hasVoted={!!voteStatusQuery.data?.spartan.voted}
-								periodIsVoting={
-									periodsData.find((period) => period.data?.council === council.slug)?.data
-										?.currentPeriod === 'VOTING'
-								}
-								council={council.module}
-							/>
-						))}
+						<VoteCard
+							walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.spartan.voted}
+							periodIsVoting={
+								periodsData.find((period) => period.data?.council === 'spartan')?.data
+									?.currentPeriod === 'VOTING'
+							}
+							council={DeployedModules.SPARTAN_COUNCIL}
+						/>
+						<VoteCard
+							walletAddress={voteStatusQuery.data?.grants.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.grants.voted}
+							periodIsVoting={
+								periodsData.find((period) => period.data?.council === 'grants')?.data
+									?.currentPeriod === 'VOTING'
+							}
+							council={DeployedModules.GRANTS_COUNCIL}
+						/>
+						<VoteCard
+							walletAddress={voteStatusQuery.data?.ambassador.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.ambassador.voted}
+							periodIsVoting={
+								periodsData.find((period) => period.data?.council === 'ambassador')?.data
+									?.currentPeriod === 'VOTING'
+							}
+							council={DeployedModules.AMBASSADOR_COUNCIL}
+						/>
+						<VoteCard
+							walletAddress={voteStatusQuery.data?.treasury.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.treasury.voted}
+							periodIsVoting={
+								periodsData.find((period) => period.data?.council === 'treasury')?.data
+									?.currentPeriod === 'VOTING'
+							}
+							council={DeployedModules.TREASURY_COUNCIL}
+						/>
 					</div>
 				</div>
 			)}

@@ -19,6 +19,7 @@ export const useVotingResult = (
 	epochIndex: string | number | undefined
 ) => {
 	const governanceModules = useModulesContext();
+
 	return useQuery<VoteResult[]>(
 		['votingResult', moduleInstance, epochIndex],
 		async () => {
@@ -32,6 +33,7 @@ export const useVotingResult = (
 							where: { contract: "${contractAddress}", epochIndex: "${epoch}" }
 						) {
 							id
+							ballotId
 							epochIndex
 							votePower
 							contract
@@ -48,14 +50,14 @@ export const useVotingResult = (
 			);
 			const addresses: string[] = await Promise.all(
 				voteResults.map((voteResult: any) =>
-					contract?.getBallotCandidatesInEpoch(voteResult.id, hexStringBN(epoch))
+					contract?.getBallotCandidatesInEpoch(voteResult.ballotId, hexStringBN(epoch))
 				)
 			);
 			return voteResults
 				.map((voteResult: any, index: number) => ({
 					walletAddress: addresses[index].toString(),
 					council: moduleInstance,
-					ballotId: voteResult.id,
+					ballotId: voteResult.ballotId,
 					totalVotePower: BigNumber.from(voteResult.votePower),
 					voteCount: voteResult.voteCount,
 					epochIndex: voteResult.epochIndex,
