@@ -2,10 +2,12 @@ import { gql } from '@apollo/client';
 import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber } from 'ethers';
 import client from 'gql/apollo-client';
+import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
 import { useQuery } from 'react-query';
 
 export const useVotingCount = (moduleInstance: DeployedModules) => {
 	const governanceModules = useModulesContext();
+	const { data: epochIndex } = useEpochIndexQuery(moduleInstance);
 
 	return useQuery<string>(
 		['voteCountAll', moduleInstance],
@@ -16,7 +18,7 @@ export const useVotingCount = (moduleInstance: DeployedModules) => {
 				query: gql`
 					query VoteResults {
 						voteResults(
-							where: { contract: "${contractAddress}",  }
+							where: { contract: "${contractAddress}", epochIndex: "${epochIndex}" }
 						) {
 							voteCount
 						}
@@ -29,7 +31,7 @@ export const useVotingCount = (moduleInstance: DeployedModules) => {
 				.toString();
 		},
 		{
-			enabled: governanceModules !== null && moduleInstance !== null,
+			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== undefined,
 			staleTime: 900000,
 		}
 	);

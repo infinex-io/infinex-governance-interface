@@ -41,6 +41,7 @@ export const useVotingResult = (
 						}
 					}
 				`,
+				fetchPolicy: 'no-cache',
 			});
 
 			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
