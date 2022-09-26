@@ -1,14 +1,43 @@
 import { Button } from '@synthetixio/ui';
 import SNXIcon from 'components/Icons/SNXIcon';
-import { useRouter } from 'next/router';
+import EditNominationModal from 'components/Modals/EditNomination';
+import NominateModal from 'components/Modals/Nominate';
+import { DeployedModules } from 'constants/config';
+import { useConnectorContext } from 'containers/Connector';
+import { useModalContext } from 'containers/Modal';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 export const NominateInVotingBanner: React.FC = () => {
-	const { push } = useRouter();
+	const { setIsOpen, setContent } = useModalContext();
 	const { t } = useTranslation();
 	const periodsData = useCurrentPeriods();
+	const { walletAddress } = useConnectorContext();
+
+	const isAlreadyNominatedForSpartan = useIsNominated(
+		DeployedModules.SPARTAN_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForGrants = useIsNominated(
+		DeployedModules.GRANTS_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForAmbassador = useIsNominated(
+		DeployedModules.AMBASSADOR_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominated =
+		isAlreadyNominatedForSpartan.data ||
+		isAlreadyNominatedForGrants.data ||
+		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTreasury.data;
 
 	if (periodsData.find((periodData) => periodData.data?.currentPeriod !== 'VOTING')) return null;
 
@@ -26,7 +55,16 @@ export const NominateInVotingBanner: React.FC = () => {
 				</div>
 				<Button
 					onClick={() => {
-						push('/nominate');
+						if (!walletAddress) {
+							toast.warning('Please connect your wallet');
+						}
+						if (isAlreadyNominated) {
+							toast.error('You already nominated yourself');
+						}
+						if (walletAddress && !isAlreadyNominated) {
+							setContent(<NominateModal />);
+							setIsOpen(true);
+						}
 					}}
 					variant="outline"
 				>
