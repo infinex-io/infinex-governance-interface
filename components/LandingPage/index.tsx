@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { CouncilCard } from 'components/CouncilCard';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
+import { NominateInVotingBanner } from 'components/NominateInVotingBanner';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
@@ -30,6 +31,7 @@ export default function LandingPage() {
 						))}
 					</div>
 					<VoteResultBanner />
+					<NominateInVotingBanner />
 				</div>
 			</div>
 			<h1 className="tg-title-h1 text-center pt-8">{t('landing-page.second-headline')}</h1>

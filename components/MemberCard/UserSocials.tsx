@@ -3,7 +3,7 @@ import DiscordIcon from 'components/Icons/DiscordIcon';
 import TwitterIcon from 'components/Icons/TwitterIcon';
 import GitHubIcon from 'components/Icons/GitHubIcon';
 import Link from 'next/link';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { copyToClipboard, urlIsCorrect } from 'utils/helpers';
 import { toast } from 'react-toastify';

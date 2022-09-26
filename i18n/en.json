@@ -39,6 +39,11 @@
 			"subtitle": "Keep track of who is winning the election. Remember to vote!",
 			"cta": "Current Voting Results"
 		},
+		"nominate-banner": {
+			"title": "Nominate yourself",
+			"subtitle": "Nominate yourself for a council and get elected",
+			"cta": "Choose Council"
+		},
 		"cards": {
 			"spartan": "Spartan Council",
 			"grants": "Grants Council",
