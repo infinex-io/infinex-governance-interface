@@ -33,6 +33,7 @@ async function getVoteDetails(
 					}
 				}
 			`,
+		fetchPolicy: 'no-cache',
 	});
 
 	const ballotId = data.votes[0] ? data.votes[0].ballotId : '';

@@ -60,11 +60,11 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	} = state;
 
 	const L1DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
+		() => new ethers.providers.AlchemyProvider(1, process.env.NEXT_PUBLIC_ALCHEMY_KEY_MAINNET),
 		[]
 	);
 	const L2DefaultProvider = useMemo(
-		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
+		() => new ethers.providers.AlchemyProvider(10, process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPTIMISM),
 		[]
 	);
 
