@@ -11,7 +11,12 @@ import { onboard as Web3Onboard } from './config';
 import { LOCAL_STORAGE_KEYS } from 'constants/config';
 import { AppEvents, initialState, Network, reducer } from './reducer';
 import { getIsOVM, isSupportedNetworkId } from 'utils/network';
-import { NetworkIdByName, NetworkNameById, SynthetixJS } from '@synthetixio/contracts-interface';
+import {
+	NetworkId,
+	NetworkIdByName,
+	NetworkNameById,
+	SynthetixJS,
+} from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
 
@@ -79,15 +84,15 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 
 				const isSupported = isSupportedNetworkId(networkId);
 
-				if (!isSupported) {
+				if (!isSupported && !document?.hidden) {
 					// Switch to mainnet ovm by default
 					(async () => {
 						await onboard?.setChain({ chainId: getChainIdHex(NetworkIdByName['mainnet-ovm']) });
 					})();
 				} else {
 					const network = {
-						id: networkId,
-						name: NetworkNameById[networkId],
+						id: networkId as NetworkId,
+						name: NetworkNameById[networkId as NetworkId],
 						useOvm: getIsOVM(networkId),
 					};
 
@@ -126,7 +131,7 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	);
 
 	useEffect(() => {
-		dispatch({ type: AppEvents.APP_READY, payload: Web3Onboard }); //
+		dispatch({ type: AppEvents.APP_READY, payload: Web3Onboard });
 	}, []);
 
 	useEffect(() => {
