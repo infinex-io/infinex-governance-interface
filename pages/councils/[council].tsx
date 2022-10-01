@@ -16,6 +16,7 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
 import { compareAddress } from 'utils/helpers';
+import { useCurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
 
 const PAGE_SIZE = 8;
 
@@ -26,6 +27,8 @@ export default function CouncilNominees() {
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
+	const currentPeriod = useCurrentPeriod(activeCouncil.module);
+
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
 		walletAddress || ''
@@ -64,7 +67,11 @@ export default function CouncilNominees() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{!isAlreadyNominated && <NominateSelfBanner deployedModule={activeCouncil.module} />}
+				{!isAlreadyNominated &&
+					(currentPeriod.data?.currentPeriod === 'NOMINATION' ||
+						currentPeriod.data?.currentPeriod === 'VOTING') && (
+						<NominateSelfBanner deployedModule={activeCouncil.module} />
+					)}
 				<div className="container">
 					<div className="w-full relative p-10">
 						<BackButton />
