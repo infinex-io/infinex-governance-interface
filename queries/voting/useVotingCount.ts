@@ -40,7 +40,11 @@ export const useVotingCount = (
 				.toString();
 		},
 		{
-			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== undefined,
+			enabled:
+				governanceModules !== null &&
+				moduleInstance !== null &&
+				epochIndex !== undefined &&
+				currentPeriodData !== undefined,
 			staleTime: 900000,
 		}
 	);
