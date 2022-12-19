@@ -24,11 +24,7 @@ export default function Profile() {
 							<h1 className="tg-title-h1 c text-center">
 								{t('profiles.profile-not-found.header')}
 							</h1>
-							<span className="tg-caption">
-								{t(`profiles.profile-not-found.subheadline`, {
-									walletAddress: address,
-								})}
-							</span>
+							<span className="tg-caption">{t(`profiles.profile-not-found.subheadline`)}</span>
 						</div>
 					)
 				) : (

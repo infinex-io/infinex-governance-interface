@@ -149,7 +149,7 @@
 		"council": "{{council}} COUNCIL",
 		"profile-not-found": {
 			"header": "Profile Not Found",
-			"subheadline": "{{walletAddress}} is not a valid wallet address or profile does not exists for user"
+			"subheadline": "The provided address is not a valid wallet address or profile does not exists for user"
 		},
 		"completion-card": {
 			"headline": "Your Submission Summary {{percentage}} Complete",
