@@ -17,11 +17,17 @@ import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
 import { compareAddress } from 'utils/helpers';
 import { useCurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
+import { COUNCIL_SLUGS } from 'constants/config';
 
 const PAGE_SIZE = 8;
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
+	const parsedQuery = query.councils?.toString()
+		? COUNCIL_SLUGS.includes(query?.councils?.toString())
+			? query.councils.toString()
+			: 'spartan'
+		: 'spartan';
 	const { t } = useTranslation();
 	const { walletAddress } = useConnectorContext();
 	const [activePage, setActivePage] = useState(0);
@@ -76,7 +82,7 @@ export default function CouncilNominees() {
 					<div className="w-full relative p-10">
 						<BackButton />
 						<h1 className="tg-title-h1 text-center">
-							{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
+							{t('councils.nominees', { council: capitalizeString(parsedQuery) })}
 						</h1>
 					</div>
 					<span className="tg-content text-gray-500 text-center block pt-[8px] mb-4 p-2">
