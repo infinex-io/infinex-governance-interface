@@ -115,6 +115,21 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				>
 					{t(button)}
 				</Button>
+
+				{period === 'VOTING' && (
+					<Button
+						variant="outline"
+						className="w-full mt-2"
+						size="lg"
+						onClick={() => {
+							setContent(<NominateModal />);
+							setIsOpen(true);
+						}}
+						data-testid="voting-button"
+					>
+						Nominate
+					</Button>
+				)}
 			</div>
 		</div>
 	);
