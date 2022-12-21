@@ -23,9 +23,9 @@ const PAGE_SIZE = 8;
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
-	const parsedQuery = query.councils?.toString()
-		? COUNCIL_SLUGS.includes(query?.councils?.toString())
-			? query.councils.toString()
+	const parsedQuery = query.council?.toString()
+		? COUNCIL_SLUGS.includes(query?.council?.toString())
+			? query.council.toString()
 			: 'spartan'
 		: 'spartan';
 	const { t } = useTranslation();
