@@ -36,7 +36,6 @@ export const MemberCardAction: React.FC<Props> = ({
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const votedForAlready = compareAddress(votedFor, walletAddress);
-
 	return (
 		<>
 			{state === 'ADMINISTRATION' && (
@@ -132,30 +131,43 @@ export const MemberCardAction: React.FC<Props> = ({
 
 			{state === 'VOTING' && (
 				<>
-					<Button
-						className={clsx('w-full', { 'mr-2': isOwnCard })}
-						variant="outline"
-						onClick={(e) => {
-							e.stopPropagation();
-							if (votedForAlready) {
-								setContent(
-									<WithdrawVoteModal
-										member={member}
-										council={council!}
-										deployedModule={deployedModule!}
-									/>
-								);
-							} else {
-								setContent(
-									<VoteModal member={member} deployedModule={deployedModule!} council={council!} />
-								);
-							}
-							setIsOpen(true);
-						}}
-					>
-						{votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
-					</Button>
-
+					<div className="flex flex-col">
+						<Button
+							className={clsx('w-full', { 'mr-2': isOwnCard })}
+							variant="outline"
+							onClick={(e) => {
+								e.stopPropagation();
+								if (votedForAlready) {
+									setContent(
+										<WithdrawVoteModal
+											member={member}
+											council={council!}
+											deployedModule={deployedModule!}
+										/>
+									);
+								} else {
+									setContent(
+										<VoteModal
+											member={member}
+											deployedModule={deployedModule!}
+											council={council!}
+										/>
+									);
+								}
+								setIsOpen(true);
+							}}
+						>
+							{votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
+						</Button>
+						{!isOwnCard && (
+							<span
+								className="tg-caption cursor-pointer bg-clip-text text-transparent ui-gradient-primary text-center mt-3"
+								onClick={() => push('/profile/'.concat(walletAddress))}
+							>
+								{t('councils.view-nominee')}
+							</span>
+						)}
+					</div>
 					{isOwnCard && (
 						<Dropdown
 							triggerElement={
