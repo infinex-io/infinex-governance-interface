@@ -5,6 +5,7 @@ import { ExternalLink } from '@synthetixio/ui';
 import { UserSocials } from 'components/MemberCard/UserSocials';
 import clsx from 'clsx';
 import { DeployedModules } from 'containers/Modules';
+import Link from 'next/link';
 
 interface UserDetailsProps {
 	walletAddress: string;
@@ -33,18 +34,20 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
 				'border-l-yellow': isActive && moduleInstance === DeployedModules.TREASURY_COUNCIL,
 			})}
 		>
-			<Avatar
-				className="w-6 h-6"
-				scale={3}
-				width={26}
-				height={26}
-				walletAddress={member.address}
-				url={member.pfpThumbnailUrl}
-			/>
+			<Link href={'profile/' + member.address} passHref>
+				<a className="tg-title-h5 capitalize ml-2 hover:underline flex items-center">
+					<Avatar
+						className="w-6 h-6"
+						scale={3}
+						width={26}
+						height={26}
+						walletAddress={member.address}
+						url={member.pfpThumbnailUrl}
+					/>
 
-			<h5 className="tg-title-h5 capitalize ml-2">
-				{member.username || truncateAddress(member.address)}
-			</h5>
+					<span className="ml-2">{member.username || truncateAddress(member.address)}</span>
+				</a>
+			</Link>
 		</div>
 	);
 };
