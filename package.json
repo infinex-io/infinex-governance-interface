@@ -12,6 +12,8 @@
 	},
 	"dependencies": {
 		"@apollo/client": "^3.6.9",
+		"@gnosis.pm/safe-apps-provider": "^0.15.1",
+		"@gnosis.pm/safe-apps-sdk": "^7.8.0",
 		"@synthetixio/contracts-interface": "2.64.1",
 		"@synthetixio/providers": "2.64.1",
 		"@synthetixio/transaction-notifier": "^2.63.1",
