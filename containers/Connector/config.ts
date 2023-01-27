@@ -18,7 +18,13 @@ const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true });
 const walletConnect = walletConnectModule();
 const ledger = ledgerModule();
 const trezor = trezorModule({ email: 'info@synthetix.io', appUrl: 'https://www.synthetix.io' });
-const gnosis = gnosisModule();
+const gnosis = gnosisModule({
+	whitelistedDomains: [
+		/^https:\/\/gnosis-safe\.io$/,
+		/^https:\/\/app\.safe\.global$/,
+		/^https:\/\/safe\.global$/,
+	],
+});
 const portis = portisModule({ apiKey: `${process.env.NEXT_PUBLIC_PORTIS_APP_ID}` });
 const torus = torusModule();
 
