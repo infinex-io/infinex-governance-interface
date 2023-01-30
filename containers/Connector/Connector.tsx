@@ -138,11 +138,15 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 
 	useEffect(() => {
 		const previousWalletsSerialised = localStorage.getItem(LOCAL_STORAGE_KEYS.SELECTED_WALLET);
-		const previousWallets: string[] | null = previousWalletsSerialised
+		const previousWallets: string[] = previousWalletsSerialised
 			? JSON.parse(previousWalletsSerialised)
-			: null;
+			: [];
+		// If running in an iframe, attempt to connect with Gnosis
+		if (window.self !== window.top) {
+			previousWallets.push('Gnosis Safe');
+		}
 
-		if (onboard && previousWallets) {
+		if (onboard && previousWallets.length > 0) {
 			(async () => {
 				try {
 					await onboard.connectWallet({
