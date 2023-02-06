@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -20,6 +21,7 @@ import { TransactionDialogContextProvider } from '@synthetixio/ui';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'components/Modals/Modal';
+import { theme } from '@synthetixio/v3-theme';
 
 const queryClient = new QueryClient();
 
@@ -44,14 +46,16 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 
 const App: FC<AppProps> = (props) => {
 	return (
-		<ConnectorContextProvider>
-			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools initialIsOpen={false} />
-				<ModalContextProvider>
-					<InnerApp {...props} />
-				</ModalContextProvider>
-			</QueryClientProvider>
-		</ConnectorContextProvider>
+		<ChakraProvider theme={theme}>
+			<ConnectorContextProvider>
+				<QueryClientProvider client={queryClient}>
+					<ReactQueryDevtools initialIsOpen={false} />
+					<ModalContextProvider>
+						<InnerApp {...props} />
+					</ModalContextProvider>
+				</QueryClientProvider>
+			</ConnectorContextProvider>
+		</ChakraProvider>
 	);
 };
 
