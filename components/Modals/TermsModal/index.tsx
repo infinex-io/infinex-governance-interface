@@ -32,6 +32,8 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 		}
 	};
 
+	console.log('Enabled', enabled);
+
 	return (
 		<Modal isOpen={isOpen} onClose={() => {}}>
 			<ModalOverlay />
@@ -43,7 +45,7 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 				borderColor="gray.900"
 				data-testid="transaction modal"
 			>
-				<ModalHeader py={0} textAlign="center">
+				<ModalHeader py={0} textAlign="center" color="white">
 					Synthetix Terms of Service
 				</ModalHeader>
 				<ModalBody fontSize="xs" color="gray.600">
@@ -53,7 +55,9 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 					</Text>
 					<Box
 						onScroll={() => {
-							const condition = (ref.current && ref?.current?.scrollHeight / 2) || 300;
+							const condition = (ref.current && ref?.current?.scrollHeight / 2) || 700;
+							console.log(ref.current?.scrollTop);
+							console.log('Condition', condition);
 							if (ref.current && ref.current?.scrollTop > condition + 30) {
 								setEnabled(true);
 							} else {
@@ -65,9 +69,17 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 						py={3}
 						ref={ref}
 						height="320px"
-						overflow="scroll"
+						overflow="auto"
+						css={{
+							'&::-webkit-scrollbar': {
+								width: '0px',
+							},
+							'&::-webkit-scrollbar-track': {
+								width: '0px',
+							},
+						}}
 					>
-						<UnorderedList>
+						<UnorderedList ml="5px">
 							<Text fontSize="14px">
 								<ListItem>
 									<Link
@@ -173,6 +185,7 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 					mx={6}
 					onClick={onSubmit}
 					disabled={!enabled}
+					opacity={enabled ? 1 : 0.7}
 				>
 					I agree
 				</Button>
