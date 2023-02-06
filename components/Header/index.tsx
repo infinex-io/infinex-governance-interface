@@ -34,11 +34,11 @@ export default function Header() {
 
 	const routes = routesDic.filter((route) => oneCouncilIsInVotingPeriod || route.link !== 'vote');
 	return (
-		<header
+        <header
 			className={`bg-dark-blue w-full m-h-[66px] p-3 flex 
 				items-center md:justify-center justify-between border-b-gray-800 border-b border-b-solid`}
 		>
-			<Link href="/" passHref>
+			<Link href="/" passHref legacyBehavior>
 				<div className="md:flex items-center cursor-pointer mr-8 hidden">
 					<SNXIcon />
 					<h1 className="lustra tg-title-h5 text-white ml-2">Governance</h1>
@@ -46,7 +46,7 @@ export default function Header() {
 			</Link>
 			<div className="hidden md:flex justify-center w-full">
 				{routes.map((route) => (
-					<Link key={route.label} href={`/${route.link}`} passHref>
+					<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 						<Button
 							variant="spotlight"
 							className="last-of-type:mr-auto gt-america-font tg-content"
@@ -99,7 +99,7 @@ export default function Header() {
 				<div className="fixed w-full h-full z-100 bg-dark-blue top-[65px] left-0 py-4">
 					<div className="flex flex-col items-center">
 						{routes.map((route) => (
-							<Link key={route.label} href={`/${route.link}`} passHref>
+							<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 								<Button
 									variant="spotlight"
 									className="m-4 gt-america-font tg-main"
@@ -144,5 +144,5 @@ export default function Header() {
 				)}
 			</div>
 		</header>
-	);
+    );
 }
