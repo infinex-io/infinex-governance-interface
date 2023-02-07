@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, FunctionComponent, PropsWithChildren, useContext, useState } from 'react';
 
 type ModalContextType = {
 	isOpen: boolean;
@@ -13,7 +13,7 @@ export const useModalContext = () => {
 	return useContext(ModalContext) as ModalContextType;
 };
 
-export const ModalContextProvider: React.FC = ({ children }) => {
+export const ModalContextProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [content, setContent] = useState<JSX.Element | undefined>(undefined);
 

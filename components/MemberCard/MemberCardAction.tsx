@@ -36,176 +36,176 @@ export const MemberCardAction: React.FC<Props> = ({
 	const { push } = useRouter();
 	const { setContent, setIsOpen } = useModalContext();
 	const votedForAlready = compareAddress(votedFor, walletAddress);
-	return (
-		<>
-			{state === 'ADMINISTRATION' && (
-				<div
-					className={clsx('rounded', {
-						'bg-dark-blue': isOwnCard,
-					})}
-				>
-					<Button
-						className="w-[130px]"
-						variant="outline"
-						onClick={(e) => {
-							e.stopPropagation();
-							push('/profile/' + member.address);
-						}}
-					>
-						{t('councils.view-member')}
-					</Button>
-				</div>
-			)}
+	return <>
+        {state === 'ADMINISTRATION' && (
+            <div
+                className={clsx('rounded', {
+                    'bg-dark-blue': isOwnCard,
+                })}
+            >
+                <Button
+                    className="w-[130px]"
+                    variant="outline"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        push('/profile/' + member.address);
+                    }}
+                >
+                    {t('councils.view-member')}
+                </Button>
+            </div>
+        )}
 
-			{state === 'NOMINATION' && (
-				<div className="flex gap-2 items-center">
-					<Button
-						className={clsx({ 'w-[130px]': !isOwnCard })}
-						variant="outline"
-						onClick={(e) => {
-							e.stopPropagation();
-							if (isOwnCard) {
-								setContent(<EditModal deployedModule={deployedModule!} council={council!} />);
-								setIsOpen(true);
-							} else {
-								push('/profile/' + member.address);
-							}
-						}}
-					>
-						{isOwnCard ? t('councils.edit-nomination') : t('councils.view-nominee')}
-					</Button>
+        {state === 'NOMINATION' && (
+            <div className="flex gap-2 items-center">
+                <Button
+                    className={clsx({ 'w-[130px]': !isOwnCard })}
+                    variant="outline"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (isOwnCard) {
+                            setContent(<EditModal deployedModule={deployedModule!} council={council!} />);
+                            setIsOpen(true);
+                        } else {
+                            push('/profile/' + member.address);
+                        }
+                    }}
+                >
+                    {isOwnCard ? t('councils.edit-nomination') : t('councils.view-nominee')}
+                </Button>
 
-					{isOwnCard && (
-						<Dropdown
-							triggerElement={
-								<IconButton size="sm">
-									<Icon className="text-xl" name="Vertical" />
-								</IconButton>
-							}
-							contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
-							triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-							contentAlignment="right"
-							renderFunction={({ handleClose }) => (
-								<div className="flex flex-col">
-									<span
-										className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer"
-										onClick={() => {
-											handleClose();
-											setContent(
-												<WithdrawNominationModal
-													deployedModule={deployedModule!}
-													council={council!}
-												/>
-											);
-											setIsOpen(true);
-										}}
-									>
-										{t('councils.dropdown.withdraw')}
-									</span>
-									<Link href={`/profile/${member.address}`} passHref>
-										<a className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
-											{t('councils.dropdown.edit')}
-										</a>
-									</Link>
-									<Link
-										href={`https://optimistic.etherscan.io/address/${member.address}`}
-										passHref
-										key="etherscan-link"
-									>
-										<a
-											target="_blank"
-											rel="noreferrer"
-											className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer"
-										>
-											<span key={`${member.address}-title`} color="lightBlue">
-												{t('councils.dropdown.etherscan')}
-											</span>
-										</a>
-									</Link>
-								</div>
-							)}
-						/>
-					)}
-				</div>
-			)}
+                {isOwnCard && (
+                    <Dropdown
+                        triggerElement={
+                            <IconButton size="sm">
+                                <Icon className="text-xl" name="Vertical" />
+                            </IconButton>
+                        }
+                        contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+                        triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+                        contentAlignment="right"
+                        renderFunction={({ handleClose }) => (
+                            <div className="flex flex-col">
+                                <span
+                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer"
+                                    onClick={() => {
+                                        handleClose();
+                                        setContent(
+                                            <WithdrawNominationModal
+                                                deployedModule={deployedModule!}
+                                                council={council!}
+                                            />
+                                        );
+                                        setIsOpen(true);
+                                    }}
+                                >
+                                    {t('councils.dropdown.withdraw')}
+                                </span>
+                                <Link
+                                    href={`/profile/${member.address}`}
+                                    passHref
+                                    className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
 
-			{state === 'VOTING' && (
-				<>
-					<div className="flex flex-col">
-						<Button
-							className={clsx('w-full', { 'mr-2': isOwnCard })}
-							variant="outline"
-							onClick={(e) => {
-								e.stopPropagation();
-								if (votedForAlready) {
-									setContent(
-										<WithdrawVoteModal
-											member={member}
-											council={council!}
-											deployedModule={deployedModule!}
-										/>
-									);
-								} else {
-									setContent(
-										<VoteModal
-											member={member}
-											deployedModule={deployedModule!}
-											council={council!}
-										/>
-									);
-								}
-								setIsOpen(true);
-							}}
-						>
-							{votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
-						</Button>
-						{!isOwnCard && (
-							<span
-								className="tg-caption cursor-pointer bg-clip-text text-transparent ui-gradient-primary text-center mt-3"
-								onClick={() => push('/profile/'.concat(walletAddress))}
-							>
-								{t('councils.view-nominee')}
-							</span>
-						)}
-					</div>
-					{isOwnCard && (
-						<Dropdown
-							triggerElement={
-								<IconButton size="sm">
-									<Icon className="text-xl" name="Vertical" />
-								</IconButton>
-							}
-							contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
-							triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-							contentAlignment="right"
-							renderFunction={() => (
-								<div className="flex flex-col">
-									<Link href={`/profile/${member.address}`} passHref>
-										<a className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
-											{t('councils.dropdown.edit')}
-										</a>
-									</Link>
-									<Link
-										href={`https://optimistic.etherscan.io/address/${member.address}`}
-										passHref
-										key="etherscan-link"
-									>
-										<a
-											target="_blank"
-											rel="noreferrer"
-											className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer"
-										>
-											<span key={`${member.address}-title`} color="lightBlue">
-												{t('councils.dropdown.etherscan')}
-											</span>
-										</a>
-									</Link>
-								</div>
-							)}
-						/>
-					)}
-				</>
-			)}
-		</>
-	);
+                                    {t('councils.dropdown.edit')}
+
+                                </Link>
+                                <Link
+                                    href={`https://optimistic.etherscan.io/address/${member.address}`}
+                                    passHref
+                                    key="etherscan-link"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer">
+
+                                    <span key={`${member.address}-title`} color="lightBlue">
+                                        {t('councils.dropdown.etherscan')}
+                                    </span>
+
+                                </Link>
+                            </div>
+                        )}
+                    />
+                )}
+            </div>
+        )}
+
+        {state === 'VOTING' && (
+            <>
+                <div className="flex flex-col">
+                    <Button
+                        className={clsx('w-full', { 'mr-2': isOwnCard })}
+                        variant="outline"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (votedForAlready) {
+                                setContent(
+                                    <WithdrawVoteModal
+                                        member={member}
+                                        council={council!}
+                                        deployedModule={deployedModule!}
+                                    />
+                                );
+                            } else {
+                                setContent(
+                                    <VoteModal
+                                        member={member}
+                                        deployedModule={deployedModule!}
+                                        council={council!}
+                                    />
+                                );
+                            }
+                            setIsOpen(true);
+                        }}
+                    >
+                        {votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
+                    </Button>
+                    {!isOwnCard && (
+                        <span
+                            className="tg-caption cursor-pointer bg-clip-text text-transparent ui-gradient-primary text-center mt-3"
+                            onClick={() => push('/profile/'.concat(walletAddress))}
+                        >
+                            {t('councils.view-nominee')}
+                        </span>
+                    )}
+                </div>
+                {isOwnCard && (
+                    <Dropdown
+                        triggerElement={
+                            <IconButton size="sm">
+                                <Icon className="text-xl" name="Vertical" />
+                            </IconButton>
+                        }
+                        contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+                        triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+                        contentAlignment="right"
+                        renderFunction={() => (
+                            <div className="flex flex-col">
+                                <Link
+                                    href={`/profile/${member.address}`}
+                                    passHref
+                                    className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
+
+                                    {t('councils.dropdown.edit')}
+
+                                </Link>
+                                <Link
+                                    href={`https://optimistic.etherscan.io/address/${member.address}`}
+                                    passHref
+                                    key="etherscan-link"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer">
+
+                                    <span key={`${member.address}-title`} color="lightBlue">
+                                        {t('councils.dropdown.etherscan')}
+                                    </span>
+
+                                </Link>
+                            </div>
+                        )}
+                    />
+                )}
+            </>
+        )}
+    </>;
 };

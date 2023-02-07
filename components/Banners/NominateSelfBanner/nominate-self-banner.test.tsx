@@ -6,6 +6,8 @@ import enJSON from '../../../i18n/en.json';
 import * as mobileHook from 'hooks/useIsMobile';
 
 let latestPath = { headline: '', closes: '' };
+
+jest.mock('hooks/useIsMobile');
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
