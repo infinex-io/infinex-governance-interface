@@ -4,30 +4,28 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { CouncilCard } from 'components/CouncilCard';
-import { COUNCILS_DICTIONARY, LOCAL_STORAGE_KEYS } from 'constants/config';
+import { COUNCILS_DICTIONARY, SESSION_STORAGE_KEYS } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
 import { NominateInVotingBanner } from 'components/NominateInVotingBanner';
 import { TermsModal } from 'components/Modals/TermsModal';
-import useLocalStorage from 'hooks/useLocalStorage';
 import { useEffect, useState } from 'react';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
 	const { push } = useRouter();
 	const [mounted, setMounted] = useState(false);
+	const [terms, setTerms] = useState(false);
 
 	useEffect(() => {
 		setMounted(true);
+		const TERMS_CONDITIONS_ACCEPTED =
+			sessionStorage.getItem(SESSION_STORAGE_KEYS.TERMS_CONDITIONS_ACCEPTED) === 'true';
+		setTerms(!TERMS_CONDITIONS_ACCEPTED);
 	}, []);
-
-	const [TERMS_CONDTIONS_ACCEPTED] = useLocalStorage(
-		LOCAL_STORAGE_KEYS.TERMS_CONDITIONS_ACCEPTED,
-		false
-	);
 
 	return (
 		<>
-			{mounted && <TermsModal defaultOpen={!TERMS_CONDTIONS_ACCEPTED} />}
+			{mounted && <TermsModal defaultOpen={terms} />}
 			<div className="flex flex-col p-3 pt-12">
 				<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
 				<span className="tg-content text-gray-500 text-center pt-[8px]">

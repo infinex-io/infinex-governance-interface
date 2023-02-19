@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 import { theme } from '@synthetixio/v3-theme';
-import { LOCAL_STORAGE_KEYS } from '../../../constants/config';
+import { SESSION_STORAGE_KEYS } from '../../../constants/config';
 
 interface TermsModalProps {
 	defaultOpen: boolean;
@@ -22,17 +22,11 @@ interface TermsModalProps {
 
 export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 	const [isOpen, setOpen] = useState(defaultOpen);
-	const [enabled, setEnabled] = useState(false);
-	const ref = useRef<HTMLDivElement>(null);
 
 	const onSubmit = () => {
-		if (enabled) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.TERMS_CONDITIONS_ACCEPTED, JSON.stringify(true));
-			setOpen(false);
-		}
+		sessionStorage.setItem(SESSION_STORAGE_KEYS.TERMS_CONDITIONS_ACCEPTED, JSON.stringify(true));
+		setOpen(false);
 	};
-
-	console.log('Enabled', enabled);
 
 	return (
 		<Modal isOpen={isOpen} onClose={() => {}}>
@@ -54,28 +48,17 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 						such, you fully understand that:
 					</Text>
 					<Box
-						onScroll={() => {
-							const condition = (ref.current && ref?.current?.scrollHeight / 2) || 700;
-							console.log(ref.current?.scrollTop);
-							console.log('Condition', condition);
-							if (ref.current && ref.current?.scrollTop > condition + 30) {
-								setEnabled(true);
-							} else {
-								setEnabled(false);
-							}
-						}}
 						as="div"
 						my={2}
 						py={3}
-						ref={ref}
 						height="320px"
 						overflow="auto"
 						css={{
 							'&::-webkit-scrollbar': {
-								width: '0px',
+								width: '2px',
 							},
 							'&::-webkit-scrollbar-track': {
-								width: '0px',
+								width: '2px',
 							},
 						}}
 					>
@@ -184,8 +167,6 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 					my={4}
 					mx={6}
 					onClick={onSubmit}
-					disabled={!enabled}
-					opacity={enabled ? 1 : 0.7}
 				>
 					I agree
 				</Button>
