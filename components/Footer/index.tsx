@@ -15,24 +15,28 @@ const LINKS = [
 		title: 'footer.councils',
 		link: '/councils',
 	},
+	{
+		title: 'footer.terms',
+		link: 'https://staking.synthetix.io/terms',
+	},
 ];
 
 export default function Footer() {
 	const { t } = useTranslation();
 	return (
-        <footer className="bg-[url('/footer.svg')] py-6 xs:h-[325px] bg-cover bg-no-repeat bg-dark-blue flex flex-col items-center justify-center">
+		<footer className="bg-[url('/footer.svg')] py-6 xs:h-[325px] bg-cover bg-no-repeat bg-dark-blue flex flex-col items-center justify-center">
 			<div className="flex flex-col items-center">
 				<div className="hidden xs:block flex justify-center mb-6">
-					{LINKS.map((link) => (
-						(<Link
-                            key={link.title}
-                            href={link.link}
-                            passHref
-                            className="mx-2 text-white hover:text-primary hover:opacity-100 uppercase gt-america-font tg-body opacity-60 cursor-pointer">
-
-                            {t(link.title)}
-
-                        </Link>)
+					{LINKS.map(({ title, link }) => (
+						<Link
+							key={title}
+							href={link}
+							passHref
+							className="mx-2 text-white hover:text-primary hover:opacity-100 uppercase gt-america-font tg-body opacity-60 cursor-pointer"
+							target={link.startsWith('http') ? '_blank' : undefined}
+						>
+							{t(title)}
+						</Link>
 					))}
 				</div>
 
@@ -44,35 +48,17 @@ export default function Footer() {
 					{t('footer.copyright')}
 				</span>
 				<Card className="flex gap-4 items-center py-3" wrapperClassName="rounded-full">
-					<Link
-                        href="https://discord.com/invite/AEdUHzt"
-                        passHref
-                        rel="noreferrer"
-                        target="_blank">
-
-                        <DiscordIcon fill="white" />
-
-                    </Link>
-					<Link
-                        href="https://twitter.com/synthetix_io"
-                        passHref
-                        rel="noreferrer"
-                        target="_blank">
-
-                        <TwitterIcon fill="white" />
-
-                    </Link>
-					<Link
-                        href="https://github.com/synthetixio"
-                        passHref
-                        rel="noreferrer"
-                        target="_blank">
-
-                        <GitHubIcon fill="white" />
-
-                    </Link>
+					<Link href="https://discord.com/invite/AEdUHzt" passHref rel="noreferrer" target="_blank">
+						<DiscordIcon fill="white" />
+					</Link>
+					<Link href="https://twitter.com/synthetix_io" passHref rel="noreferrer" target="_blank">
+						<TwitterIcon fill="white" />
+					</Link>
+					<Link href="https://github.com/synthetixio" passHref rel="noreferrer" target="_blank">
+						<GitHubIcon fill="white" />
+					</Link>
 				</Card>
 			</div>
 		</footer>
-    );
+	);
 }
