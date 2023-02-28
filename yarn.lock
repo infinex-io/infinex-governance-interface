@@ -2395,6 +2395,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gnosis.pm/safe-apps-react-sdk@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "@gnosis.pm/safe-apps-react-sdk@npm:4.6.2"
+  dependencies:
+    "@gnosis.pm/safe-apps-sdk": 7.8.0
+  peerDependencies:
+    react: 16.x.x || 17.x.x || 18.x.x
+  checksum: 0c8847d72452ca9da7711c85af3ae5a484cb04bf8e08571e623e02013cd2644cfcfe83bd5ac78f90d24b42e2d14172ab49c33e3a271893a4a56063e393334fcc
+  languageName: node
+  linkType: hard
+
 "@gnosis.pm/safe-apps-sdk@npm:6.2.0":
   version: 6.2.0
   resolution: "@gnosis.pm/safe-apps-sdk@npm:6.2.0"
@@ -9260,6 +9271,7 @@ __metadata:
   dependencies:
     "@apollo/client": ^3.6.9
     "@gnosis.pm/safe-apps-provider": ^0.15.1
+    "@gnosis.pm/safe-apps-react-sdk": ^4.6.2
     "@gnosis.pm/safe-apps-sdk": ^7.8.0
     "@nomiclabs/hardhat-ethers": 2.0.5
     "@synthetixio/contracts-interface": 2.64.1

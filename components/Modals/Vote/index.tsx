@@ -17,6 +17,7 @@ import { BigNumber, utils } from 'ethers';
 import { useConnectorContext } from 'containers/Connector';
 import { ConnectButton } from 'components/ConnectButton';
 import Wei from '@synthetixio/wei';
+import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -25,6 +26,8 @@ interface VoteModalProps {
 }
 
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
+	const { connected, safe, sdk } = useSafeAppsSDK();
+	console.log(connected, safe, sdk);
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, isWalletConnected } = useConnectorContext();
@@ -85,16 +88,33 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		setState('signing');
 		setVisible(true);
 		try {
-			setContent(
-				<>
-					<h6 className="tg-title-h6">
-						{t('modals.vote.cta', { council: capitalizeString(council) })}
-					</h6>
-					<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
-				</>
-			);
-			const tx = await castVoteMutation.mutateAsync([member.address]);
-			setTxHash(tx.hash);
+			if (safe.chainId === 1 && connected && !!governanceModules[deployedModule]?.contract) {
+				// DO SOMETHING
+				const blockNumber = await governanceModules[
+					deployedModule
+				]?.contract.getCrossChainDebtShareMerkleRootBlockNumber();
+				const tree = await fetch(`/data/${blockNumber}-l1-debts.json`).then((res) => res.json());
+				const treeData = tree?.claims[safe.safeAddress];
+				const data = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
+					'declareAndCastRelayed',
+					[safe.safeAddress, 0, treeData.amount[treeData.proof], [member.address]]
+				);
+				console.log(data);
+				sdk.txs.send({
+					txs: [{ to: governanceModules[deployedModule]!.contract.address, data, value: '0' }],
+				});
+			} else {
+				setContent(
+					<>
+						<h6 className="tg-title-h6">
+							{t('modals.vote.cta', { council: capitalizeString(council) })}
+						</h6>
+						<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
+					</>
+				);
+				const tx = await castVoteMutation.mutateAsync([member.address]);
+				setTxHash(tx.hash);
+			}
 		} catch (error) {
 			console.error(error);
 			setState('error');
