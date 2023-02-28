@@ -7,12 +7,37 @@
     },
     {
       "inputs": [],
+      "name": "AlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "AlreadyNominated",
       "type": "error"
     },
     {
       "inputs": [],
       "name": "ChangesCurrentPeriod",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "CrossChainDebtShareAlreadyDeclared",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "CrossDomainMessengerNotSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "DebtShareContractNotSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "DebtShareSnapshotIdNotSet",
       "type": "error"
     },
     {
@@ -32,6 +57,11 @@
     },
     {
       "inputs": [],
+      "name": "EmptyArray",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "InvalidElectionSettings",
       "type": "error"
     },
@@ -42,7 +72,17 @@
     },
     {
       "inputs": [],
+      "name": "InvalidMerkleProof",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "InvalidMinimumActiveMembers",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MerkleRootNotSet",
       "type": "error"
     },
     {
@@ -52,7 +92,23 @@
     },
     {
       "inputs": [],
+      "name": "NoChange",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "NoVotePower",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "contr",
+          "type": "address"
+        }
+      ],
+      "name": "NotAContract",
       "type": "error"
     },
     {
@@ -67,12 +123,68 @@
     },
     {
       "inputs": [],
+      "name": "NotInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "NotNominated",
       "type": "error"
     },
     {
       "inputs": [],
+      "name": "OnlyCrossDomainMessengerCanInvoke",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyCrossDomainUserCanInvoke",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PositionOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TooManyCandidates",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "Unauthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ValueAlreadyInSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ValueNotInSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "VoteNotCasted",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "WrongInitializer",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroAddress",
       "type": "error"
     },
     {
@@ -181,6 +293,89 @@
         }
       ],
       "name": "CouncilTokenUpgraded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "debtShare",
+          "type": "uint256"
+        }
+      ],
+      "name": "CrossChainDebtShareDeclared",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "merkleRoot",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "blocknumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "epoch",
+          "type": "uint256"
+        }
+      ],
+      "name": "CrossChainDebtShareMerkleRootSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "messenger",
+          "type": "address"
+        }
+      ],
+      "name": "CrossDomainMessengerSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "contractAddress",
+          "type": "address"
+        }
+      ],
+      "name": "DebtShareContractSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "snapshotId",
+          "type": "uint256"
+        }
+      ],
+      "name": "DebtShareSnapshotIdSet",
       "type": "event"
     },
     {
@@ -445,431 +640,6 @@
     {
       "inputs": [
         {
-          "internalType": "bytes32",
-          "name": "ballotId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getBallotCandidatesInEpoch",
-      "outputs": [
-        {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getBallotVotedAtEpoch",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "ballotId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getBallotVotesInEpoch",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "candidate",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getCandidateVotesInEpoch",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getElectionWinnersInEpoch",
-      "outputs": [
-        {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getEpochEndDateForIndex",
-      "outputs": [
-        {
-          "internalType": "uint64",
-          "name": "",
-          "type": "uint64"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getEpochStartDateForIndex",
-      "outputs": [
-        {
-          "internalType": "uint64",
-          "name": "",
-          "type": "uint64"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getNominationPeriodStartDateForIndex",
-      "outputs": [
-        {
-          "internalType": "uint64",
-          "name": "",
-          "type": "uint64"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getNomineesAtEpoch",
-      "outputs": [
-        {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getVotingPeriodStartDateForIndex",
-      "outputs": [
-        {
-          "internalType": "uint64",
-          "name": "",
-          "type": "uint64"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "hasVotedInEpoch",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "candidate",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "epochIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "wasNominated",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "AlreadyInitialized",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "CrossChainDebtShareAlreadyDeclared",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "DebtShareContractNotSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "DebtShareSnapshotIdNotSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "EmptyArray",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "InvalidMerkleProof",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "MerkleRootNotSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "NoChange",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "contr",
-          "type": "address"
-        }
-      ],
-      "name": "NotAContract",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "NotInitialized",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "PositionOutOfBounds",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "TooManyCandidates",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        }
-      ],
-      "name": "Unauthorized",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ValueAlreadyInSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ValueNotInSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "WrongInitializer",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ZeroAddress",
-      "type": "error"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "debtShare",
-          "type": "uint256"
-        }
-      ],
-      "name": "CrossChainDebtShareDeclared",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "bytes32",
-          "name": "merkleRoot",
-          "type": "bytes32"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "blocknumber",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "epoch",
-          "type": "uint256"
-        }
-      ],
-      "name": "CrossChainDebtShareMerkleRootSet",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "contractAddress",
-          "type": "address"
-        }
-      ],
-      "name": "DebtShareContractSet",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint128",
-          "name": "snapshotId",
-          "type": "uint128"
-        }
-      ],
-      "name": "DebtShareSnapshotIdSet",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "address[]",
           "name": "candidates",
           "type": "address[]"
@@ -918,6 +688,34 @@
         }
       ],
       "name": "declareAndCast",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "debtShare",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "merkleProof",
+          "type": "bytes32[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "candidates",
+          "type": "address[]"
+        }
+      ],
+      "name": "declareAndCastRelayed",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -1101,6 +899,19 @@
     },
     {
       "inputs": [],
+      "name": "getCrossDomainMessenger",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "getCurrentPeriod",
       "outputs": [
         {
@@ -1149,9 +960,9 @@
       "name": "getDebtShareSnapshotId",
       "outputs": [
         {
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "",
-          "type": "uint128"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -1243,7 +1054,7 @@
     },
     {
       "inputs": [],
-      "name": "getMaxDateAdjustmenTolerance",
+      "name": "getMaxDateAdjustmentTolerance",
       "outputs": [
         {
           "internalType": "uint64",
@@ -1575,6 +1386,19 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "messenger",
+          "type": "address"
+        }
+      ],
+      "name": "setCrossDomainMessenger",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "debtShareContract",
           "type": "address"
         }
@@ -1587,9 +1411,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "snapshotId",
-          "type": "uint128"
+          "type": "uint256"
         }
       ],
       "name": "setDebtShareSnapshotId",
@@ -1718,185 +1542,6 @@
     {
       "inputs": [],
       "name": "withdrawVote",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "oldOwner",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnerChanged",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnerNominated",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "acceptOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "initialOwner",
-          "type": "address"
-        }
-      ],
-      "name": "initializeOwnerModule",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "isOwnerModuleInitialized",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newNominatedOwner",
-          "type": "address"
-        }
-      ],
-      "name": "nominateNewOwner",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "nominatedOwner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "renounceNomination",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "implementation",
-          "type": "address"
-        }
-      ],
-      "name": "ImplementationIsSterile",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "UpgradeSimulationFailed",
-      "type": "error"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "implementation",
-          "type": "address"
-        }
-      ],
-      "name": "Upgraded",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "getImplementation",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newImplementation",
-          "type": "address"
-        }
-      ],
-      "name": "simulateUpgradeTo",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newImplementation",
-          "type": "address"
-        }
-      ],
-      "name": "upgradeTo",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
