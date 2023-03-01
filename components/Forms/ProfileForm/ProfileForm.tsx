@@ -23,7 +23,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 					{...formik.getFieldProps('username')}
 					{...errors.username}
 					label={t('modals.editProfile.inputs.headline.username')}
-					placeholder={t('modals.editProfile.inputs.placeholder.username')}
+					placeholder={`${t('modals.editProfile.inputs.placeholder.username')}`}
 				/>
 
 				<TextField
@@ -31,7 +31,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 					{...formik.getFieldProps('website')}
 					{...errors.website}
 					label={t('modals.editProfile.inputs.headline.website')}
-					placeholder={t('modals.editProfile.inputs.placeholder.website')}
+					placeholder={`${t('modals.editProfile.inputs.placeholder.website')}`}
 				/>
 			</div>
 			<TextField
@@ -40,7 +40,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				{...errors.about}
 				multiline
 				label={t('modals.editProfile.inputs.headline.about')}
-				placeholder={t('modals.editProfile.inputs.placeholder.about')}
+				placeholder={`${t('modals.editProfile.inputs.placeholder.about')}`}
 			/>
 			<TextField
 				variant="black"
@@ -48,7 +48,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				{...errors.delegationPitch}
 				multiline
 				label={t('modals.editProfile.inputs.headline.delegationPitch')}
-				placeholder={t('modals.editProfile.inputs.placeholder.delegationPitch')}
+				placeholder={`${t('modals.editProfile.inputs.placeholder.delegationPitch')}`}
 			/>
 			<div className="flex items-center flex-col md:flex-row gap-2">
 				<TextField
@@ -56,21 +56,21 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 					{...formik.getFieldProps('twitter')}
 					{...errors.twitter}
 					label={t('modals.editProfile.inputs.headline.twitter')}
-					placeholder={t('modals.editProfile.inputs.placeholder.twitter')}
+					placeholder={`${t('modals.editProfile.inputs.placeholder.twitter')}`}
 				/>
 				<TextField
 					variant="black"
 					{...formik.getFieldProps('discord')}
 					{...errors.discord}
 					label={t('modals.editProfile.inputs.headline.discord')}
-					placeholder={t('modals.editProfile.inputs.placeholder.discord')}
+					placeholder={`${t('modals.editProfile.inputs.placeholder.discord')}`}
 				/>
 				<TextField
 					variant="black"
 					{...formik.getFieldProps('github')}
 					{...errors.github}
 					label={t('modals.editProfile.inputs.headline.github')}
-					placeholder={t('modals.editProfile.inputs.placeholder.github')}
+					placeholder={`${t('modals.editProfile.inputs.placeholder.github')}`}
 				/>
 			</div>
 
@@ -79,7 +79,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
 				{...formik.getFieldProps('pfpThumbnailUrl')}
 				{...errors.pfpThumbnailUrl}
 				label={t('modals.editProfile.inputs.headline.profileImageUrl')}
-				placeholder={t('modals.editProfile.inputs.placeholder.profileImageUrl')}
+				placeholder={`${t('modals.editProfile.inputs.placeholder.profileImageUrl')}`}
 			/>
 
 			<div className="mx-auto">

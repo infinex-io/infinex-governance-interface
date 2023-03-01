@@ -26,33 +26,31 @@ export const UserSocials: React.FC<UserSocialsProps> = ({
 }) => {
 	const { t } = useTranslation();
 
-	return (
-		<>
-			{discord && (
-				<DiscordIcon
-					onClick={() => {
-						copyToClipboard(discord);
-						toast.success(t('components.copy-clipboard-message'));
-					}}
-					className={clsx('cursor-pointer', { 'scale-75': small })}
-					fill={fill}
-				/>
-			)}
+	return <>
+        {discord && (
+            <DiscordIcon
+                onClick={() => {
+                    copyToClipboard(discord);
+                    toast.success(t('components.copy-clipboard-message'));
+                }}
+                className={clsx('cursor-pointer', { 'scale-75': small })}
+                fill={fill}
+            />
+        )}
 
-			{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
-				<Link href={twitter} passHref>
-					<a rel="noreferrer" target="_blank">
-						<TwitterIcon className={clsx({ 'scale-75': small })} fill={fill} />
-					</a>
-				</Link>
-			)}
-			{github && urlIsCorrect(github, 'https://github.com') && (
-				<Link href={github} passHref>
-					<a rel="noreferrer" target="_blank">
-						<GitHubIcon className={clsx({ 'scale-75': small })} fill={fill} />
-					</a>
-				</Link>
-			)}
-		</>
-	);
+        {twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
+            (<Link href={twitter} passHref rel="noreferrer" target="_blank">
+
+                <TwitterIcon className={clsx({ 'scale-75': small })} fill={fill} />
+
+            </Link>)
+        )}
+        {github && urlIsCorrect(github, 'https://github.com') && (
+            (<Link href={github} passHref rel="noreferrer" target="_blank">
+
+                <GitHubIcon className={clsx({ 'scale-75': small })} fill={fill} />
+
+            </Link>)
+        )}
+    </>;
 };

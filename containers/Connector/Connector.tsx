@@ -5,6 +5,8 @@ import React, {
 	createContext,
 	useCallback,
 	useReducer,
+	FunctionComponent,
+	PropsWithChildren,
 } from 'react';
 import { ethers } from 'ethers';
 import { onboard as Web3Onboard } from './config';
@@ -48,7 +50,7 @@ export const useConnectorContext = () => {
 	return useContext(ConnectorContext) as ConnectorContextType;
 };
 
-export const ConnectorContextProvider: React.FC = ({ children }) => {
+export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	const {
