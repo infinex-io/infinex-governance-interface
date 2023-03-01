@@ -21,7 +21,6 @@
 		"@synthetixio/wei": "^2.73.1",
 		"@web3-onboard/coinbase": "^2.0.9",
 		"@web3-onboard/core": "^2.5.0",
-		"@web3-onboard/gnosis": "^2.1.6",
 		"@web3-onboard/injected-wallets": "^2.0.14",
 		"@web3-onboard/ledger": "^2.1.6",
 		"@web3-onboard/portis": "^2.1.2",

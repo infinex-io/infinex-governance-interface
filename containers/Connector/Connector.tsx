@@ -141,11 +141,6 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 		const previousWallets: string[] = previousWalletsSerialised
 			? JSON.parse(previousWalletsSerialised)
 			: [];
-		// If running in an iframe, attempt to connect with Gnosis
-		if (window.self !== window.top) {
-			previousWallets.push('Gnosis Safe');
-		}
-
 		if (onboard && previousWallets.length > 0) {
 			(async () => {
 				try {
