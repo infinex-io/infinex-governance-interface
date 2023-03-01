@@ -105,10 +105,10 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						[safe.safeAddress, treeData.amount, treeData.proof, [member.address]]
 					);
 
-					// https://etherscan.io/address/0x0e16A6876210841577b233C4165d7B7EdF640b8a
-					const messengerData = new Contract('0x0e16A6876210841577b233C4165d7B7EdF640b8a', [
-						'function initiateRelay(address, bytes calldata, uint32) external',
-					]).contract.interface.encodeFunctionData('initiateRelay', [
+					// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
+					const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
+						'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',
+					]).contract.interface.encodeFunctionData('sendMessage', [
 						governanceModules[deployedModule]?.contract.address,
 						data,
 						0,
@@ -116,7 +116,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 
 					await sdk.txs.send({
 						txs: [
-							{ to: '0x0e16A6876210841577b233C4165d7B7EdF640b8a', data: messengerData, value: '0' },
+							{ to: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', data: messengerData, value: '0' },
 						],
 					});
 					setState('confirmed');
