@@ -24,8 +24,8 @@ const Avatar: React.FC<AvatarProps> = ({
 	let parsedUrl: URL | undefined | '';
 	try {
 		parsedUrl = url && new URL(parseURL(url));
-	} catch (error) {
-		console.error(error);
+	} catch {
+		console.warn('not a valid url');
 	}
 
 	return parsedUrl instanceof URL && parsedUrl.host === 'ipfs.io' && !showBlockies ? (
