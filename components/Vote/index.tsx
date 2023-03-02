@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useGetCurrentVoteStateQuery } from 'queries/voting/useGetCurrentVoteStateQuery';
 import { VoteCard } from './VoteCard';
 import { COUNCILS_DICTIONARY, DeployedModules } from 'constants/config';
+import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 
 export default function VoteSection() {
 	const { t } = useTranslation();
@@ -16,9 +17,12 @@ export default function VoteSection() {
 	const isLoading = !!periodsData.find((period) => period.isLoading);
 
 	const { walletAddress } = useConnectorContext();
+	const { safe } = useSafeAppsSDK();
 	const [activeCouncilInVoting, setActiveCouncilInVoting] = useState<number | null>(null);
 
-	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
+	const voteStatusQuery = useGetCurrentVoteStateQuery(
+		safe.safeAddress ? safe.safeAddress : walletAddress || ''
+	);
 
 	useEffect(() => {
 		if (!isLoading) {
