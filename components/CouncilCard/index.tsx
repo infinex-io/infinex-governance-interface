@@ -24,7 +24,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { setContent, setIsOpen } = useModalContext();
 	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
-	const voteCount = useVotingCount(deployedModule);
+	const voteCount = useVotingCount(deployedModule, true);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
@@ -115,6 +115,21 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				>
 					{t(button)}
 				</Button>
+
+				{period === 'VOTING' && (
+					<Button
+						variant="outline"
+						className="w-full mt-2"
+						size="lg"
+						onClick={() => {
+							setContent(<NominateModal />);
+							setIsOpen(true);
+						}}
+						data-testid="voting-button"
+					>
+						Nominate
+					</Button>
+				)}
 			</div>
 		</div>
 	);

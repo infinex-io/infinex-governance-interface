@@ -5,13 +5,20 @@ import React, {
 	createContext,
 	useCallback,
 	useReducer,
+	FunctionComponent,
+	PropsWithChildren,
 } from 'react';
 import { ethers } from 'ethers';
 import { onboard as Web3Onboard } from './config';
 import { LOCAL_STORAGE_KEYS } from 'constants/config';
 import { AppEvents, initialState, Network, reducer } from './reducer';
 import { getIsOVM, isSupportedNetworkId } from 'utils/network';
-import { NetworkIdByName, NetworkNameById, SynthetixJS } from '@synthetixio/contracts-interface';
+import {
+	NetworkId,
+	NetworkIdByName,
+	NetworkNameById,
+	SynthetixJS,
+} from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
 
@@ -43,7 +50,7 @@ export const useConnectorContext = () => {
 	return useContext(ConnectorContext) as ConnectorContextType;
 };
 
-export const ConnectorContextProvider: React.FC = ({ children }) => {
+export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	const {
@@ -60,10 +67,12 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	} = state;
 
 	const L1DefaultProvider = useMemo(
+		// () => new ethers.providers.AlchemyProvider(1, process.env.NEXT_PUBLIC_ALCHEMY_KEY_MAINNET),
 		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
 		[]
 	);
 	const L2DefaultProvider = useMemo(
+		// () => new ethers.providers.AlchemyProvider(10, process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPTIMISM),
 		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
 		[]
 	);
@@ -79,15 +88,15 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 
 				const isSupported = isSupportedNetworkId(networkId);
 
-				if (!isSupported) {
+				if (!isSupported && !document?.hidden) {
 					// Switch to mainnet ovm by default
 					(async () => {
 						await onboard?.setChain({ chainId: getChainIdHex(NetworkIdByName['mainnet-ovm']) });
 					})();
 				} else {
 					const network = {
-						id: networkId,
-						name: NetworkNameById[networkId],
+						id: networkId as NetworkId,
+						name: NetworkNameById[networkId as NetworkId],
 						useOvm: getIsOVM(networkId),
 					};
 
@@ -126,7 +135,7 @@ export const ConnectorContextProvider: React.FC = ({ children }) => {
 	);
 
 	useEffect(() => {
-		dispatch({ type: AppEvents.APP_READY, payload: Web3Onboard }); //
+		dispatch({ type: AppEvents.APP_READY, payload: Web3Onboard });
 	}, []);
 
 	useEffect(() => {

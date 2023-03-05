@@ -55,7 +55,10 @@ export default function NominateModal() {
 
 	const shouldBeDisabled = (council: string) => {
 		const periodForCouncil = periodsData.find((periodData) => periodData.data?.council === council);
-		return periodForCouncil ? periodForCouncil.data?.currentPeriod !== 'NOMINATION' : true;
+		if (periodForCouncil) {
+			return periodForCouncil.data?.currentPeriod === 'ADMINISTRATION';
+		}
+		return true;
 	};
 
 	useEffect(() => {

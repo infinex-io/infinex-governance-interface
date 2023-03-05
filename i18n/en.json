@@ -13,7 +13,8 @@
 	"footer": {
 		"copyright": "Copyright © Synthetix 2022",
 		"home": "Home",
-		"councils": "Councils"
+		"councils": "Councils",
+		"terms": "Terms of Use"
 	},
 	"landing-page": {
 		"headline": "Governing Bodies",
@@ -38,6 +39,11 @@
 			"title": "See live voting results as the come in",
 			"subtitle": "Keep track of who is winning the election. Remember to vote!",
 			"cta": "Current Voting Results"
+		},
+		"nominate-banner": {
+			"title": "Nominate yourself",
+			"subtitle": "Nominate yourself for a council and get elected",
+			"cta": "Choose Council"
 		},
 		"cards": {
 			"spartan": "Spartan Council",
@@ -75,7 +81,7 @@
 		"nominees": "{{ council }} Council Nominees",
 		"members": "{{ council }} Council Members",
 		"view-council": "View Council",
-		"view-member-sub": "View all memebers in detail and view past elections and pitches",
+		"view-member-sub": "View all members in detail and view past elections and pitches",
 		"view-member": "View Member",
 		"view-nominee": "View Nominee",
 		"edit-nomination": "Edit Nomination",
@@ -144,7 +150,7 @@
 		"council": "{{council}} COUNCIL",
 		"profile-not-found": {
 			"header": "Profile Not Found",
-			"subheadline": "{{walletAddress}} is not a valid wallet address or profile does not exists for user"
+			"subheadline": "The provided address is not a valid wallet address or profile does not exists for user"
 		},
 		"completion-card": {
 			"headline": "Your Submission Summary {{percentage}} Complete",

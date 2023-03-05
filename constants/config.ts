@@ -52,3 +52,7 @@ export const LOCAL_STORAGE_KEYS = {
 	SELECTED_WALLET: 'selectedWallet',
 	WATCHED_WALLETS: 'watchedWallets',
 };
+
+export const SESSION_STORAGE_KEYS = {
+	TERMS_CONDITIONS_ACCEPTED: 'termsConditionsAccepted',
+};

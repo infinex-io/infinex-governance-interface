@@ -7,7 +7,15 @@ import {
 	spartanCouncil,
 	treasuryCouncil,
 } from 'constants/addresses';
-import { createContext, useContext, useEffect, useState, FC } from 'react';
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+	FC,
+	FunctionComponent,
+	PropsWithChildren,
+} from 'react';
 import { DeployedModules } from 'constants/config';
 
 export { DeployedModules };
@@ -24,7 +32,7 @@ export const useModulesContext = () => {
 	return useContext(ModulesContext) as ModulesContextType;
 };
 
-export const ModulesProvider: FC = ({ children }) => {
+export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
 	const { L2DefaultProvider, signer, network } = useConnectorContext();
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 

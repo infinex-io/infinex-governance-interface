@@ -3,7 +3,7 @@ import DiscordIcon from 'components/Icons/DiscordIcon';
 import TwitterIcon from 'components/Icons/TwitterIcon';
 import GitHubIcon from 'components/Icons/GitHubIcon';
 import Link from 'next/link';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { copyToClipboard, urlIsCorrect } from 'utils/helpers';
 import { toast } from 'react-toastify';
@@ -26,33 +26,31 @@ export const UserSocials: React.FC<UserSocialsProps> = ({
 }) => {
 	const { t } = useTranslation();
 
-	return (
-		<>
-			{discord && (
-				<DiscordIcon
-					onClick={() => {
-						copyToClipboard(discord);
-						toast.success(t('components.copy-clipboard-message'));
-					}}
-					className={clsx('cursor-pointer', { 'scale-75': small })}
-					fill={fill}
-				/>
-			)}
+	return <>
+        {discord && (
+            <DiscordIcon
+                onClick={() => {
+                    copyToClipboard(discord);
+                    toast.success(t('components.copy-clipboard-message'));
+                }}
+                className={clsx('cursor-pointer', { 'scale-75': small })}
+                fill={fill}
+            />
+        )}
 
-			{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
-				<Link href={twitter} passHref>
-					<a rel="noreferrer" target="_blank">
-						<TwitterIcon className={clsx({ 'scale-75': small })} fill={fill} />
-					</a>
-				</Link>
-			)}
-			{github && urlIsCorrect(github, 'https://github.com') && (
-				<Link href={github} passHref>
-					<a rel="noreferrer" target="_blank">
-						<GitHubIcon className={clsx({ 'scale-75': small })} fill={fill} />
-					</a>
-				</Link>
-			)}
-		</>
-	);
+        {twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
+            (<Link href={twitter} passHref rel="noreferrer" target="_blank">
+
+                <TwitterIcon className={clsx({ 'scale-75': small })} fill={fill} />
+
+            </Link>)
+        )}
+        {github && urlIsCorrect(github, 'https://github.com') && (
+            (<Link href={github} passHref rel="noreferrer" target="_blank">
+
+                <GitHubIcon className={clsx({ 'scale-75': small })} fill={fill} />
+
+            </Link>)
+        )}
+    </>;
 };

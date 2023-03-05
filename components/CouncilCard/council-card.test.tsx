@@ -5,6 +5,9 @@ import enJSON from 'i18n/en.json';
 
 const now = new Date().getTime();
 
+jest.mock('containers/Modal');
+jest.mock('hooks/useCouncilCardQueries');
+
 const useRouterMock = jest.spyOn(require('next/router'), 'useRouter');
 useRouterMock.mockImplementation(() => ({
 	push: jest.fn(),
@@ -23,11 +26,13 @@ const translationMock = {
 let latestPaths: string[] = [];
 
 const useCouncilCardQueriesMock = jest.spyOn(require('hooks/useCouncilCardQueries'), 'default');
-const modalMock = jest.spyOn(require('containers/Modal/Modal'), 'useModalContext');
+const modalMock = jest.spyOn(require('containers/Modal'), 'useModalContext');
+
 modalMock.mockImplementation(() => ({
 	setContent: jest.fn(),
 	setIsOpen: jest.fn(),
 }));
+
 jest.mock('queries/voting/useVotingCount', () => {
 	return {
 		useVotingCount: () => {
@@ -35,9 +40,11 @@ jest.mock('queries/voting/useVotingCount', () => {
 		},
 	};
 });
+
 jest.mock('@apollo/client', () => {
 	return { ApolloClient: jest.fn(), InMemoryCache: jest.fn() };
 });
+
 jest.mock('react-i18next', () => ({
 	useTranslation() {
 		return {
@@ -48,9 +55,11 @@ jest.mock('react-i18next', () => ({
 		};
 	},
 }));
+
 jest.mock('containers/Modules/Modules', () => ({
 	DeployedModules: { SPARTAN_COUNCIL: 'spartan council' },
 }));
+
 describe('Council Card component', () => {
 	afterAll(() => jest.clearAllMocks());
 	afterEach(() => (latestPaths = []));
@@ -74,6 +83,7 @@ describe('Council Card component', () => {
 		expect(screen.getByTestId('cta-text').textContent).toBe('NOMINATIONS OPEN');
 		expect(!!latestPaths.find((path) => path === 'landing-page.cards.cta.nomination')).toBeTruthy();
 	});
+
 	test('Council Card component should display the correct headlines the provided council prop', () => {
 		render(
 			<>
@@ -177,6 +187,7 @@ describe('Council Card component', () => {
 		);
 		expect(!!screen.getByTestId('loading-state')).toBeTruthy();
 	});
+
 	test('Council Card component should display the correct left and right headline if in nomination period', () => {
 		useCouncilCardQueriesMock.mockImplementation(() => {
 			return {
@@ -226,6 +237,7 @@ describe('Council Card component', () => {
 		});
 		expect(state.pathname).toEqual('/councils');
 	});
+
 	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
 		useCouncilCardQueriesMock.mockImplementation(() => {
 			return {
@@ -256,6 +268,7 @@ describe('Council Card component', () => {
 		expect(modalState.content).toBeTruthy();
 		expect(modalState.open).toBeTruthy();
 	});
+
 	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
 		useCouncilCardQueriesMock.mockImplementation(() => {
 			return {

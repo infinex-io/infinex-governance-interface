@@ -16,16 +16,25 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
 import { compareAddress } from 'utils/helpers';
+import { useCurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
+import { COUNCIL_SLUGS } from 'constants/config';
 
 const PAGE_SIZE = 8;
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
+	const parsedQuery = query.council?.toString()
+		? COUNCIL_SLUGS.includes(query?.council?.toString())
+			? query.council.toString()
+			: 'spartan'
+		: 'spartan';
 	const { t } = useTranslation();
 	const { walletAddress } = useConnectorContext();
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
+	const currentPeriod = useCurrentPeriod(activeCouncil.module);
+
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
 		walletAddress || ''
@@ -64,12 +73,16 @@ export default function CouncilNominees() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{!isAlreadyNominated && <NominateSelfBanner deployedModule={activeCouncil.module} />}
+				{!isAlreadyNominated &&
+					(currentPeriod.data?.currentPeriod === 'NOMINATION' ||
+						currentPeriod.data?.currentPeriod === 'VOTING') && (
+						<NominateSelfBanner deployedModule={activeCouncil.module} />
+					)}
 				<div className="container">
 					<div className="w-full relative p-10">
 						<BackButton />
 						<h1 className="tg-title-h1 text-center">
-							{t('councils.nominees', { council: capitalizeString(query.council?.toString()) })}
+							{t('councils.nominees', { council: capitalizeString(parsedQuery) })}
 						</h1>
 					</div>
 					<span className="tg-content text-gray-500 text-center block pt-[8px] mb-4 p-2">

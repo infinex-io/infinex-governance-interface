@@ -43,6 +43,7 @@ export const onboard = Onboard({
 			id: getChainIdHex(NetworkIdByName['mainnet-ovm']),
 			token: 'ETH',
 			label: 'Optimism Mainnet',
+			// 'https://opt-mainnet.g.alchemy.com/v2/' + process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPTIMISM,
 			rpcUrl: getInfuraRpcURL(NetworkIdByName['mainnet-ovm']),
 		},
 	],
