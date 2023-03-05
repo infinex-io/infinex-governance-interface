@@ -13,10 +13,11 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules/index';
 import { getCrossChainClaim } from 'mutations/voting/useCastMutation';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber, Contract, utils } from 'ethers';
 import { useConnectorContext } from 'containers/Connector';
 import { ConnectButton } from 'components/ConnectButton';
 import Wei from '@synthetixio/wei';
+import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -25,6 +26,7 @@ interface VoteModalProps {
 }
 
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
+	const { connected, safe, sdk } = useSafeAppsSDK();
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, isWalletConnected } = useConnectorContext();
@@ -64,11 +66,18 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	]);
 
 	useEffect(() => {
-		if (walletAddress && governanceModules[deployedModule]?.contract) {
+		if (safe.safeAddress && connected && governanceModules[deployedModule]?.contract) {
+			getCrossChainClaim(governanceModules[deployedModule]!.contract, safe.safeAddress).then(
+				(data) => {
+					if (data) {
+						setVotingPower((state) => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
+					}
+				}
+			);
+		} else if (walletAddress && governanceModules[deployedModule]?.contract) {
 			getCrossChainClaim(governanceModules[deployedModule]!.contract, walletAddress).then(
 				(data) => {
 					if (data) {
-						console.log(data.amount);
 						setVotingPower((state) => ({ ...state, l1: new Wei(BigNumber.from(data.amount)) }));
 					}
 				}
@@ -79,22 +88,54 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					setVotingPower((state) => ({ ...state, l2: new Wei(share) }));
 				});
 		}
-	}, [walletAddress, governanceModules, deployedModule]);
+	}, [walletAddress, governanceModules, deployedModule, safe.safeAddress, connected]);
 
 	const handleVote = async () => {
 		setState('signing');
 		setVisible(true);
 		try {
-			setContent(
-				<>
-					<h6 className="tg-title-h6">
-						{t('modals.vote.cta', { council: capitalizeString(council) })}
-					</h6>
-					<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
-				</>
-			);
-			const tx = await castVoteMutation.mutateAsync([member.address]);
-			setTxHash(tx.hash);
+			if (safe.chainId === 1 && connected && !!governanceModules[deployedModule]?.contract) {
+				const treeData = await getCrossChainClaim(
+					governanceModules[deployedModule]!.contract,
+					safe.safeAddress
+				);
+				if (treeData) {
+					const data = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
+						'declareAndCastRelayed',
+						[safe.safeAddress, treeData.amount, treeData.proof, [member.address]]
+					);
+
+					// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
+					const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
+						'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',
+					]).contract.interface.encodeFunctionData('sendMessage', [
+						governanceModules[deployedModule]?.contract.address,
+						data,
+						0,
+					]);
+
+					await sdk.txs.send({
+						txs: [
+							{ to: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', data: messengerData, value: '0' },
+						],
+					});
+					setState('confirmed');
+				} else {
+					console.error('could not found address in merkle tree');
+					setState('error');
+				}
+			} else {
+				setContent(
+					<>
+						<h6 className="tg-title-h6">
+							{t('modals.vote.cta', { council: capitalizeString(council) })}
+						</h6>
+						<h3 className="tg-title-h3">{member.ens || truncateAddress(member.address)}</h3>
+					</>
+				);
+				const tx = await castVoteMutation.mutateAsync([member.address]);
+				setTxHash(tx.hash);
+			}
 		} catch (error) {
 			console.error(error);
 			setState('error');
