@@ -140,11 +140,10 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 
 	useEffect(() => {
 		const previousWalletsSerialised = localStorage.getItem(LOCAL_STORAGE_KEYS.SELECTED_WALLET);
-		const previousWallets: string[] | null = previousWalletsSerialised
+		const previousWallets: string[] = previousWalletsSerialised
 			? JSON.parse(previousWalletsSerialised)
-			: null;
-
-		if (onboard && previousWallets) {
+			: [];
+		if (onboard && previousWallets.length > 0) {
 			(async () => {
 				try {
 					await onboard.connectWallet({

@@ -859,9 +859,9 @@
       "inputs": [
         {
           "indexed": false,
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "snapshotId",
-          "type": "uint128"
+          "type": "uint256"
         }
       ],
       "name": "DebtShareSnapshotIdSet",
@@ -1149,9 +1149,9 @@
       "name": "getDebtShareSnapshotId",
       "outputs": [
         {
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "",
-          "type": "uint128"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -1587,9 +1587,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "snapshotId",
-          "type": "uint128"
+          "type": "uint256"
         }
       ],
       "name": "setDebtShareSnapshotId",

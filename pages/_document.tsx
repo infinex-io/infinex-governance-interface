@@ -9,7 +9,9 @@ export default class MyDocument extends Document {
 	render() {
 		return (
 			<Html className="no-touch dark ui-dark">
-				<Head />
+				<Head>
+					<link rel="manifest" href="/manifest.json" />
+				</Head>
 				<body>
 					<Main />
 					<NextScript />
