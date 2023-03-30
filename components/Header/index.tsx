@@ -8,6 +8,22 @@ import SNXIcon from 'components/Icons/SNXIcon';
 import { useConnectorContext } from 'containers/Connector';
 import { truncateAddress } from 'utils/truncate-address';
 import { ConnectButton } from 'components/ConnectButton';
+import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
+import {
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalHeader,
+	ModalOverlay,
+	useDisclosure,
+	Modal,
+	Box,
+	Text,
+	Button as ChakraButton,
+	Image,
+	Flex,
+	Divider,
+} from '@chakra-ui/react';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -21,6 +37,8 @@ export default function Header() {
 	const { ensName, walletAddress, disconnectWallet, isWalletConnected } = useConnectorContext();
 	const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 	const periodsData = useCurrentPeriods();
+	const { connected } = useSafeAppsSDK();
+	const { isOpen, onClose, onOpen } = useDisclosure();
 
 	useEffect(() => {
 		if (burgerMenuOpen) {
@@ -34,7 +52,7 @@ export default function Header() {
 
 	const routes = routesDic.filter((route) => oneCouncilIsInVotingPeriod || route.link !== 'vote');
 	return (
-        <header
+		<header
 			className={`bg-dark-blue w-full m-h-[66px] p-3 flex 
 				items-center md:justify-center justify-between border-b-gray-800 border-b border-b-solid`}
 		>
@@ -115,6 +133,50 @@ export default function Header() {
 					</div>
 				</div>
 			)}
+			<Button
+				variant="outline"
+				onClick={() => {
+					if (!connected) {
+						onOpen();
+					}
+				}}
+			>
+				{connected ? 'Safe Connected' : 'Safe'}
+			</Button>
+
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent bg="navy.900">
+					<ModalHeader>
+						<div className="tg-title-h4 text-center text-white mt-8">Connect to Safe</div>
+					</ModalHeader>
+					<ModalCloseButton color="white" />
+					<ModalBody>
+						<Box
+							m="4"
+							borderRadius="base"
+							borderWidth="1px"
+							borderStyle="solid"
+							display="flex"
+							flexDirection="column"
+							alignItems="center"
+						>
+							<Image src="" />
+							<Text color="gray.500" fontWeight="400" m="4">
+								This blog post will outline the steps to take to connect your Safe Wallet to
+								Synthetix Governance. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+								do ....
+							</Text>
+						</Box>
+						<Flex mx="4" flexDirection="column" alignItems="center" gap="2">
+							<Divider w="100%" />
+							<ChakraButton variant="solid" w="100%">
+								View Tutorial
+							</ChakraButton>
+						</Flex>
+					</ModalBody>
+				</ModalContent>
+			</Modal>
 			<div className="flex md:mr-1 min-w-[170px] h-[40px] justify-end">
 				{!isWalletConnected && <ConnectButton />}
 				{isWalletConnected && walletAddress && (
@@ -144,5 +206,5 @@ export default function Header() {
 				)}
 			</div>
 		</header>
-    );
+	);
 }
