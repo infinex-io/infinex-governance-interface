@@ -23,6 +23,7 @@ import {
 	Image,
 	Flex,
 	Divider,
+	Heading,
 } from '@chakra-ui/react';
 
 const routesDic = [
@@ -146,9 +147,11 @@ export default function Header() {
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent bg="navy.900">
+				<ModalContent bg="navy.900" borderColor="gray.900" borderWidth="1px" borderStyle="solid">
 					<ModalHeader>
-						<div className="tg-title-h4 text-center text-white mt-8">Connect to Safe</div>
+						<Heading fontSize={'2xl'} color="white" textAlign={'center'} mt="8">
+							Connect to Safe
+						</Heading>
 					</ModalHeader>
 					<ModalCloseButton color="white" />
 					<ModalBody>
@@ -168,7 +171,7 @@ export default function Header() {
 								do ....
 							</Text>
 						</Box>
-						<Flex mx="4" flexDirection="column" alignItems="center" gap="2">
+						<Flex m="4" flexDirection="column" alignItems="center" gap="2">
 							<Divider w="100%" />
 							<ChakraButton variant="solid" w="100%">
 								View Tutorial

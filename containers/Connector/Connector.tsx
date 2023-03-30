@@ -7,11 +7,12 @@ import React, {
 	useReducer,
 	FunctionComponent,
 	PropsWithChildren,
+	Dispatch,
 } from 'react';
-import { ethers } from 'ethers';
+import { ethers, providers } from 'ethers';
 import { onboard as Web3Onboard } from './config';
 import { LOCAL_STORAGE_KEYS } from 'constants/config';
-import { AppEvents, initialState, Network, reducer } from './reducer';
+import { Actions, AppEvents, initialState, Network, reducer } from './reducer';
 import { getIsOVM, isSupportedNetworkId } from 'utils/network';
 import {
 	NetworkId,
@@ -21,8 +22,10 @@ import {
 } from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
+import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 
 type ConnectorContextType = {
+	dispatch: Dispatch<Actions>;
 	network: Network | null;
 	provider: ethers.providers.Web3Provider | null;
 	signer: ethers.Signer | null;
@@ -229,6 +232,7 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 	return (
 		<ConnectorContext.Provider
 			value={{
+				dispatch,
 				ensAvatar,
 				ensName,
 				L1DefaultProvider,
