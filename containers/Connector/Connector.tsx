@@ -22,7 +22,6 @@ import {
 } from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
-import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 
 type ConnectorContextType = {
 	dispatch: Dispatch<Actions>;
