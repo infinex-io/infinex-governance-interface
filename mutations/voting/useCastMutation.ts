@@ -48,7 +48,8 @@ export async function getCrossChainClaim(
 ): Promise<{ proof: string; amount: BigNumber } | null> {
 	try {
 		const blockNumber = await ElectionModule.getCrossChainDebtShareMerkleRootBlockNumber();
-		const tree = await fetch(`/data/${blockNumber}-l1-debts.json`).then((res) => res.json());
+		// ${blockNumber}-
+		const tree = await fetch(`/data/l1-debts.json`).then((res) => res.json());
 		return tree?.claims[walletAddress] || null;
 	} catch (err) {
 		console.log(err);
