@@ -104,28 +104,12 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		setState('signing');
 		setVisible(true);
 		try {
-			if (safe.chainId === 10 && connected && !!governanceModules[deployedModule]?.contract) {
-				console.log('start');
-				const one = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
-					'castRelayed',
-					[safe.safeAddress, [member.address]]
-				);
-				console.log(one);
-				const treeData = await getCrossChainClaim(
-					governanceModules[deployedModule]!.contract,
-					safe.safeAddress
-				);
-				const two = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
-					'declareAndCastRelayed',
-					[safe.safeAddress, treeData!.amount, treeData!.proof, [member.address]]
-				);
-				console.log(one, two);
+			if (safe.chainId === 1 && connected && !!governanceModules[deployedModule]?.contract) {
 				if (hasSafeVoted) {
 					const data = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
 						'castRelayed',
 						[safe.safeAddress, [member.address]]
 					);
-					// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
 					const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
 						'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',
 					]).contract.interface.encodeFunctionData('sendMessage', [
@@ -133,7 +117,6 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						data,
 						0,
 					]);
-					console.log(data);
 					await sdk.txs.send({
 						txs: [
 							{
