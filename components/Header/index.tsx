@@ -141,6 +141,7 @@ export default function Header() {
 						onOpen();
 					}
 				}}
+				className="min-w-[130px]"
 			>
 				{connected ? 'Safe Connected' : 'Safe'}
 			</Button>

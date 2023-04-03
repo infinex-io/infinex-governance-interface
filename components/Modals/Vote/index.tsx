@@ -104,11 +104,13 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		setState('signing');
 		setVisible(true);
 		try {
-			if (safe.chainId === 1 && connected && !!governanceModules[deployedModule]?.contract) {
+			if (safe.chainId === 10 && connected && !!governanceModules[deployedModule]?.contract) {
+				console.log('start');
 				const one = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
 					'castRelayed',
 					[safe.safeAddress, [member.address]]
 				);
+				console.log(one);
 				const treeData = await getCrossChainClaim(
 					governanceModules[deployedModule]!.contract,
 					safe.safeAddress
