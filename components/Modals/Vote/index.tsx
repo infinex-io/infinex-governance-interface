@@ -27,6 +27,7 @@ interface VoteModalProps {
 
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
 	const { connected, safe, sdk } = useSafeAppsSDK();
+	const [hasSafeVoted, setHasSafeVoted] = useState(false);
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, isWalletConnected } = useConnectorContext();
@@ -67,6 +68,15 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 
 	useEffect(() => {
 		if (safe.safeAddress && connected && governanceModules[deployedModule]?.contract) {
+			governanceModules[deployedModule]!.contract.getDeclaredCrossChainDebtShare(
+				safe.safeAddress
+			).then((declared: BigNumber) => {
+				if (declared.eq(0)) {
+					setHasSafeVoted(false);
+				} else {
+					setHasSafeVoted(true);
+				}
+			});
 			getCrossChainClaim(governanceModules[deployedModule]!.contract, safe.safeAddress).then(
 				(data) => {
 					if (data) {
@@ -95,17 +105,11 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		setVisible(true);
 		try {
 			if (safe.chainId === 1 && connected && !!governanceModules[deployedModule]?.contract) {
-				const treeData = await getCrossChainClaim(
-					governanceModules[deployedModule]!.contract,
-					safe.safeAddress
-				);
-				if (treeData) {
+				if (hasSafeVoted) {
 					const data = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
-						'declareAndCastRelayed',
-						[safe.safeAddress, treeData.amount, treeData.proof, [member.address]]
+						'castRelayed',
+						[safe.safeAddress, [member.address]]
 					);
-
-					// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
 					const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
 						'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',
 					]).contract.interface.encodeFunctionData('sendMessage', [
@@ -113,16 +117,50 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						data,
 						0,
 					]);
-
 					await sdk.txs.send({
 						txs: [
-							{ to: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', data: messengerData, value: '0' },
+							{
+								to: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1',
+								data: messengerData,
+								value: '0',
+							},
 						],
 					});
 					setState('confirmed');
 				} else {
-					console.error('could not found address in merkle tree');
-					setState('error');
+					const treeData = await getCrossChainClaim(
+						governanceModules[deployedModule]!.contract,
+						safe.safeAddress
+					);
+					if (treeData) {
+						const data = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
+							'declareAndCastRelayed',
+							[safe.safeAddress, treeData.amount, treeData.proof, [member.address]]
+						);
+						console.log(data);
+						// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
+						const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
+							'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',
+						]).contract.interface.encodeFunctionData('sendMessage', [
+							governanceModules[deployedModule]?.contract.address,
+							data,
+							0,
+						]);
+
+						await sdk.txs.send({
+							txs: [
+								{
+									to: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1',
+									data: messengerData,
+									value: '0',
+								},
+							],
+						});
+						setState('confirmed');
+					} else {
+						console.error('could not found address in merkle tree');
+						setState('error');
+					}
 				}
 			} else {
 				setContent(
