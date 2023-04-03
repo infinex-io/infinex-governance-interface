@@ -167,9 +167,9 @@ export default function Header() {
 						>
 							<Image src="" />
 							<Text color="gray.500" fontWeight="400" m="4">
-								This blog post will outline the steps to take to connect your Safe Wallet to
-								Synthetix Governance. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-								do ....
+								This blog post will provide a detailed guide on how to connect your Gnosis Safe
+								wallet to Synthetix Governance, enabling you to participate in governance. Follow
+								our comprehensive tutorial for a straightforward experience.
 							</Text>
 						</Box>
 						<Flex m="4" flexDirection="column" alignItems="center" gap="2">
