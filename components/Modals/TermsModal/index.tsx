@@ -22,6 +22,7 @@ interface TermsModalProps {
 
 export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 	const [isOpen, setOpen] = useState(defaultOpen);
+	const [enabled, setEnabled] = useState(false);
 
 	const onSubmit = () => {
 		sessionStorage.setItem(SESSION_STORAGE_KEYS.TERMS_CONDITIONS_ACCEPTED, JSON.stringify(true));
@@ -48,6 +49,15 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 						such, you fully understand that:
 					</Text>
 					<Box
+						onScroll={(e) => {
+							const div = e.currentTarget;
+							const scrollTopWithTolerance = div.scrollTop + 10;
+							if (scrollTopWithTolerance >= div.scrollHeight - div.offsetHeight) {
+								setEnabled(true);
+							} else {
+								setEnabled(false);
+							}
+						}}
 						as="div"
 						my={2}
 						py={3}
@@ -162,6 +172,7 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 					</Box>
 				</ModalBody>
 				<Button
+					isDisabled={!enabled}
 					variant="outline"
 					_focusVisible={{ outline: 'none' }}
 					my={4}
