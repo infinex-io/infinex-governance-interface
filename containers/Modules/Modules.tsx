@@ -40,7 +40,7 @@ export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children
 		const wrongNetwork = network?.id !== 10;
 
 		// Uncomment next line for testing forks
-		if (!signer) return;
+		// if (!signer) return;
 
 		const provider = !!signer && !wrongNetwork ? signer : L2DefaultProvider;
 
