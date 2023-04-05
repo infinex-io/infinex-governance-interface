@@ -158,6 +158,7 @@ export default function Header() {
 					<ModalBody>
 						<Box
 							m="4"
+							p="4"
 							borderRadius="base"
 							borderWidth="1px"
 							borderStyle="solid"
@@ -165,8 +166,11 @@ export default function Header() {
 							flexDirection="column"
 							alignItems="center"
 						>
-							<Image src="" />
-							<Text color="gray.500" fontWeight="400" m="4">
+							<Image
+								src="/images/Connecting-to-Safe-Wallet.png"
+								alt="image with text connecting to safe wallet"
+							/>
+							<Text color="gray.500" fontWeight="400" mt="2">
 								This blog post will provide a detailed guide on how to connect your Gnosis Safe
 								wallet to Synthetix Governance.
 							</Text>
