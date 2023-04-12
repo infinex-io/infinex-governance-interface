@@ -137,7 +137,6 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 							'declareAndCastRelayed',
 							[safe.safeAddress, treeData.amount, treeData.proof, [member.address]]
 						);
-						console.log(data);
 						// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
 						const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
 							'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',

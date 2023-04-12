@@ -12,7 +12,6 @@ import {
 	useContext,
 	useEffect,
 	useState,
-	FC,
 	FunctionComponent,
 	PropsWithChildren,
 } from 'react';
