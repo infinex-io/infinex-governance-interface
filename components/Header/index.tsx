@@ -147,17 +147,17 @@ export default function Header() {
 					</div>
 				</div>
 			)}
-			<Button
+			<ChakraButton
 				variant="outline"
 				onClick={() => {
 					if (!connected) {
 						onOpen();
 					}
 				}}
-				className={connected ? 'min-w-[150px]' : 'min-w-[70px]'}
+				minW={connected ? '150px' : '70px'}
 			>
 				{connected ? 'Safe Connected' : 'Safe'}
-			</Button>
+			</ChakraButton>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent bg="navy.900" borderColor="gray.900" borderWidth="1px" borderStyle="solid">
