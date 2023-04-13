@@ -18,6 +18,8 @@ import { useConnectorContext } from 'containers/Connector';
 import { ConnectButton } from 'components/ConnectButton';
 import Wei from '@synthetixio/wei';
 import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
+import useEpochIndexQuery from 'queries/epochs/useEpochIndexQuery';
+import useHasVotedQuery from 'queries/voting/useHasVotedQuery';
 
 interface VoteModalProps {
 	member: Pick<GetUserDetails, 'address' | 'ens' | 'pfpThumbnailUrl' | 'about'>;
@@ -26,11 +28,16 @@ interface VoteModalProps {
 }
 
 export default function VoteModal({ member, deployedModule, council }: VoteModalProps) {
+	const { data } = useEpochIndexQuery(deployedModule);
 	const { connected, safe, sdk } = useSafeAppsSDK();
-	const [hasSafeVoted, setHasSafeVoted] = useState(false);
 	const { t } = useTranslation();
 	const { setIsOpen } = useModalContext();
 	const { walletAddress, isWalletConnected } = useConnectorContext();
+	const hasVoted = useHasVotedQuery(
+		deployedModule,
+		safe.safeAddress ? safe.safeAddress : walletAddress ? walletAddress : '',
+		data ? data.toString() : ''
+	);
 	const governanceModules = useModulesContext();
 	const [votingPower, setVotingPower] = useState({ l1: new Wei(0), l2: new Wei(0) });
 	const { push } = useRouter();
@@ -68,15 +75,6 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 
 	useEffect(() => {
 		if (safe.safeAddress && connected && governanceModules[deployedModule]?.contract) {
-			governanceModules[deployedModule]!.contract.getDeclaredCrossChainDebtShare(
-				safe.safeAddress
-			).then((declared: BigNumber) => {
-				if (declared.eq(0)) {
-					setHasSafeVoted(false);
-				} else {
-					setHasSafeVoted(true);
-				}
-			});
 			getCrossChainClaim(governanceModules[deployedModule]!.contract, safe.safeAddress).then(
 				(data) => {
 					if (data) {
@@ -105,7 +103,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 		setVisible(true);
 		try {
 			if (safe.chainId === 1 && connected && !!governanceModules[deployedModule]?.contract) {
-				if (hasSafeVoted) {
+				if (hasVoted.data) {
 					const data = governanceModules[deployedModule]!.contract.interface.encodeFunctionData(
 						'castRelayed',
 						[safe.safeAddress, [member.address]]
