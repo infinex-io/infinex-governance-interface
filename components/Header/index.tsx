@@ -181,6 +181,13 @@ export default function Header() {
 							<Image
 								src="/images/Connecting-to-Safe-Wallet.png"
 								alt="image with text connecting to safe wallet"
+								onClick={() =>
+									window.open(
+										'https://docs.google.com/document/d/1OWqzp-K4XWu2-UqnZq_sEn4Bez6gTyR7sp-_PvgC1q4/edit',
+										'_blank'
+									)
+								}
+								cursor="pointer"
 							/>
 							<Text color="gray.500" fontWeight="400" mt="2">
 								This blog post will provide a detailed guide on how to connect your Gnosis Safe
