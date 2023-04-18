@@ -183,7 +183,7 @@ export default function Header() {
 								alt="image with text connecting to safe wallet"
 								onClick={() =>
 									window.open(
-										'https://docs.google.com/document/d/1OWqzp-K4XWu2-UqnZq_sEn4Bez6gTyR7sp-_PvgC1q4/edit',
+										'https://docs.synthetix.io/dao/elections-and-voting/voting-with-a-gnosis-safe',
 										'_blank'
 									)
 								}
@@ -201,7 +201,7 @@ export default function Header() {
 								w="100%"
 								onClick={() =>
 									window.open(
-										'https://docs.google.com/document/d/1OWqzp-K4XWu2-UqnZq_sEn4Bez6gTyR7sp-_PvgC1q4/edit',
+										'https://docs.synthetix.io/dao/elections-and-voting/voting-with-a-gnosis-safe',
 										'_blank'
 									)
 								}
