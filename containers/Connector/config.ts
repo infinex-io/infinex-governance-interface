@@ -41,12 +41,6 @@ export const onboard = Onboard({
 			label: 'Optimism Mainnet',
 			rpcUrl: getInfuraRpcURL(NetworkIdByName['mainnet-ovm']),
 		},
-		{
-			id: getChainIdHex(NetworkIdByName['mainnet']),
-			token: 'ETH',
-			label: 'Mainnet',
-			rpcUrl: getInfuraRpcURL(NetworkIdByName['mainnet']),
-		},
 	],
 	accountCenter: {
 		desktop: {
