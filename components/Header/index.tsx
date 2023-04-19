@@ -190,7 +190,7 @@ export default function Header() {
 								cursor="pointer"
 							/>
 							<Text color="gray.500" fontWeight="400" mt="2">
-								This blog post will provide a detailed guide on how to connect your Gnosis Safe
+								This blog post will provide a detailed guide on how to connect your Safe Wallet
 								wallet to Synthetix Governance.
 							</Text>
 						</Box>
