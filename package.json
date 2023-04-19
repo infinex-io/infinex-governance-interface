@@ -25,7 +25,7 @@
 		"@synthetixio/v3-theme": "^1.1.0",
 		"@synthetixio/wei": "^2.73.1",
 		"@web3-onboard/coinbase": "^2.0.9",
-		"@web3-onboard/common": "^2.3.1",
+		"@web3-onboard/common": "^2.2.3",
 		"@web3-onboard/core": "^2.5.0",
 		"@web3-onboard/gnosis": "^2.1.6",
 		"@web3-onboard/injected-wallets": "^2.8.4",
