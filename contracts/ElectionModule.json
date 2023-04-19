@@ -902,6 +902,24 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "address[]",
+          "name": "candidates",
+          "type": "address[]"
+        }
+      ],
+      "name": "castRelayed",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "debtShare",
           "type": "uint256"
@@ -918,6 +936,34 @@
         }
       ],
       "name": "declareAndCast",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "debtShare",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "merkleProof",
+          "type": "bytes32[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "candidates",
+          "type": "address[]"
+        }
+      ],
+      "name": "declareAndCastRelayed",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

@@ -12,7 +12,7 @@ export default function Modal({ open, modalContent, children }: PropsWithChildre
 		<>
 			<CSSTransition unmountOnExit classNames="ui-slide" in={open} nodeRef={nodeRef} timeout={500}>
 				<div
-					className="w-full h-full fixed left-0 right-0 top-0 h-full mx-auto z-99 ui-bg-overlay"
+					className="w-full h-full fixed left-0 right-0 top-0 mx-auto z-99 ui-bg-overlay"
 					ref={nodeRef}
 				>
 					<div className="modal-content">{modalContent}</div>
