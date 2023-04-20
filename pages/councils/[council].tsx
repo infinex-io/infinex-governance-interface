@@ -1,6 +1,6 @@
 import { Pagination } from '@synthetixio/ui';
 import BackButton from 'components/BackButton';
-import NominateSelfBanner from 'components/Banners/NominateSelfBanner';
+
 import { Loader } from 'components/Loader/Loader';
 import Main from 'components/Main';
 import MemberCard from 'components/MemberCard/Index';
@@ -16,7 +16,6 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
 import { compareAddress } from 'utils/helpers';
-import { useCurrentPeriod } from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCIL_SLUGS } from 'constants/config';
 
 const PAGE_SIZE = 8;
@@ -33,7 +32,6 @@ export default function CouncilNominees() {
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
-	const currentPeriod = useCurrentPeriod(activeCouncil.module);
 
 	const isAlreadyNominatedForSpartan = useIsNominated(
 		DeployedModules.SPARTAN_COUNCIL,
@@ -73,11 +71,6 @@ export default function CouncilNominees() {
 				<title>Synthetix | Governance V3</title>
 			</Head>
 			<Main>
-				{!isAlreadyNominated &&
-					(currentPeriod.data?.currentPeriod === 'NOMINATION' ||
-						currentPeriod.data?.currentPeriod === 'VOTING') && (
-						<NominateSelfBanner deployedModule={activeCouncil.module} />
-					)}
 				<div className="container">
 					<div className="w-full relative p-10">
 						<BackButton />
