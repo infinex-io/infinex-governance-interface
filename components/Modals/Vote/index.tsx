@@ -138,7 +138,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						// https://etherscan.io/address/0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1
 						const messengerData = new Contract('0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1', [
 							'function sendMessage(address _target, bytes memory _message, uint32 _gasLimit) public',
-						]).contract.interface.encodeFunctionData('sendMessage', [
+						]).interface.encodeFunctionData('sendMessage', [
 							governanceModules[deployedModule]?.contract.address,
 							data,
 							0,
