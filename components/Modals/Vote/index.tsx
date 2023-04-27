@@ -113,7 +113,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 					]).interface.encodeFunctionData('sendMessage', [
 						governanceModules[deployedModule]?.contract.address,
 						data,
-						0,
+						12000000,
 					]);
 					await sdk.txs.send({
 						txs: [
@@ -141,7 +141,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						]).interface.encodeFunctionData('sendMessage', [
 							governanceModules[deployedModule]?.contract.address,
 							data,
-							0,
+							12000000,
 						]);
 
 						await sdk.txs.send({
