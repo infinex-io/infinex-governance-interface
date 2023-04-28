@@ -125,7 +125,7 @@ export const VotingResultTable: React.FC<VotingResultTableProps> = ({
 						: '',
 			},
 			{
-				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Wei' }),
+				Header: t<string>('vote.pre-eval.table.received', { units: isTreasury ? 'Ether' : 'Gwei' }),
 				columnClass: 'text-sm text-right',
 				accessor: 'totalVotePower',
 				Cell: ({ row }) => (
@@ -133,7 +133,7 @@ export const VotingResultTable: React.FC<VotingResultTableProps> = ({
 						{currency(
 							utils.formatUnits(
 								row.values.totalVotePower,
-								moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'wei'
+								moduleInstance === DeployedModules.TREASURY_COUNCIL ? 'ether' : 'gwei'
 							)
 						)}
 					</>
