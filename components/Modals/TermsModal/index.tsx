@@ -41,7 +41,7 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 				data-testid="transaction modal"
 			>
 				<ModalHeader py={0} textAlign="center" color="white">
-					Synthetix Terms of Service
+					Infinex Terms of Service
 				</ModalHeader>
 				<ModalBody fontSize="xs" color="gray.600">
 					<Text fontSize="sm">
@@ -81,24 +81,24 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 										color="cyan.500"
 										_focusVisible={{ outline: 'none' }}
 									>
-										Synthetix{' '}
+										Infinex{' '}
 									</Link>
 									is a blockchain-based decentralized finance project. You are participating at your
 									own risk.
 								</ListItem>
 								<ListItem mt={2}>
-									Synthetix is offered for use “as is” and without any guarantees regarding
+									Infinex is offered for use “as is” and without any guarantees regarding
 									security. The protocol is made up of immutable code and can be accessed through a
 									variety of user interfaces.
 								</ListItem>
 								<ListItem mt={2}>
-									No central entity operates the Synthetix protocol. Decisions related to the
+									No central entity operates the Infinex protocol. Decisions related to the
 									protocol are governed by a dispersed group of participants who collectively govern
 									and maintain the protocol.
 								</ListItem>
 								<ListItem mt={2}>
-									Synthetix DAO does not unilaterally offer, maintain, operate, administer, or
-									control any trading interfaces. The only user interfaces maintained by Synthetix
+									Infinex DAO does not unilaterally offer, maintain, operate, administer, or
+									control any trading interfaces. The only user interfaces maintained by Infinex
 									DAO are the governance and staking interfaces herein.
 								</ListItem>
 								<ListItem mt={2}>
@@ -119,17 +119,17 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 										href="https://discord.com/invite/AEdUHzt"
 										_focusVisible={{ outline: 'none' }}
 									>
-										Synthetix Discord
+										Infinex Discord
 									</Link>{' '}
 									and contributing to the conversation.
 								</ListItem>
 								<ListItem mt={2}>
-									The rules and parameters associated with the Synthetix protocol and Synthetix DAO
+									The rules and parameters associated with the Infinex protocol and Infinex DAO
 									governance are subject to change at any time.
 								</ListItem>
 								<ListItem mt={2}>
-									Your use of Synthetix is conditioned upon your acceptance to be bound by the
-									Synthetix Term of Use, which can be found{' '}
+									Your use of Infinex is conditioned upon your acceptance to be bound by the
+									Infinex Term of Use, which can be found{' '}
 									<Link
 										href="https://staking.synthetix.io/terms"
 										target="_blank"
@@ -141,23 +141,23 @@ export const TermsModal = ({ defaultOpen = true }: TermsModalProps) => {
 									.
 								</ListItem>
 								<ListItem mt={2}>
-									The laws that apply to your use of Synthetix may vary based upon the jurisdiction
+									The laws that apply to your use of Infinex may vary based upon the jurisdiction
 									in which you are located. We strongly encourage you to speak with legal counsel in
-									your jurisdiction if you have any questions regarding your use of Synthetix.
+									your jurisdiction if you have any questions regarding your use of Infinex.
 								</ListItem>
 								<ListItem mt={2}>
 									By entering into this agreement, you are not agreeing to enter into a partnership.
-									You understand that Synthetix is a decentralized protocol provided on an “as is”
+									You understand that Infinex is a decentralized protocol provided on an “as is”
 									basis.
 								</ListItem>
 								<ListItem mt={2}>
-									You hereby release all present and future claims against Synthetix DAO related to
+									You hereby release all present and future claims against Infinex DAO related to
 									your use of the protocol, the SNX token, SNX DAO governance, and any other facet
 									of the protocol.
 								</ListItem>
 								<ListItem mt={2}>
 									You agree to indemnify and hold harmless SNX DAO and its affiliates for any costs
-									arising out of or relating to your use of the Synthetix protocol.
+									arising out of or relating to your use of the Infinex protocol.
 								</ListItem>
 								<ListItem mt={2}>
 									You are not accessing the protocol from Burma (Myanmar), Cuba, Iran, Sudan, Syria,

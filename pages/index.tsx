@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Synthetix | Governance V3</title>
+				<title>Infinex | Governance V3</title>
 			</Head>
 			<Main>
 				<LandingPage />

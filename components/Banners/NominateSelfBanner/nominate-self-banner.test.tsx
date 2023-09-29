@@ -24,7 +24,7 @@ jest.mock('react-i18next', () => ({
 	},
 }));
 jest.mock('containers/Modules/Modules', () => ({
-	DeployedModules: { SPARTAN_COUNCIL: 'spartan council' },
+	DeployedModules: { SPARTAN_COUNCIL: 'trade council' },
 }));
 jest.mock('containers/Modal/Modal', () => ({
 	useModalContext: () => ({ setContent: jest.fn(), setIsOpen: jest.fn() }),
@@ -44,7 +44,7 @@ describe('Nominate Self Banner Component', () => {
 		const Wrapper = getWrapper();
 		render(
 			<Wrapper>
-				<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+				<NominateSelfBanner deployedModule={DeployedModules.TRADE_COUNCIL} />
 			</Wrapper>
 		);
 
@@ -55,7 +55,7 @@ describe('Nominate Self Banner Component', () => {
 		const Wrapper = getWrapper();
 		render(
 			<Wrapper>
-				<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+				<NominateSelfBanner deployedModule={DeployedModules.TRADE_COUNCIL} />
 			</Wrapper>
 		);
 		expect(
@@ -71,7 +71,7 @@ describe('Nominate Self Banner Component', () => {
 		jest.spyOn(mobileHook, 'default').mockReturnValue(true);
 		render(
 			<Wrapper>
-				<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+				<NominateSelfBanner deployedModule={DeployedModules.TRADE_COUNCIL} />
 			</Wrapper>
 		);
 		expect(screen.getByTestId('nominate-self-banner-button-mobile')?.textContent === '').toEqual(
@@ -83,7 +83,7 @@ describe('Nominate Self Banner Component', () => {
 		jest.spyOn(mobileHook, 'default').mockReturnValue(false);
 		render(
 			<Wrapper>
-				<NominateSelfBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+				<NominateSelfBanner deployedModule={DeployedModules.TRADE_COUNCIL} />
 			</Wrapper>
 		);
 		expect(

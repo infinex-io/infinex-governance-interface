@@ -11,24 +11,24 @@ export function PreEvaluationSection() {
 				{t('vote.pre-eval.voting-results-live')}
 			</span>
 			<Tabs
-				initial="spartan"
+				initial="trade"
 				className="overflow-x-auto no-scrollbar xs:w-auto w-full"
 				contentClassName="container"
 				items={[
 					{
-						id: 'spartan',
-						label: t('vote.pre-eval.tabs.sc'),
-						content: <VotingResult moduleInstance={DeployedModules.SPARTAN_COUNCIL} />,
+						id: 'trade',
+						label: t('vote.pre-eval.tabs.tr'),
+						content: <VotingResult moduleInstance={DeployedModules.TRADE_COUNCIL} />,
 					},
 					{
-						id: 'grants',
-						label: t('vote.pre-eval.tabs.gc'),
-						content: <VotingResult moduleInstance={DeployedModules.GRANTS_COUNCIL} />,
+						id: 'ecosystem',
+						label: t('vote.pre-eval.tabs.ec'),
+						content: <VotingResult moduleInstance={DeployedModules.CORE_CONTRIBUTORS_COUNCIL} />,
 					},
 					{
-						id: 'ambassador',
-						label: t('vote.pre-eval.tabs.ac'),
-						content: <VotingResult moduleInstance={DeployedModules.AMBASSADOR_COUNCIL} />,
+						id: 'coreContributor',
+						label: t('vote.pre-eval.tabs.cc'),
+						content: <VotingResult moduleInstance={DeployedModules.ECOSYSTEM_COUNCIL} />,
 					},
 					{
 						id: 'treasury',

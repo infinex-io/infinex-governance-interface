@@ -19,18 +19,18 @@ const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
-	const { data: spartan } = useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL);
-	const { data: grants } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
-	const { data: ambassador } = useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL);
+	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
+	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
-	const allMembers = [spartan, grants, ambassador, treasury];
+	const allMembers = [trade, ecosystem, coreContributor, treasury];
 
 	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
 	return (
 		<>
 			<Head>
-				<title>Synthetix | Governance V3</title>
+				<title>Infinex | Governance V3</title>
 			</Head>
 			<Main>
 				<div className="flex flex-col p-3 container">

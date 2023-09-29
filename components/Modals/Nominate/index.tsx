@@ -24,21 +24,21 @@ export default function NominateModal() {
 		useTransactionModalContext();
 	const queryClient = useQueryClient();
 
-	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
-	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
-	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
+	const nominateForTradeCouncil = useNominateMutation(DeployedModules.TRADE_COUNCIL);
+	const nominateForEcosystemCouncil = useNominateMutation(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const nominateForCoreContributorCouncil = useNominateMutation(DeployedModules.ECOSYSTEM_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 
-	const isAlreadyNominatedForSpartan = useIsNominated(
-		DeployedModules.SPARTAN_COUNCIL,
+	const isAlreadyNominatedForTrade = useIsNominated(
+		DeployedModules.TRADE_COUNCIL,
 		walletAddress || ''
 	);
-	const isAlreadyNominatedForGrants = useIsNominated(
-		DeployedModules.GRANTS_COUNCIL,
+	const isAlreadyNominatedForEcosystem = useIsNominated(
+		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 		walletAddress || ''
 	);
-	const isAlreadyNominatedForAmbassador = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
+	const isAlreadyNominatedForCoreContributor = useIsNominated(
+		DeployedModules.ECOSYSTEM_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(
@@ -46,9 +46,9 @@ export default function NominateModal() {
 		walletAddress || ''
 	);
 	const isAlreadyNominated =
-		isAlreadyNominatedForSpartan.data ||
-		isAlreadyNominatedForGrants.data ||
-		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTrade.data ||
+		isAlreadyNominatedForEcosystem.data ||
+		isAlreadyNominatedForCoreContributor.data ||
 		isAlreadyNominatedForTreasury.data;
 
 	const periodsData = useCurrentPeriods();
@@ -93,20 +93,20 @@ export default function NominateModal() {
 		setVisible(true);
 		try {
 			switch (activeCheckbox) {
-				case 'spartan':
-					setContent(setCTA('Spartan'));
-					const spartanTx = await nominateForSpartanCouncil.mutateAsync();
-					setTxHash(spartanTx.hash);
+				case 'trade':
+					setContent(setCTA('Trade'));
+					const tradeTx = await nominateForTradeCouncil.mutateAsync();
+					setTxHash(tradeTx.hash);
 					break;
-				case 'grants':
-					setContent(setCTA('Grants'));
-					const grantsTx = await nominateForGrantsCouncil.mutateAsync();
-					setTxHash(grantsTx.hash);
+				case 'ecosystem':
+					setContent(setCTA('Ecosystem'));
+					const ecosystemTx = await nominateForEcosystemCouncil.mutateAsync();
+					setTxHash(ecosystemTx.hash);
 					break;
-				case 'ambassador':
-					setContent(setCTA('Ambassador'));
-					const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
-					setTxHash(ambassadorTx.hash);
+				case 'coreContributor':
+					setContent(setCTA('CoreContributor'));
+					const coreContributorTx = await nominateForCoreContributorCouncil.mutateAsync();
+					setTxHash(coreContributorTx.hash);
 					break;
 				case 'treasury':
 					setContent(setCTA('Treasury'));

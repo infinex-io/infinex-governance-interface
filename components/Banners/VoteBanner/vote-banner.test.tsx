@@ -27,7 +27,7 @@ jest.mock('react-i18next', () => ({
 	},
 }));
 jest.mock('containers/Modules/Modules', () => ({
-	DeployedModules: { SPARTAN_COUNCIL: 'spartan council' },
+	DeployedModules: { SPARTAN_COUNCIL: 'trade council' },
 }));
 describe('Vote Banner Component', () => {
 	afterAll(() => jest.clearAllMocks());
@@ -36,7 +36,7 @@ describe('Vote Banner Component', () => {
 		const Wrapper = getWrapper();
 		render(
 			<Wrapper>
-				<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL}></VoteBanner>
+				<VoteBanner deployedModule={DeployedModules.TRADE_COUNCIL}></VoteBanner>
 			</Wrapper>
 		);
 		expect(screen.getByTestId('vote-banner-headline').textContent).toBe(
@@ -49,7 +49,7 @@ describe('Vote Banner Component', () => {
 		const Wrapper = getWrapper();
 		render(
 			<Wrapper>
-				<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL}></VoteBanner>
+				<VoteBanner deployedModule={DeployedModules.TRADE_COUNCIL}></VoteBanner>
 			</Wrapper>
 		);
 		expect(screen.getByTestId('vote-banner-timer-text').textContent?.includes('Closes in')).toBe(
@@ -61,7 +61,7 @@ describe('Vote Banner Component', () => {
 		const Wrapper = getWrapper();
 		render(
 			<Wrapper>
-				<VoteBanner deployedModule={DeployedModules.SPARTAN_COUNCIL} />
+				<VoteBanner deployedModule={DeployedModules.TRADE_COUNCIL} />
 			</Wrapper>
 		);
 		expect(screen.getByTestId('vote-banner-timer').nodeName === 'DIV').toBe(true);

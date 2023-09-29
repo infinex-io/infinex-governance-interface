@@ -32,8 +32,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 	const councilMembersQuery = useGetMemberCouncilNameQuery(walletAddress);
 	const periodsData = useCurrentPeriods();
 
-	const { spartan, grants, ambassador, treasury } = useIsNominatedCouncils(walletAddress);
-	const councilNomination = [spartan.data, grants.data, ambassador.data, treasury.data];
+	const { trade, ecosystem, coreContributor, treasury } = useIsNominatedCouncils(walletAddress);
+	const councilNomination = [trade.data, ecosystem.data, coreContributor.data, treasury.data];
 
 	const isNominatedFor = COUNCILS_DICTIONARY.map((council, index) => ({
 		nominated: councilNomination && Array.isArray(councilNomination) && councilNomination[index],

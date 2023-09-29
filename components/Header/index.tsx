@@ -191,7 +191,7 @@ export default function Header() {
 							/>
 							<Text color="gray.500" fontWeight="400" mt="2">
 								This blog post will provide a detailed guide on how to connect your Safe Wallet
-								wallet to Synthetix Governance.
+								wallet to Infinex Governance.
 							</Text>
 						</Box>
 						<Flex m="4" flexDirection="column" alignItems="center">

@@ -53,21 +53,21 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 	return useQuery(
 		['getCurrentVoteStateQuery', walletAddress],
 		async () => {
-			const [spartanVoteDetails, grantsVoteDetails, ambassadorVoteDetails, treasuryVoteDetails] =
+			const [tradeVoteDetails, ecosystemVoteDetails, coreContributorVoteDetails, treasuryVoteDetails] =
 				await Promise.all([
 					getVoteDetails(
-						governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract,
-						DeployedModules.SPARTAN_COUNCIL,
+						governanceModules[DeployedModules.TRADE_COUNCIL]?.contract,
+						DeployedModules.TRADE_COUNCIL,
 						walletAddress
 					),
 					getVoteDetails(
-						governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract,
-						DeployedModules.GRANTS_COUNCIL,
+						governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract,
+						DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 						walletAddress
 					),
 					getVoteDetails(
-						governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract,
-						DeployedModules.AMBASSADOR_COUNCIL,
+						governanceModules[DeployedModules.ECOSYSTEM_COUNCIL]?.contract,
+						DeployedModules.ECOSYSTEM_COUNCIL,
 						walletAddress
 					),
 					getVoteDetails(
@@ -78,9 +78,9 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 				]);
 
 			return {
-				spartan: spartanVoteDetails,
-				grants: grantsVoteDetails,
-				ambassador: ambassadorVoteDetails,
+				trade: tradeVoteDetails,
+				ecosystem: ecosystemVoteDetails,
+				coreContributor: coreContributorVoteDetails,
 				treasury: treasuryVoteDetails,
 			};
 		},

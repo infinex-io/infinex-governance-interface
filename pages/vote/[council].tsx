@@ -47,7 +47,7 @@ export default function VoteCouncil() {
 	return (
 		<>
 			<Head>
-				<title>Synthetix | Governance V3</title>
+				<title>Infinex | Governance V3</title>
 			</Head>
 			<Main>
 				{activeCouncil && <VoteBanner deployedModule={activeCouncil.module} />}

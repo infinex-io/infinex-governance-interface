@@ -15,9 +15,9 @@ useRouterMock.mockImplementation(() => ({
 
 const translationMock = {
 	'landing-page.cards.cta.nomination': enJSON['landing-page'].cards.cta.nomination,
-	'landing-page.cards.spartan': enJSON['landing-page'].cards.spartan,
-	'landing-page.cards.grants': enJSON['landing-page'].cards.grants,
-	'landing-page.cards.ambassador': enJSON['landing-page'].cards.ambassador,
+	'landing-page.cards.trade': enJSON['landing-page'].cards.trade,
+	'landing-page.cards.ecosystem': enJSON['landing-page'].cards.ecosystem,
+	'landing-page.cards.coreContributor': enJSON['landing-page'].cards.coreContributor,
 	'landing-page.cards.treasury': enJSON['landing-page'].cards.treasury,
 	'landing-page.cards.candidates': enJSON['landing-page'].cards.candidates,
 	'landing-page.cards.received': enJSON['landing-page'].cards.received,
@@ -57,7 +57,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 jest.mock('containers/Modules/Modules', () => ({
-	DeployedModules: { SPARTAN_COUNCIL: 'spartan council' },
+	DeployedModules: { SPARTAN_COUNCIL: 'trade council' },
 }));
 
 describe('Council Card component', () => {
@@ -76,7 +76,7 @@ describe('Council Card component', () => {
 		render(
 			<CouncilCard
 				council="test-council"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -88,18 +88,18 @@ describe('Council Card component', () => {
 		render(
 			<>
 				<CouncilCard
-					council="spartan"
-					deployedModule={DeployedModules.SPARTAN_COUNCIL}
+					council="trade"
+					deployedModule={DeployedModules.TRADE_COUNCIL}
 					image="http://localhost:3000"
 				/>{' '}
 				<CouncilCard
-					council="grants"
-					deployedModule={DeployedModules.GRANTS_COUNCIL}
+					council="ecosystem"
+					deployedModule={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
 					image="http://localhost:3000"
 				/>{' '}
 				<CouncilCard
-					council="ambassador"
-					deployedModule={DeployedModules.AMBASSADOR_COUNCIL}
+					council="coreContributor"
+					deployedModule={DeployedModules.ECOSYSTEM_COUNCIL}
 					image="http://localhost:3000"
 				/>{' '}
 				<CouncilCard
@@ -109,15 +109,15 @@ describe('Council Card component', () => {
 				/>
 			</>
 		);
-		expect(screen.getByTestId('council-headline-spartan').textContent).toBe('Spartan Council');
-		expect(screen.getByTestId('council-headline-grants').textContent).toBe('Grants Council');
-		expect(screen.getByTestId('council-headline-ambassador').textContent).toBe(
-			'Ambassador Council'
+		expect(screen.getByTestId('council-headline-trade').textContent).toBe('Trade Council');
+		expect(screen.getByTestId('council-headline-ecosystem').textContent).toBe('Ecosystem Council');
+		expect(screen.getByTestId('council-headline-coreContributor').textContent).toBe(
+			'Core Contributor Council'
 		);
 		expect(screen.getByTestId('council-headline-treasury').textContent).toBe('Treasury Council');
-		expect(!!latestPaths.find((path) => path === 'landing-page.cards.spartan')).toBeTruthy();
-		expect(!!latestPaths.find((path) => path === 'landing-page.cards.grants')).toBeTruthy();
-		expect(!!latestPaths.find((path) => path === 'landing-page.cards.ambassador')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.trade')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.ecosystem')).toBeTruthy();
+		expect(!!latestPaths.find((path) => path === 'landing-page.cards.coreContributor')).toBeTruthy();
 		expect(!!latestPaths.find((path) => path === 'landing-page.cards.treasury')).toBeTruthy();
 	});
 
@@ -133,8 +133,8 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -157,8 +157,8 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -180,8 +180,8 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -201,7 +201,7 @@ describe('Council Card component', () => {
 		render(
 			<CouncilCard
 				council="test-council"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -227,8 +227,8 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -257,8 +257,8 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
@@ -285,15 +285,15 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
 		act(() => {
 			fireEvent.click(screen.getByTestId('card-button'));
 		});
-		expect(state).toBe('/vote/spartan');
+		expect(state).toBe('/vote/trade');
 	});
 
 	test('Council Card button should should route to /councils if period is not in voting or nomination', () => {
@@ -312,14 +312,14 @@ describe('Council Card component', () => {
 		});
 		render(
 			<CouncilCard
-				council="spartan"
-				deployedModule={DeployedModules.SPARTAN_COUNCIL}
+				council="trade"
+				deployedModule={DeployedModules.TRADE_COUNCIL}
 				image="http://localhost:3000"
 			/>
 		);
 		act(() => {
 			fireEvent.click(screen.getByTestId('card-button'));
 		});
-		expect(state).toBe('/councils/spartan');
+		expect(state).toBe('/councils/trade');
 	});
 });

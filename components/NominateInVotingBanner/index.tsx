@@ -17,16 +17,16 @@ export const NominateInVotingBanner: React.FC = () => {
 	const periodsData = useCurrentPeriods();
 	const { walletAddress } = useConnectorContext();
 
-	const isAlreadyNominatedForSpartan = useIsNominated(
-		DeployedModules.SPARTAN_COUNCIL,
+	const isAlreadyNominatedForTrade = useIsNominated(
+		DeployedModules.TRADE_COUNCIL,
 		walletAddress || ''
 	);
-	const isAlreadyNominatedForGrants = useIsNominated(
-		DeployedModules.GRANTS_COUNCIL,
+	const isAlreadyNominatedForEcosystem = useIsNominated(
+		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 		walletAddress || ''
 	);
-	const isAlreadyNominatedForAmbassador = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
+	const isAlreadyNominatedForCoreContributor = useIsNominated(
+		DeployedModules.ECOSYSTEM_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(
@@ -34,9 +34,9 @@ export const NominateInVotingBanner: React.FC = () => {
 		walletAddress || ''
 	);
 	const isAlreadyNominated =
-		isAlreadyNominatedForSpartan.data ||
-		isAlreadyNominatedForGrants.data ||
-		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTrade.data ||
+		isAlreadyNominatedForEcosystem.data ||
+		isAlreadyNominatedForCoreContributor.data ||
 		isAlreadyNominatedForTreasury.data;
 
 	if (periodsData.find((periodData) => periodData.data?.currentPeriod !== 'VOTING')) return null;

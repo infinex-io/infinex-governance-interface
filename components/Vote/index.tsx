@@ -37,16 +37,16 @@ export default function VoteSection() {
 	}, [periodsData, isLoading, push]);
 
 	const count = [
-		voteStatusQuery.data?.spartan.voted,
-		voteStatusQuery.data?.grants.voted,
-		voteStatusQuery.data?.ambassador.voted,
+		voteStatusQuery.data?.trade.voted,
+		voteStatusQuery.data?.ecosystem.voted,
+		voteStatusQuery.data?.coreContributor.voted,
 		voteStatusQuery.data?.treasury.voted,
 	].filter((voted) => voted).length;
 
 	const hasVotedAll =
-		voteStatusQuery.data?.spartan.voted &&
-		voteStatusQuery.data?.grants.voted &&
-		voteStatusQuery.data?.ambassador.voted &&
+		voteStatusQuery.data?.trade.voted &&
+		voteStatusQuery.data?.ecosystem.voted &&
+		voteStatusQuery.data?.coreContributor.voted &&
 		voteStatusQuery.data?.treasury.voted;
 
 	return (
@@ -73,31 +73,31 @@ export default function VoteSection() {
 					</div>
 					<div className="flex justify-between flex-wrap w-full">
 						<VoteCard
-							walletAddress={voteStatusQuery.data?.spartan.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.spartan.voted}
+							walletAddress={voteStatusQuery.data?.trade.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.trade.voted}
 							periodIsVoting={
-								periodsData.find((period) => period.data?.council === 'spartan')?.data
+								periodsData.find((period) => period.data?.council === 'trade')?.data
 									?.currentPeriod === 'VOTING'
 							}
-							council={DeployedModules.SPARTAN_COUNCIL}
+							council={DeployedModules.TRADE_COUNCIL}
 						/>
 						<VoteCard
-							walletAddress={voteStatusQuery.data?.grants.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.grants.voted}
+							walletAddress={voteStatusQuery.data?.ecosystem.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.ecosystem.voted}
 							periodIsVoting={
-								periodsData.find((period) => period.data?.council === 'grants')?.data
+								periodsData.find((period) => period.data?.council === 'ecosystem')?.data
 									?.currentPeriod === 'VOTING'
 							}
-							council={DeployedModules.GRANTS_COUNCIL}
+							council={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
 						/>
 						<VoteCard
-							walletAddress={voteStatusQuery.data?.ambassador.candidateAddress}
-							hasVoted={!!voteStatusQuery.data?.ambassador.voted}
+							walletAddress={voteStatusQuery.data?.coreContributor.candidateAddress}
+							hasVoted={!!voteStatusQuery.data?.coreContributor.voted}
 							periodIsVoting={
-								periodsData.find((period) => period.data?.council === 'ambassador')?.data
+								periodsData.find((period) => period.data?.council === 'coreContributor')?.data
 									?.currentPeriod === 'VOTING'
 							}
-							council={DeployedModules.AMBASSADOR_COUNCIL}
+							council={DeployedModules.ECOSYSTEM_COUNCIL}
 						/>
 						<VoteCard
 							walletAddress={voteStatusQuery.data?.treasury.candidateAddress}

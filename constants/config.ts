@@ -1,9 +1,9 @@
-export const COUNCIL_SLUGS = ['spartan', 'grants', 'ambassador', 'treasury'];
+export const COUNCIL_SLUGS = ['trade', 'ecosystem', 'core-contributors', 'treasury'];
 
 export enum DeployedModules {
-	SPARTAN_COUNCIL = 'spartan council',
-	AMBASSADOR_COUNCIL = 'ambassador council',
-	GRANTS_COUNCIL = 'grants council',
+	TRADE_COUNCIL = 'trade council',  // trade
+	CORE_CONTRIBUTORS_COUNCIL = 'core contributors council', // coreContributor
+	ECOSYSTEM_COUNCIL = 'ecosystem council', // ecosystem
 	TREASURY_COUNCIL = 'treasury council',
 }
 
@@ -17,25 +17,25 @@ export type CouncilsDictionaryType = {
 
 export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 	{
-		slug: 'spartan',
-		label: 'Spartan',
-		abbreviation: 'sc',
-		image: '/logos/spartan-council.svg',
-		module: DeployedModules.SPARTAN_COUNCIL,
+		slug: 'trade',
+		label: 'Trade',
+		abbreviation: 'tr',
+		image: '/logos/trade-council.svg',
+		module: DeployedModules.TRADE_COUNCIL,
 	},
 	{
-		slug: 'grants',
-		label: 'Grants',
-		abbreviation: 'gc',
-		image: '/logos/grants-council.svg',
-		module: DeployedModules.GRANTS_COUNCIL,
+		slug: 'ecosystem',
+		label: 'Ecosystem',
+		abbreviation: 'ec',
+		image: '/logos/ecosystem-council.svg',
+		module: DeployedModules.ECOSYSTEM_COUNCIL,
 	},
 	{
-		slug: 'ambassador',
-		label: 'Ambassador',
-		abbreviation: 'ac',
-		image: '/logos/ambassador-council.svg',
-		module: DeployedModules.AMBASSADOR_COUNCIL,
+		slug: 'core-contributors',
+		label: 'Core Contributors',
+		abbreviation: 'cc',
+		image: '/logos/coreContributor-council.svg',
+		module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 	},
 	{
 		slug: 'treasury',

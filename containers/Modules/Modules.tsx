@@ -2,9 +2,9 @@ import { ethers } from 'ethers';
 import ElectionModuleABI from 'contracts/ElectionModule.json';
 import { useConnectorContext } from 'containers/Connector';
 import {
-	ambassadorCouncil,
-	grantsCouncil,
-	spartanCouncil,
+	coreContributorCouncil,
+	ecosystemCouncil,
+	tradeCouncil,
 	treasuryCouncil,
 } from 'constants/addresses';
 import {
@@ -43,35 +43,35 @@ export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children
 
 		const provider = !!signer && !wrongNetwork ? signer : L2DefaultProvider;
 
-		const SpartanCouncilModule = new ethers.Contract(
-			spartanCouncil,
+		const TradeCouncilModule = new ethers.Contract(
+			tradeCouncil,
 			ElectionModuleABI.abi,
 			provider
 		);
 
 		const modules = {} as GovernanceModule;
 
-		modules[DeployedModules.SPARTAN_COUNCIL] = {
-			address: spartanCouncil,
-			contract: SpartanCouncilModule,
+		modules[DeployedModules.TRADE_COUNCIL] = {
+			address: tradeCouncil,
+			contract: TradeCouncilModule,
 		};
 
-		const AmbassadorCouncilModule = new ethers.Contract(
-			ambassadorCouncil,
+		const CoreContributorCouncilModule = new ethers.Contract(
+			coreContributorCouncil,
 			ElectionModuleABI.abi,
 			provider
 		);
 
-		modules[DeployedModules.AMBASSADOR_COUNCIL] = {
-			address: ambassadorCouncil,
-			contract: AmbassadorCouncilModule,
+		modules[DeployedModules.ECOSYSTEM_COUNCIL] = {
+			address: coreContributorCouncil,
+			contract: CoreContributorCouncilModule,
 		};
 
-		const GrantsCouncilModule = new ethers.Contract(grantsCouncil, ElectionModuleABI.abi, provider);
+		const EcosystemCouncilModule = new ethers.Contract(ecosystemCouncil, ElectionModuleABI.abi, provider);
 
-		modules[DeployedModules.GRANTS_COUNCIL] = {
-			address: grantsCouncil,
-			contract: GrantsCouncilModule,
+		modules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL] = {
+			address: ecosystemCouncil,
+			contract: EcosystemCouncilModule,
 		};
 
 		const TreasuryCouncilModule = new ethers.Contract(

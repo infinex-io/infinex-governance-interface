@@ -5,23 +5,23 @@ export const parseQuery = (
 ): {
 	index: number;
 	module: DeployedModules;
-	name: 'spartan' | 'grants' | 'ambassador' | 'treasury';
+	name: 'trade' | 'ecosystem' | 'coreContributor' | 'treasury';
 } => {
 	switch (councilOrIndex) {
-		case 'spartan':
+		case 'trade':
 		case 0:
-			return { index: 0, module: DeployedModules.SPARTAN_COUNCIL, name: 'spartan' };
-		case 'grants':
+			return { index: 0, module: DeployedModules.TRADE_COUNCIL, name: 'trade' };
+		case 'ecosystem':
 		case 1:
-			return { index: 1, module: DeployedModules.GRANTS_COUNCIL, name: 'grants' };
-		case 'ambassador':
+			return { index: 1, module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL, name: 'ecosystem' };
+		case 'coreContributor':
 		case 2:
-			return { index: 2, module: DeployedModules.AMBASSADOR_COUNCIL, name: 'ambassador' };
+			return { index: 2, module: DeployedModules.ECOSYSTEM_COUNCIL, name: 'coreContributor' };
 		case 'treasury':
 		case 3:
 			return { index: 3, module: DeployedModules.TREASURY_COUNCIL, name: 'treasury' };
 		default:
-			return { index: 0, module: DeployedModules.SPARTAN_COUNCIL, name: 'spartan' };
+			return { index: 0, module: DeployedModules.TRADE_COUNCIL, name: 'trade' };
 	}
 };
 

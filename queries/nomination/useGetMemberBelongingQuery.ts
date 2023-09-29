@@ -3,10 +3,10 @@ import { useQuery } from 'react-query';
 import useIsNominated from './useIsNominatedQuery';
 
 function useGetNomineeBelongingQuery(walletAddress: string) {
-	const { data: isSpartanNominee } = useIsNominated(DeployedModules.SPARTAN_COUNCIL, walletAddress);
-	const { data: isGrantsNominee } = useIsNominated(DeployedModules.GRANTS_COUNCIL, walletAddress);
-	const { data: isAmbassadorNominee } = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
+	const { data: isTradeNominee } = useIsNominated(DeployedModules.TRADE_COUNCIL, walletAddress);
+	const { data: isEcosystemNominee } = useIsNominated(DeployedModules.CORE_CONTRIBUTORS_COUNCIL, walletAddress);
+	const { data: isCoreContributorNominee } = useIsNominated(
+		DeployedModules.ECOSYSTEM_COUNCIL,
 		walletAddress
 	);
 	const { data: isTreasuryNominee } = useIsNominated(
@@ -16,16 +16,16 @@ function useGetNomineeBelongingQuery(walletAddress: string) {
 	return useQuery<
 		| {
 				module: DeployedModules;
-				name: 'Spartan' | 'Grants' | 'Ambassador' | 'Treasury';
+				name: 'Trade' | 'Ecosystem' | 'CoreContributor' | 'Treasury';
 		  }
 		| undefined
 	>(
 		['useGetMemberBelonging', walletAddress],
 		async () => {
-			if (isSpartanNominee) return { module: DeployedModules.SPARTAN_COUNCIL, name: 'Spartan' };
-			if (isGrantsNominee) return { module: DeployedModules.GRANTS_COUNCIL, name: 'Grants' };
-			if (isAmbassadorNominee)
-				return { module: DeployedModules.AMBASSADOR_COUNCIL, name: 'Ambassador' };
+			if (isTradeNominee) return { module: DeployedModules.TRADE_COUNCIL, name: 'Trade' };
+			if (isEcosystemNominee) return { module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL, name: 'Ecosystem' };
+			if (isCoreContributorNominee)
+				return { module: DeployedModules.ECOSYSTEM_COUNCIL, name: 'CoreContributor' };
 			if (isTreasuryNominee) return { module: DeployedModules.TREASURY_COUNCIL, name: 'Treasury' };
 			return;
 		},

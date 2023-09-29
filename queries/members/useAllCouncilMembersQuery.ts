@@ -6,9 +6,9 @@ import { DeployedModules } from 'containers/Modules';
 import { useQuery } from 'react-query';
 
 interface CouncilsUserData {
-	spartan: GetUserDetails[];
-	grants: GetUserDetails[];
-	ambassador: GetUserDetails[];
+	trade: GetUserDetails[];
+	ecosystem: GetUserDetails[];
+	coreContributor: GetUserDetails[];
 	treasury: GetUserDetails[];
 }
 
@@ -17,25 +17,25 @@ function useAllCouncilMembersQuery() {
 	return useQuery<CouncilsUserData>(
 		['allCouncilMembers'],
 		async () => {
-			const spartanMembersPromise =
-				governanceModules[DeployedModules.SPARTAN_COUNCIL]?.contract.getCouncilMembers();
-			const grantsMembersPromise =
-				governanceModules[DeployedModules.GRANTS_COUNCIL]?.contract.getCouncilMembers();
-			const ambassadorMembersPromise =
-				governanceModules[DeployedModules.AMBASSADOR_COUNCIL]?.contract.getCouncilMembers();
+			const tradeMembersPromise =
+				governanceModules[DeployedModules.TRADE_COUNCIL]?.contract.getCouncilMembers();
+			const ecosystemMembersPromise =
+				governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract.getCouncilMembers();
+			const coreContributorMembersPromise =
+				governanceModules[DeployedModules.ECOSYSTEM_COUNCIL]?.contract.getCouncilMembers();
 			const treasuryMembersPromise =
 				governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.getCouncilMembers();
-			const [spartanMembers, grantsMembers, ambassadorMembers, treasuryMembers]: string[][] =
+			const [tradeMembers, ecosystemMembers, coreContributorMembers, treasuryMembers]: string[][] =
 				await Promise.all([
-					spartanMembersPromise,
-					grantsMembersPromise,
-					ambassadorMembersPromise,
+					tradeMembersPromise,
+					ecosystemMembersPromise,
+					coreContributorMembersPromise,
 					treasuryMembersPromise,
 				]);
 			const addresses = [
-				...spartanMembers,
-				...grantsMembers,
-				...ambassadorMembers,
+				...tradeMembers,
+				...ecosystemMembers,
+				...coreContributorMembers,
 				...treasuryMembers,
 			].filter((x, i, a) => a.indexOf(x) == i);
 
@@ -54,14 +54,14 @@ function useAllCouncilMembersQuery() {
 			});
 
 			return {
-				spartan: spartanMembers.map((address: string) => ({
+				trade: tradeMembers.map((address: string) => ({
 					...users[address],
-					council: 'spartan',
+					council: 'trade',
 				})),
-				grants: grantsMembers.map((address: string) => ({ ...users[address], council: 'grants' })),
-				ambassador: ambassadorMembers.map((address: string) => ({
+				ecosystem: ecosystemMembers.map((address: string) => ({ ...users[address], council: 'ecosystem' })),
+				coreContributor: coreContributorMembers.map((address: string) => ({
 					...users[address],
-					council: 'ambassador',
+					council: 'coreContributor',
 				})),
 				treasury: treasuryMembers.map((address: string) => ({
 					...users[address],

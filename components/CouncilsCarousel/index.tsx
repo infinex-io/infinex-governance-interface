@@ -12,21 +12,21 @@ import clsx from 'clsx';
 export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMembers?: boolean }) {
 	const { t } = useTranslation();
 	const [listView, setListView] = useState(false);
-	const [activeTab, setActiveTab] = useState('spartan');
+	const [activeTab, setActiveTab] = useState('trade');
 
 	const isMobile = useIsMobile();
-	const { data: spartan } = useCouncilMembersQuery(DeployedModules.SPARTAN_COUNCIL);
-	const { data: grants } = useCouncilMembersQuery(DeployedModules.GRANTS_COUNCIL);
-	const { data: ambassador } = useCouncilMembersQuery(DeployedModules.AMBASSADOR_COUNCIL);
+	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
+	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
-	if (!spartan && !grants && !ambassador && !treasury) {
+	if (!trade && !ecosystem && !coreContributor && !treasury) {
 		return null;
 	}
-	if (spartan && grants && ambassador && treasury) {
+	if (trade && ecosystem && coreContributor && treasury) {
 		const allMembers = withoutAllMembers
-			? [spartan, grants, ambassador, treasury]
-			: [spartan.concat(grants, ambassador, treasury), spartan, grants, ambassador, treasury];
+			? [trade, ecosystem, coreContributor, treasury]
+			: [trade.concat(ecosystem, coreContributor, treasury), trade, ecosystem, coreContributor, treasury];
 
 		const getTabItems = () => {
 			return withoutAllMembers

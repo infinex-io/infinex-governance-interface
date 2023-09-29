@@ -11,18 +11,18 @@
 		"disconnect-wallet": "Disconnect Wallet"
 	},
 	"footer": {
-		"copyright": "Copyright © Synthetix 2022",
+		"copyright": "Copyright © Infinex 2022",
 		"home": "Home",
 		"councils": "Councils",
 		"terms": "Terms of Use"
 	},
 	"landing-page": {
 		"headline": "Governing Bodies",
-		"subline": "The Synthetix Protocol is governed by four bodies, each responsible for a core aspect of a DAO.",
-		"second-headline": "Synthetix Governance",
-		"second-subline": "Find links to each core component of the Synthetix Governance System",
+		"subline": "The Infinex Protocol is governed by four bodies, each responsible for a core aspect of a DAO.",
+		"second-headline": "Infinex Governance",
+		"second-subline": "Find links to each core component of the Infinex Governance System",
 		"tabs-headline": "Current Members",
-		"tabs-subline": "The current members of each Synthetix Governing Body",
+		"tabs-subline": "The current members of each Infinex Governing Body",
 		"carousel-btn": "View all members",
 		"view-member": "View Member",
 		"button-cards": {
@@ -46,9 +46,9 @@
 			"cta": "Choose Council"
 		},
 		"cards": {
-			"spartan": "Spartan Council",
-			"grants": "Grants Council",
-			"ambassador": "Ambassador Council",
+			"trade": "Trade Council",
+			"ecosystem": "Ecosystem Council",
+			"coreContributor": "Core Contributor Council",
 			"treasury": "Treasury Council",
 			"cta": {
 				"closed": "CLOSED - COUNCIL ELECTED",
@@ -69,15 +69,15 @@
 		},
 		"tabs": {
 			"all": "All Council Members",
-			"sc": "Spartan Council",
-			"gc": "Grants Council",
-			"ac": "Ambassador Council",
+			"tr": "Trade Council",
+			"ec": "Ecosystem Council",
+			"cc": "Core Contributor Council",
 			"tc": "Treasury Council"
 		}
 	},
 	"councils": {
 		"headline": "Our Current Elected Members",
-		"subline": "Meet each of the nominees for the new and up and coming elections for the Synthetix governing bodies, each responsible for a core aspect of the DAO.",
+		"subline": "Meet each of the nominees for the new and up and coming elections for the Infinex governing bodies, each responsible for a core aspect of the DAO.",
 		"nominees": "{{ council }} Council Nominees",
 		"members": "{{ council }} Council Members",
 		"view-council": "View Council",
@@ -96,37 +96,37 @@
 			"withdraw-vote": "Withdraw Vote"
 		},
 		"tabs": {
-			"sc": "Spartan Council",
-			"gc": "Grants Council",
-			"ac": "Ambassador Council",
+			"tr": "Trade Council",
+			"ec": "Ecosystem Council",
+			"cc": "Core Contributor Council",
 			"tc": "Treasury Council",
 			"explanations": {
-				"sc": {
-					"subline": "The Spartan Council (SC) is the central governing body of the Synthetix protocol. The SC votes on overall improvement proposals and parameter changes.",
-					"election": "Spartan Election:",
+				"tr": {
+					"subline": "The Trade Council is the central governing body of the Infinex protocol. The SC votes on overall improvement proposals and parameter changes.",
+					"election": "Trade Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
 					"amount": "{{amount}} SNX",
-					"nextElection": "Next Spartan Election:"
+					"nextElection": "Next Trade Election:"
 				},
-				"gc": {
-					"subline": "The Grants Council is a value-based Synthetix elected body whose ultimate goal is to fund beneficial and high-quality public goods projects through grants, initiative bounties, or competition prizes.",
-					"election": "Grants Election:",
+				"ec": {
+					"subline": "The Ecosystem Council is a value-based Infinex elected body whose ultimate goal is to fund beneficial and high-quality public goods projects through ecosystem, initiative bounties, or competition prizes.",
+					"election": "Ecosystem Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
 					"amount": "{{amount}} SNX",
-					"nextElection": "Next Grants Election:"
+					"nextElection": "Next Ecosystem Election:"
 				},
-				"ac": {
-					"subline": "The Ambassador Council actively promotes and advocates for the interests of Synthetix in the overall Ethereum (and DeFi) ecosystem.",
-					"election": "Ambassador Election:",
+				"cc": {
+					"subline": "The Core Contributor Council actively promotes and advocates for the interests of Infinex in the overall Ethereum (and DeFi) ecosystem.",
+					"election": "Core Contributor Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
 					"amount": "{{amount}} SNX",
-					"nextElection": "Next Ambassador Election:"
+					"nextElection": "Next Core Contributor Election:"
 				},
 				"tc": {
-					"subline": "The Treasury Council manages the Synthetix Treasury and provides funding to the other governance bodies, CC stipend payments, and other discretionary incentives.",
+					"subline": "The Treasury Council manages the Infinex Treasury and provides funding to the other governance bodies, CC stipend payments, and other discretionary incentives.",
 					"election": "Treasury Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
@@ -176,9 +176,9 @@
 		"no-nominations": "No Nominations yet",
 
 		"councils": {
-			"sc": "Spartan Council",
-			"gc": "Grants Council",
-			"ac": "Ambassador Council",
+			"tr": "Trade Council",
+			"ec": "Ecosystem Council",
+			"cc": "Core Contributor Council",
 			"tc": "Treasury Council"
 		},
 		"dropdown": {
@@ -198,9 +198,9 @@
 				"action": "Action"
 			},
 			"tabs": {
-				"sc": "Spartan Council",
-				"gc": "Grants Council",
-				"ac": "Ambassador Council",
+				"tr": "Trade Council",
+				"ec": "Ecosystem Council",
+				"cc": "Core Contributor Council",
 				"tc": "Treasury Council"
 			},
 			"table": {
@@ -222,9 +222,9 @@
 			"button": "Nominate Self",
 			"cta": "Nomination for {{council}} Council",
 			"checkboxes": {
-				"spartan": "Spartan Council",
-				"grants": "Grants Council",
-				"ambassador": "Ambassador Council",
+				"trade": "Trade Council",
+				"ecosystem": "Ecosystem Council",
+				"coreContributor": "Core Contributor Council",
 				"treasury": "Treasury Council",
 				"connect-wallet": "Connect Wallet"
 			}
@@ -286,7 +286,7 @@
 					"website": "e.g https://synthetix.io/",
 					"twitter": "e.g https://twitter.com/{twitter_id}",
 					"github": "e.g  https://github.com/{github_id}",
-					"delegationPitch": "e.g I am a OG Synthetix Community Member.",
+					"delegationPitch": "e.g I am a OG Infinex Community Member.",
 					"about": "e.g OG DeFi Member"
 				}
 			}

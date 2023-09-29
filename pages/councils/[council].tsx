@@ -25,24 +25,24 @@ export default function CouncilNominees() {
 	const parsedQuery = query.council?.toString()
 		? COUNCIL_SLUGS.includes(query?.council?.toString())
 			? query.council.toString()
-			: 'spartan'
-		: 'spartan';
+			: 'trade'
+		: 'trade';
 	const { t } = useTranslation();
 	const { walletAddress } = useConnectorContext();
 	const [activePage, setActivePage] = useState(0);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 
-	const isAlreadyNominatedForSpartan = useIsNominated(
-		DeployedModules.SPARTAN_COUNCIL,
+	const isAlreadyNominatedForTrade = useIsNominated(
+		DeployedModules.TRADE_COUNCIL,
 		walletAddress || ''
 	);
-	const isAlreadyNominatedForGrants = useIsNominated(
-		DeployedModules.GRANTS_COUNCIL,
+	const isAlreadyNominatedForEcosystem = useIsNominated(
+		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 		walletAddress || ''
 	);
-	const isAlreadyNominatedForAmbassador = useIsNominated(
-		DeployedModules.AMBASSADOR_COUNCIL,
+	const isAlreadyNominatedForCoreContributor = useIsNominated(
+		DeployedModules.ECOSYSTEM_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(
@@ -51,9 +51,9 @@ export default function CouncilNominees() {
 	);
 
 	const isAlreadyNominated =
-		isAlreadyNominatedForSpartan.data ||
-		isAlreadyNominatedForGrants.data ||
-		isAlreadyNominatedForAmbassador.data ||
+		isAlreadyNominatedForTrade.data ||
+		isAlreadyNominatedForEcosystem.data ||
+		isAlreadyNominatedForCoreContributor.data ||
 		isAlreadyNominatedForTreasury.data;
 	const startIndex = activePage * PAGE_SIZE;
 	const endIndex =
@@ -68,7 +68,7 @@ export default function CouncilNominees() {
 	return (
 		<>
 			<Head>
-				<title>Synthetix | Governance V3</title>
+				<title>Infinex | Governance V3</title>
 			</Head>
 			<Main>
 				<div className="container">

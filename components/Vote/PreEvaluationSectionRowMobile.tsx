@@ -33,9 +33,9 @@ export function PreEvaluationSectionRowMobile({
 				'bg-dark-blue border-gray-700 first:rounded-t last:rounded-b border border-b-0 last:border-b w-full flex relative p-4',
 				{
 					'border-l': isActive,
-					'border-l-primary': isActive && voteResult.council === DeployedModules.SPARTAN_COUNCIL,
-					'border-l-green': isActive && voteResult.council === DeployedModules.GRANTS_COUNCIL,
-					'border-l-orange': isActive && voteResult.council === DeployedModules.AMBASSADOR_COUNCIL,
+					'border-l-primary': isActive && voteResult.council === DeployedModules.TRADE_COUNCIL,
+					'border-l-green': isActive && voteResult.council === DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+					'border-l-orange': isActive && voteResult.council === DeployedModules.ECOSYSTEM_COUNCIL,
 					'border-l-yellow': isActive && voteResult.council === DeployedModules.TREASURY_COUNCIL,
 				}
 			)}

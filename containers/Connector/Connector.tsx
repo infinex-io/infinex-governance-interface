@@ -18,7 +18,7 @@ import {
 	NetworkId,
 	NetworkIdByName,
 	NetworkNameById,
-	SynthetixJS,
+	InfinexJS,
 } from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
@@ -28,7 +28,7 @@ type ConnectorContextType = {
 	network: Network | null;
 	provider: ethers.providers.Web3Provider | null;
 	signer: ethers.Signer | null;
-	synthetixjs: SynthetixJS | null;
+	synthetixjs: InfinexJS | null;
 	isAppReady: boolean;
 	walletAddress: string | null;
 	walletWatched: string | null;

@@ -8,7 +8,7 @@ import ledgerModule from '@web3-onboard/ledger';
 import trezorModule from '@web3-onboard/trezor';
 import portisModule from '@web3-onboard/portis';
 import torusModule from '@web3-onboard/torus';
-import { SynthetixIcon, SynthetixLogo } from 'components/Wallet/WalletComponents';
+import { InfinexIcon, InfinexLogo } from 'components/Wallet/WalletComponents';
 
 const injected = injectedModule();
 const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true });
@@ -20,10 +20,10 @@ const torus = torusModule();
 
 export const onboard = Onboard({
 	appMetadata: {
-		name: 'Synthetix',
-		icon: SynthetixIcon,
-		logo: SynthetixLogo,
-		description: 'Synthetix | The derivatives liquidity protocol.',
+		name: 'Infinex',
+		icon: InfinexIcon,
+		logo: InfinexLogo,
+		description: 'Infinex | The derivatives liquidity protocol.',
 		recommendedInjectedWallets: [
 			{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
 			{ name: 'MetaMask', url: 'https://metamask.io' },

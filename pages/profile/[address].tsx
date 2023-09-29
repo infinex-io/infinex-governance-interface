@@ -13,7 +13,7 @@ export default function Profile() {
 	return (
 		<>
 			<Head>
-				<title>Synthetix | {address ? address : 'Profile'}</title>
+				<title>Infinex | {address ? address : 'Profile'}</title>
 			</Head>
 			<Main>
 				{router.isReady ? (

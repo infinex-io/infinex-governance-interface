@@ -30,9 +30,9 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	const { setIsOpen } = useModalContext();
 	const queryClient = useQueryClient();
 	const [activeCheckbox, setActiveCheckbox] = useState('');
-	const nominateForSpartanCouncil = useNominateMutation(DeployedModules.SPARTAN_COUNCIL);
-	const nominateForGrantsCouncil = useNominateMutation(DeployedModules.GRANTS_COUNCIL);
-	const nominateForAmbassadorCouncil = useNominateMutation(DeployedModules.AMBASSADOR_COUNCIL);
+	const nominateForTradeCouncil = useNominateMutation(DeployedModules.TRADE_COUNCIL);
+	const nominateForEcosystemCouncil = useNominateMutation(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const nominateForCoreContributorCouncil = useNominateMutation(DeployedModules.ECOSYSTEM_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 	const periodsData = useCurrentPeriods();
 
@@ -100,17 +100,17 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 			setVisible(true);
 			try {
 				switch (activeCheckbox) {
-					case 'spartan':
-						const spartanTx = await nominateForSpartanCouncil.mutateAsync();
-						setTxHash(spartanTx.hash);
+					case 'trade':
+						const tradeTx = await nominateForTradeCouncil.mutateAsync();
+						setTxHash(tradeTx.hash);
 						break;
-					case 'grants':
-						const grantsTx = await nominateForGrantsCouncil.mutateAsync();
-						setTxHash(grantsTx.hash);
+					case 'ecosystem':
+						const ecosystemTx = await nominateForEcosystemCouncil.mutateAsync();
+						setTxHash(ecosystemTx.hash);
 						break;
-					case 'ambassador':
-						const ambassadorTx = await nominateForAmbassadorCouncil.mutateAsync();
-						setTxHash(ambassadorTx.hash);
+					case 'coreContributor':
+						const coreContributorTx = await nominateForCoreContributorCouncil.mutateAsync();
+						setTxHash(coreContributorTx.hash);
 						break;
 					case 'treasury':
 						const treasuryTx = await nominateForTreasuryCouncil.mutateAsync();
