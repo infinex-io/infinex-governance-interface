@@ -23,12 +23,12 @@ export function PreEvaluationSection() {
 					{
 						id: 'ecosystem',
 						label: t('vote.pre-eval.tabs.ec'),
-						content: <VotingResult moduleInstance={DeployedModules.CORE_CONTRIBUTORS_COUNCIL} />,
+						content: <VotingResult moduleInstance={DeployedModules.ECOSYSTEM_COUNCIL} />,
 					},
 					{
 						id: 'coreContributor',
 						label: t('vote.pre-eval.tabs.cc'),
-						content: <VotingResult moduleInstance={DeployedModules.ECOSYSTEM_COUNCIL} />,
+						content: <VotingResult moduleInstance={DeployedModules.CORE_CONTRIBUTORS_COUNCIL} />,
 					},
 					{
 						id: 'treasury',

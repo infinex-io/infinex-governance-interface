@@ -13,10 +13,10 @@ export const parseQuery = (
 			return { index: 0, module: DeployedModules.TRADE_COUNCIL, name: 'trade' };
 		case 'ecosystem':
 		case 1:
-			return { index: 1, module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL, name: 'ecosystem' };
+			return { index: 1, module: DeployedModules.ECOSYSTEM_COUNCIL, name: 'ecosystem' };
 		case 'coreContributor':
 		case 2:
-			return { index: 2, module: DeployedModules.ECOSYSTEM_COUNCIL, name: 'coreContributor' };
+			return { index: 2, module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL, name: 'coreContributor' };
 		case 'treasury':
 		case 3:
 			return { index: 3, module: DeployedModules.TREASURY_COUNCIL, name: 'treasury' };

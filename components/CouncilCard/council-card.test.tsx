@@ -94,12 +94,12 @@ describe('Council Card component', () => {
 				/>{' '}
 				<CouncilCard
 					council="ecosystem"
-					deployedModule={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
+					deployedModule={DeployedModules.ECOSYSTEM_COUNCIL}
 					image="http://localhost:3000"
 				/>{' '}
 				<CouncilCard
 					council="coreContributor"
-					deployedModule={DeployedModules.ECOSYSTEM_COUNCIL}
+					deployedModule={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
 					image="http://localhost:3000"
 				/>{' '}
 				<CouncilCard

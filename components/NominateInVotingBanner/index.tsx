@@ -22,11 +22,11 @@ export const NominateInVotingBanner: React.FC = () => {
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForEcosystem = useIsNominated(
-		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+		DeployedModules.ECOSYSTEM_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForCoreContributor = useIsNominated(
-		DeployedModules.ECOSYSTEM_COUNCIL,
+		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(

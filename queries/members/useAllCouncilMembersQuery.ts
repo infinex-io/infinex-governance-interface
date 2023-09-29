@@ -20,9 +20,9 @@ function useAllCouncilMembersQuery() {
 			const tradeMembersPromise =
 				governanceModules[DeployedModules.TRADE_COUNCIL]?.contract.getCouncilMembers();
 			const ecosystemMembersPromise =
-				governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract.getCouncilMembers();
-			const coreContributorMembersPromise =
 				governanceModules[DeployedModules.ECOSYSTEM_COUNCIL]?.contract.getCouncilMembers();
+			const coreContributorMembersPromise =
+				governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract.getCouncilMembers();
 			const treasuryMembersPromise =
 				governanceModules[DeployedModules.TREASURY_COUNCIL]?.contract.getCouncilMembers();
 			const [tradeMembers, ecosystemMembers, coreContributorMembers, treasuryMembers]: string[][] =

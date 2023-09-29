@@ -2,8 +2,8 @@ export const COUNCIL_SLUGS = ['trade', 'ecosystem', 'core-contributors', 'treasu
 
 export enum DeployedModules {
 	TRADE_COUNCIL = 'trade council',  // trade
-	CORE_CONTRIBUTORS_COUNCIL = 'core contributors council', // coreContributor
-	ECOSYSTEM_COUNCIL = 'ecosystem council', // ecosystem
+	CORE_CONTRIBUTORS_COUNCIL = 'core contributors council', // ecosystem
+	ECOSYSTEM_COUNCIL = 'ecosystem council', // coreContributor
 	TREASURY_COUNCIL = 'treasury council',
 }
 
@@ -28,14 +28,14 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		label: 'Ecosystem',
 		abbreviation: 'ec',
 		image: '/logos/ecosystem-council.svg',
-		module: DeployedModules.ECOSYSTEM_COUNCIL,
+		module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 	},
 	{
 		slug: 'core-contributors',
 		label: 'Core Contributors',
 		abbreviation: 'cc',
 		image: '/logos/coreContributor-council.svg',
-		module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+		module: DeployedModules.ECOSYSTEM_COUNCIL,
 	},
 	{
 		slug: 'treasury',

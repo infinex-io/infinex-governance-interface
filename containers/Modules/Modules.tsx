@@ -62,14 +62,14 @@ export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children
 			provider
 		);
 
-		modules[DeployedModules.ECOSYSTEM_COUNCIL] = {
+		modules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL] = {
 			address: coreContributorCouncil,
 			contract: CoreContributorCouncilModule,
 		};
 
 		const EcosystemCouncilModule = new ethers.Contract(ecosystemCouncil, ElectionModuleABI.abi, provider);
 
-		modules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL] = {
+		modules[DeployedModules.ECOSYSTEM_COUNCIL] = {
 			address: ecosystemCouncil,
 			contract: EcosystemCouncilModule,
 		};

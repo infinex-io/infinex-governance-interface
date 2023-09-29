@@ -29,8 +29,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
 			className={clsx('flex items-center h-full p-2', {
 				'border-l': isActive,
 				'border-l-primary': isActive && moduleInstance === DeployedModules.TRADE_COUNCIL,
-				'border-l-green': isActive && moduleInstance === DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
-				'border-l-orange': isActive && moduleInstance === DeployedModules.ECOSYSTEM_COUNCIL,
+				'border-l-green': isActive && moduleInstance === DeployedModules.ECOSYSTEM_COUNCIL,
+				'border-l-orange': isActive && moduleInstance === DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 				'border-l-yellow': isActive && moduleInstance === DeployedModules.TREASURY_COUNCIL,
 			})}
 		>

@@ -16,8 +16,8 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 
 	const isMobile = useIsMobile();
 	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
-	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
-	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
+	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
 	if (!trade && !ecosystem && !coreContributor && !treasury) {

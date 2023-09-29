@@ -88,7 +88,7 @@ export default function VoteSection() {
 								periodsData.find((period) => period.data?.council === 'ecosystem')?.data
 									?.currentPeriod === 'VOTING'
 							}
-							council={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
+							council={DeployedModules.ECOSYSTEM_COUNCIL}
 						/>
 						<VoteCard
 							walletAddress={voteStatusQuery.data?.coreContributor.candidateAddress}
@@ -97,7 +97,7 @@ export default function VoteSection() {
 								periodsData.find((period) => period.data?.council === 'coreContributor')?.data
 									?.currentPeriod === 'VOTING'
 							}
-							council={DeployedModules.ECOSYSTEM_COUNCIL}
+							council={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
 						/>
 						<VoteCard
 							walletAddress={voteStatusQuery.data?.treasury.candidateAddress}

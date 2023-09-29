@@ -20,8 +20,8 @@ const Councils: NextPage = () => {
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
 	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
-	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
-	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
+	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
 	const allMembers = [trade, ecosystem, coreContributor, treasury];

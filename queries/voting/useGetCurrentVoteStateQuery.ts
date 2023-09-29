@@ -61,13 +61,13 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 						walletAddress
 					),
 					getVoteDetails(
-						governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract,
-						DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+						governanceModules[DeployedModules.ECOSYSTEM_COUNCIL]?.contract,
+						DeployedModules.ECOSYSTEM_COUNCIL,
 						walletAddress
 					),
 					getVoteDetails(
-						governanceModules[DeployedModules.ECOSYSTEM_COUNCIL]?.contract,
-						DeployedModules.ECOSYSTEM_COUNCIL,
+						governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract,
+						DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
 						walletAddress
 					),
 					getVoteDetails(
