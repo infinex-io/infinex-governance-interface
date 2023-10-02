@@ -6,7 +6,7 @@ function useGetNomineeBelongingQuery(walletAddress: string) {
 	const { data: isTradeNominee } = useIsNominated(DeployedModules.TRADE_COUNCIL, walletAddress);
 	const { data: isEcosystemNominee } = useIsNominated(DeployedModules.ECOSYSTEM_COUNCIL, walletAddress);
 	const { data: isCoreContributorNominee } = useIsNominated(
-		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+		DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 		walletAddress
 	);
 	const { data: isTreasuryNominee } = useIsNominated(
@@ -25,7 +25,7 @@ function useGetNomineeBelongingQuery(walletAddress: string) {
 			if (isTradeNominee) return { module: DeployedModules.TRADE_COUNCIL, name: 'Trade' };
 			if (isEcosystemNominee) return { module: DeployedModules.ECOSYSTEM_COUNCIL, name: 'Ecosystem' };
 			if (isCoreContributorNominee)
-				return { module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL, name: 'CoreContributor' };
+				return { module: DeployedModules.CORE_CONTRIBUTOR_COUNCIL, name: 'CoreContributor' };
 			if (isTreasuryNominee) return { module: DeployedModules.TREASURY_COUNCIL, name: 'Treasury' };
 			return;
 		},

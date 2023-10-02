@@ -11,7 +11,7 @@ interface Props {
 const councilVariant = {
 	[DeployedModules.TRADE_COUNCIL]: 'blue',
 	[DeployedModules.ECOSYSTEM_COUNCIL]: 'success',
-	[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]: 'orange',
+	[DeployedModules.CORE_CONTRIBUTOR_COUNCIL]: 'orange',
 	[DeployedModules.TREASURY_COUNCIL]: 'yellow',
 };
 

@@ -1,8 +1,9 @@
-export const COUNCIL_SLUGS = ['trade', 'ecosystem', 'core-contributors', 'treasury'];
+export const COUNCIL_SLUGS = ['trade', 'ecosystem', 'core-contributor', 'treasury'];
 
 export enum DeployedModules {
+	ALL_COUNCILS = 'all councils',  // all councils
 	TRADE_COUNCIL = 'trade council',  // trade
-	CORE_CONTRIBUTORS_COUNCIL = 'core contributors council', // ecosystem
+	CORE_CONTRIBUTOR_COUNCIL = 'core contributor council', // ecosystem
 	ECOSYSTEM_COUNCIL = 'ecosystem council', // coreContributor
 	TREASURY_COUNCIL = 'treasury council',
 }
@@ -14,6 +15,14 @@ export type CouncilsDictionaryType = {
 	image: string;
 	module: DeployedModules;
 };
+
+export const INFINEX_COUNCIL: CouncilsDictionaryType = {
+	slug: 'infinex',
+	label: 'Infinex',
+	abbreviation: 'in',
+	image: '/logos/infinex-council.svg',
+	module: DeployedModules.ALL_COUNCILS
+}
 
 export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 	{
@@ -28,13 +37,13 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		label: 'Ecosystem',
 		abbreviation: 'ec',
 		image: '/logos/ecosystem-council.svg',
-		module: DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+		module: DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 	},
 	{
-		slug: 'core-contributors',
-		label: 'Core Contributors',
+		slug: 'core-contributor',
+		label: 'Core Contributor',
 		abbreviation: 'cc',
-		image: '/logos/coreContributor-council.svg',
+		image: '/logos/core-contributor-council.svg',
 		module: DeployedModules.ECOSYSTEM_COUNCIL,
 	},
 	{

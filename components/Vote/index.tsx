@@ -97,7 +97,7 @@ export default function VoteSection() {
 								periodsData.find((period) => period.data?.council === 'coreContributor')?.data
 									?.currentPeriod === 'VOTING'
 							}
-							council={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
+							council={DeployedModules.CORE_CONTRIBUTOR_COUNCIL}
 						/>
 						<VoteCard
 							walletAddress={voteStatusQuery.data?.treasury.candidateAddress}

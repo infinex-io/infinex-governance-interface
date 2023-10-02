@@ -17,7 +17,7 @@ const translationMock = {
 	'landing-page.cards.cta.nomination': enJSON['landing-page'].cards.cta.nomination,
 	'landing-page.cards.trade': enJSON['landing-page'].cards.trade,
 	'landing-page.cards.ecosystem': enJSON['landing-page'].cards.ecosystem,
-	'landing-page.cards.coreContributor': enJSON['landing-page'].cards.coreContributor,
+	'landing-page.cards.coreContributor': enJSON['landing-page'].cards['core-contributor'],
 	'landing-page.cards.treasury': enJSON['landing-page'].cards.treasury,
 	'landing-page.cards.candidates': enJSON['landing-page'].cards.candidates,
 	'landing-page.cards.received': enJSON['landing-page'].cards.received,
@@ -99,7 +99,7 @@ describe('Council Card component', () => {
 				/>{' '}
 				<CouncilCard
 					council="coreContributor"
-					deployedModule={DeployedModules.CORE_CONTRIBUTORS_COUNCIL}
+					deployedModule={DeployedModules.CORE_CONTRIBUTOR_COUNCIL}
 					image="http://localhost:3000"
 				/>{' '}
 				<CouncilCard

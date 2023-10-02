@@ -26,7 +26,7 @@ export default function NominateModal() {
 
 	const nominateForTradeCouncil = useNominateMutation(DeployedModules.TRADE_COUNCIL);
 	const nominateForEcosystemCouncil = useNominateMutation(DeployedModules.ECOSYSTEM_COUNCIL);
-	const nominateForCoreContributorCouncil = useNominateMutation(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const nominateForCoreContributorCouncil = useNominateMutation(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 
 	const isAlreadyNominatedForTrade = useIsNominated(
@@ -38,7 +38,7 @@ export default function NominateModal() {
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForCoreContributor = useIsNominated(
-		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+		DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(

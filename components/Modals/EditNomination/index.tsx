@@ -32,7 +32,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 	const [activeCheckbox, setActiveCheckbox] = useState('');
 	const nominateForTradeCouncil = useNominateMutation(DeployedModules.TRADE_COUNCIL);
 	const nominateForEcosystemCouncil = useNominateMutation(DeployedModules.ECOSYSTEM_COUNCIL);
-	const nominateForCoreContributorCouncil = useNominateMutation(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const nominateForCoreContributorCouncil = useNominateMutation(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const nominateForTreasuryCouncil = useNominateMutation(DeployedModules.TREASURY_COUNCIL);
 	const periodsData = useCurrentPeriods();
 

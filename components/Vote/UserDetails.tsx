@@ -30,7 +30,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
 				'border-l': isActive,
 				'border-l-primary': isActive && moduleInstance === DeployedModules.TRADE_COUNCIL,
 				'border-l-green': isActive && moduleInstance === DeployedModules.ECOSYSTEM_COUNCIL,
-				'border-l-orange': isActive && moduleInstance === DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+				'border-l-orange': isActive && moduleInstance === DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 				'border-l-yellow': isActive && moduleInstance === DeployedModules.TREASURY_COUNCIL,
 			})}
 		>

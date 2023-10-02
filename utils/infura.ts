@@ -1,6 +1,6 @@
 import { NetworkNameById, NetworkId } from '@synthetixio/contracts-interface';
 
-const SYNTHETIX_OVM_SUFFIX = '-ovm';
+const INFINEX_OVM_SUFFIX = '-ovm';
 const INFURA_OWN_PREFIX = 'optimism-';
 
 const getNetworkName = (networkId?: NetworkId) => {
@@ -10,9 +10,9 @@ const getNetworkName = (networkId?: NetworkId) => {
 
 export const getInfuraRpcURL = (networkId?: NetworkId) => {
 	const networkName = getNetworkName(networkId);
-	const optimismPrefix = networkName.includes(SYNTHETIX_OVM_SUFFIX) ? INFURA_OWN_PREFIX : '';
+	const optimismPrefix = networkName.includes(INFINEX_OVM_SUFFIX) ? INFURA_OWN_PREFIX : '';
 	const url = `https://${
-		optimismPrefix + networkName.replace(SYNTHETIX_OVM_SUFFIX, '')
+		optimismPrefix + networkName.replace(INFINEX_OVM_SUFFIX, '')
 	}.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_PROJECT_ID}`;
 	return url;
 };

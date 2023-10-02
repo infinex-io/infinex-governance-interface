@@ -35,7 +35,7 @@ export function PreEvaluationSectionRowMobile({
 					'border-l': isActive,
 					'border-l-primary': isActive && voteResult.council === DeployedModules.TRADE_COUNCIL,
 					'border-l-green': isActive && voteResult.council === DeployedModules.ECOSYSTEM_COUNCIL,
-					'border-l-orange': isActive && voteResult.council === DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+					'border-l-orange': isActive && voteResult.council === DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 					'border-l-yellow': isActive && voteResult.council === DeployedModules.TREASURY_COUNCIL,
 				}
 			)}

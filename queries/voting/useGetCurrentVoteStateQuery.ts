@@ -66,8 +66,8 @@ export function useGetCurrentVoteStateQuery(walletAddress: string) {
 						walletAddress
 					),
 					getVoteDetails(
-						governanceModules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL]?.contract,
-						DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+						governanceModules[DeployedModules.CORE_CONTRIBUTOR_COUNCIL]?.contract,
+						DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 						walletAddress
 					),
 					getVoteDetails(

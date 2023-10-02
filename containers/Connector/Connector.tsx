@@ -1,25 +1,20 @@
 import React, {
-	useEffect,
-	useMemo,
-	useContext,
 	createContext,
-	useCallback,
-	useReducer,
+	Dispatch,
 	FunctionComponent,
 	PropsWithChildren,
-	Dispatch,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useReducer,
 } from 'react';
-import { ethers, providers } from 'ethers';
+import { ethers } from 'ethers';
 import { onboard as Web3Onboard } from './config';
 import { LOCAL_STORAGE_KEYS } from 'constants/config';
 import { Actions, AppEvents, initialState, Network, reducer } from './reducer';
-import { getIsOVM, isSupportedNetworkId } from 'utils/network';
-import {
-	NetworkId,
-	NetworkIdByName,
-	NetworkNameById,
-	InfinexJS,
-} from '@synthetixio/contracts-interface';
+import { getIsOVM, isSupportedNetworkId, NETWORK_ID } from 'utils/network';
+import { NetworkId, NetworkNameById, SynthetixJS } from '@synthetixio/contracts-interface';
 import { getChainIdHex, getNetworkIdFromHex } from 'utils/infura';
 import { AppState, OnboardAPI } from '@web3-onboard/core';
 
@@ -28,7 +23,7 @@ type ConnectorContextType = {
 	network: Network | null;
 	provider: ethers.providers.Web3Provider | null;
 	signer: ethers.Signer | null;
-	synthetixjs: InfinexJS | null;
+	synthetixjs: SynthetixJS | null;
 	isAppReady: boolean;
 	walletAddress: string | null;
 	walletWatched: string | null;
@@ -71,12 +66,12 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 	const L1DefaultProvider = useMemo(
 		// () => new ethers.providers.AlchemyProvider(1, process.env.NEXT_PUBLIC_ALCHEMY_KEY_MAINNET),
 		() => new ethers.providers.InfuraProvider(1, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
-		[]
+		[],
 	);
 	const L2DefaultProvider = useMemo(
 		// () => new ethers.providers.AlchemyProvider(10, process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPTIMISM),
 		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
-		[]
+		[],
 	);
 
 	const updateState = useCallback(
@@ -93,7 +88,7 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 				if (!isSupported && !document?.hidden) {
 					// Switch to mainnet ovm by default
 					(async () => {
-						await onboard?.setChain({ chainId: getChainIdHex(NetworkIdByName['mainnet-ovm']) });
+						await onboard?.setChain({ chainId: getChainIdHex(NETWORK_ID) });
 					})();
 				} else {
 					const network = {
@@ -126,14 +121,14 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 					const connectedWallets = update.wallets.map(({ label }) => label);
 					localStorage.setItem(
 						LOCAL_STORAGE_KEYS.SELECTED_WALLET,
-						JSON.stringify(connectedWallets)
+						JSON.stringify(connectedWallets),
 					);
 				}
 			} else {
 				dispatch({ type: AppEvents.WALLET_DISCONNECTED });
 			}
 		},
-		[onboard]
+		[onboard],
 	);
 
 	useEffect(() => {

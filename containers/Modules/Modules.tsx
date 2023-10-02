@@ -62,7 +62,7 @@ export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children
 			provider
 		);
 
-		modules[DeployedModules.CORE_CONTRIBUTORS_COUNCIL] = {
+		modules[DeployedModules.CORE_CONTRIBUTOR_COUNCIL] = {
 			address: coreContributorCouncil,
 			contract: CoreContributorCouncilModule,
 		};

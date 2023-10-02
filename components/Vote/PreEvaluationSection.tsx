@@ -28,7 +28,7 @@ export function PreEvaluationSection() {
 					{
 						id: 'coreContributor',
 						label: t('vote.pre-eval.tabs.cc'),
-						content: <VotingResult moduleInstance={DeployedModules.CORE_CONTRIBUTORS_COUNCIL} />,
+						content: <VotingResult moduleInstance={DeployedModules.CORE_CONTRIBUTOR_COUNCIL} />,
 					},
 					{
 						id: 'treasury',

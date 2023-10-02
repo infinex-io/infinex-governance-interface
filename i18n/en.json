@@ -28,9 +28,9 @@
 		"button-cards": {
 			"all-members": "VIEW ALL COUNCIL MEMBERS",
 			"all-members-subline": "View the history of past council elections and vote in any currently open elections.",
-			"sccp": "SYNTHETIX SCCP/SIP",
+			"sccp": "INFINEX SCCP/SIP",
 			"sccp-subline": "View the current status of all SCCPs and SIPs.",
-			"forum": "SYNTHETIX FORUM",
+			"forum": "INFINEX FORUM",
 			"forum-subline": "Join the community governance discussion in realtime.",
 			"records": "SCCP / SIP VOTING RECORDS",
 			"records-subline": "View the voting history of all governance proposals."
@@ -48,7 +48,7 @@
 		"cards": {
 			"trade": "Trade Council",
 			"ecosystem": "Ecosystem Council",
-			"coreContributor": "Core Contributor Council",
+			"core-contributor": "Core Contributors Council",
 			"treasury": "Treasury Council",
 			"cta": {
 				"closed": "CLOSED - COUNCIL ELECTED",

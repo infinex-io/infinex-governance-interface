@@ -9,7 +9,7 @@ import { COUNCILS_DICTIONARY } from 'constants/config';
 import useIsMobile from 'hooks/useIsMobile';
 import clsx from 'clsx';
 
-export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMembers?: boolean }) {
+export default function CouncilsCarousel({ withoutAllMembers, onlyAllMembers }: { withoutAllMembers?: boolean, onlyAllMembers?: boolean }) {
 	const { t } = useTranslation();
 	const [listView, setListView] = useState(false);
 	const [activeTab, setActiveTab] = useState('trade');
@@ -17,7 +17,7 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 	const isMobile = useIsMobile();
 	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
 	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
-	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
 	if (!trade && !ecosystem && !coreContributor && !treasury) {
@@ -84,13 +84,15 @@ export default function CouncilsCarousel({ withoutAllMembers }: { withoutAllMemb
 					container: !isMobile,
 				})}
 			>
-				<Tabs
-					className="mb-4 justify-start lg:mx-auto hide-scrollbar"
-					contentClassName="xs:max-w-[90vw] w-full mx-auto"
-					initial={activeTab}
-					items={getTabItems()}
-					onChange={(id) => setActiveTab(String(id))}
-				/>
+				{ onlyAllMembers ? getTabItems()[0].content : (
+					<Tabs
+						className="mb-4 justify-start lg:mx-auto hide-scrollbar"
+						contentClassName="xs:max-w-[90vw] w-full mx-auto"
+						initial={activeTab}
+						items={getTabItems()}
+						onChange={(id) => setActiveTab(String(id))}
+					/>
+				)}
 
 				<div className="hidden lg:flex absolute right-0">
 					<IconButton isActive={listView} onClick={() => setListView(true)} size="sm">

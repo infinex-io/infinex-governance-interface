@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { CouncilCard } from 'components/CouncilCard';
-import { COUNCILS_DICTIONARY, SESSION_STORAGE_KEYS } from 'constants/config';
+import { COUNCILS_DICTIONARY, INFINEX_COUNCIL, SESSION_STORAGE_KEYS } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
 import { NominateInVotingBanner } from 'components/NominateInVotingBanner';
 import { TermsModal } from 'components/Modals/TermsModal';
@@ -33,6 +33,14 @@ export default function LandingPage() {
 				</span>
 				<div className="flex flex-col align-center justify-center">
 					<div className="inline-flex mx-auto flex-col align-center justify-center">
+						{/*<div className="flex justify-center flex-wrap gap-4 mt-8 mb-4">*/}
+						{/*	<CouncilCard*/}
+						{/*		key={INFINEX_COUNCIL.image}*/}
+						{/*		image={INFINEX_COUNCIL.image}*/}
+						{/*		council={INFINEX_COUNCIL.slug}*/}
+						{/*		deployedModule={INFINEX_COUNCIL.module}*/}
+						{/*	/>*/}
+						{/*</div>*/}
 						<div className="flex justify-center flex-wrap gap-4 mt-8 mb-4">
 							{COUNCILS_DICTIONARY.map((council) => (
 								<CouncilCard
@@ -91,7 +99,7 @@ export default function LandingPage() {
 				<span className="tg-content text-gray-500 text-center pt-[8px]">
 					{t('landing-page.tabs-subline')}
 				</span>
-				<CouncilsCarousel />
+				<CouncilsCarousel onlyAllMembers />
 				<Button onClick={() => push('/councils')} size="lg" className="m-10 mx-auto">
 					{t('landing-page.carousel-btn')}
 				</Button>

@@ -26,7 +26,7 @@ export const NominateInVotingBanner: React.FC = () => {
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForCoreContributor = useIsNominated(
-		DeployedModules.CORE_CONTRIBUTORS_COUNCIL,
+		DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
 		walletAddress || ''
 	);
 	const isAlreadyNominatedForTreasury = useIsNominated(

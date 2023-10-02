@@ -21,7 +21,7 @@ const Councils: NextPage = () => {
 	const { t } = useTranslation();
 	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
 	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
-	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
 	const allMembers = [trade, ecosystem, coreContributor, treasury];

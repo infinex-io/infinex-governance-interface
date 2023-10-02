@@ -8,7 +8,7 @@ function useGetMemberCouncilNameQuery(walletAddress: string) {
 
 	const tradeQuery = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
 	const ecosystemQuery = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
-	const coreContributorQuery = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTORS_COUNCIL);
+	const coreContributorQuery = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const treasuryQuery = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 
 	return useQuery<string>(
