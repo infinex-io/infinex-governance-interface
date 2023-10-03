@@ -17,6 +17,11 @@ li {
 	list-style-type: none;
 }
 
+.farming-button-background {
+	border-radius: 2px;
+	background: var(--primary, #FF9B69);
+	box-shadow: 2px 2px 6px 0px #CF7446;
+}
 
 .ui-bg-clip-text {
 	-webkit-background-clip: text;
