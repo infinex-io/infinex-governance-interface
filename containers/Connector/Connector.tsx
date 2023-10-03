@@ -70,7 +70,7 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 	);
 	const L2DefaultProvider = useMemo(
 		// () => new ethers.providers.AlchemyProvider(10, process.env.NEXT_PUBLIC_ALCHEMY_KEY_OPTIMISM),
-		() => new ethers.providers.InfuraProvider(10, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
+		() => new ethers.providers.InfuraProvider(NETWORK_ID, process.env.NEXT_PUBLIC_INFURA_PROJECT_ID),
 		[],
 	);
 
