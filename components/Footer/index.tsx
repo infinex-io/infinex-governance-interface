@@ -17,14 +17,14 @@ const LINKS = [
 	},
 	{
 		title: 'footer.terms',
-		link: 'https://staking.synthetix.io/terms',
+		link: 'https://infinex.io/terms',
 	},
 ];
 
 export default function Footer() {
 	const { t } = useTranslation();
 	return (
-		<footer className="bg-[url('/footer.svg')] py-6 xs:h-[325px] bg-cover bg-no-repeat bg-dark-blue flex flex-col items-center justify-center">
+		<footer className=" py-6 xs:h-[325px] bg-cover bg-no-repeat bg-dark-blue flex flex-col items-center justify-center">
 			<div className="flex flex-col items-center">
 				<div className="hidden xs:block flex justify-center mb-6">
 					{LINKS.map(({ title, link }) => (
@@ -44,9 +44,7 @@ export default function Footer() {
 					{t('footer.copyright')}
 				</span>
 
-				{/* <div className="text-white"> */}
-					<SNXIcon className="mb-6 xs:mb-3 text-white" width={46} height={30} />
-				{/* </div> */}
+				<SNXIcon className="mb-6 xs:mb-3 text-white" width={46} height={30} />
 				<span className="hidden xs:block tg-caption-sm text-white mb-7">
 					{t('footer.copyright')}
 				</span>

@@ -1,20 +1,67 @@
 @layer utilities {
+
+// Global
+
+	.infinex-title-h2 {
+		font-family: Neue Haas Grotesk Display Pro;
+		font-size: 30px;
+		font-weight: 600;
+		line-height: 36px;
+		letter-spacing: -0.0075em;
+		text-align: center;
+	}
+
+	.infinex-title-h3 {
+		font-family: Neue Haas Grotesk Display Pro;
+		font-size: 24px;
+		font-weight: 600;
+		line-height: 32px;
+		letter-spacing: -0.006em;
+		text-align: center;
+	}
+
+	.infinex-title-h4 {
+		font-family: Neue Haas Grotesk Display Pro;
+		font-size: 20px;
+		font-weight: 600;
+		line-height: 28px;
+		letter-spacing: -0.005em;
+		text-align: center;
+	}
+
+	.infinex-title-h5 {
+		font-family: Neue Haas Grotesk Display Pro;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 28px;
+		letter-spacing: -0.005em;
+		text-align: center;
+	}
+
 	.tg-title-h1 {
-		font-family: 'Inter';
-		font-size: 2.5rem; // 40px
-		line-height: 2.75rem; // 80px
-		font-weight: 700;
+		// font-family: Neue Haas Grotesk Display Pro;
+		// font-size: 2.5rem; // 40px
+		// line-height: 2.75rem; // 80px
+		// font-weight: 700;
+
+		font-family: Neue Haas Grotesk Display Pro;
+		font-size: 48px;
+		font-weight: 800;
+		line-height: 48px;
+		letter-spacing: -0.012em;
+		text-align: center;
+		color: white;
 	}
 
 	.tg-title-h2 {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 2rem; // 24px
 		line-height: 2.18rem; // 50px
 		font-weight: 700;
 	}
 
 	.tg-title-h3 {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 1.5rem; // 24px
 		line-height: 1.6rem; // 40px
 		font-weight: 700;
@@ -23,7 +70,7 @@
 	}
 
 	.tg-title-h4 {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 1.25rem; // 18px
 		line-height: 1.18rem; // 36px
 		font-weight: 700;
@@ -32,7 +79,7 @@
 	}
 
 	.tg-title-h5 {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.87rem; // 14px
 		line-height: 1rem; // 30px
 		font-weight: 700;
@@ -41,7 +88,7 @@
 	}
 
 	.tg-title-h6 {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.75rem; // 12px
 		line-height: 0.82rem; // 30px
 		font-weight: 700;
@@ -50,20 +97,20 @@
 	}
 
 	.tg-body-large {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 1rem; // 18px
 		line-height: 1.25rem; // 30px
 		font-weight: normal;
 	}
 
 	.tg-body {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.87rem; // 18px
 		line-height: 1.25rem; // 30px
 		font-weight: normal;
 	}
 	.tg-body-small {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.75rem; // 18px
 		line-height: 0.93rem; // 30px
 		font-weight: normal;
@@ -100,30 +147,35 @@
 	}
 
 	.tg-caption {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.75rem; // 12px
 		line-height: 0.68rem; // 16px
 		font-weight: normal;
 	}
 
 	.tg-caption-bold {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.75rem; // 12px
 		line-height: 0.68rem; // 16px
 		font-weight: 700;
 	}
 
 	.tg-caption-sm-bold {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.6rem; // 9.6px
 		line-height: 0.8rem; // 12.8px
 		font-weight: 700;
 	}
 
 	.tg-caption-sm {
-		font-family: 'Inter';
+		font-family: Neue Haas Grotesk Display Pro;
 		font-size: 0.6rem; // 9.6px
 		line-height: 0.8rem; // 12.8px
 		font-weight: normal;
 	}
 }
+
+
+
+
+

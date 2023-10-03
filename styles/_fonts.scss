@@ -1,0 +1,24 @@
+@import './colors.scss';
+
+@font-face {
+	font-family: 'Neue Haas Grotesk Display Pro';
+	src:
+		url('./fonts/NeueHaasGroteskDisplayPro75Bold/font.woff2') format('woff2'),
+		url('./fonts/NeueHaasGroteskDisplayPro75Bold/font.woff') format('woff'),
+		url('./fonts/NeueHaasGroteskDisplayPro95Black/font.woff2') format('woff2'),
+		url('./fonts/NeueHaasGroteskDisplayPro95Black/font.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk Text Pro';
+	src:
+		url('./fonts/NeueHaasGroteskTextPro55Roman/font.woff2') format('woff2'),
+		url('./fonts/NeueHaasGroteskTextPro55Roman/font.woff') format('woff'),
+		url('./fonts/NeueHaasGroteskTextPro65Medium/font.woff2') format('woff2'),
+		url('./fonts/NeueHaasGroteskTextPro65Medium/font.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'IBM Plex Mono';
+	src: url('./fonts/IBMPlexMono-Regular.ttf') format('truetype');
+}

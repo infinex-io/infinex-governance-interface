@@ -99,8 +99,50 @@ html {
   --color-disabled: #565663;
   --color-disabled-2: #3e434b;
   --color-overlay-bg: rgba(80, 85, 104, 0.3);
-  --color-primary: #00d1ff;
   --color-dark-blue: #0b0b22;
+
+  --color-background-dark: #000000;
+	--color-component-background: #0a0b10;
+	--color-surface: #05060a;
+	--color-primary: #ff9b69;
+	--color-primary-light: #ffcfb6;
+	--color-primary-dark: #cf7446;
+	--color-secondary: #b8abee;
+	--color-secondary-light: #dbd3fb;
+	--color-secondary-dark: #9181d0;
+	--color-accent: #51bef4;
+	--color-accent-light: #a4e1ff;
+	--color-accent-dark: #2396cf;
+	--color-positive: #31c690;
+	--color-negative: #d14063;
+	--color-warning: #f6d658;
+	--color-success: #31c690;
+	--color-error: #d14063;
+
+	--color-slate-0: #f5f7ff;
+	--color-slate-50: #e8eaf2;
+	--color-slate-100: #dadce4;
+	--color-slate-200: #cdced7;
+	--color-slate-300: #b3b4bd;
+	--color-slate-400: #9899a3;
+	--color-slate-500: #7d7f89;
+	--color-slate-600: #63656e;
+	--color-slate-700: #484a54;
+	--color-slate-800: #2d2f39;
+	--color-slate-850: #20222c;
+	--color-slate-900: #12141f;
+	--color-slate-950: #0a0b10;
+	--color-slate-980: #040507;
+	--color-slate-1000: #05060a;
+
+	--color-font-default: white;
+	--color-font-highlighted: #9181d0;
+	--color-font-disabled: #c8c3c3;
+
+	--color-border-default: white;
+
+	--default-font: 'Neue Haas Grotesk Text Pro';
+	--default-font-style: 'normal';
 }
 
 
