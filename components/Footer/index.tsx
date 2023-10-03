@@ -43,7 +43,9 @@ export default function Footer() {
 				<span className="xs:hidden block gt-america-font tg-caption opacity-60 text-white uppercase mb-4">
 					{t('footer.copyright')}
 				</span>
-				<SNXIcon className="mb-6 xs:mb-3" width={46} height={30} />
+				<div className="text-white">
+					<SNXIcon className="mb-6 xs:mb-3" width={46} height={30} />
+				</div>
 				<span className="hidden xs:block tg-caption-sm text-white mb-7">
 					{t('footer.copyright')}
 				</span>
