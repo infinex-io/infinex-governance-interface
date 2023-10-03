@@ -5,7 +5,6 @@ import BackIcon from 'components/Icons/BackIcon';
 import LockingScreen from 'components/LockingRoom/LockingScreen';
 import LinkingScreen from 'components/LockingRoom/LinkingScreen';
 
-
 // Components (External)
 import Head from 'next/head';
 
@@ -13,20 +12,11 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-
-
-/**
-   Todo
-   - [ ] Make getting room dynamic
-   - [ ] I18n
-   - [ ] Add query for userAccount
-   - [ ] Add query for staking 
- */
+// Hooks (External)
+import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
 
 
 export default function Room() {
-   
-   const room = {name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"} 
 
    /* ================================== state ================================== */
    const [userAccount, setUserAccount] = useState({
@@ -35,12 +25,16 @@ export default function Room() {
       tradingVolume: 200,
       governancePower: 1233,
       })
-   const [locking, setLocking] = useState(false)
-   const [completed, setCompleted] = useState(false)
-   const [inputValue, setInputValue] = useState("");
 
    /* ================================== hooks ================================== */
-   const router = useRouter();
+
+   const room = {name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"} 
+   const userVolumeQuery = useUserFarmingQuery("0xa169e0081a995fbd9ef5c156df93add9680f6029");
+
+   if (userVolumeQuery.isLoading) return <div>Loading...</div>
+
+   // TODO: Make sure that for this page we're being passed through a identifier of the room
+   // TODO: Check the volume against that specific piece of data
 
 	return (
       <>
@@ -56,13 +50,7 @@ export default function Room() {
             <div className="flex flex-col sm:flex-row justify-between">
                <div className="w-full sm:w-1/2">
                   <LockingScreen 
-                     completed={completed} 
                      userAccount={userAccount} 
-                     locking={locking} 
-                     inputValue={inputValue} 
-                     setLocking={setLocking} 
-                     setCompleted={setCompleted} 
-                     setInputValue={setInputValue} 
                   />
                </div>
                <div className="w-full sm:w-1/2">

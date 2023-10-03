@@ -7,8 +7,14 @@ import Link from 'next/link';
 import RoomCard from 'components/RoomCard';
 import svg from '../../public/logos/infinex-logo.svg';
 
+ // Hooks (Internal)
+import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
+
 
 const Farming: NextPage = () => {
+
+	const userVolumeQuery = useUserFarmingQuery("0xa169e0081a995fbd9ef5c156df93add9680f6029"); //TODO maybe take this away
+
 
    const rooms = [
       {key: 1, name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"},

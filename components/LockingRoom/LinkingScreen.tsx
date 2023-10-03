@@ -26,6 +26,9 @@ const LinkingScreen: React.FC<{userAccount: UserAccount}> = ({userAccount}) => {
    /* ================================== hooks ================================== */
    const router = useRouter();
 
+   // TODO: Replace all status with userFarmingQuery.data and make sure it's dependent on the individual staking position and room
+   // TODO: Replace contract with actual contract useUserContext thats already in use
+
    return (
      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-surface gap-10 text-white " style={{height: 'calc(100vh - 256px)'}}>
          {/* Icon (Link || completion || waiting(add spinner)) */}

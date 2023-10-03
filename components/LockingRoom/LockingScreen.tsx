@@ -16,33 +16,33 @@ interface UserAccount {
   tokensAvailable: number;
 }
 interface LockingComponentProps {
-  completed: boolean;
   userAccount: UserAccount;
-  locking: boolean;
-  inputValue: string;
-  setLocking: Dispatch<SetStateAction<boolean>>;
-  setCompleted: Dispatch<SetStateAction<boolean>>;
-  setInputValue: Dispatch<SetStateAction<string>>;
 }
 
-const LockingScreen: React.FC<LockingComponentProps> = ({ completed, userAccount, locking, inputValue, setLocking, setCompleted, setInputValue }) => {
+const LockingScreen: React.FC<LockingComponentProps> = ({ userAccount }) => {
+
+   /* ================================== state ================================== */
+   const [status, setStatus] = React.useState("none") // "none" || "locking" || "completed"
+   const [inputValue, setInputValue] = React.useState("")
+   
+   /* ================================== hooks ================================== */
    const router = useRouter();
 
    return (
       <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary gap-10 text-black " style={{height: 'calc(100vh - 257px)'}}>
          {/* Icon */}
-         {completed ? 
+         {status === "completed" ? 
             <LockIcon width={26} height={35} /> 
             : 
             <CompleteIcon width={33} height={33}/>
          }
          
          {/* Title [Lock, Locked] */}
-         <h1 className="text-black text-5xl font-black">{completed ? "Locked" : "Lock"}</h1>
+         <h1 className="text-black text-5xl font-black">{status === "completed" ? "Locked" : "Lock"}</h1>
          
          {/* description */}
          <p className="text-sm font-medium text-center max-w-sm">
-            {completed ?
+            {status === "completed" ?
                `You’ve successfully locked ${userAccount.tokensLocked} tokens.`
                :
                "You cannot move those tokens until the end of the farming period, otherwise you will lose points."
@@ -50,14 +50,14 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ completed, userAccount
          </p>
          
          {/* Lock (block, hidden - lockingState) */}
-         {!locking && !completed &&
+         {status === "none" &&
             <button 
                className="text-white bg-black rounded-sm py-2 px-4"
-               onClick={() => setLocking(true)}
+               onClick={() => setStatus("locking")}
             >Lock</button>
          }
 
-         {(locking || completed) &&
+         {(status) &&
             <div className="flex flex-row items-center gap-10">
                {userAccount.tokensLocked > 0 &&
                   <div className="flex flex-col justify-center items-center">
@@ -73,7 +73,7 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ completed, userAccount
             </div>
          }
          
-         {locking && 
+         {status === "locking" && 
             <div className="relative max-w-xs w-full ">
                <p className="absolute top-0 text-xs font-black">AMOUNT</p>
                <div className="mt-5 relative">
@@ -93,7 +93,7 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ completed, userAccount
          }
 
          {/* (hidden, unhidden - lockingState) */}
-         {locking &&
+         {status === "locking" &&
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
                <button className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2">
@@ -104,25 +104,23 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ completed, userAccount
                <button 
                   className="text-white bg-black rounded-sm py-2 px-4"
                   onClick={() => {
-                     setCompleted(true)
-                     setLocking(false)
+                     setStatus("completed")
                    }
                   }
                >Lock tokens</button>
             </div>
          }
-         {completed &&
+         {status === "completed" &&
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
                <button 
                   className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2"
                   onClick={() => {
-                     setLocking(true)
-                     setCompleted(false)
+                     setStatus("locking")
                   }
                   }
                >
-                  Learn more
+                  Lock more
                </button>
                {/* Button */}
                <button 
