@@ -12,26 +12,25 @@ import { Dispatch, SetStateAction } from 'react';
 
 // Internal
 import { useConnectorContext } from 'containers/Connector';
+import { Room } from 'pages/farming/[room]';
 
-
-interface UserAccount {
-   tokensLocked: number;
-   tokensAvailable: number;
-   tradingVolume: number;
-   governancePower: number;
-}
-
-const LinkingScreen: React.FC<{userAccount: UserAccount}> = ({userAccount}) => {
+const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== state ================================== */
-   const [status, setStatus] = React.useState("linked") // none || linking || waiting || completed
-   const [publicKey, setPublicKey] = React.useState("")
+   const [status, setStatus] = React.useState("none") // none || linking || waiting || completed
+   const [publicKey, setPublicKey] = React.useState("") 
    const [secretKey, setSecretKey] = React.useState("")
 
    /* ================================== hooks ================================== */
    const router = useRouter();
 
-   // TODO: Replace all status with userFarmingQuery.data and make sure it's dependent on the individual staking position and room
-   // TODO: Replace contract with actual contract useUserContext thats already in use
+   /* ================================== functions ================================== */
+   async function handleSubmit() {
+      setStatus("waiting")
+
+      useLinkExchangeMutations
+      
+
+   }
 
    return (
      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-surface gap-10 text-white " style={{height: 'calc(100vh - 256px)'}}>
@@ -89,8 +88,8 @@ const LinkingScreen: React.FC<{userAccount: UserAccount}> = ({userAccount}) => {
                         type="text" 
                         className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full" 
                         placeholder="API Secret"
-                        value={publicKey}
-                        onChange={(e) => setPublicKey(e.target.value)}
+                        value={secretKey}
+                        onChange={(e) => setSecretKey(e.target.value)}
                         />
                   </div>
                </div>
@@ -110,7 +109,7 @@ const LinkingScreen: React.FC<{userAccount: UserAccount}> = ({userAccount}) => {
                <button 
                   className="text-black bg-primary rounded-sm py-2 px-4"
                   onClick={() => {
-                     setStatus("waiting")
+                     handleSubmit()
                    }
                   }
                >Submit</button>

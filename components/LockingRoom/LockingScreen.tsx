@@ -12,24 +12,18 @@ import { Dispatch, SetStateAction } from 'react';
 import {
    useEffect
 } from 'react';
+import { toast } from 'react-toastify';
+
 
 // Hooks (Internal)
-import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
+import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 import { useConnectorContext } from 'containers/Connector/Connector';
 import useStakeTokenMutation from 'mutations/farming/useStakeTokenMutation';
 
 // Interfaces
 import { Room } from 'pages/farming/[room]';
-interface UserAccount {
-  tokensLocked: number;
-  tokensAvailable: number;
-}
-interface LockingComponentProps {
-  room: Room;
-}
 
-
-const LockingScreen: React.FC<LockingComponentProps> = ({ room }) => {
+const LockingScreen: React.FC<{room: Room}> = ({room}) => {
 
    /* ================================== state ================================== */
    const [status, setStatus] = React.useState("none") // "none" || "locking" || "completed"
@@ -38,9 +32,10 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ room }) => {
    /* ================================== hooks ================================== */
    const router = useRouter();
    const { walletAddress } = useConnectorContext();
-   const userFarmingQuery = useUserFarmingQuery(); // TODO: set to wallet address
+   const userFarmingQuery = useUserFarmingQuery(); 
    const stakeTokenMutation = useStakeTokenMutation();
    const [loading, setLoading] = React.useState(false)
+   
    /* ================================== Effects ================================== */
    useEffect(() => {
       if (walletAddress){
@@ -62,17 +57,18 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ room }) => {
       amount: Number(inputValue),
       overide: overide
    }, {
-      onSettled: (data, error, variables, context) => {
-         if (error){
-            setLoading(false);
-            console.log("error", error)
+         onSettled: (data, error, variables, context) => {
+            if (error){
+               setLoading(false);
+               toast.error(JSON.stringify(error));
+            }else{
+               setStatus("completed");
+               setLoading(false);
+               userFarmingQuery.refetch()
+            }
          }
-         console.log("return", data?.message)
-         setStatus("completed");
-         userFarmingQuery.refetch()
-      }
-   });
-}
+      });
+   }
    
    if (userFarmingQuery.isLoading) return <div>Loading...</div>
 
