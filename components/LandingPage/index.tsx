@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { CouncilCard } from 'components/CouncilCard';
-import { COUNCILS_DICTIONARY, INFINEX_COUNCIL, SESSION_STORAGE_KEYS } from 'constants/config';
+import { COUNCILS_DICTIONARY, SESSION_STORAGE_KEYS } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
 import { NominateInVotingBanner } from 'components/NominateInVotingBanner';
 import { TermsModal } from 'components/Modals/TermsModal';

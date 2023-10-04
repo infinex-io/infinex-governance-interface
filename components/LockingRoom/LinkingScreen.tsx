@@ -23,7 +23,7 @@ import { Room } from 'pages/farming/[room]';
 const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== state ================================== */
    const [status, setStatus] = React.useState("none") // none || linking || waiting || completed
-   const [publicKey, setPublicKey] = React.useState("") 
+   const [publicKey, setPublicKey] = React.useState("")
    const [secretKey, setSecretKey] = React.useState("")
    const [isLoading, setLoading] = React.useState(false)
    const [volume, setVolume] = React.useState(0)
@@ -82,14 +82,14 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             {status === "none" ? "Link" : "Completed"}
          </h1>
          {/* description (link your api keys || Your api keys may take some time) */}
-         <h2 className="text-sm font-medium text-white text-center max-w-sm"> 
+         <h2 className="text-sm font-medium text-white text-center max-w-sm">
             {status === "none" && "Link your API keys"}
             {status === "linking" || status === "waiting" &&  "Your API data may take some time to update, Check back in ~20 mins."}
             {status === "completed" && "API keys completed"}
          </h2>
          {/* Link button (hide when linking) */}
          {status === "none" &&
-            <button 
+            <button
                className="text-black bg-primary rounded-sm py-2 px-4"
                onClick={() => setStatus("linking")}
             >
@@ -97,7 +97,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             </button>
          }
          {status === "waiting" &&
-            <button 
+            <button
                className="text-black bg-primary rounded-sm py-2 px-4"
                onClick={() => {
                      router.push("/farming")
@@ -107,14 +107,14 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                Done
             </button>
          }
-          {status === "linking" && 
+          {status === "linking" &&
             <>
                <div className="relative max-w-xs w-full ">
                   <p className="absolute top-0 text-xs text-white">API PUBLIC</p>
                   <div className="mt-5 relative">
-                     <input 
-                        type="text" 
-                        className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full" 
+                     <input
+                        type="text"
+                        className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full"
                         placeholder="API Public"
                         value={publicKey}
                         onChange={(e) => setPublicKey(e.target.value)}
@@ -122,11 +122,11 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   </div>
                </div>
                <div className="relative max-w-xs w-full mt-[-15px]">
-                  <p className="absolute top-0 text-xs text-white">API PUBLIC</p>
+                  <p className="absolute top-0 text-xs text-white">API SECRET</p>
                   <div className="mt-5 relative">
-                     <input 
-                        type="text" 
-                        className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full" 
+                     <input
+                        type="text"
+                        className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full"
                         placeholder="API Secret"
                         value={secretKey}
                         onChange={(e) => setSecretKey(e.target.value)}
@@ -138,7 +138,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
         {(status === "linking") &&
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
-               <button 
+               <button
                   className="text-white bg-surface rounded-sm py-2 px-4 border border-white flex items-center gap-2"
                   onClick={() => setStatus("none")}
                   disabled={isLoading}
@@ -176,7 +176,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
           {status === "waiting" || status === "completed" &&
             <div className="flex flex-row gap-4">              
                {/* Button */}
-               <button 
+               <button
                   className="text-black bg-primary rounded-sm py-2 px-4"
                   onClick={() => {
                      router.push("/farming")

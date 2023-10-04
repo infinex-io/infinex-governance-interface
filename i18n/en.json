@@ -224,7 +224,7 @@
 			"checkboxes": {
 				"trade": "Trade Council",
 				"ecosystem": "Ecosystem Council",
-				"coreContributor": "Core Contributor Council",
+				"core-contributor": "Core Contributor Council",
 				"treasury": "Treasury Council",
 				"connect-wallet": "Connect Wallet"
 			}

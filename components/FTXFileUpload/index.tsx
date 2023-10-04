@@ -14,14 +14,14 @@ const FTXFileUpload = () => {
 	const [confirmationCode, setConfirmationCode] = useState<string>('');
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
     const [file, setFile] = useState<any>();
-    const captchaRef = useRef(null);
+    const captchaRef = useRef<HCaptcha>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        captchaRef.current.execute();
+        captchaRef.current?.execute();
     };
 
-    const handleFileUpload = (e) => {
+    const handleFileUpload = (e: any) => {
         setFile(e.target.files[0])
         setIsFileUploaded(true)
     }
@@ -54,12 +54,12 @@ const FTXFileUpload = () => {
             setIsLoading(false);
             setIsSubmitted(true);
         };
-        captchaRef.current.resetCaptcha();
+        captchaRef.current?.resetCaptcha();
         onVerified()
     }, [captchaToken])
-	
 
-    // regex email verification 
+
+    // regex email verification
 	useEffect(() => {
 		const res = email.match(
 			/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -75,7 +75,7 @@ const FTXFileUpload = () => {
 		}
 	};
 
-    // handling verification code submit 
+    // handling verification code submit
 	const verificationSubmit = async (e: React.MouseEvent<HTMLElement>) => {
 		setIsLoading(true);
 		e.preventDefault();
@@ -104,8 +104,8 @@ const FTXFileUpload = () => {
 					<form className="cursor-pointer" onSubmit={handleSubmit}>
 						<input
 							type="file"
-							className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-3 
-                    file:bg-primary file:text-black file:rounded-md file:border-0 file:text-sm 
+							className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-3
+                    file:bg-primary file:text-black file:rounded-md file:border-0 file:text-sm
                     file:font-semibold cursor-pointer my-5"
 							onChange={handleFileUpload}
 							accept="application/pdf"
@@ -117,7 +117,7 @@ const FTXFileUpload = () => {
 							type="email"
 							onChange={(event) => setEmail(event.target.value)}
 							value={email}
-							className="w-full py-1 px-2 bg-transparent border border-white rounded text-white mt-1 
+							className="w-full py-1 px-2 bg-transparent border border-white rounded text-white mt-1
                             focus:outline-0 focus:border-primary transition placeholder:text-gray-500"
 							placeholder="email"
 						/>
@@ -147,7 +147,7 @@ const FTXFileUpload = () => {
 							</h1>
 							<input
 								type="number"
-								className="bg-transparent rounded border border-white text-center py-2 
+								className="bg-transparent rounded border border-white text-center py-2
                     w-36 mt-3 focus:outline-0 focus:border-primary transition text-xl"
 								maxLength={6}
 								onChange={(event) => setConfirmationCode(event.target.value)}
