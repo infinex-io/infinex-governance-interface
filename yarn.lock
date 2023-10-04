@@ -4698,6 +4698,77 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@supabase/functions-js@npm:^2.1.5":
+  version: 2.1.5
+  resolution: "@supabase/functions-js@npm:2.1.5"
+  dependencies:
+    "@supabase/node-fetch": "npm:^2.6.14"
+  checksum: d6ad1873b87f165046a898a3446225b9cf9c3db935240394972ee8fb6eb245ccfe31b570fa57db1ca9dc437131fe172a78dfca6e478d89f3561837f4e5453751
+  languageName: node
+  linkType: hard
+
+"@supabase/gotrue-js@npm:^2.54.2":
+  version: 2.54.2
+  resolution: "@supabase/gotrue-js@npm:2.54.2"
+  dependencies:
+    "@supabase/node-fetch": "npm:^2.6.14"
+  checksum: f1901c79d1625c6c2e7b6206ed373161faffce4e788fb3db9671d61c1962eb003c3c39a65b00809c4afab2d01c41f182e72e76084717fec4ca899599929ddede
+  languageName: node
+  linkType: hard
+
+"@supabase/node-fetch@npm:^2.6.14":
+  version: 2.6.14
+  resolution: "@supabase/node-fetch@npm:2.6.14"
+  dependencies:
+    whatwg-url: "npm:^5.0.0"
+  checksum: 61807a1da377cbee0b0557c0c52e9683a71ef21373f65e78bd470cadd8c4b528b59df56f27c5aad84c0a46893cab7051896a9733d301480f8f1424d1a8206038
+  languageName: node
+  linkType: hard
+
+"@supabase/postgrest-js@npm:^1.8.4":
+  version: 1.8.4
+  resolution: "@supabase/postgrest-js@npm:1.8.4"
+  dependencies:
+    "@supabase/node-fetch": "npm:^2.6.14"
+  checksum: baac732c30f0f1809a71067535dabc5535c85a5a60237b580fe59fee017a8f80804812a53b5bd0ce1a379e20c57e7c4dd4035e7721d6fb9d8ede2e3069e16f60
+  languageName: node
+  linkType: hard
+
+"@supabase/realtime-js@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "@supabase/realtime-js@npm:2.8.0"
+  dependencies:
+    "@supabase/node-fetch": "npm:^2.6.14"
+    "@types/phoenix": "npm:^1.5.4"
+    "@types/websocket": "npm:^1.0.3"
+    websocket: "npm:^1.0.34"
+  checksum: 6c5f0f811ce1546cc648759191aec7a14662da8c8f8be707e66dd7523e1859c045eaae56f1953094a97d35cf9f42393775a02b6c455885f11a907c25b60abdf4
+  languageName: node
+  linkType: hard
+
+"@supabase/storage-js@npm:^2.5.4":
+  version: 2.5.4
+  resolution: "@supabase/storage-js@npm:2.5.4"
+  dependencies:
+    "@supabase/node-fetch": "npm:^2.6.14"
+  checksum: 82fe56864daabff09d6f5250a2b75b10b85b71bdc960396e5c2ae5127ce83daff4f258efa5ad9c65ed0f5a6a6dcd270b3dbd27774f7c05ad388b7626b071e659
+  languageName: node
+  linkType: hard
+
+"@supabase/supabase-js@npm:^2.38.0":
+  version: 2.38.0
+  resolution: "@supabase/supabase-js@npm:2.38.0"
+  dependencies:
+    "@supabase/functions-js": "npm:^2.1.5"
+    "@supabase/gotrue-js": "npm:^2.54.2"
+    "@supabase/node-fetch": "npm:^2.6.14"
+    "@supabase/postgrest-js": "npm:^1.8.4"
+    "@supabase/realtime-js": "npm:^2.8.0"
+    "@supabase/storage-js": "npm:^2.5.4"
+  checksum: 86668407dab6d01653c51bf4f2792d3f489a51144945b101504b0440bd406895af137d85109570e7475fde520ac35997ca3dacf35f8a86de557b8e304b89b98a
+  languageName: node
+  linkType: hard
+
 "@swc/helpers@npm:0.4.14":
   version: 0.4.14
   resolution: "@swc/helpers@npm:0.4.14"
@@ -5288,6 +5359,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/phoenix@npm:^1.5.4":
+  version: 1.6.2
+  resolution: "@types/phoenix@npm:1.6.2"
+  checksum: 112640d7f3aa754df8bac5e24447bc54c919250de06f61a524c7747a9a029759c37863d0e7fa8823c7bb6be419683e666a0efd196d123738e4bf1d97121e20e3
+  languageName: node
+  linkType: hard
+
 "@types/prettier@npm:^2.1.5":
   version: 2.7.2
   resolution: "@types/prettier@npm:2.7.2"
@@ -5383,6 +5461,15 @@ __metadata:
   version: 2.0.3
   resolution: "@types/trusted-types@npm:2.0.3"
   checksum: 625c7de5c2dc012f74993d60b68d6408771da39f1f3cf5bc5cb7bf988b259695890e9157895da44f7f79ff26481d9895fb53d5ceb11c6027ccd23294e9f84953
+  languageName: node
+  linkType: hard
+
+"@types/websocket@npm:^1.0.3":
+  version: 1.0.7
+  resolution: "@types/websocket@npm:1.0.7"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 39690a137871caf01d4369dcdffc174c0750c65f63cbb15e1ce1130f45cf538da69bc2c39b10632b6fb8de3503f3e71c3b75956dd6df68bba0c07b35f6c45962
   languageName: node
   linkType: hard
 
@@ -8337,7 +8424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:2.6.9":
+"debug@npm:2.6.9, debug@npm:^2.2.0":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
   dependencies:
@@ -11082,6 +11169,7 @@ __metadata:
     "@gnosis.pm/safe-apps-react-sdk": "npm:^4.6.2"
     "@gnosis.pm/safe-apps-sdk": "npm:^7.8.0"
     "@nomiclabs/hardhat-ethers": "npm:2.0.5"
+    "@supabase/supabase-js": "npm:^2.38.0"
     "@synthetixio/contracts-interface": "npm:2.64.1"
     "@synthetixio/providers": "npm:2.64.1"
     "@synthetixio/transaction-notifier": "npm:^2.63.1"
@@ -18052,7 +18140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedarray-to-buffer@npm:3.1.5":
+"typedarray-to-buffer@npm:3.1.5, typedarray-to-buffer@npm:^3.1.5":
   version: 3.1.5
   resolution: "typedarray-to-buffer@npm:3.1.5"
   dependencies:
@@ -18571,6 +18659,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"websocket@npm:^1.0.34":
+  version: 1.0.34
+  resolution: "websocket@npm:1.0.34"
+  dependencies:
+    bufferutil: "npm:^4.0.1"
+    debug: "npm:^2.2.0"
+    es5-ext: "npm:^0.10.50"
+    typedarray-to-buffer: "npm:^3.1.5"
+    utf-8-validate: "npm:^5.0.2"
+    yaeti: "npm:^0.0.6"
+  checksum: 059b338bd0ce26713d5055a170b4e14daeff9f6fb55b1f45ed6f3ec5abcf214e2a70f9e0a11f86d2e54ab95c897c5b217f2aff70682b159b2eb9f9e2f824c0e3
+  languageName: node
+  linkType: hard
+
 "whatwg-encoding@npm:^2.0.0":
   version: 2.0.0
   resolution: "whatwg-encoding@npm:2.0.0"
@@ -18914,6 +19016,13 @@ __metadata:
   version: 5.0.8
   resolution: "y18n@npm:5.0.8"
   checksum: 10a6a4dcab8518b72a500520664b686bffe79d8e756af1a7eedf49fa72ab35e40f508896e0baa534f7f92e08193a6dad4283298c11ea7885e710c76b7e2bcc7a
+  languageName: node
+  linkType: hard
+
+"yaeti@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "yaeti@npm:0.0.6"
+  checksum: 6b672efb547f6b2171f07da54e6e9a61df42ed08a01b06564af1d8594fe91ffcab98a1f351d726334cbe5c3d54301dd211232a2027dde96550a146545e8ebb8d
   languageName: node
   linkType: hard
 
