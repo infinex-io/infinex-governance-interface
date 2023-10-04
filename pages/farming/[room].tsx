@@ -47,7 +47,7 @@ export default function Room() {
 
    // TODO: Make sure that for this page we're being passed through a identifier of the room
    // TODO: Check the volume against that specific piece of data
-   if (room) {
+   if (!room) {
       return <div>Loading...</div>
    }
    
@@ -65,7 +65,6 @@ export default function Room() {
             <div className="flex flex-col sm:flex-row justify-between">
                <div className="w-full sm:w-1/2">
                   <LockingScreen 
-                     userAccount={userAccount} 
                      room={room}
                   />
                </div>

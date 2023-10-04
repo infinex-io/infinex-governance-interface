@@ -25,7 +25,6 @@ interface UserAccount {
   tokensAvailable: number;
 }
 interface LockingComponentProps {
-  userAccount: UserAccount;
   room: Room;
 }
 
