@@ -1,7 +1,6 @@
 export const COUNCIL_SLUGS = ['trade', 'ecosystem', 'core-contributor', 'treasury'];
 
 export enum DeployedModules {
-	ALL_COUNCILS = 'all councils',  // all councils
 	TRADE_COUNCIL = 'trade council',  // trade
 	CORE_CONTRIBUTOR_COUNCIL = 'core contributor council', // ecosystem
 	ECOSYSTEM_COUNCIL = 'ecosystem council', // coreContributor
@@ -16,13 +15,13 @@ export type CouncilsDictionaryType = {
 	module: DeployedModules;
 };
 
-export const INFINEX_COUNCIL: CouncilsDictionaryType = {
-	slug: 'infinex',
-	label: 'Infinex',
-	abbreviation: 'in',
-	image: '/logos/infinex-council.svg',
-	module: DeployedModules.ALL_COUNCILS
-}
+// export const INFINEX_COUNCIL: CouncilsDictionaryType = {
+// 	slug: 'infinex',
+// 	label: 'Infinex',
+// 	abbreviation: 'in',
+// 	image: '/logos/infinex-council.svg',
+// 	module: null as any
+// }
 
 export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 	{
