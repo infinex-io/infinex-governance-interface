@@ -8,76 +8,57 @@ interface StakingData {
 export type GetFarmingData = {
    staking: StakingData,
    volume: {
-      curve_moonbeam: number,
-      curve_gnosis: number,
-      sushiswapV3_avalanche: number,
-      dex_status: string,
-      gmx_error: string,
-      uniswapV3_bsc: number,
-      bybit_error: string,
-      curve_avalanche: number,
-      uniswapV3_polygon: number,
-      synthetix_error: string,
-      sushiswapV3_arbitrum: number,
-      uniswapV3_arbitrum: number,
-      okx_status: string,
-      sushiswap_fuse: number,
-      gmx_status: string,
-      sushiswapV3_moonriver: number,
-      sushiswapV3_optimism: number,
-      uniswapV3_optimism: number,
-      kraken_status: string,
-      kucoin: number,
-      sushiswap_bsc: number,
-      sushiswap_avalanche: number,
-      okx_error: string,
-      sushiswap_moonbeam: number,
-      sushiswap_moonriver: number,
-      bybit: number,
-      curve_arbitrum: number,
-      sushiswapV3_polygon: number,
-      sushiswap_gnosis: number,
-      binance_status: string,
-      curve_optimism: number,
-      bitget_status: string,
-      sushiswap_fantom: number,
-      sushiswapV3_fuse: number,
-      sushiswapV3_bsc: number,
-      uniswapV2_ethereum: number,
-      curve_polygon: number,
-      kucoin_error: string,
-      sushiswapV3_ethereum: number,
-      curve_ethereum: number,
-      uniswapV3_ethereum: number,
-      sushiswap_arbitrum: number,
-      binance_error: string,
-      dex_error: string,
-      binance: number,
-      uniswapV3_celo: number,
-      synthetix_optimism: number,
-      gmx_arbitrum: number,
-      id: string,
-      gmx_avalanche: number,
-      bitget_error: string,
-      sushiswap_harmony: number,
-      sushiswap_celo: number,
-      synthetix_status: string,
-      sushiswap_ethereum: number,
-      curve_fantom: number,
-      uniswapV3_base: number,
-      bybit_status: string,
-      sushiswapV3_gnosis: number,
-      sushiswapV3_fantom: number,
-      bitget: number,
-      okx: number,
-      kucoin_status: string
+      [key: string]: number | string,
    }
 }
 
+function extractAndCombine(exchanges: {[key: string]: any}) {
+  // Define an object to store the extracted volumes.
+  const extractedVolumes: {[key: string]: any} = {};
+  // Define the exchanges you want to extract and their corresponding keys.
+  const exchangesToExtract = {
+  binance: "binance",
+  ftx: "ftx",
+  kucoin: "kucoin",
+  huobi: "huobi",
+  bitmex: "bitmex",
+  dydx: "dydx",
+  gmx: "gmx",
+  bybit: "bybit",
+  okx: "okx",
+  bitget: "bitget",
+  mexc: "mexc",
+  kraken: "kraken",
+  "spot dex": "spot dex",
+  snx: "snx"
+};
+
+  // Iterate through the exchanges and extract their volumes.
+  for (const exchangeKey in exchanges) {
+    if (exchangesToExtract.hasOwnProperty(exchangeKey)) {
+      const key = exchangeKey as keyof typeof exchangesToExtract;
+      extractedVolumes[exchangesToExtract[key]] = exchanges[exchangeKey];
+    }
+  }
+
+  // Calculate the "dex" field by summing the volumes of all exchanges.
+  let dexVolume = 0;
+  for (const exchangeKey in exchanges) {
+    if (!exchangesToExtract.hasOwnProperty(exchangeKey)) {
+      dexVolume += exchanges[exchangeKey];
+    }
+  }
+
+  // Add the "dex" field to the extracted volumes object.
+  extractedVolumes["dex"] = dexVolume;
+
+  return extractedVolumes;
+}
+
+
 
 function useUserFarmingQuery() {
-   // const { walletAddress } = useConnectorContext();
-   const walletAddress = "0x4bEBFE533209EAa7FbD3d88de806B348A7baD860"
+   const { walletAddress } = useConnectorContext();
    
 	return useQuery<GetFarmingData | undefined>(
 		['userDetails', walletAddress],
@@ -107,8 +88,8 @@ export async function GetFarmingData(walletAddress: string): Promise<GetFarmingD
    
    let userVolumeData = await userVolumeResponse.json();
    let userStakingData = await userStakingResponse.json();
-   // const combinedExchangeVolume = combineFields(userVolumeData.message);
+   const combinedExchangeVolume = extractAndCombine(userVolumeData.message);
 
 
-	return {staking: userStakingData.message, volume: userVolumeData};
+	return {staking: userStakingData.message, volume: combinedExchangeVolume};
 }

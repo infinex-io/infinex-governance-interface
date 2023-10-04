@@ -1,5 +1,6 @@
 // Libraries
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Button } from "@chakra-ui/react";
 
 // Components (Internal)
 import LinkIcon from 'components/Icons/LinkIcon';
@@ -11,14 +12,12 @@ import { toast } from 'react-toastify';
 
 // Hooks (Exteneral)
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
 
 // Hooks (Internal)
 import useLinkExchangeMutations from 'mutations/farming/useLinkExchangeMutations';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
 // Internal
-import { useConnectorContext } from 'containers/Connector';
 import { Room } from 'pages/farming/[room]';
 
 const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
@@ -27,16 +26,32 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    const [publicKey, setPublicKey] = React.useState("") 
    const [secretKey, setSecretKey] = React.useState("")
    const [isLoading, setLoading] = React.useState(false)
+   const [volume, setVolume] = React.useState(0)
 
    /* ================================== hooks ================================== */
    const router = useRouter();
    const linkExchangeMutation = useLinkExchangeMutations();
    const userFarmingQuery = useUserFarmingQuery();
 
+   /* ================================== useEffect ================================== */
+   useEffect(() => {
+      if (userFarmingQuery.data){
+         console.log("farming data", userFarmingQuery.data)
+         if (Number(userFarmingQuery.data.volume[room.exchange_id]) > 0){
+            setVolume(Number(userFarmingQuery.data.volume[room.exchange_id]))
+            setStatus("completed")
+         }else{
+            setStatus("none")
+         }
+         if (userFarmingQuery.data.staking[`${room.token}_status`] === "pending"){ // TODO: Switch this to whatever the state is meant to be
+            setStatus("waiting")
+         }
+      }
+
+   },[userFarmingQuery.data])
    /* ================================== functions ================================== */
    async function handleSubmit() {
-      setStatus("waiting")
-
+      setLoading(true);
       linkExchangeMutation.mutate({
          exchange: room.exchange_id,
          api_key: publicKey,
@@ -49,7 +64,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   setLoading(false);
                   toast.error(JSON.stringify(error));
                }else{
-                  setStatus("completed");
+                  setStatus("waiting");
                   setLoading(false);
                   userFarmingQuery.refetch()
                }
@@ -61,16 +76,16 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-surface gap-10 text-white " style={{height: 'calc(100vh - 256px)'}}>
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
-         {(status === "linked" || status === "waiting") && <CompleteIcon />}
+         {(status === "completed" || status === "waiting") && <CompleteIcon />}
          {/* Title (link) */}
          <h1 className="tg-title-h1 text-white text-5xl font-black">
-            {status === "none" ? "Link" : "Linked"}
+            {status === "none" ? "Link" : "Completed"}
          </h1>
          {/* description (link your api keys || Your api keys may take some time) */}
          <h2 className="text-sm font-medium text-white text-center max-w-sm"> 
             {status === "none" && "Link your API keys"}
-            {status === "linking" || status === "waiting" &&  "Your API data may take some time to update, Check back in ~10 mins."}
-            {status === "linked" && "API keys linked"}
+            {status === "linking" || status === "waiting" &&  "Your API data may take some time to update, Check back in ~20 mins."}
+            {status === "completed" && "API keys completed"}
          </h2>
          {/* Link button (hide when linking) */}
          {status === "none" &&
@@ -120,49 +135,46 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                </div>
             </>
          }
-        {status === "linking" &&
+        {(status === "linking") &&
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
                <button 
                   className="text-white bg-surface rounded-sm py-2 px-4 border border-white flex items-center gap-2"
                   onClick={() => setStatus("none")}
+                  disabled={isLoading}
                >
                   <BackIcon width={10} height={10} />
                   <span>Back</span>
                </button>
                {/* Button */}
-               <button 
-                  className="text-black bg-primary rounded-sm py-2 px-4"
+               <Button
+                  height="42px"
+                  isLoading={isLoading}
+                  loadingText='Submitting'
+                  className="!text-black !bg-primary !rounded-sm !py-2 !px-4"
+                  background="primary"
+                  variant="custom"
                   onClick={() => {
                      handleSubmit()
-                   }
-                  }
-               >Submit</button>
+                   }}
+                  disabled={isLoading}
+               >Submit</Button>
             </div>
          }
-         {status === "linked" &&
-            <div className="flex flex-row items-center gap-10">
-               <div className="flex flex-col justify-center items-center">
-                  <p className="text-sm font-bold">Locked tokens:</p>    
-                  <p className="text-base font-black">{userAccount.tradingVolume}</p>
-               </div>
-               
-               <div className="flex flex-col justify-center items-center">
-                  <p className="text-sm font-bold">Available tokens:</p>    
-                  <p className="text-base font-black">{userAccount.governancePower}</p>
-               </div>
-            </div>
-         }
-          {status === "linked" &&
-            <div className="flex flex-row gap-4">
-               {/* Backicon + Text */}
-               <button 
-                  className="text-white bg-surface rounded-sm py-2 px-4 border border-white flex items-center gap-2"
-                  onClick={() => setStatus("none")}
-               >
-                  <BackIcon width={10} height={10} />
-                  <span>Back</span>
-               </button>
+         {status === "completed" &&
+           <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-col justify-center items-center">
+                 <p className="text-sm font-bold">Locked tokens:</p>   
+                 <p className="text-base font-black">{volume}</p>
+              </div>
+             
+              <div className="flex flex-col justify-center items-center">
+                 <p className="text-sm font-bold">Available tokens:</p>   
+                 <p className="text-base font-black">{}</p>
+              </div>
+          </div>}
+          {status === "waiting" || status === "completed" &&
+            <div className="flex flex-row gap-4">              
                {/* Button */}
                <button 
                   className="text-black bg-primary rounded-sm py-2 px-4"

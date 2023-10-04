@@ -29,20 +29,14 @@ export interface Room {
 export default function Room() {
 
    /* ================================== state ================================== */
-   const [userAccount, setUserAccount] = useState({
-      tokensLocked: 0,
-      tokensAvailable: 2000,
-      tradingVolume: 200,
-      governancePower: 1233,
-      })
-
-   const router = useRouter();
-   const room = rooms.find(r => r.name === router.query.room);
 
    /* ================================== hooks ================================== */
-
+   const router = useRouter();
    const userFarmingQuery = useUserFarmingQuery();
 
+   /* ================================== functions ================================== */
+   const room = rooms.find(r => r.name === router.query.room);
+   
    if ((userFarmingQuery.isLoading) || (!room)) return <div>Loading...</div>
    
 	return (

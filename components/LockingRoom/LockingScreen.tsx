@@ -6,9 +6,11 @@ import LockIcon from 'components/Icons/LockIcon';
 import CompleteIcon from 'components/Icons/CompleteIcon';
 import BackIcon from 'components/Icons/BackIcon';
 
+// Components (External)
+import { Button } from "@chakra-ui/react";
+
 // Hooks (Exteneral)
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
 import {
    useEffect
 } from 'react';
@@ -49,14 +51,14 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
       }
    }, [userFarmingQuery, room.token]);
 
-  function handleStake(){
-   setLoading(true);
-   const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
-   stakeTokenMutation.mutate({
-      token: room.token,
-      amount: Number(inputValue),
-      overide: overide
-   }, {
+   function handleStake(){
+      setLoading(true);
+      const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
+      stakeTokenMutation.mutate({
+         token: room.token,
+         amount: Number(inputValue),
+         overide: overide
+      }, {
          onSettled: (data, error, variables, context) => {
             if (error){
                setLoading(false);
@@ -122,11 +124,12 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                <p className="absolute top-0 text-xs font-black">AMOUNT</p>
                <div className="mt-5 relative">
                   <input 
-                     type="text" 
-                     className="border bg-primary border-black text-black rounded-sm py-2 pr-16 pl-4 w-full" 
+                     type='number'
+                     className="border bg-primary border-black placeholder-black focus:outline-none text-black rounded-sm py-2 pr-16 pl-4 w-full" 
                      placeholder="Enter amount"
                      value={inputValue}
                      onChange={(e) => setInputValue(e.target.value)}
+                     disabled={loading}
                   />
                   <button 
                      className="absolute bg-primaryDark bg-opacity-30 right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-sm py-1 px-2"
@@ -143,19 +146,25 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                <button 
                   className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2"
                   disabled={loading}
+                  onClick={() => {
+                     setStatus("none")
+                  }}
                >
                   <BackIcon width={10} height={10} />
                   <span>Back</span>
                </button>
                {/* Button */}
-               <button 
-                  className="text-white bg-black rounded-sm py-2 px-4"
+               <Button 
+                  variant="custom"
+                  height="42px"
+                  className="text-white bg-black !rounded-sm py-2 px-4"
                   onClick={() => {
                      handleStake()
                    }
                   }
                   disabled={loading}
-               >Lock tokens</button>
+                  isLoading={loading}
+               >Lock tokens</Button>
             </div>
          }
          {status === "completed" &&

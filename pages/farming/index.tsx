@@ -3,20 +3,21 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import rooms from '../../utils/config/rooms';
 
 // Components (Internal)
+import rooms from '../../utils/config/rooms';
 import RoomCard from 'components/RoomCard';
 import svg from '../../public/logos/infinex-logo.svg';
 
-
  // Hooks (Internal)
 import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
+import { useConnectorContext } from 'containers/Connector';
 
 
 const Farming: NextPage = () => {
 
 	const userFarmingQuery = useUserFarmingQuery(); //TODO maybe take this away
+   const { connectWallet, isWalletConnected } = useConnectorContext();
 
 	return (
       <main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black">
@@ -29,16 +30,31 @@ const Farming: NextPage = () => {
          <div className="flex flex-col container mt-4">
             <div className="flex flex-wrap justify-center w-full gap-3 max-w-2xl mx-auto">
                {rooms?.map((room: any) => (
-                  <Link href={`/farming/${room.name}`} key={room.key}>
-                     <RoomCard
-                        key={room.key}
-                        name={room.name}
-                        description={room.description}
-                        emoji={room.emoji}
-                        exchange_id={room.exhange_id}
-                        token={room.token}
-                     />
-                  </Link>
+                  <>
+                  {isWalletConnected ? (
+                     <Link href={`/farming/${room.name}`} key={room.key}>
+                        <RoomCard
+                           key={room.key}
+                           name={room.name}
+                           description={room.description}
+                           emoji={room.emoji}
+                           exchange_id={room.exhange_id}
+                           token={room.token}
+                           />
+                     </Link>
+                  ) : (
+                     <div onClick={connectWallet}>
+                        <RoomCard
+                           key={room.key}
+                           name={room.name}
+                           description={room.description}
+                           emoji={room.emoji}
+                           exchange_id={room.exhange_id}
+                           token={room.token}
+                           />
+                     </div>
+                  )}
+               </>
                ))}
             </div>    
          </div>

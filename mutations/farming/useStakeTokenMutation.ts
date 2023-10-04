@@ -1,11 +1,9 @@
 import { useMutation } from 'react-query';
 import { useConnectorContext } from 'containers/Connector';
-import { SiweMessage } from 'siwe';
-
 
 function useStakeTokenMutation() {
-   const walletAddress = "0x4bEBFE533209EAa7FbD3d88de806B348A7baD860"
-  
+    const { walletAddress } = useConnectorContext();
+
     return useMutation(
         async (stakeData: {
             token: string;
@@ -16,9 +14,6 @@ function useStakeTokenMutation() {
             try {
                const response = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/stake?address=${walletAddress}`, {
                   method: 'POST',
-                  //  headers: {
-                  //      'Content-Type': 'application/json',
-                  //  },
                   body: JSON.stringify({...stakeData, address_signature: "signature" , address: walletAddress}),
                });
 

@@ -1,11 +1,9 @@
 import { useMutation } from 'react-query';
 import { useConnectorContext } from 'containers/Connector';
-import { SiweMessage } from 'siwe';
 
 
 function useLinkExchangeMutations() {
-  
-
+    const { signer } = useConnectorContext();
     return useMutation(
         async (stakeData: {
             exchange: string;
@@ -13,19 +11,23 @@ function useLinkExchangeMutations() {
             secret_key: string;
             type: string;
         }) => {
+
             console.log(stakeData);
             try {
                let body;
+
+                const message = "INFINEX:ACCESS-TEST-123"
+                const signature = await signer!.signMessage(message);
          
                if (stakeData.type === "dex"){
                   body = {
                       exchange: "dex",
-                      address_signature: "hi"
+                      address_signature: signature
                   }
                }else {
                   body = {
                       ...stakeData,
-                     address_signature: "hello"
+                     address_signature: signature
                   }
                }
                const response = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/calculate_volumes`, {
@@ -36,12 +38,13 @@ function useLinkExchangeMutations() {
                if (!response.ok) {
                   throw new Error('Network response was not ok');
                }
-               console.log(response)
                
                return response.json();
 
             } catch (error: Error | any) {
+
                 throw new Error(error);
+                
             }
         }
     );
