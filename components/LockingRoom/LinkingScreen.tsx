@@ -6,9 +6,16 @@ import LinkIcon from 'components/Icons/LinkIcon';
 import BackIcon from 'components/Icons/BackIcon';
 import CompleteIcon from 'components/Icons/CompleteIcon';
 
+// Components (External)
+import { toast } from 'react-toastify';
+
 // Hooks (Exteneral)
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
+
+// Hooks (Internal)
+import useLinkExchangeMutations from 'mutations/farming/useLinkExchangeMutations';
+import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
 // Internal
 import { useConnectorContext } from 'containers/Connector';
@@ -19,32 +26,35 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    const [status, setStatus] = React.useState("none") // none || linking || waiting || completed
    const [publicKey, setPublicKey] = React.useState("")
    const [secretKey, setSecretKey] = React.useState("")
+   const [isLoading, setLoading] = React.useState(false)
 
    /* ================================== hooks ================================== */
    const router = useRouter();
+   const linkExchangeMutation = useLinkExchangeMutations();
+   const userFarmingQuery = useUserFarmingQuery();
 
    /* ================================== functions ================================== */
    async function handleSubmit() {
-      // setStatus("waiting")
+      setStatus("waiting")
 
-      // const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
-      // stakeTokenMutation.mutate({
-      //    token: room.token,
-      //    amount: Number(inputValue),
-      //    overide: overide
-      // }, {
-      //       onSettled: (data, error, variables, context) => {
-      //          if (error){
-      //             setLoading(false);
-      //             toast.error(JSON.stringify(error));
-      //          }else{
-      //             setStatus("completed");
-      //             setLoading(false);
-      //             userFarmingQuery.refetch()
-      //          }
-      //       }
-      //    });
-
+      linkExchangeMutation.mutate({
+         exchange: room.exchange_id,
+         api_key: publicKey,
+         secret_key: secretKey,
+         type: room.type
+      }, {
+            onSettled: (data, error, variables, context) => {
+               if (error){
+                  setStatus("linking")
+                  setLoading(false);
+                  toast.error(JSON.stringify(error));
+               }else{
+                  setStatus("completed");
+                  setLoading(false);
+                  userFarmingQuery.refetch()
+               }
+            }
+         });
    }
 
    return (
