@@ -14,14 +14,14 @@ const FTXFileUpload = () => {
 	const [confirmationCode, setConfirmationCode] = useState<string>('');
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
     const [file, setFile] = useState<any>();
-    const captchaRef = useRef(null);
+    const captchaRef = useRef<HCaptcha>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        captchaRef.current.execute();
+        captchaRef.current?.execute();
     };
 
-    const handleFileUpload = (e) => {
+    const handleFileUpload = (e: any) => {
         setFile(e.target.files[0])
         setIsFileUploaded(true)
     }
@@ -54,7 +54,7 @@ const FTXFileUpload = () => {
             setIsLoading(false);
             setIsSubmitted(true);
         };
-        captchaRef.current.resetCaptcha();
+        captchaRef.current?.resetCaptcha();
         onVerified()
     }, [captchaToken])
 
