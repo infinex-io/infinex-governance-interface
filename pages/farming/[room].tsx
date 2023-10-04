@@ -16,14 +16,14 @@ import FTXFileUpload from 'components/FTXFileUpload';
 // Hooks (External)
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
-
 // Interfaces
 export interface Room {
    name: string;
    description: string;
-   emoji: string;
-   token: string;
-   exchange_id: string;
+   emoji: string; 
+   token: string; // BNB || ETH
+   exchange_id: string; // binance || ftx
+   type: string; // dex || sex
 }
 
 export default function Room() {
@@ -43,13 +43,7 @@ export default function Room() {
 
    const userFarmingQuery = useUserFarmingQuery();
 
-   if (userFarmingQuery.isLoading) return <div>Loading...</div>
-
-   // TODO: Make sure that for this page we're being passed through a identifier of the room
-   // TODO: Check the volume against that specific piece of data
-   if (!room) {
-      return <div>Loading...</div>
-   }
+   if ((userFarmingQuery.isLoading) || (!room)) return <div>Loading...</div>
    
 	return (
       <>
@@ -74,7 +68,7 @@ export default function Room() {
                      <FTXFileUpload />
                      :
                      <LinkingScreen
-                        userAccount={userAccount}
+                        room={room}
                      />
                   }
                </div>
