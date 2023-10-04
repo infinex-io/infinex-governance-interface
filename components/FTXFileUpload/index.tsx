@@ -1,6 +1,6 @@
 import BackIcon from 'components/Icons/BackIcon';
 import LinkIcon from 'components/Icons/LinkIcon';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { supabase } from 'utils/supabaseClient';
 
@@ -8,36 +8,47 @@ const FTXFileUpload = () => {
 	const [email, setEmail] = useState<string>('');
 	const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
 	const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
+    const [captchaToken, setCaptchaToken] = useState();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 	const [confirmationCode, setConfirmationCode] = useState<string>('');
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const captchaRef = useRef(null);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        captchaRef.current.execute();
+    };
 
     // handling email + file submit
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		setIsLoading(true);
-		e.preventDefault();
-		if (!isValidEmail || !isFileUploaded) {
-		    setIsLoading(false);
-            return;
-        }
-		const { data, error } = await supabase.auth.signInWithOtp({
-			email: email,
-		});
-		if (error) console.log(error);
-        else {
-            const ftxFile = e.target[0].files[0]
-            const { data, error } = await supabase
-            .storage
-            .from('FTX Files')
-            .upload(`${email}.pdf`, ftxFile)
-            if (error) {
-                console.log(error)
+    useEffect(() => {
+        const onVerified = async (e: React.FormEvent<HTMLFormElement>) => {
+            setIsLoading(true);
+            e.preventDefault();
+            if (!isValidEmail || !isFileUploaded) {
+                setIsLoading(false);
+                return;
             }
-        }
-		setIsLoading(false);
-		setIsSubmitted(true);
-	};
+            const { data, error } = await supabase.auth.signInWithOtp({
+                email: email,
+            });
+            if (error) console.log(error);
+            else {
+                const ftxFile = e.target[0].files[0]
+                const { data, error } = await supabase
+                .storage
+                .from('FTX Files')
+                .upload(`${email}.pdf`, ftxFile)
+                if (error) {
+                    console.log(error)
+                }
+            }
+            setIsLoading(false);
+            setIsSubmitted(true);
+        };
+        onVerified()
+    }, [])
+	
 
     // regex email verification
 	useEffect(() => {
