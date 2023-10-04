@@ -27,7 +27,7 @@ export default function RoomCard({
          <div className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0" style={{ boxShadow: '2px 2px 8px 0px rgba(207, 116, 70, 0.38) inset' }}>
                {emoji}
          </div>
-         <div className="flex flex-col items-center">
+         <div className="flex flex-col items-center text-center">
             <h5 className="tg-title-h5 capitalize text-base font-bold">
                {name}
             </h5>
