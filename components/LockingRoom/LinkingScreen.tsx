@@ -25,10 +25,25 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
 
    /* ================================== functions ================================== */
    async function handleSubmit() {
-      setStatus("waiting")
+      // setStatus("waiting")
 
-      useLinkExchangeMutations
-      
+      // const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
+      // stakeTokenMutation.mutate({
+      //    token: room.token,
+      //    amount: Number(inputValue),
+      //    overide: overide
+      // }, {
+      //       onSettled: (data, error, variables, context) => {
+      //          if (error){
+      //             setLoading(false);
+      //             toast.error(JSON.stringify(error));
+      //          }else{
+      //             setStatus("completed");
+      //             setLoading(false);
+      //             userFarmingQuery.refetch()
+      //          }
+      //       }
+      //    });
 
    }
 

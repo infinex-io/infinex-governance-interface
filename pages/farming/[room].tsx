@@ -68,7 +68,7 @@ export default function Room() {
                      <FTXFileUpload />
                      :
                      <LinkingScreen
-                        userAccount={userAccount}
+                        room={room}
                      />
                   }
                </div>

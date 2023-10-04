@@ -4,7 +4,6 @@ import { SiweMessage } from 'siwe';
 
 
 function useLinkExchangeMutations() {
-   const walletAddress = "0x4bEBFE533209EAa7FbD3d88de806B348A7baD860"
   
 
     return useMutation(
