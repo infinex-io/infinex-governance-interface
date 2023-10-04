@@ -44,6 +44,11 @@ html.stop-scrolling body {
 	scrollbar-width: none;
 }
 
+input[type=file], /* FF, IE7+, chrome (except button) */
+input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+    cursor: pointer; 
+}
+
 ::-webkit-scrollbar-thumb {
 	background: var(--color-blue);
 	-webkit-border-radius: 5px;

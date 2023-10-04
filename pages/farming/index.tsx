@@ -20,6 +20,7 @@ const Farming: NextPage = () => {
       {key: 7, name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"},
       {key: 8, name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"},
       {key: 9, name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"},  
+      {key: 10, name: "FTX Panic Room", description: "Deposit FTT, Earn Voting Power", emoji: "🫣"},  
    ]
 
 	return (

@@ -12,6 +12,7 @@ import Head from 'next/head';
 // Hooks
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import FTXFileUpload from 'components/FTXFileUpload';
 
 
 
@@ -25,8 +26,7 @@ import { useRouter } from 'next/router';
 
 
 export default function Room() {
-   
-   const room = {name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"} 
+   const room = { name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲" }
 
    /* ================================== state ================================== */
    const [userAccount, setUserAccount] = useState({
@@ -34,20 +34,21 @@ export default function Room() {
       tokensAvailable: 2000,
       tradingVolume: 200,
       governancePower: 1233,
-      })
+   })
    const [locking, setLocking] = useState(false)
    const [completed, setCompleted] = useState(false)
    const [inputValue, setInputValue] = useState("");
 
    /* ================================== hooks ================================== */
    const router = useRouter();
+   console.log(router.query.room)
 
-	return (
+   return (
       <>
-			<Head>
-				<title>Infinex | Governance V3</title>
-			</Head>
-        <div className="flex flex-col">
+         <Head>
+            <title>Infinex | Governance V3</title>
+         </Head>
+         <div className="flex flex-col">
             <div className="flex flex-col justify-center items-center bg-primary-light w-full p-10 gap-2">
                <h1 className="text-black text-5xl font-black text-center">{room.emoji} {room.name}</h1>
                <p className="text-black text-base font-bold">Prove usership</p>
@@ -55,23 +56,28 @@ export default function Room() {
             </div>
             <div className="flex flex-col sm:flex-row justify-between">
                <div className="w-full sm:w-1/2">
-                  <LockingScreen 
-                     completed={completed} 
-                     userAccount={userAccount} 
-                     locking={locking} 
-                     inputValue={inputValue} 
-                     setLocking={setLocking} 
-                     setCompleted={setCompleted} 
-                     setInputValue={setInputValue} 
+                  <LockingScreen
+                     completed={completed}
+                     userAccount={userAccount}
+                     locking={locking}
+                     inputValue={inputValue}
+                     setLocking={setLocking}
+                     setCompleted={setCompleted}
+                     setInputValue={setInputValue}
                   />
                </div>
                <div className="w-full sm:w-1/2">
-                  <LinkingScreen 
-                     userAccount={userAccount}
-                  />
+                  {
+                     router.query.room === "FTX Panic Room" ?
+                     <FTXFileUpload />
+                     :
+                     <LinkingScreen
+                        userAccount={userAccount}
+                     />
+                  }
                </div>
             </div>
-        </div>
-		</>
-	);
+         </div>
+      </>
+   );
 }
