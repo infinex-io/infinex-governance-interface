@@ -11,4 +11,4 @@ export const NETWORK_ID = parseInt(process.env.NEXT_PUBLIC_NETWORK_ID || '', 10)
 export function isSupportedNetworkId(id: number | string): id is NetworkId {
 	return NETWORK_ID == id;
 }
-export const getIsOVM = (networkId: number): boolean => !!~[10, 69].indexOf(networkId);
+export const getIsOVM = (networkId: number): boolean => !!~[NETWORK_ID, 69].indexOf(networkId);

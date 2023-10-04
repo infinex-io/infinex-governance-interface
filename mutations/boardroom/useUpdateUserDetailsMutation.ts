@@ -10,6 +10,7 @@ import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { SiweMessage } from 'siwe';
+import { NETWORK_ID } from '../../utils/network';
 
 type UpdateUserDetailsResponse = {
 	data: GetUserDetails & {
@@ -49,7 +50,7 @@ function useUpdateUserDetailsMutation() {
 	const [uuid, setUuid] = useState<null | string>(null);
 	const boardroomSignIn = async () => {
 		const domain = 'governance.synthetix.io';
-		const chainId = 10;
+		const chainId = NETWORK_ID;
 
 		if (signer && provider && walletAddress) {
 			try {
