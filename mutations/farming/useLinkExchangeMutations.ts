@@ -4,7 +4,8 @@ import { SiweMessage } from 'siwe';
 
 
 function useLinkExchangeMutations() {
-  
+    const { signer } = useConnectorContext();
+
 
     return useMutation(
         async (stakeData: {
@@ -13,19 +14,24 @@ function useLinkExchangeMutations() {
             secret_key: string;
             type: string;
         }) => {
-            console.log(stakeData);
+        
+
             try {
                let body;
+
+               const message = "INFINEX:ACCESS-TEST-123"
+               let signedMessage = new SiweMessage(message);
+			   const signature = await signer?.signMessage(signedMessage.prepareMessage());
          
                if (stakeData.type === "dex"){
                   body = {
                       exchange: "dex",
-                      address_signature: "hi"
+                      address_signature: signature
                   }
                }else {
                   body = {
                       ...stakeData,
-                     address_signature: "hello"
+                     address_signature: signature
                   }
                }
                const response = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/calculate_volumes`, {

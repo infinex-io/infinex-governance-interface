@@ -107,7 +107,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   </div>
                </div>
                <div className="relative max-w-xs w-full mt-[-15px]">
-                  <p className="absolute top-0 text-xs text-white">API PUBLIC</p>
+                  <p className="absolute top-0 text-xs text-white">API SECRET</p>
                   <div className="mt-5 relative">
                      <input
                         type="text"
