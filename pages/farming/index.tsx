@@ -13,7 +13,7 @@ import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarm
 
 const Farming: NextPage = () => {
 
-	const userVolumeQuery = useUserFarmingQuery("0xa169e0081a995fbd9ef5c156df93add9680f6029"); //TODO maybe take this away
+	const userFarmingQuery = useUserFarmingQuery("0xa169e0081a995fbd9ef5c156df93add9680f6029"); //TODO maybe take this away
 
 
    const rooms = [

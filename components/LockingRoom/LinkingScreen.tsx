@@ -10,6 +10,10 @@ import CompleteIcon from 'components/Icons/CompleteIcon';
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 
+// Internal
+import { useConnectorContext } from 'containers/Connector';
+
+
 interface UserAccount {
    tokensLocked: number;
    tokensAvailable: number;
@@ -35,7 +39,7 @@ const LinkingScreen: React.FC<{userAccount: UserAccount}> = ({userAccount}) => {
          {(status === "none" || status === "linking") && <LinkIcon />}
          {(status === "linked" || status === "waiting") && <CompleteIcon />}
          {/* Title (link) */}
-         <h1 className="text-white text-5xl font-black">
+         <h1 className="tg-title-h1 text-white text-5xl font-black">
             {status === "none" ? "Link" : "Linked"}
          </h1>
          {/* description (link your api keys || Your api keys may take some time) */}

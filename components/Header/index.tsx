@@ -77,8 +77,7 @@ export default function Header() {
 					<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 						<Button
 							variant="spotlight"
-							className="last-of-type:mr-auto gt-america-font tg-content"
-							size="sm"
+							className="last-of-type:mr-auto gt-america-font tg-content !bg-none"
 							onClick={() => setBurgerMenuOpen(false)}
 							spotlightActive={route.link === '' ? asPath === '/' : asPath.includes(route.link)}
 							key={route.label}
@@ -144,7 +143,10 @@ export default function Header() {
 				</div>
 			)}
 			<ChakraButton
+				className="!bg-slate-900 !border-slate-300 !text-white"
+				borderRadius="sm"
 				variant="outline"
+				size="sm"
 				onClick={() => {
 					if (!connected) {
 						onOpen();
@@ -209,7 +211,12 @@ export default function Header() {
 				</ModalContent>
 			</Modal>
 			<div className="flex md:mr-1 h-[40px] justify-end ml-[16px]">
-				{!isWalletConnected && <ConnectButton />}
+				{!isWalletConnected &&
+					<div className="flex justify-center">
+					 <ConnectButton />
+					</div>
+
+				}
 				{isWalletConnected && walletAddress && (
 					<Dropdown
 						triggerElement={

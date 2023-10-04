@@ -13,8 +13,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 // Hooks (External)
-import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
+import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
+
+// Interfaces
+export interface Room {
+   name: string;
+   description: string;
+   emoji: string;
+   token: string;
+   exchange_id: string;
+}
 
 export default function Room() {
 
@@ -28,10 +37,10 @@ export default function Room() {
 
    /* ================================== hooks ================================== */
 
-   const room = {name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲"} 
-   const userVolumeQuery = useUserFarmingQuery("0xa169e0081a995fbd9ef5c156df93add9680f6029");
+   const room = {name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲", exhange_id: "binance", token: "BNB"} 
+   const userFarmingQuery = useUserFarmingQuery();
 
-   if (userVolumeQuery.isLoading) return <div>Loading...</div>
+   if (userFarmingQuery.isLoading) return <div>Loading...</div>
 
    // TODO: Make sure that for this page we're being passed through a identifier of the room
    // TODO: Check the volume against that specific piece of data
@@ -51,6 +60,7 @@ export default function Room() {
                <div className="w-full sm:w-1/2">
                   <LockingScreen 
                      userAccount={userAccount} 
+                     room={room}
                   />
                </div>
                <div className="w-full sm:w-1/2">
