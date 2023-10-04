@@ -445,6 +445,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.17.9":
+  version: 7.23.1
+  resolution: "@babel/runtime@npm:7.23.1"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 8310b192816468f60d8289f3671991acb14785fb28dd3f86a6f6dbbe2e6d5e2212c4cefd0c6fb67e38881a8f83d5c6d811c9f51ab59f3e810e0fa019eda1d229
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.20.7, @babel/template@npm:^7.3.3":
   version: 7.20.7
   resolution: "@babel/template@npm:7.20.7"
@@ -3403,6 +3412,18 @@ __metadata:
   dependencies:
     "@hapi/hoek": "npm:^9.0.0"
   checksum: ff0deb4249848bf9db5c8dd3489a5d07914adb04983066d68b0395f22f82dbf6058ddac950e53d533c1b74102086199a584d5446c9db15061fb99687edfec19f
+  languageName: node
+  linkType: hard
+
+"@hcaptcha/react-hcaptcha@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "@hcaptcha/react-hcaptcha@npm:1.8.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.17.9"
+  peerDependencies:
+    react: ">= 16.3.0"
+    react-dom: ">= 16.3.0"
+  checksum: 37deab35ecff42ad14f71cba5bb9e53e193bfd2c58634d1f2d445e1deee6e37269a90e558703283e5bd4959c613418aab7bc512a45723784242296ce12cc7cef
   languageName: node
   linkType: hard
 
@@ -11168,6 +11189,7 @@ __metadata:
     "@gnosis.pm/safe-apps-provider": "npm:^0.15.1"
     "@gnosis.pm/safe-apps-react-sdk": "npm:^4.6.2"
     "@gnosis.pm/safe-apps-sdk": "npm:^7.8.0"
+    "@hcaptcha/react-hcaptcha": "npm:^1.8.1"
     "@nomiclabs/hardhat-ethers": "npm:2.0.5"
     "@supabase/supabase-js": "npm:^2.38.0"
     "@synthetixio/contracts-interface": "npm:2.64.1"
@@ -16248,6 +16270,13 @@ __metadata:
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 0485db63ce47760e28329590cb9f8b208365d076dbf2edaa32e551a7c0451fc6f7557b225268422c960ffa4fbc6ff86d63d6a747aacbf6b10ed6a747b432e3c8
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "regenerator-runtime@npm:0.14.0"
+  checksum: 7e3bbf049c59c5fe9091baff243fef420197f186a9d3325b747bc480aed3d48ad6d89f23c135142885cbc9bb390cacbb0e8620d2f4564f1db8819f318dc7a155
   languageName: node
   linkType: hard
 

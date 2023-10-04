@@ -1,18 +1,19 @@
 import BackIcon from 'components/Icons/BackIcon';
 import LinkIcon from 'components/Icons/LinkIcon';
 import { useEffect, useRef, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { supabase } from 'utils/supabaseClient';
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const FTXFileUpload = () => {
 	const [email, setEmail] = useState<string>('');
 	const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
 	const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
-    const [captchaToken, setCaptchaToken] = useState();
+    const [captchaToken, setCaptchaToken] = useState<string>();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 	const [confirmationCode, setConfirmationCode] = useState<string>('');
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [file, setFile] = useState<any>();
     const captchaRef = useRef(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,21 +21,28 @@ const FTXFileUpload = () => {
         captchaRef.current.execute();
     };
 
+    const handleFileUpload = (e) => {
+        setFile(e.target.files[0])
+        setIsFileUploaded(true)
+    }
+
     // handling email + file submit
     useEffect(() => {
-        const onVerified = async (e: React.FormEvent<HTMLFormElement>) => {
+        const onVerified = async () => {
             setIsLoading(true);
-            e.preventDefault();
             if (!isValidEmail || !isFileUploaded) {
                 setIsLoading(false);
                 return;
             }
             const { data, error } = await supabase.auth.signInWithOtp({
                 email: email,
+                options: {
+                    captchaToken
+                }
             });
             if (error) console.log(error);
             else {
-                const ftxFile = e.target[0].files[0]
+                const ftxFile = file
                 const { data, error } = await supabase
                 .storage
                 .from('FTX Files')
@@ -46,11 +54,12 @@ const FTXFileUpload = () => {
             setIsLoading(false);
             setIsSubmitted(true);
         };
+        captchaRef.current.resetCaptcha();
         onVerified()
-    }, [])
+    }, [captchaToken])
 	
 
-    // regex email verification
+    // regex email verification 
 	useEffect(() => {
 		const res = email.match(
 			/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -98,7 +107,7 @@ const FTXFileUpload = () => {
 							className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-3 
                     file:bg-primary file:text-black file:rounded-md file:border-0 file:text-sm 
                     file:font-semibold cursor-pointer my-5"
-							onChange={() => setIsFileUploaded(true)}
+							onChange={handleFileUpload}
 							accept="application/pdf"
 						/>
 						<label htmlFor="email" className="text-white text-sm">
@@ -124,6 +133,7 @@ const FTXFileUpload = () => {
                                 disabled={isLoading}
 							>
 								Submit
+                                <HCaptcha ref={captchaRef} sitekey="421a6c31-136b-46c5-bda4-be46be2939d8" onVerify={(token) => setCaptchaToken(token)} size="invisible" />
 							</button>
 						</div>
 					</form>
