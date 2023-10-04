@@ -4,7 +4,7 @@ import CompleteIcon from 'components/Icons/CompleteIcon';
 import BackIcon from 'components/Icons/BackIcon';
 import LockingScreen from 'components/LockingRoom/LockingScreen';
 import LinkingScreen from 'components/LockingRoom/LinkingScreen';
-
+import rooms from '../../utils/config/rooms';
 // Components (External)
 import Head from 'next/head';
 
@@ -35,16 +35,21 @@ export default function Room() {
       governancePower: 1233,
       })
 
+   const router = useRouter();
+   const room = rooms.find(r => r.name === router.query.room);
+
    /* ================================== hooks ================================== */
 
-   const room = {name: "Binance Forecourt", description: "Stake BNB Tokens Earn Voting Power", emoji: "⛲", exhange_id: "binance", token: "BNB"} 
    const userFarmingQuery = useUserFarmingQuery();
 
    if (userFarmingQuery.isLoading) return <div>Loading...</div>
 
    // TODO: Make sure that for this page we're being passed through a identifier of the room
    // TODO: Check the volume against that specific piece of data
-
+   if (room) {
+      return <div>Loading...</div>
+   }
+   
 	return (
       <>
 			<Head>

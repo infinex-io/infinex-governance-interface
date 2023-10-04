@@ -6,6 +6,8 @@ interface RoomCard {
 	name?: string;
 	description?: string;
    emoji: string;
+   token: string;
+   exchange_id: string;
 }
 
 export default function RoomCard({
@@ -13,6 +15,8 @@ export default function RoomCard({
 	name,
 	description,
    emoji,
+   exchange_id,
+   token
 }: RoomCard) {
 
    /* ======================== Hooks ======================== */

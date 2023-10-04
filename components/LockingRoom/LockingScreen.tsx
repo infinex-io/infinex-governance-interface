@@ -16,6 +16,7 @@ import {
 // Hooks (Internal)
 import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
 import { useConnectorContext } from 'containers/Connector/Connector';
+import useStakeTokenMutation from 'mutations/farming/useStakeTokenMutation';
 
 // Interfaces
 import { Room } from 'pages/farming/[room]';
@@ -39,25 +40,42 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ room }) => {
    const router = useRouter();
    const { walletAddress } = useConnectorContext();
    const userFarmingQuery = useUserFarmingQuery(); // TODO: set to wallet address
-
+   const stakeTokenMutation = useStakeTokenMutation();
+   const [loading, setLoading] = React.useState(false)
    /* ================================== Effects ================================== */
    useEffect(() => {
       if (walletAddress){
-         console.log("wallet address in lock screen", walletAddress)
          userFarmingQuery.refetch()
       }
    }, [walletAddress]);
 
    useEffect(() => {
-      console.log("staking", userFarmingQuery)
       if (userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined) {
-         setStatus("completed");
+         setLoading(false)
       }
    }, [userFarmingQuery, room.token]);
 
+  function handleStake(){
+   setLoading(true);
+   const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
+   stakeTokenMutation.mutate({
+      token: room.token,
+      amount: Number(inputValue),
+      overide: overide
+   }, {
+      onSettled: (data, error, variables, context) => {
+         if (error){
+            setLoading(false);
+            console.log("error", error)
+         }
+         console.log("return", data?.message)
+         setStatus("completed");
+         userFarmingQuery.refetch()
+      }
+   });
+}
    
    if (userFarmingQuery.isLoading) return <div>Loading...</div>
-
 
    return (
       <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary gap-10 text-black " style={{height: 'calc(100vh - 257px)'}}>
@@ -127,7 +145,10 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ room }) => {
          {status === "locking" &&
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
-               <button className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2">
+               <button 
+                  className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2"
+                  disabled={loading}
+               >
                   <BackIcon width={10} height={10} />
                   <span>Back</span>
                </button>
@@ -135,9 +156,10 @@ const LockingScreen: React.FC<LockingComponentProps> = ({ room }) => {
                <button 
                   className="text-white bg-black rounded-sm py-2 px-4"
                   onClick={() => {
-                     setStatus("completed")
+                     handleStake()
                    }
                   }
+                  disabled={loading}
                >Lock tokens</button>
             </div>
          }

@@ -78,7 +78,7 @@ export type GetFarmingData = {
 function useUserFarmingQuery() {
    // const { walletAddress } = useConnectorContext();
    const walletAddress = "0x4bEBFE533209EAa7FbD3d88de806B348A7baD860"
-   console.log("waller", walletAddress)
+   
 	return useQuery<GetFarmingData | undefined>(
 		['userDetails', walletAddress],
 		async () => {
@@ -107,8 +107,6 @@ export async function GetFarmingData(walletAddress: string): Promise<GetFarmingD
    
    let userVolumeData = await userVolumeResponse.json();
    let userStakingData = await userStakingResponse.json();
-   console.log("wallet address", userVolumeData, userStakingData)
-
    // const combinedExchangeVolume = combineFields(userVolumeData.message);
 
 
