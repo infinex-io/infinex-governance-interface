@@ -127,15 +127,13 @@ export default function Header() {
 						{routes.map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 								<Button
-									variant="spotlight"
-									className="m-4 gt-america-font tg-main"
-									size="md"
+									variant='nav'
+									className={`last-of-type:mr-auto gt-america-font tg-content mb-10
+									${asPath === `/${route.link}` ? 'border-b border-primary' : ''}`}
 									onClick={() => setBurgerMenuOpen(false)}
-									spotlightActive={route.link === '' ? asPath === '/' : asPath.includes(route.link)}
 									key={route.label}
-								>
-									{t(route.label)}
-								</Button>
+									label={t(route.label) as string}
+								/>
 							</Link>
 						))}
 					</div>

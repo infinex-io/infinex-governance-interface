@@ -69,7 +69,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					data-testid="voting-timer"
 				/>
 			)}
-			<span className="ui-gradient-purple h-[1px] w-full mb-1"></span>
+			<span className="bg-slate-800 h-[1px] w-full mb-1"></span>
 			<div className="flex justify-between">
 				<span className="tg-caption text-slate-100" data-testid="headline-left">
 					{t(headlineLeft)}

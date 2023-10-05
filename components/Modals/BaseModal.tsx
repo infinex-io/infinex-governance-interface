@@ -14,7 +14,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 
 	return (
 		<div
-			className="bg-purple p-0.5 rounded-t-[2rem] relative container"
+			className="bg-slate-800 p-0.5 rounded-t-[2rem] relative container"
 			style={{ height: 'calc(100vh - 30px)' }}
 		>
 			<div className="flex flex-col items-center darker-60 rounded-t-[2rem] overflow-auto h-full w-full pt-12 pb-4">

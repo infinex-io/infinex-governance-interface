@@ -1,0 +1,28 @@
+.itemDefault {
+	color: var(--color-slate-400);
+	padding: 6px 12px 6px 12px;
+	cursor: pointer;
+}
+
+.itemDefault:hover p {
+	color: var(--color-primary);
+}
+
+.itemActive {
+	padding: 6px 12px 6px 12px;
+	border-bottom: 1px solid var(--color-primary);
+	cursor: auto;
+	color: var(--color-slate-100);
+}
+
+.tabList {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-family: Neue Haas Grotesk Text Pro;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+	letter-spacing: 0em;
+	text-align: left;
+}
