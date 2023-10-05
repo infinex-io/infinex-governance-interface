@@ -7,7 +7,6 @@ import { CouncilCard } from 'components/CouncilCard';
 import { COUNCILS_DICTIONARY, SESSION_STORAGE_KEYS } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
 import { NominateInVotingBanner } from 'components/NominateInVotingBanner';
-import { TermsModal } from 'components/Modals/TermsModal';
 import { useEffect, useState } from 'react';
 
 export default function LandingPage() {
@@ -25,7 +24,6 @@ export default function LandingPage() {
 
 	return (
 		<>
-			{mounted && <TermsModal defaultOpen={terms} />}
 			<div className="flex flex-col p-3 pt-12">
 				<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
 				<span className="tg-content text-gray-500 text-center pt-[8px]">
