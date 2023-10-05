@@ -76,7 +76,7 @@
 		}
 	},
 	"councils": {
-		"headline": "Our Current Elected Members",
+		"headline": "Council structure",
 		"subline": "Meet each of the nominees for the new and up and coming elections for the Infinex governing bodies, each responsible for a core aspect of the DAO.",
 		"nominees": "{{ council }} Council Nominees",
 		"members": "{{ council }} Council Members",

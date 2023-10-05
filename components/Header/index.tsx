@@ -217,18 +217,18 @@ export default function Header() {
 							label={ensName || truncateAddress(walletAddress)}
 							/>
 						}
-						contentClassName="bg-navy-dark-1 flex flex-col dropdown-border overflow-hidden"
+						contentClassName="bg-slate-900 flex flex-col dropdown-border overflow-hidden"
 						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 						contentAlignment="right"
 					>
 						<span
-							className="p-3 hover:bg-navy text-primary cursor-pointer"
+							className="p-3 hover:bg-slate-800 text-white cursor-pointer"
 							onClick={() => push('/profile/' + walletAddress)}
 						>
 							{t('header.view-profile')}
 						</span>
 						<span
-							className="p-3 hover:bg-navy text-primary cursor-pointer"
+							className="p-3 hover:bg-slate-800 text-white cursor-pointer"
 							onClick={disconnectWallet}
 						>
 							{t('header.disconnect-wallet')}
