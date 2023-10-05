@@ -205,7 +205,7 @@ export default function Header() {
 			</Modal>
 			<div className="flex md:mr-1 h-[40px] justify-end items-center ml-[16px]">
 				{!isWalletConnected &&
-					<div className="flex justify-center">
+					<div className="flex items-center">
 					 <ConnectButton />
 					</div>
 

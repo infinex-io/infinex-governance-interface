@@ -10,13 +10,11 @@ import RoomCard from 'components/RoomCard';
 import svg from '../../public/logos/infinex-logo.svg';
 
  // Hooks (Internal)
-import useUserFarmingQuery, { GetFarmingData } from 'queries/farming/useUserFarmingQuery';
 import { useConnectorContext } from 'containers/Connector';
 
 
 const Farming: NextPage = () => {
 
-	const userFarmingQuery = useUserFarmingQuery(); //TODO maybe take this away
    const { connectWallet, isWalletConnected } = useConnectorContext();
 
 	return (

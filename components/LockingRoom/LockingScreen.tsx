@@ -52,6 +52,10 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
    }, [userFarmingQuery, room.token]);
 
    function handleStake(){
+      if (Number(inputValue) <= 0) {
+         toast.error("Input must be greater than 0");
+         return;
+      }
       setLoading(true);
       const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
       stakeTokenMutation.mutate({
