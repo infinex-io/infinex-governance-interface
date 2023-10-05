@@ -8,7 +8,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	icon?: React.ReactElement;
 	className?: string;
 	loading?: boolean;
-	variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'link' | 'success' | 'outline';
+	variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'link' | 'success' | 'outline' | 'nav';
 }
 
 export const Button = ({
@@ -29,6 +29,7 @@ export const Button = ({
 		{ [styles.link]: variant === 'link' },
 		{ [styles.success]: variant === 'success' },
 		{ [styles.outline]: variant === 'outline' },
+		{ [styles.nav]: variant === 'nav' },
 		className
 	);
 	const buttonIconClassname = icon ? styles.icon : '';

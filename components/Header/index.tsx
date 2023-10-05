@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
-import { Button, Dropdown } from '@synthetixio/ui';
+import { Dropdown } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import { useConnectorContext } from 'containers/Connector';
 import { truncateAddress } from 'utils/truncate-address';
 import { ConnectButton } from 'components/ConnectButton';
@@ -69,21 +70,19 @@ export default function Header() {
 						<path d="M41.5 16.2917V52.75H0V0.75H11.463V9.18802H7.96296V44.669H33.537V16.2917H41.5Z" fill="#FF9B69"/>
 						<path d="M58.4074 0.75V52.75H46.9444V44.669H50.4444V8.83095H24.8519V37.2083H16.8889V0.75H58.4074Z" fill="#FF9B69"/>
 					</svg>
-
 				</div>
 			</Link>
-			<div className="hidden md:flex justify-center w-full">
+			<div className="hidden md:flex gap-5 w-full">
 				{routes.map((route) => (
 					<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 						<Button
-							variant="spotlight"
-							className="last-of-type:mr-auto gt-america-font tg-content !bg-none"
+							variant='nav'
+							className={`last-of-type:mr-auto gt-america-font tg-content 
+							${asPath === `/${route.link}` ? 'border-b border-primary' : ''}`}
 							onClick={() => setBurgerMenuOpen(false)}
-							spotlightActive={route.link === '' ? asPath === '/' : asPath.includes(route.link)}
 							key={route.label}
-						>
-							{t(route.label)}
-						</Button>
+							label={t(route.label) as string}
+						/>
 					</Link>
 				))}
 			</div>
@@ -142,20 +141,16 @@ export default function Header() {
 					</div>
 				</div>
 			)}
-			<ChakraButton
-				className="!bg-slate-900 !border-slate-300 !text-white"
-				borderRadius="sm"
+			<Button
+				className="!bg-slate-900 !border-slate-300 !text-white h-[40px]"
 				variant="outline"
-				size="sm"
 				onClick={() => {
 					if (!connected) {
 						onOpen();
 					}
 				}}
-				minW={connected ? '150px' : '70px'}
-			>
-				{connected ? 'Safe Connected' : 'Safe'}
-			</ChakraButton>
+				label={connected ? 'Safe Connected' : 'Safe'}
+			/>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent bg="navy.900" borderColor="gray.900" borderWidth="1px" borderStyle="solid">
@@ -210,7 +205,7 @@ export default function Header() {
 					</ModalBody>
 				</ModalContent>
 			</Modal>
-			<div className="flex md:mr-1 h-[40px] justify-end ml-[16px]">
+			<div className="flex md:mr-1 h-[40px] justify-end items-center ml-[16px]">
 				{!isWalletConnected &&
 					<div className="flex justify-center">
 					 <ConnectButton />
@@ -220,9 +215,9 @@ export default function Header() {
 				{isWalletConnected && walletAddress && (
 					<Dropdown
 						triggerElement={
-							<Button className="min-w-[142px]" variant="secondary">
-								{ensName || truncateAddress(walletAddress)}
-							</Button>
+							<Button className="min-w-[142px] h-[40px] flex justify-center items-center" variant="secondary"
+							label={ensName || truncateAddress(walletAddress)}
+							/>
 						}
 						contentClassName="bg-navy-dark-1 flex flex-col dropdown-border overflow-hidden"
 						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}

@@ -40,10 +40,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			</div>
 		);
 
-	const { cta, button, variant, color, headlineLeft, headlineRight, secondButton } = councilInfo;
+	const { cta, button, color, headlineLeft, headlineRight, secondButton } = councilInfo;
 
 	return (
-		<div className="border border-slate-800 w-full xs:w-auto h-full p-4 rounded gap-1 flex flex-col
+		<div className="border border-slate-800 w-full xs:w-64 p-4 rounded gap-1 flex flex-col
 		 justify-around align-center bg-[#12141F]">
 			<Image alt={council} src={image} width={50} height={70} />
 			<h4 className="tg-title-h4 text-center mt-2" data-testid={`council-headline-${council}`}>

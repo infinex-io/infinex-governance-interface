@@ -119,3 +119,7 @@
 .spinner {
 	font-size: 3px;
 }
+
+.nav {
+	border-radius: 0;
+}
