@@ -39,7 +39,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.nomination',
 				button: 'landing-page.cards.button.nomination',
-				color: 'ui-gradient-orange text-black',
+				color: 'bg-[#15262A] text-[#31C690]',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',

@@ -7891,6 +7891,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: ecbd166e986b9095e01eba91958907ed43026e35aac98d667a9e958642795632c15a88f36785c66bcfbe05df32e47c1575d22faa46c29de271b013eb00202498
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -11217,6 +11224,7 @@ __metadata:
     "@web3-onboard/trezor": "npm:^2.3.0"
     "@web3-onboard/walletconnect": "npm:^2.3.1"
     autoprefixer: "npm:10.4.7"
+    classnames: "npm:^2.3.2"
     clsx: "npm:1.1.1"
     eslint: "npm:8.11.0"
     eslint-config-next: "npm:latest"

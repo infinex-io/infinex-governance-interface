@@ -35,9 +35,11 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 			<TransactionDialogContextProvider provider={signer?.provider || L2DefaultProvider}>
 				<SafeProvider>
 					<Modal open={isOpen} modalContent={content}>
-						<Header />
-						<TheComponent {...pageProps} />
-						<Footer />
+						<div className="min-h-screen flex flex-col justify-between">
+							<Header />
+							<TheComponent {...pageProps} />
+							<Footer />
+						</div>
 					</Modal>
 				</SafeProvider>
 			</TransactionDialogContextProvider>

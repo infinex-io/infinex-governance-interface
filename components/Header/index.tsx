@@ -53,7 +53,7 @@ export default function Header() {
 	const routes = routesDic.filter((route) => oneCouncilIsInVotingPeriod || route.link !== 'vote');
 	return (
 		<header
-			className={`bg-dark-blue w-full m-h-[66px] p-3 flex 
+			className={`bg-background-dark w-full m-h-[66px] p-3 flex 
 				items-center md:justify-center justify-between border-b-gray-800 border-b border-b-solid`}
 		>
 			<Link href="/" passHref legacyBehavior>

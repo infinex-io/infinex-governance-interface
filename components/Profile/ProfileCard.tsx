@@ -32,7 +32,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 	const { t } = useTranslation();
 
 	return (
-		<div className={clsx('bg-dark-blue border border-gray-800 w-full p-4 rounded-lg', className)}>
+		<div className={clsx('bg-background-dark border border-gray-800 w-full p-4 rounded-lg', className)}>
 			<div className="flex items-center flex-wrap gap-4">
 				<Avatar width={69} height={69} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 
