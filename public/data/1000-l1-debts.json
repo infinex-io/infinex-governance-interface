@@ -1,0 +1,43 @@
+{
+  "merkleRoot": "0x25110ecf3c41872736e4846fb85f7e5fb8bd997507c557336f492db47e3abc38",
+  "claims": {
+    "0x003AdeE9f572Ba3b9091F2ED0400040BCB3a7244": {
+      "amount": "0x01",
+      "proof": [
+        "0xecd1e9ac9e378e7d78f673628a260938f16bb05bd95380af9b98ab9e161b6465",
+        "0x389049ebc49becea558e2503d451a3eb2db0180ca3c56a720b55df67cbd9a6ea",
+        "0xfa79d24f262eb3c291d6107e0b2b00bda9574a5036c5ac20a4acb983c9d47808"
+      ]
+    },
+    "0x1BE960932CbC08f29cf70349c0a0547c75A297BC": {
+      "amount": "0x64",
+      "proof": [
+        "0x62d9770b71ad68cc7b86a1614d1f0ff56e8b667c11983108970d915f6e023121",
+        "0x41c2abf9bfe4e3efa0d9718c567a51fb1483745fb9d9fc2f296f8fddeee10102",
+        "0xfa79d24f262eb3c291d6107e0b2b00bda9574a5036c5ac20a4acb983c9d47808"
+      ]
+    },
+    "0xBA4bB4e7102229d0f288F04BeA3eA7e61c9C2aB6": {
+      "amount": "0x0a",
+      "proof": [
+        "0xee1cfbd245e5637ec2b88307cbb71671720e87a501bac12219eefb33288d2644"
+      ]
+    },
+    "0xDFdDDe062A9CE719931Dfea3B618D192F3c3aabe": {
+      "amount": "0x21",
+      "proof": [
+        "0x8a10aeb6573c65fd13a3b2b23554bfe6f9db26e99a8bafd7b125db7948bb2c5e",
+        "0x41c2abf9bfe4e3efa0d9718c567a51fb1483745fb9d9fc2f296f8fddeee10102",
+        "0xfa79d24f262eb3c291d6107e0b2b00bda9574a5036c5ac20a4acb983c9d47808"
+      ]
+    },
+    "0xccf10B8ff96579BeEFb2a75F674181E86D3c507E": {
+      "amount": "0x03",
+      "proof": [
+        "0xa90f5e70d025525ed977816724edda0709b6ba214dac6eddd098152962caf32b",
+        "0x389049ebc49becea558e2503d451a3eb2db0180ca3c56a720b55df67cbd9a6ea",
+        "0xfa79d24f262eb3c291d6107e0b2b00bda9574a5036c5ac20a4acb983c9d47808"
+      ]
+    }
+  }
+}
