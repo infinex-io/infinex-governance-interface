@@ -39,7 +39,7 @@ export default function MemberCard({
 		return (
 			<div
 				className={clsx(
-					'p-0.5 bg-purple rounded-lg',
+					'p-0.5 bg-slate-900 rounded-lg',
 					{
 						'xs:w-[210px] w-full max-w-full h-[283px]': !listView,
 						'w-full h-[88px]': listView,

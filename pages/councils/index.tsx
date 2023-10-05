@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Main from 'components/Main';
 import { useTranslation } from 'react-i18next';
-import { Tabs } from '@synthetixio/ui';
+import { Tabs } from 'components/Tabs/Tabs';
 import BackButton from 'components/BackButton';
 import { useRouter } from 'next/router';
 import { COUNCILS_DICTIONARY } from 'constants/config';
@@ -14,7 +14,6 @@ import { useCallback, useState } from 'react';
 import { PassedVotingResults } from 'components/Vote/PassedVotingResult';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { DeployedModules } from 'containers/Modules';
-import { TabItem, TabList } from "components/tabs"
 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
@@ -24,38 +23,6 @@ const Councils: NextPage = () => {
 	const { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
 	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
-	const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-	const handleTabChanged = useCallback(
-		(index: number) => {
-			setActiveTabIndex(index);
-		},
-		[activeTabIndex]
-	);
-
-	const tabItems = [
-		{
-			label: 'Trader',
-			content: (
-				<TraderTab />
-			),
-		},
-		{
-			label: 'Ecosystem',
-			content: (
-				<div className="flex">
-				</div>
-			),
-		},
-		{
-			label: 'Core Contributors',
-			content: <div className="flex"></div>,
-		},
-		{
-			label: 'Treasury',
-			content: <div className='flex'></div>,
-		},
-	];
 	
 	const allMembers = [trade, ecosystem, coreContributor, treasury];
 	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
@@ -69,7 +36,6 @@ const Councils: NextPage = () => {
 					<div className="w-full relative">
 						<h1 className="tg-title-h1 text-center p-12 ml-auto">{t('councils.headline')}</h1>
 					</div>
-					<TabList active={activeTabIndex} tabItems={tabItems} itemClicked={handleTabChanged} />
 
 					<Tabs
 						initial={activeCouncil}
@@ -143,11 +109,4 @@ const Councils: NextPage = () => {
 		</>
 	);
 };
-
-const TraderTab = () => {
-	return (
-		<div></div>
-	)
-}
-
 export default Councils;

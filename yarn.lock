@@ -7992,17 +7992,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:1.1.1":
-  version: 1.1.1
-  resolution: "clsx@npm:1.1.1"
-  checksum: 9c8bbaaae0feb0987be8345023f392569c47efd679a058bb3b89cb49c150a9a2ac936ea2751661669eab426bae440fbbd145c73929b0485cc285e25757792152
-  languageName: node
-  linkType: hard
-
 "clsx@npm:^1.1.0, clsx@npm:^1.1.1":
   version: 1.2.1
   resolution: "clsx@npm:1.2.1"
   checksum: cae17fd0fd5ea449d000c681169a8a6f7add4929b369cae3e2d5b604fba2798b39334121e467dbf6ac752562c28a6894a443f30761b004317c0668eb031af52d
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "clsx@npm:2.0.0"
+  checksum: 162cd1e4366c49cba5e43621238f3121c93b3ef033cc8f3e48525cbc8f672373eb84c6fae51b0060ce07ab0626a6b89b58a2d9f06486d1721a31de114620a81b
   languageName: node
   linkType: hard
 
@@ -11225,7 +11225,7 @@ __metadata:
     "@web3-onboard/walletconnect": "npm:^2.3.1"
     autoprefixer: "npm:10.4.7"
     classnames: "npm:^2.3.2"
-    clsx: "npm:1.1.1"
+    clsx: "npm:^2.0.0"
     eslint: "npm:8.11.0"
     eslint-config-next: "npm:latest"
     ethers: "npm:5.6.8"

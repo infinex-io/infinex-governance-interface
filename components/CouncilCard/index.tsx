@@ -89,7 +89,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			{secondButton && (
 				<Button
 					variant='outline'
-					className="tg-caption cursor-pointer bg-clip-text text-transparent w-full"
+					className="cursor-pointer bg-clip-text w-full"
 					onClick={() => push(`/councils/${council}`)}
 					label={t(secondButton) as string}
 				/>
