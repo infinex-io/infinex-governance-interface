@@ -16,6 +16,7 @@ import {
 	PropsWithChildren,
 } from 'react';
 import { DeployedModules } from 'constants/config';
+import { NETWORK_ID } from '../../utils/network';
 
 export { DeployedModules };
 
@@ -36,7 +37,7 @@ export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children
 	const [governanceModules, setGovernanceModules] = useState<GovernanceModule | null>(null);
 
 	useEffect(() => {
-		const wrongNetwork = network?.id !== 10;
+		const wrongNetwork = network?.id !== NETWORK_ID;
 
 		// Uncomment next line for testing forks
 		// if (!signer) return;
