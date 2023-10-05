@@ -76,17 +76,17 @@ export const MemberCardAction: React.FC<Props> = ({
                 {isOwnCard && (
                     <Dropdown
                         triggerElement={
-                            <IconButton size="sm">
+                            <IconButton size="sm" className="h-[35px] bg-transparent">
                                 <Icon className="text-xl" name="Vertical" />
                             </IconButton>
                         }
-                        contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+                        contentClassName="bg-slate-1000 flex flex-col dropdown-border overflow-hidden"
                         triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
                         contentAlignment="right"
                         renderFunction={({ handleClose }) => (
                             <div className="flex flex-col">
                                 <span
-                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer"
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer"
                                     onClick={() => {
                                         handleClose();
                                         setContent(
@@ -103,7 +103,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                 <Link
                                     href={`/profile/${member.address}`}
                                     passHref
-                                    className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     {t('councils.dropdown.edit')}
 
@@ -114,7 +114,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                     key="etherscan-link"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     <span key={`${member.address}-title`} color="lightBlue">
                                         {t('councils.dropdown.etherscan')}
@@ -168,11 +168,11 @@ export const MemberCardAction: React.FC<Props> = ({
                 {isOwnCard && (
                     <Dropdown
                         triggerElement={
-                            <IconButton size="sm">
+                            <IconButton size="sm" className="h-[35px] bg-transparent">
                                 <Icon className="text-xl" name="Vertical" />
                             </IconButton>
                         }
-                        contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+                        contentClassName="bg-slate-1000 flex flex-col dropdown-border overflow-hidden"
                         triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
                         contentAlignment="right"
                         renderFunction={() => (
@@ -180,7 +180,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                 <Link
                                     href={`/profile/${member.address}`}
                                     passHref
-                                    className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     {t('councils.dropdown.edit')}
 
@@ -191,7 +191,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                     key="etherscan-link"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     <span key={`${member.address}-title`} color="lightBlue">
                                         {t('councils.dropdown.etherscan')}
