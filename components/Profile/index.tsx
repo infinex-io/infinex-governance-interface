@@ -128,7 +128,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<div className="container">
 					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
-							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
+							<div className="bg-slate-950 w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
 								<div className="flex flex-col">
 									<div className="flex w-full items-center gap-2">
 										{calculatePercentage() === '100%' ? (
@@ -159,7 +159,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{delegationPitch ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
@@ -172,7 +172,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{discord ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
@@ -185,7 +185,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{twitter ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
