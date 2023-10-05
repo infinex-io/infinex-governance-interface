@@ -43,7 +43,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          }else{
             setStatus("none")
          }
-         if (userFarmingQuery.data.staking[`${room.token}_status`] === "pending"){ // TODO: Switch this to whatever the state is meant to be
+         if (userFarmingQuery.data.volume[`${room.token}_status`] === "processing"){ // TODO: Switch this to whatever the state is meant to be
             setStatus("waiting")
          }
       }
