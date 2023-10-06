@@ -14,7 +14,7 @@ export const parseQuery = (
 		case 'ecosystem':
 		case 1:
 			return { index: 1, module: DeployedModules.ECOSYSTEM_COUNCIL, name: 'ecosystem' };
-		case 'coreContributor':
+		case 'core-contributor':
 		case 2:
 			return { index: 2, module: DeployedModules.CORE_CONTRIBUTOR_COUNCIL, name: 'coreContributor' };
 		case 'treasury':
