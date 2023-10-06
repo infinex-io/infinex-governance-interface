@@ -1,5 +1,6 @@
 import { ConnectButton } from 'components/ConnectButton';
-import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
@@ -154,9 +155,8 @@ export default function NominateModal() {
 						className="w-[313px]"
 						onClick={() => handleNomination()}
 						disabled={!activeCheckbox}
-					>
-						{t('modals.nomination.button')}
-					</Button>
+						label={t('modals.nomination.button') as string}
+					/>
 				</div>
 			)}
 		</BaseModal>

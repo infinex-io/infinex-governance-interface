@@ -5,13 +5,14 @@ import { useRouter } from 'next/router';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { useTranslation } from 'react-i18next';
 import VoteModal from 'components/Modals/Vote';
-import { Button, IconButton, Dropdown, Icon } from '@synthetixio/ui';
+import { IconButton, Dropdown, Icon } from '@synthetixio/ui';
 import Link from 'next/link';
 import { EpochPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { DeployedModules } from 'containers/Modules';
 import WithdrawVoteModal from 'components/Modals/WithdrawVote';
 import { compareAddress } from 'utils/helpers';
 import clsx from 'clsx';
+import { Button } from 'components/button';
 
 interface Props {
 	state: keyof typeof EpochPeriods;
@@ -50,9 +51,8 @@ export const MemberCardAction: React.FC<Props> = ({
                         e.stopPropagation();
                         push('/profile/' + member.address);
                     }}
-                >
-                    {t('councils.view-member')}
-                </Button>
+                    label={t('councils.view-member') as string}
+                />
             </div>
         )}
 
@@ -70,24 +70,23 @@ export const MemberCardAction: React.FC<Props> = ({
                             push('/profile/' + member.address);
                         }
                     }}
-                >
-                    {isOwnCard ? t('councils.edit-nomination') : t('councils.view-nominee')}
-                </Button>
+                   label={isOwnCard ? t('councils.edit-nomination') as string : t('councils.view-nominee') as string}
+                />
 
                 {isOwnCard && (
                     <Dropdown
                         triggerElement={
-                            <IconButton size="sm">
+                            <IconButton size="sm" className="h-[35px] bg-transparent">
                                 <Icon className="text-xl" name="Vertical" />
                             </IconButton>
                         }
-                        contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+                        contentClassName="bg-slate-1000 flex flex-col dropdown-border overflow-hidden"
                         triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
                         contentAlignment="right"
                         renderFunction={({ handleClose }) => (
                             <div className="flex flex-col">
                                 <span
-                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer"
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer"
                                     onClick={() => {
                                         handleClose();
                                         setContent(
@@ -104,7 +103,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                 <Link
                                     href={`/profile/${member.address}`}
                                     passHref
-                                    className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     {t('councils.dropdown.edit')}
 
@@ -115,7 +114,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                     key="etherscan-link"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     <span key={`${member.address}-title`} color="lightBlue">
                                         {t('councils.dropdown.etherscan')}
@@ -134,7 +133,6 @@ export const MemberCardAction: React.FC<Props> = ({
                 <div className="flex flex-col">
                     <Button
                         className={clsx('w-full', { 'mr-2': isOwnCard })}
-                        variant="outline"
                         onClick={(e) => {
                             e.stopPropagation();
                             if (votedForAlready) {
@@ -156,26 +154,25 @@ export const MemberCardAction: React.FC<Props> = ({
                             }
                             setIsOpen(true);
                         }}
-                    >
-                        {votedForAlready ? t('vote.withdraw') : t('vote.vote-nominee')}
-                    </Button>
+                        label={votedForAlready ? t('vote.withdraw') as string: t('vote.vote-nominee') as string}
+                    />
                     {!isOwnCard && (
-                        <span
-                            className="tg-caption cursor-pointer bg-clip-text text-transparent ui-gradient-primary text-center mt-3"
+                        <Button
+                            variant='outline'
+                            className="cursor-pointer text-center mt-3"
                             onClick={() => push('/profile/'.concat(walletAddress))}
-                        >
-                            {t('councils.view-nominee')}
-                        </span>
+                            label={t('councils.view-nominee') as string}
+                        />
                     )}
                 </div>
                 {isOwnCard && (
                     <Dropdown
                         triggerElement={
-                            <IconButton size="sm">
+                            <IconButton size="sm" className="h-[35px] bg-transparent">
                                 <Icon className="text-xl" name="Vertical" />
                             </IconButton>
                         }
-                        contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+                        contentClassName="bg-slate-1000 flex flex-col dropdown-border overflow-hidden"
                         triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
                         contentAlignment="right"
                         renderFunction={() => (
@@ -183,7 +180,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                 <Link
                                     href={`/profile/${member.address}`}
                                     passHref
-                                    className="hover:bg-navy-dark-1 bg-navy-light-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     {t('councils.dropdown.edit')}
 
@@ -194,7 +191,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                     key="etherscan-link"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:bg-navy-dark-1 p-2 text-primary cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
 
                                     <span key={`${member.address}-title`} color="lightBlue">
                                         {t('councils.dropdown.etherscan')}

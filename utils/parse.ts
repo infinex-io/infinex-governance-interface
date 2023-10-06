@@ -39,7 +39,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.nomination',
 				button: 'landing-page.cards.button.nomination',
-				color: 'ui-gradient-orange text-black',
+				color: 'bg-[#15262A] text-[#31C690]',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
@@ -49,7 +49,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.vote',
 				button: 'landing-page.cards.button.vote',
-				color: 'bg-green text-black',
+				color: 'bg-[#232334] text-[#B8ABEE]',
 				variant: 'default',
 				headlineLeft: 'landing-page.cards.candidates',
 				headlineRight: 'landing-page.cards.received',
@@ -58,7 +58,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.eval',
 				button: 'landing-page.cards.button.nominees',
-				color: 'bg-purple',
+				color: 'bg-[#182534] text-[#51BEF4]',
 				variant: 'outline',
 				headlineLeft: 'landing-page.cards.members',
 				headlineRight: 'landing-page.cards.received',
@@ -68,7 +68,7 @@ export function parseCouncil(index: number): {
 			return {
 				cta: 'landing-page.cards.cta.closed',
 				button: 'landing-page.cards.button.closed',
-				color: 'bg-purple',
+				color: 'bg-[#182534] text-[#51BEF4]',
 				variant: 'outline',
 				headlineLeft: 'landing-page.cards.members',
 				headlineRight: 'landing-page.cards.received',

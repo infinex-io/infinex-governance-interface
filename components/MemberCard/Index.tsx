@@ -39,7 +39,7 @@ export default function MemberCard({
 		return (
 			<div
 				className={clsx(
-					'p-0.5 bg-purple rounded-lg',
+					'p-0.5 bg-slate-900 rounded-lg',
 					{
 						'xs:w-[210px] w-full max-w-full h-[283px]': !listView,
 						'w-full h-[88px]': listView,
@@ -68,7 +68,7 @@ export default function MemberCard({
 		<>
 			<Avatar width={56} height={56} walletAddress={member.address} url={member.pfpThumbnailUrl} />
 			{council && (
-				<Badge variant="blue" className="mt-2 uppercase">
+				<Badge className="mt-2 uppercase">
 					{t('profiles.council', { council })}
 				</Badge>
 			)}
@@ -137,8 +137,8 @@ export default function MemberCard({
 		<div
 			key={member.address.concat(member.about)}
 			className={clsx('p-0.5 rounded-lg', className, {
-				'bg-orange': isOwnCard,
-				'bg-purple': !isOwnCard,
+				'bg-[#232334]': isOwnCard,
+				'bg-[#182534]': !isOwnCard,
 				'w-full xs:max-w-[210px] min-w-[210px] h-[285px]': !listView,
 				'w-full': listView,
 			})}

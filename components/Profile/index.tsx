@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
+import { Dialog, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
@@ -19,6 +19,7 @@ import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useIsNominatedCouncils } from 'queries/nomination/useIsNominatedCouncils';
+import { Button } from 'components/button';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -127,7 +128,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<div className="container">
 					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
-							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
+							<div className="bg-slate-950 w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
 								<div className="flex flex-col">
 									<div className="flex w-full items-center gap-2">
 										{calculatePercentage() === '100%' ? (
@@ -158,7 +159,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{delegationPitch ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
@@ -171,7 +172,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{discord ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
@@ -184,14 +185,13 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{twitter ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
 										</div>
 										<Button
-											variant="outline"
-											size="md"
+											variant="destructive"
 											className="max-w-[180px] m-2"
 											onClick={() => {
 												if (isNominatedFor?.length) {
@@ -204,9 +204,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 													setModalOpen(true);
 												}
 											}}
-										>
-											{t('profiles.completion-card.withdraw')}
-										</Button>
+											label={t('profiles.completion-card.withdraw') as string}
+										/>
 									</div>
 								</div>
 							</div>
@@ -236,11 +235,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							/>
 						</div>
 					</div>
-					<hr className="border-gray-700 my-4 w-full" />
-					<CouncilsCarousel />
-					<Button className="mx-auto my-8 mt-12" onClick={() => push('/councils')} size="lg">
-						{t('profiles.view-all-members')}
-					</Button>
 				</div>
 			</div>
 		);

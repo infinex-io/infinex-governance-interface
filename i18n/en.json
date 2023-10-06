@@ -18,7 +18,7 @@
 	},
 	"landing-page": {
 		"headline": "Governing Bodies",
-		"subline": "The Infinex Protocol is governed by four bodies, each responsible for a core aspect of a DAO.",
+		"subline": "The Infinex Council is comprised of 5 seats, each responsible for a core aspect of a DAO",
 		"second-headline": "Infinex Governance",
 		"second-subline": "Find links to each core component of the Infinex Governance System",
 		"tabs-headline": "Current Members",
@@ -46,10 +46,10 @@
 			"cta": "Choose Council"
 		},
 		"cards": {
-			"trade": "Trade Council",
-			"ecosystem": "Ecosystem Council",
-			"core-contributor": "Core Contributors Council",
-			"treasury": "Treasury Council",
+			"trade": "Trader Seat",
+			"ecosystem": "Ecosystem Seats",
+			"core-contributor": "Core Contributors Seat",
+			"treasury": "Treasury Seat",
 			"cta": {
 				"closed": "CLOSED - COUNCIL ELECTED",
 				"nomination": "NOMINATIONS OPEN",
@@ -76,7 +76,7 @@
 		}
 	},
 	"councils": {
-		"headline": "Our Current Elected Members",
+		"headline": "Council structure",
 		"subline": "Meet each of the nominees for the new and up and coming elections for the Infinex governing bodies, each responsible for a core aspect of the DAO.",
 		"nominees": "{{ council }} Council Nominees",
 		"members": "{{ council }} Council Members",
@@ -176,10 +176,10 @@
 		"no-nominations": "No Nominations yet",
 
 		"councils": {
-			"tr": "Trade Council",
-			"ec": "Ecosystem Council",
-			"cc": "Core Contributor Council",
-			"tc": "Treasury Council"
+			"tr": "Trader Seat",
+			"ec": "Ecosystem Seats",
+			"cc": "Core Contributor Seat",
+			"tc": "Treasury Seat"
 		},
 		"dropdown": {
 			"change": "Change Vote",
@@ -198,10 +198,10 @@
 				"action": "Action"
 			},
 			"tabs": {
-				"tr": "Trade Council",
-				"ec": "Ecosystem Council",
-				"cc": "Core Contributor Council",
-				"tc": "Treasury Council"
+				"tr": "Trader Seat",
+				"ec": "Ecosystem Seats",
+				"cc": "Core Contributor Seat",
+				"tc": "Treasury Seat"
 			},
 			"table": {
 				"name": "Name",
@@ -222,10 +222,10 @@
 			"button": "Nominate Self",
 			"cta": "Nomination for {{council}} Council",
 			"checkboxes": {
-				"trade": "Trade Council",
-				"ecosystem": "Ecosystem Council",
-				"core-contributor": "Core Contributor Council",
-				"treasury": "Treasury Council",
+				"trade": "Trader Seat",
+				"ecosystem": "Ecosystem Seats",
+				"core-contributor": "Core Contributor Seat",
+				"treasury": "Treasury Seat",
 				"connect-wallet": "Connect Wallet"
 			}
 		},

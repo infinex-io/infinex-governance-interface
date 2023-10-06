@@ -36,14 +36,14 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		label: 'Ecosystem',
 		abbreviation: 'ec',
 		image: '/logos/ecosystem-council.svg',
-		module: DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
+		module: DeployedModules.ECOSYSTEM_COUNCIL,
 	},
 	{
 		slug: 'core-contributor',
 		label: 'Core Contributor',
 		abbreviation: 'cc',
 		image: '/logos/core-contributor-council.svg',
-		module: DeployedModules.ECOSYSTEM_COUNCIL,
+		module: DeployedModules.CORE_CONTRIBUTOR_COUNCIL ,
 	},
 	{
 		slug: 'treasury',

@@ -45,7 +45,7 @@ export const NominateInVotingBanner: React.FC = () => {
 		<div className="w-full p-0.5 bg-orange rounded mx-auto mt-4">
 			<div className="flex md:flex-row flex-col gap-2 items-center justify-between w-full h-full darker-60 p-5">
 				<div className="flex md:flex-row flex-col gap-2 items-center">
-					<div className="bg-dark-blue rounded-full h-12 w-12 flex items-center justify-center md:mr-4">
+					<div className="bg-background-dark rounded-full h-12 w-12 flex items-center justify-center md:mr-4">
 						<SNXIcon />
 					</div>
 					<div className="text-center md:text-left">
