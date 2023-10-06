@@ -108,7 +108,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 						const ecosystemTx = await nominateForEcosystemCouncil.mutateAsync();
 						setTxHash(ecosystemTx.hash);
 						break;
-					case 'coreContributor':
+					case 'core-contributor':
 						const coreContributorTx = await nominateForCoreContributorCouncil.mutateAsync();
 						setTxHash(coreContributorTx.hash);
 						break;

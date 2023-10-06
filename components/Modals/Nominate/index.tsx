@@ -104,7 +104,7 @@ export default function NominateModal() {
 					const ecosystemTx = await nominateForEcosystemCouncil.mutateAsync();
 					setTxHash(ecosystemTx.hash);
 					break;
-				case 'coreContributor':
+				case 'core-contributor':
 					setContent(setCTA('CoreContributor'));
 					const coreContributorTx = await nominateForCoreContributorCouncil.mutateAsync();
 					setTxHash(coreContributorTx.hash);
