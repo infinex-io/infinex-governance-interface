@@ -9,7 +9,8 @@ import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import useNominateMutation from 'mutations/nomination/useNominateMutation';
 import { useRouter } from 'next/router';
 import { capitalizeString } from 'utils/capitalize';
-import { Button, Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import { useModalContext } from 'containers/Modal';
 import { useQueryClient } from 'react-query';
 import { ConnectButton } from 'components/ConnectButton';
@@ -211,11 +212,9 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 					<Button
 						className="w-full mb-8"
 						onClick={() => handleBtnClick()}
-						size="lg"
 						disabled={step === 2 && !activeCheckbox}
-					>
-						{t('modals.edit.button')}
-					</Button>
+						label={t('modals.edit.button') as string}
+					/>
 				</div>
 			)}
 		</BaseModal>

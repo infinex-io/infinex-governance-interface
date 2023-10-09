@@ -14,7 +14,7 @@ const injected = injectedModule();
 const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true });
 const walletConnect = walletConnectModule();
 const ledger = ledgerModule() as any;
-const trezor = trezorModule({ email: 'info@synthetix.io', appUrl: 'https://www.synthetix.io' });
+const trezor = trezorModule({ email: 'info@synthetix.io', appUrl: 'https://infinex.io' });
 const portis = portisModule({ apiKey: `${process.env.NEXT_PUBLIC_PORTIS_APP_ID}` });
 const torus = torusModule();
 
@@ -23,13 +23,13 @@ export const onboard = Onboard({
 		name: 'Infinex',
 		icon: InfinexIcon,
 		logo: InfinexLogo,
-		description: 'Infinex | The derivatives liquidity protocol.',
+		description: 'Infinex | The Gateway to DeFi.',
 		recommendedInjectedWallets: [
 			{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
 			{ name: 'MetaMask', url: 'https://metamask.io' },
 		],
-		gettingStartedGuide: 'https://synthetix.io',
-		explore: 'https://blog.synthetix.io/',
+		gettingStartedGuide: 'https://infinex.io',
+		explore: 'https://mirror.xyz/infinex.eth',
 	},
 	apiKey: process.env.NEXT_PUBLIC_BN_ONBOARD_API_KEY,
 	wallets: [injected, ledger, coinbaseWalletSdk, walletConnect, trezor, portis, torus],

@@ -6,7 +6,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Button, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
+import { Dialog, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
@@ -83,11 +84,12 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							</h4>
 							<Dropdown
 								triggerElement={
-									<IconButton variant="dark-blue">
+									<IconButton className="bg-transparent focus:text-slate-300 hover:border-slate-800 
+									focus:border-slate-600">
 										<Icon className="text-xl" name="Vertical" />
 									</IconButton>
 								}
-								contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+								contentClassName="bg-slate-1000 flex flex-col dropdown-border overflow-hidden"
 								triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 								contentAlignment="right"
 							>
@@ -95,7 +97,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
 										<ExternalLink
 											link={twitter}
-											className="hover:bg-navy-dark-1 rounded-none"
+											className="hover:bg-slate-900 rounded-none text-slate-200"
 											text="Twitter"
 											withoutIcon
 										/>
@@ -104,7 +106,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 									{address && (
 										<ExternalLink
 											link={`https://optimistic.etherscan.io/address/${address}`}
-											className="hover:bg-navy-dark-1 rounded-none"
+											className="hover:bg-slate-900 rounded-none text-slate-200"
 											text="Etherscan"
 											withoutIcon
 										/>
@@ -190,7 +192,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 										</div>
 										<Button
 											variant="outline"
-											size="md"
 											className="max-w-[180px] m-2"
 											onClick={() => {
 												if (isNominatedFor?.length) {
@@ -203,9 +204,8 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 													setModalOpen(true);
 												}
 											}}
-										>
-											{t('profiles.completion-card.withdraw')}
-										</Button>
+											label={t('profiles.completion-card.withdraw') as string}
+										/>
 									</div>
 								</div>
 							</div>
@@ -216,7 +216,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 						<div className="relative flex flex-col items-center w-full">
 							{isOwnCard && (
 								<IconButton
-									className="absolute top-5 right-3"
+									className="bg-transparent absolute top-5 right-3"
 									onClick={() => setIsOpen(true)}
 									size="sm"
 								>

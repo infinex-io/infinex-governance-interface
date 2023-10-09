@@ -1,6 +1,3 @@
-import { Button, ButtonCard } from '@synthetixio/ui';
-import CouncilsCarousel from 'components/CouncilsCarousel';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { CouncilCard } from 'components/CouncilCard';

@@ -190,7 +190,7 @@ html {
   background: linear-gradient(180deg, #08021e 0%, #1f0777 146.21%);
 }
 
-.ui-gradient-dark-blue {
+.ui-gradient- {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), #402fc8;
 }
 
@@ -215,7 +215,8 @@ html {
 }
 
 .ui-gradient-gray-2 {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(311.52deg, #3d464c -36.37%, #131619 62.81%);
+  background: var(--color-slate-900)
+  // background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(311.52deg, #3d464c -36.37%, #131619 62.81%);
 }
 
 .ui-text-fill-transparent {

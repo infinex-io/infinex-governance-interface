@@ -8,7 +8,8 @@ import { DeployedModules } from 'containers/Modules/Modules';
 import { truncateAddress } from 'utils/truncate-address';
 import { capitalizeString } from 'utils/capitalize';
 import Avatar from 'components/Avatar';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { useTransactionModalContext } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useModulesContext } from 'containers/Modules/index';
@@ -213,24 +214,20 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 				) : (
 					<Button
 						onClick={() => handleVote()}
-						size="lg"
 						className="m-6 w-full"
 						disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
-					>
-						{t('modals.vote.submit')}
-					</Button>
+						label={t('modals.vote.submit') as string}
+					/>
 				)}
 				<Button
 					className="w-full"
-					size="lg"
 					variant="outline"
 					onClick={() => {
 						setIsOpen(false);
 						push('/profile/' + member.address);
 					}}
-				>
-					{t('modals.vote.profile')}
-				</Button>
+					label={t('modals.vote.profile') as string}
+				/>
 			</div>
 		</BaseModal>
 	);

@@ -1,4 +1,4 @@
-import { Button } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import SNXIcon from 'components/Icons/SNXIcon';
 import EditNominationModal from 'components/Modals/EditNomination';
 import NominateModal from 'components/Modals/Nominate';
@@ -67,9 +67,8 @@ export const NominateInVotingBanner: React.FC = () => {
 						}
 					}}
 					variant="outline"
-				>
-					{t('landing-page.nominate-banner.cta')}
-				</Button>
+					label={t('landing-page.nominate-banner.cta') as string}
+				/>
 			</div>
 		</div>
 	);

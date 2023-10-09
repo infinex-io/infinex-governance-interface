@@ -1,7 +1,8 @@
 // import { Button } from '@synthetixio/ui';
-import { Button } from '@chakra-ui/react'
 import { useConnectorContext } from 'containers/Connector';
 import { useTranslation } from 'react-i18next';
+import { Button } from 'components/button';
+import clsx from 'clsx';
 
 interface Props {
 	className?: string;
@@ -12,12 +13,9 @@ export const ConnectButton: React.FC<Props> = ({ className = 'min-w-[142px] h-8 
 	const { t } = useTranslation();
 	return (
 		<Button 
-			size="sm" 
-			className={className} 
-			variant="default" 
+			className={clsx(className, "h-full")} 
 			onClick={connectWallet}
-		>
-			{t('header.connect-wallet')}
-		</Button>
+			label={t('header.connect-wallet') as string}
+		/>
 	);
 };

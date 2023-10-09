@@ -31,7 +31,7 @@ export const PassedVotingResults: React.FC<PassedVotingResultsProps> = ({ module
 	return (
 		<div className="w-full mt-10">
 			{[...Array(epochIndex)].map((_, i) => (
-				<div key={i} className="w-full ui-gradient-gray-1 p-[1px] rounded shadow-card mb-2">
+				<div key={i} className="w-full bg-slate-900 p-[1px] rounded shadow-card mb-2">
 					<Accordion
 						variant="dark-blue"
 						title={<VotingResultTitle moduleInstance={moduleInstance} epoch={epochIndex - i - 1} />}

@@ -1,4 +1,4 @@
-import { Button } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
@@ -36,9 +36,8 @@ export const CouncilStats: React.FC<Props> = ({ className, listView, members, co
 				<Button
 					className={clsx({ 'mt-auto': !listView, 'ml-auto': listView })}
 					onClick={() => push('/councils')}
-				>
-					{t('councils.view-council')}
-				</Button>
+					label={t('councils.view-council') as string}
+				/>
 			</div>
 		</div>
 	);

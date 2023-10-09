@@ -1,5 +1,6 @@
 import { ConnectButton } from 'components/ConnectButton';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { useTransactionModalContext } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import { useConnectorContext } from 'containers/Connector';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -94,9 +95,9 @@ export default function WithdrawNominationModal({
 						</h5>
 						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
 					</div>
-					<Button onClick={() => handleWithdrawNomination()} className="w-full md:w-auto">
-						{t('modals.withdraw.button')}
-					</Button>
+					<Button onClick={() => handleWithdrawNomination()} className="w-full md:w-auto" 
+					label={t('modals.withdraw.button') as string}
+					/>
 				</div>
 			)}
 		</BaseModal>

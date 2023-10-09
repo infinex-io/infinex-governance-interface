@@ -1,5 +1,6 @@
 import { ConnectButton } from 'components/ConnectButton';
-import { Button, useTransactionModalContext } from '@synthetixio/ui';
+import { useTransactionModalContext } from '@synthetixio/ui';
+import { Button } from 'components/button';
 import Avatar from 'components/Avatar';
 import { useModalContext } from 'containers/Modal';
 import { DeployedModules } from 'containers/Modules';
@@ -92,9 +93,9 @@ export default function WithdrawVoteModal({ member, council, deployedModule }: W
 							{member.ens || truncateAddress(member.address)}
 						</h3>
 					</div>
-					<Button size="lg" onClick={handleWithdraw} className="m-6 w-full">
-						{t('modals.withdraw-vote.uncast-vote')}
-					</Button>
+					<Button onClick={handleWithdraw} className="m-6 w-full"
+						label={t('modals.withdraw-vote.uncast-vote') as string}
+					/>
 				</div>
 			)}
 		</BaseModal>

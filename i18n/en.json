@@ -2,7 +2,7 @@
 	"header": {
 		"routes": {
 			"home": "Home",
-			"councils": "Councils",
+			"councils": "Council Structure",
 			"profile": "Profile",
 			"vote": "Vote"
 		},
@@ -96,13 +96,13 @@
 			"withdraw-vote": "Withdraw Vote"
 		},
 		"tabs": {
-			"tr": "Trade Council",
-			"ec": "Ecosystem Council",
-			"cc": "Core Contributor Council",
-			"tc": "Treasury Council",
+			"tr": "Trade Seat",
+			"ec": "Ecosystem Seats",
+			"cc": "Core Contributor Seat",
+			"tc": "Treasury Seat",
 			"explanations": {
 				"tr": {
-					"subline": "The Trade Council is the central governing body of the Infinex protocol. The SC votes on overall improvement proposals and parameter changes.",
+					"subline": "The Trader seat will be responsible for representing the interests of the broader CeFi and DeFi ecosystem, particularly centralized exchange traders. Their inclusion ensures that the spectrum of opinions within the crypto ecosystem is more fully represented in decisions made by the Infinex Council.",
 					"election": "Trade Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
@@ -110,7 +110,7 @@
 					"nextElection": "Next Trade Election:"
 				},
 				"ec": {
-					"subline": "The Ecosystem Council is a value-based Infinex elected body whose ultimate goal is to fund beneficial and high-quality public goods projects through ecosystem, initiative bounties, or competition prizes.",
+					"subline": "The Ecosystem seat will represent the Synthetix community. A councillor in the Ecosystem seat will advocate for the interests of the broader Synthetix ecosystem, and their place on the council is designed to foster alignment of interests among protocols.",
 					"election": "Ecosystem Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
@@ -118,7 +118,7 @@
 					"nextElection": "Next Ecosystem Election:"
 				},
 				"cc": {
-					"subline": "The Core Contributor Council actively promotes and advocates for the interests of Infinex in the overall Ethereum (and DeFi) ecosystem.",
+					"subline": "The CC seat will represent the Core Contributors of Infinex, which seeks to ensure that there is always a voice on the council with a deep understanding of the protocol's existing implementations.",
 					"election": "Core Contributor Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
@@ -126,7 +126,7 @@
 					"nextElection": "Next Core Contributor Election:"
 				},
 				"tc": {
-					"subline": "The Treasury Council manages the Infinex Treasury and provides funding to the other governance bodies, CC stipend payments, and other discretionary incentives.",
+					"subline": "The Treasury seat will be responsible for managing the treasury and will use funds to bootstrap the project and ensure its long-term sustainability.",
 					"election": "Treasury Election:",
 					"members": "{{count}} Members",
 					"stipends": "Stipends PM:",
@@ -282,8 +282,8 @@
 				"placeholder": {
 					"username": "e.g John Smith",
 					"profileImageUrl": "e.g ipfs://QmQx9x2ioChpipfHGeGEQXYSRwAW",
-					"discord": "john_smith#2131",
-					"website": "e.g https://synthetix.io/",
+					"discord": "e.g. john_smith",
+					"website": "e.g https://infinex.io/",
 					"twitter": "e.g https://twitter.com/{twitter_id}",
 					"github": "e.g  https://github.com/{github_id}",
 					"delegationPitch": "e.g I am a OG Infinex Community Member.",

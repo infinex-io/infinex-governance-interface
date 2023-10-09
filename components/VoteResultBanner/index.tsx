@@ -1,9 +1,9 @@
-import { Button } from '@synthetixio/ui';
 import SNXIcon from 'components/Icons/SNXIcon';
 import { useRouter } from 'next/router';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from 'components/button';
 
 export const VoteResultBanner: React.FC = () => {
 	const { push } = useRouter();
@@ -29,9 +29,8 @@ export const VoteResultBanner: React.FC = () => {
 						push('/vote');
 					}}
 					variant="outline"
-				>
-					{t('landing-page.vote-banner.cta')}
-				</Button>
+					label={t('landing-page.vote-banner.cta') as string}
+				/>
 			</div>
 		</div>
 	);
