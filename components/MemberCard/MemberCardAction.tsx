@@ -76,7 +76,8 @@ export const MemberCardAction: React.FC<Props> = ({
                 {isOwnCard && (
                     <Dropdown
                         triggerElement={
-                            <IconButton size="sm" className="h-[35px] bg-transparent">
+                            <IconButton size="sm" className="h-[35px] bg-transparent focus:text-slate-300 hover:border-slate-800 
+                            focus:border-slate-600">
                                 <Icon className="text-xl" name="Vertical" />
                             </IconButton>
                         }
@@ -84,9 +85,9 @@ export const MemberCardAction: React.FC<Props> = ({
                         triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
                         contentAlignment="right"
                         renderFunction={({ handleClose }) => (
-                            <div className="flex flex-col">
+                            <div className="flex flex-col text-xs">
                                 <span
-                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer"
+                                    className="hover:bg-slate-900 p-2 text-slate-200 cursor-pointer"
                                     onClick={() => {
                                         handleClose();
                                         setContent(
@@ -103,7 +104,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                 <Link
                                     href={`/profile/${member.address}`}
                                     passHref
-                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-200 cursor-pointer">
 
                                     {t('councils.dropdown.edit')}
 
@@ -114,7 +115,7 @@ export const MemberCardAction: React.FC<Props> = ({
                                     key="etherscan-link"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="hover:bg-slate-900 p-2 text-slate-100 cursor-pointer">
+                                    className="hover:bg-slate-900 p-2 text-slate-200 cursor-pointer">
 
                                     <span key={`${member.address}-title`} color="lightBlue">
                                         {t('councils.dropdown.etherscan')}
@@ -168,7 +169,7 @@ export const MemberCardAction: React.FC<Props> = ({
                 {isOwnCard && (
                     <Dropdown
                         triggerElement={
-                            <IconButton size="sm" className="h-[35px] bg-transparent">
+                            <IconButton size="sm" className="h-[35px] bg-transparent focus:color-slate-900 ">
                                 <Icon className="text-xl" name="Vertical" />
                             </IconButton>
                         }

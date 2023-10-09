@@ -128,85 +128,73 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<div className="container">
 					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
-							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
-								<div className="flex flex-col">
-									<div className="flex w-full items-center gap-2">
-										{calculatePercentage() === '100%' ? (
-											<Image src="/images/tick.svg" width={44} height={44} alt="tick" />
+							<div className="bg-slate-900 w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
+								<div className="flex justify-center w-full items-center gap-2 text-center mb-10">
+									<div className="flex flex-col">
+										<h4 className="tg-title-h4">
+											{t('profiles.completion-card.headline', {
+												percentage: calculatePercentage(),
+											})}
+										</h4>
+										<span className="tg-content text-gray-500 pt-1">
+											{t('profiles.completion-card.subline')}
+										</span>
+									</div>
+								</div>
+								<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
+									<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-3 gap-5 items-center max-w-[210px] gap-2 h-[60px]">
+										<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
+										<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.pitch')}</h6>
+										{delegationPitch ? (
+											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 										) : (
-											<Image
-												src="/images/pending.svg"
-												width={94}
-												height={94}
-												alt="pending updates"
-											/>
+											<IconButton rounded className="bg-transparent" size="xs" onClick={() => setIsOpen(true)}>
+												<Icon name="Plus" className="text-primary" />
+											</IconButton>
 										)}
-										<div className="flex flex-col">
-											<h4 className="tg-title-h4">
-												{t('profiles.completion-card.headline', {
-													percentage: calculatePercentage(),
-												})}
-											</h4>
-											<span className="tg-content text-gray-500 pt-1">
-												{t('profiles.completion-card.subline')}
-											</span>
-										</div>
 									</div>
-									<div className="flex items-center w-full flex-wrap lg:flex-nowrap justify-center">
-										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-2 py-4 items-center max-w-[210px] gap-2 h-[74px]">
-											<Image src="/images/profile.svg" width={24} height={24} alt="pitch" />
-											<h6 className="tg-title-h6 mr-auto">{t('profiles.completion-card.pitch')}</h6>
-											{delegationPitch ? (
-												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
-											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-													<Icon name="Plus" className="text-primary" />
-												</IconButton>
-											)}
-										</div>
-										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
-											<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
-											<h6 className="tg-title-h6 mr-auto">
-												{t('profiles.completion-card.discord')}
-											</h6>
-											{discord ? (
-												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
-											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-													<Icon name="Plus" className="text-primary" />
-												</IconButton>
-											)}
-										</div>
-										<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-2 py-4 gap-2 items-center max-w-[210px] h-[74px]">
-											<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
-											<h6 className="tg-title-h6 mr-auto">
-												{t('profiles.completion-card.twitter')}
-											</h6>
-											{twitter ? (
-												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
-											) : (
-												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
-													<Icon name="Plus" className="text-primary" />
-												</IconButton>
-											)}
-										</div>
-										<Button
-											variant="outline"
-											className="max-w-[180px] m-2"
-											onClick={() => {
-												if (isNominatedFor?.length) {
-													setContent(
-														<WithdrawNominationModal
-															council={isNominatedFor[0].council}
-															deployedModule={isNominatedFor[0].module}
-														/>
-													);
-													setModalOpen(true);
-												}
-											}}
-											label={t('profiles.completion-card.withdraw') as string}
-										/>
+									<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-3 gap-5 items-center max-w-[210px] h-[60px]">
+										<Image src="/images/discord.svg" width={24} height={24} alt="discord" />
+										<h6 className="tg-title-h6 mr-auto">
+											{t('profiles.completion-card.discord')}
+										</h6>
+										{discord ? (
+											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+										) : (
+											<IconButton rounded size="xs" className="bg-transparent" onClick={() => setIsOpen(true)}>
+												<Icon name="Plus" className="text-primary" />
+											</IconButton>
+										)}
 									</div>
+									<div className="w-full md:mr-6 md:my-6 m-2 border-gray-500 flex border rounded p-3 gap-5 items-center max-w-[210px] h-[60px]">
+										<Image src="/images/twitter.svg" width={24} height={24} alt="twitter" />
+										<h6 className="tg-title-h6 mr-auto">
+											{t('profiles.completion-card.twitter')}
+										</h6>
+										{twitter ? (
+											<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
+										) : (
+											<IconButton rounded size="xs" className="bg-transparent" onClick={() => setIsOpen(true)}>
+												<Icon name="Plus" className="text-primary" />
+											</IconButton>
+										)}
+									</div>
+									<Button
+										variant="destructive"
+										className="max-w-[180px] m-2"
+										onClick={() => {
+											if (isNominatedFor?.length) {
+												setContent(
+													<WithdrawNominationModal
+														council={isNominatedFor[0].council}
+														deployedModule={isNominatedFor[0].module}
+													/>
+												);
+												setModalOpen(true);
+											}
+										}}
+										label={t('profiles.completion-card.withdraw') as string}
+									/>
 								</div>
 							</div>
 						</div>

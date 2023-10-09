@@ -55,30 +55,28 @@ const Councils: NextPage = () => {
 								<Loader className="mt-8 mx-auto w-fit" />
 							) : (
 								<>
-									<div className="mt-4 mb-3 p-6 max-w-3xl mx-auto">
+									<div className="mt-4 mb-3 p-6 max-w-3xl mx-auto text-slate-100">
 										<span className="tg-content text-center block">
 											{t(`councils.tabs.explanations.${council.abbreviation}.subline`)}
 										</span>
-										<div className="flex justify-center flex-wrap mt-4 md:flex-nowrap">
-											<div className="border border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
-												<span className="tg-caption">
+										<div className="flex justify-center flex-wrap mt-9 md:flex-nowrap">
+											<div className="rounded p-2 flex flex-col justify-center items-center w-full mx-8 my-2">
+												<span className="uppercase mb-2 text-xs font-medium">
 													{t(`councils.tabs.explanations.${council.abbreviation}.election`)}
 												</span>
-												&nbsp;
-												<span className="tg-caption-bold">
+												<span className="font-bold text-sm">
 													{t(`councils.tabs.explanations.${council.abbreviation}.members`, {
 														count: allMembers[index]?.length,
 													})}
 												</span>
 											</div>
-											<div className="border border-gray-500 rounded p-2 flex justify-center items-center w-full mx-8 my-2">
-												<span className="tg-caption">
+											<div className="rounded p-2 flex flex-col justify-center items-center w-full mx-8 my-2">
+												<span className="uppercase mb-2 text-xs font-medium">
 													{t(`councils.tabs.explanations.${council.abbreviation}.stipends`)}
 												</span>
-												&nbsp;
-												<span className="tg-caption-bold">
+												<span className="font-bold text-sm">
 													{t(`councils.tabs.explanations.${council.abbreviation}.amount`, {
-														amount: '2000',
+														amount: '1,000',
 													})}
 												</span>
 											</div>

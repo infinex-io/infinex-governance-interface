@@ -96,40 +96,40 @@
 			"withdraw-vote": "Withdraw Vote"
 		},
 		"tabs": {
-			"tr": "Trade Seat",
+			"tr": "Trader Seat",
 			"ec": "Ecosystem Seats",
 			"cc": "Core Contributor Seat",
 			"tc": "Treasury Seat",
 			"explanations": {
 				"tr": {
 					"subline": "The Trader seat will be responsible for representing the interests of the broader CeFi and DeFi ecosystem, particularly centralized exchange traders. Their inclusion ensures that the spectrum of opinions within the crypto ecosystem is more fully represented in decisions made by the Infinex Council.",
-					"election": "Trade Election:",
-					"members": "{{count}} Members",
-					"stipends": "Stipends PM:",
+					"election": "Trader Election",
+					"members": "{{count}} councillor",
+					"stipends": "Stipends/Month",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Trade Election:"
 				},
 				"ec": {
 					"subline": "The Ecosystem seat will represent the Synthetix community. A councillor in the Ecosystem seat will advocate for the interests of the broader Synthetix ecosystem, and their place on the council is designed to foster alignment of interests among protocols.",
-					"election": "Ecosystem Election:",
-					"members": "{{count}} Members",
-					"stipends": "Stipends PM:",
+					"election": "Ecosystem Election",
+					"members": "{{count}} councillors",
+					"stipends": "Stipends/Month",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Ecosystem Election:"
 				},
 				"cc": {
 					"subline": "The CC seat will represent the Core Contributors of Infinex, which seeks to ensure that there is always a voice on the council with a deep understanding of the protocol's existing implementations.",
-					"election": "Core Contributor Election:",
-					"members": "{{count}} Members",
-					"stipends": "Stipends PM:",
+					"election": "Core Contributor Election",
+					"members": "{{count}} councillor",
+					"stipends": "Stipends/Month",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Core Contributor Election:"
 				},
 				"tc": {
 					"subline": "The Treasury seat will be responsible for managing the treasury and will use funds to bootstrap the project and ensure its long-term sustainability.",
-					"election": "Treasury Election:",
-					"members": "{{count}} Members",
-					"stipends": "Stipends PM:",
+					"election": "Treasury Election",
+					"members": "{{count}} councillor",
+					"stipends": "Stipends/Month",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Treasury Election:"
 				}
