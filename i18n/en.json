@@ -147,7 +147,7 @@
 		"wallet": "Wallet Address",
 		"pitch": "Governance Pitch",
 		"view-all-members": "View all members",
-		"council": "{{council}} COUNCIL",
+		"council": "{{council}} Seat",
 		"profile-not-found": {
 			"header": "Profile Not Found",
 			"subheadline": "The provided address is not a valid wallet address or profile does not exists for user"
@@ -172,7 +172,7 @@
 		"withdraw": "Withdraw Vote",
 		"vote-in-progress": "You have not completed all of your ballots for this voting period. Below indicates which ones you completed and which ones have not. Click on the plus icon to cast your vote.",
 		"vote-finished": "You have completed all of your ballots for this voting period. You can always change your casted votes within the voting period.",
-		"not-in-voting": "{{council}} Council is not in voting period.",
+		"not-in-voting": "{{council}} Seat is not in voting period.",
 		"no-nominations": "No Nominations yet",
 
 		"councils": {
@@ -194,7 +194,7 @@
 				"vote": "Vote",
 				"power": "Voting Power in %",
 				"received": "Received Voting Power  ({{units}})",
-				"council": "Council",
+				"council": "Seat",
 				"action": "Action"
 			},
 			"tabs": {
@@ -220,7 +220,7 @@
 			"subline": "Chose a governing body that you would like to represent if chosen as an elected member",
 			"nominationAddress": "Nomination Wallet Address",
 			"button": "Nominate Self",
-			"cta": "Nomination for {{council}} Council",
+			"cta": "Nomination for {{council}} Seat",
 			"checkboxes": {
 				"trade": "Trader Seat",
 				"ecosystem": "Ecosystem Seats",
@@ -232,27 +232,27 @@
 		"withdraw": {
 			"headline": "Withdraw Nomination",
 			"subline": "A candidate can withdrawal from the nomination process at any given time within the nomination period",
-			"nomination-for": "Nomination for {{ council }} Council",
+			"nomination-for": "Nomination for {{ council }} Seat",
 			"button": "Withdraw Nomination"
 		},
 		"edit": {
 			"headline": "Edit Your Nomination",
-			"subline": "You can only nominate for 1 council at any given time. In order to change your nomination from one council to another you must first select your new council and click save. You will be need to sign 2 transactions in order to change.",
+			"subline": "You can only nominate for 1 seat at any given time. In order to change your nomination from one seat to another you must first select your new seat and click save. You will be need to sign 2 transactions in order to change.",
 			"current": "Current Nomination",
-			"council": "{{council}} Council",
+			"council": "{{council}} Seat",
 			"step-one": "Step 1 -  Withdraw Nomination",
-			"step-two": "Step 2 - Chose New Council Nomination",
+			"step-two": "Step 2 - Choose New Seat Nomination",
 			"button": "Next",
-			"banner": "You will need to sign 2 transactions to change council.",
-			"cta-step-1-head": "Unominate self for {{council}} Council",
-			"cta-step-2-head": "Nominate for {{council}} Council"
+			"banner": "You will need to sign 2 transactions to change seat.",
+			"cta-step-1-head": "Un-nominate self for {{council}} Seat",
+			"cta-step-2-head": "Nominate for {{council}} Seat"
 		},
 		"vote": {
-			"headline": "Voting For {{council}} Council Nominee",
+			"headline": "Voting For {{council}} Seat Nominee",
 			"subline": "You are about to vote for this nominee. If you are happy to proceed, click the submit vote button.",
 			"submit": "Submit Vote",
 			"profile": "See full profile",
-			"cta": "Voting for {{council}} Council",
+			"cta": "Voting for {{council}} Seat",
 			"voting-power": {
 				"headline": "Your Total Voting Power Is On L1 & L2:"
 			}
@@ -260,9 +260,9 @@
 		"withdraw-vote": {
 			"headline": "Uncast Vote",
 			"subline": "You are about to uncast your vote. Select uncast vote button to continue.",
-			"voted-for": "Voted for {{council}} Council",
+			"voted-for": "Voted for {{council}} Seat",
 			"uncast-vote": "Uncast Vote",
-			"cta": "Withdraw Vote for {{council}} Council"
+			"cta": "Withdraw Vote for {{council}} Seat"
 		},
 		"editProfile": {
 			"headline": "Edit Profile",

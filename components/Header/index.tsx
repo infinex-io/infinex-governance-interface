@@ -73,18 +73,21 @@ export default function Header() {
 				</div>
 			</Link>
 			<div className="hidden md:flex gap-5 w-full">
-				{routes.map((route) => (
+				{routes.map((route) =>{
+					console.log(route.link, asPath, "123");
+					return (
 					<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 						<Button
 							variant='nav'
 							className={`last-of-type:mr-auto gt-america-font tg-content 
-							${asPath === `/${route.link}` ? 'border-b border-primary' : ''}`}
+							${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
+							? 'border-b border-primary' : ''}`}
 							onClick={() => setBurgerMenuOpen(false)}
 							key={route.label}
 							label={t(route.label) as string}
 						/>
 					</Link>
-				))}
+				)})}
 			</div>
 			<button
 				className="md:hidden flex flex-col items-center max-width-[30px] max-h-[30px]"
@@ -128,8 +131,9 @@ export default function Header() {
 							<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 								<Button
 									variant='nav'
-									className={`last-of-type:mr-auto gt-america-font tg-content mb-10
-									${asPath === `/${route.link}` ? 'border-b border-primary' : ''}`}
+									className={`last-of-type:mr-auto gt-america-font tg-content 
+									${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
+									? 'border-b border-primary' : ''}`}
 									onClick={() => setBurgerMenuOpen(false)}
 									key={route.label}
 									label={t(route.label) as string}

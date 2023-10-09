@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { truncateAddress } from 'utils/truncate-address';
 import { ProfileForm } from 'components/Forms/ProfileForm/ProfileForm';
-import { Dialog, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
+import { Dialog, Button, Dropdown, ExternalLink, Badge, IconButton, Icon } from '@synthetixio/ui';
 import useGetMemberCouncilNameQuery from 'queries/members/useGetMemberCouncilName';
 import { Loader } from 'components/Loader/Loader';
 import { ProfileCard } from './ProfileCard';
@@ -19,7 +19,6 @@ import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useIsNominatedCouncils } from 'queries/nomination/useIsNominatedCouncils';
-import { Button } from 'components/button';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
@@ -66,17 +65,16 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 
 		return (
 			<div className="flex flex-col md:items-center align-center pt-12">
-				<div
-					className={clsx('w-full h-full bg-center bg-no-repeat flex flex-col items-center', {
-						'bg-[url(/images/ring-orange.svg)]': isOwnCard,
-						'bg-[url(/images/ring.svg)]': !isOwnCard,
-					})}
-				>
+				<div className='w-full h-full bg-center bg-no-repeat flex flex-col items-center'>
 					<Avatar scale={10} url={pfpThumbnailUrl} walletAddress={walletAddress} />
 					{councilMembersQuery.data && (
-						<Badge variant="success" className="mt-3 max-w-[150px] uppercase tg-caption-sm">
+						<span
+							className="bg-[#15262A] text-[#31C690] p-2 rounded font-medium text-xs text-center mt-3 w-fit self-center"
+							data-testid="cta-text"
+						>
 							{t('profiles.council', { council: councilMembersQuery.data })}
-						</Badge>
+
+						</span>
 					)}
 					<div className="flex flex-col justify-between items-center p-3">
 						<div className="flex items-center mt-3">
@@ -128,7 +126,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<div className="container">
 					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
-							<div className="bg-slate-950 w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
+							<div className="bg-dark-blue w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
 								<div className="flex flex-col">
 									<div className="flex w-full items-center gap-2">
 										{calculatePercentage() === '100%' ? (
@@ -159,7 +157,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{delegationPitch ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
@@ -172,7 +170,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{discord ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
@@ -185,13 +183,14 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											{twitter ? (
 												<Image src="/images/tick.svg" width={24} height={24} alt="tick" />
 											) : (
-												<IconButton className="bg-transparent" rounded size="sm" onClick={() => setIsOpen(true)}>
+												<IconButton rounded size="sm" onClick={() => setIsOpen(true)}>
 													<Icon name="Plus" className="text-primary" />
 												</IconButton>
 											)}
 										</div>
 										<Button
-											variant="destructive"
+											variant="outline"
+											size="md"
 											className="max-w-[180px] m-2"
 											onClick={() => {
 												if (isNominatedFor?.length) {
@@ -204,8 +203,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 													setModalOpen(true);
 												}
 											}}
-											label={t('profiles.completion-card.withdraw') as string}
-										/>
+										>
+											{t('profiles.completion-card.withdraw')}
+										</Button>
 									</div>
 								</div>
 							</div>
