@@ -32,7 +32,7 @@ export const VoteCard: React.FC<Props> = ({ hasVoted, council, periodIsVoting, w
 	if (userDetailsQuery.isLoading) return null;
 
 	return hasVoted && userDetailsQuery.data ? (
-		<div className="bg-black md:max-w-[230px] p-2 w-full rounded border-2 border-solid border-gray-900 flex items-center justify-between relative">
+		<div className="bg-black md:max-w-[230px] p-2 w-full rounded border border-solid border-gray-900 flex items-center justify-between relative">
 			<Avatar
 				walletAddress={userDetailsQuery.data.address}
 				url={userDetailsQuery.data.pfpThumbnailUrl}
@@ -101,21 +101,19 @@ export const VoteCard: React.FC<Props> = ({ hasVoted, council, periodIsVoting, w
 			></Dropdown>
 		</div>
 	) : (
-		<div className="md:max-w-[220px] w-full bg-primary border-2 border-solid rounded border-primary my-2">
-			<div className="darker-60 w-full h-full p-1 flex items-center rounded">
-				<div className="w-[33px] h-[33px] rounded-full border-primary border-2 border-solid bg-black mr-2"></div>
-				<div className="flex flex-col mr-auto">
-					<span className="tg-caption-bold text-white">
-						{t(`vote.councils.${activeCouncil.abbreviation}`)}
-					</span>
-					<Badge variant="blue" className="mt-1 uppercase w-fit">
-						{t('vote.not-voted')}
-					</Badge>
-				</div>
-				<IconButton size="sm" onClick={() => push('/vote/' + activeCouncil.slug)} rounded>
-					<Icon name="Plus" className="text-primary" />
-				</IconButton>
-			</div>
+	<div className="md:max-w-[220px] border-[1px] border-secondary-dark rounded bg-[#16151D] 
+	w-full h-full p-1 flex items-center rounded py-2 px-5">
+		<div className="flex flex-col items-center justify-center mr-auto">
+			<span className="text-xs font-semibold text-white">
+				{t(`vote.councils.${activeCouncil.abbreviation}`)}
+			</span>
+			<Badge className="mt-1 uppercase w-fit">
+				{t('vote.not-voted')}
+			</Badge>
 		</div>
+		<IconButton size="xs" className="bg-transparent" onClick={() => push('/vote/' + activeCouncil.slug)} rounded>
+			<Icon name="Plus" className="text-secondary-dark" />
+		</IconButton>
+	</div>
 	);
 };
