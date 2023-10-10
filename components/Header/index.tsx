@@ -195,7 +195,6 @@ export default function Header() {
 						<Flex m="4" flexDirection="column" alignItems="center">
 							<Divider w="100%" mb="16px" />
 							<Button
-								w="100%"
 								onClick={() =>
 									window.open(
 										'https://docs.synthetix.io/dao/elections-and-voting/voting-with-a-gnosis-safe',
