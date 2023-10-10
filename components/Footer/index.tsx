@@ -6,6 +6,8 @@ import GitHubIcon from 'components/Icons/GitHubIcon';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
+import UpRightArrow from 'components/Icons/UpRightArrow';
+import MirrorIcon from 'components/Icons/MirrorIcon';
 
 const LINKS = [
 	{
@@ -25,19 +27,20 @@ const LINKS = [
 export default function Footer() {
 	const { t } = useTranslation();
 	return (
-		<footer className="flex justify-between items-center border-t border-slate-800 px-10 py-3">
-			<Link href="https://infinex.io/" target='_blank'>
+		<footer className="flex justify-between items-center border-t border-slate-800 px-10 py-3 text-slate-600">
+			<Link href="https://infinex.io/" target='_blank' className="flex items-center gap-3"> 
 				Infinex App
+				<UpRightArrow fill="#5B5E6E" />
 			</Link>
-			<div className="flex gap-5 items-center">
-				<Link href="https://discord.com/invite/AEdUHzt" passHref rel="noreferrer" target="_blank">
-					<DiscordIcon fill="white" />
+			<div className="flex gap-10 items-center">
+				<Link href="https://discord.gg/infinex" passHref rel="noreferrer" target="_blank">
+					<DiscordIcon fill="#5B5E6E" />
 				</Link>
-				<Link href="https://twitter.com/synthetix_io" passHref rel="noreferrer" target="_blank">
-					<TwitterIcon fill="white" />
+				<Link href="https://twitter.com/infinex_app" passHref rel="noreferrer" target="_blank">
+					<TwitterIcon fill="#5B5E6E" />
 				</Link>
-				<Link href="https://github.com/synthetixio" passHref rel="noreferrer" target="_blank">
-					<GitHubIcon fill="white" />
+				<Link href="http://mirror.xyz/infinex.eth" passHref rel="noreferrer" target="_blank">
+					<MirrorIcon fill="#5B5E6E" />
 				</Link>
 			</div>
 		</footer>

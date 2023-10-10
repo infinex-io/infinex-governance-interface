@@ -4,31 +4,13 @@ import { SVGSocialIconProps } from './types';
 export default function TwitterIcon({
 	fill,
 	onClick,
-	width = '24',
-	height = '20',
+	width = '18',
+	height = '18',
 	className,
 }: SVGSocialIconProps) {
 	return (
-		<svg
-			width={width}
-			height={height}
-			viewBox={`0 0 ${width} ${height}`}
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			onClick={onClick}
-			className={className}
-		>
-			<g clipPath="url(#clip0_916_1830)">
-				<path
-					d="M24 2.31C23.12 2.7 22.17 2.97 21.17 3.09C22.19 2.48 22.97 1.52 23.34 0.37C22.39 0.93 21.33 1.34 20.21 1.57C19.31 0.6 18.03 0 16.62 0C13.44 0 11.11 2.97 11.82 6.05C7.73 5.84 4.1 3.88 1.67 0.9C0.38 3.11 1 6.01 3.19 7.48C2.39 7.45 1.63 7.23 0.96 6.86C0.91 9.14 2.54 11.27 4.91 11.75C4.22 11.94 3.46 11.98 2.69 11.83C3.32 13.79 5.13 15.21 7.29 15.25C5.22 16.88 2.61 17.6 0 17.29C2.18 18.69 4.77 19.5 7.55 19.5C16.69 19.5 21.86 11.78 21.54 4.85C22.5 4.16 23.34 3.3 24 2.31Z"
-					fill={fill}
-				/>
-			</g>
-			<defs>
-				<clipPath id="clip0_916_1830">
-					<rect width="24" height="19.5" fill={fill} />
-				</clipPath>
-			</defs>
+		<svg width={width} height={height} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M10.564 7.73209L16.6858 0.720428H15.2352L9.91959 6.80856L5.67406 0.720428H0.777344L7.19742 9.92676L0.777344 17.2796H2.2281L7.84148 10.8503L12.3251 17.2796H17.2218L10.5637 7.73209H10.564ZM8.57701 10.0079L7.92652 9.09113L2.75083 1.79651H4.9791L9.15595 7.6835L9.80644 8.60024L15.2358 16.2524H13.0076L8.57701 10.0082V10.0079Z" fill={fill} />
 		</svg>
 	);
 }

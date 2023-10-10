@@ -128,7 +128,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 				<div className="container">
 					{isOwnCard && !!isNominatedFor?.length && (
 						<div className="p-2 w-full">
-							<div className="bg-slate-900 w-full border border-gray-800 flex flex-col md:p-8 md:pb-4 rounded-lg p-4">
+							<div className="bg-slate-900 w-full border border-gray-800 flex flex-col items-center md:p-8 md:pb-4 rounded-lg p-4">
 								<div className="flex justify-center w-full items-center gap-2 text-center mb-10">
 									<div className="flex flex-col">
 										<h4 className="tg-title-h4">
@@ -179,7 +179,9 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											</IconButton>
 										)}
 									</div>
-									<Button
+									
+								</div>
+								<Button
 										variant="destructive"
 										className="max-w-[180px] m-2"
 										onClick={() => {
@@ -195,7 +197,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 										}}
 										label={t('profiles.completion-card.withdraw') as string}
 									/>
-								</div>
 							</div>
 						</div>
 					)}

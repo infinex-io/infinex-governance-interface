@@ -19,7 +19,7 @@ export default function BaseModal({ children, headline }: PropsWithChildren<{ he
 		>
 			<div className="flex flex-col items-center darker-60 rounded-t-[2rem] overflow-auto h-full w-full pt-12 pb-4">
 				<IconButton
-					className="top-5 right-5 absolute"
+					className="top-5 right-5 absolute bg-transparent"
 					onClick={() => {
 						document.documentElement.classList.remove('stop-scrolling');
 						setIsOpen(false);

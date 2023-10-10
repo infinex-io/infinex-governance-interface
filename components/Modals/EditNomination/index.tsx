@@ -141,11 +141,11 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 						{step === 1 ? (
 							<div className="flex flex-col items-center ">
 								<div className="flex justify-center items-center w-[100px] mb-4">
-									<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+									<div className="bg-slate-800 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
 										1
 									</div>
-									<div className="min-w-full h-[1px] bg-purple"></div>
-									<div className="bg-gray-500 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+									<div className="min-w-full h-[1px] bg-slate-700"></div>
+									<div className="bg-slate-600 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
 										2
 									</div>
 								</div>
@@ -165,11 +165,11 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 						) : (
 							<>
 								<div className="flex justify-center items-center w-[100px] mb-4">
-									<div className="bg-green rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
+									<div className="bg-primary rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
 										1
 									</div>
-									<div className="min-w-full h-[1px] bg-green"></div>
-									<div className="bg-purple rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-white tg-caption flex flex-col items-center justify-center">
+									<div className="min-w-full h-[1px] bg-primary"></div>
+									<div className="bg-secondary-light rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
 										2
 									</div>
 								</div>
@@ -190,7 +190,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 							</>
 						)}
 					</div>
-					<div className="border-l-primary border-l-4 bg-primary mb-4 w-full">
+					<div className="border-l-slate-700 border-l-4 bg-slate-700 mb-4 w-full">
 						<h5 className="tg-title-h5 darker-60 text-white p-2 flex items-center">
 							<svg
 								width="29"
@@ -200,10 +200,10 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 								xmlns="http://www.w3.org/2000/svg"
 								className="mr-2"
 							>
-								<circle cx="14.5" cy="14.5" r="13.4643" stroke="#00D1FF" strokeWidth="2.07143" />
+								<circle cx="14.5" cy="14.5" r="13.4643" stroke="var(--color-primary)" strokeWidth="2.07143" />
 								<path
 									d="M10.4194 18.3764H13.3388V13.0404H10.7094V10.8751H16.3161V18.3764H19.3708V20.5417H10.4194V18.3764ZM16.3548 9.61839H12.9521V6.56372H16.3548V9.61839Z"
-									fill="#00D1FF"
+									fill="var(--color-primary)"
 								/>
 							</svg>
 							{t('modals.edit.banner')}
