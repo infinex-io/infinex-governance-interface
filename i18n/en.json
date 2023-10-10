@@ -61,7 +61,8 @@
 				"closed": "View Council",
 				"nomination": "Nominate Yourself",
 				"vote": "Vote Candidates",
-				"nominees": "View Nominees"
+				"nominees": "View Nominees",
+				"nominated": "Nominated"
 			},
 			"nominees": "View Nominees",
 			"members": "Members",
