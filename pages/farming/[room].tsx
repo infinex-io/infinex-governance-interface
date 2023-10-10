@@ -15,6 +15,8 @@ import FTXFileUpload from 'components/FTXFileUpload';
 
 // Hooks (External)
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
+import BackButton from 'components/BackButton';
+import BackOnePageButton from 'components/BackOnePageButton';
 
 // Interfaces
 export interface Room {
@@ -44,6 +46,8 @@ export default function Room() {
             <title>Infinex | Governance V3</title>
          </Head>
          <div className="flex flex-col">
+
+            <BackOnePageButton></BackOnePageButton>
             
             { room ? <div className="flex flex-col justify-center items-center bg-primary-light w-full p-10 gap-2">
                <h1 className="text-black text-5xl font-black text-center">{room.emoji} {room.name}</h1>
