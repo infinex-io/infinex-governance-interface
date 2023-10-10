@@ -28,7 +28,7 @@ export default function Footer() {
 	const { t } = useTranslation();
 	return (
 		<footer className="flex justify-between items-center border-t border-slate-800 px-10 py-3 text-slate-600">
-			<Link href="https://infinex.io/" target='_blank' className="flex items-center gap-3"> 
+			<Link href="https://infinex.io/" target='_blank' className="flex items-center gap-3 text-sm"> 
 				Infinex App
 				<UpRightArrow fill="#5B5E6E" />
 			</Link>

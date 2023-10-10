@@ -13,10 +13,10 @@ export const VoteResultBanner: React.FC = () => {
 	if (periodsData.find((periodData) => periodData.data?.currentPeriod !== 'VOTING')) return null;
 
 	return (
-		<div className="w-full p-0.5 bg-purple rounded mx-auto">
-			<div className="flex md:flex-row flex-col gap-2 items-center justify-between w-full h-full darker-60 p-5">
+		<div className="w-full p-[1px] bg-secondary-dark rounded-[1px] mx-auto">
+			<div className="flex md:flex-row flex-col gap-2 items-center justify-between w-full h-full bg-[#16151D] p-5">
 				<div className="flex md:flex-row flex-col gap-2 items-center">
-					<div className="bg-dark-blue rounded-full h-12 w-12 flex items-center justify-center md:mr-4">
+					<div className="bg-dark-blue rounded-full h-10 w-10 flex items-center justify-center md:mr-4">
 						<SNXIcon />
 					</div>
 					<div className="text-center md:text-left">
@@ -28,6 +28,7 @@ export const VoteResultBanner: React.FC = () => {
 					onClick={() => {
 						push('/vote');
 					}}
+					className='border-secondary-dark'
 					variant="outline"
 					label={t('landing-page.vote-banner.cta') as string}
 				/>
