@@ -37,6 +37,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
    const userFarmingQuery = useUserFarmingQuery(); 
    const stakeTokenMutation = useStakeTokenMutation();
    const [loading, setLoading] = React.useState(false)
+   const [amountLocked, setAmountLocked] = React.useState(0)
    
    /* ================================== Effects ================================== */
    useEffect(() => {
@@ -46,10 +47,14 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
    }, [walletAddress]);
 
    useEffect(() => {
-      if (userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined) {
-         setLoading(false)
-      }
-   }, [userFarmingQuery, room.token]);
+      
+      const amount = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] as number
+      setAmountLocked(amount)
+      amount > 0 ? setStatus('locked') : ''
+
+      setLoading(false)
+      
+   }, [userFarmingQuery]);
 
    function handleStake(){
       if (Number(inputValue) <= 0) {
@@ -57,9 +62,9 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          return;
       }
       setLoading(true);
-      const overide = userFarmingQuery.data?.staking[`${room.token}_amount_locked`] !== undefined && userFarmingQuery.data?.staking[`${room.token}_amount_locked`] > 0;
+      const overide = amountLocked !== undefined && amountLocked > 0;
       stakeTokenMutation.mutate({
-         token: room.token,
+         token: room.token.toLowerCase(),
          amount: Number(inputValue),
          overide: overide
       }, {
@@ -76,8 +81,6 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
       });
    }
    
-   if (userFarmingQuery.isLoading) return <div>Loading...</div>
-
    return (
       <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary gap-10 text-black " style={{height: 'calc(100vh - 257px)'}}>
          {/* Icon */}
@@ -88,39 +91,64 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          }
          
          {/* Title [Lock, Locked] */}
-         <h1 className="tg-title-h1 text-5xl font-black text-black">{status === "completed" ? "Locked" : "Lock"}</h1>
+         <h1 className="tg-title-h1 text-5xl font-black text-black">{status === "completed" || status === "locked" 
+               ? 
+            `Locked ${room ? room.token : ""}` 
+               : 
+            `Lock ${room ? room.token : ""}`}
+         </h1>
+
+         {
+            (amountLocked > 0) &&
+               <div className="flex flex-col justify-center items-center">
+                  <p className="text-sm font-bold">Locked tokens:</p>    
+                  <p className="text-base font-black">{room ? amountLocked : ""}</p>
+               </div>
+         }
          
          {/* description */}
          <p className="text-sm font-medium text-center max-w-sm">
             {status === "completed" ?
-               `You’ve successfully locked ${userFarmingQuery.data?.staking[`${room.token}_amount_locked`]} tokens.`
+               `You’ve successfully locked your tokens.`
                :
                "You cannot move those tokens until the end of the farming period, otherwise you will lose points."
             }
          </p>
 
-         {(status !== "none") &&
+         {(status != "none") &&
             <div className="flex flex-row items-center gap-10">
-               {userFarmingQuery.data?.staking[`${room.token}_amount_locked`] &&
-                  <div className="flex flex-col justify-center items-center">
-                     <p className="text-sm font-bold">Locked tokens:</p>    
-                     <p className="text-base font-black">{userFarmingQuery.data?.staking[`${room.token}_amount_locked`]}</p>
-                  </div>
+               {  
+                  (amountLocked == 0) &&
+                     <div className="flex flex-col justify-center items-center">
+                        <p className="text-sm font-bold">Locked tokens:</p>    
+                        <p className="text-base font-black">{room ? amountLocked : ""}</p>
+                     </div>
                }
                
-               <div className="flex flex-col justify-center items-center">
-                  <p className="text-sm font-bold">Available tokens:</p>    
-                  <p className="text-base font-black">{userFarmingQuery.data?.staking[`${room.token}_available`]}</p>
-               </div>
+               {
+                  status != "completed" && status != "locked" &&
+                  <div className="flex flex-col justify-center items-center">
+                     <p className="text-sm font-bold">Available tokens:</p>    
+                     <p className="text-base font-black">{userFarmingQuery.data?.staking[`${room.token}_available`] ? userFarmingQuery.data?.staking[`${room.token}_available`] : 0}</p>
+                  </div> 
+               }
             </div>
          }
 
           {/* Lock (block, hidden - lockingState) */}
-         {status === "none" &&
+         {status === "none" && (amountLocked == 0 || !amountLocked) &&
             <button 
                className="text-white bg-black rounded-sm py-2 px-4"
                onClick={() => setStatus("locking")}
             >Lock</button>
+         }
+
+         {/* Todo add override stake */}
+         {status === "none" && amountLocked == 0 &&
+            <button 
+               className="text-white bg-black rounded-sm py-2 px-4"
+               onClick={() => setStatus("locking")}
+            >Update lock</button>
          }
          
          {status === "locking" && 
@@ -174,7 +202,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          {status === "completed" &&
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
-               <button 
+               {/* <button 
                   className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2"
                   onClick={() => {
                      setStatus("locking")
@@ -182,7 +210,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                   }
                >
                   Lock more
-               </button>
+               </button> */}
                {/* Button */}
                <button 
                   className="text-white bg-black rounded-sm py-2 px-4"

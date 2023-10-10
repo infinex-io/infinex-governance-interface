@@ -68,7 +68,7 @@ function useUserFarmingQuery() {
 		},
 		{
 			enabled: walletAddress !== null,
-			staleTime: 900000,
+			// staleTime: 30,
 		}
 	);
 }
@@ -79,16 +79,16 @@ export async function GetFarmingData(walletAddress: string): Promise<GetFarmingD
    console.log("wallet address", walletAddress)
 	if (!walletAddress) return;
 
-   let userVolumeResponse = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/user?address=${walletAddress}`,{
+   let userVolumeResponse = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/user?address=${walletAddress}`,{
       method: 'GET',
    });
-   let userStakingResponse = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/stake?address=${walletAddress}`,{
+   let userStakingResponse = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/stake?address=${walletAddress}`,{
       method: 'GET',
    })
    
    let userVolumeData = await userVolumeResponse.json();
    let userStakingData = await userStakingResponse.json();
-   const combinedExchangeVolume = extractAndCombine(userVolumeData.message);
+   const combinedExchangeVolume = {...userVolumeData.message, ...extractAndCombine(userVolumeData.message)};
 
 
 	return {staking: userStakingData.message, volume: combinedExchangeVolume};
