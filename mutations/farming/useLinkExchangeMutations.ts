@@ -5,32 +5,36 @@ import { useConnectorContext } from 'containers/Connector';
 function useLinkExchangeMutations() {
     const { signer } = useConnectorContext();
     return useMutation(
-        async (stakeData: {
+        async (linkData: {
             exchange: string;
             api_key: string;
             secret_key: string;
+            api_pass: string;
             type: string;
         }) => {
 
-            console.log(stakeData);
+            console.log(linkData);
             try {
                let body;
 
                 const message = "INFINEX:ACCESS-TEST-123"
                 const signature = await signer!.signMessage(message);
+                const address = await signer?.getAddress()
          
-               if (stakeData.type === "dex"){
+               if (linkData.type === "dex"){
                   body = {
                       exchange: "dex",
-                      address_signature: signature
+                      address_signature: signature,
+                      address
                   }
-               }else {
+               } else {
                   body = {
-                      ...stakeData,
-                     address_signature: signature
+                      ...linkData,
+                     address_signature: signature,
+                     address
                   }
                }
-               const response = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/calculate_volumes`, {
+               const response = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/calculate_volumes`, {
                   method: 'POST',
                   body: JSON.stringify(body),
                });

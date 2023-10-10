@@ -1,6 +1,6 @@
 // Libraries
 import React, { useEffect } from 'react';
-import { Button } from "@chakra-ui/react";
+import { Button, Progress } from "@chakra-ui/react";
 
 // Components (Internal)
 import LinkIcon from 'components/Icons/LinkIcon';
@@ -19,12 +19,14 @@ import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
 // Internal
 import { Room } from 'pages/farming/[room]';
+import { ProgressBar } from 'react-toastify/dist/components';
 
 const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== state ================================== */
    const [status, setStatus] = React.useState("none") // none || linking || waiting || completed
    const [publicKey, setPublicKey] = React.useState("")
    const [secretKey, setSecretKey] = React.useState("")
+   const [apiPass, setApiPass] = React.useState("")
    const [isLoading, setLoading] = React.useState(false)
    const [volume, setVolume] = React.useState(0)
 
@@ -35,17 +37,41 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
 
    /* ================================== useEffect ================================== */
    useEffect(() => {
+      if (!room) {return}
+
+      const exchangeKey = (room.exchange_id).toLowerCase()
+
+      console.log(userFarmingQuery.data)
+      console.log(room)
       if (userFarmingQuery.data){
          console.log("farming data", userFarmingQuery.data)
-         if (Number(userFarmingQuery.data.volume[room.exchange_id]) > 0){
-            setVolume(Number(userFarmingQuery.data.volume[room.exchange_id]))
+
+         const linkStatus = userFarmingQuery.data.volume[`${exchangeKey}_status`]
+         const linkVolume = userFarmingQuery.data.volume[exchangeKey]
+
+         console.log({linkStatus})
+         console.log({linkVolume})
+
+         if (Number(linkVolume) > 0){
+            if (room.name == "binance") {
+               setVolume(
+                  // Combine Binance futures and spot
+                  Number(
+                     Number(userFarmingQuery.data.volume["binanace"]) +
+                     Number(userFarmingQuery.data.volume["binancecoinm"])
+                  )
+               )
+            } else {
+               setVolume(Number(Number(linkVolume).toFixed(2)))
+            }
+            
             setStatus("completed")
-         }else{
+         } else if (linkStatus === "processing"){ // TODO: Switch this to whatever the state is meant to be
+            setStatus("waiting")
+         } else {
             setStatus("none")
          }
-         if (userFarmingQuery.data.volume[`${room.token}_status`] === "processing"){ // TODO: Switch this to whatever the state is meant to be
-            setStatus("waiting")
-         }
+         
       }
 
    },[userFarmingQuery.data])
@@ -53,9 +79,10 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    async function handleSubmit() {
       setLoading(true);
       linkExchangeMutation.mutate({
-         exchange: room.exchange_id,
+         exchange: room.exchange_id.toLowerCase(),
          api_key: publicKey,
          secret_key: secretKey,
+         api_pass: room.needsApiPass ? apiPass : '',
          type: room.type
       }, {
             onSettled: (data, error, variables, context) => {
@@ -76,16 +103,23 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-surface gap-10 text-white " style={{height: 'calc(100vh - 256px)'}}>
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
-         {(status === "completed" || status === "waiting") && <CompleteIcon />}
+         {(status === "processing") && <Progress />}
+         {(status === "completed") && <CompleteIcon />}
+
          {/* Title (link) */}
          <h1 className="tg-title-h1 text-white text-5xl font-black">
-            {status === "none" ? "Link" : "Completed"}
+            {status === "none" ? `Link to ${room ? room.exchange_id : ""}` : ""}
+            {status === "linking" ? "Setup link" : ""}
+            {status === "waiting" ? "Processing your trading volume..." : ""}
+            {status === "completed" ? "Linked" : ""}
+            
          </h1>
          {/* description (link your api keys || Your api keys may take some time) */}
          <h2 className="text-sm font-medium text-white text-center max-w-sm">
-            {status === "none" && "Link your API keys"}
-            {status === "linking" || status === "waiting" &&  "Your API data may take some time to update, Check back in ~20 mins."}
-            {status === "completed" && "API keys completed"}
+            {status === "none" && "Link your trading account"}
+            {status === "waiting" &&  "Your trading data may take some time to update, Check back in ~1hr."}
+            {status === "waiting" &&  " We have recorded the time of your submission."}
+            {status === "completed" && "Your volumes are linked to your voting account"}
          </h2>
          {/* Link button (hide when linking) */}
          {status === "none" &&
@@ -107,7 +141,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                Done
             </button>
          }
-          {status === "linking" &&
+          {status === "linking" && room.name != "Dex Sauna" &&
             <>
                <div className="relative max-w-xs w-full ">
                   <p className="absolute top-0 text-xs text-white">API PUBLIC</p>
@@ -133,6 +167,24 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                         />
                   </div>
                </div>
+
+               {/* need api pass */}
+
+               {  room.needsApiPass ?
+                  <div className="relative max-w-xs w-full mt-[-15px]">
+                     <p className="absolute top-0 text-xs text-white">API PASS</p>
+                     <div className="mt-5 relative">
+                        <input
+                           type="text"
+                           className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full"
+                           placeholder="API Pass"
+                           value={apiPass}
+                           onChange={(e) => setApiPass(e.target.value)}
+                           />
+                     </div>
+                  </div> : ''
+               }
+
             </>
          }
         {(status === "linking") &&
@@ -164,14 +216,14 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          {status === "completed" &&
            <div className="flex flex-row items-center gap-10">
               <div className="flex flex-col justify-center items-center">
-                 <p className="text-sm font-bold">Locked tokens:</p>   
-                 <p className="text-base font-black">{volume}</p>
+                 <p className="text-sm font-bold">Calculated volume</p>   
+                 <p className="text-lg font-black">{volume > 0 ? `$${volume.toLocaleString()}` : ''}</p>
               </div>
              
-              <div className="flex flex-col justify-center items-center">
+              {/* <div className="flex flex-col justify-center items-center">
                  <p className="text-sm font-bold">Available tokens:</p>   
                  <p className="text-base font-black">{}</p>
-              </div>
+              </div> */}
           </div>}
           {status === "waiting" || status === "completed" &&
             <div className="flex flex-row gap-4">              

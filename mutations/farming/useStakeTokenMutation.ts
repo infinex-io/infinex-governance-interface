@@ -12,7 +12,7 @@ function useStakeTokenMutation() {
         }) => {
             console.log(stakeData);
             try {
-               const response = await fetch(`https://uss5kwbs6e.execute-api.ap-southeast-2.amazonaws.com/dev/stake?address=${walletAddress}`, {
+               const response = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/stake?address=${walletAddress}`, {
                   method: 'POST',
                   body: JSON.stringify({...stakeData, address_signature: "signature" , address: walletAddress}),
                });

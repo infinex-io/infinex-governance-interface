@@ -24,6 +24,7 @@ export interface Room {
    token: string; // BNB || ETH
    exchange_id: string; // binance || ftx
    type: string; // dex || sex
+   needsApiPass: boolean; // dex || sex
 }
 
 export default function Room() {
@@ -37,33 +38,32 @@ export default function Room() {
    /* ================================== functions ================================== */
    const room = rooms.find(r => r.name === router.query.room);
    
-   if ((userFarmingQuery.isLoading) || (!room)) return <div>Loading...</div>
-   
 	return (
       <>
          <Head>
             <title>Infinex | Governance V3</title>
          </Head>
          <div className="flex flex-col">
-            <div className="flex flex-col justify-center items-center bg-primary-light w-full p-10 gap-2">
+            
+            { room ? <div className="flex flex-col justify-center items-center bg-primary-light w-full p-10 gap-2">
                <h1 className="text-black text-5xl font-black text-center">{room.emoji} {room.name}</h1>
                <p className="text-black text-base font-bold">Prove usership</p>
                <p className="text-black text-base font-bold">Earn voting power</p>
-            </div>
+            </div> : ''}
             <div className="flex flex-col sm:flex-row justify-between">
                <div className="w-full sm:w-1/2">
-                  <LockingScreen 
+                  
+                  {room?.linking ? <LockingScreen 
                      room={room}
-                  />
+                  /> : ""}
                </div>
                <div className="w-full sm:w-1/2">
-                  {
-                     router.query.room === "FTX Panic Room" ?
-                     <FTXFileUpload />
-                     :
-                     <LinkingScreen
-                        room={room}
-                     />
+                  { 
+                     router.query.room === "FTX Panic Room" 
+                        ?  <FTXFileUpload /> :
+                           <LinkingScreen
+                              room={room}
+                           />
                   }
                </div>
             </div>
