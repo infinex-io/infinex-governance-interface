@@ -12,7 +12,7 @@ import { useVotingCount } from 'queries/voting/useVotingCount';
 import { Button } from 'components/button';
 
 interface CouncilCardProps {
-	council: string;
+	council: "trade" | "ecosystem" | "core-contributor" | "treasury"
 	image: string;
 	deployedModule: DeployedModules;
 }
@@ -26,7 +26,11 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const voteCount = useVotingCount(deployedModule, true);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
-	const period = currentPeriodData?.currentPeriod;
+	// const period = currentPeriodData?.currentPeriod;
+	// const period = "ADMINISTRATION";
+	const period = "NOMINATION";
+	// const period = "VOTING";
+	// const period = "EVALUATION";
 
 	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
 
@@ -88,16 +92,16 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			{secondButton && (
 				<Button
 					variant='outline'
-					className="cursor-pointer bg-clip-text w-full"
+					className="cursor-pointer bg-clip-text w-full mt-2" 
 					onClick={() => push(`/councils/${council}`)}
 					label={t(secondButton) as string}
 				/>
 			)}
 			<Button
-				className="w-full mt-4"
+				className="w-full mt-2"
 				onClick={() => {
 					if (period === 'NOMINATION') {
-						setContent(<NominateModal />);
+						setContent(<NominateModal council={council}/>);
 						setIsOpen(true);
 					} else if (period === 'VOTING') {
 						push(`/vote/${council}`);
