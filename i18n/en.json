@@ -79,8 +79,8 @@
 	"councils": {
 		"headline": "Council structure",
 		"subline": "Meet each of the nominees for the new and up and coming elections for the Infinex governing bodies, each responsible for a core aspect of the DAO.",
-		"nominees": "{{ council }} Council Nominees",
-		"members": "{{ council }} Council Members",
+		"nominees": "{{ council }} Seat Nominees",
+		"members": "{{ council }} Seat Members",
 		"view-council": "View Council",
 		"view-member-sub": "View all members in detail and view past elections and pitches",
 		"view-member": "View Member",
@@ -165,7 +165,7 @@
 	"vote": {
 		"headline": "Voting",
 		"subline": "Chose one nominee that you want to vote for in this election. Remember to check out their profile & pitch to see what they represent.",
-		"nominees": "{{council}} Council Nominees",
+		"nominees": "{{council}} Seat Nominees",
 		"vote-nominee": "Vote Nominee",
 		"vote-status-incomplete": "Vote Status: Incomplete {{progress}}/{{max}}",
 		"vote-status-complete": "Vote Status: Complete",
