@@ -8,7 +8,7 @@ export enum DeployedModules {
 }
 
 export type CouncilsDictionaryType = {
-	slug: string;
+	slug: "trade" | "ecosystem" | "core-contributor" | "treasury";
 	label: string;
 	abbreviation: string;
 	image: string;

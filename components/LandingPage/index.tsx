@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { CouncilCard } from 'components/CouncilCard';
 import { COUNCILS_DICTIONARY, SESSION_STORAGE_KEYS } from 'constants/config';
 import { VoteResultBanner } from 'components/VoteResultBanner';
-import { NominateInVotingBanner } from 'components/NominateInVotingBanner';
 
 export default function LandingPage() {
 	const { t } = useTranslation();
