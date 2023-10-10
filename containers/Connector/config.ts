@@ -47,6 +47,12 @@ export const onboard = Onboard({
 			label: 'Mainnet',
 			rpcUrl: getInfuraRpcURL(NetworkIdByName['mainnet']),
 		},
+		{
+			id: getChainIdHex(NetworkIdByName['goerli']),
+			token: 'ETH',
+			label: 'Goerli',
+			rpcUrl: getInfuraRpcURL(NetworkIdByName['goerli']),
+		},
 	],
 	accountCenter: {
 		desktop: {

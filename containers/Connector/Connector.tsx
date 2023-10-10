@@ -89,6 +89,7 @@ export const ConnectorContextProvider: FunctionComponent<PropsWithChildren> = ({
 				if (!isSupported && !document?.hidden) {
 					// Switch to mainnet ovm by default
 					(async () => {
+						console.log("CHANGING!!")
 						await onboard?.setChain({ chainId: getChainIdHex(NETWORK_ID) });
 					})();
 				} else {
