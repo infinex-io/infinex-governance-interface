@@ -9,4 +9,5 @@ export interface SVGSocialIconProps {
 	className?: string;
 	width?: string;
 	height?: string;
+	color?: string;
 }

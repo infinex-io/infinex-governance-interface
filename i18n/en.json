@@ -4,7 +4,8 @@
 			"home": "Home",
 			"councils": "Council Structure",
 			"profile": "Profile",
-			"vote": "Vote"
+			"vote": "Vote",
+			"farming": "Farming"
 		},
 		"connect-wallet": "Connect Wallet",
 		"view-profile": "View Profile",
