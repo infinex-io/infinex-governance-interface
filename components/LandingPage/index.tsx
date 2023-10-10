@@ -28,7 +28,7 @@ export default function LandingPage() {
 							))}
 						</div>
 						<VoteResultBanner />
-						<NominateInVotingBanner />
+						{/* <NominateInVotingBanner /> */}
 					</div>
 				</div>
 			</div>

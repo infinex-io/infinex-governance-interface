@@ -42,10 +42,10 @@ export const NominateInVotingBanner: React.FC = () => {
 	if (periodsData.find((periodData) => periodData.data?.currentPeriod !== 'VOTING')) return null;
 
 	return (
-		<div className="w-full p-0.5 bg-orange rounded mx-auto mt-4">
-			<div className="flex md:flex-row flex-col gap-2 items-center justify-between w-full h-full darker-60 p-5">
+		<div className="w-full p-[1px] bg-primary-dark rounded-[1px] mx-auto mt-4">
+			<div className="flex md:flex-row flex-col gap-2 items-center justify-between w-full h-full bg-[#1B0F09] p-5">
 				<div className="flex md:flex-row flex-col gap-2 items-center">
-					<div className="bg-background-dark rounded-full h-12 w-12 flex items-center justify-center md:mr-4">
+					<div className="bg-background-dark rounded-full h-10 w-10 flex items-center justify-center md:mr-4">
 						<SNXIcon />
 					</div>
 					<div className="text-center md:text-left">
@@ -66,6 +66,7 @@ export const NominateInVotingBanner: React.FC = () => {
 							setIsOpen(true);
 						}
 					}}
+					className="border-primary-dark"
 					variant="outline"
 					label={t('landing-page.nominate-banner.cta') as string}
 				/>

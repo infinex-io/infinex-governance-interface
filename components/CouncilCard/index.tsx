@@ -41,7 +41,6 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 		);
 
 	const { cta, button, color, headlineLeft, headlineRight, secondButton } = councilInfo;
-
 	return (
 		<div className="border border-slate-800 w-full xs:w-64 p-4 rounded gap-1 flex flex-col
 		 justify-around align-center bg-[#12141F]">
@@ -112,18 +111,6 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				label={t(button) as string}
 			/>
 
-			{period === 'VOTING' && (
-				<Button
-					variant="primary"
-					className="w-full mt-2"
-					onClick={() => {
-						setContent(<NominateModal />);
-						setIsOpen(true);
-					}}
-					data-testid="voting-button"
-					label="Nominate"
-				/>
-			)}
 		</div>
 	);
 };

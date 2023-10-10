@@ -154,7 +154,7 @@
 			"subheadline": "The provided address is not a valid wallet address or profile does not exists for user"
 		},
 		"completion-card": {
-			"headline": "Your Submission Summary {{percentage}} Complete",
+			"headline": "Your Submission Summary is {{percentage}} Complete",
 			"subline": "Complete all of the submission requirements to enhance your chances of becoming a council member",
 			"pitch": "Delegation Pitch",
 			"discord": "Discord ID",
