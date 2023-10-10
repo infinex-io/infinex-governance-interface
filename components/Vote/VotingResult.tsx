@@ -21,7 +21,6 @@ interface VotingResultProps {
 export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance }) => {
 	const epochIndex = useEpochIndexQuery(moduleInstance);
 	const { data: voteResults, isLoading } = useVotingResult(moduleInstance, epochIndex.data);
-	console.log(voteResults)
 	const { data: seats } = useNextEpochSeatCountQuery(moduleInstance);
 	const { activePage, setActivePage, pageSize, paginate } = usePaginate(6, voteResults?.length);
 	const isMobile = useIsMobile();

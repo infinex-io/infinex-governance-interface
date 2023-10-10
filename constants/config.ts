@@ -1,9 +1,9 @@
 export const COUNCIL_SLUGS = ['trade', 'ecosystem', 'core-contributor', 'treasury'];
 
 export enum DeployedModules {
-	TRADE_COUNCIL = 'trade council',  // trade
-	CORE_CONTRIBUTOR_COUNCIL = 'core contributor council', // ecosystem
-	ECOSYSTEM_COUNCIL = 'ecosystem council', // coreContributor
+	TRADE_COUNCIL = 'trade council',
+	CORE_CONTRIBUTOR_COUNCIL = 'core contributor council', 
+	ECOSYSTEM_COUNCIL = 'ecosystem council',
 	TREASURY_COUNCIL = 'treasury council',
 }
 
