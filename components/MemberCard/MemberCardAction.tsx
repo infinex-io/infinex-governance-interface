@@ -40,9 +40,7 @@ export const MemberCardAction: React.FC<Props> = ({
 	return <>
         {state === 'ADMINISTRATION' && (
             <div
-                className={clsx('rounded', {
-                    'bg-dark-blue': isOwnCard,
-                })}
+                className={clsx('rounded')}
             >
                 <Button
                     className="w-[130px]"
