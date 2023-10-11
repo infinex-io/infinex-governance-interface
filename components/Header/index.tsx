@@ -27,6 +27,8 @@ import {
 } from '@chakra-ui/react';
 import DisconnectIcon from 'components/Icons/DisconnectIcon';
 import ProfileIcon from 'components/Icons/ProfileIcon';
+import classNames from 'classnames';
+import styles from "styles/yams.module.css"
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -62,6 +64,16 @@ export default function Header() {
 	);
 
 	const routes = routesDic.filter((route) => oneCouncilIsInVotingPeriod || route.link !== 'vote');
+
+	const navStyling = (route : {label: string, link: string}) => {
+		if (isYams) 
+			return (isYams && ((asPath.includes(route.link) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)))
+			? 'text-slate-1000 border-b border-primary' : 'text-[#ae988c]'
+		else 
+			return (asPath.includes(route.link) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
+			? 'text-white border-b border-primary' : 'text-slate-400'
+	}
+
 	return (
 		<header
 			className={`${isYams ? "bg-primary-light" : "bg-background-dark border-b-gray-800 border-b border-b-solid"} 
@@ -89,9 +101,7 @@ export default function Header() {
 							<Button
 								variant='nav'
 								className={`last-of-type:mr-auto gt-america-font text-[0.8rem] font-semibold
-								${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
-								? 'border-b border-primary' : 'text-slate-400'} 
-								${isYams ? "text-slate-1000" : ''}`}
+								${navStyling(route)}`}
 								onClick={() => setBurgerMenuOpen(false)}
 								key={route.label}
 								label={t(route.label) as string}
@@ -144,7 +154,7 @@ export default function Header() {
 									variant='nav'
 									className={`last-of-type:mr-auto gt-america-font text-[0.8rem] font-semibold
 									${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
-											? 'border-b border-primary' : 'text-slate-400'}`}
+									? 'border-b border-primary' : 'text-slate-400'}`}
 									onClick={() => setBurgerMenuOpen(false)}
 									key={route.label}
 									label={t(route.label) as string}
@@ -155,7 +165,7 @@ export default function Header() {
 				</div>
 			)}
 			<Button
-				className="!bg-slate-900 !border-slate-300 !text-white whitespace-nowrap	"
+				className={classNames(`${isYams ? "bg-slate-1000 rounded-3xl" : "!bg-slate-900 !border-slate-300 !text-white"} whitespace-nowrap`, styles.blackButtonShadow)}
 				variant="outline"
 				onClick={() => {
 					if (!connected) {
@@ -189,7 +199,7 @@ export default function Header() {
 								alt="image with text connecting to safe wallet"
 								onClick={() =>
 									window.open(
-										'https://docs.synthetix.io/dao/elections-and-voting/voting-with-a-gnosis-safe',
+										'https://docs.infinex.io/governance/elections-and-voting/connecting-a-gnosis-safe',
 										'_blank'
 									)
 								}
@@ -205,7 +215,7 @@ export default function Header() {
 							<Button
 								onClick={() =>
 									window.open(
-										'https://docs.synthetix.io/dao/elections-and-voting/voting-with-a-gnosis-safe',
+										'https://docs.infinex.io/governance/elections-and-voting/connecting-a-gnosis-safe',
 										'_blank'
 									)
 								}
@@ -218,13 +228,14 @@ export default function Header() {
 			<div className="flex md:mr-1 justify-end items-center ml-[16px]">
 				{!isWalletConnected &&
 					<div className="flex items-center">
-						<ConnectButton />
+						<ConnectButton className={classNames(`${isYams ? "rounded-3xl hover:bg-primary" : ""} whitespace-nowrap`, styles.primaryButtonShadow)}/>
 					</div>
 				}
 				{isWalletConnected && walletAddress && (
 					<Dropdown
 						triggerElement={
-							<Button className={`min-w-[142px] flex justify-center items-center bg-slate-900`}
+							<Button className={classNames(`min-w-[142px] flex justify-center items-center 
+							${isYams ? "bg-primary rounded-3xl" : "bg-slate-900"}`, styles.primaryButtonShadow)}
 								variant='nav'
 								label={ensName || truncateAddress(walletAddress)}
 							/>

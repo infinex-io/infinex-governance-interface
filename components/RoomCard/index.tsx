@@ -1,6 +1,7 @@
 import React from 'react';
-// import { useTranslation } from 'react-i18next';
-// Interface 
+import styles from 'styles/yams.module.css'
+import classNames from 'classnames';
+
 interface RoomCard {
    key: number;
 	name?: string;
@@ -23,11 +24,11 @@ export default function RoomCard({
    // const { t } = useTranslation();   w-52 h-72
 
 	return ( 
-		<div key={key} className="flex flex-col justify-between items-center p-3 gap-3 border-[1px] rounded border-solid border-[#edac8b] border-opacity-40 w-40 h-48">
-         <div className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0" style={{ boxShadow: '2px 2px 8px 0px rgba(207, 116, 70, 0.38) inset' }}>
+		<div key={key} className={classNames("flex flex-col justify-between items-center p-5 gap-3 border-[1px] rounded-3xl border-solid border-[#edac8b] border-opacity-40 w-48 h-60", styles.boxIndent)}>
+         <div className={classNames("flex items-center justify-center w-14 h-14 rounded-full flex-shrink-0 text-3xl", styles.boxIndent)}>
                {emoji}
          </div>
-         <div className="flex flex-col items-center text-center gap-1">
+         <div className="flex flex-col items-center text-center gap-1 mb-3">
             <h5 className="tg-title-h5 capitalize text-base font-bold">
                {name}
             </h5>
@@ -35,7 +36,7 @@ export default function RoomCard({
                {description}
             </span>
          </div>
-         <button className="flex justify-center items-center w-full px-4 py-2 rounded-sm bg-primary farming-button-background font-normal text-xs">
+         <button className={classNames("flex justify-center items-center w-full px-4 py-2 rounded-3xl bg-primary font-normal text-xs", styles.buttonShadow)}>
             Select 
          </button>
 		</div>

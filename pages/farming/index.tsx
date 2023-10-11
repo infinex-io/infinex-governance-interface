@@ -21,7 +21,7 @@ const Farming: NextPage = () => {
       <main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black">
          <div className="flex flex-col justify-center items-center w-full max-w-xs mx-auto">
             <Image src={svg} alt="Infinex Logo" height={53} className="mx-auto"/>
-            <h1 className="text-5xl font-bold text-center mt-[-40px]">👨🏻‍⚖️</h1>
+            <h1 className="text-5xl font-bold text-center mt-[-25px]">👨🏻‍⚖️</h1>
             <h1 className="text-center text-xl font-bold text-black">Select a room in the mansion</h1>
             <p className="text-center text-xs font-normal">Earn Infinex voting power by depositing your tokens and proving your trade history</p>
          </div>

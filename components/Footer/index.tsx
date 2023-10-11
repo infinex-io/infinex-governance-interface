@@ -29,7 +29,7 @@ export default function Footer() {
 
 
 	return (
-		<footer className={`${isYams ? "bg-primary-light text-slate-1000" : "border-t border-slate-800 text-slate-600"} 
+		<footer className={`${isYams ? "bg-primary-light text-slate-1000" : "border-t border-slate-800 text-slate-500"} 
 		flex justify-between items-center px-10 py-3`}>
 			<Link href="https://infinex.io/" target='_blank' className="flex items-center gap-3 text-sm"> 
 				Infinex App

@@ -1,0 +1,11 @@
+.boxIndent {
+    box-shadow: 2px 2px 8px 0px rgba(207, 116, 70, 0.38) inset;
+}
+
+.blackButtonShadow {
+    box-shadow: rgba(20, 1, 8, 0.15) -8px 8px 16px 0px;
+}
+
+.primaryButtonShadow {
+    box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px;
+}
