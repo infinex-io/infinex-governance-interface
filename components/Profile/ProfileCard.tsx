@@ -68,7 +68,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 				<h5 className="tg-content-bold text-gray-650">{t('profiles.wallet')}</h5>
 				<h3 className="flex items-center tg-title-h3">
 					{truncateAddress(walletAddress)}
-					<CopyClipboard className="ml-1.5" text={walletAddress} />
+					<CopyClipboard className="ml-1.5" text={walletAddress} fill='#BCC1D7'/>
 				</h3>
 			</div>
 			{pitch && (

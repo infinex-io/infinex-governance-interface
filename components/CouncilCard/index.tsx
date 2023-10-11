@@ -32,6 +32,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
+	// const period = "NOMINATION";
 
 	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
 
@@ -81,10 +82,13 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { cta, button, color, headlineLeft, headlineRight, secondButton } = councilInfo;
 	return (
 		<div className="border border-slate-800 w-full xs:w-64 p-4 rounded gap-1 flex flex-col
-		 justify-around align-center bg-[#12141F]">
-			<Image alt={council} src={image} width={50} height={70} />
-			<h4 className="tg-title-h4 text-center mt-2" data-testid={`council-headline-${council}`}>
-				{t(`landing-page.cards.${council}`)}
+		 justify-center align-center bg-[#12141F]">
+			<div className="flex items-center justify-center my-3">
+				<Image alt={council} src={image} width={35} height={70} />
+			</div>
+			<h4 className="tg-title-h4 text-center m-2" data-testid={`council-headline-${council}`}>
+				<div className="mb-1">{t(`landing-page.cards.${council}`)}</div>
+				<div>{(council === "ecosystem") ? "Seats" : "Seat"}</div>
 			</h4>
 			<span
 				className={`${color} p-2 rounded font-medium text-xs text-center my-2 w-fit self-center`}

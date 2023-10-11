@@ -47,10 +47,10 @@
 			"cta": "Choose Council"
 		},
 		"cards": {
-			"trade": "Trader Seat",
-			"ecosystem": "Ecosystem Seats",
-			"core-contributor": "Core Contributors Seat",
-			"treasury": "Treasury Seat",
+			"trade": "Trader",
+			"ecosystem": "Ecosystem",
+			"core-contributor": "Core Contributors",
+			"treasury": "Treasury",
 			"cta": {
 				"closed": "CLOSED - COUNCIL ELECTED",
 				"nomination": "NOMINATIONS OPEN",
