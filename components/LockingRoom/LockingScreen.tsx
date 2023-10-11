@@ -82,7 +82,8 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
    }
    
    return (
-      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary gap-10 text-black " style={{height: 'calc(100vh - 257px)'}}>
+      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black " 
+         style={{height: 'calc(100vh - 257px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
          {/* Icon */}
          {status === "completed" ? 
             <LockIcon width={26} height={35} /> 
@@ -138,7 +139,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
           {/* Lock (block, hidden - lockingState) */}
          {status === "none" && (amountLocked == 0 || !amountLocked) &&
             <button 
-               className="text-white bg-black rounded-sm py-2 px-4"
+               className="text-black bg-primary rounded-sm py-2 px-4"
                onClick={() => setStatus("locking")}
             >Lock</button>
          }

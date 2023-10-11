@@ -9,6 +9,9 @@ export type GetFarmingData = {
    staking: StakingData,
    volume: {
       [key: string]: number | string,
+   },
+   points: {
+      [key: string]: any,
    }
 }
 
@@ -77,19 +80,27 @@ export default useUserFarmingQuery;
 
 export async function GetFarmingData(walletAddress: string): Promise<GetFarmingData | undefined> {
    console.log("wallet address", walletAddress)
-	if (!walletAddress) return;
 
-   let userVolumeResponse = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/user?address=${walletAddress}`,{
-      method: 'GET',
-   });
-   let userStakingResponse = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/stake?address=${walletAddress}`,{
-      method: 'GET',
-   })
-   
-   let userVolumeData = await userVolumeResponse.json();
-   let userStakingData = await userStakingResponse.json();
-   const combinedExchangeVolume = {...userVolumeData.message, ...extractAndCombine(userVolumeData.message)};
+  try {
+	  if (!walletAddress) return;
 
+  
+    const urls = [
+      `${process.env.NEXT_PUBLIC_FARMING_API}/user?address=${walletAddress}`,
+      `${process.env.NEXT_PUBLIC_FARMING_API}/stake?address=${walletAddress}`,
+      `${process.env.NEXT_PUBLIC_FARMING_API}/points?address=${walletAddress}`,
+    ];
 
-	return {staking: userStakingData.message, volume: combinedExchangeVolume};
+    const fetchPromises = urls.map(url => fetch(url, { method: 'GET' }).then(response => response.json()));
+
+    const [userVolumeData, userStakingData, userPointsData] = await Promise.all(fetchPromises);
+
+    // Now, userVolumeData, userStakingData, and userPointsData contain the respective data
+    const combinedExchangeVolume = {...userVolumeData.message, ...extractAndCombine(userVolumeData.message)};
+    return {staking: userStakingData.message, volume: combinedExchangeVolume, points: userPointsData.message};
+
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+  
 }
