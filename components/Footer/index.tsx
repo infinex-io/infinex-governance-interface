@@ -8,39 +8,42 @@ import { useTranslation } from 'react-i18next';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import UpRightArrow from 'components/Icons/UpRightArrow';
 import MirrorIcon from 'components/Icons/MirrorIcon';
-
-const LINKS = [
-	{
-		title: 'footer.home',
-		link: '/',
-	},
-	{
-		title: 'footer.councils',
-		link: '/councils',
-	},
-	{
-		title: 'footer.terms',
-		link: 'https://infinex.io/terms',
-	},
-];
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Footer() {
-	const { t } = useTranslation();
+	const [isYams, setIsYams] = useState(false) 
+	const { asPath, push } = useRouter();
+	const [fill, setFill] = useState("")
+
+	useEffect(() => {
+		if (asPath === "/farming") {
+			setIsYams(true)
+			setFill("black")
+		}
+		else {
+			setIsYams(false)
+			setFill("#5B5E6E")
+		}
+	}, [asPath])
+
+
 	return (
-		<footer className="flex justify-between items-center border-t border-slate-800 px-10 py-3 text-slate-600">
+		<footer className={`${isYams ? "bg-primary-light text-slate-1000" : "border-t border-slate-800 text-slate-600"} 
+		flex justify-between items-center px-10 py-3`}>
 			<Link href="https://infinex.io/" target='_blank' className="flex items-center gap-3 text-sm"> 
 				Infinex App
-				<UpRightArrow fill="#5B5E6E" />
+				<UpRightArrow fill={fill} />
 			</Link>
 			<div className="flex gap-10 items-center">
 				<Link href="https://discord.gg/infinex" passHref rel="noreferrer" target="_blank">
-					<DiscordIcon fill="#5B5E6E" />
+					<DiscordIcon fill={fill} />
 				</Link>
 				<Link href="https://twitter.com/infinex_app" passHref rel="noreferrer" target="_blank">
-					<TwitterIcon fill="#5B5E6E" />
+					<TwitterIcon fill={fill} />
 				</Link>
 				<Link href="http://mirror.xyz/infinex.eth" passHref rel="noreferrer" target="_blank">
-					<MirrorIcon fill="#5B5E6E" />
+					<MirrorIcon fill={fill} />
 				</Link>
 			</div>
 		</footer>

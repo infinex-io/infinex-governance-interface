@@ -44,6 +44,12 @@ export default function Header() {
 	const { connected } = useSafeAppsSDK();
 	const { isOpen, onClose, onOpen } = useDisclosure();
 	const [dropdownToggle, setDropdownToggle] = useState(false) 
+	const [isYams, setIsYams] = useState(false) 
+
+	useEffect(() => {
+		if (asPath === "/farming") setIsYams(true)
+		else setIsYams(false)
+	}, [asPath])
 
 	useEffect(() => {
 		if (burgerMenuOpen) {
@@ -58,8 +64,8 @@ export default function Header() {
 	const routes = routesDic.filter((route) => oneCouncilIsInVotingPeriod || route.link !== 'vote');
 	return (
 		<header
-			className={`bg-background-dark w-full m-h-[66px] p-3 flex relative
-				items-center md:justify-center justify-between border-b-gray-800 border-b border-b-solid`}
+			className={`${isYams ? "bg-primary-light" : "bg-background-dark border-b-gray-800 border-b border-b-solid"} 
+			w-full m-h-[66px] p-3 flex relative items-center md:justify-center justify-between`}
 		>
 			<Link href="/" passHref legacyBehavior>
 				<div className="md:flex items-center cursor-pointer mr-8 hidden">
@@ -83,8 +89,9 @@ export default function Header() {
 							<Button
 								variant='nav'
 								className={`last-of-type:mr-auto gt-america-font text-[0.8rem] font-semibold
-							${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
-										? 'border-b border-primary' : 'text-slate-400'}`}
+								${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
+								? 'border-b border-primary' : 'text-slate-400'} 
+								${isYams ? "text-slate-1000" : ''}`}
 								onClick={() => setBurgerMenuOpen(false)}
 								key={route.label}
 								label={t(route.label) as string}

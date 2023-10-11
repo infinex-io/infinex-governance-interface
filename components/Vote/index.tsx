@@ -71,7 +71,7 @@ export default function VoteSection() {
 							</span>
 						</div>
 					</div>
-					<div className="flex justify-between items-center flex-wrap w-full">
+					<div className="flex justify-between items-center flex-wrap w-full gap-3">
 						<VoteCard
 							walletAddress={voteStatusQuery.data?.trade.candidateAddress}
 							hasVoted={!!voteStatusQuery.data?.trade.voted}
