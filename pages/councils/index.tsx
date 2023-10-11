@@ -16,7 +16,7 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { DeployedModules } from 'containers/Modules';
 import { init } from 'i18next';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
-
+ 
 const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
