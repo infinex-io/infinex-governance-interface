@@ -13,6 +13,7 @@ const councilVariant = {
 	[DeployedModules.ECOSYSTEM_COUNCIL]: 'success',
 	[DeployedModules.CORE_CONTRIBUTOR_COUNCIL]: 'orange',
 	[DeployedModules.TREASURY_COUNCIL]: 'yellow',
+	[DeployedModules.CC_TOKEN]: 'orange',
 };
 
 export const CouncilBadge: React.FC<Props> = ({ council, className }) => {
