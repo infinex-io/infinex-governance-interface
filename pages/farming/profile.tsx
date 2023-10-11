@@ -11,6 +11,7 @@ import ProfileIcon from 'components/Icons/ProfileIcon';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 import { useEffect, useState } from 'react';
 import { formatNumberWithLocale, formatPercent } from '../../utils/numbers';
+import { extractDexExchangeEntries } from '../../utils/points';
 
 export default function Profile() {
 	// const router = useRouter();
@@ -27,6 +28,8 @@ export default function Profile() {
 
 		const userTotals = userFarmingQuery?.data?.points[`points`]
 		const platformTotals = userFarmingQuery?.data?.points[`pointsPlatform`]
+
+		console.log(userTotals ? extractDexExchangeEntries(userTotals) : "")
 
 		setUserTotals(userTotals);
 		setPlatformTotals(platformTotals);
