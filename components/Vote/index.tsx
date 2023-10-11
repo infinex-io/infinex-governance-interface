@@ -57,7 +57,7 @@ export default function VoteSection() {
 			</div>
 			<span className="tg-body pb-8 text-center text-gray-500">{t('vote.subline')}</span>
 			{!!activeCouncilInVoting && (
-				<div className="max-w-[1000px] w-full p-4 rounded bg-dark-blue flex flex-wrap items-center">
+				<div className="max-w-[1000px] w-full p-4 rounded bg-slate-900 flex flex-wrap items-center">
 					<div className="flex w-fit">
 						<div className="pb-2 ml-2">
 							<h3 className="md:tg-title-h3 tg-title-h4 pt-4">
@@ -71,7 +71,7 @@ export default function VoteSection() {
 							</span>
 						</div>
 					</div>
-					<div className="flex justify-between flex-wrap w-full">
+					<div className="flex justify-between items-center flex-wrap w-full">
 						<VoteCard
 							walletAddress={voteStatusQuery.data?.trade.candidateAddress}
 							hasVoted={!!voteStatusQuery.data?.trade.voted}
@@ -94,7 +94,7 @@ export default function VoteSection() {
 							walletAddress={voteStatusQuery.data?.coreContributor.candidateAddress}
 							hasVoted={!!voteStatusQuery.data?.coreContributor.voted}
 							periodIsVoting={
-								periodsData.find((period) => period.data?.council === 'coreContributor')?.data
+								periodsData.find((period) => period.data?.council === 'core-contributor')?.data
 									?.currentPeriod === 'VOTING'
 							}
 							council={DeployedModules.CORE_CONTRIBUTOR_COUNCIL}

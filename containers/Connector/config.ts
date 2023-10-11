@@ -12,7 +12,10 @@ import { InfinexIcon, InfinexLogo } from 'components/Wallet/WalletComponents';
 
 const injected = injectedModule();
 const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true });
-const walletConnect = walletConnectModule();
+const walletConnect = walletConnectModule({
+	projectId: '9d0b83899b404dafc710e9978dd8fa57',
+	version: 2
+});
 const ledger = ledgerModule() as any;
 const trezor = trezorModule({ email: 'info@synthetix.io', appUrl: 'https://infinex.io' });
 const portis = portisModule({ apiKey: `${process.env.NEXT_PUBLIC_PORTIS_APP_ID}` });
@@ -46,6 +49,12 @@ export const onboard = Onboard({
 			token: 'ETH',
 			label: 'Mainnet',
 			rpcUrl: getInfuraRpcURL(NetworkIdByName['mainnet']),
+		},
+		{
+			id: getChainIdHex(NetworkIdByName['goerli']),
+			token: 'ETH',
+			label: 'Goerli',
+			rpcUrl: getInfuraRpcURL(NetworkIdByName['goerli']),
 		},
 	],
 	accountCenter: {

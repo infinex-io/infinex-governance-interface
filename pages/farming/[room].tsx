@@ -38,7 +38,7 @@ export default function Room() {
    const userFarmingQuery = useUserFarmingQuery();
 
    /* ================================== functions ================================== */
-   const room = rooms.find(r => r.name === router.query.room);
+   const room = rooms.find(r => r.name === router.query.room)!;
    
 	return (
       <>

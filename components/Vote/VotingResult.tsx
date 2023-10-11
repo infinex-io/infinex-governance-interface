@@ -32,7 +32,7 @@ export const VotingResult: React.FC<VotingResultProps> = ({ moduleInstance }) =>
 
 	if (!isMobile) {
 		return (
-			<div className="mt-6 mb-20 p-6 border-gray-700 border bg-dark-blue w-[1000px] rounded-xl max-w-full mx-auto">
+			<div className="mt-6 mb-20 p-6 border-gray-700 border bg-slate-900 w-[1000px] rounded-xl max-w-full mx-auto">
 				<VotingResultTable
 					voteResults={voteResults || []}
 					seats={seats || 0}

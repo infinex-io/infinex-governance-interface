@@ -10,9 +10,12 @@ import { Timer } from 'components/Timer';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
 import { useVotingCount } from 'queries/voting/useVotingCount';
 import { Button } from 'components/button';
+import useIsNominated from 'queries/nomination/useIsNominatedQuery';
+import { useConnectorContext } from 'containers/Connector';
+import { useEffect, useState } from 'react';
 
 interface CouncilCardProps {
-	council: string;
+	council: "trade" | "ecosystem" | "core-contributor" | "treasury"
 	image: string;
 	deployedModule: DeployedModules;
 }
@@ -24,11 +27,46 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
 	const voteCount = useVotingCount(deployedModule, true);
+	const { walletAddress } = useConnectorContext();
+	const [isNominated, setIsNominated] = useState<boolean | undefined>(false)
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
 
 	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
+
+	const isAlreadyNominatedForTrade = useIsNominated(
+		DeployedModules.TRADE_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForEcosystem = useIsNominated(
+		DeployedModules.ECOSYSTEM_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForCoreContributor = useIsNominated(
+		DeployedModules.CORE_CONTRIBUTOR_COUNCIL,
+		walletAddress || ''
+	);
+	const isAlreadyNominatedForTreasury = useIsNominated(
+		DeployedModules.TREASURY_COUNCIL,
+		walletAddress || ''
+	);
+
+	useEffect(() => {
+		switch(council) {
+			case "trade":
+				setIsNominated(isAlreadyNominatedForTrade.data)
+				break;
+			case "core-contributor":
+				setIsNominated(isAlreadyNominatedForCoreContributor.data)
+				break;
+			case "ecosystem":
+				setIsNominated(isAlreadyNominatedForEcosystem.data)
+				break;
+			case "treasury":
+				setIsNominated(isAlreadyNominatedForTreasury.data)
+		}
+	}, [isAlreadyNominatedForTrade.data, isAlreadyNominatedForCoreContributor.data, isAlreadyNominatedForEcosystem.data, isAlreadyNominatedForTreasury.data])
 
 	if (!councilInfo)
 		return (
@@ -88,16 +126,17 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			{secondButton && (
 				<Button
 					variant='outline'
-					className="cursor-pointer bg-clip-text w-full"
+					className="cursor-pointer bg-clip-text w-full mt-2" 
 					onClick={() => push(`/councils/${council}`)}
 					label={t(secondButton) as string}
 				/>
 			)}
 			<Button
-				className="w-full mt-4"
+				className={`w-full mt-2 
+				${period === "NOMINATION" && isNominated ? "hidden" : ""}`}
 				onClick={() => {
 					if (period === 'NOMINATION') {
-						setContent(<NominateModal />);
+						setContent(<NominateModal council={council}/>);
 						setIsOpen(true);
 					} else if (period === 'VOTING') {
 						push(`/vote/${council}`);
@@ -110,7 +149,13 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				data-testid="card-button"
 				label={t(button) as string}
 			/>
-
+			{period === "NOMINATION" && isNominated && 
+				<Button
+					variant='success'
+					className="w-full mt-2 cursor-default"
+					label={t("landing-page.cards.button.nominated") as string}
+				/>
+			}
 		</div>
 	);
 };

@@ -181,7 +181,7 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 	return (
 		<BaseModal headline={t('modals.vote.headline', { council: capitalizeString(council) })}>
 			<div className="max-w-[500px] flex flex-col items-center px-2">
-				<span className="text-center tg-body text-gray-500 mt-2">{t('modals.vote.subline')}</span>
+				<span className="text-center text-sm text-gray-500 mt-2">{t('modals.vote.subline')}</span>
 				<Avatar
 					scale={12}
 					width={90}
@@ -212,12 +212,14 @@ export default function VoteModal({ member, deployedModule, council }: VoteModal
 						<ConnectButton />
 					</div>
 				) : (
-					<Button
-						onClick={() => handleVote()}
-						className="m-6 w-full"
-						disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
-						label={t('modals.vote.submit') as string}
-					/>
+					<div className="m-6">
+						<Button
+							onClick={() => handleVote()}
+							className="w-full"
+							disabled={votingPower.l1.eq(0) && votingPower.l2.eq(0)}
+							label={t('modals.vote.submit') as string}
+						/>
+					</div>
 				)}
 				<Button
 					className="w-full"
