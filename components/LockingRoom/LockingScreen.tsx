@@ -52,7 +52,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
       setAmountLocked(amount)
       amount > 0 ? setStatus('locked') : ''
 
-      setLoading(false)
+      // setLoading(false)
       
    }, [userFarmingQuery]);
 

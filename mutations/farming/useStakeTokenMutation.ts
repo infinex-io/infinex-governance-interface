@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 import { useConnectorContext } from 'containers/Connector';
 
 function useStakeTokenMutation() {
-    const { walletAddress } = useConnectorContext();
+    const { signer } = useConnectorContext();
 
     return useMutation(
         async (stakeData: {
@@ -10,11 +10,14 @@ function useStakeTokenMutation() {
             amount: number;
             overide: boolean;
         }) => {
-            console.log(stakeData);
+            
+            const message = "INFINEX:GOVERNANCE-FARM"
+            const signature = await signer!.signMessage(message);
+            const address = await signer?.getAddress()
             try {
-               const response = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/stake?address=${walletAddress}`, {
+               const response = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/stake?address=${address}`, {
                   method: 'POST',
-                  body: JSON.stringify({...stakeData, address_signature: "signature" , address: walletAddress}),
+                  body: JSON.stringify({...stakeData, address_signature: signature , address: address}),
                });
 
                if (!response.ok) {

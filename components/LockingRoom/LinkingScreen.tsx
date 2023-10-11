@@ -20,6 +20,7 @@ import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 // Internal
 import { Room } from 'pages/farming/[room]';
 import { ProgressBar } from 'react-toastify/dist/components';
+import { extractDexExchangeEntries, stripObjOfNonVolume, sumValues } from '../../utils/points';
 
 const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== state ================================== */
@@ -46,28 +47,50 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
       if (userFarmingQuery.data){
          console.log("farming data", userFarmingQuery.data)
 
-         const linkStatus = userFarmingQuery.data.volume[`${exchangeKey}_status`]
+         let linkStatus = userFarmingQuery.data.volume[`${exchangeKey}_status`]
          const linkVolume = userFarmingQuery.data.volume[exchangeKey]
 
          console.log({linkStatus})
          console.log({linkVolume})
 
-         if (Number(linkVolume) > 0){
-            if (room.name == "binance") {
-               setVolume(
-                  // Combine Binance futures and spot
-                  Number(
+         // if (Number(linkVolume) > 0){
+            if (room.exchange_id == "Binance") {
+               setVolume(  
+                  Number( // Combine Binance futures and spot
                      Number(userFarmingQuery.data.volume["binanace"]) +
                      Number(userFarmingQuery.data.volume["binancecoinm"])
                   )
                )
+            } else if (room.exchange_id == "GMX") {
+               setVolume(  
+                  Number( // Combine Binance futures and spot
+                     Number(userFarmingQuery.data.volume["gmx_arbitrum"]) +
+                     Number(userFarmingQuery.data.volume["gmx_avalanche"])
+                  )
+               )
+               linkStatus = userFarmingQuery.data.volume[`gmx_status`]
+            } else if (room.exchange_id == "SNX") {
+               setVolume(Number(userFarmingQuery.data.volume["synthetix_optimism"]))
+               linkStatus = userFarmingQuery.data.volume[`synthetix_status`]
+            } else if (room.exchange_id == "DYDX") {
+               setVolume(Number(userFarmingQuery.data.volume["dydx_ethereum"]))
+               linkStatus = userFarmingQuery.data.volume[`dydx_status`]
+            } else if (room.exchange_id == "Spot Dex") {
+               const dexVolumes : Record<string, any> = stripObjOfNonVolume(extractDexExchangeEntries(userFarmingQuery.data.volume))
+               const total = sumValues(dexVolumes)
+               console.log(total)
+               setVolume(Number(total))
+               linkStatus = userFarmingQuery.data.volume[`dex_status`]
             } else {
                setVolume(Number(Number(linkVolume).toFixed(2)))
             }
             
-            setStatus("completed")
-         } else if (linkStatus === "processing"){ // TODO: Switch this to whatever the state is meant to be
+            
+         // } else
+         if (linkStatus === "processing" || linkStatus === "queued"){ // TODO: Switch this to whatever the state is meant to be
             setStatus("waiting")
+         } else if (linkStatus === "success") {
+            setStatus("completed")
          } else {
             setStatus("none")
          }
@@ -142,7 +165,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                Done
             </button>
          }
-          {status === "linking" && room.name != "Dex Sauna" &&
+          {status === "linking" && !room.dex &&
             <>
                <div className="relative max-w-xs w-full ">
                   <p className="absolute top-0 text-xs text-black">API PUBLIC KEY</p>
@@ -210,7 +233,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
            <div className="flex flex-row items-center gap-10">
               <div className="flex flex-col justify-center items-center">
                  <p className="text-sm font-bold">Calculated volume</p>   
-                 <p className="text-lg font-black">{volume > 0 ? `$${volume.toLocaleString()}` : ''}</p>
+                 <p className="text-lg font-black">{volume > 0 ? `$${volume.toLocaleString()}` : '$0'}</p>
               </div>
              
               {/* <div className="flex flex-col justify-center items-center">

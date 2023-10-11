@@ -27,6 +27,7 @@ export interface Room {
    exchange_id: string; // binance || ftx
    type: string; // dex || sex
    needsApiPass: boolean; // dex || sex
+   dex: boolean; // dex || sex
 }
 
 export default function Room() {

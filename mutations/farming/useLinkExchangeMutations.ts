@@ -17,7 +17,7 @@ function useLinkExchangeMutations() {
             try {
                let body;
 
-                const message = "INFINEX:ACCESS-TEST-123"
+                const message = "INFINEX:GOVERNANCE-FARM"
                 const signature = await signer!.signMessage(message);
                 const address = await signer?.getAddress()
          
