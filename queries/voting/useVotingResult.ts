@@ -25,15 +25,15 @@ export const useVotingResult = (
 		async () => {
 			const contractAddress = governanceModules[moduleInstance]?.contract?.address?.toLowerCase();
 			const epoch = String(epochIndex || '0');
-			console.log(contractAddress, epoch)
 
 			const { data } = await client.query({
 				query: gql`
 					query VoteResults {
 						voteResults(
-							where: { contract: "${contractAddress}", epochIndex: "${epoch}" }
+							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}" }
 						) {
 							id
+							ballotId
 							epochIndex
 							votePower
 							contract
