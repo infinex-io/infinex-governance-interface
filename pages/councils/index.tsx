@@ -10,7 +10,7 @@ import { parseQuery } from 'utils/parse';
 import MemberCard from 'components/MemberCard/Index';
 import { Loader } from 'components/Loader/Loader';
 import { TabIcon } from 'components/TabIcon';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { PassedVotingResults } from 'components/Vote/PassedVotingResult';
 import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { DeployedModules } from 'containers/Modules';
@@ -22,20 +22,7 @@ const Councils: NextPage = () => {
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
 	const { t } = useTranslation();
 	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
-	let { data: initEcosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
-	const { currentPeriodData : ecosystemPeriod } = useCouncilCardQueries(DeployedModules.ECOSYSTEM_COUNCIL);
-	const period = ecosystemPeriod?.currentPeriod;
-	let ecosystem;
-	// nominations or voting, add extra seat to ecosystem
-	if (initEcosystem && (period === "VOTING" || period === "NOMINATION")) {
-		ecosystem = [...initEcosystem]; // Create a shallow copy of the array
-		ecosystem.push(ecosystem[0]);
-	}
-	// if not nominations or voting
-	else if (initEcosystem) {
-		ecosystem = initEcosystem
-	}
-
+	let { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
 	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
 	
