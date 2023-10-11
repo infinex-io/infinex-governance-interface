@@ -45,7 +45,7 @@ export default function Room() {
          <Head>
             <title>Infinex | Governance V3</title>
          </Head>
-         <div className="flex flex-col">
+         <div className="flex flex-col bg-primary-light">
 
             <BackOnePageButton></BackOnePageButton>
             

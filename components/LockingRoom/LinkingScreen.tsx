@@ -100,14 +100,15 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    }
 
    return (
-     <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-surface gap-10 text-white " style={{height: 'calc(100vh - 256px)'}}>
+     <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black" 
+         style={{height: 'calc(100vh - 256px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
          {(status === "processing") && <Progress />}
          {(status === "completed") && <CompleteIcon />}
 
          {/* Title (link) */}
-         <h1 className="tg-title-h1 text-white text-5xl font-black">
+         <h1 className="tg-title-h1 text-black text-5xl font-black">
             {status === "none" ? `Link to ${room ? room.exchange_id : ""}` : ""}
             {status === "linking" ? "Setup link" : ""}
             {status === "waiting" ? "Processing your trading volume..." : ""}
@@ -115,7 +116,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             
          </h1>
          {/* description (link your api keys || Your api keys may take some time) */}
-         <h2 className="text-sm font-medium text-white text-center max-w-sm">
+         <h2 className="text-sm font-medium text-black text-center max-w-sm">
             {status === "none" && "Link your trading account"}
             {status === "waiting" &&  "Your trading data may take some time to update, Check back in ~1hr."}
             {status === "waiting" &&  " We have recorded the time of your submission."}
@@ -144,24 +145,24 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
           {status === "linking" && room.name != "Dex Sauna" &&
             <>
                <div className="relative max-w-xs w-full ">
-                  <p className="absolute top-0 text-xs text-white">API PUBLIC</p>
+                  <p className="absolute top-0 text-xs text-black">API PUBLIC KEY</p>
                   <div className="mt-5 relative">
                      <input
                         type="text"
-                        className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full"
-                        placeholder="API Public"
+                        className="border bg-primary border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
+                        // placeholder="dlfa8d#kfs.."
                         value={publicKey}
                         onChange={(e) => setPublicKey(e.target.value)}
                      />
                   </div>
                </div>
                <div className="relative max-w-xs w-full mt-[-15px]">
-                  <p className="absolute top-0 text-xs text-white">API SECRET</p>
+                  <p className="absolute top-0 text-xs text-black">API SECRET KEY</p>
                   <div className="mt-5 relative">
                      <input
                         type="text"
-                        className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full"
-                        placeholder="API Secret"
+                        className="border bg-primary border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
+                        // placeholder="API Secret"
                         value={secretKey}
                         onChange={(e) => setSecretKey(e.target.value)}
                         />
@@ -172,11 +173,11 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
 
                {  room.needsApiPass ?
                   <div className="relative max-w-xs w-full mt-[-15px]">
-                     <p className="absolute top-0 text-xs text-white">API PASS</p>
+                     <p className="absolute top-0 text-xs text-black">API PASS</p>
                      <div className="mt-5 relative">
                         <input
                            type="text"
-                           className="border bg-surface border-slate-700 text-white rounded-sm py-2 pr-16 pl-4 w-full"
+                           className="border bg-surface border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
                            placeholder="API Pass"
                            value={apiPass}
                            onChange={(e) => setApiPass(e.target.value)}
@@ -189,15 +190,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          }
         {(status === "linking") &&
             <div className="flex flex-row gap-4">
-               {/* Backicon + Text */}
-               <button
-                  className="text-white bg-surface rounded-sm py-2 px-4 border border-white flex items-center gap-2"
-                  onClick={() => setStatus("none")}
-                  disabled={isLoading}
-               >
-                  <BackIcon width={10} height={10} />
-                  <span>Back</span>
-               </button>
+
                {/* Button */}
                <Button
                   height="42px"
