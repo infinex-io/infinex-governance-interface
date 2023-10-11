@@ -13,6 +13,7 @@ export default function Profile() {
 	// const router = useRouter();
 	const address = "0x123-todo"
 
+	// todo move to component
 	return (
 		<>
 			<Head>
