@@ -13,6 +13,7 @@ import { Button } from 'components/button';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useConnectorContext } from 'containers/Connector';
 import { useEffect, useState } from 'react';
+import useIsCC from 'queries/nomination/useIsCCQuery';
 
 interface CouncilCardProps {
 	council: "trade" | "ecosystem" | "core-contributor" | "treasury"
@@ -28,11 +29,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 		useCouncilCardQueries(deployedModule);
 	const voteCount = useVotingCount(deployedModule, true);
 	const { walletAddress } = useConnectorContext();
-	const [isNominated, setIsNominated] = useState<boolean | undefined>(false)
+	const [isNominated, setIsNominated] = useState<boolean | undefined>(false);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
 	const period = currentPeriodData?.currentPeriod;
-	// const period = "NOMINATION";
 
 	const councilInfo = period ? parseCouncil(EpochPeriods[period]) : null;
 
@@ -52,6 +52,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 		DeployedModules.TREASURY_COUNCIL,
 		walletAddress || ''
 	);
+
+	const isCC = useIsCC(walletAddress || '')
 
 	useEffect(() => {
 		switch(council) {
@@ -137,7 +139,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			)}
 			<Button
 				className={`w-full mt-2 
-				${period === "NOMINATION" && isNominated ? "hidden" : ""}`}
+				// if period is NOMINATION AND (either already nominated or is a CC)
+				${period === "NOMINATION" && (isNominated || council == "core-contributor" && !isCC.data) ? "hidden" : ""}`}
 				onClick={() => {
 					if (period === 'NOMINATION') {
 						setContent(<NominateModal council={council}/>);
@@ -153,11 +156,20 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				data-testid="card-button"
 				label={t(button) as string}
 			/>
+			{/* already nominated button */}
 			{period === "NOMINATION" && isNominated && 
 				<Button
 					variant='success'
 					className="w-full mt-2 cursor-default"
 					label={t("landing-page.cards.button.nominated") as string}
+				/>
+			}
+			{/* CC button */}
+			{period === "NOMINATION" && council === "core-contributor" && !isCC.data &&
+				<Button 
+					variant="destructive"
+					className="w-full mt-2 cursor-default"
+					label={t("landing-page.cards.button.not-cc") as string}
 				/>
 			}
 		</div>

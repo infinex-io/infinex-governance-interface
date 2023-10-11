@@ -5,6 +5,7 @@ export enum DeployedModules {
 	CORE_CONTRIBUTOR_COUNCIL = 'core contributor council', 
 	ECOSYSTEM_COUNCIL = 'ecosystem council',
 	TREASURY_COUNCIL = 'treasury council',
+	CC_TOKEN = 'cc token',
 }
 
 export type CouncilsDictionaryType = {

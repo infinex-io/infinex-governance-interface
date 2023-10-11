@@ -62,7 +62,8 @@
 				"nomination": "Nominate Yourself",
 				"vote": "Vote Candidates",
 				"nominees": "View Nominees",
-				"nominated": "Nominated"
+				"nominated": "Nominated",
+				"not-cc": "You must be a CC to nominate"
 			},
 			"nominees": "View Nominees",
 			"members": "Members",
@@ -112,7 +113,7 @@
 					"nextElection": "Next Trade Election:"
 				},
 				"ec": {
-					"subline": "The Ecosystem seat will represent the Synthetix community. A councillor in the Ecosystem seat will advocate for the interests of the broader Synthetix ecosystem, and their place on the council is designed to foster alignment of interests among protocols.",
+					"subline": "The Ecosystem seats will represent the Synthetix community. A councillor in the Ecosystem seat will advocate for the interests of the broader Synthetix ecosystem, and their place on the council is designed to foster alignment of interests among protocols.",
 					"election": "Ecosystem Election",
 					"members": "{{count}} councillors",
 					"stipends": "Stipends/Month",

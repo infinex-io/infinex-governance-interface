@@ -7,3 +7,5 @@ export const ecosystemCouncil =
 	process.env.NEXT_PUBLIC_ADDRESS_ECOSYSTEM_COUNCIL || '0xFb89c352B126b1749dCA2eB70a024ef4fD0F3abE';
 export const treasuryCouncil =
 	process.env.NEXT_PUBLIC_ADDRESS_TREASURY_COUNCIL || '0x32694E6e8223e907FFc4557b08E2fB410cB5D77e';
+export const CCToken =
+	process.env.NEXT_PUBLIC_ADDRESS_CC_TOKEN || '0x989796307dF57549d0a6e4f924460F8dd076B1ee';
