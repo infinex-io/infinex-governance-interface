@@ -52,17 +52,17 @@ export const VoteCard: React.FC<Props> = ({ hasVoted, council, periodIsVoting, w
 			<Dropdown
 				width="sm"
 				triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-				contentClassName="bg-navy flex flex-col dropdown-border overflow-hidden"
+				contentClassName="bg-slate-1000 flex flex-col dropdown-border overflow-hidden"
 				triggerElement={
-					<IconButton rounded size="sm">
-						<Icon className="text-xl" name="Vertical" />
+					<IconButton rounded size="sm" className="bg-transparent focus:border-white">
+						<Icon className="text-xl !text-white" name="Vertical" />
 					</IconButton>
 				}
 				contentAlignment="right"
 				renderFunction={({ handleClose }) => (
 					<div className="flex flex-col">
 						<span
-							className="tg-caption p-2 text-primary cursor-pointer"
+							className="text-sm p-2 text-slate-100 cursor-pointer"
 							onClick={() => {
 								handleClose();
 								push('/vote/' + activeCouncil.slug);
@@ -71,7 +71,7 @@ export const VoteCard: React.FC<Props> = ({ hasVoted, council, periodIsVoting, w
 							{t('vote.dropdown.change')}
 						</span>
 						<span
-							className="tg-caption p-2 text-primary bg-black cursor-pointer"
+							className="text-sm p-2 text-slate-100 bg-black cursor-pointer"
 							onClick={() => {
 								handleClose();
 								push('/profile/' + userDetailsQuery.data?.address);
@@ -80,7 +80,7 @@ export const VoteCard: React.FC<Props> = ({ hasVoted, council, periodIsVoting, w
 							{t('vote.dropdown.view')}
 						</span>
 						<span
-							className="tg-caption p-2 text-primary cursor-pointer"
+							className="text-sm p-2 text-slate-100 cursor-pointer"
 							onClick={() => {
 								if (!userDetailsQuery.data) return;
 								handleClose();
