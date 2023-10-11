@@ -63,6 +63,7 @@
 				"vote": "Vote Candidates",
 				"nominees": "View Nominees",
 				"nominated": "Nominated",
+				"already-nominated": "You have already nominated",
 				"not-cc": "You must be a CC to nominate"
 			},
 			"nominees": "View Nominees",

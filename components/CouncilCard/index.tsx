@@ -54,7 +54,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	);
 
 	const isCC = useIsCC(walletAddress || '')
-
+	const hasNominated = isAlreadyNominatedForTrade || isAlreadyNominatedForEcosystem || isAlreadyNominatedForCoreContributor || isAlreadyNominatedForTreasury
 	useEffect(() => {
 		switch(council) {
 			case "trade":
@@ -140,9 +140,12 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<Button
 				className={`w-full mt-2 
 				// if period is NOMINATION AND (either already nominated or is a CC)
-				${period === "NOMINATION" && (isNominated || council == "core-contributor" && !isCC.data) ? "hidden" : ""}`}
+				${period === "NOMINATION" && (isNominated || council == "core-contributor" && !isCC.data) ? "hidden" : ""}
+				// if period is NOMINATION AND alreadyNominated 
+				${period === "NOMINATION" && hasNominated ? "cursor-default" : ""}`}
 				onClick={() => {
 					if (period === 'NOMINATION') {
+						if (hasNominated) return;
 						setContent(<NominateModal council={council}/>);
 						setIsOpen(true);
 					} else if (period === 'VOTING') {
@@ -154,14 +157,18 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					}
 				}}
 				data-testid="card-button"
-				label={t(button) as string}
+				variant={period === "NOMINATION" && hasNominated ? "tertiary" : "primary"}
+				label={period === "NOMINATION" && hasNominated ? 
+					t("landing-page.cards.button.already-nominated") as string 
+					: t(button) as string}
 			/>
-			{/* already nominated button */}
+			{/* already nominated for specific council button */}
 			{period === "NOMINATION" && isNominated && 
 				<Button
 					variant='success'
-					className="w-full mt-2 cursor-default"
+					className="w-full mt-2"
 					label={t("landing-page.cards.button.nominated") as string}
+					onClick={() => push(`/councils/${council}`)}
 				/>
 			}
 			{/* CC button */}
