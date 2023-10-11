@@ -101,7 +101,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
 
    return (
      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black" 
-         style={{height: 'calc(100vh - 256px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
+         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
          {(status === "processing") && <Progress />}
@@ -125,7 +125,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          {/* Link button (hide when linking) */}
          {status === "none" &&
             <button
-               className="text-black bg-primary rounded-sm py-2 px-4"
+               className="text-black bg-primary rounded-3xl py-2 px-4"
                onClick={() => setStatus("linking")}
             >
                Link
@@ -133,7 +133,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          }
          {status === "waiting" &&
             <button
-               className="text-black bg-primary rounded-sm py-2 px-4"
+               className="text-black bg-primary rounded-3xl py-2 px-4"
                onClick={() => {
                      router.push("/farming")
                    }
@@ -196,7 +196,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   height="42px"
                   isLoading={isLoading}
                   loadingText='Submitting'
-                  className="!text-black !bg-primary !rounded-sm !py-2 !px-4"
+                  className="!text-black !bg-primary !rounded-3xl !py-2 !px-4"
                   background="primary"
                   variant="custom"
                   onClick={() => {
@@ -222,7 +222,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             <div className="flex flex-row gap-4">              
                {/* Button */}
                <button
-                  className="text-black bg-primary rounded-sm py-2 px-4"
+                  className="text-black bg-primary rounded-3xl py-2 px-4"
                   onClick={() => {
                      router.push("/farming")
                    }

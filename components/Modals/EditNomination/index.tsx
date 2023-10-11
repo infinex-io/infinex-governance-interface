@@ -156,20 +156,21 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 										{ensName ? ensName : walletAddress && truncateAddress(walletAddress)}
 									</h3>
 								</div>
-								<div className="bg-primary p-[2px] rounded">
-									<div className="darker-60 text-primary py-1 px-6 rounded">
+								<span
+									className={`bg-[#15262A] text-[#31C690] p-2 rounded font-medium text-xs text-center my-2 w-fit self-center`}
+									data-testid="cta-text"
+								>
 										{t('modals.edit.council', { council: capitalizeString(council) })}
-									</div>
-								</div>
+								</span>
 							</div>
 						) : (
 							<>
 								<div className="flex justify-center items-center w-[100px] mb-4">
-									<div className="bg-primary rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
+									<div className="bg-transparent rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-slate-400 border border-slate-400 tg-caption flex flex-col items-center justify-center">
 										1
 									</div>
-									<div className="min-w-full h-[1px] bg-primary"></div>
-									<div className="bg-secondary-light rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
+									<div className="min-w-full h-[1px] bg-slate-400"></div>
+									<div className="bg-slate-400 rounded-full min-w-[28px] min-h-[28px] max-w-[30px] max-h-[30px] text-black tg-caption flex flex-col items-center justify-center">
 										2
 									</div>
 								</div>
@@ -191,7 +192,7 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 						)}
 					</div>
 					<div className="border-l-slate-700 border-l-4 bg-slate-700 mb-4 w-full">
-						<h5 className="tg-title-h5 darker-60 text-white p-2 flex items-center">
+						<h5 className="text-sm font-medium darker-60 text-white p-2 flex items-center">
 							<svg
 								width="29"
 								height="29"
@@ -200,10 +201,10 @@ export default function EditNominationModal({ deployedModule, council }: EditMod
 								xmlns="http://www.w3.org/2000/svg"
 								className="mr-2"
 							>
-								<circle cx="14.5" cy="14.5" r="13.4643" stroke="var(--color-primary)" strokeWidth="2.07143" />
+								<circle cx="14.5" cy="14.5" r="13.4643" stroke="var(--color-slate-100)" strokeWidth="2.07143" />
 								<path
 									d="M10.4194 18.3764H13.3388V13.0404H10.7094V10.8751H16.3161V18.3764H19.3708V20.5417H10.4194V18.3764ZM16.3548 9.61839H12.9521V6.56372H16.3548V9.61839Z"
-									fill="var(--color-primary)"
+									fill="var(--color-slate-100)"
 								/>
 							</svg>
 							{t('modals.edit.banner')}

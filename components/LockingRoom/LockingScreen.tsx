@@ -83,7 +83,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
    
    return (
       <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black " 
-         style={{height: 'calc(100vh - 257px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
+         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
          {/* Icon */}
          {status === "completed" ? 
             <LockIcon width={26} height={35} /> 
@@ -139,7 +139,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
           {/* Lock (block, hidden - lockingState) */}
          {status === "none" && (amountLocked == 0 || !amountLocked) &&
             <button 
-               className="text-black bg-primary rounded-sm py-2 px-4"
+               className="text-black bg-primary rounded-3xl py-2 px-4"
                onClick={() => setStatus("locking")}
             >Lock</button>
          }
@@ -147,7 +147,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          {/* Todo add override stake */}
          {status === "none" && amountLocked == 0 &&
             <button 
-               className="text-white bg-black rounded-sm py-2 px-4"
+               className="text-white bg-black rounded-3xl py-2 px-4"
                onClick={() => setStatus("locking")}
             >Update lock</button>
          }
@@ -165,7 +165,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                      disabled={loading}
                   />
                   <button 
-                     className="absolute bg-primaryDark bg-opacity-30 right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-sm py-1 px-2"
+                     className="absolute bg-primaryDark bg-opacity-30 right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-3xl py-1 px-2"
                      onClick={() => setInputValue(userFarmingQuery.data?.staking[`${room.token}_available`].toString() ?? "0")}
                   >Max</button>
                </div>
@@ -177,7 +177,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
                <button 
-                  className="text-black bg-none rounded-sm py-2 px-4 border border-black flex items-center gap-2"
+                  className="text-black bg-none rounded-3xl py-2 px-4 border border-black flex items-center gap-2"
                   disabled={loading}
                   onClick={() => {
                      setStatus("none")
@@ -190,7 +190,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                <Button 
                   variant="custom"
                   height="42px"
-                  className="text-white bg-black !rounded-sm py-2 px-4"
+                  className="text-white bg-black !rounded-3xl py-2 px-4"
                   onClick={() => {
                      handleStake()
                    }
@@ -214,7 +214,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                </button> */}
                {/* Button */}
                <button 
-                  className="text-white bg-black rounded-sm py-2 px-4"
+                  className="text-white bg-black rounded-3xl py-2 px-4"
                   onClick={() => {
                      router.push("/farming")
                    }

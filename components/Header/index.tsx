@@ -49,7 +49,7 @@ export default function Header() {
 	const [isYams, setIsYams] = useState(false) 
 
 	useEffect(() => {
-		if (asPath === "/farming") setIsYams(true)
+		if (asPath.includes("/farming")) setIsYams(true)
 		else setIsYams(false)
 	}, [asPath])
 
@@ -235,28 +235,29 @@ export default function Header() {
 					<Dropdown
 						triggerElement={
 							<Button className={classNames(`min-w-[142px] flex justify-center items-center 
-							${isYams ? "bg-primary rounded-3xl" : "bg-slate-900"}`, styles.primaryButtonShadow)}
+							${isYams ? "bg-primary rounded-3xl" : "bg-slate-900"}`, isYams ? styles.primaryButtonShadow : "")}
 								variant='nav'
 								label={ensName || truncateAddress(walletAddress)}
 							/>
 						}
-						contentClassName="bg-slate-900 flex flex-col overflow-hidden p-2 border-t border-primary rounded-none"
+						contentClassName={`flex flex-col overflow-hidden p-2 border-t border-primary 
+						${isYams ? "rounded-3xl bg-primary" : "rounded-none bg-slate-900"}`}
 						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 						contentAlignment="right"
 					>
 						<span
-							className="p-3 hover:bg-slate-800 text-white text-xs cursor-pointer flex items-center"
+							className={`p-3 ${isYams ? "" : "hover:bg-slate-800"} text-white text-xs cursor-pointer flex items-center`}
 							onClick={() => push('/profile/' + walletAddress)}
 						>
-							<div className="mr-5"><ProfileIcon width={18}/></div>
+							<div className="mr-5"><ProfileIcon width={18} fill={isYams ? "#ff550099" : "#8B8FA3"}/></div>
 							{t('header.view-profile')}
 						</span>
 						<hr className="my-1" />
 						<span
-							className="p-3 hover:bg-slate-800 text-white text-xs cursor-pointer flex items-center"
+							className={`p-3 ${isYams ? "" : "hover:bg-slate-800"} text-white text-xs cursor-pointer flex items-center`}
 							onClick={disconnectWallet}
 						>
-							<div className="mr-5"><DisconnectIcon width={18} /></div>
+							<div className="mr-5"><DisconnectIcon width={18} fill={isYams ? "#ff550099" : "#8B8FA3"}/></div>
 							{t('header.disconnect-wallet')}
 						</span>
 					</Dropdown>

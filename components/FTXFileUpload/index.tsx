@@ -92,7 +92,8 @@ const FTXFileUpload = () => {
 	};
 
 	return (
-		<div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-black gap-10 text-black h-full">
+		<div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-black gap-10 rounded-3xl text-black h-full"
+		style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
 			<LinkIcon />
 			<h1 className="text-white text-5xl font-black">Proof of Rug</h1>
 
@@ -122,12 +123,12 @@ const FTXFileUpload = () => {
 							placeholder="email"
 						/>
                         <div className="flex flex-row gap-4 mt-5">
-							<button className="text-white bg-none rounded-sm py-2 px-4 border border-white flex items-center gap-2" disabled={isLoading}>
+							<button className="text-white bg-none rounded-3xl py-2 px-4 border border-white flex items-center gap-2" disabled={isLoading}>
 								<BackIcon width={10} height={10} />
 								<span>Back</span>
 							</button>
 							<button
-								className={`text-black bg-primary rounded-sm py-2 px-4 ${isLoading ? "animate-pulse" : ""}`}
+								className={`text-black bg-primary rounded-3xl py-2 px-4 ${isLoading ? "animate-pulse" : ""}`}
 								type="submit"
 								value="submit"
                                 disabled={isLoading}
@@ -156,7 +157,7 @@ const FTXFileUpload = () => {
 							/>
 							<div className="flex flex-row gap-4 mt-5">
 								<button
-									className={`text-black bg-primary rounded-sm py-2 px-4 ${isLoading ? "animate-pulse" : ""}`}
+									className={`text-black bg-primary rounded-3xl py-2 px-4 ${isLoading ? "animate-pulse" : ""}`}
 									type="submit"
 									value="submit"
                                     disabled={isLoading}

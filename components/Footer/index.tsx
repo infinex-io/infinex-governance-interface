@@ -17,7 +17,7 @@ export default function Footer() {
 	const [fill, setFill] = useState("")
 
 	useEffect(() => {
-		if (asPath === "/farming") {
+		if (asPath.includes("/farming")) {
 			setIsYams(true)
 			setFill("black")
 		}
