@@ -28,7 +28,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	const { councilMembers, currentPeriodData, nominationDates, nominees, votingDates } =
 		useCouncilCardQueries(deployedModule);
 	const voteCount = useVotingCount(deployedModule, true);
-	const { walletAddress } = useConnectorContext();
+	const { walletAddress, isWalletConnected } = useConnectorContext();
 	const [isNominated, setIsNominated] = useState<boolean | undefined>(false);
 	const membersCount = councilMembers?.length;
 	const nomineesCount = nominees?.length;
@@ -54,7 +54,8 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	);
 
 	const isCC = useIsCC(walletAddress || '')
-	const hasNominated = isAlreadyNominatedForTrade || isAlreadyNominatedForEcosystem || isAlreadyNominatedForCoreContributor || isAlreadyNominatedForTreasury
+	const hasNominated = isWalletConnected && (isAlreadyNominatedForTrade.data || isAlreadyNominatedForEcosystem.data || isAlreadyNominatedForCoreContributor.data || isAlreadyNominatedForTreasury.data)
+	
 	useEffect(() => {
 		switch(council) {
 			case "trade":
