@@ -20,10 +20,10 @@ import WithdrawNominationModal from 'components/Modals/WithdrawNomination';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useIsNominatedCouncils } from 'queries/nomination/useIsNominatedCouncils';
+import { capitalizeString } from 'utils/capitalize';
 
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
-	const { push } = useRouter();
 	const { walletAddress: userAddress } = useConnectorContext();
 	const { ensName } = useConnectorContext();
 	const { setContent, setIsOpen: setModalOpen } = useModalContext();
@@ -73,7 +73,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							className="bg-[#15262A] text-[#31C690] p-2 rounded font-medium text-xs text-center mt-3 w-fit self-center"
 							data-testid="cta-text"
 						>
-							{t('profiles.council', { council: councilMembersQuery.data })}
+							{t('profiles.council', { council: capitalizeString(councilMembersQuery.data) })}
 
 						</span>
 					)}
