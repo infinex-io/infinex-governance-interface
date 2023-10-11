@@ -70,7 +70,7 @@ export const UserActions: React.FC<Pick<UserDetailsProps, 'walletAddress'>> = ({
 				twitter={member.twitter}
 				github={member.github}
 				small
-				fill="var(--color-blue-light-2)"
+				fill="var(--color-slate-300)"
 			/>
 			<ExternalLink text="View" link={`https://optimistic.etherscan.io/address/${walletAddress}`} />
 		</div>
