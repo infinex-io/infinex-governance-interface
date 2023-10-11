@@ -9,6 +9,7 @@ import { useQueryClient } from 'react-query';
 
 export const useForm = (userProfile: GetUserDetails | undefined) => {
 	const [isLoading, setIsLoading] = useState(false);
+	const [isSuccess, setIsSuccess] = useState(false);
 	const { walletAddress } = useConnectorContext();
 	const updateUserMutation = useUpdateUserDetailsMutation();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress ?? '');
@@ -48,6 +49,7 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 					{
 						onSuccess: () => {
 							setIsLoading(false);
+							setIsSuccess(true)
 							queryClient.refetchQueries({ active: true });
 						},
 						onError: (error: any) => {
@@ -91,5 +93,5 @@ export const useForm = (userProfile: GetUserDetails | undefined) => {
 		[formik.touched, formik.errors]
 	);
 
-	return { formik, isLoading, errors };
+	return { formik, isLoading, errors, isSuccess };
 };

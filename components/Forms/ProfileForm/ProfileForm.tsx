@@ -3,14 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { Button } from 'components/button';
 import { useForm } from './ProfileForm.hook';
+import { useEffect } from 'react';
 
 type ProfileFormProps = {
 	userProfile?: GetUserDetails;
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile }) => {
-	const { formik, isLoading, errors } = useForm(userProfile);
+export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile, setIsOpen }) => {
+	const { formik, isLoading, errors, isSuccess} = useForm(userProfile);
 	const { t } = useTranslation();
+	
+	useEffect(() => {
+		if (isSuccess) setIsOpen(false)
+	}, [isSuccess])
 
 	return (
 		<form className="flex flex-col gap-1 text-left text-slate-50" onSubmit={formik.handleSubmit}>

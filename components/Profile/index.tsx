@@ -120,7 +120,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 							onClose={() => setIsOpen(false)}
 							open={isOpen}
 						>
-							<ProfileForm userProfile={userDetailsQuery.data} />
+							<ProfileForm userProfile={userDetailsQuery.data} setIsOpen={setIsOpen} />
 						</Dialog>
 					</div>
 					<p className="tg-body py-8 text-center max-w-[1000px]">{about}</p>
