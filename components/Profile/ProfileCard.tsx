@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Avatar from 'components/Avatar';
 import { CopyClipboard } from 'components/CopyClipboard/CopyClipboard';
 import DiscordIcon from 'components/Icons/DiscordIcon';
+import TwitterIcon from 'components/Icons/TwitterIcon';
 import { DeployedModules } from 'containers/Modules';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -54,7 +55,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 				{twitter && urlIsCorrect(twitter, 'https://twitter.com') && (
 					<div className="flex flex-col m-2">
 						<h5 className="tg-content-bold text-gray-650">{t('profiles.twitter')}</h5>
-						<ExternalLink className="py-1" border link={twitter} text="Twitter" />
+						<TwitterIcon fill='white' className="mt-2 cursor-pointer" height='22.5' 
+							onClick={() => {
+								copyToClipboard(twitter);
+								toast.success("Successfully Copied");
+							}}
+						/>
 					</div>
 				)}
 
