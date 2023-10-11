@@ -76,7 +76,7 @@ export const PassedVotingResultTable: React.FC<PassedVotingResultTableProps> = (
 				accessor: 'walletAddress',
 				Cell: ({ row }) =>
 					!!winners?.find((winner: string) => compareAddress(winner, row.values.walletAddress)) ? (
-						<CouncilBadge council={moduleInstance} className="text-black font-bold" />
+						<CouncilBadge council={moduleInstance} className="text-black font-bold whitespace-nowrap" />
 					) : (
 						<Badge variant="gray" className="text-black">{t('vote.pre-eval.table.nominee')}</Badge>
 					),
