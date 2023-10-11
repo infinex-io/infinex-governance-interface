@@ -28,7 +28,7 @@ export const COUNCILS_DICTIONARY: CouncilsDictionaryType[] = [
 		slug: 'trade',
 		label: 'Trade',
 		abbreviation: 'tr',
-		image: '/logos/trade-council.svg',
+		image: '/logos/trader-council.svg',
 		module: DeployedModules.TRADE_COUNCIL,
 	},
 	{

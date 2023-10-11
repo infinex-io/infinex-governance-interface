@@ -1,5 +1,5 @@
 import { ConnectButton } from 'components/ConnectButton';
-import { Checkbox, useTransactionModalContext } from '@synthetixio/ui';
+import { Checkbox, ExternalLink, useTransactionModalContext } from '@synthetixio/ui';
 import { Button } from 'components/button';
 import { COUNCILS_DICTIONARY } from 'constants/config';
 import { useConnectorContext } from 'containers/Connector';
@@ -15,6 +15,9 @@ import BaseModal from '../BaseModal';
 import useIsNominated from 'queries/nomination/useIsNominatedQuery';
 import { useCurrentPeriods } from 'queries/epochs/useCurrentPeriodQuery';
 import parseCouncil from 'utils/parseCouncil';
+import { CopyClipboard } from 'components/CopyClipboard/CopyClipboard';
+import EtherscanIcon from 'components/Icons/EtherscanIcon';
+import Link from 'next/link';
 
 interface Council {
 	council: "trade" | "ecosystem" | "core-contributor" | "treasury"
@@ -99,7 +102,7 @@ export default function NominateModal({ council } : Council) {
 		try {
 			switch (council) {
 				case 'trade':
-					setContent(setCTA('Trade'));
+					setContent(setCTA('Trader'));
 					const tradeTx = await nominateForTradeCouncil.mutateAsync();
 					setTxHash(tradeTx.hash);
 					break;
@@ -109,7 +112,7 @@ export default function NominateModal({ council } : Council) {
 					setTxHash(ecosystemTx.hash);
 					break;
 				case 'core-contributor':
-					setContent(setCTA('CoreContributor'));
+					setContent(setCTA('Core Contributor'));
 					const coreContributorTx = await nominateForCoreContributorCouncil.mutateAsync();
 					setTxHash(coreContributorTx.hash);
 					break;
@@ -142,11 +145,17 @@ export default function NominateModal({ council } : Council) {
 					>
 						{`${parseCouncil(council)} Seat`}
 					</span>
-					<div className="flex flex-col items-center bg-black px-12 py-8 rounded mt-1">
-						<h5 className="tg-title-h5 text-gray-300 mb-1">
+					<div className="flex flex-col items-center px-12 py-6 rounded mt-1">
+						<h5 className="text-sm font-semibold text-slate-100 mb-3 uppercase">
 							{t('modals.nomination.nominationAddress')}
 						</h5>
-						<h3 className="text-white tg-title-h3">{ensName || truncateAddress(walletAddress!)}</h3>
+						<div className="flex items-center gap-2">
+							<h3 className="text-slate-0 font-black">{ensName || truncateAddress(walletAddress!)}</h3>
+							<CopyClipboard fill='#BCC1D7' text={walletAddress || ""} />
+							<Link href={`https://optimistic.etherscan.io/address/${walletAddress}`} target="_blank">
+								<EtherscanIcon fill='#BCC1D7' width={16} height={14.8}/>
+							</Link>
+						</div>
 					</div>
 					{isAlreadyNominated && 
 					<div className="text-sm mt-10"> 

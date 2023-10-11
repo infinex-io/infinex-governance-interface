@@ -6,9 +6,10 @@ import { copyToClipboard } from 'utils/helpers';
 interface Props {
 	text: string;
 	className?: string;
+	fill: string;
 }
 
-export const CopyClipboard: React.FC<Props> = ({ text, className }) => {
+export const CopyClipboard: React.FC<Props> = ({ text, className, fill }) => {
 	const { t } = useTranslation();
 	const onClick = () => {
 		copyToClipboard(text);
@@ -17,9 +18,9 @@ export const CopyClipboard: React.FC<Props> = ({ text, className }) => {
 	return (
 		<svg
 			className={clsx('cursor-pointer transition-colors hover:text-primary', className)}
-			fill="currentColor"
+			fill={fill}
 			height="1em"
-			stroke="currentColor"
+			stroke={fill}
 			strokeWidth="0"
 			viewBox="0 0 1024 1024"
 			width="1em"
