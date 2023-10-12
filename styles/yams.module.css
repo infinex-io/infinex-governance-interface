@@ -14,3 +14,11 @@
 .buttonIndent {
     box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 1px 1px, #ffefe6 -0.8px 0.8px 0px inset
 }
+
+.inputIndent {
+    box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px -4px inset, rgb(255, 255, 255) 4px -4px 8px -4px inset
+}
+
+.inputIndent::file-selector-button {
+    box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px -4px inset, rgb(255, 255, 255) 4px -4px 8px -4px inset
+}

@@ -3,6 +3,8 @@ import LinkIcon from 'components/Icons/LinkIcon';
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from 'utils/supabaseClient';
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import classNames from 'classnames';
+import styles from "styles/yams.module.css"
 
 const FTXFileUpload = () => {
 	const [email, setEmail] = useState<string>('');
@@ -92,43 +94,41 @@ const FTXFileUpload = () => {
 	};
 
 	return (
-		<div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-black gap-10 rounded-3xl text-black h-full"
+		<div className={classNames("px-8 sm:px-0 flex flex-col justify-center items-center gap-10 rounded-3xl text-black h-full"
+		, styles.boxIndent)}
 		style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
 			<LinkIcon />
-			<h1 className="text-white text-5xl font-black">Proof of Rug</h1>
+			<h1 className="text-5xl font-black">Proof of Rug</h1>
 
 			{!isSubmitted ? (
 				<div>
-					<p className="text-sm font-medium text-center max-w-sm text-white">
+					<p className="text-sm font-medium text-center max-w-sm">
 						Attach your FTX Customer Claim Form to prove you lost funds.
 					</p>
 					<form className="cursor-pointer" onSubmit={handleSubmit}>
 						<input
 							type="file"
-							className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-3
-                    file:bg-primary file:text-black file:rounded-md file:border-0 file:text-sm
-                    file:font-semibold cursor-pointer my-5"
+							className={classNames(`block w-full text-sm text-slate-600 rounded-3xl file:mr-4 file:py-1 file:px-3
+                    		file:bg-primary file:text-black file:rounded-3xl file:border-0 file:text-sm
+                    		file:font-semibold cursor-pointer my-5`, styles.inputIndent)}
 							onChange={handleFileUpload}
 							accept="application/pdf"
 						/>
-						<label htmlFor="email" className="text-white text-sm">
+						<label htmlFor="email" className="text-sm">
 							Enter your FTX email:
 						</label>
 						<input
 							type="email"
 							onChange={(event) => setEmail(event.target.value)}
 							value={email}
-							className="w-full py-1 px-2 bg-transparent border border-white rounded text-white mt-1
-                            focus:outline-0 focus:border-primary transition placeholder:text-gray-500"
+							className={classNames(`w-full py-1 px-5 bg-transparent rounded-3xl mt-1
+                            focus:outline-0 focus:border-primary transition placeholder:text-slate-600`, styles.inputIndent)}
 							placeholder="email"
 						/>
                         <div className="flex flex-row gap-4 mt-5">
-							<button className="text-white bg-none rounded-3xl py-2 px-4 border border-white flex items-center gap-2" disabled={isLoading}>
-								<BackIcon width={10} height={10} />
-								<span>Back</span>
-							</button>
 							<button
-								className={`text-black bg-primary rounded-3xl py-2 px-4 ${isLoading ? "animate-pulse" : ""}`}
+								className={classNames(`text-black rounded-3xl py-2 px-10 ${isLoading ? "animate-pulse" : ""}`
+								, styles.primaryButtonShadow)}
 								type="submit"
 								value="submit"
                                 disabled={isLoading}
