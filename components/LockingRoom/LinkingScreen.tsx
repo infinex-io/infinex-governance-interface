@@ -57,7 +57,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             if (room.exchange_id == "Binance") {
                setVolume(  
                   Number( // Combine Binance futures and spot
-                     Number(userFarmingQuery.data.volume["binanace"]) +
+                     Number(userFarmingQuery.data.volume["binance"]) +
                      Number(userFarmingQuery.data.volume["binancecoinm"])
                   )
                )
@@ -91,6 +91,10 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             setStatus("waiting")
          } else if (linkStatus === "success") {
             setStatus("completed")
+         } else if (linkStatus === "failed" && linkVolume >= 0) {
+            setStatus("completed")
+         } else if (linkStatus === "failed") {
+            setStatus("failed")
          } else {
             setStatus("none")
          }
@@ -125,6 +129,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    return (
      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black" 
          style={{height: 'calc(100vh - 100px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
+
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
          {(status === "processing") && <Progress />}
@@ -136,6 +141,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             {status === "linking" ? "Setup link" : ""}
             {status === "waiting" ? "Processing your trading volume..." : ""}
             {status === "completed" ? "Linked" : ""}
+            {status === "failed" ? `It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.` : ""}
             
          </h1>
          {/* description (link your api keys || Your api keys may take some time) */}
@@ -200,7 +206,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                      <div className="mt-5 relative">
                         <input
                            type="text"
-                           className="border bg-surface border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
+                           className="border bg-primary border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
                            placeholder="API Pass"
                            value={apiPass}
                            onChange={(e) => setApiPass(e.target.value)}
