@@ -10,9 +10,14 @@ import svg from '../../public/logos/infinex-logo.svg';
 
 // Hooks (Internal)
 import { useConnectorContext } from 'containers/Connector';
+import { Button } from 'components/button';
+import classNames from 'classnames';
+import styles from "styles/yams.module.css"
+import { useRouter } from 'next/router';
 
 const Farming: NextPage = () => {
 	const { connectWallet, isWalletConnected } = useConnectorContext();
+	const { push } = useRouter();
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black">
@@ -23,9 +28,13 @@ const Farming: NextPage = () => {
 				<p className="text-center text-xs font-normal">
 					Earn Infinex voting power by depositing your tokens and proving your trade history
 				</p>
+				<Button className={classNames("w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-[0.8rem] bg-transparent hover:bg-transparent my-5"
+					, styles.buttonIndent)}
+					onClick={() => { push('/farming/profile/') }}
+					label="💰 View positions" />
 			</div>
-			<div className="flex flex-col container mt-4">
-				<div className="flex flex-wrap justify-center w-full gap-3 max-w-2xl mx-auto">
+			<div className="flex justify-center items-center">
+				<div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 max-w-3xl mt-4 place-items-center gap-5">
 					{rooms?.map((room: any) => (
 						<>
 							{isWalletConnected ? (

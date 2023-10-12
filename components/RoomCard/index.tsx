@@ -24,7 +24,8 @@ export default function RoomCard({
    // const { t } = useTranslation();   w-52 h-72
 
 	return ( 
-		<div key={key} className={classNames("flex flex-col justify-between items-center p-5 gap-3 border-[1px] rounded-3xl border-solid border-[#edac8b] border-opacity-40 w-48 h-60", styles.boxIndent)}>
+		<div key={key} className={classNames(`flex flex-col justify-between items-center p-8 gap-3 border-[1px] rounded-3xl border-solid 
+      border-[#edac8b] border-opacity-40 w-60 h-72`, styles.boxIndent)}>
          <div className={classNames("flex items-center justify-center w-14 h-14 rounded-full flex-shrink-0 text-3xl", styles.boxIndent)}>
                {emoji}
          </div>
@@ -32,11 +33,11 @@ export default function RoomCard({
             <h5 className="tg-title-h5 capitalize text-base font-bold">
                {name}
             </h5>
-            <span className="w-full text-center text-xs font-medium">
+            <span className="w-full text-center text-xs font-medium text-slate-800">
                {description}
             </span>
          </div>
-         <button className={classNames("flex justify-center items-center w-full px-4 py-2 rounded-3xl bg-primary font-normal text-xs", styles.buttonShadow)}>
+         <button className={classNames("flex justify-center items-center w-full px-4 py-2 rounded-3xl font-semibold text-xs", styles.primaryButtonShadow)}>
             Select 
          </button>
 		</div>

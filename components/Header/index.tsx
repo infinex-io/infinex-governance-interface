@@ -154,12 +154,6 @@ export default function Header() {
 					</div>
 				</div>
 			)}
-			{isYams && 
-				<Button className={classNames("rounded-3xl whitespace-nowrap mr-4 text-[0.8rem] hover:bg-primary"
-				, styles.primaryButtonShadow)}
-				onClick={() => {push('/farming/profile/')}}
-				label="💰 View positions"/>
-			}
 			<Button
 				className={classNames(`${isYams ? "bg-slate-1000 rounded-3xl" : "!bg-slate-900 !border-slate-300 !text-white"} whitespace-nowrap text-[0.8rem]`, styles.blackButtonShadow)}
 				variant="outline"
