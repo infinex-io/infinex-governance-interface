@@ -16,7 +16,7 @@ export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, classNa
 	});
 
 	return (
-		<div className={clsx('flex items-center gt-america-mono', className)} {...props}>
+		<div className={clsx('flex items-center', className)} {...props}>
 			<span>{days}D</span>
 			<span className="mx-2">{hours}H</span>
 			<span>{minutes}M</span>

@@ -100,7 +100,7 @@ export default function Header() {
 						<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 							<Button
 								variant='nav'
-								className={`last-of-type:mr-auto gt-america-font text-[0.8rem] font-semibold
+								className={`last-of-type:mr-auto text-[0.8rem] font-semibold
 								${navStyling(route)}`}
 								onClick={() => setBurgerMenuOpen(false)}
 								key={route.label}
@@ -152,7 +152,7 @@ export default function Header() {
 							<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 								<Button
 									variant='nav'
-									className={`last-of-type:mr-auto gt-america-font text-[0.8rem] font-semibold
+									className={`last-of-type:mr-auto text-[0.8rem] font-semibold
 									${(asPath.includes(`${route.link}`) && route.link !== "") || (route.link === "" && route.link.concat("/") === asPath)
 									? 'border-b border-primary' : 'text-slate-400'}`}
 									onClick={() => setBurgerMenuOpen(false)}
