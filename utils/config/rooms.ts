@@ -4,7 +4,7 @@ const rooms = [
       {type:"cex", key: 2, name: "FTX Panic Room", description: "Deposit FTT, Earn Voting Power", emoji: "🫣", token: "FTT", exchange_id: "FTX", needsApiPass: false, linking: true, dex: false},
       {type:"cex", key: 3, name: "Kucoin Scullery", description: "Deposit KCS, Earn Voting Power", emoji: "🛖", token: "KCS", exchange_id: "Kucoin", needsApiPass: true, linking: true, dex: false},
       // {type:"cex", key: 4, name: "His Excellency’s Chambers", description: "Deposit HT, Earn Voting Power", emoji: "🧖‍♂️", token: "HT", exchange_id: "Huobi", needsApiPass: false},
-      {type:"cex", key: 5, name: "Bitmex Ballroom", description: "Deposit BMEX, Earn Voting Power", emoji: "💃", token: "BMEX", exchange_id: "Bitmex", needsApiPass: false, linking: true, dex: false},
+      {type:"cex", key: 5, name: "BitMex Ballroom", description: "Deposit BMEX, Earn Voting Power", emoji: "💃", token: "BMEX", exchange_id: "Bitmex", needsApiPass: false, linking: true, dex: false},
       {type:"dex", key: 6, name: "Dydx Observatory", description: "Deposit DYDX, Earn Voting Power", emoji: "🔭", token: "DYDX", exchange_id: "Dydx", info:"We track your deposits to DYDX layer 2", needsApiPass: false, linking: true, dex: true},
       {type:"dex", key: 7, name: "Blueberry fields", description: "Deposit GMX, Earn Voting Power", emoji: "🫐", token: "GMX", info: "We collect volumes from Arbirtum and Avalanche", exchange_id: "GMX", needsApiPass: false, linking: true, dex: true},
       {type:"cex", key: 8, name: "Bybit Pillow Chamber", description: "Deposit MNT, Earn Voting Power", emoji: "🌖", token: "MNT", exchange_id: "Bybit", needsApiPass: false, linking: true, dex: false},

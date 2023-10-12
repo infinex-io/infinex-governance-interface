@@ -94,7 +94,7 @@ export default function Header() {
 								${navStyling(route)}`}
 								onClick={() => setBurgerMenuOpen(false)}
 								key={route.label}
-								label={t(route.label) as string}
+								label={t(route.label) === "Farming" ? `🧑‍🌾  ${String.fromCharCode(160).repeat(1)} Farming` : t(route.label) as string}
 							/>
 						</Link>
 					)
@@ -154,8 +154,14 @@ export default function Header() {
 					</div>
 				</div>
 			)}
+			{isYams && 
+				<Button className={classNames("rounded-3xl whitespace-nowrap mr-4 text-[0.8rem] hover:bg-primary"
+				, styles.primaryButtonShadow)}
+				onClick={() => {push('/farming/profile/')}}
+				label="💰 View positions"/>
+			}
 			<Button
-				className={classNames(`${isYams ? "bg-slate-1000 rounded-3xl" : "!bg-slate-900 !border-slate-300 !text-white"} whitespace-nowrap`, styles.blackButtonShadow)}
+				className={classNames(`${isYams ? "bg-slate-1000 rounded-3xl" : "!bg-slate-900 !border-slate-300 !text-white"} whitespace-nowrap text-[0.8rem]`, styles.blackButtonShadow)}
 				variant="outline"
 				onClick={() => {
 					if (!connected) {
@@ -224,8 +230,8 @@ export default function Header() {
 				{isWalletConnected && walletAddress && (
 					<Dropdown
 						triggerElement={
-							<Button className={classNames(`min-w-[142px] flex justify-center items-center 
-							${isYams ? "bg-primary rounded-3xl" : "bg-slate-900"}`, isYams ? styles.primaryButtonShadow : "")}
+							<Button className={classNames(`min-w-[142px] flex justify-center items-center text-[0.8rem]
+							${isYams ? "bg-primary rounded-3xl text-black" : "bg-slate-900"}`, isYams ? styles.primaryButtonShadow : "")}
 								variant='nav'
 								label={ensName || truncateAddress(walletAddress)}
 							/>
@@ -236,15 +242,15 @@ export default function Header() {
 						contentAlignment="right"
 					>
 						<span
-							className={`p-3 ${isYams ? "" : "hover:bg-slate-800"} text-white text-xs cursor-pointer flex items-center`}
-							onClick={() => push('/profile/' + walletAddress)}
+							className={`p-3 ${isYams ? "text-black" : "hover:bg-slate-800 text-white"} text-xs cursor-pointer flex items-center`}
+							onClick={() => {push('/profile/' + walletAddress)}}
 						>
 							<div className="mr-5"><ProfileIcon width={18} fill={isYams ? "#ff550099" : "#8B8FA3"}/></div>
 							{t('header.view-profile')}
 						</span>
 						<hr className="my-1" />
 						<span
-							className={`p-3 ${isYams ? "" : "hover:bg-slate-800"} text-white text-xs cursor-pointer flex items-center`}
+							className={`p-3 ${isYams ? "text-black" : "hover:bg-slate-800 text-white"} text-xs cursor-pointer flex items-center`}
 							onClick={disconnectWallet}
 						>
 							<div className="mr-5"><DisconnectIcon width={18} fill={isYams ? "#ff550099" : "#8B8FA3"}/></div>
