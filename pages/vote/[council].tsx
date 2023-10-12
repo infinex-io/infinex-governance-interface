@@ -96,7 +96,7 @@ export default function VoteCouncil() {
 								</div>
 							</>
 						) : (
-							<h4 className="tg-title-h4 text-center">{t('vote.no-nominations')}</h4>
+							<h4 className="tg-title-h4 text-center mt-20">{t('vote.no-nominations')}</h4>
 						)}
 					</div>
 				</div>

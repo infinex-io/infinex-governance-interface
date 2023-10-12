@@ -26,9 +26,10 @@ import useStakeTokenMutation from 'mutations/farming/useStakeTokenMutation';
 // Interfaces
 import { Room } from 'pages/farming/[room]';
 import classNames from 'classnames';
+import rooms from 'utils/config/rooms';
 
 const LockingScreen: React.FC<{room: Room}> = ({room}) => {
-
+   const roomData = rooms.find(r => r.name === room.name)!;
    /* ================================== state ================================== */
    const [status, setStatus] = React.useState("none") // "none" || "locking" || "completed"
    const [inputValue, setInputValue] = React.useState("")
@@ -112,9 +113,12 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          {/* description */}
          <p className="text-sm font-medium text-center max-w-sm">
             {status === "completed" ?
-               `You’ve successfully locked your tokens.`
+               `You've successfully locked your tokens.`
                :
                "You cannot move those tokens until the end of the farming period, otherwise you will lose points."
+            }
+            {roomData.extra_details && status !== "completed" ? 
+               <div className="mt-2">{roomData.extra_details}</div> : ""
             }
          </p>
 

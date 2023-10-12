@@ -28,6 +28,7 @@ export interface Room {
    type: string; // dex || sex
    needsApiPass: boolean; // dex || sex
    dex: boolean; // dex || sex
+   guide?: string;
 }
 
 export default function Room() {

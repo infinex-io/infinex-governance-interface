@@ -22,6 +22,8 @@ import { Room } from 'pages/farming/[room]';
 import { ProgressBar } from 'react-toastify/dist/components';
 import { extractDexExchangeEntries, stripObjOfNonVolume, sumValues } from '../../utils/points';
 import classNames from 'classnames';
+import rooms from 'utils/config/rooms';
+import Link from 'next/link';
 
 const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== state ================================== */
@@ -31,7 +33,11 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    const [apiPass, setApiPass] = React.useState("")
    const [isLoading, setLoading] = React.useState(false)
    const [volume, setVolume] = React.useState(0)
-
+   const [roomData, setRoomData] = React.useState<Room | null>(null)
+   useEffect(() => {
+      if (room) 
+         setRoomData(rooms.find(r => r.name === room.name)!);
+   }, [room])
    /* ================================== hooks ================================== */
    const router = useRouter();
    const linkExchangeMutation = useLinkExchangeMutations();
@@ -128,8 +134,15 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    }
 
    return (
-     <div className={classNames("px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black", styles.boxIndent)}
+     <div className={classNames("px-8 sm:px-0 flex flex-col relative justify-center items-center bg-primary-light gap-10 text-black", styles.boxIndent)}
          style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
+         {roomData && roomData.guide && 
+            <Link className={classNames(`flex items-center justify-center h-14 px-4 gap-3 absolute top-0 right-0 mt-4 mr-4
+            rounded-2xl flex-shrink-0 text-2xl`, styles.boxIndent)}
+            href={roomData.guide || ""} target="blank">
+               📔
+            </Link>
+         }
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
          {(status === "processing") && <Progress />}
