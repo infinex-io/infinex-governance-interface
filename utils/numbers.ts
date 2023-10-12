@@ -9,7 +9,11 @@ export const formatPercent = (num: number | undefined): string => {
     if (typeof num === 'undefined') {
       return 'Loading...';
     }
-    return `${(num).toFixed(2)}%`;
+    if (num >= 0) {
+        return `${(num).toFixed(2)}%`;
+    } else {
+        return `0%`
+    }
   };
   
   /**
