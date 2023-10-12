@@ -134,8 +134,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    }
 
    return (
-     <div className={classNames("px-8 sm:px-0 flex flex-col relative justify-center items-center bg-primary-light gap-10 text-black", styles.boxIndent)}
-         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
+     <div className={classNames("px-8 sm:px-0 flex flex-col relative justify-center items-center bg-primary-light gap-5 text-black", styles.boxIndent)}
+         style={{height: 'calc(100vh - 200px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
          {roomData && roomData.guide && 
             <Link className={classNames(`flex items-center justify-center h-14 px-4 gap-3 absolute top-0 right-0 mt-4 mr-4
             rounded-2xl flex-shrink-0 text-2xl`, styles.boxIndent)}
@@ -187,7 +187,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             </button>
          }
           {status === "linking" && !room.dex &&
-            <>
+            <div className="gap-8 flex flex-col">
                <div className="relative max-w-xs w-full ">
                   <p className="absolute top-0 text-xs text-black">API PUBLIC KEY</p>
                   <div className="mt-5 relative">
@@ -195,7 +195,6 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                         type="text"
                         className={classNames("text-black bg-transparent rounded-3xl py-2 pr-16 pl-4 w-full focus:outline-none",
                         styles.inputIndent)}
-                        // placeholder="dlfa8d#kfs.."
                         value={publicKey}
                         onChange={(e) => setPublicKey(e.target.value)}
                      />
@@ -208,7 +207,6 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                         type="text"
                         className={classNames("text-black bg-transparent rounded-3xl py-2 pr-16 pl-4 w-full focus:outline-none",
                         styles.inputIndent)}
-                        // placeholder="API Secret"
                         value={secretKey}
                         onChange={(e) => setSecretKey(e.target.value)}
                         />
@@ -223,8 +221,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                      <div className="mt-5 relative">
                         <input
                            type="text"
-                           className="border bg-primary border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
-                           placeholder="API Pass"
+                           className={classNames(`bg-primary-light text-black rounded-3xl py-2 pr-16 pl-4 w-full focus:outline-none`,
+                           styles.inputIndent)}
                            value={apiPass}
                            onChange={(e) => setApiPass(e.target.value)}
                            />
@@ -232,7 +230,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   </div> : ''
                }
 
-            </>
+            </div>
          }
         {(status === "linking") &&
             <div className="flex flex-row gap-4">

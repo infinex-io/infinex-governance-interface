@@ -96,7 +96,7 @@ const FTXFileUpload = () => {
 	return (
 		<div className={classNames("px-8 sm:px-0 flex flex-col justify-center items-center gap-10 rounded-3xl text-black h-full"
 		, styles.boxIndent)}
-		style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
+		style={{height: 'calc(100vh - 200px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
 			<LinkIcon />
 			<h1 className="text-5xl font-black">Proof of Rug</h1>
 
