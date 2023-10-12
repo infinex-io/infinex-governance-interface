@@ -1,6 +1,7 @@
 html,
 body {
 	padding: 0;
+	font-family: Neue Haas Grotesk Text Pro !important;
 	margin: 0;
 }
 
@@ -64,21 +65,6 @@ input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
 	display: none; /* Safari and Chrome */
 }
 
-.gt-america-condensed-bold-font {
-	font-family: 'GT America Condensed Bold';
-}
-
-.gt-america-bold-font {
-	font-family: 'GT America Bold';
-}
-
-.gt-america-font {
-	font-family: 'GT America';
-}
-
-.gt-america-mono {
-	font-family: 'GT America Mono';
-}
 :root {
 	--onboard-modal-z-index: 9999;
 }
