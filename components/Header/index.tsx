@@ -218,7 +218,7 @@ export default function Header() {
 			<div className="flex md:mr-1 justify-end items-center ml-[16px]">
 				{!isWalletConnected &&
 					<div className="flex items-center">
-						<ConnectButton className={classNames(`${isYams ? "rounded-3xl hover:bg-primary" : ""} whitespace-nowrap`, styles.primaryButtonShadow)}/>
+						<ConnectButton className={classNames(`${isYams ? "rounded-3xl hover:bg-primary" : ""} whitespace-nowrap`, isYams ? styles.primaryButtonShadow : "")}/>
 					</div>
 				}
 				{isWalletConnected && walletAddress && (

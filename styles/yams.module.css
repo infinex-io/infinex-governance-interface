@@ -8,7 +8,11 @@
 }
 
 .primaryButtonShadow {
-    box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px, #ffdeca 8px -8px 16px 0px
+    box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px, #ffdcc6 8px -8px 16px 0px;
+}
+
+.transparentButtonShadow {
+    box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px, #ffd3b8 8px -8px 16px 0px
 }
 
 .buttonIndent {

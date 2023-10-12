@@ -108,8 +108,8 @@ const FTXFileUpload = () => {
 					<form className="cursor-pointer" onSubmit={handleSubmit}>
 						<input
 							type="file"
-							className={classNames(`block w-full text-sm text-slate-600 rounded-3xl file:mr-4 file:py-1 file:px-3
-                    		file:bg-primary file:text-black file:rounded-3xl file:border-0 file:text-sm
+							className={classNames(`block w-full text-sm text-[#0000003b] rounded-3xl file:mr-4 file:py-1 file:px-3
+                    		file:bg-transparent file:text-black file:py-2 file:rounded-3xl file:border-0 file:text-sm
                     		file:font-semibold cursor-pointer my-5`, styles.inputIndent)}
 							onChange={handleFileUpload}
 							accept="application/pdf"
@@ -121,14 +121,14 @@ const FTXFileUpload = () => {
 							type="email"
 							onChange={(event) => setEmail(event.target.value)}
 							value={email}
-							className={classNames(`w-full py-1 px-5 bg-transparent rounded-3xl mt-1
-                            focus:outline-0 focus:border-primary transition placeholder:text-slate-600`, styles.inputIndent)}
-							placeholder="email"
+							className={classNames(`w-full py-2 px-4 bg-transparent rounded-3xl mt-1
+                            focus:outline-0 focus:border-primary transition placeholder:text-[#0000003b]`, styles.inputIndent)}
+							placeholder="Email"
 						/>
                         <div className="flex flex-row gap-4 mt-5">
 							<button
-								className={classNames(`text-black rounded-3xl py-2 px-10 ${isLoading ? "animate-pulse" : ""}`
-								, styles.primaryButtonShadow)}
+								className={classNames(`text-black bg-primary rounded-3xl py-2 px-5 ${isLoading ? "animate-pulse" : ""}`
+								, styles.transparentButtonShadow)}
 								type="submit"
 								value="submit"
                                 disabled={isLoading}
@@ -142,22 +142,25 @@ const FTXFileUpload = () => {
 			) : (
 				<div>
 					{!isSuccess ? (
-						<div className="flex flex-col justify-center items-center text-white">
+						<div className="flex flex-col justify-center items-center">
 							<h1 className="max-w-sm text-center text-sm">
 								In order to verify your email, enter the verification code sent to your email.
 							</h1>
 							<input
 								type="number"
-								className="bg-transparent rounded border border-white text-center py-2
-                    w-36 mt-3 focus:outline-0 focus:border-primary transition text-xl"
+								className={classNames(`bg-transparent text-center py-2 w-36 mt-3 focus:outline-0 
+								focus:border-primary transition rounded-3xl 
+								placeholder:text-[#0000003b]`, styles.inputIndent)}
 								maxLength={6}
 								onChange={(event) => setConfirmationCode(event.target.value)}
 								value={confirmationCode}
 								onInput={maxLengthCheck}
+								placeholder="Code"
 							/>
 							<div className="flex flex-row gap-4 mt-5">
 								<button
-									className={`text-black bg-primary rounded-3xl py-2 px-4 ${isLoading ? "animate-pulse" : ""}`}
+									className={classNames(`text-black bg-primary rounded-3xl py-2 px-4 ${isLoading ? "animate-pulse" : ""}`
+									, styles.transparentButtonShadow)}
 									type="submit"
 									value="submit"
                                     disabled={isLoading}
@@ -168,7 +171,7 @@ const FTXFileUpload = () => {
 							</div>{' '}
 						</div>
 					) : (
-						<div className="flex flex-col justify-center items-center text-white">
+						<div className="flex flex-col justify-center items-center">
                             Email verified successfully!
                         </div>
 					)}

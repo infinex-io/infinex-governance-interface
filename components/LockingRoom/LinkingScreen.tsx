@@ -147,14 +147,15 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          {/* description (link your api keys || Your api keys may take some time) */}
          <h2 className="text-sm font-medium text-black text-center max-w-sm">
             {status === "none" && "Link your trading account"}
-            {status === "waiting" &&  "Your trading data may take some time to update, Check back in ~1hr."}
+            {status === "waiting" &&  "Your trading data may take some time to update. Check back in ~1hr."}
             {status === "waiting" &&  " We have recorded the time of your submission."}
             {status === "completed" && "Your volumes are linked to your voting account"}
          </h2>
          {/* Link button (hide when linking) */}
          {status === "none" &&
             <button
-               className="text-black bg-primary rounded-3xl py-2 px-4"
+               className={classNames("text-black bg-primary rounded-3xl py-2 px-4",
+                styles.primaryButtonShadow)}
                onClick={() => setStatus("linking")}
             >
                Link
@@ -162,7 +163,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          }
          {status === "waiting" &&
             <button
-               className="text-black bg-primary rounded-3xl py-2 px-4"
+               className={classNames("text-black bg-primary rounded-3xl py-2 px-4",
+               styles.primaryButtonShadow)}
                onClick={() => {
                      router.push("/farming")
                    }
@@ -178,7 +180,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   <div className="mt-5 relative">
                      <input
                         type="text"
-                        className="border bg-primary border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
+                        className={classNames("text-black bg-transparent rounded-3xl py-2 pr-16 pl-4 w-full focus:outline-none",
+                        styles.inputIndent)}
                         // placeholder="dlfa8d#kfs.."
                         value={publicKey}
                         onChange={(e) => setPublicKey(e.target.value)}
@@ -190,7 +193,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   <div className="mt-5 relative">
                      <input
                         type="text"
-                        className="border bg-primary border-slate-700 text-black rounded-sm py-2 pr-16 pl-4 w-full"
+                        className={classNames("text-black bg-transparent rounded-3xl py-2 pr-16 pl-4 w-full focus:outline-none",
+                        styles.inputIndent)}
                         // placeholder="API Secret"
                         value={secretKey}
                         onChange={(e) => setSecretKey(e.target.value)}
@@ -251,7 +255,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
             <div className="flex flex-row gap-4">              
                {/* Button */}
                <button
-                  className="text-black bg-primary rounded-3xl py-2 px-4"
+                  className={classNames("text-black bg-primary rounded-3xl py-2 px-4"
+                  , styles.primaryButtonShadow)}
                   onClick={() => {
                      router.push("/farming")
                    }

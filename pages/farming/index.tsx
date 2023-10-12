@@ -49,7 +49,7 @@ const Farming: NextPage = () => {
 									/>
 								</Link>
 							) : (
-								<div onClick={connectWallet}>
+								<div onClick={connectWallet} className="cursor-pointer">
 									<RoomCard
 										key={room.key}
 										name={room.name}

@@ -141,7 +141,8 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
           {/* Lock (block, hidden - lockingState) */}
          {status === "none" && (amountLocked == 0 || !amountLocked) &&
             <button 
-               className="text-black bg-primary rounded-3xl py-2 px-4"
+               className={classNames("text-black bg-primary rounded-3xl py-2 px-4"
+               , styles.transparentButtonShadow)}
                onClick={() => setStatus("locking")}
             >Lock</button>
          }
@@ -160,14 +161,15 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                <div className="mt-5 relative">
                   <input 
                      type='number'
-                     className="border bg-primary border-black placeholder-black focus:outline-none text-black rounded-sm py-2 pr-16 pl-4 w-full" 
+                     className={classNames("border bg-transparent rounded-3xl placeholder:text-[#0000003b] focus:outline-none text-black py-2 pr-16 pl-4 w-full"
+                     , styles.inputIndent)}
                      placeholder="Enter amount"
                      value={inputValue}
                      onChange={(e) => setInputValue(e.target.value)}
                      disabled={loading}
                   />
                   <button 
-                     className="absolute bg-primaryDark bg-opacity-30 right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-3xl py-1 px-2"
+                     className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-3xl py-1 px-2"
                      onClick={() => setInputValue(userFarmingQuery.data?.staking[`${room.token}_available`].toString() ?? "0")}
                   >Max</button>
                </div>
@@ -179,7 +181,8 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
             <div className="flex flex-row gap-4">
                {/* Backicon + Text */}
                <button 
-                  className="text-black bg-none rounded-3xl py-2 px-4 border border-black flex items-center gap-2"
+                  className={classNames("text-black bg-none rounded-3xl py-2 px-4 flex items-center gap-2"
+                  , styles.transparentButtonShadow)}
                   disabled={loading}
                   onClick={() => {
                      setStatus("none")
@@ -192,7 +195,8 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                <Button 
                   variant="custom"
                   height="42px"
-                  className="text-white bg-black !rounded-3xl py-2 px-4"
+                  className={classNames("bg-primary !rounded-3xl py-2 px-4"
+                  , styles.primaryButtonShadow)}
                   onClick={() => {
                      handleStake()
                    }
@@ -216,7 +220,8 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
                </button> */}
                {/* Button */}
                <button 
-                  className="text-white bg-black rounded-3xl py-2 px-4"
+                  className={classNames("bg-primary rounded-3xl py-2 px-4"
+                  , styles.primaryButtonShadow)}
                   onClick={() => {
                      router.push("/farming")
                    }
