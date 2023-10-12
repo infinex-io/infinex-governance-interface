@@ -81,7 +81,7 @@ export default function Header() {
 		>
 			<Link href="/" passHref legacyBehavior>
 				<div className="md:flex items-center cursor-pointer mr-8 hidden">
-					<InfinexLogo fill={isYams ? "black" : "var(--color-primary)"} />
+					<InfinexLogo fill={isYams ? "var(--color-slate-900)" : "var(--color-primary)"} />
 				</div>
 			</Link>
 			<div className="hidden md:flex gap-5 w-full">

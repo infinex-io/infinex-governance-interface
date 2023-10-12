@@ -10,7 +10,7 @@ const rooms = [
       {type:"cex", key: 8, name: "Bybit Pillow Chamber", description: "Deposit MNT, Earn Voting Power", emoji: "🌖", token: "MNT", exchange_id: "Bybit", needsApiPass: false, linking: true, dex: false},
       {type:"cex", key: 9, name: "OKX Pitstop", description: "Deposit OKB, Earn Voting Power", emoji: "🏁", token: "OKB", exchange_id: "OKX", needsApiPass: true, linking: true, dex: false},
       {type:"cex", key: 10, name: "The Bitget Laundromat", description: "Deposit BGB, Earn Voting Power", emoji: "🧺", token: "BGB", exchange_id: "Bitget", needsApiPass: true, linking: true, dex: false},
-      {type:"cex", key: 11, name: "??", description: "Deposit MX, Earn Voting Power", emoji: "??", token: "MX", exchange_id: "MEXC", needsApiPass: false, linking: true, dex: false},
+      {type:"cex", key: 11, name: "MEXC Nursery", description: "Deposit MX, Earn Voting Power", emoji: "👩‍⚕️", token: "MX", exchange_id: "MEXC", needsApiPass: false, linking: true, dex: false},
       {type:"cex", key: 12, name: "Kraken Quarters", description: "Link your API keys, Earn Voting Power", emoji: "🐙", token: "", exchange_id: "Kraken", info:"Krakens API really does not like what we're doing, please be patient getting your results", needsApiPass: false, linking: false, dex: false},
       {type:"dex", key: 14, name: "Spartan Grounds", description: "Connect your address, Earn Voting Power", emoji: "⚔️", token: "", exchange_id: "SNX", needsApiPass: false, linking: true, dex: true}
    ]

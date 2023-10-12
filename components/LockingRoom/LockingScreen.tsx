@@ -5,6 +5,7 @@ import React from 'react';
 import LockIcon from 'components/Icons/LockIcon';
 import CompleteIcon from 'components/Icons/CompleteIcon';
 import BackIcon from 'components/Icons/BackIcon';
+import styles from "styles/yams.module.css"
 
 // Components (External)
 import { Button } from "@chakra-ui/react";
@@ -24,6 +25,7 @@ import useStakeTokenMutation from 'mutations/farming/useStakeTokenMutation';
 
 // Interfaces
 import { Room } from 'pages/farming/[room]';
+import classNames from 'classnames';
 
 const LockingScreen: React.FC<{room: Room}> = ({room}) => {
 
@@ -82,8 +84,8 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
    }
    
    return (
-      <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black " 
-         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
+      <div className={classNames("px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black", styles.boxIndent)}
+         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
          {/* Icon */}
          {status === "completed" ? 
             <LockIcon width={26} height={35} /> 

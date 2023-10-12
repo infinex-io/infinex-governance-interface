@@ -1,7 +1,7 @@
 // Libraries
 import React, { useEffect } from 'react';
 import { Button, Progress } from "@chakra-ui/react";
-
+import styles from "styles/yams.module.css"
 // Components (Internal)
 import LinkIcon from 'components/Icons/LinkIcon';
 import BackIcon from 'components/Icons/BackIcon';
@@ -21,6 +21,7 @@ import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 import { Room } from 'pages/farming/[room]';
 import { ProgressBar } from 'react-toastify/dist/components';
 import { extractDexExchangeEntries, stripObjOfNonVolume, sumValues } from '../../utils/points';
+import classNames from 'classnames';
 
 const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== state ================================== */
@@ -123,8 +124,8 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    }
 
    return (
-     <div className="px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black" 
-         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', border: "1px solid #ff9b69", margin:"0 20px 20px 20px"}}>
+     <div className={classNames("px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light gap-10 text-black", styles.boxIndent)}
+         style={{height: 'calc(100vh - 100px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
          {/* Icon (Link || completion || waiting(add spinner)) */}
          {(status === "none" || status === "linking") && <LinkIcon />}
          {(status === "processing") && <Progress />}
