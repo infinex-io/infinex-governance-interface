@@ -130,7 +130,7 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
          api_pass: room.needsApiPass ? apiPass : '',
          type: room.type
       }, {
-            onSettled: (data, error, variables, context) => {
+            onSettled: (data, error : any, variables, context) => {
                if (error){
                   setStatus("linking")
                   setLoading(false);

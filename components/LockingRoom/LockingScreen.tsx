@@ -77,7 +77,7 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          amount: Number(inputValue),
          overide: overide
       }, {
-         onSettled: (data, error, variables, context) => {
+         onSettled: (data, error : any, variables, context) => {
             if (error){
                setLoading(false);
                if (error?.message) {
