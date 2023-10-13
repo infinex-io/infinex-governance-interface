@@ -112,6 +112,17 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
    /* ================================== functions ================================== */
    async function handleSubmit() {
       setLoading(true);
+      if (publicKey.length === 0) {
+         toast.error("Please enter a public key.");
+         setLoading(false)
+         return;
+      }
+      else if (secretKey.length === 0) {
+         toast.error("Please enter a secret key.");
+         setLoading(false)
+         return;
+      }
+
       linkExchangeMutation.mutate({
          exchange: room.exchange_id.toLowerCase(),
          api_key: publicKey,
@@ -123,7 +134,12 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                if (error){
                   setStatus("linking")
                   setLoading(false);
-                  toast.error(JSON.stringify(error));
+                  if (error?.message) {
+                     toast.error(JSON.stringify(error.message));
+                  }
+                  else {
+                     toast.error(JSON.stringify(error));
+                  }
                }else{
                   setStatus("waiting");
                   setLoading(false);
@@ -240,13 +256,13 @@ const LinkingScreen: React.FC<{room: Room}> = ({room}) => {
                   height="42px"
                   isLoading={isLoading}
                   loadingText='Submitting'
-                  className="!text-black !bg-primary !rounded-3xl !py-2 !px-4"
+                  className="!text-black !bg-primary !rounded-3xl !py-2 !px-4 !font-normal"
                   background="primary"
                   variant="custom"
                   onClick={() => {
                      handleSubmit()
                    }}
-                  disabled={isLoading}
+                  disabled={isLoading || (publicKey.length === 0 || secretKey.length === 0 )}
                >Submit</Button>
             </div>
          }

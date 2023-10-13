@@ -61,8 +61,14 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
 
    function handleStake(){
       if (Number(inputValue) <= 0) {
-         toast.error("Input must be greater than 0");
+         toast.error("Input must be greater than 0.");
          return;
+      }
+      else if (userFarmingQuery.data?.staking[`${room.token}_available`] !== undefined) {
+         if (Number(inputValue) > userFarmingQuery.data?.staking[`${room.token}_available`]) {
+            toast.error("Input exceeds available tokens.");
+            return;
+         }
       }
       setLoading(true);
       const overide = amountLocked !== undefined && amountLocked > 0;
@@ -74,7 +80,12 @@ const LockingScreen: React.FC<{room: Room}> = ({room}) => {
          onSettled: (data, error, variables, context) => {
             if (error){
                setLoading(false);
-               toast.error(JSON.stringify(error));
+               if (error?.message) {
+                  toast.error(JSON.stringify(error.message));
+               }
+               else {
+                  toast.error(JSON.stringify(error));
+               }
             }else{
                setStatus("completed");
                setLoading(false);
