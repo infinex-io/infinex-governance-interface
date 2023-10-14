@@ -20,7 +20,7 @@ const Farming: NextPage = () => {
 	const { push } = useRouter();
 
 	return (
-		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black">
+		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
 			<div className="flex flex-col justify-center items-center w-full max-w-xs mx-auto">
 				<Image src={svg} alt="Infinex Logo" height={53} className="mx-auto" />
 				<h1 className="text-5xl font-bold text-center mt-[-25px]">👨🏻‍⚖️</h1>
