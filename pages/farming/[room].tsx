@@ -20,60 +20,62 @@ import BackOnePageButton from 'components/BackOnePageButton';
 
 // Interfaces
 export interface Room {
-   name: string;
-   description: string;
-   emoji: string;
-   token: string; // BNB || ETH
-   exchange_id: string; // binance || ftx
-   type: string; // dex || sex
-   needsApiPass: boolean; // dex || sex
-   dex: boolean; // dex || sex
-   guide?: string;
+	name: string;
+	description: string;
+	emoji: string;
+	token: string; // BNB || ETH
+	exchange_id: string; // binance || ftx
+	type: string; // dex || sex
+	needsApiPass: boolean; // dex || sex
+	dex: boolean; // dex || sex
+	guide?: string;
 }
 
 export default function Room() {
+	/* ================================== state ================================== */
 
-   /* ================================== state ================================== */
+	/* ================================== hooks ================================== */
+	const router = useRouter();
+	const userFarmingQuery = useUserFarmingQuery();
 
-   /* ================================== hooks ================================== */
-   const router = useRouter();
-   const userFarmingQuery = useUserFarmingQuery();
+	/* ================================== functions ================================== */
+	const room = rooms.find((r) => r.name === router.query.room)!;
 
-   /* ================================== functions ================================== */
-   const room = rooms.find(r => r.name === router.query.room)!;
-
-   return (
-      <>
-         <Head>
-            <title>Infinex | Governance V3</title>
-         </Head>
-         <div className="flex flex-col bg-primary-light">
-
-            <BackOnePageButton></BackOnePageButton>
-
-            {room ? <div className="flex flex-col justify-center items-center bg-primary-light w-full p-10 gap-2">
-               <h1 className="text-black text-5xl font-black text-center">{room.emoji} {room.name}</h1>
-               <p className="text-black text-base font-bold">Prove usership</p>
-               <p className="text-black text-base font-bold">Earn voting power</p>
-            </div> : ''}
-            <div className="flex flex-col sm:flex-row justify-center items-center">
-               {room?.linking ? <div className="w-full sm:w-1/2">
-
-                  <LockingScreen
-                     room={room}
-                  />
-               </div> : ""}
-               <div className="w-full sm:w-1/2">
-                  {
-                     router.query.room === "FTX Panic Room"
-                        ? <FTXFileUpload /> :
-                        <LinkingScreen
-                           room={room}
-                        />
-                  }
-               </div>
-            </div>
-         </div>
-      </>
-   );
+	return (
+		<>
+			<Head>
+				<title>Infinex | Governance V3</title>
+			</Head>
+			<div className="flex flex-col grow bg-primary-light">
+				{room ? (
+					<div className="animation-appear flex flex-col justify-center items-center bg-primary-light w-full p-10">
+						<h1 className="text-black text-5xl font-black text-center mb-2">
+							{room.emoji} {room.name}
+						</h1>
+						<div className="text-black text-base font-bold">Prove usage, earn voting power</div>
+						<div className="text-black text-base font-bold"></div>
+					</div>
+				) : (
+					''
+				)}
+				<div className="flex flex-col grow sm:flex-row justify-center items-stretch">
+					{room?.linking ? (
+						<div className="w-full sm:w-1/2 flex flex-col">
+							<LockingScreen room={room} />
+						</div>
+					) : (
+						''
+					)}
+					<div className="w-full sm:w-1/2 flex flex-col">
+						{router.query.room === 'FTX Panic Room' ? (
+							<FTXFileUpload />
+						) : (
+							<LinkingScreen room={room} />
+						)}
+					</div>
+				</div>
+				<BackOnePageButton></BackOnePageButton>
+			</div>
+		</>
+	);
 }
