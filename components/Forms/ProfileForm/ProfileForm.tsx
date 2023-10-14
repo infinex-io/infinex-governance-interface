@@ -80,14 +80,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile, setIsOpen
 				/>
 			</div>
 
-			<TextField
-				{...formik.getFieldProps('pfpThumbnailUrl')}
-				{...errors.pfpThumbnailUrl}
-				label={t('modals.editProfile.inputs.headline.profileImageUrl')}
-				placeholder={`${t('modals.editProfile.inputs.placeholder.profileImageUrl')}`}
-				className="!bg-transparent"
-			/>
-
 			<div className="mx-auto">
 				<Button loading={isLoading}
 					label={t('modals.editProfile.cta') as string}
