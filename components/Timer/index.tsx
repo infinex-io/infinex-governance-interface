@@ -3,9 +3,10 @@ import React from 'react';
 import { useTimer } from 'react-timer-hook';
 
 interface TimerProps {
-	expiryTimestamp: number | string;
+	expiryTimestamp: number;
 	onExpire?: () => void;
 	className?: string;
+	days?: boolean;
 }
 
 export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, className, ...props }) => {

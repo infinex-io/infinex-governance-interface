@@ -39,13 +39,14 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	const [storedTime, setStoredTime] = React.useState<Date | null>(null);
 
 	useEffect(() => {
-	  const time = JSON.parse(localStorage.getItem((`last${room.name}SubmissionTime`)));
-	  if (time) {
-		const lastSubmissionTime = new Date(time)
-		lastSubmissionTime.setHours(lastSubmissionTime.getHours() + 1)
-		setStoredTime(lastSubmissionTime);
-	  }
-	}, []);
+		let time;
+		if (room !== undefined) time = JSON.parse(localStorage.getItem((`last${room.name}SubmissionTime`)) || '');
+		if (time) {
+			const lastSubmissionTime = new Date(time)
+			lastSubmissionTime.setHours(lastSubmissionTime.getHours() + 1)
+			setStoredTime(lastSubmissionTime);
+		}
+	}, [room]);
 
 	useEffect(() => {
 		if (room) setRoomData(rooms.find((r) => r.name === room.name)!);
@@ -57,6 +58,15 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	const userFarmingQuery = useUserFarmingQuery();
 
 	/* ================================== useEffect ================================== */
+	useEffect(() => {
+		// check if user can retry
+		if (storedTime !== null) {
+			if (new Date() > storedTime) {
+				setCanRetry(true)
+			}
+		}
+	}, [storedTime])
+
 	useEffect(() => {
 		if (!room) {
 			return;
@@ -84,7 +94,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['binance']) +
-							Number(userFarmingQuery.data.volume['binancecoinm'])
+						Number(userFarmingQuery.data.volume['binancecoinm'])
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
@@ -92,7 +102,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['gmx_arbitrum']) +
-							Number(userFarmingQuery.data.volume['gmx_avalanche'])
+						Number(userFarmingQuery.data.volume['gmx_avalanche'])
 					)
 				);
 				linkStatus = userFarmingQuery.data.volume[`gmx_status`];
@@ -114,9 +124,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setVolume(Number(Number(linkVolume).toFixed(2)));
 			}
 
-			// } else
 			if (linkStatus === 'processing' || linkStatus === 'queued') {
-				// TODO: Switch this to whatever the state is meant to be
 				setStatus('waiting');
 			} else if (linkStatus === 'success') {
 				setStatus('completed');
@@ -124,12 +132,6 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setStatus('completed');
 			} else if (linkStatus === 'failed') {
 				setStatus('failed');
-				// check if user can retry
-				if (storedTime !== null) {
-					if (new Date() > storedTime) {
-						setCanRetry(true)
-					}
-				}
 			} else {
 				setStatus('none');
 			}
@@ -170,7 +172,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 						setStatus('waiting');
 						setLoading(false);
 						userFarmingQuery.refetch();
-						localStorage.setItem(`last${room.name}SubmissionTime`, JSON.stringify(new Date().toDateString()));
+						localStorage.setItem(`last${room.name}SubmissionTime`, JSON.stringify(new Date().getTime()));
 					}
 				},
 			}
@@ -180,7 +182,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	return (
 		<div
 			className={classNames(
-				'animation-appear animation-delay-1 px-8 sm:px-0 flex flex-col grow relative justify-center items-center bg-primary-light gap-5 text-black',
+				'py-4 animation-appear animation-delay-1 px-8 sm:px-0 flex flex-col grow relative justify-center items-center bg-primary-light gap-5 text-black',
 				styles.boxIndent
 			)}
 			style={{
@@ -222,12 +224,33 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				{status === 'none' && 'Link your trading account'}
 				{(status === 'waiting') &&
 					"We're crunching the numbers on your trading volume."}
-				{(status === "failed" && !canRetry) && 
-				<div className="flex flex-col justify-center items-center">
-					You can retry in
-					<Timer expiryTimestamp={storedTime?.toDateString() || 0} />
-				</div>}
-				{(status === "failed" && canRetry) && "Unfortunately your linkage has failed."}
+				{(status === "failed" && !canRetry) &&
+					<div className="flex flex-col">
+						<div className="mb-1">
+							This may be because these keys are invalid, or they have been submitted via another account.
+						</div>
+						<div className="flex flex-col justify-center items-center">
+							In order to prevent spam, you can retry in:
+							<Timer expiryTimestamp={storedTime?.getTime() || 0} className="font-bold mt-3" />
+						</div>
+					</div>
+				}
+				{(status === "failed" && canRetry) &&
+					<Button
+						height="42px"
+						isLoading={isLoading}
+						loadingText="Submitting"
+						className={classNames('bg-primary', styles.primaryButtonShadow)}
+						background="primary"
+						variant="custom"
+						onClick={() => {
+							setStatus('none');
+						}}
+						disabled={isLoading || publicKey.length === 0 || secretKey.length === 0}
+					>
+						Try again
+					</Button>
+				}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
 				{status === 'completed' && 'Your volumes are linked to your voting account'}
 			</h2>
@@ -243,7 +266,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Link
 				</button>
 			)}
-			{(status === 'waiting' || status === 'failed') && (
+			{(status === 'waiting' || (status === 'failed' && !canRetry)) && (
 				<button
 					className={classNames(
 						'text-black bg-primary rounded-3xl py-2 px-4',
