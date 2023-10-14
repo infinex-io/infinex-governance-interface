@@ -160,7 +160,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	return (
 		<div
 			className={classNames(
-				'animation-appear animation-delay-1 px-8 sm:px-0 flex flex-col grow relative justify-center items-center bg-primary-light gap-5 text-black',
+				'animation-appear animation-delay-1 p-8 flex flex-col grow relative justify-center items-center bg-primary-light gap-5 text-black',
 				styles.boxIndent
 			)}
 			style={{
@@ -203,7 +203,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				{(status === 'waiting' || status === 'failed') &&
 					"We're crunching the numbers on your trading volume."}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
-				{status === 'completed' && 'Your volumes are linked to your voting account'}
+				{status === 'completed' &&
+					`Your trading volume has been calculated and attached to your address.`}
 			</h2>
 			{/* Link button (hide when linking) */}
 			{status === 'none' && (

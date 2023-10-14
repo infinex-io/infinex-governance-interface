@@ -12,30 +12,32 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Footer() {
-	const [isYams, setIsYams] = useState(false) 
+	const [isYams, setIsYams] = useState(false);
 	const { asPath, push } = useRouter();
-	const [fill, setFill] = useState("")
+	const [fill, setFill] = useState('');
 
 	useEffect(() => {
-		if (asPath.includes("/farming")) {
-			setIsYams(true)
-			setFill("black")
+		if (asPath.includes('/farming')) {
+			setIsYams(true);
+			setFill('black');
+		} else {
+			setIsYams(false);
+			setFill('#5B5E6E');
 		}
-		else {
-			setIsYams(false)
-			setFill("#5B5E6E")
-		}
-	}, [asPath])
-
+	}, [asPath]);
 
 	return (
-		<footer className={`${isYams ? "bg-primary-light text-slate-1000" : "border-t border-slate-800 text-slate-500"} 
-		flex justify-between items-center px-10 py-3`}>
-			<Link href="https://infinex.io/" target='_blank' className="flex items-center gap-3 text-sm"> 
+		<footer
+			className={`${
+				isYams ? 'bg-primary-light text-slate-1000' : 'border-t border-slate-800 text-slate-500'
+			} 
+		flex justify-between items-center px-3 sm:px-10 pt-3 pb-6`}
+		>
+			<Link href="https://infinex.io/" target="_blank" className="flex items-center gap-3 text-sm">
 				Infinex App
 				<UpRightArrow fill={fill} />
 			</Link>
-			<div className="flex gap-10 items-center">
+			<div className="flex gap-4 items-center">
 				<Link href="https://discord.gg/infinex" passHref rel="noreferrer" target="_blank">
 					<DiscordIcon fill={fill} />
 				</Link>

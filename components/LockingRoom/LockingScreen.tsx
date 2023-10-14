@@ -96,7 +96,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	return (
 		<div
 			className={classNames(
-				'animation-appear animation-delay-1 px-8 sm:px-0 grow flex flex-col justify-center items-center bg-primary-light gap-5 text-black',
+				'animation-appear animation-delay-1 p-8 grow flex flex-col justify-center items-center bg-primary-light gap-5 text-black',
 				styles.boxIndent
 			)}
 			style={{

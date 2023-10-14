@@ -67,11 +67,12 @@ export default function Room() {
 						''
 					)}
 					<div className="w-full sm:w-1/2 flex flex-col">
-						{router.query.room === 'FTX Panic Room' ? (
+						<LinkingScreen room={room} />
+						{/* {router.query.room === 'FTX Panic Room' ? (
 							<FTXFileUpload />
 						) : (
 							<LinkingScreen room={room} />
-						)}
+						)} */}
 					</div>
 				</div>
 				<BackOnePageButton></BackOnePageButton>

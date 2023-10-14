@@ -6,7 +6,7 @@ import Link from 'next/link';
 // Components (Internal)
 import rooms from '../../utils/config/rooms';
 import RoomCard from 'components/RoomCard';
-import svg from '../../public/logos/infinex-logo.svg';
+import infinexLogoSVG from '../../public/logos/infinex-logo.svg';
 
 // Hooks (Internal)
 import { useConnectorContext } from 'containers/Connector';
@@ -26,15 +26,15 @@ const Farming: NextPage = () => {
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
 			<div className="flex flex-col justify-center items-center w-full max-w-xs mx-auto">
-				<Image src={svg} alt="Infinex Logo" height={53} className="mx-auto" />
+				<Image src={infinexLogoSVG} alt="Infinex Logo" height={53} className="mx-auto" />
 				<h1 className="text-5xl font-bold text-center mt-[-25px]">👨🏻‍⚖️</h1>
 				<h1 className="text-center text-xl font-bold text-black">Select a room in the mansion</h1>
-				<p className="text-center text-xs font-normal">
+				<p className="text-center text-sm font-normal">
 					Earn Infinex voting power by depositing your tokens and proving your trade history
 				</p>
 				<Button
 					className={classNames(
-						'w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-[0.8rem] bg-transparent hover:bg-transparent my-5',
+						'w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-sm bg-transparent hover:bg-transparent my-5',
 						styles.buttonIndent
 					)}
 					onClick={() => {
