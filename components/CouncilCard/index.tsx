@@ -15,6 +15,7 @@ import { useConnectorContext } from 'containers/Connector';
 import { useEffect, useState } from 'react';
 import useIsCC from 'queries/nomination/useIsCCQuery';
 import TextLoader from 'components/TextLoader/TextLoader';
+import TimerMock from 'components/TimerMock';
 
 interface CouncilCardProps {
 	council: 'trade' | 'ecosystem' | 'core-contributor' | 'treasury';
@@ -112,18 +113,25 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 				{t(cta)}
 			</span>
 			{period === 'NOMINATION' && (
-				<Timer
-					className="text-slate-100 tg-body-bold mx-auto"
-					expiryTimestamp={nominationDates?.nominationPeriodEndDate}
-					data-testid="nomination-timer"
-				/>
+				(nominationDates?.nominationPeriodEndDate === undefined) ?
+					<TimerMock />
+					:
+					<Timer
+						className="text-slate-100 tg-body-bold mx-auto"
+						expiryTimestamp={nominationDates?.nominationPeriodEndDate}
+						data-testid="nomination-timer"
+					/>
 			)}
 			{period === 'VOTING' && (
-				<Timer
-					className="text-slate-100 tg-body-bold mx-auto"
-					expiryTimestamp={votingDates?.votingPeriodEndDate}
-					data-testid="voting-timer"
-				/>
+				// LOADING STATE
+				(votingDates?.votingPeriodEndDate === undefined) ?
+					<TimerMock />
+					:
+					<Timer
+						className="text-slate-100 tg-body-bold mx-auto"
+						expiryTimestamp={votingDates?.votingPeriodEndDate}
+						data-testid="voting-timer"
+					/>
 			)}
 			<span className="bg-slate-800 h-[1px] w-full mb-1"></span>
 			<div className="flex justify-between">
@@ -165,11 +173,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<Button
 				className={`w-full mt-2 
 				// if period is NOMINATION AND (either already nominated or is a CC)
-				${
-					period === 'NOMINATION' && (isNominated || (council == 'core-contributor' && !isCC.data))
+				${period === 'NOMINATION' && (isNominated || (council == 'core-contributor' && !isCC.data))
 						? 'hidden'
 						: ''
-				}
+					}
 				// if period is NOMINATION AND alreadyNominated 
 				${period === 'NOMINATION' && hasNominated ? 'cursor-default' : ''}`}
 				onClick={() => {
