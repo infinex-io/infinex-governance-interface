@@ -82,7 +82,6 @@ export default function NominateModal({ council } : Council) {
 				.then(() => {
 					setIsOpen(false);
 					setVisible(false);
-					push('/councils/'.concat(council));
 				});
 		}
 	}, [state, setIsOpen, push, visible, setVisible, queryClient, walletAddress]);

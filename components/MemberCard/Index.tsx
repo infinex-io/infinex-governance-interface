@@ -68,9 +68,12 @@ export default function MemberCard({
 		<>
 			<Avatar width={56} height={56} walletAddress={member.address} url={member.pfpThumbnailUrl} />
 			{council && (
-				<Badge className="mt-2 uppercase">
+				<span
+					className={`bg-[#15262A] text-[#31C690] p-2 rounded font-medium text-[11px] text-center my-2 uppercase w-fit self-center`}
+					data-testid="cta-text"
+				>
 					{t('profiles.council', { council })}
-				</Badge>
+				</span>
 			)}
 			<h5 className="tg-title-h5 capitalize">
 				{member.username || member.ens || truncateAddress(member.address)}

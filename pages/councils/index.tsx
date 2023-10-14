@@ -16,7 +16,9 @@ import useCouncilMembersQuery from 'queries/members/useCouncilMembersQuery';
 import { DeployedModules } from 'containers/Modules';
 import { init } from 'i18next';
 import useCouncilCardQueries from 'hooks/useCouncilCardQueries';
- 
+import TempMemberCard from 'components/TempMemberCard';
+import parseCouncil from 'utils/parseCouncil';
+
 const Councils: NextPage = () => {
 	const { query } = useRouter();
 	const [activeCouncil, setActiveCouncil] = useState(parseQuery(query?.council?.toString()).name);
@@ -25,8 +27,12 @@ const Councils: NextPage = () => {
 	let { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
 	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
-	
+	const contractDeployer = process.env.NEXT_PUBLIC_ADDRESS_CONTRACT_DEPLOYER
+
 	const allMembers = [trade, ecosystem, coreContributor, treasury];
+	const tmpMembers = [['0x000...DEaD'], ['0x000...DEaD', '0x000...DEaD'], ['0x000...DEaD'], ['0x000...DEaD']]
+
+
 	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
 	return (
 		<>
@@ -49,7 +55,7 @@ const Councils: NextPage = () => {
 								<div className="flex items-center gap-1">
 									{t(`councils.tabs.${council.abbreviation}`)}
 									<TabIcon isActive={activeCouncil === council.slug}>
-										{allMembers[index]?.length}
+										{tmpMembers[index]?.length}
 									</TabIcon>
 								</div>
 							),
@@ -86,15 +92,21 @@ const Councils: NextPage = () => {
 									</div>
 									<div className="flex flex-wrap justify-center w-full">
 										{allMembers.length &&
-											allMembers[index]?.map((walletAddress) => (
-												<MemberCard
-													className="m-2"
-													key={walletAddress}
-													walletAddress={walletAddress}
-													state="ADMINISTRATION"
-													council={activeCouncil}
-												/>
-											))}
+											allMembers[index]?.map((walletAddress) => {
+												if (walletAddress == contractDeployer) {
+													return <TempMemberCard council={parseCouncil(activeCouncil)}/>
+												}
+												return (
+													<MemberCard
+														className="m-2"
+														key={walletAddress}
+														walletAddress={walletAddress}
+														state="ADMINISTRATION"
+														council={activeCouncil}
+													/>
+												)
+											})
+										}
 									</div>
 								</>
 							),
