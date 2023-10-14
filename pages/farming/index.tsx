@@ -12,12 +12,16 @@ import svg from '../../public/logos/infinex-logo.svg';
 import { useConnectorContext } from 'containers/Connector';
 import { Button } from 'components/button';
 import classNames from 'classnames';
-import styles from "styles/yams.module.css"
+import styles from 'styles/yams.module.css';
 import { useRouter } from 'next/router';
+import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
 const Farming: NextPage = () => {
 	const { connectWallet, isWalletConnected } = useConnectorContext();
 	const { push } = useRouter();
+
+	// calling this here so that the user has their data pre-loaded when they open their farming page.
+	useUserFarmingQuery();
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
@@ -28,10 +32,16 @@ const Farming: NextPage = () => {
 				<p className="text-center text-xs font-normal">
 					Earn Infinex voting power by depositing your tokens and proving your trade history
 				</p>
-				<Button className={classNames("w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-[0.8rem] bg-transparent hover:bg-transparent my-5"
-					, styles.buttonIndent)}
-					onClick={() => { push('/farming/profile/') }}
-					label="💰 View positions" />
+				<Button
+					className={classNames(
+						'w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-[0.8rem] bg-transparent hover:bg-transparent my-5',
+						styles.buttonIndent
+					)}
+					onClick={() => {
+						push('/farming/profile/');
+					}}
+					label="💰 View positions"
+				/>
 			</div>
 			<div className="flex justify-center items-center">
 				<div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 max-w-3xl mt-4 place-items-center gap-5">

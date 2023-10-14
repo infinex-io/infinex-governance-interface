@@ -1,28 +1,54 @@
 .boxIndent {
-    /* box-shadow: 2px 2px 8px 0px rgba(207, 116, 70, 0.38) inset; */
-    box-shadow: rgba(20, 1, 8, 0.15) -2px 2px 4px inset, #ffe5d5 2px -2px 4px inset
+	/* box-shadow: 2px 2px 8px 0px rgba(207, 116, 70, 0.38) inset; */
+	box-shadow: rgba(20, 1, 8, 0.15) -2px 2px 4px inset, #ffe5d5 2px -2px 4px inset;
 }
 
 .blackButtonShadow {
-    box-shadow: rgba(20, 1, 8, 0.15) -8px 8px 16px 0px;
+	box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px 0px;
+	transition: none !important;
+}
+.blackButtonShadow:active {
+	box-shadow: rgba(20, 1, 8, 0.15) -2px 2px 4px 0px;
 }
 
 .primaryButtonShadow {
-    box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px, #ffdcc6 8px -8px 16px 0px;
+	box-shadow: rgba(207, 116, 70, 0.38) -4px 4px 8px 0px, #ffdcc6 4px -4px 8px 0px;
+	transition: none !important;
+	color: black !important;
+	font-weight: normal !important;
+	padding-top: 0.5rem !important;
+	padding-bottom: 0.5rem !important;
+	padding-left: 1rem !important;
+	padding-right: 1rem !important;
+	border-radius: 1.5rem !important;
+}
+
+.primaryButtonShadow:active {
+	box-shadow: rgba(207, 116, 70, 0.38) -2px 2px 4px 0px, #ffdcc6 2px -2px 4px 0px;
 }
 
 .transparentButtonShadow {
-    box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px, #ffd3b8 8px -8px 16px 0px
+	box-shadow: rgba(207, 116, 70, 0.38) -8px 8px 16px 0px, #ffd3b8 8px -8px 16px 0px;
 }
 
 .buttonIndent {
-    box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 1px 1px, #ffefe6 -0.8px 0.8px 0px inset
+	box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 1px 1px, #ffefe6 -0.8px 0.8px 0px inset;
+	transition: none !important;
+}
+
+.buttonIndent:active {
+	/* box-shadow: none; */
+	box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 0.3px 0.3px, #ffefe6 -0.4px 0.4px 0px inset;
+	/* border: 1px solid #ddb19d; */
 }
 
 .inputIndent {
-    box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px -4px inset, rgb(255, 255, 255) 4px -4px 8px -4px inset
+	box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px -4px inset,
+		rgb(255, 255, 255) 4px -4px 8px -4px inset;
+	transition: none !important;
 }
 
 .inputIndent::file-selector-button {
-    box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px -4px inset, rgb(255, 255, 255) 4px -4px 8px -4px inset
+	box-shadow: rgba(20, 1, 8, 0.15) -4px 4px 8px -4px inset,
+		rgb(255, 255, 255) 4px -4px 8px -4px inset;
 }

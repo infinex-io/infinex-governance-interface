@@ -30,3 +30,48 @@
 .ui-slide-enter-done .modal-content {
 	transform: translateY(34px);
 }
+
+/* Animation */
+@keyframes appear {
+	0% {
+		transform: translate3d(0, 14px, 0);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateZ(0);
+		opacity: 1;
+	}
+}
+
+.animation-appear {
+	-webkit-animation: appear 0.3s cubic-bezier(0.215, 0.86, 0.355, 1) forwards;
+	animation: appear 0.3s cubic-bezier(0.215, 0.86, 0.355, 1) forwards;
+	transform: translate3d(0, 14px, 0);
+	opacity: 0;
+}
+
+.animation-delay-1 {
+	-webkit-animation-delay: 0.1s;
+	animation-delay: 0.1s;
+}
+
+.animation-delay-2 {
+	-webkit-animation-delay: 0.2s;
+	animation-delay: 0.2s;
+}
+
+.animation-delay-3 {
+	-webkit-animation-delay: 0.3s;
+	animation-delay: 0.3s;
+}
+
+.animation-delay-4 {
+	-webkit-animation-delay: 0.4s;
+	animation-delay: 0.4s;
+}
+
+.animation-delay-5 {
+	-webkit-animation-delay: 0.5s;
+	animation-delay: 0.5s;
+}
