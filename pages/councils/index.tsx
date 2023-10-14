@@ -74,7 +74,7 @@ const Councils: NextPage = () => {
 												</span>
 												<span className="font-bold text-sm">
 													{t(`councils.tabs.explanations.${council.abbreviation}.members`, {
-														count: allMembers[index]?.length,
+														count: tmpMembers[index]?.length,
 													})}
 												</span>
 											</div>
@@ -93,7 +93,7 @@ const Councils: NextPage = () => {
 									<div className="flex flex-wrap justify-center w-full">
 										{allMembers.length &&
 											allMembers[index]?.map((walletAddress) => {
-												if (walletAddress == contractDeployer) {
+												if (walletAddress.toLowerCase() == contractDeployer?.toLowerCase()) {
 													return <TempMemberCard council={parseCouncil(activeCouncil)} key={walletAddress}/>
 												}
 												return (
