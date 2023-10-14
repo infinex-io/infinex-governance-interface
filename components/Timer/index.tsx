@@ -9,6 +9,13 @@ interface TimerProps {
 }
 
 export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, className, ...props }) => {
+	const { minutes, hours, days } = useTimer({
+		expiryTimestamp: new Date(expiryTimestamp || 0),
+		autoStart: true,
+		onExpire,
+	});
+
+	
 	// LOADING STATE
 	if (expiryTimestamp === undefined) {
 		return (
@@ -25,13 +32,6 @@ export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, classNa
 
 		)
 	}
-
-
-	const { minutes, hours, days } = useTimer({
-		expiryTimestamp: new Date(expiryTimestamp),
-		autoStart: true,
-		onExpire,
-	});
 
 	return (
 		<div className={clsx('flex items-center', className)} {...props}>

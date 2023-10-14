@@ -94,7 +94,7 @@ const Councils: NextPage = () => {
 										{allMembers.length &&
 											allMembers[index]?.map((walletAddress) => {
 												if (walletAddress == contractDeployer) {
-													return <TempMemberCard council={parseCouncil(activeCouncil)}/>
+													return <TempMemberCard council={parseCouncil(activeCouncil)} key={walletAddress}/>
 												}
 												return (
 													<MemberCard
