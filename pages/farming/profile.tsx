@@ -19,7 +19,7 @@ import LinkIcon from 'components/Icons/LinkIcon';
 
 export default function Profile() {
 	// const router = useRouter();
-	const address = '0x123-todo';
+	const address = null; // '0x123-todo';
 
 	// const exchangeIdsLowercased = rooms.map(room => room.exchange_id.toLowerCase());
 
