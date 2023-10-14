@@ -24,6 +24,7 @@ import { extractDexExchangeEntries, stripObjOfNonVolume, sumValues } from '../..
 import classNames from 'classnames';
 import rooms from 'utils/config/rooms';
 import Link from 'next/link';
+import { Timer } from 'components/Timer';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */
@@ -34,9 +35,22 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	const [isLoading, setLoading] = React.useState(false);
 	const [volume, setVolume] = React.useState(0);
 	const [roomData, setRoomData] = React.useState<Room | null>(null);
+	const [canRetry, setCanRetry] = React.useState(false);
+	const [storedTime, setStoredTime] = React.useState<Date | null>(null);
+
+	useEffect(() => {
+	  const time = JSON.parse(localStorage.getItem((`last${room.name}SubmissionTime`)));
+	  if (time) {
+		const lastSubmissionTime = new Date(time)
+		lastSubmissionTime.setHours(lastSubmissionTime.getHours() + 1)
+		setStoredTime(lastSubmissionTime);
+	  }
+	}, []);
+
 	useEffect(() => {
 		if (room) setRoomData(rooms.find((r) => r.name === room.name)!);
 	}, [room]);
+
 	/* ================================== hooks ================================== */
 	const router = useRouter();
 	const linkExchangeMutation = useLinkExchangeMutations();
@@ -62,8 +76,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			let linkStatus = userFarmingQuery.data.volume[`${exchangeKey}_status`];
 			const linkVolume = userFarmingQuery.data.volume[exchangeKey];
 
-			console.log({ linkStatus });
-			console.log({ linkVolume });
+			console.log(userFarmingQuery.data);
 
 			// if (Number(linkVolume) > 0){
 			if (room.exchange_id == 'Binance') {
@@ -111,6 +124,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setStatus('completed');
 			} else if (linkStatus === 'failed') {
 				setStatus('failed');
+				// check if user can retry
+				if (storedTime !== null) {
+					if (new Date() > storedTime) {
+						setCanRetry(true)
+					}
+				}
 			} else {
 				setStatus('none');
 			}
@@ -151,6 +170,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 						setStatus('waiting');
 						setLoading(false);
 						userFarmingQuery.refetch();
+						localStorage.setItem(`last${room.name}SubmissionTime`, JSON.stringify(new Date().toDateString()));
 					}
 				},
 			}
@@ -194,14 +214,20 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				{status === 'waiting' ? 'Processing your trading volume...' : ''}
 				{status === 'completed' ? 'Linked' : ''}
 				{status === 'failed'
-					? `Processing your trading volume...` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
+					? `There was an error...` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
 					: ''}
 			</h1>
 			{/* description (link your api keys || Your api keys may take some time) */}
 			<h2 className="text-sm font-medium text-black text-center max-w-sm">
 				{status === 'none' && 'Link your trading account'}
-				{(status === 'waiting' || status === 'failed') &&
+				{(status === 'waiting') &&
 					"We're crunching the numbers on your trading volume."}
+				{(status === "failed" && !canRetry) && 
+				<div className="flex flex-col justify-center items-center">
+					You can retry in
+					<Timer expiryTimestamp={storedTime?.toDateString() || 0} />
+				</div>}
+				{(status === "failed" && canRetry) && "Unfortunately your linkage has failed."}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
 				{status === 'completed' && 'Your volumes are linked to your voting account'}
 			</h2>

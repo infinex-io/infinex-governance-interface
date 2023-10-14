@@ -3,7 +3,7 @@ import React from 'react';
 import { useTimer } from 'react-timer-hook';
 
 interface TimerProps {
-	expiryTimestamp: number;
+	expiryTimestamp: number | string;
 	onExpire?: () => void;
 	className?: string;
 }

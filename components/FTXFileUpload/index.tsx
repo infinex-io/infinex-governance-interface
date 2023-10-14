@@ -94,7 +94,7 @@ const FTXFileUpload = () => {
 	};
 
 	return (
-		<div className={classNames("px-8 sm:px-0 flex flex-col justify-center items-center gap-10 rounded-3xl text-black h-full"
+		<div className={classNames("animation-appear animation-delay-1 px-8 sm:px-0 flex flex-col justify-center items-center gap-10 rounded-3xl text-black h-full"
 		, styles.boxIndent)}
 		style={{height: 'calc(100vh - 200px)', borderRadius: '20px', margin:"0 20px 20px 20px"}}>
 			<LinkIcon />
