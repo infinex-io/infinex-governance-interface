@@ -129,7 +129,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			{/* description */}
 			<p className="animation-appear text-sm font-medium text-center max-w-sm">
 				{status === 'completed' ? (
-					<span className="animation-appear">You've successfully locked your tokens.</span>
+					<span className="animation-appear">You&apos;ve successfully locked your tokens.</span>
 				) : (
 					<span className="animation-appear">
 						If you move these tokens during the governance farming period, your voting power will
@@ -137,7 +137,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					</span>
 				)}
 				{roomData.extra_details && status !== 'completed' && status !== 'locked' && (
-					<div className="mt-2">{roomData.extra_details}</div>
+					<div className="mt-1">{roomData.extra_details}</div>
 				)}
 			</p>
 

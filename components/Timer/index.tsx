@@ -6,6 +6,7 @@ interface TimerProps {
 	expiryTimestamp: number;
 	onExpire?: () => void;
 	className?: string;
+	days?: boolean;
 }
 
 export const Timer: React.FC<TimerProps> = ({ expiryTimestamp, onExpire, className, ...props }) => {
