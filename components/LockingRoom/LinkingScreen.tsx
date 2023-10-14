@@ -41,7 +41,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	useEffect(() => {
 		let time;
 		if (room !== undefined)
-			time = JSON.parse(localStorage.getItem(`last${room.name}SubmissionTime`) || '');
+			try {
+				time = JSON.parse(localStorage.getItem(`last${room.name}SubmissionTime`) || '');
+			} catch (error) {
+				console.log(error)
+			}
+			
 		if (time) {
 			const lastSubmissionTime = new Date(time);
 			lastSubmissionTime.setHours(lastSubmissionTime.getHours() + 1);
