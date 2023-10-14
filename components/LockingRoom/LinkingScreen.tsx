@@ -138,11 +138,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== functions ================================== */
 	async function handleSubmit() {
 		setLoading(true);
-		if (publicKey.length === 0) {
+		if (!room.dex && publicKey.length === 0) {
 			toast.error('Please enter a public key.');
 			setLoading(false);
 			return;
-		} else if (secretKey.length === 0) {
+		} else if (!room.dex && secretKey.length === 0) {
 			toast.error('Please enter a secret key.');
 			setLoading(false);
 			return;

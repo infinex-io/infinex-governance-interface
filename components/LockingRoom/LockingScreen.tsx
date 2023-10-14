@@ -91,6 +91,8 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		);
 	}
 
+	console.log('lock status:', status);
+
 	return (
 		<div
 			className={classNames(
@@ -118,21 +120,24 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			</h1>
 
 			{amountLocked > 0 && (
-				<div className="flex flex-col justify-center items-center">
+				<div className="animation-appear flex flex-col justify-center items-center">
 					<p className="text-sm font-bold">Locked tokens:</p>
 					<p className="text-base font-black">{room ? amountLocked : ''}</p>
 				</div>
 			)}
 
 			{/* description */}
-			<p className="text-sm font-medium text-center max-w-sm">
-				{status === 'completed'
-					? `You've successfully locked your tokens.`
-					: 'You cannot move those tokens until the end of the farming period, otherwise you will lose points.'}
-				{roomData.extra_details && status !== 'completed' ? (
-					<div className="mt-2">{roomData.extra_details}</div>
+			<p className="animation-appear text-sm font-medium text-center max-w-sm">
+				{status === 'completed' ? (
+					<span className="animation-appear">You've successfully locked your tokens.</span>
 				) : (
-					''
+					<span className="animation-appear">
+						If you move these tokens during the governance farming period, your voting power will
+						stop compounding.
+					</span>
+				)}
+				{roomData.extra_details && status !== 'completed' && status !== 'locked' && (
+					<div className="mt-2">{roomData.extra_details}</div>
 				)}
 			</p>
 
