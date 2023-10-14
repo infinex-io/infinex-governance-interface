@@ -49,12 +49,12 @@ export default function Profile() {
 
 			{!userTotals?.total_points || userTotals?.total_points == 0 ?
 				<Main>
-					<div style={{ height: '100vh' }} className="px-8 sm:px-0 flex flex-col justify-center items-center gap-6 bg-primary-light text-black">
+					<div style={{ height: '100vh' }} className="px-8 sm:px-0 flex flex-col justify-center items-center gap-6 bg-primary-light text-black w-full">
 						<h1 className="text-black text-4xl font-black text-center m-2">{!platformTotals?.total_points ? "Loading..." : "Start farming to earn points"}</h1>
 					</div>
 				</Main> :
 				<Main>
-					<div className="px-8 py-8 flex flex-col justify-center items-center bg-primary-light gap-6 text-black">
+					<div className="px-8 py-8 flex flex-col justify-center items-center bg-primary-light gap-6 text-black w-full flex-grow">
 
 						{/* Icon */}
 						{/* <span style={{color:"black"}}><ProfileIcon></ProfileIcon></span> */}
