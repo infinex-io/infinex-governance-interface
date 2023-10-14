@@ -10,6 +10,7 @@ import { useConnectorContext } from 'containers/Connector';
 import clsx from 'clsx';
 import { MemberCardAction } from './MemberCardAction';
 import { UserSocials } from './UserSocials';
+import parseCouncil from 'utils/parseCouncil';
 
 interface MemberCardProps {
 	walletAddress: string;
@@ -72,7 +73,7 @@ export default function MemberCard({
 					className={`bg-[#15262A] text-[#31C690] p-2 rounded font-medium text-[11px] text-center my-2 uppercase w-fit self-center`}
 					data-testid="cta-text"
 				>
-					{t('profiles.council', { council })}
+					{t('profiles.council', { council: parseCouncil(council as "trade" | "ecosystem" | "core-contributor" | "coreContributor" | "treasury") })}
 				</span>
 			)}
 			<h5 className="tg-title-h5 capitalize">
