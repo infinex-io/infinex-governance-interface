@@ -1,4 +1,5 @@
 const parseCouncil = (council: "trade" | "ecosystem" | "core-contributor" | "coreContributor" | "treasury") => {
+    if (council === undefined) return;
     switch (council.toLowerCase()) {
         case "trade":
             return "Trader"
