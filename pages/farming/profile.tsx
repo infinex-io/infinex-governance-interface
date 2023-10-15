@@ -95,8 +95,15 @@ export default function Profile() {
 							(userTotals[room.token] ? userTotals[room.token] : 0);
 
 						userTotalRaw = userTotals[`${exchangeId}_raw`];
-						numUsersInPool = platformTotals[`${exchangeId}_user_count`];
-						numPointsInPool = platformTotals[`${exchangeId}_total_points`];
+						numUsersInPool = 
+							platformTotals[`${exchangeId}_user_count`] ? platformTotals[`${exchangeId}_user_count`] : 0 
+								+ 
+							platformTotals[`${room.token}_user_count`] ? platformTotals[`${room.token}_user_count`] : 0;
+				
+						numPointsInPool = 
+							platformTotals[`${exchangeId}_total_points`] ? platformTotals[`${exchangeId}_total_points`] : 0 
+								+ 
+							platformTotals[`${room.token}_total_points`] ? platformTotals[`${room.token}_total_points`] : 0;
 
 						// Calculate spot dex features
 						if (room.exchange_id.toLowerCase() === 'spot dex') {
