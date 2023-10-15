@@ -9,7 +9,8 @@ const rooms = [
 		info: "We collect volumes from over 30 spot DEX's incouding Uniswap, Sushiswap and Curve",
 		exchange_id: 'Spot Dex',
 		needsApiPass: false,
-		linking: false,
+		linking: true,
+		locking: false,
 		dex: true,
 	},
 	{
@@ -22,6 +23,7 @@ const rooms = [
 		exchange_id: 'Binance',
 		needsApiPass: false,
 		linking: true,
+		locking: true,
 		dex: false,
 		extra_details: 'Only BNB on the binance smart chain will be detected.',
 		guide:
@@ -36,7 +38,8 @@ const rooms = [
 		token: '',
 		exchange_id: 'SNX',
 		needsApiPass: false,
-		linking: false,
+		linking: true,
+		locking: false,
 		dex: true,
 	},
 	{
@@ -49,6 +52,7 @@ const rooms = [
 		exchange_id: 'FTX',
 		needsApiPass: false,
 		linking: false,
+		locking: true,
 		dex: false,
 	},
 	{
@@ -61,6 +65,7 @@ const rooms = [
 		exchange_id: 'Kucoin',
 		needsApiPass: true,
 		linking: true,
+		locking: true,
 		dex: false,
 		extra_details: 'Only KCS on Ethereum Mainnet will be detected.',
 		guide:
@@ -77,6 +82,7 @@ const rooms = [
 		exchange_id: 'Bitmex',
 		needsApiPass: false,
 		linking: true,
+		locking: true,
 		dex: false,
 		guide:
 			'https://docs.infinex.io/governance/elections-and-voting/governance-farming/linking-your-api-keys/bitmex-guide',
@@ -92,6 +98,7 @@ const rooms = [
 		info: 'We track your deposits to DYDX layer 2',
 		needsApiPass: false,
 		linking: true,
+		locking: true,
 		dex: true,
 	},
 	{
@@ -105,6 +112,7 @@ const rooms = [
 		exchange_id: 'GMX',
 		needsApiPass: false,
 		linking: true,
+		locking: true,
 		dex: true,
 	},
 	{
@@ -117,6 +125,7 @@ const rooms = [
 		exchange_id: 'Bybit',
 		needsApiPass: false,
 		linking: true,
+		locking: true,
 		dex: false,
 		extra_details: 'Only MNT on Ethereum Mainnet will be detected.',
 		guide:
@@ -132,6 +141,7 @@ const rooms = [
 		exchange_id: 'OKX',
 		needsApiPass: true,
 		linking: true,
+		locking: true,
 		dex: false,
 		guide:
 			'https://docs.infinex.io/governance/elections-and-voting/governance-farming/linking-your-api-keys/okx-guide',
@@ -146,6 +156,7 @@ const rooms = [
 		exchange_id: 'Bitget',
 		needsApiPass: true,
 		linking: true,
+		locking: true,
 		dex: false,
 		guide:
 			'https://docs.infinex.io/governance/elections-and-voting/governance-farming/linking-your-api-keys/bitget-guide',
@@ -160,6 +171,7 @@ const rooms = [
 		exchange_id: 'MEXC',
 		needsApiPass: false,
 		linking: true,
+		locking: true,
 		dex: false,
 		guide:
 			'https://docs.infinex.io/governance/elections-and-voting/governance-farming/linking-your-api-keys/mexc-guide',
@@ -175,6 +187,7 @@ const rooms = [
 		info: "Krakens API really does not like what we're doing, please be patient getting your results",
 		needsApiPass: false,
 		linking: false,
+		locking: true,
 		dex: false,
 		guide:
 			'https://docs.infinex.io/governance/elections-and-voting/governance-farming/linking-your-api-keys/kraken-guide',

@@ -39,7 +39,7 @@ const Farming: NextPage = () => {
 				</p>
 				<Button
 					className={classNames(
-						'w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-sm bg-transparent hover:bg-transparent my-5',
+						'w-64 h-12 rounded-3xl whitespace-nowrap text-sm bg-transparent hover:bg-transparent my-5',
 						styles.buttonIndent
 					)}
 					onClick={() => {

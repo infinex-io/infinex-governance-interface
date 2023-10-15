@@ -173,7 +173,7 @@ export default function Header() {
 				className={classNames(
 					`${
 						isYams ? 'bg-slate-1000 rounded-3xl' : '!bg-slate-900 !border-slate-300 !text-white'
-					} whitespace-nowrap text-[0.8rem]`,
+					} whitespace-nowrap text-[0.8rem] hidden sm:block`,
 					styles.blackButtonShadow
 				)}
 				variant="outline"

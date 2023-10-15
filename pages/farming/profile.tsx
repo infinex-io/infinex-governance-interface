@@ -165,11 +165,11 @@ export default function Profile() {
 									{/* Data Points */}
 									<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-4 text-center w-full">
 										<div>
-											<h3 className="text-sm font-semibold">{`Your points`}</h3>
+											<h3 className="text-sm font-semibold">{`Total points earned`}</h3>
 											<p className="text-sm">{formatNumberWithLocale(userTotal)}</p>
 										</div>
 										<div>
-											<h3 className="text-sm font-semibold">{`Your points (inflation)`}</h3>
+											<h3 className="text-sm font-semibold">{`Base points earned`}</h3>
 											<p className="text-sm">{formatNumberWithLocale(userTotalRaw)}</p>
 										</div>
 										<div>
@@ -233,7 +233,7 @@ export default function Profile() {
 								: formatNumberWithLocale(userTotals?.total_points),
 							// formatNumberWithLocale(userTotals?.total_points_raw),
 							formatPercent(platformTotals?.total_points / userTotals?.total_points),
-							platformTotals?.total_user_count,
+							platformTotals?.total_user_count || 0,
 							formatTimeRemaining(),
 						].map((data, index) => (
 							<div key={index} className="table-cell px-4 pb-2">
@@ -255,7 +255,9 @@ export default function Profile() {
 				{/* Pool Boxes */}
 				{!userTotals?.total_points || userTotals?.total_points == 0 ? (
 					<div className="grow px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light text-black">
-						{platformTotals?.total_points && (
+						{userFarmingQuery?.isLoading ? (
+							<p className="text-black font-black text-center font-normal mb-3">Loading...</p>
+						) : (
 							<div className="animation-appear animation-appear-delay-1 mb-10 text-lg">
 								<p className="text-black font-black text-center font-normal mb-3">
 									You don't have any positions yet

@@ -44,9 +44,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			try {
 				time = JSON.parse(localStorage.getItem(`last${room.name}SubmissionTime`) || '');
 			} catch (error) {
-				console.log(error)
+				console.log(error);
 			}
-			
+
 		if (time) {
 			const lastSubmissionTime = new Date(time);
 			lastSubmissionTime.setHours(lastSubmissionTime.getHours() + 1);
@@ -222,7 +222,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			<h1 className="tg-title-h1 text-black text-5xl font-black">
 				{status === 'none' ? `Link to ${room ? room.exchange_id : ''}` : ''}
 				{status === 'linking' ? 'Setup link' : ''}
-				{status === 'waiting' ? 'Processing your trading volume...' : ''}
+				{status === 'waiting' ? 'Processing your volume...' : ''}
 				{status === 'completed' ? 'Linked' : ''}
 				{status === 'failed'
 					? `There was an error...` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
@@ -231,7 +231,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			{/* description (link your api keys || Your api keys may take some time) */}
 			<h2 className="text-sm font-medium text-black text-center max-w-sm">
 				{status === 'none' && 'Link your trading account'}
-				{status === 'waiting' && "We're crunching the numbers on your trading volume."}
+				{status === 'waiting' && "We're crunching the numbers – check back later."}
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
 						<div className="mb-1">
