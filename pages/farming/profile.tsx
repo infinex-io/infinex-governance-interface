@@ -289,11 +289,7 @@ export default function Profile() {
 						) : (
 							<div className="animation-appear animation-appear-delay-1 mb-10 text-lg">
 								<p className="text-black font-black text-center font-normal mb-3">
-<<<<<<< HEAD
 									You don&apos;t have any positions yet
-=======
-									{"You don't have any positions yet"}
->>>>>>> 4ad85ddfa4a7bb7f0250159c0f9014524cd83f6b
 								</p>
 								<Button
 									className={classNames(
