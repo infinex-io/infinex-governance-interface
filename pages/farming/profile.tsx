@@ -94,7 +94,7 @@ export default function Profile() {
 							(userTotals[exchangeId] ? userTotals[exchangeId]: 0) + 
 							(userTotals[room.token] ? userTotals[room.token] : 0);
 						
-						userTotalRaw = userTotals[`${exchangeId}_raw`] + (userTotals[room.token] ? userTotals[room.token] : 0);
+						userTotalRaw = userTotals[`${exchangeId}_raw`];
 						numUsersInPool = platformTotals[`${exchangeId}_user_count`];
 						numPointsInPool = platformTotals[`${exchangeId}_total_points`];
 
