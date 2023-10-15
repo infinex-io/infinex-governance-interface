@@ -202,7 +202,6 @@ export default function Header() {
 						<Box
 							m="4"
 							p="4"
-							C
 							borderRadius="base"
 							borderWidth="1px"
 							borderStyle="solid"

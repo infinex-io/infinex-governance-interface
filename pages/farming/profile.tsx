@@ -45,7 +45,7 @@ export default function Profile() {
 
 	function calculateTimeRemaining() {
 		const currentDate = new Date();
-		const timeDifference = targetDate - currentDate;
+		const timeDifference = targetDate.getTime() - currentDate.getTime();
 
 		if (timeDifference > 0) {
 			const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -258,7 +258,7 @@ export default function Profile() {
 						{platformTotals?.total_points && (
 							<div className="animation-appear animation-appear-delay-1 mb-10 text-lg">
 								<p className="text-black font-black text-center font-normal mb-3">
-									You don't have any positions yet
+									You don&apos;t have any positions yet
 								</p>
 								<Button
 									className={classNames(
