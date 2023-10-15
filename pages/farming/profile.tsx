@@ -90,11 +90,20 @@ export default function Profile() {
 							exchangeId = 'synthetix_optimism';
 						}
 
+						// USER TOTAL GOV POINTS FOR ROOM
 						userTotal =
-							(userTotals[exchangeId] ? userTotals[exchangeId] : 0) +
+							(userTotals[exchangeId] ? userTotals[exchangeId] : 0) 
+								+
 							(userTotals[room.token] ? userTotals[room.token] : 0);
 
-						userTotalRaw = userTotals[`${exchangeId}_raw`];
+
+						// USER TOTAL GOV POINTS FOR ROOM PRE TIMEWEIGHT (inflation)
+						userTotalRaw = 
+							userTotals[`${exchangeId}_raw`] ? userTotals[`${exchangeId}_raw`] : 0
+							 +
+							 userTotals[`${room.token}_raw`] ? userTotals[`${room.token}_raw`] : 0;
+
+						// NUMBER OF USERS IN THE POOL
 						numUsersInPool = 
 							platformTotals[`${exchangeId}_user_count`] ? platformTotals[`${exchangeId}_user_count`] : 0 
 								+ 
