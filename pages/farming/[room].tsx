@@ -47,33 +47,32 @@ export default function Room() {
 				<title>Infinex | Governance V3</title>
 			</Head>
 			<div className="flex flex-col grow bg-primary-light">
-				{room ? (
+				{room && (
 					<div className="animation-appear flex flex-col justify-center items-center bg-primary-light w-full p-10">
 						<h1 className="text-black text-5xl font-black text-center mb-2">
 							{room.emoji} {room.name}
 						</h1>
-						<div className="text-black text-base font-bold">Prove usage, earn voting power</div>
-						<div className="text-black text-base font-bold"></div>
+						<div className="text-black text-base font-normal">Prove usage, earn voting power</div>
 					</div>
-				) : (
-					''
 				)}
+
 				<div className="flex flex-col grow sm:flex-row justify-center items-stretch">
-					{room?.linking ? (
+					{room?.locking && (
 						<div className="w-full sm:w-1/2 flex flex-col">
 							<LockingScreen room={room} />
-						</div>
-					) : (
-						''
-					)}
-					<div className="w-full sm:w-1/2 flex flex-col">
-						<LinkingScreen room={room} />
-						{/* {router.query.room === 'FTX Panic Room' ? (
+							{/* {router.query.room === 'FTX Panic Room' ? (
 							<FTXFileUpload />
 						) : (
-							<LinkingScreen room={room} />
+							<LockingScreen room={room} />
 						)} */}
-					</div>
+						</div>
+					)}
+
+					{room?.linking && (
+						<div className="w-full sm:w-1/2 flex flex-col">
+							<LinkingScreen room={room} />
+						</div>
+					)}
 				</div>
 				<BackOnePageButton></BackOnePageButton>
 			</div>

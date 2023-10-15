@@ -16,15 +16,20 @@ import styles from 'styles/yams.module.css';
 import { useRouter } from 'next/router';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
 
+import Head from 'next/head';
+
 const Farming: NextPage = () => {
 	const { connectWallet, isWalletConnected } = useConnectorContext();
 	const { push } = useRouter();
 
 	// calling this here so that the user has their data pre-loaded when they open their farming page.
-	useUserFarmingQuery();
+	const { isLoading } = useUserFarmingQuery();
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
+			<Head>
+				<title>Infinex | Governance Farming</title>
+			</Head>
 			<div className="flex flex-col justify-center items-center w-full max-w-xs mx-auto">
 				<Image src={infinexLogoSVG} alt="Infinex Logo" height={53} className="mx-auto" />
 				<h1 className="text-5xl font-bold text-center mt-[-25px]">👨🏻‍⚖️</h1>
@@ -34,7 +39,7 @@ const Farming: NextPage = () => {
 				</p>
 				<Button
 					className={classNames(
-						'w-64 h-12 rounded-3xl whitespace-nowrap mr-4 text-sm bg-transparent hover:bg-transparent my-5',
+						'w-64 h-12 rounded-3xl whitespace-nowrap text-sm bg-transparent hover:bg-transparent my-5',
 						styles.buttonIndent
 					)}
 					onClick={() => {

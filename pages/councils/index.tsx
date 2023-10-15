@@ -25,19 +25,25 @@ const Councils: NextPage = () => {
 	const { t } = useTranslation();
 	const { data: trade } = useCouncilMembersQuery(DeployedModules.TRADE_COUNCIL);
 	let { data: ecosystem } = useCouncilMembersQuery(DeployedModules.ECOSYSTEM_COUNCIL);
-	const { data: coreContributor } = useCouncilMembersQuery(DeployedModules.CORE_CONTRIBUTOR_COUNCIL);
+	const { data: coreContributor } = useCouncilMembersQuery(
+		DeployedModules.CORE_CONTRIBUTOR_COUNCIL
+	);
 	const { data: treasury } = useCouncilMembersQuery(DeployedModules.TREASURY_COUNCIL);
-	const contractDeployer = process.env.NEXT_PUBLIC_ADDRESS_CONTRACT_DEPLOYER
+	const contractDeployer = process.env.NEXT_PUBLIC_ADDRESS_CONTRACT_DEPLOYER;
 
 	const allMembers = [trade, ecosystem, coreContributor, treasury];
-	const tmpMembers = [['0x000...DEaD'], ['0x000...DEaD', '0x000...DEaD'], ['0x000...DEaD'], ['0x000...DEaD']]
-
+	const tmpMembers = [
+		['0x000...DEaD'],
+		['0x000...DEaD', '0x000...DEaD'],
+		['0x000...DEaD'],
+		['0x000...DEaD'],
+	];
 
 	const moduleInstance = COUNCILS_DICTIONARY.find((item) => item.slug === activeCouncil)?.module;
 	return (
 		<>
 			<Head>
-				<title>Infinex | Governance V3</title>
+				<title>Infinex | Governance</title>
 			</Head>
 			<Main>
 				<div className="flex flex-col p-3 container">
@@ -94,7 +100,12 @@ const Councils: NextPage = () => {
 										{allMembers.length &&
 											allMembers[index]?.map((walletAddress) => {
 												if (walletAddress.toLowerCase() == contractDeployer?.toLowerCase()) {
-													return <TempMemberCard council={parseCouncil(activeCouncil)} key={walletAddress}/>
+													return (
+														<TempMemberCard
+															council={parseCouncil(activeCouncil)}
+															key={walletAddress}
+														/>
+													);
 												}
 												return (
 													<MemberCard
@@ -104,16 +115,14 @@ const Councils: NextPage = () => {
 														state="ADMINISTRATION"
 														council={activeCouncil}
 													/>
-												)
-											})
-										}
+												);
+											})}
 									</div>
 								</>
 							),
 						}))}
 						onChange={(id) => setActiveCouncil(id as any)}
 					/>
-
 
 					{moduleInstance && <PassedVotingResults moduleInstance={moduleInstance} />}
 				</div>

@@ -20,7 +20,7 @@ import { COUNCIL_SLUGS } from 'constants/config';
 import parseCouncil from 'utils/parseCouncil';
 
 const PAGE_SIZE = 8;
-type Council = "trade" | "ecosystem" | "core-contributor" | "treasury"
+type Council = 'trade' | 'ecosystem' | 'core-contributor' | 'treasury';
 
 export default function CouncilNominees() {
 	const { query } = useRouter();
@@ -65,14 +65,16 @@ export default function CouncilNominees() {
 	return (
 		<>
 			<Head>
-				<title>Infinex | Governance V3</title>
+				<title>Infinex | Governance</title>
 			</Head>
 			<Main>
 				<div className="container">
 					<div className="w-full relative p-10">
 						<BackButton />
 						<h1 className="tg-title-h1 text-center">
-							{t('councils.nominees', { council: parseCouncil(query.council?.toString() as Council) })}
+							{t('councils.nominees', {
+								council: parseCouncil(query.council?.toString() as Council),
+							})}
 						</h1>
 					</div>
 					<span className="tg-content text-gray-500 text-center block pt-[8px] mb-4 p-2">
