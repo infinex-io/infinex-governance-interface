@@ -90,8 +90,8 @@ export default function Profile() {
 							exchangeId = 'synthetix_optimism';
 						}
 
-						userTotal = userTotals[exchangeId];
-						userTotalRaw = userTotals[`${exchangeId}_raw`];
+						userTotal = userTotals[exchangeId] + (userTotals[room.token] ? userTotals[room.token] : 0);
+						userTotalRaw = userTotals[`${exchangeId}_raw`] + (userTotals[room.token] ? userTotals[room.token] : 0);
 						numUsersInPool = platformTotals[`${exchangeId}_user_count`];
 						numPointsInPool = platformTotals[`${exchangeId}_total_points`];
 
