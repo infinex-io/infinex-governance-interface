@@ -7,7 +7,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Infinex | Governance V3</title>
+				<title>Infinex | Governance</title>
 			</Head>
 			<Main>
 				<LandingPage />

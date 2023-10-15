@@ -195,7 +195,7 @@ export default function Profile() {
 	return (
 		<>
 			<Head>
-				<title>Infinex | {address ? address : 'Profile'}</title>
+				<title>Infinex | Profile</title>
 			</Head>
 
 			<div className="relative grow px-3 sm:px-10 py-8 flex flex-col justify-center items-center bg-primary-light gap-6 text-black">

@@ -47,7 +47,7 @@ export default function VoteCouncil() {
 	return (
 		<>
 			<Head>
-				<title>Infinex | Governance V3</title>
+				<title>Infinex | Governance</title>
 			</Head>
 			<Main>
 				{activeCouncil && <VoteBanner deployedModule={activeCouncil.module} />}
