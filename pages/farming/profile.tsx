@@ -10,6 +10,8 @@ import { extractDexExchangeEntries } from '../../utils/points';
 import classNames from 'classnames';
 import styles from 'styles/yams.module.css';
 import { Button } from 'components/button';
+import PiggBankIcon from 'components/Icons/PiggyBankIcon';
+import LinkIcon from 'components/Icons/LinkIcon';
 
 export default function Profile() {
 	const { push } = useRouter();
@@ -84,11 +86,17 @@ export default function Profile() {
 						let userTotalRaw = 0;
 						let numUsersInPool = 0;
 						let numPointsInPool = 0;
-
+						
 						let exchangeId = room.exchange_id.toLowerCase();
+
+						let isLinked = (userTotals[`${exchangeId}_raw`] ? true : false)
+						let isStaked = (userTotals[`${room.token}_raw`] ? true : false)
+
+						// Map room to snx data
 						if (room.exchange_id.toLowerCase() === 'snx') {
 							exchangeId = 'synthetix_optimism';
 						}
+
 
 						// USER TOTAL GOV POINTS FOR ROOM
 						userTotal =
@@ -99,20 +107,20 @@ export default function Profile() {
 
 						// USER TOTAL GOV POINTS FOR ROOM PRE TIMEWEIGHT (inflation)
 						userTotalRaw = 
-							userTotals[`${exchangeId}_raw`] ? userTotals[`${exchangeId}_raw`] : 0
-							 +
-							 userTotals[`${room.token}_raw`] ? userTotals[`${room.token}_raw`] : 0;
+							(userTotals[`${exchangeId}_raw`] ? userTotals[`${exchangeId}_raw`] : 0)
+							 	+
+							(userTotals[`${room.token}_raw`] ? userTotals[`${room.token}_raw`] : 0);
 
 						// NUMBER OF USERS IN THE POOL
 						numUsersInPool = 
-							platformTotals[`${exchangeId}_user_count`] ? platformTotals[`${exchangeId}_user_count`] : 0 
+							(platformTotals[`${exchangeId}_user_count`] ? platformTotals[`${exchangeId}_user_count`] : 0) 
 								+ 
-							platformTotals[`${room.token}_user_count`] ? platformTotals[`${room.token}_user_count`] : 0;
+							(platformTotals[`${room.token}_user_count`] ? platformTotals[`${room.token}_user_count`] : 0);
 				
 						numPointsInPool = 
-							platformTotals[`${exchangeId}_total_points`] ? platformTotals[`${exchangeId}_total_points`] : 0 
+							(platformTotals[`${exchangeId}_total_points`] ? platformTotals[`${exchangeId}_total_points`] : 0)
 								+ 
-							platformTotals[`${room.token}_total_points`] ? platformTotals[`${room.token}_total_points`] : 0;
+							(platformTotals[`${room.token}_total_points`] ? platformTotals[`${room.token}_total_points`] : 0);
 
 						// Calculate spot dex features
 						if (room.exchange_id.toLowerCase() === 'spot dex') {
@@ -124,6 +132,8 @@ export default function Profile() {
 
 							// sum user totals
 							userTotal = nonRawKeys.reduce((acc, key) => {
+								// Label them as linked
+								isLinked =  true
 								return acc + dexEntries[key];
 							}, 0);
 
@@ -169,16 +179,16 @@ export default function Profile() {
 									</div>
 									<h2 className="text-lg font-bold mt-3">{room.name}</h2>
 
-									{/* Buttons */}
+									
 									<div className="flex gap-3">
-										{/* <span className="text-xs bg-[#F59260] rounded-3xl p-2 px-3 flex items-center justify-center gap-2">
-										<PiggBankIcon width={16} />
-										Locked
-									</span>
-									<span className="text-xs bg-[#F59260] rounded-3xl p-2 px-3 flex items-center justify-center gap-2">
-										<LinkIcon width={17} />
-										Linked
-									</span> */}
+										{ isStaked ? <span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
+											<PiggBankIcon width={16} />
+											Locked
+										</span> : ""}
+										{ isLinked ? <span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
+											<LinkIcon width={17} />
+											Linked
+										</span> : ""}
 									</div>
 
 									{/* Data Points */}
