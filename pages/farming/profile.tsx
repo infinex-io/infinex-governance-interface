@@ -30,7 +30,7 @@ export default function Profile() {
 	}, [userFarmingQuery]);
 
 	// Calculate time til farming
-	const targetDate = new Date('2023-10-23T14:00:00+11:00'); // Sydney time (UTC+11)
+	const targetDate: any = new Date('2023-10-23T14:00:00+11:00'); // Sydney time (UTC+11)
 
 	const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
 
@@ -44,7 +44,7 @@ export default function Profile() {
 	}, []);
 
 	function calculateTimeRemaining() {
-		const currentDate = new Date();
+		const currentDate: any = new Date();
 		const timeDifference = targetDate - currentDate;
 
 		if (timeDifference > 0) {
@@ -90,7 +90,10 @@ export default function Profile() {
 							exchangeId = 'synthetix_optimism';
 						}
 
-						userTotal = userTotals[exchangeId];
+						userTotal =
+							(userTotals[exchangeId] ? userTotals[exchangeId] : 0) +
+							(userTotals[room.token] ? userTotals[room.token] : 0);
+
 						userTotalRaw = userTotals[`${exchangeId}_raw`];
 						numUsersInPool = platformTotals[`${exchangeId}_user_count`];
 						numPointsInPool = platformTotals[`${exchangeId}_total_points`];
@@ -232,7 +235,7 @@ export default function Profile() {
 								? 0
 								: formatNumberWithLocale(userTotals?.total_points),
 							// formatNumberWithLocale(userTotals?.total_points_raw),
-							formatPercent(platformTotals?.total_points / userTotals?.total_points),
+							formatPercent(userTotals?.total_points / platformTotals?.total_points),
 							platformTotals?.total_user_count || 0,
 							formatTimeRemaining(),
 						].map((data, index) => (
@@ -260,7 +263,7 @@ export default function Profile() {
 						) : (
 							<div className="animation-appear animation-appear-delay-1 mb-10 text-lg">
 								<p className="text-black font-black text-center font-normal mb-3">
-									You don't have any positions yet
+									{"You don't have any positions yet"}
 								</p>
 								<Button
 									className={classNames(
