@@ -202,7 +202,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 							className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-3xl py-1 px-2"
 							onClick={() =>
 								setInputValue(
-									userFarmingQuery.data?.staking[`${room.token}_available`].toString() ?? '0'
+									userFarmingQuery.data?.staking[`${room.token}_available`]?.toString() ?? '0'
 								)
 							}
 						>

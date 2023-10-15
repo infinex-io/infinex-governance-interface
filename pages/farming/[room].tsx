@@ -52,8 +52,7 @@ export default function Room() {
 						<h1 className="text-black text-5xl font-black text-center mb-2">
 							{room.emoji} {room.name}
 						</h1>
-						<div className="text-black text-base font-bold">Prove usage, earn voting power</div>
-						<div className="text-black text-base font-bold"></div>
+						<div className="text-black text-base font-normal">Prove usage, earn voting power</div>
 					</div>
 				)}
 

@@ -23,7 +23,7 @@ const Farming: NextPage = () => {
 	const { push } = useRouter();
 
 	// calling this here so that the user has their data pre-loaded when they open their farming page.
-	useUserFarmingQuery();
+	const { isLoading } = useUserFarmingQuery();
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">

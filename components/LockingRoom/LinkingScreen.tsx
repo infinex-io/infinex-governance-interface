@@ -1,25 +1,14 @@
-// Libraries
 import React, { useEffect } from 'react';
 import { Button, Progress } from '@chakra-ui/react';
 import styles from 'styles/yams.module.css';
-// Components (Internal)
 import LinkIcon from 'components/Icons/LinkIcon';
 import BackIcon from 'components/Icons/BackIcon';
 import CompleteIcon from 'components/Icons/CompleteIcon';
-
-// Components (External)
 import { toast } from 'react-toastify';
-
-// Hooks (Exteneral)
 import { useRouter } from 'next/router';
-
-// Hooks (Internal)
 import useLinkExchangeMutations from 'mutations/farming/useLinkExchangeMutations';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
-
-// Internal
 import { Room } from 'pages/farming/[room]';
-import { ProgressBar } from 'react-toastify/dist/components';
 import { extractDexExchangeEntries, stripObjOfNonVolume, sumValues } from '../../utils/points';
 import classNames from 'classnames';
 import rooms from 'utils/config/rooms';
@@ -28,7 +17,7 @@ import { Timer } from 'components/Timer';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */
-	const [status, setStatus] = React.useState('none'); // none || linking || waiting || completed
+	const [status, setStatus] = React.useState(''); // none || linking || waiting || completed
 	const [publicKey, setPublicKey] = React.useState('');
 	const [secretKey, setSecretKey] = React.useState('');
 	const [apiPass, setApiPass] = React.useState('');
@@ -37,6 +26,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	const [roomData, setRoomData] = React.useState<Room | null>(null);
 	const [canRetry, setCanRetry] = React.useState(false);
 	const [storedTime, setStoredTime] = React.useState<Date | null>(null);
+
+	// Putting this here as the page sometimes randomly sets status to 'none' while the user is linking.. this didn't fix the issue, @james any ideas?
+	useEffect(() => {
+		setStatus(room?.dex ? 'linking' : 'none');
+	}, []);
 
 	useEffect(() => {
 		let time;
@@ -71,7 +65,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setCanRetry(true);
 			}
 		}
-	}, [storedTime]);
+	}, [storedTime, status]);
 
 	useEffect(() => {
 		if (!room) {
@@ -80,10 +74,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 		const exchangeKey = room.exchange_id.toLowerCase();
 
-		console.log(userFarmingQuery.data);
-		console.log(room);
+
 		if (userFarmingQuery.isLoading) {
-			setStatus('waiting');
+			setStatus('loading');
 		}
 
 		if (userFarmingQuery.data) {
@@ -138,11 +131,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setStatus('completed');
 			} else if (linkStatus === 'failed') {
 				setStatus('failed');
-			} else {
+			} else if (linkStatus !== 'linking') {
 				setStatus('none');
 			}
 		}
-	}, [userFarmingQuery.data]);
+	}, [userFarmingQuery.data, userFarmingQuery.isLoading]);
 	/* ================================== functions ================================== */
 	async function handleSubmit() {
 		setLoading(true);
@@ -220,23 +213,28 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 			{/* Title (link) */}
 			<h1 className="tg-title-h1 text-black text-5xl font-black">
-				{status === 'none' ? `Link to ${room ? room.exchange_id : ''}` : ''}
-				{status === 'linking' ? 'Setup link' : ''}
-				{status === 'waiting' ? 'Processing your volume...' : ''}
+				{status === 'none' || status === 'linking' ? `Link to ${room ? room.exchange_id : ''}` : ''}
+				{status === 'loading' ? '' : ''}
+				{status === 'waiting' ? 'Processing your volume' : ''}
 				{status === 'completed' ? 'Linked' : ''}
 				{status === 'failed'
-					? `There was an error...` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
+					? `There was an error` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
 					: ''}
 			</h1>
+
+			{status === 'loading' && (
+				<p className="text-black text-sm font-medium">Preparing the room...</p>
+			)}
+
 			{/* description (link your api keys || Your api keys may take some time) */}
 			<h2 className="text-sm font-medium text-black text-center max-w-sm">
-				{status === 'none' && 'Link your trading account'}
+				{(status === 'none' || (room?.dex && status === 'linking')) && 'Link your trading account'}
 				{status === 'waiting' && "We're crunching the numbers – check back later."}
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
 						<div className="mb-1">
-							This may be because these keys are invalid, or they have been submitted via another
-							account.
+							This may have occurred because these keys are invalid, or because they have been
+							submitted via another account.
 						</div>
 						<div className="flex flex-col justify-center items-center">
 							In order to prevent spam, you can retry in:
@@ -262,7 +260,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				)}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
 				{status === 'completed' &&
-					`Your trading volume has been calculated and attached to your address.`}
+					`Your ${
+						room.dex ? 'decentralised ' : ''
+					}trading volume has been calculated and attached to your address.`}
 			</h2>
 			{/* Link button (hide when linking) */}
 			{status === 'none' && (
@@ -297,7 +297,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 							<input
 								type="text"
 								className={classNames(
-									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none',
+									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none text-sm',
 									styles.inputIndent
 								)}
 								value={publicKey}
@@ -311,7 +311,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 							<input
 								type="text"
 								className={classNames(
-									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none',
+									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none text-sm',
 									styles.inputIndent
 								)}
 								value={secretKey}
@@ -344,17 +344,20 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			{status === 'linking' && (
 				<div className="flex flex-row gap-4">
 					{/* Back button */}
-					<Button
-						onClick={() => {
-							setStatus('none');
-						}}
-						variant="custom"
-						height="42px"
-						className={classNames('gap-2', styles.primaryButtonShadow)}
-					>
-						<BackIcon width={10} height={10} />
-						<span>Back</span>
-					</Button>
+					{/* don't show on dex because it skips a step */}
+					{!room.dex && (
+						<Button
+							onClick={() => {
+								setStatus('none');
+							}}
+							variant="custom"
+							height="42px"
+							className={classNames('gap-2', styles.primaryButtonShadow)}
+						>
+							<BackIcon width={10} height={10} />
+							<span>Back</span>
+						</Button>
+					)}
 					{/* -- */}
 
 					{/* Submit Button */}

@@ -90,7 +90,7 @@ const rooms = [
 	{
 		type: 'dex',
 		key: 6,
-		name: 'Dydx Observatory',
+		name: 'dYdX Observatory',
 		description: 'Deposit DYDX\\nEarn Voting Power',
 		emoji: '🔭',
 		token: 'DYDX',
@@ -104,7 +104,7 @@ const rooms = [
 	{
 		type: 'dex',
 		key: 7,
-		name: 'Blueberry fields',
+		name: 'Blueberry Fields',
 		description: 'Deposit GMX\\nEarn Voting Power',
 		emoji: '🫐',
 		token: 'GMX',
@@ -166,7 +166,7 @@ const rooms = [
 		key: 11,
 		name: 'MEXC Nursery',
 		description: 'Deposit MX\\nEarn Voting Power',
-		emoji: '👩‍⚕️',
+		emoji: '🤱',
 		token: 'MX',
 		exchange_id: 'MEXC',
 		needsApiPass: false,

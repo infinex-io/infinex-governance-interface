@@ -59,7 +59,7 @@ function extractAndCombine(exchanges: { [key: string]: any }) {
 }
 
 function useUserFarmingQuery() {
-	console.log('calling useUserFarmingQuery');
+	// console.log('calling useUserFarmingQuery');
 	const { walletAddress } = useConnectorContext();
 
 	return useQuery<GetFarmingData | undefined>(

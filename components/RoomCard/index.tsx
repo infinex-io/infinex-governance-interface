@@ -33,7 +33,7 @@ export default function RoomCard({ key, name, description, emoji, exchange_id, t
 				{emoji}
 			</div>
 			<div className="flex flex-col items-center text-center gap-1 mb-3">
-				<h5 className="capitalize text-base font-bold text-sm">{name}</h5>
+				<h5 className="text-base font-bold text-sm">{name}</h5>
 				<p className="w-full text-center text-sm font-medium text-slate-800 mt-1 mb-[-2px]">
 					{description?.split('\\n')[0]}
 				</p>
