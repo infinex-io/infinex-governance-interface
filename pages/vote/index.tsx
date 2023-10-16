@@ -7,7 +7,7 @@ export default function Vote() {
 	return (
 		<>
 			<Head>
-				<title>Infinex | Governance V3</title>
+				<title>Infinex | Governance</title>
 			</Head>
 			<Main>
 				<VoteSection />

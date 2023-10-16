@@ -1,25 +1,14 @@
-// Libraries
 import React, { useEffect } from 'react';
 import { Button, Progress } from '@chakra-ui/react';
 import styles from 'styles/yams.module.css';
-// Components (Internal)
 import LinkIcon from 'components/Icons/LinkIcon';
 import BackIcon from 'components/Icons/BackIcon';
 import CompleteIcon from 'components/Icons/CompleteIcon';
-
-// Components (External)
 import { toast } from 'react-toastify';
-
-// Hooks (Exteneral)
 import { useRouter } from 'next/router';
-
-// Hooks (Internal)
 import useLinkExchangeMutations from 'mutations/farming/useLinkExchangeMutations';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
-
-// Internal
 import { Room } from 'pages/farming/[room]';
-import { ProgressBar } from 'react-toastify/dist/components';
 import { extractDexExchangeEntries, stripObjOfNonVolume, sumValues } from '../../utils/points';
 import classNames from 'classnames';
 import rooms from 'utils/config/rooms';
@@ -28,7 +17,7 @@ import { Timer } from 'components/Timer';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */
-	const [status, setStatus] = React.useState('none'); // none || linking || waiting || completed
+	const [status, setStatus] = React.useState('linking'); // none || linking || waiting || completed
 	const [publicKey, setPublicKey] = React.useState('');
 	const [secretKey, setSecretKey] = React.useState('');
 	const [apiPass, setApiPass] = React.useState('');
@@ -44,9 +33,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			try {
 				time = JSON.parse(localStorage.getItem(`last${room.name}SubmissionTime`) || '');
 			} catch (error) {
-				console.log(error)
+				setCanRetry(true)
+				console.log(error);
 			}
-			
 		if (time) {
 			const lastSubmissionTime = new Date(time);
 			lastSubmissionTime.setHours(lastSubmissionTime.getHours() + 1);
@@ -71,7 +60,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setCanRetry(true);
 			}
 		}
-	}, [storedTime]);
+	}, [storedTime, status]);
 
 	useEffect(() => {
 		if (!room) {
@@ -80,10 +69,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 		const exchangeKey = room.exchange_id.toLowerCase();
 
-		console.log(userFarmingQuery.data);
-		console.log(room);
+
 		if (userFarmingQuery.isLoading) {
-			setStatus('waiting');
+			setStatus('loading');
 		}
 
 		if (userFarmingQuery.data) {
@@ -100,7 +88,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['binance']) +
-							Number(userFarmingQuery.data.volume['binancecoinm'])
+						Number(userFarmingQuery.data.volume['binancecoinm'])
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
@@ -108,7 +96,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['gmx_arbitrum']) +
-							Number(userFarmingQuery.data.volume['gmx_avalanche'])
+						Number(userFarmingQuery.data.volume['gmx_avalanche'])
 					)
 				);
 				linkStatus = userFarmingQuery.data.volume[`gmx_status`];
@@ -130,19 +118,19 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setVolume(Number(Number(linkVolume).toFixed(2)));
 			}
 
-			if (linkStatus === 'processing' || linkStatus === 'queued') {
+			if (linkVolume >= 0) {
+				setStatus('completed');
+			} else if (linkStatus === 'processing' || linkStatus === 'queued') {
 				setStatus('waiting');
 			} else if (linkStatus === 'success') {
-				setStatus('completed');
-			} else if (linkStatus === 'failed' && linkVolume >= 0) {
 				setStatus('completed');
 			} else if (linkStatus === 'failed') {
 				setStatus('failed');
 			} else {
-				setStatus('none');
+				setStatus('linking');
 			}
 		}
-	}, [userFarmingQuery.data]);
+	}, [userFarmingQuery.data, userFarmingQuery.isLoading]);
 	/* ================================== functions ================================== */
 	async function handleSubmit() {
 		setLoading(true);
@@ -174,7 +162,15 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 						} else {
 							toast.error(JSON.stringify(error));
 						}
-					} else {
+					} 
+					else if (!data.message.success) {
+						setStatus('linking');
+						setLoading(false);
+						if (data?.message.message) {
+							toast.error(JSON.stringify(data.message.message).replaceAll('"', ''));
+						}
+					}
+					else {
 						setStatus('waiting');
 						setLoading(false);
 						userFarmingQuery.refetch();
@@ -220,23 +216,27 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 			{/* Title (link) */}
 			<h1 className="tg-title-h1 text-black text-5xl font-black">
-				{status === 'none' ? `Link to ${room ? room.exchange_id : ''}` : ''}
-				{status === 'linking' ? 'Setup link' : ''}
-				{status === 'waiting' ? 'Processing your trading volume...' : ''}
+				{status === 'none' || status === 'linking' ? `Link to ${room ? room.exchange_id : ''}` : ''}
+				{status === 'loading' ? '' : ''}
+				{status === 'waiting' ? 'Processing your volume' : ''}
 				{status === 'completed' ? 'Linked' : ''}
 				{status === 'failed'
-					? `There was an error...` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
+					? `There was an error` // It's taking longer than usual to connect to ${room.exchange_id}, we're investigating. Your submission time was recorded.
 					: ''}
 			</h1>
+
+			{status === 'loading' && (
+				<p className="text-black text-sm font-medium">Preparing the room...</p>
+			)}
+
 			{/* description (link your api keys || Your api keys may take some time) */}
 			<h2 className="text-sm font-medium text-black text-center max-w-sm">
-				{status === 'none' && 'Link your trading account'}
-				{status === 'waiting' && "We're crunching the numbers on your trading volume."}
+				{(status === 'none' || (room?.dex && status === 'linking')) && 'Link your trading account'}
+				{status === 'waiting' && "We're crunching the numbers - check back later."}
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
 						<div className="mb-1">
-							This may be because these keys are invalid, or they have been submitted via another
-							account.
+							This may have occurred due to invalid keys, submitting the same keys via another account, or recent submissions from another account.
 						</div>
 						<div className="flex flex-col justify-center items-center">
 							In order to prevent spam, you can retry in:
@@ -262,7 +262,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				)}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
 				{status === 'completed' &&
-					`Your trading volume has been calculated and attached to your address.`}
+					`Your ${room.dex ? 'decentralised ' : ''
+					}trading volume has been calculated and attached to your address.`}
 			</h2>
 			{/* Link button (hide when linking) */}
 			{status === 'none' && (
@@ -297,7 +298,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 							<input
 								type="text"
 								className={classNames(
-									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none',
+									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none text-sm',
 									styles.inputIndent
 								)}
 								value={publicKey}
@@ -311,7 +312,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 							<input
 								type="text"
 								className={classNames(
-									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none',
+									'text-black bg-transparent rounded-3xl py-2 px-4 w-full focus:outline-none text-sm',
 									styles.inputIndent
 								)}
 								value={secretKey}
@@ -343,26 +344,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			)}
 			{status === 'linking' && (
 				<div className="flex flex-row gap-4">
-					{/* Back button */}
-					<Button
-						onClick={() => {
-							setStatus('none');
-						}}
-						variant="custom"
-						height="42px"
-						className={classNames('gap-2', styles.primaryButtonShadow)}
-					>
-						<BackIcon width={10} height={10} />
-						<span>Back</span>
-					</Button>
-					{/* -- */}
-
 					{/* Submit Button */}
 					<Button
 						height="42px"
 						isLoading={isLoading}
 						loadingText="Submitting"
-						className={classNames('bg-primary', styles.primaryButtonShadow)}
+						className={classNames('bg-primary mb-4', styles.primaryButtonShadow)}
 						background="primary"
 						variant="custom"
 						onClick={() => {

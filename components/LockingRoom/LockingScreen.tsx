@@ -132,8 +132,9 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					<span className="animation-appear">You&apos;ve successfully locked your tokens.</span>
 				) : (
 					<span className="animation-appear">
-						If you move these tokens during the governance farming period, your voting power will
-						stop compounding.
+						In order to farm governance points, you must commit not to move these tokens. 
+						<div className="my-1" />
+						The tokens will remain in your wallet but if you move these tokens during the governance farming period, your voting power will stop compounding.
 					</span>
 				)}
 				{roomData.extra_details && status !== 'completed' && status !== 'locked' && (
@@ -202,7 +203,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 							className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs font-black rounded-3xl py-1 px-2"
 							onClick={() =>
 								setInputValue(
-									userFarmingQuery.data?.staking[`${room.token}_available`].toString() ?? '0'
+									userFarmingQuery.data?.staking[`${room.token}_available`]?.toString() ?? '0'
 								)
 							}
 						>

@@ -10,6 +10,8 @@ import { extractDexExchangeEntries } from '../../utils/points';
 import classNames from 'classnames';
 import styles from 'styles/yams.module.css';
 import { Button } from 'components/button';
+import PiggBankIcon from 'components/Icons/PiggyBankIcon';
+import LinkIcon from 'components/Icons/LinkIcon';
 
 export default function Profile() {
 	const { push } = useRouter();
@@ -30,7 +32,7 @@ export default function Profile() {
 	}, [userFarmingQuery]);
 
 	// Calculate time til farming
-	const targetDate = new Date('2023-10-23T14:00:00+11:00'); // Sydney time (UTC+11)
+	const targetDate: any = new Date('2023-10-23T14:00:00+11:00'); // Sydney time (UTC+11)
 
 	const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
 
@@ -84,16 +86,41 @@ export default function Profile() {
 						let userTotalRaw = 0;
 						let numUsersInPool = 0;
 						let numPointsInPool = 0;
-
+						
 						let exchangeId = room.exchange_id.toLowerCase();
+
+						let isLinked = (userTotals[`${exchangeId}_raw`] ? true : false)
+						let isStaked = (userTotals[`${room.token}_raw`] ? true : false)
+
+						// Map room to snx data
 						if (room.exchange_id.toLowerCase() === 'snx') {
 							exchangeId = 'synthetix_optimism';
 						}
 
-						userTotal = userTotals[exchangeId];
-						userTotalRaw = userTotals[`${exchangeId}_raw`];
-						numUsersInPool = platformTotals[`${exchangeId}_user_count`];
-						numPointsInPool = platformTotals[`${exchangeId}_total_points`];
+
+						// USER TOTAL GOV POINTS FOR ROOM
+						userTotal =
+							(userTotals[exchangeId] ? userTotals[exchangeId] : 0) 
+								+
+							(userTotals[room.token] ? userTotals[room.token] : 0);
+
+
+						// USER TOTAL GOV POINTS FOR ROOM PRE TIMEWEIGHT (inflation)
+						userTotalRaw = 
+							(userTotals[`${exchangeId}_raw`] ? userTotals[`${exchangeId}_raw`] : 0)
+							 	+
+							(userTotals[`${room.token}_raw`] ? userTotals[`${room.token}_raw`] : 0);
+
+						// NUMBER OF USERS IN THE POOL
+						numUsersInPool = 
+							(platformTotals[`${exchangeId}_user_count`] ? platformTotals[`${exchangeId}_user_count`] : 0) 
+								+ 
+							(platformTotals[`${room.token}_user_count`] ? platformTotals[`${room.token}_user_count`] : 0);
+				
+						numPointsInPool = 
+							(platformTotals[`${exchangeId}_total_points`] ? platformTotals[`${exchangeId}_total_points`] : 0)
+								+ 
+							(platformTotals[`${room.token}_total_points`] ? platformTotals[`${room.token}_total_points`] : 0);
 
 						// Calculate spot dex features
 						if (room.exchange_id.toLowerCase() === 'spot dex') {
@@ -105,6 +132,8 @@ export default function Profile() {
 
 							// sum user totals
 							userTotal = nonRawKeys.reduce((acc, key) => {
+								// Label them as linked
+								isLinked =  true
 								return acc + dexEntries[key];
 							}, 0);
 
@@ -150,27 +179,23 @@ export default function Profile() {
 									</div>
 									<h2 className="text-lg font-bold mt-3">{room.name}</h2>
 
-									{/* Buttons */}
+									
 									<div className="flex gap-3">
-										{/* <span className="text-xs bg-[#F59260] rounded-3xl p-2 px-3 flex items-center justify-center gap-2">
-										<PiggBankIcon width={16} />
-										Locked
-									</span>
-									<span className="text-xs bg-[#F59260] rounded-3xl p-2 px-3 flex items-center justify-center gap-2">
-										<LinkIcon width={17} />
-										Linked
-									</span> */}
+										{ isStaked ? <span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
+											<PiggBankIcon width={16} />
+											Locked
+										</span> : ""}
+										{ isLinked ? <span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
+											<LinkIcon width={17} />
+											Linked
+										</span> : ""}
 									</div>
 
 									{/* Data Points */}
-									<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-4 text-center w-full">
+									<div className="grid sm:grid-cols-3 grid-cols-1 gap-4 mt-4 text-center w-full">
 										<div>
 											<h3 className="text-sm font-semibold">{`Your points`}</h3>
 											<p className="text-sm">{formatNumberWithLocale(userTotal)}</p>
-										</div>
-										<div>
-											<h3 className="text-sm font-semibold">{`Your points (inflation)`}</h3>
-											<p className="text-sm">{formatNumberWithLocale(userTotalRaw)}</p>
 										</div>
 										<div>
 											<h3 className="text-sm font-semibold">{`Points in pool`}</h3>
@@ -178,7 +203,7 @@ export default function Profile() {
 										</div>
 										<div>
 											<h3 className="text-sm font-semibold">{`Users in pool`}</h3>
-											<p className="text-sm">{formatNumberWithLocale(numUsersInPool)}</p>
+											<p className="text-sm">{numUsersInPool}</p>
 										</div>
 									</div>
 								</div>
@@ -195,7 +220,7 @@ export default function Profile() {
 	return (
 		<>
 			<Head>
-				<title>Infinex | {address ? address : 'Profile'}</title>
+				<title>Infinex | Profile</title>
 			</Head>
 
 			<div className="relative grow px-3 sm:px-10 py-8 flex flex-col justify-center items-center bg-primary-light gap-6 text-black">
@@ -217,7 +242,6 @@ export default function Profile() {
 					<div className="table-row">
 						{[
 							'Your governance points',
-							'Your governance power',
 							'Active governance farmers',
 							'Time left to farm',
 						].map((heading, index) => (
@@ -231,9 +255,7 @@ export default function Profile() {
 							formatNumberWithLocale(userTotals?.total_points) === 'Loading...'
 								? 0
 								: formatNumberWithLocale(userTotals?.total_points),
-							// formatNumberWithLocale(userTotals?.total_points_raw),
-							formatPercent(platformTotals?.total_points / userTotals?.total_points),
-							platformTotals?.total_user_count,
+							platformTotals?.total_user_count || 0,
 							formatTimeRemaining(),
 						].map((data, index) => (
 							<div key={index} className="table-cell px-4 pb-2">
@@ -255,7 +277,9 @@ export default function Profile() {
 				{/* Pool Boxes */}
 				{!userTotals?.total_points || userTotals?.total_points == 0 ? (
 					<div className="grow px-8 sm:px-0 flex flex-col justify-center items-center bg-primary-light text-black">
-						{platformTotals?.total_points && (
+						{userFarmingQuery?.isLoading ? (
+							<p className="text-black font-black text-center font-normal mb-3">Loading...</p>
+						) : (
 							<div className="animation-appear animation-appear-delay-1 mb-10 text-lg">
 								<p className="text-black font-black text-center font-normal mb-3">
 									You don&apos;t have any positions yet
