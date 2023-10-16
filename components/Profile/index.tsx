@@ -102,7 +102,6 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 											withoutIcon
 										/>
 									)}
-
 									{address && (
 										<ExternalLink
 											link={`https://optimistic.etherscan.io/address/${address}`}
