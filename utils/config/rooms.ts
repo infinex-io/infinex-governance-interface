@@ -35,7 +35,7 @@ const rooms = [
 		description: 'Prove volume on Curve, Sushi and Uniswap \\nEarn Voting Power',
 		emoji: '🦄',
 		token: '',
-		info: "We collect volumes from over 30 AMMs including Uniswap, Sushiswap and Curve",
+		info: 'We collect volumes from over 30 AMMs including Uniswap, Sushiswap and Curve',
 		exchange_id: 'Spot Dex',
 		needsApiPass: false,
 		linking: true,
