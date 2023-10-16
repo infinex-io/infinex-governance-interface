@@ -134,14 +134,20 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				{status !== 'completed' && status !== 'locking' && (
 					<span className="animation-appear">
 						You can farm governance points by signing a message to prove the balance of {room.token}{' '}
-						in your wallet.
-						<div className="my-1" />
-						This action will not move the tokens from your wallet, but if your balance drops below
-						your locked amount during the farming period, you will cease farming points.
+						in your wallet.{' '}
+						<a
+							className="underline"
+							style={{ textUnderlinePosition: 'under' }}
+							href="https://docs.infinex.io/governance/elections-and-voting/governance-farming/locking-your-tokens"
+							target="_blank"
+						>
+							Learn more
+						</a>
+						.
 					</span>
 				)}
 				{roomData.extra_details && status !== 'completed' && status !== 'locked' && (
-					<div className="mt-1">{roomData.extra_details}</div>
+					<div className="mt-2">{roomData.extra_details}</div>
 				)}
 			</p>
 

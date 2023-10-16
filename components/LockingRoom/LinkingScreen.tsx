@@ -183,6 +183,30 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		);
 	}
 
+	const idMap = {
+		'Spot Dex': 'AMMs',
+		SNX: 'Synthetix',
+	};
+
+	const idToRead = idMap[room.exchange_id] ? idMap[room.exchange_id] : room.exchange_id;
+
+	const linkingDescription = room.dex ? (
+		<p>Connect your wallet to prove your onchain trading history.</p>
+	) : (
+		<p>
+			Link your read-only API keys to prove your {idToRead} trading history. See{' '}
+			<a
+				href={room.guide}
+				className="underline"
+				style={{ textUnderlinePosition: 'under' }}
+				target="_blank"
+			>
+				the guide
+			</a>{' '}
+			for more information.
+		</p>
+	);
+
 	return (
 		<div
 			className={classNames(
@@ -195,7 +219,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				margin: '0 20px 20px 20px',
 			}}
 		>
-			{roomData && roomData.guide && (
+			{/* {roomData && roomData.guide && (
 				<Link
 					className={classNames(
 						`flex items-center justify-center h-14 px-4 gap-3 absolute top-0 right-0 mt-4 mr-4
@@ -207,7 +231,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				>
 					📔
 				</Link>
-			)}
+			)} */}
 			{/* Icon (Link || completion || waiting(add spinner)) */}
 			{(status === 'none' || status === 'linking') && <LinkIcon />}
 			{status === 'processing' && <Progress />}
@@ -215,9 +239,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 			{/* Title (link) */}
 			<h1 className="tg-title-h1 text-black text-5xl font-black">
-				{status === 'none' || status === 'linking'
-					? `Link to ${room ? (room.exchange_id === 'Spot Dex' ? 'AMMs' : room.exchange_id) : ''}`
-					: ''}
+				{status === 'none' || status === 'linking' ? `Link to ${room ? idToRead : ''}` : ''}
 				{status === 'loading' ? '' : ''}
 				{status === 'waiting' ? 'Processing your volume' : ''}
 				{status === 'completed' ? 'Linked' : ''}
@@ -232,7 +254,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 			{/* description (link your api keys || Your api keys may take some time) */}
 			<h2 className="text-sm font-medium text-black text-center max-w-sm">
-				{(status === 'none' || (room?.dex && status === 'linking')) && 'Link your trading account'}
+				{(status === 'none' || status === 'linking') && <p>{linkingDescription}</p>}
+
+				{(status === 'none' || status === 'linking') && room?.info && (
+					<p className="mt-1">{room.info}</p>
+				)}
+
 				{status === 'waiting' && "We're crunching the numbers - check back later."}
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
