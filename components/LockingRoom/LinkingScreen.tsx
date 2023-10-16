@@ -213,7 +213,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	return (
 		<div
 			className={classNames(
-				'animation-appear animation-delay-1 p-8 flex flex-col grow relative justify-center items-center bg-primary-light gap-5 text-black',
+				'2xl:pt-[30%] md:pt-[15%] pt-[10%] animation-appear animation-delay-1 p-8 flex flex-col grow relative items-center bg-primary-light gap-5 text-black',
 				styles.boxIndent
 			)}
 			style={{
