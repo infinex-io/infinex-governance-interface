@@ -236,12 +236,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				</Link>
 			)} */}
 			{/* Icon (Link || completion || waiting(add spinner)) */}
-			{(status === 'none' || status === 'linking') && <LinkIcon />}
+			{(status === 'none' || status === 'linking') && <div className="h-8 flex items-center justify-center"><LinkIcon /></div>}
 			{status === 'processing' && <Progress />}
 			{status === 'completed' && <CompleteIcon />}
 
 			{/* Title (link) */}
-			<h1 className="tg-title-h1 text-black text-5xl font-black">
+			<h1 className="tg-title-h1 text-black text-5xl font-bold">
 				{status === 'none' || status === 'linking' ? `Link to ${room ? idToRead : ''}` : ''}
 				{status === 'loading' ? '' : ''}
 				{status === 'waiting' ? 'Processing your volume' : ''}

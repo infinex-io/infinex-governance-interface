@@ -107,7 +107,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		>
 			{/* Icon */}
 			{status === 'completed' ? (
-				<LockIcon width={26} height={35} />
+				<div className="h-8 flex items-center justify-center"><LockIcon width={26} height={35} /></div>
 			) : (
 				<CompleteIcon width={33} height={33} />
 			)}
