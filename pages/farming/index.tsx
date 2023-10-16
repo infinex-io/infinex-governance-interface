@@ -35,7 +35,7 @@ const Farming: NextPage = () => {
 				<h1 className="text-5xl font-bold text-center mt-[-25px]">👨🏻‍⚖️</h1>
 				<h1 className="text-center text-xl font-bold text-black">Select a room in the mansion</h1>
 				<p className="text-center text-sm font-normal">
-					Earn Infinex voting power by depositing your tokens and proving your trade history
+					You can earn Infinex governance points by <a className="underline cursor-pointer" href="https://docs.infinex.io/governance/elections-and-voting/governance-farming" target='_blank'>locking</a> your tokens or proving your trade history.
 				</p>
 				<Button
 					className={classNames(

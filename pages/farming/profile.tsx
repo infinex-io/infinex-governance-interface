@@ -192,14 +192,10 @@ export default function Profile() {
 									</div>
 
 									{/* Data Points */}
-									<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-4 text-center w-full">
+									<div className="grid sm:grid-cols-3 grid-cols-1 gap-4 mt-4 text-center w-full">
 										<div>
-											<h3 className="text-sm font-semibold">{`Total points earned`}</h3>
+											<h3 className="text-sm font-semibold">{`Your points`}</h3>
 											<p className="text-sm">{formatNumberWithLocale(userTotal)}</p>
-										</div>
-										<div>
-											<h3 className="text-sm font-semibold">{`Base points earned`}</h3>
-											<p className="text-sm">{formatNumberWithLocale(userTotalRaw)}</p>
 										</div>
 										<div>
 											<h3 className="text-sm font-semibold">{`Points in pool`}</h3>
@@ -207,7 +203,7 @@ export default function Profile() {
 										</div>
 										<div>
 											<h3 className="text-sm font-semibold">{`Users in pool`}</h3>
-											<p className="text-sm">{formatNumberWithLocale(numUsersInPool)}</p>
+											<p className="text-sm">{numUsersInPool}</p>
 										</div>
 									</div>
 								</div>
@@ -246,7 +242,6 @@ export default function Profile() {
 					<div className="table-row">
 						{[
 							'Your governance points',
-							'Your governance power',
 							'Active governance farmers',
 							'Time left to farm',
 						].map((heading, index) => (
@@ -260,8 +255,6 @@ export default function Profile() {
 							formatNumberWithLocale(userTotals?.total_points) === 'Loading...'
 								? 0
 								: formatNumberWithLocale(userTotals?.total_points),
-							// formatNumberWithLocale(userTotals?.total_points_raw),
-							formatPercent(userTotals?.total_points / platformTotals?.total_points),
 							platformTotals?.total_user_count || 0,
 							formatTimeRemaining(),
 						].map((data, index) => (
