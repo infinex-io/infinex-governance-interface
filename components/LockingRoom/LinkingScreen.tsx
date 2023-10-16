@@ -17,7 +17,7 @@ import { Timer } from 'components/Timer';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */
-	const [status, setStatus] = React.useState(''); // none || linking || waiting || completed
+	const [status, setStatus] = React.useState('linking'); // none || linking || waiting || completed
 	const [publicKey, setPublicKey] = React.useState('');
 	const [secretKey, setSecretKey] = React.useState('');
 	const [apiPass, setApiPass] = React.useState('');
@@ -26,11 +26,6 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	const [roomData, setRoomData] = React.useState<Room | null>(null);
 	const [canRetry, setCanRetry] = React.useState(false);
 	const [storedTime, setStoredTime] = React.useState<Date | null>(null);
-
-	// Putting this here as the page sometimes randomly sets status to 'none' while the user is linking.. this didn't fix the issue, @james any ideas?
-	useEffect(() => {
-		setStatus(room?.dex ? 'linking' : 'none');
-	}, []);
 
 	useEffect(() => {
 		let time;
@@ -131,8 +126,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setStatus('completed');
 			} else if (linkStatus === 'failed') {
 				setStatus('failed');
-			} else if (linkStatus !== 'linking') {
-				setStatus('none');
+			} else {
+				setStatus('linking');
 			}
 		}
 	}, [userFarmingQuery.data, userFarmingQuery.isLoading]);
@@ -349,29 +344,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			)}
 			{status === 'linking' && (
 				<div className="flex flex-row gap-4">
-					{/* Back button */}
-					{/* don't show on dex because it skips a step */}
-					{!room.dex && (
-						<Button
-							onClick={() => {
-								setStatus('none');
-							}}
-							variant="custom"
-							height="42px"
-							className={classNames('gap-2', styles.primaryButtonShadow)}
-						>
-							<BackIcon width={10} height={10} />
-							<span>Back</span>
-						</Button>
-					)}
-					{/* -- */}
-
 					{/* Submit Button */}
 					<Button
 						height="42px"
 						isLoading={isLoading}
 						loadingText="Submitting"
-						className={classNames('bg-primary', styles.primaryButtonShadow)}
+						className={classNames('bg-primary mb-4', styles.primaryButtonShadow)}
 						background="primary"
 						variant="custom"
 						onClick={() => {

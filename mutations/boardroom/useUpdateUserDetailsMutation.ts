@@ -48,7 +48,7 @@ function useUpdateUserDetailsMutation() {
 	const { walletAddress, provider, signer } = useConnectorContext();
 	const [uuid, setUuid] = useState<null | string>(null);
 	const boardroomSignIn = async () => {
-		const domain = 'governance.infinex.io';
+		const domain = 'gov.infinex.io';
 		const chainId = 10;
 
 		if (signer && provider && walletAddress) {
