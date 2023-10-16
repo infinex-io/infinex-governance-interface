@@ -22,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'components/Modals/Modal';
 import SafeProvider from '@gnosis.pm/safe-apps-react-sdk';
 import { theme } from '@synthetixio/v3-theme';
+import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
 	const { L2DefaultProvider, signer } = useConnectorContext();
 	const TheComponent = Component as any;
+	const { asPath } = useRouter()
 
 	return (
 		<ModulesProvider>
@@ -39,6 +41,11 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 							<Header />
 							<TheComponent {...pageProps} />
 							<Footer />
+							<style jsx global>{`
+								body, html {
+									background: ${asPath.includes('farming') ? "#ffcfb6 !important" : "#05060A !important"};
+								}
+							`}</style>
 						</div>
 					</Modal>
 				</SafeProvider>
