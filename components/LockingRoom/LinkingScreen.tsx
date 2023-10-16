@@ -101,10 +101,10 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				linkStatus = userFarmingQuery.data.volume[`gmx_status`];
 			} else if (room.exchange_id == 'SNX') {
 				setVolume(Number(userFarmingQuery.data.volume['synthetix_optimism']));
-				linkStatus = userFarmingQuery.data.volume[`synthetix_status`];
-			} else if (room.exchange_id == 'DYDX') {
+				linkStatus = userFarmingQuery.data.volume[`dex_status`];
+			} else if (room.exchange_id == 'Dydx') {
 				setVolume(Number(userFarmingQuery.data.volume['dydx_ethereum']));
-				linkStatus = userFarmingQuery.data.volume[`dydx_status`];
+				linkStatus = userFarmingQuery.data.volume[`dex_status`];
 			} else if (room.exchange_id == 'Spot Dex') {
 				const dexVolumes: Record<string, any> = stripObjOfNonVolume(
 					extractDexExchangeEntries(userFarmingQuery.data.volume)
@@ -112,6 +112,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				const total = sumValues(dexVolumes);
 				console.log(total);
 				setVolume(Number(total));
+				linkStatus = userFarmingQuery.data.volume[`dex_status`];
+			} else if (room.exchange_id == 'GMX') {
 				linkStatus = userFarmingQuery.data.volume[`dex_status`];
 			} else {
 				setVolume(Number(Number(linkVolume).toFixed(2)));
