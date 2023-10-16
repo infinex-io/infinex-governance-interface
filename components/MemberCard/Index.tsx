@@ -53,6 +53,7 @@ export default function MemberCard({
 		);
 
 	if (!userDetailsQuery.data) return null;
+	console.log(userDetailsQuery.data)
 
 	const member = userDetailsQuery.data;
 
@@ -155,7 +156,7 @@ export default function MemberCard({
 					}
 				)}
 			>
-				{content}
+				{member.address && content}
 			</div>
 		</div>
 	);
