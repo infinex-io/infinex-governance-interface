@@ -286,7 +286,7 @@ export default function Header() {
 							</div>
 							{t('header.view-profile')}
 						</span>}
-						{!isYams && <hr className="my-1" />}
+						{!isYams && <span className="bg-slate-800 h-[1px] w-full mb-1"></span>}
 						<span
 							className={`p-3 ${
 								isYams ? 'text-black' : 'hover:bg-slate-800 text-white'

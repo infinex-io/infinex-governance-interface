@@ -15,11 +15,11 @@ export default function TempMemberCard({ council }: Props) {
                 >
                     {council} Seat
                 </span>
-                <div className="text-center w-full">
+                <div className="text-center w-full flex flex-col items-center">
                     <h5 className="tg-title-h5 capitalize">
                         0x000...DEaD
                     </h5>
-                    <hr className="color-slate-800 w-full my-5 bg-slate-800" />
+			        <span className="bg-slate-800 h-[1px] w-full my-5"></span>
                     <div className="text-slate-100 text-sm">To be filled</div>
                 </div>
             </div>
