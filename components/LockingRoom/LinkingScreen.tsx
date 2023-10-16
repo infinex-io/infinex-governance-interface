@@ -213,7 +213,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	return (
 		<div
 			className={classNames(
-				'animation-appear animation-delay-1 p-8 flex flex-col grow relative justify-center items-center bg-primary-light gap-5 text-black',
+				'2xl:pt-[30%] md:pt-[15%] pt-[10%] animation-appear animation-delay-1 p-8 flex flex-col grow relative items-center bg-primary-light gap-5 text-black',
 				styles.boxIndent
 			)}
 			style={{
@@ -236,12 +236,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				</Link>
 			)} */}
 			{/* Icon (Link || completion || waiting(add spinner)) */}
-			{(status === 'none' || status === 'linking') && <LinkIcon />}
+			{(status === 'none' || status === 'linking') && <div className="h-8 flex items-center justify-center"><LinkIcon /></div>}
 			{status === 'processing' && <Progress />}
 			{status === 'completed' && <CompleteIcon />}
 
 			{/* Title (link) */}
-			<h1 className="tg-title-h1 text-black text-5xl font-black">
+			<h1 className="tg-title-h1 text-black text-5xl font-bold">
 				{status === 'none' || status === 'linking' ? `Link to ${room ? idToRead : ''}` : ''}
 				{status === 'loading' ? '' : ''}
 				{status === 'waiting' ? 'Processing your volume' : ''}

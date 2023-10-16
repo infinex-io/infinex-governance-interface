@@ -86,7 +86,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	if (!councilInfo)
 		return (
 			<div
-				className="min-w-[90vw] xs:min-w-fit p-0.5 bg-slate-700 xs:w-[248px] w-full max-w-full h-[347px] rounded"
+				className="min-w-[90vw] xs:min-w-fit p-0.5 bg-slate-700 xs:w-[248px] w-full max-w-full h-[400px] rounded"
 				data-testid="loading-state"
 			>
 				<div className="h-full darker-60 animate-pulse"></div>
@@ -102,12 +102,12 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<div className="flex items-center justify-center my-3">
 				<Image alt={council} src={image} width={35} height={70} />
 			</div>
-			<h4 className="tg-title-h4 text-center m-2" data-testid={`council-headline-${council}`}>
-				<div className="mb-1">{t(`landing-page.cards.${council}`)}</div>
+			<h4 className="font-black text-xl text-center m-2 leading-tight" data-testid={`council-headline-${council}`}>
+				<div>{t(`landing-page.cards.${council}`)}</div>
 				<div>{council === 'ecosystem' ? 'Seats' : 'Seat'}</div>
 			</h4>
 			<span
-				className={`${color} p-2 rounded font-medium text-xs text-center my-2 w-fit self-center`}
+				className={`${color} p-2 rounded font-bold text-xs text-center my-2 w-fit self-center`}
 				data-testid="cta-text"
 			>
 				{t(cta)}
@@ -117,7 +117,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<TimerMock />
 					:
 					<Timer
-						className="text-slate-100 tg-body-bold mx-auto"
+						className="text-slate-100 font-bold text-lg mx-auto"
 						expiryTimestamp={nominationDates?.nominationPeriodEndDate}
 						data-testid="nomination-timer"
 					/>
@@ -128,22 +128,22 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					<TimerMock />
 					:
 					<Timer
-						className="text-slate-100 tg-body-bold mx-auto"
+						className="text-slate-100 font-bold text-lg mx-auto"
 						expiryTimestamp={votingDates?.votingPeriodEndDate}
 						data-testid="voting-timer"
 					/>
 			)}
 			<span className="bg-slate-800 h-[1px] w-full mb-1"></span>
 			<div className="flex justify-between">
-				<span className="tg-caption text-slate-100" data-testid="headline-left">
+				<span className="font-bold text-xs text-slate-100" data-testid="headline-left">
 					{t(headlineLeft)}
 				</span>
-				<span className="tg-caption text-slate-100" data-testid="headline-right">
+				<span className="font-bold text-xs text-slate-100" data-testid="headline-right">
 					{t(headlineRight)}
 				</span>
 			</div>
 			<div className="flex justify-between">
-				<h4 className="text-xl text-slate-0 font-bold">
+				<h4 className="text-lg text-slate-0 font-bold">
 					{period === 'NOMINATION' || period === 'VOTING' ? (
 						nomineesCount !== undefined ? (
 							nomineesCount
@@ -156,7 +156,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						<TextLoader text="1000" />
 					)}
 				</h4>
-				<h4 className="text-xl text-slate-0 font-bold">
+				<h4 className="text-lg text-slate-0 font-bold">
 					{voteCount.data || (
 						<TextLoader text="1000" />
 					)}

@@ -35,7 +35,7 @@ export const Button = ({
 	const buttonIconClassname = icon ? styles.icon : '';
 	return (
 		<div>
-			<button {...props} className={buttonClass}>
+			<button {...props} className={classNames("text-xs", buttonClass)}>
 				{loading ? (
 					<>
 						<svg aria-hidden="true" className="w-3 h-3 mr-2 text-slate-900 animate-spin fill-slate-400" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

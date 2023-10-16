@@ -96,7 +96,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	return (
 		<div
 			className={classNames(
-				'animation-appear animation-delay-1 p-8 grow flex flex-col justify-center items-center bg-primary-light gap-5 text-black',
+				'2xl:pt-[30%] md:pt-[15%] pt-[10%] animation-appear animation-delay-1 p-8 grow flex flex-col items-center bg-primary-light gap-5 text-black',
 				styles.boxIndent
 			)}
 			style={{
@@ -107,7 +107,7 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		>
 			{/* Icon */}
 			{status === 'completed' ? (
-				<LockIcon width={26} height={35} />
+				<div className="h-8 flex items-center justify-center"><LockIcon width={26} height={35} /></div>
 			) : (
 				<CompleteIcon width={33} height={33} />
 			)}
