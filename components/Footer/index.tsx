@@ -27,38 +27,41 @@ export default function Footer() {
 	}, [asPath]);
 
 	return (
-		<footer
-			className={`${
-				isYams ? 'bg-primary-light text-slate-1000' : 'border-t border-slate-800 text-slate-500'
-			} 
-		flex justify-between items-center px-3 sm:px-10 pt-4 pb-6`}
-		>
-			<Link
-				href="https://docs.infinex.io/governance/elections-and-voting/governance-farming"
-				target="_blank"
-				className="flex items-center gap-2 text-xs font-semibold"
+		<div>
+			<div className={`pb-12 ${isYams ? '' : 'bg-background-dark'}`}></div>
+			<footer
+				className={`${
+					isYams ? 'bg-primary-light text-slate-1000' : 'border-t border-slate-800 text-slate-500'
+				} 
+			flex justify-between items-center px-3 sm:px-10 pt-3 pb-6`}
 			>
-				Farming Docs
-				<UpRightArrow fill={fill} />
-			</Link>
+				<Link
+					href="https://docs.infinex.io/governance/elections-and-voting/governance-farming"
+					target="_blank"
+					className="flex items-center gap-2 text-xs font-semibold"
+				>
+					Farming Docs
+					<UpRightArrow fill={fill} />
+				</Link>
 
-			{!isYams && (
-				<p className="flex items-center text-xs font-semibold ml-3 text-slate-800">
-					Not forked from Synthetix
-				</p>
-			)}
+				{!isYams && (
+					<p className="flex items-center text-xs font-semibold ml-3 text-slate-800">
+						Not forked from Synthetix
+					</p>
+				)}
 
-			<div className="flex gap-4 items-center">
-				<Link href="https://discord.gg/infinex" passHref rel="noreferrer" target="_blank">
-					<DiscordIcon fill={fill} />
-				</Link>
-				<Link href="https://twitter.com/infinex_app" passHref rel="noreferrer" target="_blank">
-					<TwitterIcon fill={fill} />
-				</Link>
-				<Link href="http://mirror.xyz/infinex.eth" passHref rel="noreferrer" target="_blank">
-					<MirrorIcon fill={fill} />
-				</Link>
-			</div>
-		</footer>
+				<div className="flex gap-4 items-center">
+					<Link href="https://discord.gg/infinex" passHref rel="noreferrer" target="_blank">
+						<DiscordIcon fill={fill} />
+					</Link>
+					<Link href="https://twitter.com/infinex_app" passHref rel="noreferrer" target="_blank">
+						<TwitterIcon fill={fill} />
+					</Link>
+					<Link href="http://mirror.xyz/infinex.eth" passHref rel="noreferrer" target="_blank">
+						<MirrorIcon fill={fill} />
+					</Link>
+				</div>
+			</footer>
+		</div>
 	);
 }

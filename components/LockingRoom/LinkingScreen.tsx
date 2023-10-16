@@ -86,8 +86,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setVolume(
 					Number(
 						// Combine Binance futures and spot
-						Number(userFarmingQuery.data.volume['binance']) +
-							Number(userFarmingQuery.data.volume['binancecoinm'])
+						Number(userFarmingQuery.data.volume['binance']) 
+							+
+						Number((userFarmingQuery.data.volume['binancecoinm'] || 0))
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
