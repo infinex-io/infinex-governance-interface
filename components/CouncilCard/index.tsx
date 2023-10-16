@@ -86,7 +86,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	if (!councilInfo)
 		return (
 			<div
-				className="min-w-[90vw] xs:min-w-fit p-0.5 bg-slate-700 xs:w-[248px] w-full max-w-full h-[347px] rounded"
+				className="min-w-[90vw] xs:min-w-fit p-0.5 bg-slate-700 xs:w-[248px] w-full max-w-full h-[400px] rounded"
 				data-testid="loading-state"
 			>
 				<div className="h-full darker-60 animate-pulse"></div>
