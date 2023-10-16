@@ -128,13 +128,16 @@ const LockingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 			{/* description */}
 			<p className="animation-appear text-sm font-medium text-center max-w-sm">
-				{status === 'completed' ? (
+				{status === 'completed' && (
 					<span className="animation-appear">You&apos;ve successfully locked your tokens.</span>
-				) : (
+				)}
+				{status !== 'completed' && status !== 'locking' && (
 					<span className="animation-appear">
-						In order to farm governance points, you must commit not to move these tokens. 
+						You can farm governance points by signing a message to prove the balance of {room.token}{' '}
+						in your wallet.
 						<div className="my-1" />
-						The tokens will remain in your wallet but if you move these tokens during the governance farming period, your voting power will stop compounding.
+						This action will not move the tokens from your wallet, but if your balance drops below
+						your locked amount during the farming period, you will cease farming points.
 					</span>
 				)}
 				{roomData.extra_details && status !== 'completed' && status !== 'locked' && (
