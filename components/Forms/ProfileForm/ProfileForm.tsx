@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { GetUserDetails } from 'queries/boardroom/useUserDetailsQuery';
 import { Button } from 'components/button';
 import { useForm } from './ProfileForm.hook';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type ProfileFormProps = {
 	userProfile?: GetUserDetails;
@@ -13,7 +13,7 @@ type ProfileFormProps = {
 export const ProfileForm: React.FC<ProfileFormProps> = ({ userProfile, setIsOpen }) => {
 	const { formik, isLoading, errors, isSuccess} = useForm(userProfile);
 	const { t } = useTranslation();
-	
+
 	useEffect(() => {
 		if (isSuccess) setIsOpen(false)
 	}, [isSuccess])

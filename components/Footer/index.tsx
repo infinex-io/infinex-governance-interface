@@ -36,7 +36,7 @@ export default function Footer() {
 			<Link
 				href="https://docs.infinex.io/governance/elections-and-voting/governance-farming"
 				target="_blank"
-				className="flex items-center gap-3 text-sm"
+				className="flex items-center gap-2 text-xs font-semibold"
 			>
 				Farming Docs
 				<UpRightArrow fill={fill} />

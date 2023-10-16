@@ -11,7 +11,7 @@ export default function LandingPage() {
 		<>
 			<div className="flex flex-col p-3 pt-12">
 				<h1 className="tg-title-h1 text-center">{t('landing-page.headline')}</h1>
-				<span className="tg-content text-slate-200 text-center pt-[8px]">
+				<span className="text-sm text-slate-200 text-center pt-[8px]">
 					{t('landing-page.subline')}
 				</span>
 				<div className="flex flex-col align-center justify-center">

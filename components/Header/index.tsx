@@ -35,7 +35,7 @@ const routesDic = [
 	{ label: 'header.routes.home', link: '' },
 	{ label: 'header.routes.councils', link: 'councils' },
 	{ label: 'header.routes.vote', link: 'vote' },
-	// { label: 'header.routes.farming', link: 'farming' },
+	{ label: 'header.routes.farming', link: 'farming' },
 ];
 
 export default function Header() {
@@ -97,7 +97,7 @@ export default function Header() {
 						<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
 							<Button
 								variant="nav"
-								className={`last-of-type:mr-auto text-[0.8rem] font-semibold
+								className={`last-of-type:mr-auto text-xs font-semibold
 								${navStyling(route)}`}
 								onClick={() => setBurgerMenuOpen(false)}
 								key={route.label}
@@ -117,9 +117,9 @@ export default function Header() {
 			>
 				{!burgerMenuOpen ? (
 					<>
-						<span className="min-w-[24px] h-[2px] bg-white m-[2px] rounded"></span>
-						<span className="min-w-[24px] h-[2px] bg-white m-[2px] rounded"></span>
-						<span className="min-w-[24px] h-[2px] bg-white m-[2px] rounded"></span>
+						<span className={`min-w-[24px] h-[2px] ${isYams ? "bg-black" : "bg-white"} m-[2px] rounded`}></span>
+						<span className={`min-w-[24px] h-[2px] ${isYams ? "bg-black" : "bg-white"} m-[2px] rounded`}></span>
+						<span className={`min-w-[24px] h-[2px] ${isYams ? "bg-black" : "bg-white"} m-[2px] rounded`}></span>
 					</>
 				) : (
 					<svg
@@ -131,14 +131,14 @@ export default function Header() {
 					>
 						<path
 							d="M9 9L27 27"
-							stroke="white"
+							stroke={isYams ? "black" : "white"}
 							strokeWidth="2"
 							strokeMiterlimit="10"
 							strokeLinecap="round"
 						/>
 						<path
 							d="M27 9L9 27"
-							stroke="white"
+							stroke={isYams ? "black" : "white"}
 							strokeWidth="2"
 							strokeMiterlimit="10"
 							strokeLinecap="round"
@@ -147,7 +147,7 @@ export default function Header() {
 				)}
 			</button>
 			{burgerMenuOpen && (
-				<div className="fixed w-full h-full z-100 bg-slate-1000 top-[65px] left-0 py-4 animation-appear">
+				<div className={`fixed w-full h-full z-100 ${isYams ? "bg-primary-light" : 'bg-slate-1000'} top-[65px] left-0 py-4 animation-appear`}>
 					<div className="flex flex-col items-center">
 						{routes.map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
@@ -157,8 +157,8 @@ export default function Header() {
 									${
 										(asPath.includes(`${route.link}`) && route.link !== '') ||
 										(route.link === '' && route.link.concat('/') === asPath)
-											? 'border-b border-primary'
-											: 'text-slate-400'
+											? (`border-b border-primary ${isYams ? 'text-black': ''}`)
+											: isYams ? "text-slate-600" : "text-slate-500"
 									}`}
 									onClick={() => setBurgerMenuOpen(false)}
 									key={route.label}
@@ -177,7 +177,7 @@ export default function Header() {
 				className={classNames(
 					`${
 						isYams ? 'bg-slate-1000 rounded-3xl' : '!bg-slate-900 !border-slate-300 !text-white'
-					} whitespace-nowrap text-[0.8rem] hidden sm:block`,
+					} whitespace-nowrap text-xs hidden sm:block`,
 					styles.blackButtonShadow
 				)}
 				variant="outline"
@@ -260,7 +260,7 @@ export default function Header() {
 						triggerElement={
 							<Button
 								className={classNames(
-									`min-w-[142px] flex justify-center items-center text-[0.8rem]
+									`min-w-[142px] flex justify-center items-center text-xs
 							${isYams ? 'bg-primary rounded-3xl text-black' : 'bg-slate-900'}`,
 									isYams ? styles.primaryButtonShadow : ''
 								)}
