@@ -39,7 +39,6 @@ function useUserDetailsQuery(walletAddress: string) {
 		},
 		{
 			enabled: walletAddress !== null,
-			staleTime: 900000,
 		}
 	);
 }

@@ -35,7 +35,7 @@ const routesDic = [
 	{ label: 'header.routes.home', link: '' },
 	{ label: 'header.routes.councils', link: 'councils' },
 	{ label: 'header.routes.vote', link: 'vote' },
-	// { label: 'header.routes.farming', link: 'farming' },
+	{ label: 'header.routes.farming', link: 'farming' },
 ];
 
 export default function Header() {
@@ -117,9 +117,9 @@ export default function Header() {
 			>
 				{!burgerMenuOpen ? (
 					<>
-						<span className="min-w-[24px] h-[2px] bg-black m-[2px] rounded"></span>
-						<span className="min-w-[24px] h-[2px] bg-black m-[2px] rounded"></span>
-						<span className="min-w-[24px] h-[2px] bg-black m-[2px] rounded"></span>
+						<span className="min-w-[24px] h-[2px] bg-white m-[2px] rounded"></span>
+						<span className="min-w-[24px] h-[2px] bg-white m-[2px] rounded"></span>
+						<span className="min-w-[24px] h-[2px] bg-white m-[2px] rounded"></span>
 					</>
 				) : (
 					<svg
@@ -147,7 +147,7 @@ export default function Header() {
 				)}
 			</button>
 			{burgerMenuOpen && (
-				<div className="fixed w-full h-full z-100 bg-dark-blue top-[65px] left-0 py-4">
+				<div className="fixed w-full h-full z-100 bg-slate-1000 top-[65px] left-0 py-4 animation-appear">
 					<div className="flex flex-col items-center">
 						{routes.map((route) => (
 							<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
@@ -162,7 +162,11 @@ export default function Header() {
 									}`}
 									onClick={() => setBurgerMenuOpen(false)}
 									key={route.label}
-									label={t(route.label) as string}
+									label={
+										t(route.label) === 'Farming'
+											? `🧑‍🌾  ${String.fromCharCode(160).repeat(1)} Farming`
+											: (t(route.label) as string)
+									}
 								/>
 							</Link>
 						))}
@@ -269,7 +273,7 @@ export default function Header() {
 						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 						contentAlignment="right"
 					>
-						<span
+						{!isYams && <span
 							className={`px-3 ${
 								isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
 							} text-xs cursor-pointer flex items-center`}
@@ -278,11 +282,11 @@ export default function Header() {
 							}}
 						>
 							<div className="mr-5">
-								<ProfileIcon width={18} fill={isYams ? '#ff550099' : '#8B8FA3'} />
+								<ProfileIcon width={18} fill='#8B8FA3' />
 							</div>
 							{t('header.view-profile')}
-						</span>
-						<hr className="my-1" />
+						</span>}
+						{!isYams && <hr className="my-1" />}
 						<span
 							className={`p-3 ${
 								isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
