@@ -57,7 +57,7 @@ export default function MemberCard({
 	console.log(member)
 
 	return (
-		member !== undefined && member.address !== undefined &&
+		member !== undefined && member.address !== undefined ?
 		<div
 			key={member.address.concat(member.about)}
 			className={clsx('p-0.5 rounded-lg', className, {
@@ -114,5 +114,7 @@ export default function MemberCard({
 				</>
 			</div>
 		</div>
+		:
+		<div></div>
 	);
 }
