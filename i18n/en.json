@@ -81,7 +81,7 @@
 	},
 	"councils": {
 		"headline": "Council structure",
-		"subline": "Meet each of the nominees for the new and up and coming elections for the Infinex governing bodies, each responsible for a core aspect of the DAO.",
+		"subline": "Meet each of the nominees for the upcoming Infinex elections.",
 		"nominees": "{{ council }} Seat Nominees",
 		"members": "{{ council }} Seat Members",
 		"view-council": "View Council",
