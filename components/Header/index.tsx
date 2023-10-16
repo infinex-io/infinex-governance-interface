@@ -35,7 +35,7 @@ const routesDic = [
 	{ label: 'header.routes.home', link: '' },
 	{ label: 'header.routes.councils', link: 'councils' },
 	{ label: 'header.routes.vote', link: 'vote' },
-	{ label: 'header.routes.farming', link: 'farming' },
+	// { label: 'header.routes.farming', link: 'farming' },
 ];
 
 export default function Header() {
@@ -273,19 +273,21 @@ export default function Header() {
 						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
 						contentAlignment="right"
 					>
-						{!isYams && <span
-							className={`px-3 ${
-								isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
-							} text-xs cursor-pointer flex items-center`}
-							onClick={() => {
-								push('/profile/' + walletAddress);
-							}}
-						>
-							<div className="mr-5">
-								<ProfileIcon width={18} fill='#8B8FA3' />
-							</div>
-							{t('header.view-profile')}
-						</span>}
+						{!isYams && (
+							<span
+								className={`px-3 ${
+									isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
+								} text-xs cursor-pointer flex items-center`}
+								onClick={() => {
+									push('/profile/' + walletAddress);
+								}}
+							>
+								<div className="mr-5">
+									<ProfileIcon width={18} fill="#8B8FA3" />
+								</div>
+								{t('header.view-profile')}
+							</span>
+						)}
 						{!isYams && <hr className="my-1" />}
 						<span
 							className={`p-3 ${
