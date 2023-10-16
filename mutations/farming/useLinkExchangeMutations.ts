@@ -46,9 +46,7 @@ function useLinkExchangeMutations() {
                return response.json();
 
             } catch (error: Error | any) {
-
-                throw new Error(error);
-                
+                throw new Error(error.message);
             }
         }
     );
