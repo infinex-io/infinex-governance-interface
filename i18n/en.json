@@ -18,8 +18,8 @@
 		"terms": "Terms of Use"
 	},
 	"landing-page": {
-		"headline": "Governing Bodies",
-		"subline": "The Infinex Council is comprised of 5 seats, each responsible for a core aspect of a DAO",
+		"headline": "Infinex Council",
+		"subline": "The Infinex Council is comprised of five seats covering four roles, each responsible for a core aspect of the DAO",
 		"second-headline": "Infinex Governance",
 		"second-subline": "Find links to each core component of the Infinex Governance System",
 		"tabs-headline": "Current Members",
@@ -81,7 +81,7 @@
 	},
 	"councils": {
 		"headline": "Council structure",
-		"subline": "Meet each of the nominees for the new and up and coming elections for the Infinex governing bodies, each responsible for a core aspect of the DAO.",
+		"subline": "Meet each of the nominees for the upcoming Infinex elections.",
 		"nominees": "{{ council }} Seat Nominees",
 		"members": "{{ council }} Seat Members",
 		"view-council": "View Council",
