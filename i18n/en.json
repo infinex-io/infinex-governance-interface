@@ -106,34 +106,34 @@
 			"tc": "Treasury Seat",
 			"explanations": {
 				"tr": {
-					"subline": "The Trader seat will be responsible for representing the interests of the broader CeFi and DeFi ecosystem, particularly centralized exchange traders. Their inclusion ensures that the spectrum of opinions within the crypto ecosystem is more fully represented in decisions made by the Infinex Council.",
-					"election": "Trader Election",
+					"subline": "The Trader seat represents the interests of the trader across both CeFi and DeFi, external to the Synthetix community. This seat is voted in solely by participants in governance farming to establish diversity and unification in Infinex governance.",
+					"election": "Trader Representation",
 					"members": "{{count}} councillor",
-					"stipends": "Stipends/Month",
+					"stipends": "Monthly stipend",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Trade Election:"
 				},
 				"ec": {
-					"subline": "The Ecosystem seats will represent the Synthetix community. A councillor in the Ecosystem seat will advocate for the interests of the broader Synthetix ecosystem, and their place on the council is designed to foster alignment of interests among protocols.",
-					"election": "Ecosystem Election",
+					"subline": "The Ecosystem seats represent the interests of the Synthetix community, and are voted in by Synthetix stakers to ensure alignment is maintained with other projects in the ecosystem.",
+					"election": "Ecosystem Representation",
 					"members": "{{count}} councillors",
-					"stipends": "Stipends/Month",
+					"stipends": "Monthly stipend",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Ecosystem Election:"
 				},
 				"cc": {
-					"subline": "The CC seat will represent the Core Contributors of Infinex, which seeks to ensure that there is always a voice on the council with a deep understanding of the protocol's existing implementations.",
-					"election": "Core Contributor Election",
+					"subline": "The CC seat represents the Core Contributors of Infinex, ensuring an understanding of the protocols implementation exists on the council.",
+					"election": "Core Contributor Representation",
 					"members": "{{count}} councillor",
-					"stipends": "Stipends/Month",
+					"stipends": "Monthly stipend",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Core Contributor Election:"
 				},
 				"tc": {
-					"subline": "The Treasury seat will be responsible for managing the treasury and will use funds to bootstrap the project and ensure its long-term sustainability.",
-					"election": "Treasury Election",
+					"subline": "The Treasury seat will be responsible for managing the treasury funds to bootstrap the project and preserve its long-term sustainability.",
+					"election": "Treasury Representation",
 					"members": "{{count}} councillor",
-					"stipends": "Stipends/Month",
+					"stipends": "Monthly stipend",
 					"amount": "{{amount}} SNX",
 					"nextElection": "Next Treasury Election:"
 				}

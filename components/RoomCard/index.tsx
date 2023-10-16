@@ -35,7 +35,7 @@ export default function RoomCard({ name, description, emoji, exchange_id, token 
 				<p className="w-full text-center text-sm font-medium text-slate-800 mt-1 mb-[-2px]">
 					{description?.split('\\n')[0]}
 				</p>
-				<p className="w-full text-center text-sm font-medium text-slate-800 mt-1">
+				<p className="w-full text-center text-sm font-medium text-slate-800">
 					{description?.split('\\n')[1]}
 				</p>
 			</div>
@@ -45,7 +45,7 @@ export default function RoomCard({ name, description, emoji, exchange_id, token 
 					styles.primaryButtonShadow
 				)}
 			>
-				Select
+				Earn voting power
 			</button>
 		</div>
 	);
