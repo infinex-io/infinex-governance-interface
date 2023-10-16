@@ -33,8 +33,8 @@ export default function Footer() {
 			} 
 		flex justify-between items-center px-3 sm:px-10 pt-3 pb-6`}
 		>
-			<Link href="https://infinex.io/" target="_blank" className="flex items-center gap-3 text-sm">
-				Infinex App
+			<Link href="https://docs.infinex.io/" target="_blank" className="flex items-center gap-3 text-sm">
+				Infinex Docs
 				<UpRightArrow fill={fill} />
 			</Link>
 			<div className="flex gap-4 items-center">
