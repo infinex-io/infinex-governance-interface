@@ -54,7 +54,6 @@ export default function MemberCard({
 
 	if (!userDetailsQuery.data) return null;
 	const member = userDetailsQuery.data;
-	console.log(member)
 
 	return (
 		member !== undefined && member.address !== undefined ?
