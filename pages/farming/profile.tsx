@@ -13,10 +13,11 @@ import { Button } from 'components/button';
 import PiggBankIcon from 'components/Icons/PiggyBankIcon';
 import LinkIcon from 'components/Icons/LinkIcon';
 import { useTimer } from 'react-timer-hook';
+import { useConnectorContext } from 'containers/Connector';
 
 export default function Profile() {
 	const { push } = useRouter();
-	const address = null; // '0x123-todo';
+	const { isWalletConnected } = useConnectorContext();
 
 	// const exchangeIdsLowercased = rooms.map(room => room.exchange_id.toLowerCase());
 
@@ -273,7 +274,7 @@ export default function Profile() {
 				{/* Table */}
 				<div
 					className={classNames(
-						'animation-appear hidden rounded-3xl sm:table text-center container py-3 text-lg',
+						`animation-appear hidden rounded-3xl sm:table text-center container py-3 text-lg ${isWalletConnected ? "!block" : "!hidden"}`,
 						styles.boxIndent
 					)}
 				>
