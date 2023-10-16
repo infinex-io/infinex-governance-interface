@@ -33,7 +33,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			try {
 				time = JSON.parse(localStorage.getItem(`last${room.name}SubmissionTime`) || '');
 			} catch (error) {
-				setCanRetry(true)
+				setCanRetry(true);
 				console.log(error);
 			}
 		if (time) {
@@ -69,7 +69,6 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 		const exchangeKey = room.exchange_id.toLowerCase();
 
-
 		if (userFarmingQuery.isLoading) {
 			setStatus('loading');
 		}
@@ -88,7 +87,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['binance']) +
-						Number(userFarmingQuery.data.volume['binancecoinm'])
+							Number(userFarmingQuery.data.volume['binancecoinm'])
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
@@ -96,7 +95,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['gmx_arbitrum']) +
-						Number(userFarmingQuery.data.volume['gmx_avalanche'])
+							Number(userFarmingQuery.data.volume['gmx_avalanche'])
 					)
 				);
 				linkStatus = userFarmingQuery.data.volume[`gmx_status`];
@@ -162,15 +161,13 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 						} else {
 							toast.error(JSON.stringify(error));
 						}
-					} 
-					else if (!data.message.success) {
+					} else if (!data.message.success) {
 						setStatus('linking');
 						setLoading(false);
 						if (data?.message.message) {
 							toast.error(JSON.stringify(data.message.message).replaceAll('"', ''));
 						}
-					}
-					else {
+					} else {
 						setStatus('waiting');
 						setLoading(false);
 						userFarmingQuery.refetch();
@@ -216,7 +213,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 
 			{/* Title (link) */}
 			<h1 className="tg-title-h1 text-black text-5xl font-black">
-				{status === 'none' || status === 'linking' ? `Link to ${room ? room.exchange_id : ''}` : ''}
+				{status === 'none' || status === 'linking'
+					? `Link to ${room ? (room.exchange_id === 'Spot Dex' ? 'AMMs' : room.exchange_id) : ''}`
+					: ''}
 				{status === 'loading' ? '' : ''}
 				{status === 'waiting' ? 'Processing your volume' : ''}
 				{status === 'completed' ? 'Linked' : ''}
@@ -236,7 +235,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
 						<div className="mb-1">
-							This may have occurred due to invalid keys, submitting the same keys via another account, or recent submissions from another account.
+							This may have occurred due to invalid keys, submitting the same keys via another
+							account, or recent submissions from another account.
 						</div>
 						<div className="flex flex-col justify-center items-center">
 							In order to prevent spam, you can retry in:
@@ -262,7 +262,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				)}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
 				{status === 'completed' &&
-					`Your ${room.dex ? 'decentralised ' : ''
+					`Your ${
+						room.dex ? 'decentralised ' : ''
 					}trading volume has been calculated and attached to your address.`}
 			</h2>
 			{/* Link button (hide when linking) */}
