@@ -75,6 +75,25 @@ export default function Profile() {
 		}
 		return `${seconds} second${seconds > 1 ? 's' : ''}`;
 	}
+	function formatTimeRemaining2() {
+		const { days, hours, minutes, seconds } = timeRemaining;
+		let results = [];
+
+		if (days > 0) {
+			results.push(`${days} day${days > 1 ? 's' : ''}`);
+		}
+		if (hours > 0) {
+			results.push(`${hours} hour${hours > 1 ? 's' : ''}`);
+		}
+		if (minutes > 0) {
+			results.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+		}
+		if (seconds > 0) {
+			results.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
+		}
+
+		return results.join(', ');
+	}
 
 	const poolBoxes = (
 		<div className="animation-appear animation-delay-1 grid md:grid-cols-2 grid-cols-1 gap-4 w-full container px-0">
@@ -86,41 +105,43 @@ export default function Profile() {
 						let userTotalRaw = 0;
 						let numUsersInPool = 0;
 						let numPointsInPool = 0;
-						
+
 						let exchangeId = room.exchange_id.toLowerCase();
 
-						let isLinked = (userTotals[`${exchangeId}_raw`] ? true : false)
-						let isStaked = (userTotals[`${room.token}_raw`] ? true : false)
+						let isLinked = userTotals[`${exchangeId}_raw`] ? true : false;
+						let isStaked = userTotals[`${room.token}_raw`] ? true : false;
 
 						// Map room to snx data
 						if (room.exchange_id.toLowerCase() === 'snx') {
 							exchangeId = 'synthetix_optimism';
 						}
 
-
 						// USER TOTAL GOV POINTS FOR ROOM
 						userTotal =
-							(userTotals[exchangeId] ? userTotals[exchangeId] : 0) 
-								+
+							(userTotals[exchangeId] ? userTotals[exchangeId] : 0) +
 							(userTotals[room.token] ? userTotals[room.token] : 0);
 
-
 						// USER TOTAL GOV POINTS FOR ROOM PRE TIMEWEIGHT (inflation)
-						userTotalRaw = 
-							(userTotals[`${exchangeId}_raw`] ? userTotals[`${exchangeId}_raw`] : 0)
-							 	+
+						userTotalRaw =
+							(userTotals[`${exchangeId}_raw`] ? userTotals[`${exchangeId}_raw`] : 0) +
 							(userTotals[`${room.token}_raw`] ? userTotals[`${room.token}_raw`] : 0);
 
 						// NUMBER OF USERS IN THE POOL
-						numUsersInPool = 
-							(platformTotals[`${exchangeId}_user_count`] ? platformTotals[`${exchangeId}_user_count`] : 0) 
-								+ 
-							(platformTotals[`${room.token}_user_count`] ? platformTotals[`${room.token}_user_count`] : 0);
-				
-						numPointsInPool = 
-							(platformTotals[`${exchangeId}_total_points`] ? platformTotals[`${exchangeId}_total_points`] : 0)
-								+ 
-							(platformTotals[`${room.token}_total_points`] ? platformTotals[`${room.token}_total_points`] : 0);
+						numUsersInPool =
+							(platformTotals[`${exchangeId}_user_count`]
+								? platformTotals[`${exchangeId}_user_count`]
+								: 0) +
+							(platformTotals[`${room.token}_user_count`]
+								? platformTotals[`${room.token}_user_count`]
+								: 0);
+
+						numPointsInPool =
+							(platformTotals[`${exchangeId}_total_points`]
+								? platformTotals[`${exchangeId}_total_points`]
+								: 0) +
+							(platformTotals[`${room.token}_total_points`]
+								? platformTotals[`${room.token}_total_points`]
+								: 0);
 
 						// Calculate spot dex features
 						if (room.exchange_id.toLowerCase() === 'spot dex') {
@@ -133,7 +154,7 @@ export default function Profile() {
 							// sum user totals
 							userTotal = nonRawKeys.reduce((acc, key) => {
 								// Label them as linked
-								isLinked =  true
+								isLinked = true;
 								return acc + dexEntries[key];
 							}, 0);
 
@@ -179,16 +200,23 @@ export default function Profile() {
 									</div>
 									<h2 className="text-lg font-bold mt-3">{room.name}</h2>
 
-									
 									<div className="flex gap-3">
-										{ isStaked ? <span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
-											<PiggBankIcon width={16} />
-											Locked
-										</span> : ""}
-										{ isLinked ? <span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
-											<LinkIcon width={17} />
-											Linked
-										</span> : ""}
+										{isStaked ? (
+											<span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
+												<PiggBankIcon width={16} />
+												Locked
+											</span>
+										) : (
+											''
+										)}
+										{isLinked ? (
+											<span className="text-xs bg-[#F59260] rounded-3xl p-1 px-3 mt-2 flex items-center justify-center gap-2">
+												<LinkIcon width={17} />
+												Linked
+											</span>
+										) : (
+											''
+										)}
 									</div>
 
 									{/* Data Points */}
@@ -239,18 +267,16 @@ export default function Profile() {
 						styles.boxIndent
 					)}
 				>
-					<div className="table-row">
-						{[
-							'Your governance points',
-							'Active governance farmers',
-							'Time left to farm',
-						].map((heading, index) => (
-							<div key={index} className="table-cell px-4 py-2 font-semibold">
-								{heading}
-							</div>
-						))}
+					<div className="flex">
+						{['Your governance points', 'Active governance farmers', 'Time left to farm'].map(
+							(heading, index) => (
+								<div key={index} className="flex-1 table-cell px-4 py-2 font-semibold">
+									{heading}
+								</div>
+							)
+						)}
 					</div>
-					<div className="table-row">
+					<div className="flex">
 						{[
 							formatNumberWithLocale(userTotals?.total_points) === 'Loading...'
 								? 0
@@ -258,7 +284,7 @@ export default function Profile() {
 							platformTotals?.total_user_count || 0,
 							formatTimeRemaining(),
 						].map((data, index) => (
-							<div key={index} className="table-cell px-4 pb-2">
+							<div key={index} className="flex-1 px-4 pb-2">
 								{data}
 							</div>
 						))}
