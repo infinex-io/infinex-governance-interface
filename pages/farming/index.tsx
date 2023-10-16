@@ -55,7 +55,6 @@ const Farming: NextPage = () => {
 							{isWalletConnected ? (
 								<Link href={`/farming/${room.name}`} key={room.key}>
 									<RoomCard
-										key={room.key}
 										name={room.name}
 										description={room.description}
 										emoji={room.emoji}
@@ -64,9 +63,8 @@ const Farming: NextPage = () => {
 									/>
 								</Link>
 							) : (
-								<div onClick={connectWallet} className="cursor-pointer">
+								<div onClick={connectWallet} className="cursor-pointer" key={room.key}>
 									<RoomCard
-										key={room.key}
 										name={room.name}
 										description={room.description}
 										emoji={room.emoji}

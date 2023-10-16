@@ -3,7 +3,6 @@ import styles from 'styles/yams.module.css';
 import classNames from 'classnames';
 
 interface RoomCard {
-	key: number;
 	name?: string;
 	description?: string;
 	emoji: string;
@@ -11,13 +10,12 @@ interface RoomCard {
 	exchange_id: string;
 }
 
-export default function RoomCard({ key, name, description, emoji, exchange_id, token }: RoomCard) {
+export default function RoomCard({ name, description, emoji, exchange_id, token }: RoomCard) {
 	/* ======================== Hooks ======================== */
 	// const { t } = useTranslation();   w-52 h-72
 
 	return (
 		<div
-			key={key}
 			className={classNames(
 				`flex flex-col justify-between items-center p-8 gap-3 border-[1px] rounded-3xl border-solid 
       border-[#edac8b] border-opacity-40 w-60 h-72`,

@@ -65,6 +65,9 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setCanRetry(true);
 			}
 		}
+		else {
+			setCanRetry(true)
+		}
 	}, [storedTime, status]);
 
 	useEffect(() => {
@@ -229,12 +232,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			{/* description (link your api keys || Your api keys may take some time) */}
 			<h2 className="text-sm font-medium text-black text-center max-w-sm">
 				{(status === 'none' || (room?.dex && status === 'linking')) && 'Link your trading account'}
-				{status === 'waiting' && "We're crunching the numbers – check back later."}
+				{status === 'waiting' && "We're crunching the numbers - check back later."}
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
 						<div className="mb-1">
-							This may have occurred because these keys are invalid, or because they have been
-							submitted via another account.
+							This may have occurred due to invalid keys, submitting the same keys via another account, or recent submissions from another account. 
 						</div>
 						<div className="flex flex-col justify-center items-center">
 							In order to prevent spam, you can retry in:
