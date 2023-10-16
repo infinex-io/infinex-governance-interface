@@ -183,7 +183,10 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		);
 	}
 
-	const idMap = {
+	interface idMapTypes {
+		[key: string]: string;
+	}
+	const idMap : idMapTypes = {
 		'Spot Dex': 'AMMs',
 		SNX: 'Synthetix',
 	};
