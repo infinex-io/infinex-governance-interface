@@ -159,7 +159,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 						setStatus('linking');
 						setLoading(false);
 						if (error?.message) {
-							toast.error(JSON.stringify(error.message));
+							toast.error(JSON.stringify(error.message).replaceAll('"', ''));
 						} else {
 							toast.error(JSON.stringify(error));
 						}
