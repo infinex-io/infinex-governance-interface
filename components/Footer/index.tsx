@@ -31,7 +31,7 @@ export default function Footer() {
 			className={`${
 				isYams ? 'bg-primary-light text-slate-1000' : 'border-t border-slate-800 text-slate-500'
 			} 
-		flex justify-between items-center px-3 sm:px-10 pt-3 pb-6`}
+		flex justify-between items-center px-3 sm:px-10 pt-4 pb-6`}
 		>
 			<Link
 				href="https://docs.infinex.io/governance/elections-and-voting/governance-farming"
@@ -41,6 +41,13 @@ export default function Footer() {
 				Farming Docs
 				<UpRightArrow fill={fill} />
 			</Link>
+
+			{!isYams && (
+				<p className="flex items-center text-xs font-semibold ml-3 text-slate-800">
+					Not forked from Synthetix
+				</p>
+			)}
+
 			<div className="flex gap-4 items-center">
 				<Link href="https://discord.gg/infinex" passHref rel="noreferrer" target="_blank">
 					<DiscordIcon fill={fill} />
