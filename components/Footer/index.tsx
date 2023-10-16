@@ -31,7 +31,7 @@ export default function Footer() {
 			className={`${
 				isYams ? 'bg-primary-light text-slate-1000' : 'border-t border-slate-800 text-slate-500'
 			} 
-		flex justify-between items-center px-3 sm:px-10 pt-3 pb-6`}
+		flex justify-between items-center px-3 sm:px-10 pt-3 pb-6 mt-12`}
 		>
 			<Link
 				href="https://docs.infinex.io/governance/elections-and-voting/governance-farming"
