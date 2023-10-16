@@ -45,8 +45,8 @@ export default function Footer() {
 				</Link>
 
 				{!isYams && (
-					<p className="flex items-center text-xs font-semibold ml-3 text-slate-800">
-						Not forked from Synthetix
+					<p className="flex items-center text-xs font-semibold ml-3 text-slate-900">
+						*Not forked from Synthetix
 					</p>
 				)}
 
