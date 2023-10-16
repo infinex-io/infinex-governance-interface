@@ -35,7 +35,7 @@ const routesDic = [
 	{ label: 'header.routes.home', link: '' },
 	{ label: 'header.routes.councils', link: 'councils' },
 	{ label: 'header.routes.vote', link: 'vote' },
-	// { label: 'header.routes.farming', link: 'farming' },
+	{ label: 'header.routes.farming', link: 'farming' },
 ];
 
 export default function Header() {
