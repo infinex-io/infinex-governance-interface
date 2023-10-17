@@ -12,12 +12,16 @@ import styles from 'styles/yams.module.css';
 import { Button } from 'components/button';
 import PiggBankIcon from 'components/Icons/PiggyBankIcon';
 import LinkIcon from 'components/Icons/LinkIcon';
+import { useTimer } from 'react-timer-hook';
+import { useConnectorContext } from 'containers/Connector';
 
 export default function Profile() {
 	const { push } = useRouter();
-	const address = null; // '0x123-todo';
+	const { isWalletConnected } = useConnectorContext();
 
 	// const exchangeIdsLowercased = rooms.map(room => room.exchange_id.toLowerCase());
+
+	
 
 	const [userTotals, setUserTotals] = useState<any>({});
 	const [platformTotals, setPlatformTotals] = useState<any>({});
@@ -33,67 +37,74 @@ export default function Profile() {
 
 	// Calculate time til farming
 	const targetDate: any = new Date('2023-10-23T14:00:00+11:00'); // Sydney time (UTC+11)
+	const { minutes, hours, days } = useTimer({
+		expiryTimestamp: new Date(targetDate.getTime()),
+		autoStart: true,
+	});
 
-	const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
-
-	useEffect(() => {
-		const intervalId = setInterval(() => {
-			setTimeRemaining(calculateTimeRemaining());
-		}, 1000);
-
-		// Clean up the interval when the component unmounts
-		return () => clearInterval(intervalId);
-	}, []);
-
-	function calculateTimeRemaining() {
-		const currentDate = new Date();
-		const timeDifference = targetDate.getTime() - currentDate.getTime();
-
-		if (timeDifference > 0) {
-			const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-			const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-			const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-			return { days, hours, minutes, seconds };
-		} else {
-			return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-		}
+	const getTime = () => {
+		return `${days}D ${hours}H ${minutes}M`
 	}
+	// const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
 
-	function formatTimeRemaining() {
-		const { days, hours, minutes, seconds } = timeRemaining;
+	// useEffect(() => {
+	// 	const intervalId = setInterval(() => {
+	// 		setTimeRemaining(calculateTimeRemaining());
+	// 	}, 1000);
 
-		if (days > 0) {
-			return `${days} day${days > 1 ? 's' : ''}`;
-		}
-		if (hours > 0) {
-			return `${hours} hour${hours > 1 ? 's' : ''}`;
-		}
-		if (minutes > 0) {
-			return `${minutes} minute${minutes > 1 ? 's' : ''}`;
-		}
-		return `${seconds} second${seconds > 1 ? 's' : ''}`;
-	}
-	function formatTimeRemaining2() {
-		const { days, hours, minutes, seconds } = timeRemaining;
-		let results = [];
+	// 	// Clean up the interval when the component unmounts
+	// 	return () => clearInterval(intervalId);
+	// }, []);
 
-		if (days > 0) {
-			results.push(`${days} day${days > 1 ? 's' : ''}`);
-		}
-		if (hours > 0) {
-			results.push(`${hours} hour${hours > 1 ? 's' : ''}`);
-		}
-		if (minutes > 0) {
-			results.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
-		}
-		if (seconds > 0) {
-			results.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
-		}
+	// function calculateTimeRemaining() {
+	// 	const currentDate = new Date();
+	// 	const timeDifference = targetDate.getTime() - currentDate.getTime();
 
-		return results.join(', ');
-	}
+	// 	if (timeDifference > 0) {
+	// 		const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+	// 		const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	// 		const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+	// 		const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+	// 		return { days, hours, minutes, seconds };
+	// 	} else {
+	// 		return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+	// 	}
+	// }
+
+	// function formatTimeRemaining() {
+	// 	const { days, hours, minutes, seconds } = timeRemaining;
+
+	// 	if (days > 0) {
+	// 		return `${days} day${days > 1 ? 's' : ''}`;
+	// 	}
+	// 	if (hours > 0) {
+	// 		return `${hours} hour${hours > 1 ? 's' : ''}`;
+	// 	}
+	// 	if (minutes > 0) {
+	// 		return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+	// 	}
+	// 	return `${seconds} second${seconds > 1 ? 's' : ''}`;
+	// }
+	// function formatTimeRemaining2() {
+	// 	const { days, hours, minutes, seconds } = timeRemaining;
+	// 	let results = [];
+
+	// 	if (days > 0) {
+	// 		results.push(`${days} day${days > 1 ? 's' : ''}`);
+	// 	}
+	// 	if (hours > 0) {
+	// 		results.push(`${hours} hour${hours > 1 ? 's' : ''}`);
+	// 	}
+	// 	if (minutes > 0) {
+	// 		results.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+	// 	}
+	// 	if (seconds > 0) {
+	// 		results.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
+	// 	}
+
+	// 	return results.join(', ');
+	// }
 
 	const poolBoxes = (
 		<div className="animation-appear animation-delay-1 grid md:grid-cols-2 grid-cols-1 gap-4 w-full container px-0">
@@ -265,7 +276,7 @@ export default function Profile() {
 				{/* Table */}
 				<div
 					className={classNames(
-						'animation-appear hidden rounded-3xl sm:table text-center container py-3 text-lg',
+						`animation-appear hidden rounded-3xl sm:table text-center container py-3 text-lg ${isWalletConnected ? "!block" : "!hidden"}`,
 						styles.boxIndent
 					)}
 				>
@@ -284,7 +295,7 @@ export default function Profile() {
 								? 0
 								: formatNumberWithLocale(userTotals?.total_points),
 							platformTotals?.total_user_count || 0,
-							formatTimeRemaining(),
+							getTime(),
 						].map((data, index) => (
 							<div key={index} className="flex-1 px-4 pb-2">
 								{data}
