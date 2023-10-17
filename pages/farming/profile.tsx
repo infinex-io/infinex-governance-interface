@@ -163,13 +163,15 @@ export default function Profile() {
 								return acc + dexEntries[key];
 							}, 0);
 
-							// Gather num users in pool
-							numUsersInPool = nonRawKeys.reduce((acc, key) => {
-								if (platformTotals[`${key}_user_count`] > 0) {
-									return acc + platformTotals[`${key}_user_count`];
-								}
-								return acc;
-							}, 0);
+							// // Gather num users in pool
+							// numUsersInPool = nonRawKeys.reduce((acc, key) => {
+							// 	if (platformTotals[`${key}_user_count`] > 0) {
+							// 		return acc + platformTotals[`${key}_user_count`];
+							// 	}
+							// 	return acc;
+							// }, 0); // <- this method is not correct
+							// Each user in the farming app is in the DEX pool
+							numUsersInPool = platformTotals?.total_user_count;
 
 							// Gather total num points in pool
 							numPointsInPool = nonRawKeys.reduce((acc, key) => {
@@ -268,7 +270,7 @@ export default function Profile() {
 					)}
 				>
 					<div className="flex">
-						{['Your governance points', 'Active governance farmers', 'Time left to farm'].map(
+						{['Your governance points', 'Governance farmers', 'Time left to farm'].map(
 							(heading, index) => (
 								<div key={index} className="flex-1 table-cell px-4 py-2 font-semibold">
 									{heading}
