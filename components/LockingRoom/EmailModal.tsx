@@ -51,7 +51,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 		const { error } = await supabase.auth.signInWithOtp({
 			email: emailValue,
 			options: {
-				emailRedirectTo: "https://gov.infinex.io/farming",
+				emailRedirectTo: "https://gov.infinex.io/farming?loggedin=true",
 				data: {
 					ref: searchParams.get("ref") === null ? null : translator.toUUID(searchParams.get("ref")!),
 				},

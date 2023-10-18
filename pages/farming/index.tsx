@@ -35,6 +35,7 @@ const Farming: NextPage = () => {
 	const translator = short();
 	const referrer = searchParams.get('ref')
 	const email = searchParams.get('email')
+	const justLoggedIn = searchParams.get('loggedin')
 
 	useEffect(() => {
 		// get ref
@@ -48,6 +49,8 @@ const Farming: NextPage = () => {
 			localStorage.setItem('inf-email', JSON.stringify(email))
 			return;
 		}
+		// if email exists in local storage
+		if (localStorage.getItem('inf-email') !== null && justLoggedIn === null) return;
 
 		supabase.auth.getSession().then(({ data: { session } }) => {
 		 	setSession(session);
@@ -58,8 +61,6 @@ const Farming: NextPage = () => {
 				return;
 			}
 		});
-		// if email exists in local storage
-		if (localStorage.getItem('inf-email') !== null) return;
 		// check if modal has been prompted before
 		if (localStorage.getItem('inf-prompted') === null) {
 			localStorage.setItem('inf-prompted', JSON.stringify(true))
@@ -67,7 +68,7 @@ const Farming: NextPage = () => {
 		else return;
 		// if there is no supabase session, there is no email in local storage, and email does not exist in search params.
 		setModalFarmingIsHidden(false);
-	}, [referrer, email])
+	}, [referrer, email, justLoggedIn])
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
