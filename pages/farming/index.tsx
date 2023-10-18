@@ -56,6 +56,8 @@ const Farming: NextPage = () => {
 			if (session !== null) {
 				localStorage.setItem('inf-email', JSON.stringify(session.user.email))
 				setLoggedIn(`http://gov.infinex.io/farming?ref=${translator.fromUUID(session.user.id)}`);
+				setModalFarmingIsHidden(false);
+				return;
 			}
 		});
 		// check if modal has been prompted before
