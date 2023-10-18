@@ -3,12 +3,12 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 export default function BackOnePageButton() {
-	const { back } = useRouter();
+	const { push } = useRouter();
 	const { t } = useTranslation();
 	return (
 		<div className="md:flex items-center absolute top-[14%] left-[2%] left-1 translate-y-[-50%]">
 			<IconButton
-				onClick={() => back()}
+				onClick={() => push('/farming')}
 				rounded
 				size="sm"
 				style={{background:'rgba(0,0,0,0)', border: 'black solid 0px'}}
