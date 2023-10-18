@@ -29,6 +29,10 @@ const Farming: NextPage = () => {
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
 			<Head>
 				<title>Infinex | Governance Farming</title>
+				<meta
+					property="og:image"
+					content="https://lh3.googleusercontent.com/drive-viewer/AK7aPaCE_y8rdsV8bJjzGkeHTlL8ZhHdTn78UyxmUPiXUCn_WZ1h_clgmeiUbY3DC-OUV20V1uMMDWgWW6IYMPE1xBt_U4JRhg=s1600"
+				/>
 			</Head>
 			<div className="flex flex-col justify-center items-center w-full max-w-xs mx-auto">
 				<Image src={infinexLogoSVG} alt="Infinex Logo" height={53} className="mx-auto" />
