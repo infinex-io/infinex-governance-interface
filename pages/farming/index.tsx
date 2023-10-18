@@ -37,12 +37,6 @@ const Farming: NextPage = () => {
 	const email = searchParams.get('email')
 
 	useEffect(() => {
-		// check if modal has been prompted before
-		if (localStorage.getItem('inf-prompted') === null) {
-			localStorage.setItem('inf-prompted', JSON.stringify(true))
-		}
-		else return;
-
 		// get ref
 		console.log(referrer, "referrer")
 		if (referrer !== null) {
@@ -60,9 +54,15 @@ const Farming: NextPage = () => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 		 	setSession(session);
 			if (session !== null) {
+				localStorage.setItem('inf-email', JSON.stringify(session.user.email))
 				setLoggedIn(`http://gov.infinex.io/farming?ref=${translator.fromUUID(session.user.id)}`);
 			}
 		});
+		// check if modal has been prompted before
+		if (localStorage.getItem('inf-prompted') === null) {
+			localStorage.setItem('inf-prompted', JSON.stringify(true))
+		}
+		else return;
 		// if there is no supabase session, there is no email in local storage, and email does not exist in search params.
 		setModalFarmingIsHidden(false);
 	}, [referrer, email])
