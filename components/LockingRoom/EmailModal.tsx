@@ -32,17 +32,17 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 		setCopied(true);
 	};
 
-	const isValidEmail = (email) => {
+	const isValidEmail = (email : string) => {
 		const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 		return emailRegex.test(email);
 	};
 
-	const handleChange = (e) => {
+	const handleChange = (e : any) => {
 		setEmailValue(e.target.value);
 		setIsDisabled(!isValidEmail(e.target.value));
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e : any) => {
 		e.preventDefault();
 		setIsLoading(true);
 
@@ -53,7 +53,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 			options: {
 				emailRedirectTo: "https://gov.infinex.io/farming",
 				data: {
-					ref: searchParams.get("ref") === null ? null : translator.toUUID(searchParams.get("ref")),
+					ref: searchParams.get("ref") === null ? null : translator.toUUID(searchParams.get("ref")!),
 				},
 			},
 		});
@@ -85,7 +85,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 				alignItems: 'center',
 				justifyContent: 'center',
 			}}
-			onClick={(e) => {
+			onClick={(e : any) => {
 				// close the modal if they click on the container (outside of the form)
 				if (!e.target.className.includes('email-modal-container')) {
 					return;
