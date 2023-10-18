@@ -15,35 +15,50 @@ function useLinkExchangeMutations() {
 
             console.log(linkData);
             try {
-               let body;
+                let body;
 
                 const message = "INFINEX:GOVERNANCE-FARM"
                 const signature = await signer!.signMessage(message);
                 const address = await signer?.getAddress()
-         
-               if (linkData.type === "dex"){
-                  body = {
-                      exchange: "dex",
-                      address_signature: signature,
-                      address
-                  }
-               } else {
-                  body = {
-                      ...linkData,
-                     address_signature: signature,
-                     address
-                  }
-               }
-               const response = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/calculate_volumes`, {
-                  method: 'POST',
-                  body: JSON.stringify(body),
-               });
 
-               if (!response.ok) {
-                  throw new Error('Network response was not ok');
-               }
-               
-               return response.json();
+                if (linkData.type === "dex") {
+                    body = {
+                        exchange: "dex",
+                        address_signature: signature,
+                        address
+                    }
+                } else {
+                    body = {
+                        ...linkData,
+                        address_signature: signature,
+                        address
+                    }
+                }
+                const response = await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/calculate_volumes`, {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const email = localStorage.getItem('inf-email')
+                if (email !== null) {
+                    try {
+                        const body = {
+                            email: email,
+                            address_signature: signature,
+                            address: address
+                        }
+                        await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
+                            method: "POST",
+                            body: JSON.stringify(body),
+                        });
+                    }
+                    catch (error) {
+                        console.error(error)
+                    }
+                }
+                return response.json();
 
             } catch (error: Error | any) {
                 throw new Error(error.message);
