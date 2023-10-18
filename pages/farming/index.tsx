@@ -48,8 +48,6 @@ const Farming: NextPage = () => {
 			localStorage.setItem('inf-email', JSON.stringify(email))
 			return;
 		}
-		// if email exists in local storage
-		if (localStorage.getItem('inf-email') !== null) return;
 
 		supabase.auth.getSession().then(({ data: { session } }) => {
 		 	setSession(session);
@@ -60,15 +58,8 @@ const Farming: NextPage = () => {
 				return;
 			}
 		});
-		supabase.auth.onAuthStateChange((_event, session) => {
-			setSession(session);
-			if (session !== null) {
-				localStorage.setItem('inf-email', JSON.stringify(session.user.email))
-				setLoggedIn(`http://gov.infinex.io/farming?ref=${translator.fromUUID(session.user.id)}`);
-				setModalFarmingIsHidden(false);
-				return;
-			}
-		  });
+		// if email exists in local storage
+		if (localStorage.getItem('inf-email') !== null) return;
 		// check if modal has been prompted before
 		if (localStorage.getItem('inf-prompted') === null) {
 			localStorage.setItem('inf-prompted', JSON.stringify(true))
