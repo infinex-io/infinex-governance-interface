@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
 import { useConnectorContext } from 'containers/Connector';
-import { useModalFarmingContext } from 'containers/ModalFarming';
+import { useModalFarmingContext } from 'containers/EmailModalContext';
 
 function useLinkExchangeMutations() {
 	const { signer } = useConnectorContext();

@@ -1,6 +1,6 @@
 import { createContext, FunctionComponent, PropsWithChildren, useContext, useState } from 'react';
 
-type ModalFarmingContextType = {
+type EmailContextType = {
 	modalFarmingIsHidden: boolean;
 	setModalFarmingIsHidden: (value: boolean) => void;
 	content?: JSX.Element;
@@ -9,19 +9,19 @@ type ModalFarmingContextType = {
 	setSignatureData: (value: any) => void;
 };
 
-const ModalFarmingContext = createContext<unknown>(null);
+const EmailModalContext = createContext<unknown>(null);
 
-export const useModalFarmingContext = () => {
-	return useContext(ModalFarmingContext) as ModalFarmingContextType;
+export const useEmailModalContext = () => {
+	return useContext(EmailModalContext) as EmailContextType;
 };
 
-export const ModalFarmingContextProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
-	const [modalFarmingIsHidden, setModalFarmingIsHidden] = useState(true);
+export const EmailModalContextProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
+	const [modalFarmingIsHidden, setModalFarmingIsHidden] = useState(false);
 	const [signatureData, setSignatureData] = useState({});
 	const [content, setContent] = useState<JSX.Element | undefined>(undefined);
 
 	return (
-		<ModalFarmingContext.Provider
+		<EmailModalContext.Provider
 			value={{
 				modalFarmingIsHidden,
 				setModalFarmingIsHidden,
@@ -32,6 +32,6 @@ export const ModalFarmingContextProvider: FunctionComponent<PropsWithChildren> =
 			}}
 		>
 			{children}
-		</ModalFarmingContext.Provider>
+		</EmailModalContext.Provider>
 	);
 };

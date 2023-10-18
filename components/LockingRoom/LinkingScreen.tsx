@@ -15,7 +15,7 @@ import rooms from 'utils/config/rooms';
 import Link from 'next/link';
 import { Timer } from 'components/Timer';
 import EmailModal from './EmailModal';
-import { useModalFarmingContext } from 'containers/ModalFarming';
+import { useModalFarmingContext } from 'containers/EmailModalContext';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */

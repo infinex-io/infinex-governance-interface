@@ -15,7 +15,7 @@ import '../i18n';
 import { ConnectorContextProvider, useConnectorContext } from 'containers/Connector';
 import { ModulesProvider } from 'containers/Modules';
 import { ModalContextProvider, useModalContext } from 'containers/Modal';
-import { ModalFarmingContextProvider, useModalFarmingContext } from 'containers/ModalFarming';
+import { ModalFarmingContextProvider, useModalFarmingContext } from 'containers/EmailModalContext';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
 
 import { ToastContainer } from 'react-toastify';
