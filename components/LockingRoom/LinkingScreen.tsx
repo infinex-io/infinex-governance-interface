@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Progress } from '@chakra-ui/react';
 import styles from 'styles/yams.module.css';
 import LinkIcon from 'components/Icons/LinkIcon';
@@ -14,6 +14,8 @@ import classNames from 'classnames';
 import rooms from 'utils/config/rooms';
 import Link from 'next/link';
 import { Timer } from 'components/Timer';
+import EmailModal from './EmailModal';
+import { useModalFarmingContext } from 'containers/ModalFarming';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */
@@ -86,9 +88,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setVolume(
 					Number(
 						// Combine Binance futures and spot
-						Number(userFarmingQuery.data.volume['binance']) 
-							+
-						Number((userFarmingQuery.data.volume['binancecoinm'] || 0))
+						Number(userFarmingQuery.data.volume['binance']) +
+							Number(userFarmingQuery.data.volume['binancecoinm'] || 0)
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
@@ -134,6 +135,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		}
 	}, [userFarmingQuery.data, userFarmingQuery.isLoading]);
 	/* ================================== functions ================================== */
+
 	async function handleSubmit() {
 		setLoading(true);
 		if (!room.dex && publicKey.length === 0) {
@@ -187,7 +189,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	interface idMapTypes {
 		[key: string]: string;
 	}
-	const idMap : idMapTypes = {
+	const idMap: idMapTypes = {
 		'Spot Dex': 'AMMs',
 		SNX: 'Synthetix',
 	};
@@ -237,7 +239,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				</Link>
 			)} */}
 			{/* Icon (Link || completion || waiting(add spinner)) */}
-			{(status === 'none' || status === 'linking') && <div className="h-8 flex items-center justify-center"><LinkIcon /></div>}
+			{(status === 'none' || status === 'linking') && (
+				<div className="h-8 flex items-center justify-center">
+					<LinkIcon />
+				</div>
+			)}
 			{status === 'processing' && <Progress />}
 			{status === 'completed' && <CompleteIcon />}
 
