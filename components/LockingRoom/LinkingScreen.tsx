@@ -86,9 +86,8 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				setVolume(
 					Number(
 						// Combine Binance futures and spot
-						Number(userFarmingQuery.data.volume['binance']) 
-							+
-						Number((userFarmingQuery.data.volume['binancecoinm'] || 0))
+						Number(userFarmingQuery.data.volume['binance']) +
+							Number(userFarmingQuery.data.volume['binancecoinm'] || 0)
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
@@ -187,7 +186,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	interface idMapTypes {
 		[key: string]: string;
 	}
-	const idMap : idMapTypes = {
+	const idMap: idMapTypes = {
 		'Spot Dex': 'AMMs',
 		SNX: 'Synthetix',
 	};
@@ -237,7 +236,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				</Link>
 			)} */}
 			{/* Icon (Link || completion || waiting(add spinner)) */}
-			{(status === 'none' || status === 'linking') && <div className="h-8 flex items-center justify-center"><LinkIcon /></div>}
+			{(status === 'none' || status === 'linking') && (
+				<div className="h-8 flex items-center justify-center">
+					<LinkIcon />
+				</div>
+			)}
 			{status === 'processing' && <Progress />}
 			{status === 'completed' && <CompleteIcon />}
 
@@ -253,7 +256,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			</h1>
 
 			{status === 'loading' && (
-				<p className="text-black text-sm font-medium">Preparing the room...</p>
+				<p className="text-black text-sm font-medium mt-[17%]">Preparing the room...</p>
 			)}
 
 			{/* description (link your api keys || Your api keys may take some time) */}
@@ -261,7 +264,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				{(status === 'none' || status === 'linking') && <p>{linkingDescription}</p>}
 
 				{(status === 'none' || status === 'linking') && room?.info && (
-					<p className="mt-1">{room.info}</p>
+					<p className="mt-2 italic">{room.info}</p>
 				)}
 
 				{status === 'waiting' && "We're crunching the numbers - check back later."}
