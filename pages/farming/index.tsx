@@ -35,15 +35,20 @@ const Farming: NextPage = () => {
 	const translator = short();
 
 	useEffect(() => {
+		// check if modal has been prompted before
+		// if (localStorage.getItem('inf-email'))
+
 		// get ref
 		const referrer = searchParams.get('ref')
+		console.log(referrer, "referrer")
 		if (referrer !== null) {
-			localStorage.setItem('inf-ref', referrer)
+			localStorage.setItem('inf-ref', JSON.stringify(referrer))
 		}
 		// if email exists in search params (from marketing email, already exists in supabase)
 		const email = searchParams.get('email')
+		console.log(email, "email")
 		if (email !== null) {
-			localStorage.setItem('inf-email', email)
+			localStorage.setItem('inf-email', JSON.stringify(email))
 			return;
 		}
 		// if email exists in local storage
