@@ -19,8 +19,6 @@ export default function Profile() {
 	const { push } = useRouter();
 	const { isWalletConnected } = useConnectorContext();
 
-	// const exchangeIdsLowercased = rooms.map(room => room.exchange_id.toLowerCase());
-
 	
 
 	const [userTotals, setUserTotals] = useState<any>({});

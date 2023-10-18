@@ -15,6 +15,7 @@ import '../i18n';
 import { ConnectorContextProvider, useConnectorContext } from 'containers/Connector';
 import { ModulesProvider } from 'containers/Modules';
 import { ModalContextProvider, useModalContext } from 'containers/Modal';
+import { ModalFarmingContextProvider, useModalFarmingContext } from 'containers/EmailModalContext';
 import { TransactionDialogContextProvider } from '@synthetixio/ui';
 
 import { ToastContainer } from 'react-toastify';
@@ -23,27 +24,39 @@ import Modal from 'components/Modals/Modal';
 import SafeProvider from '@gnosis.pm/safe-apps-react-sdk';
 import { theme } from '@synthetixio/v3-theme';
 import { useRouter } from 'next/router';
+import EmailModal from 'components/LockingRoom/EmailModal';
 
 const queryClient = new QueryClient();
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
+	const { modalFarmingIsHidden, setModalFarmingIsHidden, signatureData, loggedIn } = useModalFarmingContext();
 	const { L2DefaultProvider, signer } = useConnectorContext();
 	const TheComponent = Component as any;
-	const { asPath } = useRouter()
+	const { asPath } = useRouter();
 
 	return (
 		<ModulesProvider>
 			<TransactionDialogContextProvider provider={signer?.provider || L2DefaultProvider}>
 				<SafeProvider>
 					<Modal open={isOpen} modalContent={content}>
+						<EmailModal
+							hidden={modalFarmingIsHidden}
+							setHidden={setModalFarmingIsHidden}
+							signature={signatureData.signature}
+							address={signatureData.address}
+							loggedIn={loggedIn}
+						/>
 						<div className="min-h-screen flex flex-col justify-between">
 							<Header />
 							<TheComponent {...pageProps} />
 							<Footer />
 							<style jsx global>{`
-								body, html {
-									background: ${asPath.includes('farming') ? "#ffcfb6 !important" : "#05060A !important"};
+								body,
+								html {
+									background: ${asPath.includes('farming')
+										? '#ffcfb6 !important'
+										: '#05060A !important'};
 								}
 							`}</style>
 						</div>
@@ -61,9 +74,11 @@ const App: FC<AppProps> = (props) => {
 			<ConnectorContextProvider>
 				<QueryClientProvider client={queryClient}>
 					<ReactQueryDevtools initialIsOpen={false} />
-					<ModalContextProvider>
-						<InnerApp {...props} />
-					</ModalContextProvider>
+					<ModalFarmingContextProvider>
+						<ModalContextProvider>
+							<InnerApp {...props} />
+						</ModalContextProvider>
+					</ModalFarmingContextProvider>
 				</QueryClientProvider>
 			</ConnectorContextProvider>
 		</ChakraProvider>

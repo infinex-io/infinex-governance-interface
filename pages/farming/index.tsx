@@ -15,15 +15,57 @@ import classNames from 'classnames';
 import styles from 'styles/yams.module.css';
 import { useRouter } from 'next/router';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
+import { useSearchParams } from 'next/navigation'
 
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { supabase } from 'utils/supabaseClient';
+import { AuthSession } from '@supabase/supabase-js';
+import { useModalFarmingContext } from 'containers/EmailModalContext';
+import short from 'short-uuid';
 
 const Farming: NextPage = () => {
+	const [session, setSession] = useState<AuthSession | null>(null);
+	const { setModalFarmingIsHidden, setLoggedIn } = useModalFarmingContext();
 	const { connectWallet, isWalletConnected } = useConnectorContext();
 	const { push } = useRouter();
-
+	const searchParams = useSearchParams()
 	// calling this here so that the user has their data pre-loaded when they open their farming page.
 	const { isLoading } = useUserFarmingQuery();
+	const translator = short();
+	const referrer = searchParams.get('ref')
+	const email = searchParams.get('email')
+
+	useEffect(() => {
+		// get ref
+		console.log(referrer, "referrer")
+		if (referrer !== null) {
+			localStorage.setItem('inf-ref', JSON.stringify(referrer))
+		}
+		// if email exists in search params (from marketing email, already exists in supabase)
+		console.log(email, "email")
+		if (email !== null) {
+			localStorage.setItem('inf-email', JSON.stringify(email))
+			return;
+		}
+		// if email exists in local storage
+		if (localStorage.getItem('inf-email') !== null) return;
+
+		supabase.auth.getSession().then(({ data: { session } }) => {
+		 	setSession(session);
+			if (session !== null) {
+				localStorage.setItem('inf-email', JSON.stringify(session.user.email))
+				setLoggedIn(`http://gov.infinex.io/farming?ref=${translator.fromUUID(session.user.id)}`);
+			}
+		});
+		// check if modal has been prompted before
+		if (localStorage.getItem('inf-prompted') === null) {
+			localStorage.setItem('inf-prompted', JSON.stringify(true))
+		}
+		else return;
+		// if there is no supabase session, there is no email in local storage, and email does not exist in search params.
+		setModalFarmingIsHidden(false);
+	}, [referrer, email])
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">

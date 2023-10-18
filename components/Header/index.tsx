@@ -30,6 +30,7 @@ import ProfileIcon from 'components/Icons/ProfileIcon';
 import classNames from 'classnames';
 import styles from 'styles/yams.module.css';
 import InfinexLogo from 'components/Icons/InfinexLogo';
+import { useModalFarmingContext } from 'containers/EmailModalContext';
 
 const routesDic = [
 	{ label: 'header.routes.home', link: '' },
@@ -47,6 +48,7 @@ export default function Header() {
 	const { connected } = useSafeAppsSDK();
 	const { isOpen, onClose, onOpen } = useDisclosure();
 	const [isYams, setIsYams] = useState(false);
+	const { setModalFarmingIsHidden } = useModalFarmingContext();
 
 	useEffect(() => {
 		if (asPath.includes('/farming')) setIsYams(true);
@@ -81,17 +83,16 @@ export default function Header() {
 
 	return (
 		<header
-			className={`${
-				isYams ? 'bg-primary-light' : 'bg-background-dark border-b-gray-800 border-b border-b-solid'
-			} 
-			w-full m-h-[66px] p-3 sm:px-10 flex relative items-center md:justify-center justify-between`}
+			className={`${isYams ? 'bg-primary-light' : 'bg-background-dark border-b-gray-800 border-b border-b-solid'
+				} 
+			w-full m-h-[66px] p-3 sm:px-10 flex relative items-center lg:justify-center justify-between`}
 		>
 			<Link href="/" passHref legacyBehavior>
-				<div className="md:flex items-center cursor-pointer mr-8 hidden">
+				<div className="lg:flex items-center cursor-pointer mr-8 hidden">
 					<InfinexLogo fill={isYams ? 'var(--color-slate-900)' : 'var(--color-primary)'} />
 				</div>
 			</Link>
-			<div className="hidden md:flex gap-2 w-full">
+			<div className="hidden lg:flex gap-2 w-full">
 				{routes.map((route) => {
 					return (
 						<Link key={route.label} href={`/${route.link}`} passHref legacyBehavior>
@@ -112,7 +113,7 @@ export default function Header() {
 				})}
 			</div>
 			<button
-				className="md:hidden flex flex-col items-center max-width-[30px] max-h-[30px]"
+				className="lg:hidden flex flex-col items-center max-width-[30px] max-h-[30px]"
 				onClick={() => setBurgerMenuOpen(!burgerMenuOpen)}
 			>
 				{!burgerMenuOpen ? (
@@ -154,12 +155,11 @@ export default function Header() {
 								<Button
 									variant="nav"
 									className={`last-of-type:mr-auto text-[0.8rem] font-semibold
-									${
-										(asPath.includes(`${route.link}`) && route.link !== '') ||
-										(route.link === '' && route.link.concat('/') === asPath)
-											? (`border-b border-primary ${isYams ? 'text-black': ''}`)
+									${(asPath.includes(`${route.link}`) && route.link !== '') ||
+											(route.link === '' && route.link.concat('/') === asPath)
+											? (`border-b border-primary ${isYams ? 'text-black' : ''}`)
 											: isYams ? "text-slate-600" : "text-slate-500"
-									}`}
+										}`}
 									onClick={() => setBurgerMenuOpen(false)}
 									key={route.label}
 									label={
@@ -173,133 +173,142 @@ export default function Header() {
 					</div>
 				</div>
 			)}
-			<Button
-				className={classNames(
-					`${
-						isYams ? 'bg-slate-1000 rounded-3xl' : '!bg-slate-900 !border-slate-300 !text-white'
-					} whitespace-nowrap text-xs hidden sm:block`,
-					styles.blackButtonShadow
-				)}
-				variant="outline"
-				onClick={() => {
-					if (!connected) {
-						onOpen();
-					}
-				}}
-				label={connected ? 'Safe Connected' : 'Safe Wallet'}
-			/>
-			<Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent
-					bg="blackAlpha.900"
-					borderColor="gray.900"
-					borderWidth="1px"
-					borderStyle="solid"
-				>
-					<ModalHeader>
-						<Heading fontSize={'2xl'} color="white" textAlign={'center'} mt="8">
-							Connect to Safe
-						</Heading>
-					</ModalHeader>
-					<ModalCloseButton color="white" />
-					<ModalBody>
-						<Box
-							m="4"
-							p="4"
-							borderRadius="base"
-							borderWidth="1px"
-							borderStyle="solid"
-							display="flex"
-							flexDirection="column"
-							alignItems="center"
-						>
-							<Image
-								src="/images/Connecting-to-Safe-Wallet.png"
-								alt="image with text connecting to safe wallet"
-								onClick={() =>
-									window.open(
-										'https://docs.infinex.io/governance/elections-and-voting/connecting-a-gnosis-safe',
-										'_blank'
-									)
-								}
-								cursor="pointer"
-							/>
-							<Text color="gray.500" fontWeight="400" mt="2">
-								This blog post will provide a detailed guide on how to connect your Safe Wallet
-								wallet to Infinex Governance.
-							</Text>
-						</Box>
-						<Flex m="4" flexDirection="column" alignItems="center">
-							<Button
-								style={{ fontSize: 16 }}
-								onClick={() =>
-									window.open(
-										'https://docs.infinex.io/governance/elections-and-voting/connecting-a-gnosis-safe',
-										'_blank'
-									)
-								}
-								label="View Tutorial"
-							/>
-						</Flex>
-					</ModalBody>
-				</ModalContent>
-			</Modal>
-			<div className="flex md:mr-1 justify-end items-center ml-[16px]">
-				{!isWalletConnected && (
-					<div className="flex items-center">
-						<ConnectButton
-							className={classNames(
-								`${isYams ? 'rounded-3xl hover:bg-primary' : ''} whitespace-nowrap`,
-								isYams ? styles.primaryButtonShadow : ''
-							)}
-						/>
-					</div>
-				)}
-				{isWalletConnected && walletAddress && (
-					<Dropdown
-						triggerElement={
-							<Button
+			<div className="flex gap-x-4">
+				{isYams &&
+					<Button
+						className={classNames("whitespace-nowrap text-xs hidden rounded-3xl sm:block text-slate-800",
+							styles.buttonIndent
+						)}
+						variant="nothing"
+						onClick={() => { setModalFarmingIsHidden(false) }}
+						label={'Get referral link'}
+					/>
+				}
+				<Button
+					className={classNames(
+						`${isYams ? 'text-slate-800 rounded-3xl' : '!bg-slate-900 !border-slate-300 !text-white'
+						} whitespace-nowrap text-xs hidden sm:block`,
+						isYams ? styles.buttonIndent : styles.blackButtonShadow 
+					)}
+					variant={isYams ? "nothing" : "outline"}
+					onClick={() => {
+						if (!connected) {
+							onOpen();
+						}
+					}}
+					label={connected ? 'Safe Connected' : 'Safe Wallet'}
+				/>
+				<Modal isOpen={isOpen} onClose={onClose}>
+					<ModalOverlay />
+					<ModalContent
+						bg="blackAlpha.900"
+						borderColor="gray.900"
+						borderWidth="1px"
+						borderStyle="solid"
+					>
+						<ModalHeader>
+							<Heading fontSize={'2xl'} color="white" textAlign={'center'} mt="8">
+								Connect to Safe
+							</Heading>
+						</ModalHeader>
+						<ModalCloseButton color="white" />
+						<ModalBody>
+							<Box
+								m="4"
+								p="4"
+								borderRadius="base"
+								borderWidth="1px"
+								borderStyle="solid"
+								display="flex"
+								flexDirection="column"
+								alignItems="center"
+							>
+								<Image
+									src="/images/Connecting-to-Safe-Wallet.png"
+									alt="image with text connecting to safe wallet"
+									onClick={() =>
+										window.open(
+											'https://docs.infinex.io/governance/elections-and-voting/connecting-a-gnosis-safe',
+											'_blank'
+										)
+									}
+									cursor="pointer"
+								/>
+								<Text color="gray.500" fontWeight="400" mt="2">
+									This blog post will provide a detailed guide on how to connect your Safe Wallet
+									wallet to Infinex Governance.
+								</Text>
+							</Box>
+							<Flex m="4" flexDirection="column" alignItems="center">
+								<Button
+									style={{ fontSize: 16 }}
+									onClick={() =>
+										window.open(
+											'https://docs.infinex.io/governance/elections-and-voting/connecting-a-gnosis-safe',
+											'_blank'
+										)
+									}
+									label="View Tutorial"
+								/>
+							</Flex>
+						</ModalBody>
+					</ModalContent>
+				</Modal>
+				<div className="flex md:mr-1 justify-end items-center">
+					{!isWalletConnected && (
+						<div className="flex items-center">
+							<ConnectButton
 								className={classNames(
-									`min-w-[142px] flex justify-center items-center text-xs
-							${isYams ? 'bg-primary rounded-3xl text-black' : 'bg-slate-900'}`,
+									`${isYams ? 'rounded-3xl hover:bg-primary' : ''} whitespace-nowrap`,
 									isYams ? styles.primaryButtonShadow : ''
 								)}
-								variant="nav"
-								label={ensName || truncateAddress(walletAddress)}
 							/>
-						}
-						contentClassName={`flex flex-col overflow-hidden p-2 border-t border-primary 
+						</div>
+					)}
+					{isWalletConnected && walletAddress && (
+						<Dropdown
+							triggerElement={
+								<Button
+									className={classNames(
+										`min-w-[142px] flex justify-center items-center text-xs
+							${isYams ? 'bg-primary rounded-3xl text-black' : 'bg-slate-900'}`,
+										isYams ? styles.primaryButtonShadow : ''
+									)}
+									variant="nav"
+									label={ensName || truncateAddress(walletAddress)}
+								/>
+							}
+							contentClassName={`flex flex-col overflow-hidden p-2 border-t border-primary 
 						${isYams ? 'rounded-xl bg-primary' : 'rounded-none bg-slate-900'}`}
-						triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
-						contentAlignment="right"
-					>
-						{!isYams && <span
-							className={`px-3 ${
-								isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
-							} text-xs cursor-pointer flex items-center`}
-							onClick={() => {
-								push('/profile/' + walletAddress);
-							}}
+							triggerElementProps={({ isOpen }: any) => ({ isActive: isOpen })}
+							contentAlignment="right"
 						>
-							<div className="mr-5">
-								<ProfileIcon width={18} fill='#8B8FA3' />
-							</div>
-							{t('header.view-profile')}
-						</span>}
-						{!isYams && <span className="bg-slate-800 h-[1px] w-full mb-1"></span>}
-						<span
-							className={`p-3 ${
-								isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
-							} text-xs cursor-pointer flex items-center`}
-							onClick={disconnectWallet}
-						>
-							<div className="mr-5">
-								<DisconnectIcon width={18} fill={isYams ? '#ff550099' : '#8B8FA3'} />
-							</div>
-							{t('header.disconnect-wallet')}
-						</span>
-					</Dropdown>
-				)}
+							{!isYams && <span
+								className={`px-3 ${isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
+									} text-xs cursor-pointer flex items-center`}
+								onClick={() => {
+									push('/profile/' + walletAddress);
+								}}
+							>
+								<div className="mr-5">
+									<ProfileIcon width={18} fill='#8B8FA3' />
+								</div>
+								{t('header.view-profile')}
+							</span>}
+							{!isYams && <span className="bg-slate-800 h-[1px] w-full mb-1"></span>}
+							<span
+								className={`p-3 ${isYams ? 'text-black' : 'hover:bg-slate-800 text-white'
+									} text-xs cursor-pointer flex items-center`}
+								onClick={disconnectWallet}
+							>
+								<div className="mr-5">
+									<DisconnectIcon width={18} fill={isYams ? '#ff550099' : '#8B8FA3'} />
+								</div>
+								{t('header.disconnect-wallet')}
+							</span>
+						</Dropdown>
+					)}
+				</div>
 			</div>
 		</header>
 	);
