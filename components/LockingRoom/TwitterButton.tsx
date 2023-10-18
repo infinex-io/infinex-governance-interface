@@ -10,7 +10,7 @@ interface Props {
 const TweetButton = ({refLink} : Props) => {
     return (
         <div className="flex items-center justify-center">
-            <a className={classNames("flex bg-primary rounded-3xl")} target="_blank" href={`https://twitter.com/intent/tweet?text=A%20better%20trading%20experience%20%40infinex_app.%0A${refLink}%0A%0A%23infinex`}>
+            <a className={classNames("flex bg-primary rounded-3xl")} target="_blank" href={`https://twitter.com/intent/tweet?text=Farming%20governance%20points%20for%20the%20future%20of%20DeFi%20%F0%9F%A5%82%0A%40infinex_app%0A%23infinex%0A${refLink}%0A`}>
                 <div className="flex items-center justify-center w-32 px-5 py-2 rounded transition-colors">
                     <figure className="w-10">
                     <svg width="20" height="26" viewBox="0 0 361 290" fill="none" xmlns="http://www.w3.org/2000/svg">

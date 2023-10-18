@@ -107,7 +107,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 			>
 				{loggedIn !== "" ?
 					<div className={`w-full animation-appear flex flex-col justify-center items-center text-slate-900`}>
-						<h1 className="font-bold text-xl">Your referral link is</h1>
+						<h1 className="font-bold text-xl">Your referral link</h1>
 						<div className={classNames("p-1 px-2 my-5 mx-3 rounded-3xl flex items-center space-x-3 cursor-pointer animation-appear animation-delay-5", styles.inputIndent)} onClick={copyClick}>
 							<div
 								className="appearance-none h-10 flex items-center justify-between rounded pl-3 py-1 max-w-[90vw]"
@@ -161,9 +161,9 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 					>
 						{/* Form */}
 
-						<h4 className="text-black font-bold text-xl mb-2">Connect your email</h4>
+						<h4 className="text-black font-bold text-xl mb-2">Boost your governance points</h4>
 						<p className="text-sm font-medium text-slate-800 text-center mb-3">
-							Participants in Infinex governance will be favoured in the closed beta waitlist
+							Share your referral link to multiply your governance points and elevate your position on the closed beta waitlist
 						</p>
 
 						<input
