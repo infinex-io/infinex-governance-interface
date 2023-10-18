@@ -140,7 +140,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 								)}
 							</div>
 						</div>
-						<div className="flex items-center justify-center gap-5">
+						<div className="flex items-center justify-center gap-3">
 							<button
 								className={classNames(
 									styles.primaryButtonShadow,
@@ -177,7 +177,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 							disabled={isLoading}
 						/>
 
-						<div className="flex flex-row gap-2 mt-4 justify-between">
+						<div className="flex flex-row gap-3 mt-4 justify-between">
 							{/* Backicon */}
 							<button
 								className={classNames(

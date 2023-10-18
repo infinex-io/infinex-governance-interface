@@ -173,7 +173,7 @@ export default function Header() {
 					</div>
 				</div>
 			)}
-			<div className="flex gap-x-5">
+			<div className="flex gap-x-4">
 				{isYams &&
 					<Button
 						className={classNames("whitespace-nowrap text-xs hidden rounded-3xl sm:block text-slate-800",
