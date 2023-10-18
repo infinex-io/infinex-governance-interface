@@ -6695,6 +6695,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"any-base@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "any-base@npm:1.1.0"
+  checksum: 88b6630d4bce339f9f2a95bb7a74998110bcd622fbc9f8994d9cb8d13ed3e52157d7517165478b0c289792bfa8fa33c10ef35b5fa589b431780f7543feba323f
+  languageName: node
+  linkType: hard
+
 "any-signal@npm:^2.1.0":
   version: 2.1.2
   resolution: "any-signal@npm:2.1.2"
@@ -11255,6 +11262,7 @@ __metadata:
     react-toastify: "npm:^9.0.4"
     react-transition-group: "npm:^4.4.2"
     sass: "npm:1.51.0"
+    short-uuid: "npm:^4.2.2"
     siwe: "npm:1.1.6"
     swiper: "npm:^8.2.4"
     tailwindcss: "npm:3.0.24"
@@ -16905,6 +16913,16 @@ __metadata:
   version: 3.0.0
   resolution: "shebang-regex@npm:3.0.0"
   checksum: 6be1588a86ed74d05481d09a6ef6a8db44550fda9785ae08c3df06717abc2e5e9a11804b1d0ac9b0641870c5ebf545e18c8d348bc105ba09227e6a32415ea1d6
+  languageName: node
+  linkType: hard
+
+"short-uuid@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "short-uuid@npm:4.2.2"
+  dependencies:
+    any-base: "npm:^1.1.0"
+    uuid: "npm:^8.3.2"
+  checksum: b086c5af1ac2fad0dc8f1d269c66313c63106afcc851f375385223c101b4f376b8aafbaa17b8fe28cec3e70e6f2dd8a3f1f4679504e93520e554cd52ff7f485b
   languageName: node
   linkType: hard
 

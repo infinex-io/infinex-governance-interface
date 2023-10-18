@@ -14,7 +14,7 @@
 .primaryButtonShadow {
 	box-shadow: rgba(207, 116, 70, 0.38) -4px 4px 8px 0px, #ffdcc6 4px -4px 8px 0px;
 	transition: none !important;
-	color: black !important;
+	color: black;
 	font-weight: normal !important;
 	padding-top: 0.5rem !important;
 	padding-bottom: 0.5rem !important;

@@ -52,6 +52,7 @@
 		"react-timer-hook": "3.0.5",
 		"react-toastify": "^9.0.4",
 		"react-transition-group": "^4.4.2",
+		"short-uuid": "^4.2.2",
 		"siwe": "1.1.6",
 		"swiper": "^8.2.4",
 		"yup": "0.32.11"

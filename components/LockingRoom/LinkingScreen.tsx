@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Progress } from '@chakra-ui/react';
 import styles from 'styles/yams.module.css';
 import LinkIcon from 'components/Icons/LinkIcon';
@@ -14,6 +14,8 @@ import classNames from 'classnames';
 import rooms from 'utils/config/rooms';
 import Link from 'next/link';
 import { Timer } from 'components/Timer';
+import EmailModal from './EmailModal';
+import { useModalFarmingContext } from 'containers/EmailModalContext';
 
 const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 	/* ================================== state ================================== */
@@ -133,6 +135,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 		}
 	}, [userFarmingQuery.data, userFarmingQuery.isLoading]);
 	/* ================================== functions ================================== */
+
 	async function handleSubmit() {
 		setLoading(true);
 		if (!room.dex && publicKey.length === 0) {

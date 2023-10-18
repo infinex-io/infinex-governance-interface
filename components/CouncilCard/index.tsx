@@ -102,7 +102,10 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<div className="flex items-center justify-center my-3">
 				<Image alt={council} src={image} width={35} height={70} />
 			</div>
-			<h4 className="font-black text-xl text-center m-2 leading-tight" data-testid={`council-headline-${council}`}>
+			<h4
+				className="font-black text-xl text-center m-2 leading-tight"
+				data-testid={`council-headline-${council}`}
+			>
 				<div>{t(`landing-page.cards.${council}`)}</div>
 				<div>{council === 'ecosystem' ? 'Seats' : 'Seat'}</div>
 			</h4>
@@ -112,27 +115,27 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			>
 				{t(cta)}
 			</span>
-			{period === 'NOMINATION' && (
-				(nominationDates?.nominationPeriodEndDate === undefined) ?
+			{period === 'NOMINATION' &&
+				(nominationDates?.nominationPeriodEndDate === undefined ? (
 					<TimerMock />
-					:
+				) : (
 					<Timer
 						className="text-slate-100 font-bold text-lg mx-auto"
 						expiryTimestamp={nominationDates?.nominationPeriodEndDate}
 						data-testid="nomination-timer"
 					/>
-			)}
-			{period === 'VOTING' && (
+				))}
+			{period === 'VOTING' &&
 				// LOADING STATE
-				(votingDates?.votingPeriodEndDate === undefined) ?
+				(votingDates?.votingPeriodEndDate === undefined ? (
 					<TimerMock />
-					:
+				) : (
 					<Timer
 						className="text-slate-100 font-bold text-lg mx-auto"
 						expiryTimestamp={votingDates?.votingPeriodEndDate}
 						data-testid="voting-timer"
 					/>
-			)}
+				))}
 			<span className="bg-slate-800 h-[1px] w-full mb-1"></span>
 			<div className="flex justify-between">
 				<span className="font-bold text-xs text-slate-100" data-testid="headline-left">
@@ -157,9 +160,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					)}
 				</h4>
 				<h4 className="text-lg text-slate-0 font-bold">
-					{voteCount.data || (
-						<TextLoader text="1000" />
-					)}
+					{voteCount.data || <TextLoader text="1000" />}
 				</h4>
 			</div>
 			{secondButton && (
@@ -173,10 +174,11 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 			<Button
 				className={`w-full mt-2 
 				// if period is NOMINATION AND (either already nominated or is a CC)
-				${period === 'NOMINATION' && (isNominated || (council == 'core-contributor' && !isCC.data))
+				${
+					period === 'NOMINATION' && (isNominated || (council == 'core-contributor' && !isCC.data))
 						? 'hidden'
 						: ''
-					}
+				}
 				// if period is NOMINATION AND alreadyNominated 
 				${period === 'NOMINATION' && hasNominated ? 'cursor-default' : ''}`}
 				onClick={() => {
