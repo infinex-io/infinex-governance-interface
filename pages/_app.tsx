@@ -30,7 +30,7 @@ const queryClient = new QueryClient();
 
 const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 	const { isOpen, content } = useModalContext();
-	const { modalFarmingIsHidden, setModalFarmingIsHidden, signatureData } = useModalFarmingContext();
+	const { modalFarmingIsHidden, setModalFarmingIsHidden, signatureData, loggedIn } = useModalFarmingContext();
 	const { L2DefaultProvider, signer } = useConnectorContext();
 	const TheComponent = Component as any;
 	const { asPath } = useRouter();
@@ -45,6 +45,7 @@ const InnerApp: FC<AppProps> = ({ Component, pageProps }) => {
 							setHidden={setModalFarmingIsHidden}
 							signature={signatureData.signature}
 							address={signatureData.address}
+							loggedIn={loggedIn}
 						/>
 						<div className="min-h-screen flex flex-col justify-between">
 							<Header />

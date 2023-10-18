@@ -44,12 +44,14 @@ function useLinkExchangeMutations() {
 				}
 
 				const email = localStorage.getItem('inf-email');
+				const ref = localStorage.getItem('inf-ref')
 				if (email !== null) {
 					try {
 						const body = {
 							email: email,
 							address_signature: signature,
 							address: address,
+							ref: ref !== null ? ref : ""
 						};
 						await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
 							method: 'POST',

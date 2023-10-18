@@ -23,23 +23,24 @@ function useStakeTokenMutation() {
                if (!response.ok) {
                   throw new Error('Network response was not ok');
                }
-               const email = localStorage.getItem('inf-email')
-                if (email !== null) {
-                    try {
-                        const body = {
-                            email: email,
-                            address_signature: signature,
-                            address: address
-                        }
-                        await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
-                            method: "POST",
-                            body: JSON.stringify(body),
-                        });
-                    }
-                    catch (error) {
-                        console.error(error)
-                    }
-                }
+               const email = localStorage.getItem('inf-email');
+				const ref = localStorage.getItem('inf-ref')
+				if (email !== null) {
+					try {
+						const body = {
+							email: email,
+							address_signature: signature,
+							address: address,
+							ref: ref !== null ? ref : ""
+						};
+						await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
+							method: 'POST',
+							body: JSON.stringify(body),
+						});
+					} catch (error) {
+						console.error(error);
+					}
+				}
                return response.json();
 
             } catch (error: Error | any) {
