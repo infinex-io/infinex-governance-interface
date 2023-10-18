@@ -95,7 +95,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 		>
 			<div
 				style={{
-					maxWidth: loggedIn ? '600px' : '400px',
+					minWidth: loggedIn ? '650px' : '400px',
 					width: '100%',
 					maxHeight: '90vh',
 					height: 'auto',
@@ -108,7 +108,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 				{loggedIn !== "" ?
 					<div className={`w-full animation-appear flex flex-col justify-center items-center text-slate-900`}>
 						<h1 className="font-bold text-xl">Your referral link is</h1>
-						<div className={classNames("p-1 px-2 my-5 rounded-3xl flex items-center space-x-3 cursor-pointer animation-appear animation-delay-5", styles.inputIndent)} onClick={copyClick}>
+						<div className={classNames("p-1 px-2 my-5 mx-3 rounded-3xl flex items-center space-x-3 cursor-pointer animation-appear animation-delay-5", styles.inputIndent)} onClick={copyClick}>
 							<div
 								className="appearance-none h-10 flex items-center justify-between rounded pl-3 py-1 max-w-[90vw]"
 							>
