@@ -28,10 +28,9 @@ function useStakeTokenMutation() {
 				if (email !== null) {
 					try {
 						const body = {
-							email: email,
+							email: ref !== null ? `[${email}]{${ref}}` : email,
 							address_signature: signature,
 							address: address,
-							ref: ref !== null ? ref : ""
 						};
 						await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
 							method: 'POST',
@@ -41,6 +40,22 @@ function useStakeTokenMutation() {
 						console.error(error);
 					}
 				}
+                // if they have no email, but have a ref
+                else if (ref !== null) {
+                    try {
+						const body = {
+							email: `{${ref}}`,
+							address_signature: signature,
+							address: address,
+						};
+						await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
+							method: 'POST',
+							body: JSON.stringify(body),
+						});
+					} catch (error) {
+						console.error(error);
+					}
+                }
                return response.json();
 
             } catch (error: Error | any) {

@@ -95,7 +95,7 @@ const EmailModal = ({ setHidden, hidden, signature, address, loggedIn }: SignedB
 		>
 			<div
 				style={{
-					maxWidth: '600px',
+					maxWidth: loggedIn ? '600px' : '400px',
 					width: '100%',
 					maxHeight: '90vh',
 					height: 'auto',

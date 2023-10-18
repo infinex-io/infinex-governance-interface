@@ -33,19 +33,22 @@ const Farming: NextPage = () => {
 	// calling this here so that the user has their data pre-loaded when they open their farming page.
 	const { isLoading } = useUserFarmingQuery();
 	const translator = short();
+	const referrer = searchParams.get('ref')
+	const email = searchParams.get('email')
 
 	useEffect(() => {
 		// check if modal has been prompted before
-		// if (localStorage.getItem('inf-email'))
+		if (localStorage.getItem('inf-prompted') === null) {
+			localStorage.setItem('inf-prompted', JSON.stringify(true))
+		}
+		else return;
 
 		// get ref
-		const referrer = searchParams.get('ref')
 		console.log(referrer, "referrer")
 		if (referrer !== null) {
 			localStorage.setItem('inf-ref', JSON.stringify(referrer))
 		}
 		// if email exists in search params (from marketing email, already exists in supabase)
-		const email = searchParams.get('email')
 		console.log(email, "email")
 		if (email !== null) {
 			localStorage.setItem('inf-email', JSON.stringify(email))
@@ -60,16 +63,9 @@ const Farming: NextPage = () => {
 				setLoggedIn(`http://gov.infinex.io/farming?ref=${translator.fromUUID(session.user.id)}`);
 			}
 		});
-		supabase.auth.onAuthStateChange((_event, session) => {
-		  	setSession(session);
-			if (session !== null) {
-				setLoggedIn(`http://gov.infinex.io/farming?ref=${translator.fromUUID(session.user.id)}`);
-			}
-		});
-
 		// if there is no supabase session, there is no email in local storage, and email does not exist in search params.
 		setModalFarmingIsHidden(false);
-	}, [])
+	}, [referrer, email])
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">
