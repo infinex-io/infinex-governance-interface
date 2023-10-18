@@ -15,15 +15,24 @@ import classNames from 'classnames';
 import styles from 'styles/yams.module.css';
 import { useRouter } from 'next/router';
 import useUserFarmingQuery from 'queries/farming/useUserFarmingQuery';
+import { useSearchParams } from 'next/navigation'
 
 import Head from 'next/head';
+import { useEffect } from 'react';
 
 const Farming: NextPage = () => {
 	const { connectWallet, isWalletConnected } = useConnectorContext();
 	const { push } = useRouter();
-
+	const searchParams = useSearchParams()
 	// calling this here so that the user has their data pre-loaded when they open their farming page.
 	const { isLoading } = useUserFarmingQuery();
+
+	useEffect(() => {
+		const email = searchParams.get('email')
+		if (email !== null) {
+			localStorage.setItem('inf-email', email)
+		}
+	}, [])
 
 	return (
 		<main className="bg-primary-light px-3 py-6 min-h-[90vh] farming-background bg-repeat-y bg-center text-black flex-grow">

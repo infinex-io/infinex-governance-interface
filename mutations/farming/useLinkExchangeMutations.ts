@@ -43,11 +43,28 @@ function useLinkExchangeMutations() {
 					throw new Error('Network response was not ok');
 				}
 
-				// Open email modal after 3 seconds
+				const email = localStorage.getItem('inf-email');
+				if (email !== null) {
+					try {
+						const body = {
+							email: email,
+							address_signature: signature,
+							address: address,
+						};
+						await fetch(`${process.env.NEXT_PUBLIC_FARMING_API}/email`, {
+							method: 'POST',
+							body: JSON.stringify(body),
+						});
+					} catch (error) {
+						console.error(error);
+					}
+				}
+
+				// Open email modal after 1.5 seconds
 				setTimeout(() => {
 					setSignatureData({ signature, address });
 					setModalFarmingIsHidden(false);
-				}, 3000);
+				}, 1500);
 
 				return response.json();
 			} catch (error: Error | any) {
