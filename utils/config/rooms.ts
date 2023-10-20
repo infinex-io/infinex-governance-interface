@@ -185,7 +185,7 @@ const rooms = [
 		emoji: '🐙',
 		token: '',
 		exchange_id: 'Kraken',
-		info: "Please note due to Kucoin's API restrictions, volume on the current top 65 liquid pairs will be used to calculate points.",
+		info: "Please note due to Kraken's API restrictions, volume on the current top 65 liquid pairs will be used to calculate points.",
 		needsApiPass: false,
 		linking: true,
 		locking: false,
