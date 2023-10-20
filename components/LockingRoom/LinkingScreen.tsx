@@ -270,7 +270,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					<p className="mt-2 italic">{room.info}</p>
 				)}
 
-				{status === 'waiting' && "We're crunching the numbers - check back later."}
+				{status === 'waiting' && "Your submission time has been noted. Due to high demand this process may take longer than usual. We're crunching the numbers - please check back later."}
 				{status === 'failed' && !canRetry && (
 					<div className="flex flex-col">
 						<div className="mb-1">
