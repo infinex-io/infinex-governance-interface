@@ -89,7 +89,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['binance']) +
-							Number(userFarmingQuery.data.volume['binancecoinm'] || 0)
+						Number(userFarmingQuery.data.volume['binancecoinm'] || 0)
 					)
 				);
 			} else if (room.exchange_id == 'GMX') {
@@ -97,7 +97,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 					Number(
 						// Combine Binance futures and spot
 						Number(userFarmingQuery.data.volume['gmx_arbitrum']) +
-							Number(userFarmingQuery.data.volume['gmx_avalanche'])
+						Number(userFarmingQuery.data.volume['gmx_avalanche'])
 					)
 				);
 				linkStatus = userFarmingQuery.data.volume[`gmx_status`];
@@ -210,11 +210,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				the guide
 			</a>{' '}
 			for more information.
-			
-			{room.name === 'MEXC Nursery' && 
-			<div className="mt-2">
-				Due to limitations with the MEXC API, only 30 days of volume can be tracked.
-			</div>}
+
+			{room.name === 'MEXC Nursery' &&
+				<div className="mt-2">
+					Due to limitations with the MEXC API, only 30 days of volume can be tracked.
+				</div>}
 		</p>
 	);
 
@@ -306,8 +306,7 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				)}
 				{/* {status === 'waiting' && ' We have recorded the time of your submission.'} */}
 				{status === 'completed' &&
-					`Your ${
-						room.dex ? 'decentralised ' : ''
+					`Your ${room.dex ? 'decentralised ' : ''
 					}trading volume has been calculated and attached to your address.`}
 			</h2>
 			{/* Link button (hide when linking) */}
@@ -409,8 +408,12 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 			{status === 'completed' && (
 				<div className="flex flex-row items-center gap-10">
 					<div className="flex flex-col justify-center items-center">
+					{room.name === 'MEXC Nursery' &&
+								<div className="mb-2 -mt-2 text-sm">
+									Due to limitations with the MEXC API, only 30 days of volume can be tracked.
+								</div>}
 						<p className="text-sm font-bold">Calculated volume</p>
-						<p className="text-lg font-black">
+						<p className="text-lg font-black text-center">
 							{volume > 0 ? `$${volume.toLocaleString()}` : '$0'}
 						</p>
 					</div>
