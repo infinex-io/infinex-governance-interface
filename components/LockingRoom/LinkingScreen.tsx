@@ -210,6 +210,11 @@ const LinkingScreen: React.FC<{ room: Room }> = ({ room }) => {
 				the guide
 			</a>{' '}
 			for more information.
+			
+			{room.name === 'MEXC Nursery' && 
+			<div className="mt-2">
+				Due to limitations with the MEXC API, only 30 days of volume can be tracked.
+			</div>}
 		</p>
 	);
 
