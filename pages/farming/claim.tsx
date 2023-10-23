@@ -9,6 +9,7 @@ import { isWalletAddress } from "utils/validate";
 
 const Claim = () => {
     const [isLoading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
 	const { walletAddress, isWalletConnected } = useConnectorContext();
 
     const searchParams = useSearchParams()
@@ -32,6 +33,7 @@ const Claim = () => {
         catch (error) {
             console.error(error)
         }
+        setSuccess(true)
         setLoading(false)
     }
 
@@ -41,7 +43,9 @@ const Claim = () => {
             <div className="text-center text-black flex flex-col items-center justify-center">
                 <h1 className="text-xl font-black">Claim your referral points</h1>
                 <p className="mb-7 mt-1 text-sm">Verify your wallet address to claim your bonus <br/>governance points.</p>
-                {isWalletConnected ? <Button
+                {success ?
+                 <div>Thanks for your submission</div>
+                :isWalletConnected ? <Button
 					className={classNames(
 						'w-28 rounded-3xl whitespace-nowrap text-sm hover:bg-primary',
 						styles.primaryButtonShadow
