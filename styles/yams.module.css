@@ -32,8 +32,9 @@
 }
 
 .buttonIndent {
-	box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 1px 1px, #ffefe6 -0.8px 0.8px 0px inset;
-	transition: none !important;
+	/* box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 1px 1px, #ffefe6 -0.8px 0.8px 0px inset;
+	transition: none !important; */
+	box-shadow: rgba(20, 1, 8, 0.15) 0px 0px 0.3px 0.3px, #ffefe6 -0.4px 0.4px 0px inset;
 }
 
 .buttonIndent:active {

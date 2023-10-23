@@ -41,11 +41,12 @@ export default function RoomCard({ name, description, emoji, exchange_id, token 
 			</div>
 			<button
 				className={classNames(
-					'flex justify-center items-center w-full px-4 py-2 rounded-3xl font-semibold text-sm',
-					styles.primaryButtonShadow
+					'flex justify-center items-center w-full px-4 py-2 rounded-3xl text-sm text-slate-700',
+					styles.buttonIndent
 				)}
+				disabled={true}
 			>
-				Earn voting power
+				Farming has ended.
 			</button>
 		</div>
 	);

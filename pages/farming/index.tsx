@@ -103,17 +103,16 @@ const Farming: NextPage = () => {
 					{rooms?.map((room: any) => (
 						<>
 							{isWalletConnected ? (
-								<Link href={`/farming/${room.name}`} key={room.key}>
 									<RoomCard
 										name={room.name}
 										description={room.description}
 										emoji={room.emoji}
 										exchange_id={room.exhange_id}
 										token={room.token}
+										key={room.key}
 									/>
-								</Link>
 							) : (
-								<div onClick={connectWallet} className="cursor-pointer" key={room.key}>
+								<div className="cursor-pointer" key={room.key}>
 									<RoomCard
 										name={room.name}
 										description={room.description}
