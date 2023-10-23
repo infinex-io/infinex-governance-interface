@@ -44,7 +44,7 @@ const Claim = () => {
                 <h1 className="text-xl font-black">Claim your referral points</h1>
                 <p className="mb-7 mt-1 text-sm">Verify your wallet address to claim your bonus <br/>governance points.</p>
                 {success ?
-                 <div>Thanks for your submission</div>
+                 <div className="text-sm">Thanks for your submission</div>
                 :isWalletConnected ? <Button
 					className={classNames(
 						'w-28 rounded-3xl whitespace-nowrap text-sm hover:bg-primary',
