@@ -30,7 +30,8 @@ export const useVotingResult = (
 				query: gql`
 					query VoteResults {
 						voteResults(
-							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}" }
+							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}" },
+							first: 1000
 						) {
 							id
 							ballotId
@@ -49,6 +50,7 @@ export const useVotingResult = (
 			const voteResults = (data.voteResults || []).filter(
 				(voteResult: any) => Number(voteResult.voteCount) > 0
 			);
+			console.log(data)
 			const addresses: string[] = await Promise.all(
 				voteResults.map((voteResult: any) =>
 					contract?.getBallotCandidatesInEpoch(voteResult.ballotId, hexStringBN(epoch))
