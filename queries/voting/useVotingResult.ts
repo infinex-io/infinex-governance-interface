@@ -30,7 +30,7 @@ export const useVotingResult = (
 				query: gql`
 					query VoteResults {
 						voteResults(
-							orderBy: voteCount
+							orderBy: votePower
 							orderDirection: desc
 							first: 1000
 							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}", voteCount_gt: "0" }
