@@ -32,6 +32,7 @@ export const useVotingResult = (
 						voteResults(
 							orderBy: voteCount
 							orderDirection: desc
+							first: 1000
 							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}", voteCount_gt: "0" }
 						) {
 							id
