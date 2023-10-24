@@ -57,7 +57,7 @@ export default function VoteCouncil() {
 		if (activeCouncil.name === "trade") csvFilePath = '/nominees/trade_output.csv';
 		else if (activeCouncil.name === "ecosystem") csvFilePath = '/nominees/eco_output.csv';
 		else if (activeCouncil.name === "treasury") csvFilePath = '/nominees/treasury_output.csv';
-		else return;
+		else csvFilePath = '/nominees/eco_output.csv';
 
 		fetch(csvFilePath)
 			.then((response) => response.text())
