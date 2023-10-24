@@ -30,6 +30,8 @@ export const useVotingResult = (
 				query: gql`
 					query VoteResults {
 						voteResults(
+							orderBy: voteCount
+							orderDirection: desc
 							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}", voteCount_gt: "0" }
 						) {
 							id
@@ -53,12 +55,7 @@ export const useVotingResult = (
 					totalVotePower: BigNumber.from(voteResult.votePower),
 					voteCount: voteResult.voteCount,
 					epochIndex: voteResult.epochIndex,
-				}))
-				.sort((a: any, b: any) => {
-					if (a.totalVotePower.gt(b.totalVotePower)) return -1;
-					if (a.totalVotePower.lt(b.totalVotePower)) return 1;
-					return 0;
-				});
+				}));
 		},
 		{
 			enabled: governanceModules !== null && moduleInstance !== null && epochIndex !== undefined,
