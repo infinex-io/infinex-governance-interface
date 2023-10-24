@@ -1,6 +1,5 @@
 import { useMutation } from 'react-query';
-import { useModulesContext } from 'containers/Modules';
-import { DeployedModules } from 'containers/Modules';
+import { DeployedModules, useModulesContext } from 'containers/Modules';
 import { BigNumber, Contract } from 'ethers';
 import { useTransactionModalContext } from '@synthetixio/ui';
 import { useConnectorContext } from 'containers/Connector';
@@ -44,11 +43,14 @@ async function transact(ElectionModule: any, methodName: string, ...args: any[])
 
 export async function getCrossChainClaim(
 	ElectionModule: Contract,
-	walletAddress: string
+	walletAddress: string,
 ): Promise<{ proof: string; amount: BigNumber } | null> {
 	try {
 		const blockNumber = await ElectionModule.getCrossChainDebtShareMerkleRootBlockNumber();
-		return await fetch(`https://infinex-voting-1.s3.ap-southeast-2.amazonaws.com/${blockNumber}/${walletAddress}`).then((res) => res.json()).catch(e => console.log(e));
+		return await fetch(`https://infinex-voting-1.s3.ap-southeast-2.amazonaws.com/${blockNumber}/${walletAddress}`).then((res) => res.json()).catch(e => {
+			console.error(e);
+			return fetch(`/data/${blockNumber}-l1-debts.json`).then((res) => res.json()).then(data => data?.claims[walletAddress] || null);
+		});
 	} catch (err) {
 		console.log(err);
 		return null;
