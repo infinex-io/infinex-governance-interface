@@ -62,7 +62,7 @@ export default function MemberCard({
 			className={clsx('p-0.5 rounded-lg', className, {
 				'bg-[#232334]': isOwnCard,
 				'bg-[#182534]': !isOwnCard,
-				'w-full xs:max-w-[210px] min-w-[210px]': !listView,
+				'w-full xs:max-w-[210px] min-w-[210px] h-[310px]': !listView,
 				'w-full': listView,
 			})}
 		>
