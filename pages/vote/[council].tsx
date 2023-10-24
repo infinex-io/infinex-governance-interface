@@ -102,7 +102,7 @@ export default function VoteCouncil() {
 										<VoteResultBanner />
 									</div>
 									<div className="flex flex-col xs:flex-row flex-wrap justify-center py-2 max-w-[905px] mx-auto w-full">
-										{sortedNominees?.slice(startIndex, endIndex).map((walletAddress, index) => (
+										{sortedNominees?.slice(startIndex, endIndex).map((walletAddress : any, index : any) => (
 											<MemberCard
 												className="my-2 xs:m-2"
 												key={walletAddress.concat(String(index).concat('voting'))}
