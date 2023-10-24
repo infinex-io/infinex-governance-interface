@@ -30,7 +30,7 @@ export const useVotingResult = (
 				query: gql`
 					query VoteResults {
 						voteResults(
-							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}" }
+							where: { contract: "${contractAddress?.toLowerCase()}", epochIndex: "${epoch}", voteCount_gt: "0" }
 						) {
 							id
 							ballotId
@@ -38,25 +38,16 @@ export const useVotingResult = (
 							votePower
 							contract
 							voteCount
+							candidate
 						}
 					}
 				`,
 				fetchPolicy: 'no-cache',
 			});
 
-			const contract = governanceModules[moduleInstance]?.contract as ethers.Contract;
-
-			const voteResults = (data.voteResults || []).filter(
-				(voteResult: any) => Number(voteResult.voteCount) > 0
-			);
-			const addresses: string[] = await Promise.all(
-				voteResults.map((voteResult: any) =>
-					contract?.getBallotCandidatesInEpoch(voteResult.ballotId, hexStringBN(epoch))
-				)
-			);
-			return voteResults
+			return (data.voteResults || [])
 				.map((voteResult: any, index: number) => ({
-					walletAddress: addresses[index].toString(),
+					walletAddress: voteResult.candidate,
 					council: moduleInstance,
 					ballotId: voteResult.ballotId,
 					totalVotePower: BigNumber.from(voteResult.votePower),
