@@ -62,7 +62,7 @@ export default function MemberCard({
 			className={clsx('p-0.5 rounded-lg', className, {
 				'bg-[#232334]': isOwnCard,
 				'bg-[#182534]': !isOwnCard,
-				'w-full xs:max-w-[210px] min-w-[210px] h-[285px]': !listView,
+				'w-full xs:max-w-[210px] min-w-[210px]': !listView,
 				'w-full': listView,
 			})}
 		>
@@ -88,7 +88,7 @@ export default function MemberCard({
 					<h5 className="tg-title-h5 capitalize">
 						{member.username || member.ens || truncateAddress(member.address)}
 					</h5>
-					<span className="opacity-75 tg-caption text-gray-200 w-full truncate text-center">
+					<span className="opacity-75 tg-caption text-gray-200 mt-3 w-full truncate text-center">
 						{member.about}
 					</span>
 					{/* SOCIALS */}

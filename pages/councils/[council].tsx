@@ -61,7 +61,7 @@ export default function CouncilNominees() {
 	const sortedNominees =
 		nomineesQuery.data &&
 		[...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1));
-
+	
 	return (
 		<>
 			<Head>
