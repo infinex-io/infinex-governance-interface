@@ -31,6 +31,8 @@ export default function VoteCouncil() {
 	const { data: periodData } = useCurrentPeriod(activeCouncil.module);
 	const nomineesQuery = useNomineesQuery(activeCouncil.module);
 	const voteStatusQuery = useGetCurrentVoteStateQuery(walletAddress || '');
+	const [address, setAddress] = useState<string | undefined>();
+	const [prev, setPrev] = useState<any>();
 
 	const period = periodData?.currentPeriod;
 
@@ -46,6 +48,7 @@ export default function VoteCouncil() {
 
 	useEffect(() => {
 		setSortedNominees(nomineesQuery.data && [...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1)));
+		setPrev(nomineesQuery.data && [...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1)))
 	}, [])
 
 	// load csvs
@@ -72,10 +75,21 @@ export default function VoteCouncil() {
 						const remainingAddresses = nomineesQuery.data.filter((address) => !arr.includes(address));
 						// Concatenate the existing addresses with the remaining addresses
 						setSortedNominees(existingAddresses.concat(remainingAddresses));
+						setPrev(existingAddresses.concat(remainingAddresses))
 					},
 				});
 			});
 	}, [])
+
+
+	useEffect(() => {
+		if (address === undefined || prev === undefined) {
+			setSortedNominees(prev)
+			return;
+		};
+		// Update the state with the filtered array
+		setSortedNominees(prev.filter((str : string) => str.includes(address)));
+	}, [address])
 
 	return (
 		<>
@@ -101,6 +115,9 @@ export default function VoteCouncil() {
 									<div className="w-full xs:px-2">
 										<VoteResultBanner />
 									</div>
+									<input placeholder='Search by wallet address' onChange={(e) => setAddress(e.target.value)}
+									className={`text-xs focus:outline-0 bg-transparent border border-slate-800 placeholder:text-slate-600
+									transition focus:border-primary rounded px-3 py-2 max-w-[210px] mt-4 xs:mx-2`}/>
 									<div className="flex flex-col xs:flex-row flex-wrap justify-center py-2 max-w-[905px] mx-auto w-full">
 										{sortedNominees?.slice(startIndex, endIndex).map((walletAddress : any, index : any) => (
 											<MemberCard
