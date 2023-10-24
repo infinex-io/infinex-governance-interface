@@ -16,6 +16,8 @@ import { capitalizeString } from 'utils/capitalize';
 import { parseQuery } from 'utils/parse';
 import { useConnectorContext } from 'containers/Connector';
 import { compareAddress } from 'utils/helpers';
+import Papa from 'papaparse'
+
 
 const PAGE_SIZE = 8;
 
@@ -23,6 +25,7 @@ export default function VoteCouncil() {
 	const { query, push } = useRouter();
 	const { t } = useTranslation();
 	const [activePage, setActivePage] = useState(0);
+	const [sortedNominees, setSortedNominees] = useState<any>([]);
 	const activeCouncil = parseQuery(query?.council?.toString());
 	const { walletAddress } = useConnectorContext();
 	const { data: periodData } = useCurrentPeriod(activeCouncil.module);
@@ -41,9 +44,39 @@ export default function VoteCouncil() {
 		if (period !== 'VOTING') push('/');
 	}, [period, push]);
 
-	const sortedNominees =
-		nomineesQuery.data &&
-		[...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1));
+	useEffect(() => {
+		setSortedNominees(nomineesQuery.data && [...nomineesQuery.data].sort((a) => (compareAddress(a, walletAddress) ? -1 : 1)));
+	}, [])
+
+	// load csvs
+	useEffect(() => {
+		let csvFilePath;
+		if (activeCouncil.name === "trade") csvFilePath = '/nominees/trade_output.csv';
+		else if (activeCouncil.name === "ecosystem") csvFilePath = '/nominees/eco_output.csv';
+		else if (activeCouncil.name === "treasury") csvFilePath = '/nominees/treasury_output.csv';
+		else return;
+
+		fetch(csvFilePath)
+			.then((response) => response.text())
+			.then((csvData) => {
+				// Parse the CSV data using PapaParse
+				Papa.parse(csvData, {
+					dynamicTyping: true, // Automatically parse numbers and booleans
+					complete: function (results) {
+						// Results.data contains the parsed data
+						if (nomineesQuery.data === undefined || results.data.length === 0) return;
+						const arr = results.data.map((row : any) => row[0]);
+						// Filter addresses that exist in the given array
+						const existingAddresses = nomineesQuery.data.filter((address) => arr.includes(address));
+						// Filter addresses that don't exist in the given array
+						const remainingAddresses = nomineesQuery.data.filter((address) => !arr.includes(address));
+						// Concatenate the existing addresses with the remaining addresses
+						setSortedNominees(existingAddresses.concat(remainingAddresses));
+					},
+				});
+			});
+	}, [])
+
 	return (
 		<>
 			<Head>

@@ -5371,6 +5371,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5":
+  version: 5.3.10
+  resolution: "@types/papaparse@npm:5.3.10"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 1e2b502f857d5b8071295e90bf854919a5e24d4ced8dc88b35f3ef0fae004cdbdaaa7e4ec57bd504e0f3c59950f904f45b584d3ba888970d79121060c1c1802f
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -11222,6 +11231,7 @@ __metadata:
     "@testing-library/react": "npm:12.1.2"
     "@types/jest": "npm:27.5.1"
     "@types/node": "npm:17.0.21"
+    "@types/papaparse": "npm:^5"
     "@types/react": "npm:^18.0.27"
     "@types/react-blockies": "npm:1.4.1"
     "@types/react-table": "npm:^7.7.12"
@@ -11252,6 +11262,7 @@ __metadata:
     jest-canvas-mock: "npm:^2.4.0"
     jest-environment-jsdom: "npm:^28.1.3"
     next: "npm:latest"
+    papaparse: "npm:^5.4.1"
     postcss: "npm:8.4.13"
     react: "npm:latest"
     react-blockies: "npm:1.4.1"
@@ -15191,6 +15202,13 @@ __metadata:
   version: 2.2.0
   resolution: "p-try@npm:2.2.0"
   checksum: 1b9a6b5d6f42a46e36f053ee737a72cbe8f7990ee65e0d7bc3f8f8324e233d5b5e790f9f660bcc44d93738a2b12108dec1f7a39c9650d276fd1f9d73d54d4f55
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "papaparse@npm:5.4.1"
+  checksum: d5817dd597a22240fa36098622d8ebd8c4b575b10ea8472cfc98cf947d94b39a69ddc5a29fa7706d2507916c919665b5e0442e126542b180e356b6256e0d5c94
   languageName: node
   linkType: hard
 
