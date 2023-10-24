@@ -8,7 +8,7 @@ export default function VoteBanner({ deployedModule }: { deployedModule: Deploye
 	const { data } = useVotingPeriodDatesQuery(deployedModule);
 
 	return (
-		<div className="flex justify-center md:flex-nowrap flex-wrap items-center bg-secondary p-2">
+		<div className="flex justify-center md:flex-nowrap flex-wrap items-center bg-secondary p-2 w-full">
 			<div
 				className="md:mr-8 text-black tg-caption-bold md:p-0 p-2"
 				data-testid="vote-banner-headline"

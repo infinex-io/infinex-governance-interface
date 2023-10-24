@@ -8,6 +8,13 @@ export const compareAddress = (add1: string | null = '', add2: string | null = '
 	typeof add2 === 'string' &&
 	add1.toLowerCase() === add2.toLowerCase();
 
+export const sortAddress = (add1: string | null = '', add2: string | null = '') =>
+!!add1 &&
+!!add2 &&
+typeof add1 === 'string' &&
+typeof add2 === 'string' &&
+add1.toLowerCase() === add2.toLowerCase();
+
 export const copyToClipboard = (value: string) => navigator.clipboard.writeText(value);
 
 export const urlIsCorrect = (value: string, baseUrl: string) => value.includes(baseUrl);
