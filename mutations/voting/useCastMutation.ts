@@ -48,7 +48,7 @@ export async function getCrossChainClaim(
 ): Promise<{ proof: string; amount: BigNumber } | null> {
 	try {
 		const blockNumber = await ElectionModule.getCrossChainDebtShareMerkleRootBlockNumber();
-		return await fetch(`https://infinex-voting-1.s3.ap-southeast-2.amazonaws.com/${blockNumber}/${walletAddress}`).then((res) => res.json()).catch(e => null);
+		return await fetch(`https://infinex-voting-1.s3.ap-southeast-2.amazonaws.com/${blockNumber}/${walletAddress}`).then((res) => res.json()).catch(e => console.log(e));
 	} catch (err) {
 		console.log(err);
 		return null;
