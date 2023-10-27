@@ -14,6 +14,7 @@ const councilVariant = {
 	[DeployedModules.CORE_CONTRIBUTOR_COUNCIL]: 'orange',
 	[DeployedModules.TREASURY_COUNCIL]: 'yellow',
 	[DeployedModules.CC_TOKEN]: 'orange',
+	[DeployedModules.INVESTOR_TOKEN]: 'orange',
 };
 
 export const CouncilBadge: React.FC<Props> = ({ council, className }) => {

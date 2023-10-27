@@ -9,3 +9,5 @@ export const treasuryCouncil =
 	process.env.NEXT_PUBLIC_ADDRESS_TREASURY_COUNCIL || '0x32694E6e8223e907FFc4557b08E2fB410cB5D77e';
 export const CCToken =
 	process.env.NEXT_PUBLIC_ADDRESS_CC_TOKEN || '0x989796307dF57549d0a6e4f924460F8dd076B1ee';
+export const investorToken = 
+	process.env.NEXT_PUBLIC_ADDRESS_INVESTOR_TOKEN || '0x7D21eA3233E5D13A1EF93de88ec83AE3824aeFCe'

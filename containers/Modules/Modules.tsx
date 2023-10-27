@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import ElectionModuleABI from 'contracts/ElectionModule.json';
 import CCTokenABI from 'contracts/CCToken.json'
+import InvestorTokenABI from 'contracts/InvestorToken.json'
 import { useConnectorContext } from 'containers/Connector';
 import {
 	CCToken,
@@ -8,6 +9,7 @@ import {
 	ecosystemCouncil,
 	tradeCouncil,
 	treasuryCouncil,
+	investorToken,
 } from 'constants/addresses';
 import {
 	createContext,
@@ -97,6 +99,17 @@ export const ModulesProvider: FunctionComponent<PropsWithChildren> = ({ children
 		modules[DeployedModules.CC_TOKEN] = {
 			address: CCToken,
 			contract: CCTokenModule
+		}
+
+		const investorTokenModule = new ethers.Contract(
+			investorToken, 
+			InvestorTokenABI.abi,
+			provider
+		)
+
+		modules[DeployedModules.INVESTOR_TOKEN] = {
+			address: investorToken,
+			contract: investorTokenModule
 		}
 		
 		setGovernanceModules(modules);
