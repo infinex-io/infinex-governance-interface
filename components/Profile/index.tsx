@@ -25,7 +25,6 @@ import { capitalizeString } from 'utils/capitalize';
 export default function ProfileSection({ walletAddress }: { walletAddress: string }) {
 	const { t } = useTranslation();
 	const { walletAddress: userAddress } = useConnectorContext();
-	const { ensName } = useConnectorContext();
 	const { setContent, setIsOpen: setModalOpen } = useModalContext();
 	const userDetailsQuery = useUserDetailsQuery(walletAddress);
 	const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +79,7 @@ export default function ProfileSection({ walletAddress }: { walletAddress: strin
 					<div className="flex flex-col justify-between items-center p-3">
 						<div className="flex items-center mt-3">
 							<h4 className="tg-title-h4 mr-3">
-								{username || ensName || truncateAddress(walletAddress)}
+								{username || ens || truncateAddress(walletAddress)}
 							</h4>
 							<Dropdown
 								triggerElement={
