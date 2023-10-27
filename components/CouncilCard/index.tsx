@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import useIsCC from 'queries/nomination/useIsCCQuery';
 import TextLoader from 'components/TextLoader/TextLoader';
 import TimerMock from 'components/TimerMock';
+import useIsInvestoor from 'queries/nomination/useIsInvestoor';
 
 interface CouncilCardProps {
 	council: 'trade' | 'ecosystem' | 'core-contributor' | 'treasury';
@@ -55,6 +56,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 	);
 
 	const isCC = useIsCC(walletAddress || '');
+	const isInvestor = useIsInvestoor(walletAddress || '')
 	const hasNominated =
 		isWalletConnected &&
 		(isAlreadyNominatedForTrade.data ||
@@ -180,7 +182,9 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 						: ''
 				}
 				// if period is NOMINATION AND alreadyNominated 
-				${period === 'NOMINATION' && hasNominated ? 'cursor-default' : ''}`}
+				${period === 'NOMINATION' && hasNominated ? 'cursor-default' : ''}
+				// if period is voting AND not investor
+				${(period === 'VOTING' && council == "treasury" && !isInvestor.data) ? 'hidden' : ''}`}
 				onClick={() => {
 					if (period === 'NOMINATION') {
 						if (hasNominated) return;
@@ -217,6 +221,14 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ council, deployedModul
 					variant="destructive"
 					className="w-full mt-2 cursor-default"
 					label={t('landing-page.cards.button.not-cc') as string}
+				/>
+			)}
+			{/* Treasury button */}
+			{period === 'VOTING' && council === 'treasury' && !isInvestor.data && (
+				<Button
+					variant="destructive"
+					className="w-full mt-2 cursor-default"
+					label="You must be an investor to vote."
 				/>
 			)}
 		</div>
